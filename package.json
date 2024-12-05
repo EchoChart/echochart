@@ -1,0 +1,51 @@
+{
+    "name": "echochart",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "concurrently \"yarn dev:vue\"",
+        "dev:vue": "vite --host",
+        "dev:supabase": "supabase start --ignore-health-check",
+        "build": "vite build",
+        "preview": "vite preview",
+        "lint": "eslint --fix . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+    },
+    "dependencies": {
+        "@primevue/core": "^4.2.1",
+        "@primevue/themes": "^4.2.1",
+        "@supabase/supabase-js": "^2.46.2",
+        "@vueuse/core": "^11.1.0",
+        "chart.js": "3.3.2",
+        "deep-object-diff": "^1.1.9",
+        "lodash": "^4.17.21",
+        "pinia": "^2.2.2",
+        "primeicons": "^6.0.1",
+        "primevue": "^4.2.1",
+        "quill": "^2.0.2",
+        "validatorjs": "^3.22.1",
+        "vue": "^3.4.34",
+        "vue-i18n": "^10.0.1",
+        "vue-router": "^4.4.0"
+    },
+    "devDependencies": {
+        "@primevue/auto-import-resolver": "^4.0.1",
+        "@rushstack/eslint-patch": "^1.8.0",
+        "@types/lodash": "^4.17.7",
+        "@types/node": "^22.5.5",
+        "@types/validatorjs": "^3.15.5",
+        "@vitejs/plugin-vue": "^5.0.5",
+        "@vue/eslint-config-prettier": "^9.0.0",
+        "autoprefixer": "^10.4.19",
+        "concurrently": "^9.1.0",
+        "eslint": "^8.57.0",
+        "eslint-plugin-vue": "^9.23.0",
+        "postcss": "^8.4.40",
+        "prettier": "^3.2.5",
+        "sass": "^1.55.0",
+        "tailwindcss": "^3.4.6",
+        "tailwindcss-primeui": "^0.3.2",
+        "typescript": "^5.6.2",
+        "unplugin-auto-import": "^0.18.3",
+        "unplugin-vue-components": "^0.27.3",
+        "vite": "^5.3.1"
+    }
+}
