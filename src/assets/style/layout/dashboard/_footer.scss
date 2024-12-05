@@ -1,0 +1,10 @@
+.layout-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    padding: 0.25rem 0;
+    width: 100%;
+    gap: 0.5rem;
+    background: var(--surface-overlay);
+}

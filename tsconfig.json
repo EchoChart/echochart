@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "outDir": "./dist",
+        "baseUrl": ".",
+        "types": ["vite/client", "node"],
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "module": "NodeNext",
+        "moduleResolution": "Node16",
+        "strict": true,
+        "jsx": "preserve",
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "lib": ["ESNext", "DOM"],
+        "skipLibCheck": true,
+        "paths": {
+            "@/*": ["src/*"],
+            "@assets/*": ["src/assets/*"],
+            "@style/*": ["src/assets/style/*"],
+            "@plugins/*": ["src/plugins/*"],
+            "@components/*": ["src/components/*"],
+            "@store/*": ["src/store/*"],
+            "@libs/*": ["src/libs/*"],
+            "@services/*": ["src/services/*"],
+            "@composables/*": ["src/composables/*"]
+        },
+        "allowSyntheticDefaultImports": false
+    },
+    "include": [
+        "auto-imports.d.ts",
+        "src/**/*.*",
+        "tailwind.config.js",
+        "vite.config.js",
+        "src/router/middlewares/before-each/showDialog"
+    ]
+}

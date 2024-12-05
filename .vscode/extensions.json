@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "vue.volar",
+    "dbaeumer.vscode-eslint",
+    "stylelint.vscode-stylelint",
+    "mgmcdermott.vscode-language-babel",
+    "esbenp.prettier-vscode",
+    "fabiospampinato.vscode-highlight",
+    "xabikos.javascriptsnippets",
+    "github.vscode-pull-request-github",
+    "cipchk.cssrem",
+  ]
+}

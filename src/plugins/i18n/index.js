@@ -1,0 +1,40 @@
+import { createI18n } from 'vue-i18n';
+
+const { language: navigatorLanguage } = useNavigatorLanguage();
+
+export async function loadLocaleMessages(i18n, locale) {
+    const messages = await import(`./locales/${locale}/index.js`);
+
+    i18n.setLocaleMessage(locale, messages.default);
+
+    return nextTick();
+}
+
+export const guessUserLocale = computed(() => {
+    return localStorage?.getItem?.('app_lang') || navigatorLanguage.value.slice(0, 2) || 'tr';
+});
+
+export const i18NPlugin = createI18n({
+    legacy: false,
+    locale: guessUserLocale.value,
+    fallbackLocale: 'en',
+    globalInjection: true,
+    missingWarn: false,
+    fallbackWarn: false
+});
+export const SUPPORT_LOCALES = ['tr', 'en'];
+export const availableLocales = i18NPlugin.global.availableLocales;
+export const locale = i18NPlugin.global.locale;
+
+watch(
+    locale,
+    (newLocale, oldLocale) => {
+        if (oldLocale != newLocale) {
+            localStorage?.setItem?.('app_lang', newLocale);
+        }
+        document.querySelector('html').setAttribute('lang', newLocale);
+    },
+    { immediate: true }
+);
+
+export default i18NPlugin.global;
