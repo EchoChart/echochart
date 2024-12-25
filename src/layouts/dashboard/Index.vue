@@ -77,7 +77,7 @@ const { tenantId } = storeToRefs(useTenantStore());
                     </div>
                 </RouterView>
 
-                <RouteViewAnimated />
+                <CustomRouteView />
 
                 <RouterView v-slot="{ Component }" name="page-footer">
                     <div v-if="Component" class="p-4">

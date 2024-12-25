@@ -1,3 +1,7 @@
-import Collection from '@/libs/Collection';
+import Collection from '@/lib/Collection';
 
-export default class BaseModel extends Collection {}
+/**
+ * @template T
+ * @extends {Collection<T>}
+ */
+export class BaseModel extends Collection {}

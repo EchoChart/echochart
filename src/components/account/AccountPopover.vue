@@ -26,7 +26,7 @@ const accountMenuItems = computed(() => {
         <TieredMenu id="account_menu" class="!border-0" :model="accountMenuItems">
             <template #start>
                 <div v-if="user" class="flex m-4 gap-4 flex-col items-center">
-                    <Chip :label="user.display_name" :image="user.avatar_url" />
+                    <Chip :label="user.display_name" :image="user.avatarUrl" />
                     <small>{{ user.email }}</small>
                 </div>
             </template>

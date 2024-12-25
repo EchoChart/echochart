@@ -1,19 +1,19 @@
 <script setup>
-const { user } = storeToRefs(useAuthStore());
-const { logout } = useAuthStore();
+const authStore = useAuthStore();
+const { isSignedIn } = storeToRefs(authStore);
+const { logout } = authStore;
 
 const dialogRef = inject('dialogRef', null);
 
 dialogRef?.value?.options?.props?.closeButtonProps?.onClick?.();
 
 watch(
-    () => user.value,
-    async (newUser) => {
-        if (newUser?.id) {
-            await logout();
-        }
+    () => isSignedIn.value,
+    async (value) => {
+        if (!value) return;
+        await logout();
     },
-    { immediate: true, deep: true, once: true }
+    { immediate: true, once: true }
 );
 </script>
 <template><div v-text="$t(`logged_out_successfully`)" /></template>

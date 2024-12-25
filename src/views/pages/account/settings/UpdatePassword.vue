@@ -1,5 +1,5 @@
 <script setup>
-import { Form } from '@/libs/Form';
+import { Form } from '@/lib/Form';
 import { useToast } from 'primevue/usetoast';
 
 const accountStore = useAccountStore();

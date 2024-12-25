@@ -8,12 +8,6 @@ import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    server: {
-        port: 6161,
-        watch: {
-            usePolling: true
-        }
-    },
     plugins: [
         vue(),
         Components({
@@ -38,7 +32,7 @@ export default defineConfig({
                     ]
                 },
                 {
-                    from: '@libs/supabase',
+                    from: '@lib/supabase',
                     imports: ['supabase']
                 },
                 {
@@ -53,7 +47,6 @@ export default defineConfig({
                     from: '@plugins/i18n',
                     imports: [
                         'locale',
-                        'availableLocales',
                         'loadLocaleMessages',
                         'SUPPORT_LOCALES',
                         ['default', 'i18n']
@@ -80,9 +73,20 @@ export default defineConfig({
             '@plugins': path.resolve(__dirname, 'src/plugins'),
             '@components': path.resolve(__dirname, 'src/components'),
             '@store': path.resolve(__dirname, 'src/store'),
-            '@libs': path.resolve(__dirname, 'src/libs'),
+            '@lib': path.resolve(__dirname, 'src/lib'),
             '@services': path.resolve(__dirname, 'src/services'),
-            '@composables': path.resolve(__dirname, 'src/composables')
+            '@composables': path.resolve(__dirname, 'src/composables'),
+            '@types': path.resolve(__dirname, '@types')
+        }
+    },
+    build: {
+        target: 'esnext',
+        modulePreload: true
+    },
+    server: {
+        port: 6161,
+        watch: {
+            usePolling: true
         }
     }
 });

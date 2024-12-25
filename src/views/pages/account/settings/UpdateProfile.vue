@@ -1,6 +1,5 @@
 <script setup>
-import { Form } from '@/libs/Form';
-import { useToast } from 'primevue/usetoast';
+import { Form } from '@/lib/Form';
 
 const { user } = storeToRefs(useAuthStore());
 
@@ -13,29 +12,10 @@ const form = new Form({
         email: 'required|email'
     }
 });
-const toast = useToast();
 
 const save = async () => {
     if (!form._validate()) return;
-    console.log(form.toObject);
-    // await accountStore.profileUpdate(form.changedData).then(() => {
-    //     form._setDefaults(form.toObject);
-
-    //     toast.add({
-    //         life: 5000,
-    //         severity: ToastSeverity.SUCCESS,
-    //         summary: 'Saved successfully',
-    //         detail: `${_toPairs(form.toObject).map(([key, value]) => `${_startCase(i18n.t(key))}: ${value}`).join`\n`}`
-    //     });
-    // });
 };
-const fakeLoader = new Promise((res) =>
-    setTimeout(() => {
-        res();
-    }, 5000)
-);
-
-await fakeLoader;
 </script>
 <template>
     <FormBox @submit="save" @reset="() => form._reset()" v-focustrap>

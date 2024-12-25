@@ -30,6 +30,6 @@ const mounted = useMounted();
                 </template>
             </MenuBar>
         </Teleport>
-        <RouteViewAnimated class="flex-1" />
+        <CustomRouteView class="flex-1" />
     </div>
 </template>

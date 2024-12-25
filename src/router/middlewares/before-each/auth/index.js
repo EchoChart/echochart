@@ -4,14 +4,14 @@ export const authBeforeEach = async (to, from, next) => {
     }
 
     try {
-        const {
-            data: { user },
-            error
-        } = await supabase.auth.getUser();
+        const authStore = useAuthStore();
 
-        if (!user?.id || error) {
-            throw error || Error(i18n.t('auth.user_not_found'));
-        }
+        await authStore.initialized;
+
+        const { error } = await supabase.auth.refreshSession();
+
+        if (error) throw Error(error);
+
         next();
     } catch (error) {
         supabase.auth.signOut();

@@ -23,18 +23,25 @@ export const i18NPlugin = createI18n({
     fallbackWarn: false
 });
 export const SUPPORT_LOCALES = ['tr', 'en'];
-export const availableLocales = i18NPlugin.global.availableLocales;
 export const locale = i18NPlugin.global.locale;
 
 watch(
     locale,
-    (newLocale, oldLocale) => {
+    async (newLocale, oldLocale) => {
         if (oldLocale != newLocale) {
             localStorage?.setItem?.('app_lang', newLocale);
         }
         document.querySelector('html').setAttribute('lang', newLocale);
     },
     { immediate: true }
+);
+
+watch(
+    locale,
+    async (newLocale) => {
+        await loadLocaleMessages(i18NPlugin.global, newLocale);
+    },
+    { immediate: true, once: true }
 );
 
 export default i18NPlugin.global;

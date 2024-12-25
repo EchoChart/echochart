@@ -1,5 +1,5 @@
 import tailwindConfig from '@/../tailwind.config.js';
-import Collection from '@/libs/Collection';
+import Collection from '@/lib/Collection';
 import router from '@/router';
 import { $t, updatePreset, updateSurfacePalette } from '@primevue/themes';
 import aura from '@primevue/themes/aura';

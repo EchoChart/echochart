@@ -1,4 +1,4 @@
-import RouteViewAnimated from '@/components/layout/RouteViewAnimated.vue';
+import CustomRouteView from '@/components/layout/CustomRouteView.vue';
 import { useConfirm } from 'primevue';
 import router from '..';
 
@@ -12,8 +12,8 @@ export default [
             layout: 'dashboard',
             requiresAuth: true,
             visible: computed(() => {
-                const { user } = storeToRefs(useAuthStore());
-                return !!user?.value?.id;
+                const { isSignedIn } = storeToRefs(useAuthStore());
+                return isSignedIn?.value;
             })
         },
         // redirect: {
@@ -44,7 +44,7 @@ export default [
                 path: 'settings',
                 name: 'account-settings',
                 redirect: { name: 'update-profile' },
-                component: RouteViewAnimated,
+                component: CustomRouteView,
                 children: [
                     {
                         meta: {

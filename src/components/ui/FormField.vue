@@ -40,7 +40,7 @@ const containerStyle = computed(() => ({
 
 const labelClass = computed(() => [
     props.reverse && 'order-[1]',
-    _has(attrs, 'fluid') ? 'flex-auto' : 'flex-0',
+    'flex-auto',
     'my-auto',
     'truncate text-surface-900 dark:text-surface-0 font-medium'
 ]);
@@ -90,7 +90,7 @@ onMounted(() => {
             :aria-errormessage="`${id}-errormessage`"
         />
 
-        <span v-if="pending" class="p-skeleton absolute left-0 top-0 w-full h-full" />
+        <span v-if="pending" class="p-skeleton absolute left-0 top-0 w-full h-full !opacity-75" />
 
         <slot name="error">
             <small

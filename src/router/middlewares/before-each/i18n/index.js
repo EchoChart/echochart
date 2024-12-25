@@ -5,7 +5,7 @@ export const i18NBeforeEach = async (to, from, next) => {
         return next({ ...to, params: { ...to.params, locale: locale.value } });
     }
 
-    if (!availableLocales.includes(toLocale)) {
+    if (!i18n.availableLocales.includes(toLocale)) {
         await loadLocaleMessages(i18n, toLocale);
     }
 
