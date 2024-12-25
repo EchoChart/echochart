@@ -1,7 +1,8 @@
 <script setup>
-import { Form } from '@/libs/Form';
-const { loginWithPassword } = useAuthStore();
-const { user } = storeToRefs(useAuthStore());
+import { Form } from '@/lib/Form';
+const authStore = useAuthStore();
+const { loginWithPassword } = authStore;
+const { isSignedIn } = storeToRefs(authStore);
 
 const rememberMe = ref(!!localStorage.getItem('remember-me'));
 
@@ -32,11 +33,9 @@ const login = async () => {
 };
 
 watch(
-    () => user.value,
-    async (newUser) => {
-        if (newUser?.id) {
-            dialogRef?.value?.close?.();
-        }
+    () => isSignedIn.value,
+    async (value) => {
+        value && dialogRef?.value?.close?.();
     },
     { immediate: true }
 );
@@ -55,7 +54,7 @@ if (rememberMe.value) {
                 <div class="text-center mb-4">
                     <div
                         class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4"
-                        v-text="$t('welcome_to_echochart!')"
+                        v-text="$t('welcome_to_echochart')"
                     />
 
                     <span class="text-muted-color font-medium" v-text="$t('sign_in_to_continue')" />

@@ -1,12 +1,12 @@
 <script setup></script>
 
 <template>
-    <div class="flex flex-col items-center justify-center">
+    <div class="min-h-full flex flex-col items-center justify-center">
         <div
             class="p-1 rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[rgba(247,149,48,0.4)] via-transparent to-transparent"
         >
             <div
-                class="w-full rounded-[inherit] bg-surface-0 dark:bg-surface-900 p-14 md:p-20 flex flex-col items-center"
+                class="w-full rounded-[inherit] bg-surface-0 dark:bg-surface-900 p-14 flex flex-col items-center"
             >
                 <div class="gap-8 flex flex-col items-center">
                     <div

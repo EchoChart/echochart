@@ -1,4 +1,4 @@
-import RouteViewAnimated from '@/components/layout/RouteViewAnimated.vue';
+import CustomRouteView from '@/components/layout/CustomRouteView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { beforeEachMiddlewares } from './middlewares';
 
@@ -33,13 +33,13 @@ const router = createRouter({
                                 layout: 'dashboard',
                                 requiresAuth: true,
                                 visible: computed(() => {
-                                    const { user } = storeToRefs(useAuthStore());
-                                    return !!user?.value?.id;
+                                    const { isSignedIn } = storeToRefs(useAuthStore());
+                                    return isSignedIn?.value;
                                 })
                             },
                             redirect: { name: 'dashboard' },
                             components: {
-                                default: RouteViewAnimated,
+                                default: CustomRouteView,
                                 'layout-topbar': () => import('@/layouts/dashboard/Topbar.vue'),
                                 'layout-sidebar': () => import('@/layouts/dashboard/Sidebar.vue'),
                                 'layout-footer': () => import('@/layouts/dashboard/Footer.vue'),
@@ -51,8 +51,8 @@ const router = createRouter({
                                         icon: PrimeIcons.CHART_LINE,
                                         index: -1,
                                         visible: computed(() => {
-                                            const { user } = storeToRefs(useAuthStore());
-                                            return !!user?.value?.id;
+                                            const { isSignedIn } = storeToRefs(useAuthStore());
+                                            return isSignedIn?.value;
                                         })
                                     },
                                     path: 'dashboard',

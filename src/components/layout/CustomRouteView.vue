@@ -39,8 +39,8 @@ const onResolve = () => {
         <template v-if="Component && !dialogRef">
             <slot />
             <Transition
-                enter-active-class="animate-fadein animate-duration-[calc(var(--transition-duration)]"
-                leave-active-class="animate-fadeout animate-duration-[calc(var(--transition-duration)]"
+                enter-active-class="animate-fadein animate-duration-[calc(var(--transition-duration) * 0.5]"
+                leave-active-class="animate-fadeout animate-duration-[calc(var(--transition-duration) * 0.5]"
                 mode="out-in"
                 v-bind="props.transitionProps"
             >

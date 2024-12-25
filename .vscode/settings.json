@@ -6,8 +6,7 @@
   "stylelint.validate": ["css", "less", "postcss", "scss", "vue"],
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.organizeImports": "explicit"
+    "source.fixAll.eslint": "explicit"
   },
   "highlight.regexes": {
     "(<(/)?template(>)?)": {
@@ -43,5 +42,10 @@
       ]
     }
   },
-  "css.lint.unknownAtRules": "ignore"
+  "css.lint.unknownAtRules": "ignore",
+  "Prettier-SQL.SQLFlavourOverride": "postgresql",
+  "Prettier-SQL.tabSizeOverride": 4,
+  "Prettier-SQL.keywordCase": "upper",
+  "Prettier-SQL.commaPosition": "before",
+  "Prettier-SQL.indentStyle": "standard"
 }

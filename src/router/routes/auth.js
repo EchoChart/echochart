@@ -1,13 +1,16 @@
+import CustomRouteView from '@/components/layout/CustomRouteView.vue';
 import FloatingConfigurator from '@/components/layout/FloatingConfigurator.vue';
-import RouteViewAnimated from '@/components/layout/RouteViewAnimated.vue';
 import router from '..';
 
 const logoutBeforeEnter = async () => {
-    const {
-        data: { user }
-    } = await supabase.auth.getUser();
+    const authStore = useAuthStore();
+    const { initialized } = authStore;
 
-    if (user?.id) {
+    await initialized;
+
+    const { isSignedIn } = storeToRefs(authStore);
+
+    if (isSignedIn.value) {
         await router.replace({ name: 'logout' }).catch(async () => {
             await router.replace({ name: 'dashboard' });
         });
@@ -25,7 +28,7 @@ export default [
         },
         components: {
             default: h(
-                RouteViewAnimated,
+                CustomRouteView,
                 {
                     transitionProps: {
                         class: 'transition-[filter] duration-[calc(var(--transition-duration) * 100)]',
@@ -46,8 +49,8 @@ export default [
                     icon: PrimeIcons.SIGN_IN,
                     replace: true,
                     visible: computed(() => {
-                        const { user } = storeToRefs(useAuthStore());
-                        return !user?.value?.id;
+                        const { isSignedIn } = storeToRefs(useAuthStore());
+                        return !isSignedIn?.value;
                     })
                 },
                 path: 'login',

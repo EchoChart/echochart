@@ -1,4 +1,4 @@
-import Collection from '@libs/Collection';
+import Collection from '@lib/Collection';
 import { diff, updatedDiff } from 'deep-object-diff';
 
 import Validator from 'validatorjs/dist/validator.js';

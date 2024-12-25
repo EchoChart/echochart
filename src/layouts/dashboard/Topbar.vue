@@ -1,5 +1,5 @@
 <script setup>
-const { user } = storeToRefs(useAuthStore());
+const { isSignedIn } = storeToRefs(useAuthStore());
 const appConfigurator = ref();
 const { layoutState, sidebarToggle } = useLayout();
 </script>
@@ -65,7 +65,7 @@ const { layoutState, sidebarToggle } = useLayout();
     </div>
 
     <div class="layout-topbar-actions">
-        <AccountPopover v-if="user?.id" class="mt-auto" />
+        <AccountPopover v-if="isSignedIn" class="mt-auto" />
         <Button
             :aria-label="'App configurator toggle button'"
             :icon="PrimeIcons.PALETTE"

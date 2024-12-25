@@ -7,9 +7,8 @@ const toast = useToast();
 app.config.errorHandler = (error) => {
     console.error(error);
     if (import.meta.env.DEV || i18n.te(error.code) || i18n.te(error.message)) {
-        const summary = i18n.te(error.code) ? i18n.t(error.code) : error.code;
-
-        const detail = i18n.te(error.message) ? i18n.t(error.message) : error.message;
+        const summary = `${error.status}: ${i18n.t(error.code)}`;
+        const detail = i18n.t(error.message);
 
         toast.add({
             life: 5000,

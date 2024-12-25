@@ -1,11 +1,10 @@
 import { ProgressSpinner, useDialog } from 'primevue';
 
-export const dialogBeforeEach = (to, from, next) => {
+export const dialogBeforeEach = async (to, from, next) => {
     const showDialog = to.query?.showDialog;
     if (!showDialog) {
         return next();
     }
-    const { user } = storeToRefs(useAuthStore());
 
     const components = _last(to.matched).components;
     const dialogComponent = _isFunction(components.default)
@@ -69,10 +68,15 @@ export const dialogBeforeEach = (to, from, next) => {
     let dialog = dialogs.open(dialogComponent, dialogOptions);
 
     if (to.meta?.requiresAuth) {
+        const authStore = useAuthStore();
+        const { isSignedIn } = storeToRefs(authStore);
+
+        await authStore.initialized;
+
         const unwatch = watch(
-            () => user.value,
-            (newUser) => {
-                if (!newUser) return dialog.close();
+            () => isSignedIn.value,
+            (value) => {
+                if (!value) return dialog.close();
                 dialog = dialogs.open(dialogComponent, dialog.options);
             }
         );
