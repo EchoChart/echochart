@@ -5,6 +5,7 @@
         "dev": "concurrently \"yarn dev:vue\"",
         "dev:vue": "vite --host",
         "dev:supabase": "supabase start --ignore-health-check",
+        "dev:supabase-types": "supabase gen types typescript --local > @types/database.types.ts",
         "build": "vite build",
         "preview": "vite preview",
         "lint": "eslint --fix . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
