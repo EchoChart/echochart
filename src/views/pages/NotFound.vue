@@ -5,7 +5,7 @@
                 class="p-1 rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[rgba(233,30,99,0.4)] via-transparent to-transparent"
             >
                 <div
-                    class="p-1 rounded-[inherit] bg-surface-0 dark:bg-surface-900 p-14 flex flex-col gap-4 items-center"
+                    class="rounded-[inherit] bg-surface-0 dark:bg-surface-900 p-14 flex flex-col gap-4 items-center"
                 >
                     <span class="text-primary font-bold text-3xl" v-text="'404'" />
                     <h1

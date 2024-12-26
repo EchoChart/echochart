@@ -82,7 +82,7 @@ if (rememberMe.value) {
                         </FormField>
 
                         <div class="flex flex-col gap-8">
-                            <div class="flex items-start justify-between items-center gap-4">
+                            <div class="flex items-start justify-between gap-4">
                                 <FormField reverse :label="'Remember me'">
                                     <template v-slot="slotProps">
                                         <Checkbox v-bind="slotProps" v-model="rememberMe" binary
