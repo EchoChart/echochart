@@ -1,11 +1,13 @@
 {
     "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
     "release-type": "node",
-    "initial-version": "0.0.1-alpha.1",
+    "include-component-in-tag": false,
     "packages": {
         ".": {
+            "release-type": "node",
             "prerelease": true,
-            "prerelease-type": "alpha"
+            "prerelease-type": "alpha",
+            "initial-version": "0.0.1-alpha.1"
         }
     }
 }
