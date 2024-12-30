@@ -1,7 +1,8 @@
 {
-  "packages": {
-    ".": {
-      "prerelease": "alpha"
+    "packages": {
+        ".": {
+            "prerelease": "alpha",
+            "type:": "node",
+        }
     }
-  }
 }
