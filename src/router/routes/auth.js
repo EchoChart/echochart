@@ -1,5 +1,4 @@
 import CustomRouteView from '@/components/layout/CustomRouteView.vue';
-import FloatingConfigurator from '@/components/layout/FloatingConfigurator.vue';
 import router from '..';
 
 const logoutBeforeEnter = async () => {
@@ -27,23 +26,29 @@ export default [
             requiresAuth: false
         },
         components: {
-            default: h(
-                CustomRouteView,
-                {
-                    transitionProps: {
-                        class: 'transition-[filter] duration-[calc(var(--transition-duration) * 100)]',
-                        enterToClass: 'blur-none',
-                        enterFromClass: 'blur-[16px]',
-                        leaveFromClass: 'blur-none',
-                        leaveToClass: 'blur-[16px]'
-                    }
-                },
-                {
-                    default: () => h(FloatingConfigurator)
+            default: h(CustomRouteView, {
+                transitionProps: {
+                    class: 'transition-[filter] duration-[calc(var(--transition-duration) * 100)]',
+                    enterToClass: 'blur-none',
+                    enterFromClass: 'blur-[16px]',
+                    leaveFromClass: 'blur-none',
+                    leaveToClass: 'blur-[16px]'
                 }
-            )
+            }),
+            'layout-topbar': () => import('@/layouts/dashboard/Topbar.vue')
         },
         children: [
+            {
+                name: 'register',
+                path: 'register',
+                meta: {
+                    replace: true
+                },
+                components: {
+                    default: () => import('@/views/pages/auth/register/Index.vue')
+                },
+                beforeEnter: logoutBeforeEnter
+            },
             {
                 meta: {
                     icon: PrimeIcons.SIGN_IN,
