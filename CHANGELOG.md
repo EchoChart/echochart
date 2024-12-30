@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.0-alpha.1](https://github.com/EchoChart/echochart/compare/v0.0.1-alpha.1...v0.1.0-alpha.1) (2024-12-30)
+
+
+### Features
+
+* register page added to auth routes ([3577e2c](https://github.com/EchoChart/echochart/commit/3577e2cbe856d4ed3aab0c793489f32251575944))
+* version number added to topbar ([9f602a2](https://github.com/EchoChart/echochart/commit/9f602a2152855d2605a4421da07d022c684389af))
+
+
+### Bug Fixes
+
+* missing `isSignedIn` ref fixed ([2d65d29](https://github.com/EchoChart/echochart/commit/2d65d290e597c0337a6f7497dcf38abc2ab36a52))
+
 ## 0.0.1-alpha.1 (2024-12-30)
 
 
