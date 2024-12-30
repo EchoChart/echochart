@@ -21,7 +21,7 @@ jobs:
             - uses: googleapis/release-please-action@v4
               id: release
               with:
-                  release-type: node  # Using node release type for versioning
+                  config-file: release-please-config.json
                   token: ${{ secrets.RELEASE_PLEASE_TOKEN }}  # Use the release-please token from secrets
 
             # Create tags for major and minor versions after the release has been created
