@@ -46,18 +46,21 @@ if (rememberMe.value) {
 </script>
 
 <template>
-    <div class="min-h-full flex flex-col items-center justify-center">
+    <div class="min-h-full flex justify-center">
         <div
-            class="p-1 min-w-[25vw] rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[var(--primary-color)] via-[rgba(33,150,243,0)] to-transparent"
+            class="p-1 m-auto min-w-[25vw] rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[var(--primary-color)] via-[rgba(33,150,243,0)] to-transparent"
         >
-            <div class="rounded-[inherit] bg-surface-0 dark:bg-surface-900 p-14">
+            <div class="rounded-[inherit] bg-surface-0 dark:bg-surface-900 p-20">
                 <div class="text-center mb-4">
                     <div
                         class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4"
-                        v-text="$t('welcome_to_echochart')"
+                        v-text="$t('welcome_back')"
                     />
 
-                    <span class="text-muted-color font-medium" v-text="$t('sign_in_to_continue')" />
+                    <span
+                        class="text-muted-color text-sm font-medium"
+                        v-text="$t('please_login_to_continue')"
+                    />
                 </div>
                 <FormBox @submit="login" class="flex flex-wrap justify-center" v-focustrap>
                     <div class="flex flex-col gap-8">
@@ -82,7 +85,7 @@ if (rememberMe.value) {
                         </FormField>
 
                         <div class="flex flex-col gap-8">
-                            <div class="flex items-start justify-between gap-4">
+                            <div class="flex items-center justify-between gap-4">
                                 <FormField reverse :label="'Remember me'">
                                     <template v-slot="slotProps">
                                         <Checkbox v-bind="slotProps" v-model="rememberMe" binary
@@ -102,7 +105,13 @@ if (rememberMe.value) {
                                     />
                                 </RouterLink>
                             </div>
-                            <Button type="submit" :label="'Login'" fluid />
+                            <Button
+                                variant="outlined"
+                                class="!border-primary-emphasis"
+                                type="submit"
+                                :label="'Login'"
+                                fluid
+                            />
                         </div>
                     </div>
                 </FormBox>

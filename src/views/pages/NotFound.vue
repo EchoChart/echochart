@@ -1,13 +1,13 @@
 <template>
-    <div class="flex-1 flex items-center justify-center">
+    <div class="flex-1 flex justify-center">
         <div class="flex flex-col items-center justify-center">
             <div
-                class="p-1 rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[rgba(233,30,99,0.4)] via-transparent to-transparent"
+                class="p-1 m-auto rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[rgba(233,30,99,0.4)] via-transparent to-transparent"
             >
                 <div
                     class="rounded-[inherit] bg-surface-0 dark:bg-surface-900 p-14 flex flex-col gap-4 items-center"
                 >
-                    <span class="text-primary font-bold text-3xl" v-text="'404'" />
+                    <span class="text-red-500 font-bold text-3xl" v-text="'404'" />
                     <h1
                         class="text-surface-900 dark:text-surface-0 font-bold text-3xl lg:text-5xl mb-2"
                         v-text="$t('not_found')"
@@ -76,7 +76,13 @@
                             >
                         </span>
                     </router-link> -->
-                    <Button as="router-link" :label="$t('go_to_dashboard')" to="/" />
+                    <Button
+                        as="router-link"
+                        severity="danger"
+                        variant="outlined"
+                        :label="$t('go_to_dashboard')"
+                        to="/"
+                    />
                 </div>
             </div>
         </div>

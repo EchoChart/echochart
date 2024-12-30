@@ -1,7 +1,7 @@
 <template>
-    <div class="flex-1 flex flex-col items-center justify-center">
+    <div class="flex-1 flex justify-center">
         <div
-            class="p-1 rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[rgba(233,30,99,0.4)] via-transparent to-transparent"
+            class="p-1 m-auto rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[rgba(233,30,99,0.4)] via-transparent to-transparent"
         >
             <div
                 class="rounded-[inherit] bg-surface-0 dark:bg-surface-900 p-14 md:p-20 flex flex-col items-center"
@@ -33,12 +33,14 @@
                                 v-if="$router.options.history.state.back"
                                 @click="$router.back"
                                 :label="$t('go_back')"
+                                variant="outlined"
                                 severity="danger"
                             />
                             <Button
                                 as="router-link"
                                 :label="$t('go_to_dashboard')"
                                 :to="{ name: 'dashboard' }"
+                                variant="outlined"
                                 severity="danger"
                             />
                         </div>
