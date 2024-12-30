@@ -17,6 +17,7 @@ const version = import.meta.env.PACKAGE_VERSION;
             severity="secondary"
             :icon="PrimeIcons.BARS"
             @click="sidebarToggle"
+            v-if="isSignedIn"
         />
         <Teleport
             to="#sidebar-start"

@@ -47,11 +47,7 @@ export default [
             {
                 meta: {
                     icon: PrimeIcons.SIGN_IN,
-                    replace: true,
-                    visible: computed(() => {
-                        const { isSignedIn } = storeToRefs(useAuthStore());
-                        return !isSignedIn?.value;
-                    })
+                    replace: true
                 },
                 path: 'login',
                 name: 'login',

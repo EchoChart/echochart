@@ -25,11 +25,11 @@ export const useAuthStore = defineStore('auth', () => {
 
     router.isReady().then(() => {
         watch(
-            () => user.value,
-            (newUser) => {
-                if (newUser) {
+            () => isSignedIn.value,
+            (signedIn) => {
+                if (signedIn) {
                     const backTo = router.options.history.state.back || '/';
-                    if (['login'].includes(route.name)) {
+                    if (['login', 'register'].includes(route.name)) {
                         router.replace(backTo);
                     }
                     return;

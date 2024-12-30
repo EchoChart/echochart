@@ -13,7 +13,7 @@ const {
 } = useLayout();
 
 const presetOptions = ref(Object.keys(presets));
-const { user } = storeToRefs(useAuthStore());
+const { isSignedIn } = storeToRefs(useAuthStore());
 </script>
 
 <template>
@@ -71,7 +71,7 @@ const { user } = storeToRefs(useAuthStore());
                     :aria-label="$t('select_preset')"
                 />
             </div>
-            <div v-if="user" class="hidden sm:flex flex-col gap-3">
+            <div v-if="isSignedIn" class="hidden sm:flex flex-col gap-3">
                 <span class="text-sm text-muted-color font-semibold" v-text="$t('menu_mode')" />
                 <SelectButton
                     :modelValue="layoutState.sidebarMode"
@@ -84,19 +84,19 @@ const { user } = storeToRefs(useAuthStore());
                 />
             </div>
             <span class="self-stretch justify-stretch flex gap-4">
-            <div class="flex flex-col gap-3">
-                <span class="text-sm text-muted-color font-semibold" v-text="$t('dark_mode')" />
+                <div class="flex flex-col gap-3">
+                    <span class="text-sm text-muted-color font-semibold" v-text="$t('dark_mode')" />
 
-                <ToggleButton
-                    @change="toggleDarkMode"
-                    :modelValue="isDarkTheme"
-                    :onIcon="PrimeIcons.MOON"
-                    :offIcon="PrimeIcons.SUN"
-                    :onLabel="$t('dark')"
-                    :offLabel="$t('light')"
-                    :aria-label="$t('toggle_dark_mode')"
-                />
-            </div>
+                    <ToggleButton
+                        @change="toggleDarkMode"
+                        :modelValue="isDarkTheme"
+                        :onIcon="PrimeIcons.MOON"
+                        :offIcon="PrimeIcons.SUN"
+                        :onLabel="$t('dark')"
+                        :offLabel="$t('light')"
+                        :aria-label="$t('toggle_dark_mode')"
+                    />
+                </div>
                 <div class="flex-1 flex flex-col gap-4">
                     <span
                         class="text-sm text-muted-color font-semibold"
