@@ -138,6 +138,10 @@ export default class Collection {
         return _pick(this._toObject, keys);
     }
 
+    /**
+     * Readonly state of the collection.
+     * @type {import('vue').DeepReadonly<T>}
+     */
     get _toObject() {
         return readonly(this._state);
     }

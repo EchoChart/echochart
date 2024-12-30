@@ -18,6 +18,10 @@ Validator.setAttributeFormatter((attr) => {
         .join(' ');
 });
 
+/**
+ * @template T
+ * @extends {Collection<T>}
+ */
 export class Form extends Collection {
     _rules = reactive({});
     _errors = reactive(new Errors());
@@ -32,7 +36,7 @@ export class Form extends Collection {
         super(data);
         this._autoValidate = autoValidate;
 
-        this._setDefaults(data)._setRules(rules).#_initWatcher().#_initDialogForm();
+        this._setRules(rules).#_initWatcher().#_initDialogForm();
     }
 
     #_initWatcher() {
