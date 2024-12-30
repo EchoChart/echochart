@@ -8,7 +8,10 @@
         "dev:supabase-types": "supabase gen types typescript --local > @types/database.types.ts",
         "build": "vite build",
         "preview": "vite preview",
-        "lint": "eslint --fix . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+        "lint": "eslint --fix . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+        "commit": "cz",
+        "release-pr": "release-please release-pr",
+        "github-release": "release-please github-release"
     },
     "dependencies": {
         "@primevue/core": "^4.2.1",
@@ -36,11 +39,15 @@
         "@vitejs/plugin-vue": "^5.0.5",
         "@vue/eslint-config-prettier": "^9.0.0",
         "autoprefixer": "^10.4.19",
+        "commitizen": "^4.3.1",
         "concurrently": "^9.1.0",
+        "cz-conventional-changelog": "^3.3.0",
         "eslint": "^8.57.0",
         "eslint-plugin-vue": "^9.23.0",
+        "husky": "^9.1.7",
         "postcss": "^8.4.40",
         "prettier": "^3.2.5",
+        "release-please": "^16.15.0",
         "sass": "^1.55.0",
         "tailwindcss": "^3.4.6",
         "tailwindcss-primeui": "^0.3.2",
@@ -48,5 +55,13 @@
         "unplugin-auto-import": "^0.18.3",
         "unplugin-vue-components": "^0.27.3",
         "vite": "^5.3.1"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    },
+    "lint-staged": {
+        "*.{js,vue}": "eslint --fix"
     }
 }
