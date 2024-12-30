@@ -83,20 +83,7 @@ const { user } = storeToRefs(useAuthStore());
                     :aria-label="$t('select_siderbar_mode')"
                 />
             </div>
-            <div class="flex flex-col gap-3 w-full">
-                <span
-                    class="text-sm text-muted-color font-semibold"
-                    v-text="`${$t('ui_scale')}: ${layoutState.UIScale}`"
-                />
-
-                <Slider
-                    v-model:modelValue="layoutState.UIScale"
-                    :step="0.01"
-                    :min="0.8"
-                    :max="1.1"
-                    :aria-label="$t('change_ui_scale')"
-                />
-            </div>
+            <span class="self-stretch justify-stretch flex gap-4">
             <div class="flex flex-col gap-3">
                 <span class="text-sm text-muted-color font-semibold" v-text="$t('dark_mode')" />
 
@@ -110,6 +97,22 @@ const { user } = storeToRefs(useAuthStore());
                     :aria-label="$t('toggle_dark_mode')"
                 />
             </div>
+                <div class="flex-1 flex flex-col gap-4">
+                    <span
+                        class="text-sm text-muted-color font-semibold"
+                        v-text="`${$t('ui_scale')}: ${layoutState.UIScale}`"
+                    />
+
+                    <Slider
+                        class="my-auto"
+                        v-model:modelValue="layoutState.UIScale"
+                        :step="0.01"
+                        :min="0.8"
+                        :max="1.1"
+                        :aria-label="$t('change_ui_scale')"
+                    />
+                </div>
+            </span>
         </div>
     </div>
 </template>
