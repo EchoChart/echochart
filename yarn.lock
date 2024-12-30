@@ -3868,6 +3868,11 @@ validatorjs@^3.22.1:
   resolved "https://registry.yarnpkg.com/validatorjs/-/validatorjs-3.22.1.tgz#13dbbe6556cf4ab87759105d13b1d31a9a54ce54"
   integrity sha512-451KiCt/3E8qV/8fOUdO0YkA8zUdQBNVxubg9jvgEB+JAg9IlRKrClzwq2ir2ndj7TWmPYQ7bXFb4BxcyX2iWw==
 
+vite-plugin-package-version@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vite-plugin-package-version/-/vite-plugin-package-version-1.1.0.tgz#7d8088955aa21e4ec93353c98992b3f58c4bf13c"
+  integrity sha512-TPoFZXNanzcaKCIrC3e2L/TVRkkRLB6l4RPN/S7KbG7rWfyLcCEGsnXvxn6qR7fyZwXalnnSN/I9d6pSFjHpEA==
+
 vite@^5.3.1:
   version "5.4.11"
   resolved "https://registry.yarnpkg.com/vite/-/vite-5.4.11.tgz#3b415cd4aed781a356c1de5a9ebafb837715f6e5"

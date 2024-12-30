@@ -2,6 +2,8 @@
 const { isSignedIn } = storeToRefs(useAuthStore());
 const appConfigurator = ref();
 const { layoutState, sidebarToggle } = useLayout();
+
+const version = import.meta.env.PACKAGE_VERSION;
 </script>
 
 <template>
@@ -59,7 +61,10 @@ const { layoutState, sidebarToggle } = useLayout();
                     </g>
                 </svg>
 
-                <span>EchoChart</span>
+                <span>
+                    EchoChart
+                    <span v-if="version" class="text-xs text-muted-color" v-text="`${version}`" />
+                </span>
             </router-link>
         </Teleport>
     </div>

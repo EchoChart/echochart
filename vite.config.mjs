@@ -4,11 +4,13 @@ import lodash from 'lodash';
 import * as path from 'node:path';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
+import packageVersion from 'vite-plugin-package-version';
 import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
+        packageVersion(),
         vue(),
         Components({
             resolvers: [PrimeVueResolver()]
@@ -84,9 +86,6 @@ export default defineConfig({
         modulePreload: true
     },
     server: {
-        port: 6161,
-        watch: {
-            usePolling: true
-        }
+        port: 6161
     }
 });
