@@ -3,15 +3,15 @@ name: release-please
 on:
     push:
         branches:
-            - main  # Trigger the workflow on push to the 'main' branch
+            - main # Trigger the workflow on push to the 'main' branch
 
 permissions:
-    contents: write  # Allow write access to repository content (for commits, tags)
-    pull-requests: write  # Allow write access to manage pull requests
+    contents: write # Allow write access to repository content (for commits, tags)
+    pull-requests: write # Allow write access to manage pull requests
 
 jobs:
     release-please:
-        runs-on: ubuntu-latest  # Run the job on the latest Ubuntu runner
+        runs-on: ubuntu-latest # Run the job on the latest Ubuntu runner
 
         steps:
             # Checkout the code to ensure we work with the latest version
@@ -21,13 +21,13 @@ jobs:
             - uses: googleapis/release-please-action@v4
               id: release
               with:
-                  config-file: release-please-config.json
-                  manifest-file: .release-please-manifest.json
-                  token: ${{ secrets.RELEASE_PLEASE_TOKEN }}  # Use the release-please token from secrets
+                  config-file: .github/release-please-config.json
+                  manifest-file: .github/release-please-manifest.json
+                  token: ${{ secrets.RELEASE_PLEASE_TOKEN }} # Use the release-please token from secrets
 
             # Create tags for major and minor versions after the release has been created
             - name: Tag major and minor versions
-              if: ${{ steps.release.outputs.release_created }}  # Only run this step if a release was created
+              if: ${{ steps.release.outputs.release_created }} # Only run this step if a release was created
               run: |
                   # Set Git user configuration for GitHub Actions bot
                   git config user.name github-actions[bot]
@@ -56,6 +56,6 @@ jobs:
 
             # Handle failures
             - name: Handle errors
-              if: ${{ failure() }}  # Only run if any step fails
+              if: ${{ failure() }} # Only run if any step fails
               run: |
                   echo "An error occurred during the release process. Please check the logs for more details."
