@@ -5,7 +5,7 @@ on:
         branches:
             - main # Trigger the workflow on push to the 'main' branch
 
-role_permissions:
+permissions:
     contents: write # Allow write access to repository content (for commits, tags)
     pull-requests: write # Allow write access to manage pull requests
 
