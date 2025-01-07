@@ -1,7 +1,7 @@
 CREATE
 OR REPLACE FUNCTION "public"."throw_rls_policy_error" ("message" TEXT) RETURNS "pg_catalog"."bool"
 SET
-    "search_path" = '' AS $BODY$
+   "search_path" = '' AS $BODY$
 DECLARE
   error_message text;
 BEGIN
@@ -18,22 +18,12 @@ $BODY$ LANGUAGE plpgsql STABLE COST 100;
 CREATE
 OR REPLACE FUNCTION private.handle_new_user () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
-    search_path = '' AS $$
+   search_path = '' AS $$
 DECLARE
     tenant_id UUID;
     user_id UUID;
 BEGIN
     BEGIN
-        -- Attempt to extract tenant_id from raw_user_meta_data
-        tenant_id := NEW.raw_user_meta_data->>'tenant_id';
-
-        -- If tenant_id is NULL, create a new tenant and retrieve its ID
-        IF tenant_id IS NULL THEN
-            INSERT INTO public.tenants (display_name)
-            VALUES ('test')
-            RETURNING id INTO tenant_id;
-        END IF;
-
         -- Insert into the users table
         INSERT INTO public.users (id, display_name, avatar_url, email, phone)
         VALUES (
@@ -43,8 +33,6 @@ BEGIN
           , NEW.email
           , NEW.phone
         ) RETURNING id INTO user_id;
-
-        INSERT INTO public.tenants_users(user_id,tenant_id) VALUES (user_id,tenant_id);
 
     EXCEPTION WHEN others THEN
         RAISE EXCEPTION 'Failed to insert new user: %', SQLERRM;
@@ -58,7 +46,7 @@ $$;
 CREATE
 OR REPLACE FUNCTION private.handle_user_delete () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
-    search_path = '' AS $$
+   search_path = '' AS $$
 BEGIN
     BEGIN
     -- Delete the profile from the users table
@@ -77,7 +65,7 @@ $$;
 CREATE
 OR REPLACE FUNCTION private.user_display_name_default () RETURNS TRIGGER
 SET
-    search_path = '' AS $$
+   search_path = '' AS $$
 BEGIN
     BEGIN
     IF NEW.display_name IS NULL THEN
@@ -92,11 +80,31 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger function to handle policy changes based on app_permissions changes
+-- Function that checks user has the exact permission for resource
+CREATE
+OR REPLACE FUNCTION auth.check_permission (p_resource_name TEXT, p_command TEXT) RETURNS BOOLEAN AS $$
+BEGIN
+    -- Check if the current user has the required permissions
+    RETURN EXISTS (
+        SELECT 1
+        FROM public.role_permissions role_permission
+        JOIN public.roles role ON role_permission.role_id = role.id
+        JOIN public.user_roles user_role ON user_role.role_id = role.id
+        JOIN public.permissions permission ON permission.id = role_permission.permission_id
+        WHERE
+            permission.resource_name = p_resource_name -- Match the resource name
+            AND permission.command = p_command::permission_command         -- Match the command
+            AND role_permission.permission_id = permission.id -- Ensure permission exists in role_permission
+            AND (SELECT auth.uid()) = user_role.user_id -- Check if current user is associated with the role
+    );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger function to handle policy changes based on permissions changes
 CREATE
 OR REPLACE FUNCTION private.manage_policies () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
-    search_path = '' AS $$
+   search_path = '' AS $$
 DECLARE
     permission_record RECORD;
     target_resource TEXT;
@@ -109,13 +117,13 @@ DECLARE
 BEGIN
     -- Determine command based on trigger type
     IF TG_OP = 'INSERT' THEN
-        -- Handle policy creation for new permissions
+        -- Handle policy creation for new role_permissions
         permission_record := NEW;
     ELSIF TG_OP = 'UPDATE' THEN
-        -- Handle policy update for existing permissions
+        -- Handle policy update for existing role_permissions
         permission_record := NEW;
     ELSIF TG_OP = 'DELETE' THEN
-        -- Handle policy deletion for removed permissions
+        -- Handle policy deletion for removed role_permissions
         permission_record := OLD;
     END IF;
 
@@ -163,23 +171,10 @@ BEGIN
             EXECUTE format(
                 'CREATE POLICY %I ON %I.%I FOR %s TO authenticated %s (
                     CASE
-                        WHEN (
-                            EXISTS (
-                                SELECT 1
-                                FROM public.permissions permission
-                                JOIN public.roles role ON permission.role_id = role.id
-                                JOIN public.user_roles user_role ON user_role.role_id = role.id
-                                JOIN public.app_permissions app_permission ON app_permission.id = permission.permission_id
-                                WHERE
-                                    app_permission.resource_name = %L  -- Check resource_name (e.g. ''public.users'')
-                                    AND app_permission.command = %L  -- Check command (e.g., ''select'', ''insert'', ''update'', ''delete'')
-                                    AND permission.permission_id = app_permission.id  -- Ensure user has the permission
-                                    AND (select auth.uid()) = user_role.user_id  -- Current authenticated user
-                            ))
+                        WHEN (auth.check_permission(%L, %L))
                         THEN true
                         WHEN (%L = TRUE) THEN
                             public.throw_rls_policy_error(%L)
-                        ELSE false
                     END
                 )'
                 , policy_name
@@ -211,9 +206,9 @@ $BODY$ LANGUAGE SQL STABLE COST 100;
 
 -- Create the auth hook function
 CREATE
-OR REPLACE FUNCTION public.custom_access_token_hook (e jsonb) RETURNS jsonb LANGUAGE plpgsql STABLE
+OR REPLACE FUNCTION private.custom_access_token_hook (e jsonb) RETURNS jsonb LANGUAGE plpgsql STABLE
 SET
-    search_path = '' AS $$
+   search_path = '' AS $$
 DECLARE
     u_id uuid;
     t_id uuid;
@@ -274,9 +269,9 @@ BEGIN
           , NULL
         )
         INTO header_tenant;
-    -- EXCEPTION
-    --     WHEN others THEN
-    --         header_tenant := NULL; -- Fallback to NULL if parsing fails
+    EXCEPTION
+        WHEN others THEN
+            header_tenant := NULL; -- Fallback to NULL if parsing fails
     END;
 
     -- If header_tenant is not null, resolve it to a UUID
@@ -288,9 +283,9 @@ BEGIN
     END IF;
 
     -- Check if header_tenant_id is in allowed tenants
-    -- IF header_tenant_id IS NOT NULL AND header_tenant_id = ANY(auth.allowed_tenants()) THEN
-    --     tenant_id := header_tenant_id;
-    -- END IF;
+    IF header_tenant_id IS NOT NULL AND header_tenant_id = ANY(auth.allowed_tenants()) THEN
+        tenant_id := header_tenant_id;
+    END IF;
 
     -- Return the resolved tenant_id
     RETURN tenant_id;

@@ -1,41 +1,24 @@
 {
-    "compilerOptions": {
-        "allowJs": true,
-        "target": "ESNext",
-        "module": "ESNext",
-        "outDir": "./dist",
-        "baseUrl": ".",
-        "types": ["vite/client", "node"],
-        "useDefineForClassFields": true,
-        "moduleResolution": "bundler",
-        "strict": true,
-        "jsx": "preserve",
-        "sourceMap": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "esModuleInterop": true,
-        "lib": ["ESNext", "DOM"],
-        "skipLibCheck": true,
-        "paths": {
-            "@/*": ["src/*"],
-            "@assets/*": ["src/assets/*"],
-            "@style/*": ["src/assets/style/*"],
-            "@plugins/*": ["src/plugins/*"],
-            "@components/*": ["src/components/*"],
-            "@store/*": ["src/store/*"],
-            "@lib/*": ["src/lib/*"],
-            "@services/*": ["src/services/*"],
-            "@composables/*": ["src/composables/*"],
-            "@types": ["@types/*"]
-        },
-        "allowSyntheticDefaultImports": false
-    },
-    "include": [
-        "src/**/*.*",
-        "@types/**/*.ts",
-        "auto-imports.d.ts",
-        "tailwind.config.js",
-        "vite.config.mjs",
-        "src/router/middlewares/before-each/showDialog"
-    ]
+  "compilerOptions": {
+    "target": "ESNext",               // Modern JavaScript target
+    "module": "ESNext",               // ESNext module system
+    "moduleResolution": "node",       // Use Node-style module resolution
+    "strict": true,                   // Enable strict mode
+    "baseUrl": ".",                   // Base URL for resolving modules
+    "skipLibCheck": true,             // Skip library checks for faster builds
+    "esModuleInterop": true,          // Allow interoperability with ES modules
+    "resolveJsonModule": true,        // Allow importing JSON files
+    "sourceMap": true,                // Generate source maps
+    "jsx": "preserve",                // Preserve JSX (if using React)
+    "allowJs": true,                  // Allow JavaScript files
+    "useDefineForClassFields": true   // Ensure class fields are defined according to spec
+  },
+  "exclude": [
+    "**/*.config.*",
+    "**/*.cjs",
+  ],
+  "references": [
+    { "path": "./app" },               // Reference the app project
+    { "path": "./supabase" }           // Reference the supabase-functions project
+  ]
 }

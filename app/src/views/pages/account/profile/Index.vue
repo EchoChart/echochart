@@ -1,0 +1,96 @@
+<script setup>
+const { user } = storeToRefs(useAuthStore());
+</script>
+
+<template>
+   <div
+      class="card flex flex-wrap lg:flex-nowrap justify-center lg:justify-start items-start gap-4 p-4"
+   >
+      <span class="flex relative">
+         <Image
+            width="144"
+            :src="user?.avatar_url"
+            preview
+            :alt="user?.display_name"
+            class="rounded-[var(--content-border-radius)] overflow-hidden"
+         />
+         <Badge
+            v-if="user?.email_confirmed_at"
+            :severity="user?.email_confirmed_at ? 'primary' : 'danger'"
+            class="!p-0 !h-fit !min-w-fit !w-fit !rounded-full absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-auto"
+         >
+            <i
+               :title="user?.email_confirmed_at ? 'Email verified' : 'Email not verified'"
+               class="pi pi-fw !text-2xl"
+               :class="user?.email_confirmed_at ? 'pi-verified' : 'pi-exclamation-circle'"
+            />
+         </Badge>
+      </span>
+      <div class="flex-1 flex flex-wrap lg:flex-nowrap items-start gap-4">
+         <FormBox legend="User info">
+            <FormField fluid :label="$t('display_name')">
+               <template v-slot="slotProps">
+                  <InputText
+                     class="min-w-32"
+                     v-bind="slotProps"
+                     readonly
+                     :model-value="user?.display_name"
+                  />
+               </template>
+            </FormField>
+            <FormField fluid :label="$t('email')">
+               <template v-slot="slotProps">
+                  <InputText
+                     class="min-w-32"
+                     v-bind="slotProps"
+                     readonly
+                     :model-value="user?.email"
+                  />
+               </template>
+            </FormField>
+            <FormField fluid :label="$t('phone')">
+               <template v-slot="slotProps">
+                  <InputText
+                     class="min-w-32"
+                     v-bind="slotProps"
+                     readonly
+                     :model-value="user?.phone"
+                  />
+               </template>
+            </FormField>
+         </FormBox>
+         <FormBox legend="Logs">
+            <FormField fluid :label="$t('created_at')">
+               <template v-slot="slotProps">
+                  <InputText
+                     class="min-w-32"
+                     v-bind="slotProps"
+                     readonly
+                     :model-value="user?.created_at"
+                  />
+               </template>
+            </FormField>
+            <FormField fluid :label="$t('email_confirmed_at')">
+               <template v-slot="slotProps">
+                  <InputText
+                     class="min-w-32"
+                     v-bind="slotProps"
+                     readonly
+                     :model-value="user?.email_confirmed_at"
+                  />
+               </template>
+            </FormField>
+            <FormField fluid :label="$t('last_sign_in_at')">
+               <template v-slot="slotProps">
+                  <InputText
+                     class="min-w-32"
+                     v-bind="slotProps"
+                     readonly
+                     :model-value="user?.last_sign_in_at"
+                  />
+               </template>
+            </FormField>
+         </FormBox>
+      </div>
+   </div>
+</template>

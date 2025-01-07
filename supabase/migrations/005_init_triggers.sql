@@ -20,12 +20,12 @@ OR
 UPDATE ON public.users FOR EACH ROW
 EXECUTE FUNCTION private.user_display_name_default ();
 
--- Create or replace trigger to watch changes on app_permissions
-DROP TRIGGER IF EXISTS app_permissions_trigger ON public.app_permissions;
+-- Create or replace trigger to watch changes on permissions
+DROP TRIGGER IF EXISTS permissions_trigger ON public.permissions;
 
-CREATE TRIGGER app_permissions_trigger
+CREATE TRIGGER permissions_trigger
 AFTER INSERT
 OR
 UPDATE
-OR DELETE ON public.app_permissions FOR EACH ROW
+OR DELETE ON public.permissions FOR EACH ROW
 EXECUTE FUNCTION private.manage_policies ();

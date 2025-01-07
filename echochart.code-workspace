@@ -1,0 +1,22 @@
+{
+    "folders": [
+      {
+        "name": "project-root",
+        "path": "."
+      },
+      {
+        "name": "app",
+        "path": "app"
+      },
+      {
+        "name": "supabase",
+        "path": "supabase"
+      }
+    ],
+    "settings": {
+      "files.exclude": {
+        "app/": true,
+        "supabase/": true
+      }
+    }
+  }

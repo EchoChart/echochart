@@ -1,17 +1,45 @@
--- Grant permission for select on users
+WITH
+   table_names AS (
+      SELECT
+         UNNEST(
+            ARRAY[
+               'public.tenants'
+             , 'public.users'
+             , 'public.tenants_users'
+             , 'public.roles'
+             , 'public.user_roles'
+             , 'public.role_permissions'
+            ]
+         ) AS resource_name
+   )
+ , commands AS (
+      SELECT
+         enumlabel AS command
+      FROM
+         pg_enum
+      WHERE
+         enumtypid = 'permission_command'::regtype
+   )
 INSERT INTO
-    public."app_permissions" (resource_name, command)
-VALUES
-    ('public.users', 'select');
+   public."permissions" (resource_name, command)
+SELECT
+   table_names.resource_name
+ , commands.command::permission_command
+FROM
+   table_names
+   CROSS JOIN commands;
 
--- Grant permission for insert on users
 INSERT INTO
-    public."app_permissions" (resource_name, command)
+   public.tenants (display_name)
 VALUES
-    ('public.users', 'insert');
+   ('bade-gop');
 
--- Grant permission for update on users
 INSERT INTO
-    public."app_permissions" (resource_name, command)
+   public.tenants (display_name)
 VALUES
-    ('public.users', 'update');
+   ('bade-gop-sarigol');
+
+INSERT INTO
+   public.tenants (display_name)
+VALUES
+   ('bade-avcilar');

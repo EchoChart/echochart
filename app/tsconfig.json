@@ -1,0 +1,40 @@
+{
+   "compilerOptions": {
+      "allowJs": true, // Allow JavaScript files
+      "target": "ESNext", // Modern JavaScript target
+      "module": "ESNext", // ESNext module system
+      "outDir": "./dist", // Output compiled files to dist folder within app
+      "baseUrl": ".", // Base URL for relative imports
+      "types": ["vite/client", "node"], // Include Vite and Node.js types
+      "useDefineForClassFields": true, // Define class fields according to the spec
+      "moduleResolution": "node", // Use Node-style module resolution
+      "strict": true, // Enable strict mode
+      "jsx": "preserve", // Preserve JSX (if using React)
+      "sourceMap": true, // Generate source maps
+      "resolveJsonModule": true, // Allow importing JSON files
+      "isolatedModules": true, // Treat each file as a separate module
+      "esModuleInterop": true, // Allow interop with ES modules
+      "lib": ["ESNext", "DOM"], // Include ESNext and DOM libraries
+      "skipLibCheck": true, // Skip checking of library files
+      "composite": true,
+      "paths": {
+         "@/*": ["src/*"],
+         "@assets/*": ["src/assets/*"],
+         "@style/*": ["src/assets/style/*"],
+         "@plugins/*": ["src/plugins/*"],
+         "@components/*": ["src/components/*"],
+         "@store/*": ["src/store/*"],
+         "@lib/*": ["src/lib/*"],
+         "@services/*": ["src/services/*"],
+         "@composables/*": ["src/composables/*"],
+         "@types": ["src/@types/*"]
+      },
+      "allowSyntheticDefaultImports": false // Prevent synthetic default imports
+   },
+   "include": [
+      "src/**/*.*", // Include all files in the src directory
+      "auto-imports.d.ts", // Include auto-imports definitions if used
+      "tailwind.config.js", // Include Tailwind config
+      "vite.config.mjs" // Include Vite config
+   ]
+}
