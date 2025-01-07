@@ -5,19 +5,17 @@
   "tag-seperator": "@",
   "separate-pull-requests": true,
   "packages": {
-    "echochart-app": {
+    "app": {
       "release-type": "node",
-      "path": "app",
       "prerelease": true,
       "prerelease-type": "alpha",
-      "initial-version": "0.1.0-alpha.1"
+      "initial-version": "0.1.0"
     },
-    "echochart-supabase": {
+    "supabase": {
       "release-type": "node",
-      "path": "supabase",
       "prerelease": true,
       "prerelease-type": "alpha",
-      "initial-version": "0.1.0-alpha.1"
+      "initial-version": "0.1.0"
     }
   }
 }
