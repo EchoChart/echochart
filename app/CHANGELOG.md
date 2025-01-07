@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.2-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.0.1-alpha.1...echochart-app-v0.0.2-alpha.1) (2025-01-07)
+
+
+### Performance Improvements
+
+* **supabase:** cache supabase requests ([27d7aea](https://github.com/EchoChart/echochart/commit/27d7aea33f8fd8aa0156ef4791e7b4a4521fc42b))
+
 ## 0.0.1-alpha.1 (2025-01-07)
 
 
