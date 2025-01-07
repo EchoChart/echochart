@@ -8,12 +8,14 @@
     "app": {
       "release-type": "node",
       "prerelease": true,
+      "path": "app",
       "prerelease-type": "alpha",
       "initial-version": "0.1.0"
     },
     "supabase": {
       "release-type": "node",
       "prerelease": true,
+      "path": "supabase",
       "prerelease-type": "alpha",
       "initial-version": "0.1.0"
     }
