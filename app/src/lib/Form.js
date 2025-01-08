@@ -18,6 +18,10 @@ Validator.setAttributeFormatter((attr) => {
       .join(' ');
 });
 
+Validator.register('phone', (value) => {
+   return value.match(/^[+]?[\d]{0,3}\W?[(]?[\d]{3}[)]?[-\s.]?[\d]{3}[-\s.]?[\d]{4,6}$/im);
+});
+
 /**
  * @template T
  * @extends {Collection<T>}

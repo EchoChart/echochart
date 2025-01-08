@@ -42,6 +42,39 @@ BEGIN
 END;
 $$;
 
+-- Create or replace the handle_update_user function
+CREATE
+OR REPLACE FUNCTION private.handle_update_user () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
+SET
+   search_path = '' AS $$
+DECLARE
+    user_id UUID;
+BEGIN
+    BEGIN
+        -- Update the users table
+        UPDATE public.users
+        SET
+            display_name = COALESCE(NEW.raw_user_meta_data->>'display_name', NULL)
+          , avatar_url = COALESCE(NEW.raw_user_meta_data->>'avatar_url', NULL)
+          , email = NEW.email
+          , phone = NEW.phone
+          , updated_at = now() -- optional: keep track of the update time
+        WHERE id = NEW.id
+        RETURNING id INTO user_id;
+
+        -- Check if the user ID was updated
+        IF NOT FOUND THEN
+            RAISE EXCEPTION 'User with id % does not exist in public.users', NEW.id;
+        END IF;
+
+    EXCEPTION WHEN others THEN
+        RAISE EXCEPTION 'Failed to update user: %', SQLERRM;
+    END;
+
+    RETURN NEW;
+END;
+$$;
+
 -- Create or replace the handle_user_delete function
 CREATE
 OR REPLACE FUNCTION private.handle_user_delete () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
@@ -60,25 +93,6 @@ BEGIN
   RETURN OLD;
 END;
 $$;
-
--- Function to set display_name to email if display_name is NULL
-CREATE
-OR REPLACE FUNCTION private.user_display_name_default () RETURNS TRIGGER
-SET
-   search_path = '' AS $$
-BEGIN
-    BEGIN
-    IF NEW.display_name IS NULL THEN
-        NEW.display_name := split_part(NEW.email, '@', 1);
-    END IF;
-
-    EXCEPTION WHEN others THEN
-        RAISE EXCEPTION 'Failed to set user display_name: %', SQLERRM;
-    END;
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
 
 -- Function that checks user has the exact permission for resource
 CREATE

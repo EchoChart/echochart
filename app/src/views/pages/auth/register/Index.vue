@@ -23,14 +23,13 @@ const form = new Form({
    data: {
       account: {
          email: 'info@akifaycicek.com.tr',
-         display_name: 'akif',
          password: 'asdqwe123',
          password_confirmation: 'asdqwe123'
       },
       company: {
          display_name: 'bade',
          email: 'info@akifaycicek.com.tr',
-         phone: '+905313313131'
+         phone: null
       }
    },
    rules: {
@@ -42,7 +41,7 @@ const form = new Form({
       company: {
          display_name: 'required|min:3',
          email: 'required|email',
-         phone: 'required|regex:/^[+]?[\\d]{0,3}\\W?[(]?[\\d]{3}[)]?[-\\s.]?[\\d]{3}[-\\s.]?[\\d]{4,6}$/im'
+         phone: 'phone'
       }
    }
 });
@@ -191,9 +190,8 @@ const submit = async () => {
                      <template v-slot="slotProps">
                         <InputMask
                            v-bind="slotProps"
-                           v-model="form['company.phone']"
-                           mask="+99(999)-999-9999"
-                           placeHolder="+99(999)-999-9999"
+                           v-model="form['phone']"
+                           mask="9999999999999"
                         />
                      </template>
                   </FormField>

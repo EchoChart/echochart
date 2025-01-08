@@ -20,8 +20,7 @@ export default [
       //     name: 'account-profile'
       // },
       components: {
-         default: () => import('@/views/pages/account/Index.vue'),
-         skeleton: () => import('@/views/pages/account/Index.vue')
+         default: () => import('@/views/pages/account/Index.vue')
       },
       children: [
          {
@@ -53,7 +52,8 @@ export default [
                   path: 'update-profile',
                   name: 'update-profile',
                   components: {
-                     default: () => import('@/views/pages/account/settings/UpdateProfile.vue')
+                     default: () =>
+                        import('@/views/pages/account/settings/update-profile/Index.vue')
                   }
                },
                {
@@ -63,7 +63,8 @@ export default [
                   path: 'update-password',
                   name: 'update-password',
                   components: {
-                     default: () => import('@/views/pages/account/settings/UpdatePassword.vue')
+                     default: () =>
+                        import('@/views/pages/account/settings/update-password/Index.vue')
                   }
                }
             ]

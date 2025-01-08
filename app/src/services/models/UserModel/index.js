@@ -13,7 +13,7 @@ export class UserModel extends BaseModel {
          }
          const bg = getPrimaryColor.value?.['500'].slice(1, 7);
          const color = getSurfaceColor.value?.[isDarkTheme.value ? '700' : '200'].slice(1, 7);
-         const name = this.display_name || this.email || '♥';
+         const name = this.display_name || this.user_metadata?.display_name || '♥';
 
          return `https://ui-avatars.com/api/?name=${name}&background=${bg}&color=${color}`;
       },

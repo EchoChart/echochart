@@ -1,27 +1,39 @@
 <script setup>
 import { Form } from '@/lib/Form';
+import { useToast } from 'primevue';
 
+const toast = useToast();
+const accountStore = useAccountStore();
 const form = new Form({
    data: {
-      newPassword: '',
-      newPasswordConfirmation: ''
+      password: '',
+      password_confirmation: ''
    },
    rules: {
-      newPassword: 'required|alpha_dash|min:8',
-      newPasswordConfirmation: 'required|same:newPassword'
+      password: 'required|alpha_dash|min:8',
+      password_confirmation: 'required|same:password'
    }
 });
 
 const save = async () => {
-   if (!form._validate()) {
-      return;
-   }
+   if (!form._validate()) return;
+
+   const { error } = await accountStore.updateUser(form._toObject);
+   if (error) throw error;
+
+   form._reset();
+
+   toast.add({
+      life: 3000,
+      severity: ToastSeverity.SUCCESS,
+      summary: i18n.t('updated')
+   });
 };
 </script>
 <template>
    <FormBox @submit="save" @reset="() => form._reset()" v-focustrap>
       <div class="flex-1 flex flex-wrap gap-4">
-         <FormField :label="'newPassword'" :error="form._errors.first('newPassword')">
+         <FormField :label="'password'" :error="form._errors.first('password')">
             <template #default="slotProps">
                <Password
                   fluid
@@ -29,15 +41,14 @@ const save = async () => {
                   v-bind="slotProps"
                   :toggle-mask="true"
                   :feedback="false"
-                  v-model="form['newPassword']"
-                  @input="() => form._validate(['newPassword'])"
-                  @blur="() => form._validate(['newPassword'])"
+                  v-model="form['password']"
+                  @input="() => form._validate(['password'])"
                />
             </template>
          </FormField>
          <FormField
-            :label="'newPasswordConfirmation'"
-            :error="form._errors.first('newPasswordConfirmation')"
+            :label="'password_confirmation'"
+            :error="form._errors.first('password_confirmation')"
          >
             <template #default="slotProps">
                <Password
@@ -45,8 +56,8 @@ const save = async () => {
                   v-bind="slotProps"
                   :toggle-mask="true"
                   :feedback="false"
-                  v-model="form['newPasswordConfirmation']"
-                  @blur="() => form._validate(['newPassword', 'newPasswordConfirmation'])"
+                  v-model="form['password_confirmation']"
+                  @input="() => form._validate()"
                />
             </template>
          </FormField>

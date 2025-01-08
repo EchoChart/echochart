@@ -21,23 +21,10 @@ EXECUTE ON FUNCTION private.custom_access_token_hook TO supabase_auth_admin;
 
 GRANT ALL ON TABLE public.tenants_users TO supabase_auth_admin;
 
--- GRANT ALL ON TABLE public.roles TO supabase_auth_admin;
--- GRANT ALL ON TABLE public.user_roles TO supabase_auth_admin;
--- GRANT ALL ON TABLE public.role_permissions TO supabase_auth_admin;
--- GRANT ALL ON TABLE public.permissions TO supabase_auth_admin;
 CREATE POLICY allow_select_permissions ON public.permissions FOR
 SELECT
    TO authenticated USING (TRUE);
 
--- CREATE POLICY allow_select_roles ON public.roles FOR
--- SELECT
---    TO authenticated USING (TRUE);
--- CREATE POLICY allow_select_role_permissions ON public.role_permissions FOR
--- SELECT
---    TO authenticated USING (TRUE);
--- CREATE POLICY allow_select_user_roles ON public.user_roles FOR
--- SELECT
---    TO authenticated USING (TRUE);
 CREATE POLICY "Allow auth admin to read tenant users" ON public.tenants_users FOR
 SELECT
    TO supabase_auth_admin USING (TRUE);
@@ -90,7 +77,7 @@ WITH
 -- Create a row-level security policy named 'restrict_to_tenant_users' on the 'users' table
 DROP POLICY IF EXISTS restrict_to_tenant_users ON public.users;
 
-CREATE POLICY "restrict_to_tenant_users" ON public.users TO authenticated USING (
+CREATE POLICY "restrict_to_tenant" ON public.users AS RESTRICTIVE TO authenticated USING (
    EXISTS (
       SELECT
          1
@@ -113,6 +100,9 @@ WITH
             tenants_users tu
          WHERE
             tu.user_id = public.users.id
-            AND tu.tenant_id = ANY (auth.allowed_tenants ())
+            AND tu.tenant_id = (
+               SELECT
+                  auth.tenant_id () AS tenant_id
+            )
       )
    );

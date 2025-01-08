@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS
 CREATE TABLE IF NOT EXISTS
    public.users (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid ()
-    , display_name TEXT NOT NULL
+    , display_name TEXT
     , avatar_url TEXT
     , email TEXT NOT NULL UNIQUE
     , phone TEXT UNIQUE

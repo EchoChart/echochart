@@ -1,5 +1,6 @@
 <script setup>
-const { user } = storeToRefs(useAuthStore());
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
 </script>
 
 <template>
@@ -11,7 +12,7 @@ const { user } = storeToRefs(useAuthStore());
             width="144"
             :src="user?.avatar_url"
             preview
-            :alt="user?.display_name"
+            :alt="user?.user_metadata?.display_name"
             class="rounded-[var(--content-border-radius)] overflow-hidden"
          />
          <Badge
@@ -31,17 +32,17 @@ const { user } = storeToRefs(useAuthStore());
             <FormField fluid :label="$t('display_name')">
                <template v-slot="slotProps">
                   <InputText
-                     class="min-w-32"
+                     class="min-w-48"
                      v-bind="slotProps"
                      readonly
-                     :model-value="user?.display_name"
+                     :model-value="user?.user_metadata?.display_name"
                   />
                </template>
             </FormField>
             <FormField fluid :label="$t('email')">
                <template v-slot="slotProps">
                   <InputText
-                     class="min-w-32"
+                     class="min-w-48"
                      v-bind="slotProps"
                      readonly
                      :model-value="user?.email"
@@ -50,11 +51,12 @@ const { user } = storeToRefs(useAuthStore());
             </FormField>
             <FormField fluid :label="$t('phone')">
                <template v-slot="slotProps">
-                  <InputText
-                     class="min-w-32"
-                     v-bind="slotProps"
+                  <InputMask
                      readonly
+                     class="min-w-48"
+                     v-bind="slotProps"
                      :model-value="user?.phone"
+                     mask="9999999999999"
                   />
                </template>
             </FormField>
@@ -63,7 +65,7 @@ const { user } = storeToRefs(useAuthStore());
             <FormField fluid :label="$t('created_at')">
                <template v-slot="slotProps">
                   <InputText
-                     class="min-w-32"
+                     class="min-w-48"
                      v-bind="slotProps"
                      readonly
                      :model-value="user?.created_at"
@@ -73,7 +75,7 @@ const { user } = storeToRefs(useAuthStore());
             <FormField fluid :label="$t('email_confirmed_at')">
                <template v-slot="slotProps">
                   <InputText
-                     class="min-w-32"
+                     class="min-w-48"
                      v-bind="slotProps"
                      readonly
                      :model-value="user?.email_confirmed_at"
@@ -83,7 +85,7 @@ const { user } = storeToRefs(useAuthStore());
             <FormField fluid :label="$t('last_sign_in_at')">
                <template v-slot="slotProps">
                   <InputText
-                     class="min-w-32"
+                     class="min-w-48"
                      v-bind="slotProps"
                      readonly
                      :model-value="user?.last_sign_in_at"
