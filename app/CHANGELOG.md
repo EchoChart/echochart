@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.0.2-alpha.1...echochart-app-v0.1.0-alpha.1) (2025-01-08)
+
+
+### Features
+
+* **account:** update account ([c23f84a](https://github.com/EchoChart/echochart/commit/c23f84a790c03cb35d6241b668bb57d9f02737b7))
+
 ## [0.0.2-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.0.1-alpha.1...echochart-app-v0.0.2-alpha.1) (2025-01-07)
 
 
