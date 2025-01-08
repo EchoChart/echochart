@@ -58,7 +58,7 @@ export const dialogBeforeEach = async (to, from, next) => {
          maximizable: true,
          header: _startCase(i18n.t(to.name)),
          position: showDialog,
-         keepInViewPort: false,
+         keepInViewport: false,
          closeOnEscape: false,
          onDragend,
          onMouseenter
