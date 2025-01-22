@@ -1,6 +1,9 @@
 import { UserModel } from '@/services/models/UserModel';
 import Collection from '@lib/Collection';
+import { jwtDecode } from 'jwt-decode';
 import { useToast } from 'primevue/usetoast';
+
+const tenantURLRegex = /^(?:https?:\/\/)?(?<tenant>(?!\d+\.\d+\.\d+\.\d+)[a-zA-Z0-9-]+)\./;
 
 export const useAuthStore = defineStore('auth', () => {
    const session = new Collection();
@@ -8,7 +11,12 @@ export const useAuthStore = defineStore('auth', () => {
    const router = useRouter();
    const route = useRoute();
    const user = shallowRef(new UserModel());
-   const isSignedIn = computed(() => user?.value?.id);
+   const isSignedIn = computed(() => !!user?.value?.id);
+   const currentTenant = new Collection({
+      id: null,
+      display_name: _get(window.location.href.match(tenantURLRegex), 'groups.tenant', null)
+   });
+   const branches = new Collection([]);
 
    function setUser(userData = null) {
       if (!_isNil(userData)) {
@@ -23,6 +31,16 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = null;
    }
 
+   function fetchBranches() {
+      if (!session.access_token) return;
+      const tenants = jwtDecode(session.access_token)?.app_metadata?.allowed_tenants || [];
+      if (_isNil(tenants) || tenants.length <= 0) {
+         return;
+      }
+      branches._reset(tenants);
+      if (!tenants.some(({ id }) => id === currentTenant?.id)) currentTenant._set(tenants[0]);
+   }
+
    router.isReady().then(() => {
       watch(
          () => isSignedIn.value,
@@ -32,6 +50,7 @@ export const useAuthStore = defineStore('auth', () => {
                if (['login', 'register'].includes(route.name)) {
                   router.replace(backTo);
                }
+
                return;
             }
 
@@ -41,24 +60,15 @@ export const useAuthStore = defineStore('auth', () => {
             }
          }
       );
+
+      watch(
+         () => currentTenant?.id,
+         () => supabase.auth.refreshSession()
+      );
    });
 
    const initialized = new Promise((resolve) => {
-      supabase.auth.onAuthStateChange((event, newSession) => {
-         if (event === 'INITIAL_SESSION') {
-            resolve(event, newSession);
-         } else if (event === 'SIGNED_IN') {
-            //
-         } else if (event === 'SIGNED_OUT') {
-            //
-         } else if (event === 'PASSWORD_RECOVERY') {
-            //
-         } else if (event === 'TOKEN_REFRESHED') {
-            //
-         } else if (event === 'USER_UPDATED') {
-            //
-         }
-
+      supabase.auth.onAuthStateChange(async (event, newSession) => {
          if (['SIGNED_IN', 'SIGNED_OUT'].includes(event)) {
             if (event === 'SIGNED_OUT' && !isSignedIn.value) {
                return;
@@ -76,6 +86,23 @@ export const useAuthStore = defineStore('auth', () => {
          }
          session._setDefaults(newSession)._reset();
          setUser(newSession?.user || null);
+
+         branches._reset();
+         fetchBranches();
+
+         if (event === 'INITIAL_SESSION') {
+            resolve(event, newSession);
+         } else if (event === 'SIGNED_IN') {
+            //
+         } else if (event === 'SIGNED_OUT') {
+            //
+         } else if (event === 'PASSWORD_RECOVERY') {
+            //
+         } else if (event === 'TOKEN_REFRESHED') {
+            //
+         } else if (event === 'USER_UPDATED') {
+            //
+         }
       });
    });
 
@@ -90,5 +117,14 @@ export const useAuthStore = defineStore('auth', () => {
       return await supabase.auth.signOut();
    };
 
-   return { session, user, isSignedIn, initialized, loginWithPassword, logout };
+   return {
+      session,
+      currentTenant,
+      branches,
+      user,
+      isSignedIn,
+      initialized,
+      loginWithPassword,
+      logout
+   };
 });

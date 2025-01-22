@@ -1,20 +1,29 @@
 import { ProgressSpinner, useDialog } from 'primevue';
 
 export const dialogBeforeEach = async (to, from, next) => {
+   if (to.name == 'logout') {
+      return next();
+   }
+
    const showDialog = to.query?.showDialog;
    if (!showDialog) {
       return next();
    }
 
    const components = _last(to.matched).components;
-   const dialogComponent = _isFunction(components.default)
-      ? defineAsyncComponent({
-           loader: components.default,
-           loadingComponent: components.skeleton || ProgressSpinner
-        })
-      : components.default;
+   const dialogComponent = h(
+      _isFunction(components.default)
+         ? defineAsyncComponent({
+              loader: components.default,
+              loadingComponent: components.skeleton || ProgressSpinner
+           })
+         : components.default,
+      to.params
+   );
 
    const dialogs = useDialog();
+
+   let dialog;
 
    const onDragend = (e) => {
       const dialogElement = e?.target ?? e;
@@ -59,47 +68,45 @@ export const dialogBeforeEach = async (to, from, next) => {
          header: _startCase(i18n.t(to.name)),
          position: showDialog,
          keepInViewport: false,
-         closeOnEscape: false,
+         closeOnEscape: true,
+         class: 'max-w-full',
          onDragend,
          onMouseenter
       }
    };
 
-   let dialog = dialogs.open(dialogComponent, dialogOptions);
-
    if (to.meta?.requiresAuth) {
       const authStore = useAuthStore();
-      const { isSignedIn } = storeToRefs(authStore);
+      const { isSignedIn, currentTenant } = storeToRefs(authStore);
 
       await authStore.initialized;
 
       const unwatch = watch(
          () => isSignedIn.value,
          (value) => {
-            if (!value) return dialog.close();
-            dialog = dialogs.open(dialogComponent, dialog.options);
+            if (!value) return dialog?.close?.();
+            dialog = dialogs.open(dialogComponent, dialogOptions);
          }
       );
 
-      dialog.data.unwatch = unwatch;
+      const terminate = watch(
+         () => currentTenant.value?.id,
+         () => {
+            dialog?.close?.();
+            unwatch?.();
+         },
+         { once: true }
+      );
 
-      dialog.options.onClose ??= (options) => {
-         const unwatch = _get(options, 'data.unwatch');
-         unwatch?.();
-      };
+      _set(dialogOptions, 'data.unwatch', unwatch);
 
-      dialog.options.props.closeButtonProps = {
-         onClick: unwatch,
-         severity: 'secondary',
-         variant: 'text',
-         rounded: true
+      dialogOptions.onClose = (options) => {
+         terminate?.();
+         if (options.type === 'dialog-close') unwatch?.();
       };
    }
 
-   if (to.name == 'logout') {
-      next({ name: 'login' });
-      return;
-   }
+   dialog = dialogs.open(dialogComponent, dialogOptions);
 
    if (from.matched?.length < 1) {
       const backRoute = to.matched

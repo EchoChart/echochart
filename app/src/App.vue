@@ -4,6 +4,7 @@ import { app } from './main';
 import { FunctionsHttpError } from '@supabase/supabase-js';
 
 const toast = useToast();
+const { currentTenant } = storeToRefs(useAuthStore());
 
 app.config.errorHandler = async (error) => {
    if (error && error instanceof FunctionsHttpError) {
@@ -27,10 +28,10 @@ app.config.errorHandler = async (error) => {
 
 <template>
    <Suspense>
-      <ConfirmDialog />
+      <ConfirmDialog :key="currentTenant?.display_name" />
    </Suspense>
    <Suspense>
-      <DynamicDialog />
+      <DynamicDialog :key="currentTenant?.display_name" />
    </Suspense>
    <Toast position="bottom-right" />
    <Transition

@@ -1,5 +1,6 @@
 <script setup>
 const { layoutState } = useLayout();
+const { branches, currentTenant } = storeToRefs(useAuthStore());
 
 const containerClass = computed(() => {
    return {
@@ -14,11 +15,11 @@ const containerClass = computed(() => {
       <RouterView v-slot="{ Component }" name="layout-topbar">
          <Transition
             appear
-            enter-active-class="animate-fadeinup animate-duration-[calc(var(--transition-duration)*3)]"
-            leave-active-class="animate-fadeoutup animate-duration-[calc(var(--transition-duration)*3)]"
+            enter-active-class="animate-fadeinup animate-ease-out animate-duration-[calc(var(--transition-duration))]"
+            leave-active-class="animate-fadeoutup animate-ease-in animate-duration-[calc(var(--transition-duration))]"
             mode="out-in"
          >
-            <header v-if="Component" class="layout-topbar">
+            <header v-if="Component" class="layout-topbar" :key="currentTenant?.display_name">
                <Suspense>
                   <component :is="Component" />
                </Suspense>
@@ -29,38 +30,38 @@ const containerClass = computed(() => {
          <RouterView v-slot="{ Component }" name="layout-sidebar">
             <Transition
                appear
-               enter-from-class="absolute translate-x-[-100%] duration-[calc(var(--transition-duration)*3)]"
-               enter-to-class="translate-x-[0] duration-[calc(var(--transition-duration)*3)]"
-               leave-from-class="translate-x-[0] duration-[calc(var(--transition-duration)*3)]"
-               leave-to-class="absolute translate-x-[-100%] duration-[calc(var(--transition-duration)*3)]"
+               enter-active-class="animate-fadeinleft animate-ease-out animate-duration-[calc(var(--transition-duration))]"
+               leave-active-class="animate-fadeoutleft animate-ease-in animate-duration-[calc(var(--transition-duration))]"
                mode="out-in"
             >
-               <span v-if="Component">
-                  <aside class="layout-sidebar">
-                     <span class="empty:hidden" id="sidebar-start" />
-                     <Suspense>
-                        <component :is="Component" />
-                     </Suspense>
-                     <span class="empty:hidden" id="sidebar-end">
-                        <FormField fluid :label="$t('tenant')" v-slot="slotProps" class="m-4">
-                           <Select
-                              v-bind="slotProps"
-                              :modelValue="currentTenant"
-                              optionLabel="display_name"
-                              optionValue="display_name"
-                              :options="[]"
-                           />
-                        </FormField>
-                     </span>
-                  </aside>
-                  <div class="layout-mask animate-fadein" />
-               </span>
+               <!-- <span v-if="Component" > -->
+               <aside v-if="Component" class="layout-sidebar" :key="currentTenant?.display_name">
+                  <span class="empty:hidden p-4" id="sidebar-start" />
+                  <Suspense>
+                     <component :is="Component" />
+                  </Suspense>
+                  <span class="empty:hidden p-4" id="sidebar-end">
+                     <Select
+                        v-if="branches?.length > 0"
+                        fluid=""
+                        size="small"
+                        :label="$t('branch')"
+                        :model-value="currentTenant._data"
+                        @change="(e) => _assign(currentTenant, e.value)"
+                        optionLabel="display_name"
+                        :options="branches._data"
+                     />
+                  </span>
+               </aside>
+               <!-- <div class="layout-mask animate-fadein animate-ease-out" /> -->
+               <!-- </span> -->
             </Transition>
          </RouterView>
          <main class="layout-main">
             <RouterView v-slot="{ Component }" name="page-header">
                <div
                   v-if="Component"
+                  :key="currentTenant?.display_name"
                   class="card p-4 mb-4 flex flex-wrap justify-center lg:justify-between gap-8 sticky top-0 shadow-md z-10"
                >
                   <Suspense>
@@ -70,7 +71,7 @@ const containerClass = computed(() => {
                </div>
             </RouterView>
 
-            <CustomRouteView />
+            <CustomRouteView :key="currentTenant?.display_name" />
 
             <RouterView v-slot="{ Component }" name="page-footer">
                <div v-if="Component" class="p-4">
@@ -84,8 +85,8 @@ const containerClass = computed(() => {
       <RouterView v-slot="{ Component }" name="layout-footer">
          <Transition
             appear
-            enter-active-class="animate-fadeindown animate-duration-[calc(var(--transition-duration)*3)]"
-            leave-active-class="animate-fadeoutdown animate-duration-[calc(var(--transition-duration)*3)]"
+            enter-active-class="animate-fadeindown animate-ease-out animate-duration-[calc(var(--transition-duration))]"
+            leave-active-class="animate-fadeoutdown animate-ease-in animate-duration-[calc(var(--transition-duration))]"
             mode="out-in"
          >
             <footer v-if="Component" class="layout-footer">

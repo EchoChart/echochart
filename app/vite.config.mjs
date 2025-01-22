@@ -42,7 +42,7 @@ export default defineConfig({
             },
             {
                from: '@lib/supabase',
-               imports: ['supabase', 'currentTenant']
+               imports: ['supabase']
             },
             {
                from: '@composables/useLayout',

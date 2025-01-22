@@ -42,7 +42,8 @@ Deno.serve(async (req) => {
             tenant_id: tenant.id,
             is_default: true
          })
-         .select();
+         .select()
+         .throwOnError();
 
       await supabase
          .from('user_roles')

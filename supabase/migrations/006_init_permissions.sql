@@ -19,8 +19,18 @@ GRANT usage ON SCHEMA "private" TO supabase_auth_admin;
 GRANT
 EXECUTE ON FUNCTION private.custom_access_token_hook TO supabase_auth_admin;
 
-GRANT ALL ON TABLE public.tenants_users TO supabase_auth_admin;
-
+-- GRANT
+-- SELECT
+--    ON TABLE public.tenants_users TO supabase_auth_admin;
+-- GRANT
+-- SELECT
+--    ON TABLE public.roles TO supabase_auth_admin;
+-- GRANT
+-- SELECT
+--    ON TABLE public.role_permissions TO supabase_auth_admin;
+-- GRANT
+-- SELECT
+--    ON TABLE public.user_roles TO supabase_auth_admin;
 CREATE POLICY allow_select_permissions ON public.permissions FOR
 SELECT
    TO authenticated USING (TRUE);
@@ -40,24 +50,56 @@ BEGIN
         FROM information_schema.columns
         WHERE column_name = 'tenant_id'  -- Filter for tables containing the 'tenant_id' column
     LOOP
-        -- Enable Row-Level Security (RLS) on the table
-        EXECUTE format('ALTER TABLE %I.%I ENABLE ROW LEVEL SECURITY;', t_schema, t_name);
+         -- Enable Row-Level Security (RLS) on the table
+         EXECUTE format('ALTER TABLE %I.%I ENABLE ROW LEVEL SECURITY;', t_schema, t_name);
 
-        -- Drop existing policies if they exist to avoid conflicts when reapplying policies
-      --   EXECUTE format('DROP POLICY IF EXISTS restrict_to_user_tenants ON %I.%I;', t_schema, t_name);
-        EXECUTE format('DROP POLICY IF EXISTS restrict_to_current_tenant ON %I.%I;', t_schema, t_name);
+         -- Drop existing policies if they exist to avoid conflicts when reapplying policies
+         --   EXECUTE format('DROP POLICY IF EXISTS restrict_to_user_tenants ON %I.%I;', t_schema, t_name);
+         EXECUTE format('DROP POLICY IF EXISTS restrict_to_current_tenant ON %I.%I;', t_schema, t_name);
 
-        -- Create a policy to restrict access based on the current tenant
-        EXECUTE format('
-            CREATE POLICY restrict_to_current_tenant ON %I.%I
-            AS RESTRICTIVE
-            FOR ALL TO authenticated
-            USING (
-                tenant_id = (SELECT auth.tenant_id())
-            )
-            WITH CHECK (
-                tenant_id = (SELECT auth.tenant_id())
-            );', t_schema, t_name);
+      -- SELECT policy
+      EXECUTE format('
+         CREATE POLICY restrict_select_to_current_tenant ON %I.%I
+         AS RESTRICTIVE
+         FOR SELECT TO authenticated
+         USING (
+            tenant_id = (SELECT auth.tenant_id())
+         );
+      ', t_schema, t_name);
+
+      -- INSERT policy
+      EXECUTE format('
+         CREATE POLICY restrict_insert_to_current_tenant ON %I.%I
+         AS RESTRICTIVE
+         FOR INSERT TO authenticated
+         WITH CHECK (
+            tenant_id = ANY (auth.allowed_tenants())
+         );
+      ', t_schema, t_name);
+
+      -- UPDATE policy
+      EXECUTE format('
+         CREATE POLICY restrict_update_to_allowed_tenant ON %I.%I
+         AS RESTRICTIVE
+         FOR UPDATE TO authenticated
+         USING (
+            tenant_id = ANY (auth.allowed_tenants()) -- Check the current tenant_id before updating
+         )
+         WITH CHECK (
+            tenant_id = ANY (auth.allowed_tenants()) -- Ensure the updated tenant_id is allowed
+         );
+      ', t_schema, t_name);
+
+      -- DELETE policy
+      EXECUTE format('
+         CREATE POLICY restrict_delete_to_current_tenant ON %I.%I
+         AS RESTRICTIVE
+         FOR DELETE TO authenticated
+         USING (
+            tenant_id = ANY (auth.allowed_tenants()) -- Ensure the tenant_id of the row being deleted is allowed
+         );
+      ', t_schema, t_name);
+
 
         -- Enforce the Row-Level Security policy to ensure strict access control
         EXECUTE format('ALTER TABLE %I.%I FORCE ROW LEVEL SECURITY;', t_schema, t_name);

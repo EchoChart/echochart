@@ -1,16 +1,17 @@
 WITH
-   table_names AS (
+   resource_groups AS (
       SELECT
-         UNNEST(
-            ARRAY[
-               'public.tenants'
-             , 'public.users'
-             , 'public.tenants_users'
-             , 'public.roles'
-             , 'public.user_roles'
-             , 'public.role_permissions'
-            ]
-         ) AS resource_name
+         *
+      FROM
+         (
+            VALUES
+               ('public.tenants', 'branches')
+             , ('public.users', 'users')
+             , ('public.tenants_users', 'users')
+             , ('public.roles', 'roles')
+             , ('public.user_roles', 'roles')
+             , ('public.role_permissions', 'roles')
+         ) AS t (resource_name, group_name)
    )
  , commands AS (
       SELECT
@@ -21,12 +22,18 @@ WITH
          enumtypid = 'permission_command'::regtype
    )
 INSERT INTO
-   public."permissions" (resource_name, command)
+   public.permissions (resource_name, group_name, command, kind)
 SELECT
-   table_names.resource_name
+   resource_groups.resource_name
+ , resource_groups.group_name
  , commands.command::permission_command
+ , CASE
+      WHEN commands.command = 'select' THEN 'read'::permission_kind
+      WHEN commands.command = 'insert' THEN 'create'::permission_kind
+      WHEN commands.command IN ('update', 'delete') THEN 'modify'::permission_kind
+   END
 FROM
-   table_names
+   resource_groups
    CROSS JOIN commands;
 
 INSERT INTO
