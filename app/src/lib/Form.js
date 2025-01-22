@@ -33,7 +33,7 @@ export class Form extends Collection {
    _isChanged = computed(() => _size(this._changedData) > 0);
    _autoValidate = ref([]);
    _changedData = computed(() => {
-      return diff(this._defaults, this._toObject);
+      return diff(this._defaults, this._data);
    });
 
    constructor({ data, rules, autoValidate = [] }) {
@@ -45,7 +45,7 @@ export class Form extends Collection {
 
    #_initWatcher() {
       watch(
-         () => [this._autoValidate, this._toObject, this._rules],
+         () => [this._autoValidate, this._data, this._rules],
          ([validateAttributes, changedData, changedRules]) => {
             if (validateAttributes === true) {
                this._isValid = this._validate(updatedDiff(changedData, changedRules));
@@ -72,7 +72,7 @@ export class Form extends Collection {
          watch(
             () => this._toJson,
             () => {
-               _set(dialogRef.value, 'data.form', this._toObject);
+               _set(dialogRef.value, 'data.form', this._data);
             },
             { immediate: true }
          );
@@ -83,11 +83,11 @@ export class Form extends Collection {
    _validate(keys = null, rules = this._rules) {
       Validator.useLang(locale.value);
 
-      let values = this._toObject;
+      let values = this._data;
 
       if (_isArray(keys)) {
          rules = _pick(this._rules, keys);
-         values = _pick(this._toObject, keys);
+         values = _pick(this._data, keys);
       }
 
       const validation = new Validator(values, rules);

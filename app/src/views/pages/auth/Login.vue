@@ -24,7 +24,7 @@ const login = async () => {
       return;
    }
 
-   await loginWithPassword(form._toObject);
+   await loginWithPassword(form._data);
 
    localStorage.removeItem('remember-me');
    if (rememberMe.value) {

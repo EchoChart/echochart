@@ -28,10 +28,10 @@ const form = new Form({
 const save = async () => {
    if (!form?._validate()) return;
 
-   const { error } = await accountStore.updateUser(form._toObject);
+   const { error } = await accountStore.updateUser(form._data);
    if (error) throw error;
 
-   form._setDefaults(form._toObject);
+   form._setDefaults(form._data);
 
    toast.add({
       life: 3000,

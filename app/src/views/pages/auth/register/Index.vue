@@ -56,7 +56,7 @@ const submit = async () => {
    }
 
    const { error } = await supabase.functions.invoke('create-account', {
-      body: form._toObject
+      body: form._data
    });
 
    if (error) throw error;
