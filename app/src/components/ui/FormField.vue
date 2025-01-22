@@ -6,7 +6,7 @@ defineOptions({
 const props = defineProps({
    loading: {
       type: Boolean,
-      default: false
+      default: null
    },
    reverse: {
       type: Boolean,
@@ -14,7 +14,12 @@ const props = defineProps({
    }
 });
 const routeLoading = inject('routeLoading', false);
-const isLoading = computed(() => routeLoading.value || props.loading);
+const isLoading = computed(() => {
+   if (!_isNil(props.loading)) {
+      return props.loading;
+   }
+   return routeLoading?.value;
+});
 
 const attrs = useAttrs();
 
@@ -27,7 +32,7 @@ const id = attrs.id || useId() || _kebabCase(attrs.label);
 const containerClass = computed(() => [
    attrs.class,
    'flex-1 flex flex-wrap gap-2 items-center',
-   'mb-auto py-1 relative',
+   'mb-auto p-2 relative',
    'transition-[padding] duration-[var(--transition-duration)]'
 ]);
 
@@ -46,7 +51,7 @@ const inputClass = computed(() => [_has(attrs, 'fluid') ? '!w-full flex-auto' : 
 
 const errorClass = computed(() => [
    'absolute',
-   'left-0 bottom-0',
+   'left-0 bottom-0 mx-2',
    'normal-case text-red-300',
    'animate animate-fadein animate-duration-[var(--transition-duration)] animate-ease-in-out animate-once'
 ]);
@@ -83,23 +88,27 @@ onMounted(() => {
          :invalid="!!attrs.error"
          v-bind="_omit(attrs, ['class'])"
          :class="inputClass"
-         :aria-labelledby="!!attrs.label && `label-${id}`"
+         :aria-labelledby="(!!attrs.label && `label-${id}`) || undefined"
          :aria-errormessage="`${id}-errormessage`"
       />
 
-      <Skeleton
-         v-if="isLoading"
-         class="!absolute rounded-[inherit] !h-[unset] !w-[unset] -mx-1 !z-10 !left-0 !top-0 !right-0 !bottom-0"
-      />
-
       <slot name="error">
-         <small
+         <Message
+            size="small"
             :id="`${id}-errormessage`"
             ref="errorElement"
-            :class="errorClass"
             v-if="!!attrs.error"
-            v-text="_startCase(attrs.error)"
+            variant="simple"
             :title="_startCase(attrs.error)"
+            severity="danger"
+            :class="errorClass"
+         >
+            {{ _startCase(attrs.error) }}
+         </Message>
+
+         <Skeleton
+            v-if="isLoading"
+            class="!absolute rounded-[inherit] !h-[unset] !w-[unset] !z-10 !left-0 !top-0 !right-0 !bottom-0 opacity-50"
          />
       </slot>
    </div>

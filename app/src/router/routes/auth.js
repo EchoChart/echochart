@@ -17,6 +17,9 @@ const logoutBeforeEnter = async () => {
    return true;
 };
 
+/**
+ * @type {import('vue-router').RouteLocation[]}
+ */
 export default [
    {
       path: '',

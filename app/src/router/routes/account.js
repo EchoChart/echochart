@@ -2,6 +2,9 @@ import CustomRouteView from '@/components/layout/CustomRouteView.vue';
 import { useConfirm } from 'primevue';
 import router from '..';
 
+/**
+ * @type {import('vue-router').RouteLocation[]}
+ */
 export default [
    {
       path: 'account',

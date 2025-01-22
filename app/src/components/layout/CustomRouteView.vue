@@ -1,4 +1,7 @@
 <script setup>
+defineOptions({
+   inheritAttrs: false
+});
 const props = defineProps({
    transitionProps: {
       type: Object,
@@ -9,7 +12,7 @@ const props = defineProps({
 
 const dialogRef = inject('dialogRef', null);
 
-const isResolved = ref(false);
+const isResolved = ref(true);
 const isPending = ref(false);
 const isFallback = ref(false);
 const isLoading = computed(() => isPending.value || isFallback.value);
@@ -21,6 +24,11 @@ provide('routeLoading', isLoading);
 
 const routeComponent = ref(null);
 
+const onResolve = () => {
+   isResolved.value = true;
+   isFallback.value = false;
+   isPending.value = false;
+};
 const onFallback = () => {
    isFallback.value = true;
    isResolved.value = false;
@@ -29,11 +37,14 @@ const onPending = () => {
    isPending.value = true;
    isResolved.value = false;
 };
-const onResolve = () => {
-   isResolved.value = true;
-   isFallback.value = false;
-   isPending.value = false;
-};
+
+const route = useRoute();
+watch(
+   () => route?.fullPath,
+   () => {
+      onResolve();
+   }
+);
 </script>
 
 <template>
@@ -67,11 +78,11 @@ const onResolve = () => {
       v-slot="{ Component }"
       :key="routeComponent?.name || routeComponent?.type"
    >
-      <template v-if="isLoading && !isResolved">
+      <template v-if="isLoading">
          <component v-if="Component" :is="Component" />
          <Skeleton
             v-else
-            class="min-w-full min-h-full duration-[calc(var(--transition-duration)*0.5]"
+            class="min-w-full min-h-[25%] duration-[calc(var(--transition-duration)*0.5]"
          />
       </template>
    </RouterView>

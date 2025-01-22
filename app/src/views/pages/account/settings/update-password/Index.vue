@@ -63,9 +63,9 @@ const save = async () => {
          </FormField>
       </div>
       <div class="flex flex-wrap items-end justify-end gap-4 w-full">
-         <Button label="Save" class="flex-[.2]" :disabled="!form._isChanged" type="submit" />
+         <Button :label="$t('save')" class="flex-[.2]" :disabled="!form._isChanged" type="submit" />
          <Button
-            label="Reset"
+            :label="$t('reset')"
             severity="secondary"
             class="flex-[.2]"
             :disabled="!form._isChanged"

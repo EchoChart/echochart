@@ -15,6 +15,6 @@ export const authBeforeEach = async (to, from, next) => {
       next();
    } catch (error) {
       supabase.auth.signOut();
-      next({ name: 'login', replace: true });
+      next({ name: 'login' });
    }
 };

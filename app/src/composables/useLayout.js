@@ -65,6 +65,7 @@ const setSidebarMode = (mode) => {
       layoutState.sidebarModeDesktop = null;
    }
    layoutState.sidebarMode = mode;
+   layoutState.sidebarModeDesktop = mode;
 };
 
 const toggleDark = useToggle(
@@ -292,9 +293,10 @@ export default () => {
                .map(([key, { items, route }], i) => {
                   const { meta } = route;
                   const currentKey = parentKey ? `${parentKey}_${i + 1}` : `${i}`;
-                  const visible =
-                     (isRef(meta.visible) ? meta?.visible?.value : meta?.visible) || isVisible;
+                  let visible = isRef(meta.visible) ? meta?.visible?.value : meta?.visible;
                   const index = meta.index || ++lastIndex;
+
+                  visible ??= isVisible;
 
                   return {
                      key: currentKey,

@@ -45,24 +45,39 @@ const save = async () => {
       <div v-if="form" class="flex-1 flex flex-wrap gap-4">
          <FormField fluid :label="'display_name'" :error="form?._errors.first('data.display_name')">
             <template #default="slotProps">
-               <InputText autofocus v-bind="slotProps" v-model="form['data.display_name']" />
+               <InputText
+                  autofocus
+                  v-bind="slotProps"
+                  v-model="form['data.display_name']"
+                  class="min-w-[10vw]"
+               />
             </template>
          </FormField>
          <FormField fluid :label="'email'" :error="form?._errors.first('email')">
             <template #default="slotProps">
-               <InputText v-bind="slotProps" v-model="form['email']" />
+               <InputText v-bind="slotProps" v-model="form['email']" class="min-w-[10vw]" />
             </template>
          </FormField>
          <FormField fluid :label="$t('phone')" :error="form._errors.first('phone')">
             <template v-slot="slotProps">
-               <InputMask v-bind="slotProps" v-model="form['phone']" mask="9999999999999" />
+               <InputMask
+                  v-bind="slotProps"
+                  v-model="form['phone']"
+                  mask="9999999999999"
+                  class="min-w-[10vw]"
+               />
             </template>
          </FormField>
       </div>
       <div class="flex flex-wrap items-end justify-end gap-4 w-full">
-         <Button label="Save" class="flex-[.2]" :disabled="!form?._isChanged" type="submit" />
          <Button
-            label="Reset"
+            :label="$t('save')"
+            class="flex-[.2]"
+            :disabled="!form?._isChanged"
+            type="submit"
+         />
+         <Button
+            :label="$t('reset')"
             severity="secondary"
             class="flex-[.2]"
             :disabled="!form?._isChanged"

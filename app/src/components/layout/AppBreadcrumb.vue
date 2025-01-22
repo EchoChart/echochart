@@ -8,10 +8,11 @@ const home = ref({
 const breadcrumbItems = computed(() =>
    route.matched
       .filter(({ name, path }) => !_isNil(name) && !_isNil(path))
-      .map((route) => {
+      .map((route, index) => {
          const label = route.path.match(/\/([a-zA-Z0-9_-]+)$/)?.[1] || route.name;
          return {
             ...route,
+            index,
             label: i18n.t(label)
          };
       })
@@ -22,7 +23,7 @@ const breadcrumbItems = computed(() =>
    <Breadcrumb :home="home" :model="breadcrumbItems">
       <template #item="{ item, props }">
          <CustomLink
-            :to="item"
+            :to="breadcrumbItems.length - 1 == item.index ? $route : item"
             v-bind="props.action"
             class="text-sm"
             :class="{
