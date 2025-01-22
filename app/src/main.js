@@ -19,6 +19,8 @@ import router from './router';
 
 export const app = createApp(App);
 
+app.config.globalProperties.emitter = emitter;
+
 app.use(createPinia());
 app.use(i18NPlugin);
 app.use(PrimeVue, {
