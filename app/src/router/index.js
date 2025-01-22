@@ -4,6 +4,7 @@ import { beforeEachMiddlewares } from './middlewares';
 
 import accountRoutes from '@/router/routes/account';
 import authRoutes from '@/router/routes/auth';
+import branchRoutes from '@/router/routes/branch';
 
 export const DIALOG_POSITIONS = {
    LEFT: 'left',
@@ -59,6 +60,7 @@ const router = createRouter({
                            name: 'dashboard',
                            component: () => import('@/views/pages/dashboard/Index.vue')
                         },
+                        ...branchRoutes,
                         ...accountRoutes
                      ]
                   },
