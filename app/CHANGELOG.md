@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.1.0-alpha.1...echochart-app-v0.2.0-alpha.1) (2025-01-24)
+
+
+### Features
+
+* branch and branch roles added ([c2a384c](https://github.com/EchoChart/echochart/commit/c2a384c202a0552c3239fce0b5a2be83dff60621))
+* mitt.js plugin added ([7e9c363](https://github.com/EchoChart/echochart/commit/7e9c36386ca6244533e813ca07c24619faa3597d))
+* **resourcetable:** base resource service table added ([0e58d8f](https://github.com/EchoChart/echochart/commit/0e58d8f7730cbdc5b524193bd7b55e0d679b6dfa))
+* service component added for select permissions ([1e1ca44](https://github.com/EchoChart/echochart/commit/1e1ca44211b4f16b9777db6194a42fffa1545116))
+* **supabase-client:** added primevue table filter support to supabase client's global fetch ([73107c4](https://github.com/EchoChart/echochart/commit/73107c4ea76ecd46201c0022d65e5420f781720c))
+* users can switch between their branches ([dcb4a48](https://github.com/EchoChart/echochart/commit/dcb4a489407436c32cc650ac93a73db698f5010b))
+
 ## [0.1.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.0.2-alpha.1...echochart-app-v0.1.0-alpha.1) (2025-01-08)
 
 

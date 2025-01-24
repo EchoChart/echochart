@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.1.0-alpha.1...echochart-supabase-v0.2.0-alpha.1) (2025-01-24)
+
+
+### Features
+
+* users can switch between their branches ([dcb4a48](https://github.com/EchoChart/echochart/commit/dcb4a489407436c32cc650ac93a73db698f5010b))
+
 ## [0.1.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.0.1-alpha.1...echochart-supabase-v0.1.0-alpha.1) (2025-01-08)
 
 
