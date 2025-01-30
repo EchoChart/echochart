@@ -21,6 +21,7 @@ const isExternalLink = computed(() => {
 });
 
 const dialogRef = inject('dialogRef', null);
+const routeLoading = inject('routeLoading', false);
 
 const contextMenu = ref();
 const constextMenuItems = computed(() => {
@@ -59,6 +60,7 @@ const itemClick = (item) => {
          :href="href"
          @click.prevent="() => itemClick(route)"
          @contextmenu="(e) => contextMenu.show(e)"
+         :disabled="routeLoading"
       >
          <slot v-bind="{ href, navigate, isExactActive, isActive, route }" />
       </a>

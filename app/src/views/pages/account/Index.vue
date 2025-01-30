@@ -7,7 +7,7 @@ const mounted = useMounted();
 <template>
    <div class="card flex flex-col gap-4">
       <Teleport v-if="mounted" to="#page-toolbar" defer :disabled="!breakpoints.lg || dialogRef">
-         <MenuBar :model="tabs" :breakpoint="'0px'">
+         <MenuBar v-if="mounted" :model="tabs" :breakpoint="'0px'">
             <template #item="{ item, props, hasSubmenu }">
                <span
                   :class="{

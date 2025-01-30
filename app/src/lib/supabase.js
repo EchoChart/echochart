@@ -125,13 +125,13 @@ const options = {
          }
 
          const { currentTenant } = useAuthStore();
-         if (currentTenant.display_name) {
-            options?.headers?.set?.('x-tenant', currentTenant.display_name);
+         if (currentTenant?.display_name) {
+            options?.headers?.set?.('x-tenant', currentTenant?.display_name);
          }
 
-         if (currentTenant.id && !_isNil(options.body) && !_isArray(JSON.parse(options.body)))
+         if (currentTenant?.id && !_isNil(options.body) && !_isArray(JSON.parse(options.body)))
             options.body = JSON.stringify({
-               tenant_id: currentTenant.id,
+               tenant_id: currentTenant?.id,
                ...JSON.parse(options.body)
             });
 
@@ -157,10 +157,13 @@ const options = {
             }));
 
          memo.cache.set(url, promise);
+
+         const cacheTime = options?.headers?.get?.('prefer')?.startsWith?.('count')
+            ? 1000 * 10
+            : 1000;
+
          promise.finally(
-            () =>
-               memo.cache.has(url) &&
-               _delay(() => memo.cache.delete(url), options.method === 'HEAD' ? 1000 * 60 : 100)
+            () => memo.cache.has(url) && _delay(() => memo.cache.delete(url), cacheTime)
          );
 
          return promise;

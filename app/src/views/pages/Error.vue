@@ -24,20 +24,24 @@
                <img src="/demo/images/error/asset-error.svg" alt="Error" class="mb-8" width="80%" />
                <div class="col-span-12 mt-8 text-center">
                   <div class="flex flex-col gap-4">
-                     <Button
+                     <CustomLink
                         v-if="$router.options.history.state.back"
-                        @click="$router.back"
-                        :label="$t('go_back')"
-                        variant="outlined"
-                        severity="danger"
-                     />
-                     <Button
-                        as="router-link"
-                        :label="$t('go_to_dashboard')"
-                        :to="{ name: 'dashboard' }"
-                        variant="outlined"
-                        severity="danger"
-                     />
+                        :to="$router.options.history.state.back"
+                     >
+                        <template #default="{ navigate }">
+                           <Button
+                              @click="navigate"
+                              :label="$t('go_back')"
+                              variant="outlined"
+                              severity="danger"
+                           />
+                        </template>
+                     </CustomLink>
+                     <CustomLink :to="{ name: 'dashboard' }">
+                        <template #default="{ navigate }">
+                           <Button :label="$t('go_to_dashboard')" @click="() => navigate()" />
+                        </template>
+                     </CustomLink>
                   </div>
                </div>
             </div>

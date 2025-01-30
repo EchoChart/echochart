@@ -1,37 +1,13 @@
 <script setup>
-import { useToast } from 'primevue/usetoast';
-import { app } from './main';
-import { FunctionsHttpError } from '@supabase/supabase-js';
-
-const toast = useToast();
 const { currentTenant } = storeToRefs(useAuthStore());
-
-app.config.errorHandler = async (error) => {
-   if (error && error instanceof FunctionsHttpError) {
-      const body = await error.context.json();
-      error = _isEmpty(body) ? error.context : body;
-   }
-   console.error(error);
-   // if (import.meta.env.DEV) {
-   const summary = `${error.status || '500'}: ${i18n.t(error.details || error.code || error.name || error.statusText || 'unexpected_error')}`;
-   const detail = i18n.t(error.message || 'an_unexpected_error_has_occured');
-
-   toast.add({
-      life: 5000,
-      severity: ToastSeverity.WARN,
-      summary,
-      detail
-   });
-   // }
-};
 </script>
 
 <template>
    <Suspense>
-      <ConfirmDialog :key="currentTenant?.display_name" />
+      <ConfirmDialog />
    </Suspense>
    <Suspense>
-      <DynamicDialog :key="currentTenant?.display_name" />
+      <DynamicDialog />
    </Suspense>
    <Toast position="bottom-right" />
    <Transition

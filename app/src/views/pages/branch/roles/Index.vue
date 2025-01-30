@@ -1,5 +1,6 @@
 <script setup>
 import Collection from '@/lib/Collection';
+import Upsert from './Upsert.vue';
 
 defineOptions({
    inheritAttrs: false
@@ -40,7 +41,7 @@ const rowActions = new Collection([
             .eq('id', data?.id)
             .setHeader('item', JSON.stringify(data))
             .throwOnError()
-            .then(() => emitter.emit('roles-update', [data.id])),
+            .then(() => emitter.emit('roles-update', data)),
       icon: PrimeIcons.TRASH,
       severity: 'red'
    },
@@ -60,7 +61,7 @@ const dialogRef = inject('dialogRef', null);
 
 const tableProps = computed(() => ({
    from: 'roles',
-   select: '*',
+   select: '*, permissions(*)',
    columns: columns,
    rowActions: rowActions._data,
    ...attrs
@@ -79,6 +80,9 @@ const tableProps = computed(() => ({
                   </CustomLink>
                </div>
             </Teleport>
+         </template>
+         <template #expansion="{ data }">
+            <Upsert :id="data?.id" />
          </template>
       </ResourceTable>
    </div>

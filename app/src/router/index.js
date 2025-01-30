@@ -68,19 +68,30 @@ const router = createRouter({
                   {
                      path: '',
                      meta: {
-                        layout: 'error',
+                        layout: 'dashboard',
                         visible: false
                      },
                      children: [
                         {
                            path: 'error',
                            name: 'error',
-                           component: () => import('@/views/pages/Error.vue')
+                           components: {
+                              default: () => import('@/views/pages/Error.vue'),
+                              'layout-topbar': () => import('@/layouts/dashboard/Topbar.vue'),
+                              'layout-sidebar': () => import('@/layouts/dashboard/Sidebar.vue'),
+                              'layout-footer': () => import('@/layouts/dashboard/Footer.vue'),
+                              'page-header': () => import('@/components/layout/AppBreadcrumb.vue')
+                           }
                         },
                         {
                            path: `:pathMatch(.*)*`,
                            name: 'notfound',
-                           component: () => import('@/views/pages/NotFound.vue')
+                           components: {
+                              default: () => import('@/views/pages/NotFound.vue'),
+                              'layout-topbar': () => import('@/layouts/dashboard/Topbar.vue'),
+                              'layout-footer': () => import('@/layouts/dashboard/Footer.vue'),
+                              'page-header': () => import('@/components/layout/AppBreadcrumb.vue')
+                           }
                         }
                      ]
                   }

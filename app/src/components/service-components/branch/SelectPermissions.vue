@@ -1,5 +1,5 @@
 <script setup>
-import Collection from '@/lib/Collection';
+import { usePermissionsStore } from '@/store/services/permissions';
 
 defineOptions({
    inheritAttrs: false
@@ -28,15 +28,20 @@ const columns = [
    }
 ];
 
+const routeLoading = inject('routeLoading', false);
+
+const { getPermissions } = usePermissionsStore();
+
 const permissionKinds = ['read', 'create', 'modify'];
 
-const allPermissions = ref([]);
+let allPermissions = null;
+if (!routeLoading?.value) allPermissions = await getPermissions();
 
-const permissionIds = computed(() => allPermissions.value?.map?.(({ id }) => id));
+const permissionIds = computed(() => allPermissions?._data?.map?.(({ id }) => id));
 
-const permissionsByKind = computed(() => _groupBy(allPermissions.value, 'kind'));
+const permissionsByKind = computed(() => _groupBy(allPermissions?._data, 'kind'));
 
-const permissionsByGroup = computed(() => _groupBy(allPermissions.value, 'group_name'));
+const permissionsByGroup = computed(() => _groupBy(allPermissions?._data, 'group_name'));
 
 const permissions = computed(() =>
    Object.keys(permissionsByGroup.value)?.map?.((key) => ({
@@ -72,6 +77,7 @@ const toggleAll = (e) => {
 const tableProps = computed(() => ({
    dataKey: 'display_name',
    from: 'permissions',
+   stateKey: 'permissions',
    select: '*',
    paginator: false,
    columns,
@@ -82,7 +88,7 @@ const tableProps = computed(() => ({
 }));
 </script>
 <template>
-   <ResourceTable v-model="allPermissions" v-bind="tableProps">
+   <CustomTable v-bind="tableProps">
       <template #display_name_header>
          <FormField class="!flex-[0] flex-nowrap" :label="$t('all')">
             <template #default="slotProps">
@@ -125,5 +131,5 @@ const tableProps = computed(() => ({
             @change="(e) => togglePermission(e, data?.items[field])"
          />
       </template>
-   </ResourceTable>
+   </CustomTable>
 </template>

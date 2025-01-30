@@ -45,6 +45,7 @@ const loading = ref(routeLoading.value);
 let abort = new AbortController();
 
 async function getValues(metaObj) {
+   if (loading.value) return;
    try {
       abort?.abort?.();
       abort = new AbortController();
@@ -82,6 +83,10 @@ async function getValues(metaObj) {
    }
 }
 
+const updateCallback = () => getValues(meta._data);
+onMounted(() => emitter.on(`${props.from}-update`, updateCallback));
+onUnmounted(() => emitter.off(`${props.from}-update`, updateCallback));
+
 const tableProps = computed(() => ({
    totalRecords: totalRecords.value,
    stateKey: props.from,
@@ -89,7 +94,7 @@ const tableProps = computed(() => ({
    onMeta: async (value) => await getValues(value),
    ...attrs
 }));
-emitter.on(`${props.from}-update`, () => getValues(meta._data));
+
 const mounted = useMounted();
 </script>
 <template>

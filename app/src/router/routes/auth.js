@@ -30,15 +30,6 @@ export default [
       },
       components: {
          default: () => import('@/views/pages/auth/Index.vue'),
-         // default: h(CustomRouteView, {
-         //     transitionProps: {
-         //         class: 'transition-[filter] duration-[calc(var(--transition-duration) * 100)]',
-         //         enterToClass: 'blur-none',
-         //         enterFromClass: 'blur-[16px]',
-         //         leaveFromClass: 'blur-none',
-         //         leaveToClass: 'blur-[16px]'
-         //     }
-         // }),
          'layout-topbar': () => import('@/layouts/dashboard/Topbar.vue')
       },
       children: [
@@ -62,12 +53,20 @@ export default [
             name: 'login',
             component: () => import('@/views/pages/auth/Login.vue'),
             beforeEnter: logoutBeforeEnter
-         },
-         {
-            path: 'access-denied',
-            name: 'access-denied',
-            component: () => import('@/views/pages/auth/Access.vue')
          }
       ]
+   },
+   {
+      path: 'access-denied',
+      name: 'access-denied',
+      meta: {
+         layout: 'dashboard',
+         requiresAuth: false
+      },
+      components: {
+         default: () => import('@/views/pages/auth/Access.vue'),
+         'layout-sidebar': () => import('@/layouts/dashboard/Sidebar.vue'),
+         'layout-topbar': () => import('@/layouts/dashboard/Topbar.vue')
+      }
    }
 ];

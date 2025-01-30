@@ -38,6 +38,7 @@ const actions = new Collection(props.rowActions);
 const meta = (dialogRef?.value ? useSessionStorage : useLocalStorage)?.(
    stateKey,
    {
+      expandedRows: {},
       rows: _get(attrs, 'rows', 5),
       multiSortMeta: [{ field: 'created_at', order: -1 }],
       filters: attrs?.columns
@@ -57,7 +58,7 @@ const tableProps = computed(() => ({
    lazy: true,
    rowsPerPageOptions: [1, 5, 10],
    paginatorTemplate:
-      'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport',
+      'FirstPageLink PrevPageLink PageLinks NextPageLink RowsPerPageDropdown CurrentPageReport',
    resizableColumns: true,
    showGridlines: true,
    loading: loading.value,
@@ -86,10 +87,20 @@ onMeta(meta.value);
       @page="(value) => onMeta(value)"
       @sort="(value) => onMeta(value)"
       v-bind="tableProps"
-      :value="!loading ? tableProps?.value : new Array(tableProps?.rows)"
+      :value="tableProps?.value?.length ? tableProps?.value : new Array(tableProps?.rows)"
    >
-      <template #loading> <span v-text="$t('loading_data')" /> </template>
+      <template #expansion="slotProps">
+         <span name="expansion" v-bind="{ ...slotProps, loading }" />
+      </template>
       <template #empty> <span v-text="$t('no_data_found')" /> </template>
+      <Column
+         v-if="$slots.expansion"
+         field="_expansion"
+         :reorderableColumn="false"
+         expander
+         headerStyle="width: 3rem"
+         style="width: 5rem !important"
+      />
       <Column
          v-for="(column, i) in tableProps?.columns"
          :key="'column_' + (column?.field + i) || i"
@@ -167,26 +178,23 @@ onMeta(meta.value);
                </FormField>
             </slot>
          </template>
-         <template #body="body">
+         <template v-if="!column.expander" #body="body">
             <slot :name="`${_snakeCase(body?.field)}_body`" v-bind="body">
-               <span
-                  v-if="!loading && _has(body?.data, body.field)"
-                  v-text="_get(body?.data, body.field)"
-               />
                <Skeleton
-                  v-else
+                  v-if="loading && !tableProps?.value?.length"
                   :height="
                      actions._data?.length > 0 && tableProps?.value?.length > 0
                         ? '2.5rem'
                         : '1.5rem'
                   "
                />
+               <span v-else v-text="_get(body?.data, body.field)" />
             </slot>
          </template>
       </Column>
       <Column
-         v-if="actions._data?.length > 0"
-         field="actions"
+         v-if="actions._data?.length && tableProps?.value?.length"
+         field="_actions"
          :header="i18n.t('actions')"
          :key="'table_action'"
       >
@@ -207,15 +215,15 @@ onMeta(meta.value);
 
       <template
          v-for="slot in _keys($slots)?.filter((key) => !key.includes('_'))"
-         #[slot]
+         #[slot]="slotProps"
          :key="`slot_${slot}`"
       >
-         <slot :name="slot" />
+         <slot :name="slot" v-bind="slotProps" />
       </template>
    </DataTable>
 </template>
 <style lang="scss">
 .p-datatable-mask.p-overlay-mask {
-   background-color: rgba($color: #000, $alpha: 0.1);
+   background-color: rgba($color: #000, $alpha: 0.2);
 }
 </style>

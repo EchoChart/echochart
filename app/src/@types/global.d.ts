@@ -13,4 +13,13 @@ declare global{
     }
     type UserUpdate =  Users['Update'] & {
     }
+
+    // Users
+    type Permissions = Tables['permissions']
+    type PermissionRow =  Permissions['Row'] & {
+    }
+    type PermissionInsert =  Permissions['Insert'] & {
+    }
+    type PermissionUpdate =  Permissions['Update'] & {
+    }
 }

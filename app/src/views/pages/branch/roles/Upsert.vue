@@ -1,5 +1,4 @@
 <script setup>
-import Collection from '@/lib/Collection';
 import { Form } from '@/lib/Form';
 import { useToast } from 'primevue';
 
@@ -10,50 +9,67 @@ const props = defineProps({
       type: String,
       default: null
    },
-   display_name: {
-      type: String,
+   data: {
+      type: Object,
       default: null
    }
 });
 
-const isEditing = computed(() => _isString(props.id) && !_isEmpty(props.id));
+const isEditing = computed(() => _isString(props.id) && !_isEmpty(props.id) && _isNil(props.data));
 
 const initialFormData = {
-   display_name: null,
-   permissions: {}
+   ...props.data,
+   permissions: _keyBy(props.data?.permissions, 'id') || {}
 };
 
 const form = new Form({
-   data: initialFormData,
+   id: null,
+   data: null,
    rules: {
+      id: 'required|string',
       display_name: 'required|string',
       permissions: 'required'
    }
 });
 
-if (props.display_name) form.display_name = props.display_name;
-const role = new Collection({});
+const getRole = async () => {
+   await supabase
+      .from('roles')
+      .select('id,display_name, permissions(*)')
+      .eq('id', form.id)
+      .single()
+      .throwOnError()
+      .then(({ data: { display_name, permissions, id } }) => {
+         // role._setDefaults({ display_name, id })._reset();
+         form
+            ._setDefaults({
+               id,
+               display_name,
+               permissions: _keyBy(permissions, 'id')
+            })
+            ._reset();
+      });
+};
+
+const updateCallback = (data) => {
+   if (props?.data?.id) {
+      return;
+   }
+   if (data?.id === form.id) {
+      getRole();
+   }
+};
+onMounted(() => emitter.on('roles-update', updateCallback));
+onUnmounted(() => emitter.off('roles-update', updateCallback));
 
 watch(
    () => isEditing.value,
    async (editing) => {
       if (!editing) return form._setDefaults(initialFormData)._reset();
 
-      await supabase
-         .from('roles')
-         .select('id,display_name, permissions(*)')
-         .eq('id', props.id)
-         .single()
-         .throwOnError()
-         .then(({ data: { display_name, permissions, id } }) => {
-            role._reset({ display_name, id });
-            form
-               ._setDefaults({
-                  display_name: role.display_name,
-                  permissions: _keyBy(permissions, (e) => e.id)
-               })
-               ._reset();
-         });
+      form._set({ id: props.id });
+
+      await getRole();
    },
    { immediate: true, once: true }
 );
@@ -61,28 +77,28 @@ watch(
 const save = async () => {
    if (!form._validate()) return;
 
-   await supabase
-      .from('roles')
-      .upsert({
-         id: role.id,
-         display_name: form._data.display_name
-      })
-      .select()
-      .single()
-      .throwOnError()
-      .then(({ data }) => role._reset(data));
-
-   if (isEditing.value)
+   if (form.id)
       await supabase
          .from('role_permissions')
          .delete()
-         .eq('role_id', role.id)
+         .eq('role_id', form.id)
          .setHeader('x-delete-confirmed', true)
          .throwOnError();
 
+   await supabase
+      .from('roles')
+      .upsert({
+         id: form.id,
+         display_name: form._data.display_name
+      })
+      .select('id, display_name')
+      .single()
+      .throwOnError()
+      .then(({ data }) => form._merge(data));
+
    const payload = _values(_cloneDeep(form._data.permissions)).map(({ id: permission_id }) => ({
       permission_id,
-      role_id: role.id
+      role_id: form.id
    }));
 
    await supabase.from('role_permissions').insert(payload).throwOnError();
@@ -94,13 +110,10 @@ const save = async () => {
       detail: i18n.t('saved', { name: form._data.display_name })
    });
 
-   if (isEditing.value)
-      form._setDefaults({ display_name: role.display_name, permissions: form.permissions });
-
-   role._reset();
+   form._setDefaults(form._data);
    form._reset();
 
-   emitter.emit('roles-update', [role.id]);
+   emitter.emit('roles-update', form._data);
 };
 </script>
 
