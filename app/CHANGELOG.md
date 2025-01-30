@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.2.0-alpha.1...echochart-app-v0.3.0-alpha.1) (2025-01-30)
+
+
+### Features
+
+* cASL.js plugin added ([1e94de2](https://github.com/EchoChart/echochart/commit/1e94de20bee7f048cc0dad6f659cfa1382f4a4df))
+
 ## [0.2.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.1.0-alpha.1...echochart-app-v0.2.0-alpha.1) (2025-01-24)
 
 
