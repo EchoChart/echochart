@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.3.0-alpha.1...echochart-app-v0.3.1-alpha.1) (2025-01-30)
+
+
+### Bug Fixes
+
+* **customtable:** customTable component skeleton loader bugfix ([f6a4eab](https://github.com/EchoChart/echochart/commit/f6a4eab3bb7a0c8f0d1d9ac8ff76524968b5bf97))
+
 ## [0.3.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.2.0-alpha.1...echochart-app-v0.3.0-alpha.1) (2025-01-30)
 
 
