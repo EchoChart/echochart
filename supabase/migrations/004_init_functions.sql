@@ -162,24 +162,37 @@ BEGIN
         -- Handle INSERT operation (create policy)
         IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
 
+
             -- Special case for UPDATE: using both USING and WITH CHECK clauses
             IF command = 'update' THEN
-                EXECUTE format(
-                    'CREATE POLICY %I ON %I.%I FOR %s TO authenticated USING (
+               IF permission_record.bypass = TRUE THEN
+                  EXECUTE format(
+                     '
+                     CREATE POLICY %I ON %I.%I FOR %s TO authenticated
+                     USING(true) WITH CHECK (TRUE)
+                     '
+                  , policy_name
+                  , target_schema
+                  , target_table
+                  , command
+                  );
+               ELSE
+                  EXECUTE format(
+                     'CREATE POLICY %I ON %I.%I FOR %s TO authenticated USING (
                         CASE
-                            WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
-                            THEN true
-                            WHEN (%L = TRUE) THEN
-                                public.throw_rls_policy_error(%L)
+                              WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
+                              THEN true
+                              WHEN (%L = TRUE) THEN
+                                 public.throw_rls_policy_error(%L)
                         END
-                    ) WITH CHECK (
+                     ) WITH CHECK (
                         CASE
-                            WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
-                            THEN true
-                            WHEN (%L = TRUE) THEN
-                                public.throw_rls_policy_error(%L)
+                              WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
+                              THEN true
+                              WHEN (%L = TRUE) THEN
+                                 public.throw_rls_policy_error(%L)
                         END
-                    )'
+                     )'
                   , policy_name
                   , target_schema
                   , target_table
@@ -187,17 +200,16 @@ BEGIN
                   , permission_record.resource_condition
                   , target_resource
                   , command
-                  -- , permission_record.condition
                   , permission_record.throws_error
                   , policy_error_message
                   , permission_record.resource_condition
                   , target_resource
                   , command
-                  -- , permission_record.condition
                   , permission_record.throws_error
                   , policy_error_message
-                );
-                RAISE LOG 'Policy "%" created for % on %', policy_name, command, target_table;
+                  );
+                  RAISE LOG 'Policy "%" created for % on %', policy_name, command, target_table;
+               END IF;
             ELSE
                -- Determine the appropriate clause (USING or WITH CHECK) based on the command
                IF command IN ('select', 'delete') THEN
@@ -206,16 +218,29 @@ BEGIN
                   policy_clause := 'WITH CHECK';
                END IF;
 
-                -- Default for SELECT and DELETE
-                EXECUTE format(
-                    'CREATE POLICY %I ON %I.%I FOR %s TO authenticated %s (
+               IF permission_record.bypass = TRUE THEN
+                  EXECUTE format(
+                     '
+                     CREATE POLICY %I ON %I.%I FOR %s TO authenticated
+                     %s (TRUE)
+                     '
+                     , policy_name
+                     , target_schema
+                     , target_table
+                     , command
+                     , policy_clause
+                  );
+               ELSE
+                  -- Default for SELECT and DELETE
+                  EXECUTE format(
+                     'CREATE POLICY %I ON %I.%I FOR %s TO authenticated %s (
                         CASE
-                            WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
-                            THEN true
-                            WHEN (%L = TRUE) THEN
-                                public.throw_rls_policy_error(%L)
+                              WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
+                              THEN true
+                              WHEN (%L = TRUE) THEN
+                                 public.throw_rls_policy_error(%L)
                         END
-                    )'
+                     )'
                   , policy_name
                   , target_schema
                   , target_table
@@ -224,11 +249,11 @@ BEGIN
                   , permission_record.resource_condition
                   , target_resource
                   , command
-                  -- , permission_record.condition
                   , permission_record.throws_error
                   , policy_error_message
-                );
-                RAISE LOG 'Policy "%" created for % on %', policy_name, command, target_table;
+                  );
+                  RAISE LOG 'Policy "%" created for % on %', policy_name, command, target_table;
+               END IF;
             END IF;
 
         END IF;
@@ -240,13 +265,12 @@ END;
 $$;
 
 CREATE
-OR REPLACE FUNCTION auth.check_permission (p_resource_name TEXT, p_command TEXT) RETURNS BOOLEAN STABLE LANGUAGE plpgsql SECURITY DEFINER AS $$
+OR REPLACE FUNCTION auth.check_permission (p_resource_name TEXT, p_command TEXT) RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER STABLE
+SET
+   search_path = '' AS $$
 DECLARE
-   roles TEXT[]; -- Holds the user's roles
    permissions JSONB; -- Holds the user's permissions
-   result BOOLEAN := FALSE; -- Default to no permission granted
    jwt_claims JSONB; -- Holds the JWT claims
-   app_metadata JSONB;
 BEGIN
     -- Retrieve JWT claims
     BEGIN
@@ -254,38 +278,16 @@ BEGIN
             current_setting('request.jwt.claims', true)::jsonb
           , '{}'::jsonb
         );
-         app_metadata := jwt_claims->'app_metadata';
     EXCEPTION
         WHEN others THEN
             -- If JWT claims are not accessible, deny permission
             RETURN FALSE;
     END;
 
-    -- Retrieve roles from JWT claims
-    BEGIN
-        -- Check if 'roles' exists in 'app_metadata'
-        IF app_metadata->'roles' IS NULL THEN
-            RETURN FALSE;
-        END IF;
-
-        -- Check the type of the 'roles' value before casting
-
-        -- Directly assign 'roles' as TEXT[] if it's an array
-        IF jsonb_typeof(app_metadata->'roles') = 'array' THEN
-            -- Convert the roles to TEXT[] and handle it directly
-            roles := ARRAY(SELECT jsonb_array_elements_text(app_metadata->'roles'));
-        ELSE
-            RETURN FALSE;
-        END IF;
-    EXCEPTION
-        WHEN others THEN
-            RETURN FALSE;
-    END;
-
     -- Retrieve permissions from JWT claims
     BEGIN
         permissions := COALESCE(
-            app_metadata->'permissions'
+            jwt_claims->'app_metadata'->'permissions'
           , '[]'::JSONB
         );
     EXCEPTION
@@ -294,14 +296,12 @@ BEGIN
     END;
 
     -- Check if the user has the required permission
-    result := EXISTS (
+    RETURN EXISTS (
         SELECT 1
         FROM jsonb_array_elements(permissions) perm
         WHERE perm->>'resource_name' = p_resource_name
         AND perm->>'command' = p_command
     );
-
-    RETURN result;
 END;
 $$;
 
@@ -324,7 +324,7 @@ END;
 $$;
 
 CREATE
-OR REPLACE FUNCTION private.custom_access_token_hook (e jsonb) RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER STABLE
+OR REPLACE FUNCTION private.custom_access_token_hook (e JSONB) RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER STABLE
 SET
    search_path = '' AS $$
 DECLARE
@@ -333,7 +333,9 @@ DECLARE
     claims JSONB;
     roles TEXT[];
     allowed_tenants JSONB;
+    user_metadata JSONB;
     permissions JSONB;
+    current_tenant_id UUID;
 BEGIN
     -- Extract 'user_id' from the input JSONB
     u_id := (e->>'user_id')::UUID;
@@ -341,18 +343,41 @@ BEGIN
 
     -- Ensure 'app_metadata' exists
     IF NOT claims ? 'app_metadata' THEN
-        claims := jsonb_set(claims, '{app_metadata}', '{}'::jsonb);
+        claims := jsonb_set(claims, '{app_metadata}', '{}'::JSONB);
     END IF;
 
-    -- Retrieve the first tenant_id for the user from tenants_users
-    SELECT COALESCE((SELECT tenant_id
-                     FROM public.tenants_users
-                     WHERE user_id = u_id
-                     LIMIT 1), NULL)
-    INTO t_id;
-    -- Set the 'tenant_id' in the 'app_metadata' field
-    IF t_id IS NOT NULL THEN
-        claims := jsonb_set(claims, '{app_metadata,tenant_id}', to_jsonb(t_id));
+    -- Retrieve user_metadata from claims or auth.users if it's missing
+    user_metadata := claims->'user_metadata';
+
+    -- Add user's tenants to the token
+   SELECT COALESCE(
+      jsonb_agg(jsonb_build_object('id', t.id, 'display_name', t.display_name))
+   , '[]'::jsonb
+   )
+   INTO allowed_tenants
+   FROM public.tenants_users tu
+   JOIN public.tenants t ON t.id = tu.tenant_id
+   WHERE user_id = u_id;
+
+    IF allowed_tenants IS NOT NULL THEN
+        -- Properly convert UUID[] to JSONB before using jsonb_set
+        claims := jsonb_set(claims, '{app_metadata,allowed_tenants}', to_jsonb(allowed_tenants), true);
+    END IF;
+
+   -- Retrieve tenant ID from auth.users.user_metadata or fallback to the first allowed tenant
+   SELECT user_metadata->>'current_tenant_id' INTO current_tenant_id;
+
+   -- Check if current_tenant_id is not in allowed_tenants and set the first available one
+   IF current_tenant_id IS NULL OR current_tenant_id NOT IN (SELECT (value->>'id')::UUID FROM jsonb_array_elements(allowed_tenants)) THEN
+      SELECT (value->>'id')::UUID
+      INTO current_tenant_id
+      FROM jsonb_array_elements(allowed_tenants)
+      LIMIT 1;
+   END IF;
+
+    -- Set the 'current_tenant_id' in the 'app_metadata' field
+    IF current_tenant_id IS NOT NULL THEN
+        claims := jsonb_set(claims, '{app_metadata,current_tenant_id}', to_jsonb(current_tenant_id), true);
     END IF;
 
     -- Add user's roles to the token
@@ -363,7 +388,7 @@ BEGIN
     WHERE ur.user_id = u_id;
 
     IF roles IS NOT NULL THEN
-        claims := jsonb_set(claims, '{app_metadata,roles}', to_jsonb(roles));
+        claims := jsonb_set(claims, '{app_metadata,roles}', to_jsonb(roles), true);
     END IF;
 
     -- Add user's permissions to the token
@@ -375,32 +400,17 @@ BEGIN
     )
     INTO permissions
     FROM public.user_roles ur
+    JOIN public.roles r ON r.id = ur.role_id
     JOIN public.role_permissions rp ON rp.role_id = ur.role_id
     JOIN public.permissions p ON p.id = rp.permission_id
-    WHERE ur.user_id = u_id;
+    WHERE ur.user_id = u_id AND r.tenant_id = current_tenant_id;
 
     IF permissions IS NOT NULL THEN
-        claims := jsonb_set(claims, '{app_metadata,permissions}', permissions);
+        claims := jsonb_set(claims, '{app_metadata,permissions}', permissions, true);
     END IF;
 
-    -- Add user's tenants to the token
-      SELECT JSONB_AGG(
-        JSONB_BUILD_OBJECT(
-            'id', tenant.id
-          , 'display_name', tenant.display_name
-        )
-      )
-      INTO allowed_tenants
-      FROM public.tenants_users tu
-      JOIN public.tenants tenant ON tenant.id = tu.tenant_id
-      WHERE tu.user_id = u_id;
-
-      IF allowed_tenants IS NOT NULL THEN
-        claims := jsonb_set(claims, '{app_metadata,allowed_tenants}', to_jsonb(allowed_tenants), true);
-      END IF;
-
     -- Update the 'claims' field in the token
-    e := jsonb_set(e, '{claims}', claims);
+    e := jsonb_set(e, '{claims}', claims, true);
 
     RETURN e;
 END;

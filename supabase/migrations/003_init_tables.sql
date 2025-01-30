@@ -2,12 +2,13 @@
 CREATE TABLE IF NOT EXISTS
    public.tenants (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid ()
-    , display_name TEXT NOT NULL UNIQUE
+    , display_name TEXT NOT NULL
     , phone TEXT UNIQUE
     , email TEXT UNIQUE
     , created_at TIMESTAMP DEFAULT NOW()
     , updated_at TIMESTAMP
     , parent_id UUID REFERENCES public.tenants (id) ON DELETE CASCADE
+    , CONSTRAINT unique_tenant_display_name UNIQUE (id, display_name)
    );
 
 -- Users
@@ -22,13 +23,13 @@ CREATE TABLE IF NOT EXISTS
     , updated_at TIMESTAMP
    );
 
--- Users table indexes
 -- Tenant Users
 CREATE TABLE IF NOT EXISTS
    public.tenants_users (
       id UUID UNIQUE DEFAULT gen_random_uuid ()
     , tenant_id UUID NOT NULL REFERENCES public.tenants (id) ON DELETE CASCADE
     , user_id UUID NOT NULL REFERENCES public.users (id) ON DELETE CASCADE
+    , created_at TIMESTAMP DEFAULT NOW()
     , PRIMARY KEY (tenant_id, user_id)
    );
 
@@ -66,6 +67,7 @@ CREATE TABLE IF NOT EXISTS
     , description TEXT
     , error_message TEXT
     , throws_error BOOLEAN DEFAULT FALSE
+    , bypass BOOLEAN DEFAULT FALSE
     , created_at TIMESTAMP DEFAULT NOW()
     , updated_at TIMESTAMP
    );
@@ -79,6 +81,7 @@ CREATE TABLE IF NOT EXISTS
     , updated_at TIMESTAMP
     , is_default BOOLEAN DEFAULT FALSE
     , tenant_id UUID NOT NULL REFERENCES public.tenants (id) ON DELETE CASCADE
+    , CONSTRAINT unique_role_display_name UNIQUE (tenant_id, display_name)
    );
 
 -- Permissions
@@ -86,6 +89,7 @@ CREATE TABLE IF NOT EXISTS
    public.role_permissions (
       role_id UUID NOT NULL REFERENCES public.roles (id) ON DELETE CASCADE
     , permission_id UUID NOT NULL REFERENCES public.permissions (id) ON DELETE CASCADE
+    , created_at TIMESTAMP DEFAULT NOW()
     , PRIMARY KEY (permission_id, role_id)
    );
 

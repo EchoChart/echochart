@@ -36,17 +36,10 @@ FROM
    resource_groups
    CROSS JOIN commands;
 
+-- Consolidated INSERT INTO public.tenants
 INSERT INTO
    public.tenants (display_name)
 VALUES
-   ('bade-gop');
-
-INSERT INTO
-   public.tenants (display_name)
-VALUES
-   ('bade-gop-sarigol');
-
-INSERT INTO
-   public.tenants (display_name)
-VALUES
-   ('bade-avcilar');
+   ('bade-gop')
+ , ('bade-gop-sarigol')
+ , ('bade-avcilar');
