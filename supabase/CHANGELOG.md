@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.2.0-alpha.1...echochart-supabase-v0.2.1-alpha.1) (2025-01-30)
+
+
+### Performance Improvements
+
+* permissons are cached. RLS performance improved ([21e28ad](https://github.com/EchoChart/echochart/commit/21e28adb21c22bd1297bde1ff534532127f9dd49))
+
 ## [0.2.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.1.0-alpha.1...echochart-supabase-v0.2.0-alpha.1) (2025-01-24)
 
 
