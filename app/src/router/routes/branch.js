@@ -12,10 +12,12 @@ export default [
          index: 0,
          icon: PrimeIcons.BUILDING,
          requiresAuth: true,
-         visible: computed(() => {
-            const { isSignedIn } = storeToRefs(useAuthStore());
-            return isSignedIn?.value;
-         })
+         requiredPermissions: [
+            {
+               action: 'select',
+               subject: 'tenants'
+            }
+         ]
       },
       name: 'branch',
       redirect: { name: 'branch-roles' },
@@ -23,7 +25,13 @@ export default [
          {
             path: 'roles',
             meta: {
-               icon: PrimeIcons.LOCK
+               icon: PrimeIcons.LOCK,
+               requiredPermissions: [
+                  {
+                     action: 'select',
+                     subject: 'roles'
+                  }
+               ]
             },
             name: 'branch-roles',
             component: CustomRouteView,
@@ -45,7 +53,14 @@ export default [
                   path: 'add',
                   name: 'branch-roles-add',
                   meta: {
-                     icon: PrimeIcons.PLUS
+                     icon: PrimeIcons.PLUS,
+                     requiredPermissions: [
+                        {
+                           action: 'select',
+                           subject: 'role_permissions'
+                        },
+                        { action: 'insert', subject: 'roles' }
+                     ]
                   },
                   components: {
                      default: () => import('@/views/pages/branch/roles/Upsert.vue'),
@@ -59,11 +74,6 @@ export default [
                   meta: {
                      icon: PrimeIcons.PENCIL,
                      visible: false
-                  },
-                  beforeEnter(to) {
-                     const id = to.params?.id;
-                     if (_isString(id) && !_isEmpty(id)) return true;
-                     router.replace({ name: 'branch-roles-add' });
                   },
                   components: {
                      default: () => import('@/views/pages/branch/roles/Upsert.vue'),

@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+const dialogRef = inject('dialogRef', null);
+</script>
 
 <template>
    <div class="min-h-full flex flex-col items-center justify-center">
@@ -23,7 +25,12 @@
                >
                <img src="/demo/images/access/asset-access.svg" alt="Access denied" width="80%" />
                <div class="col-span-12 text-center">
-                  <Button as="router-link" label="Go to Dashboard" to="/" severity="warn" />
+                  <Button v-if="dialogRef" :label="$t('close')" @click="dialogRef?.close" />
+                  <CustomLink v-else :to="{ name: 'dashboard' }">
+                     <template #default="{ navigate }">
+                        <Button :label="$t('go_to_dashboard')" @click="() => navigate()" />
+                     </template>
+                  </CustomLink>
                </div>
             </div>
          </div>

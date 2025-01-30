@@ -81,28 +81,28 @@ export const dialogBeforeEach = async (to, from, next) => {
 
       await authStore.initialized;
 
+      const tenantId = currentTenant.value?.id;
+
       const unwatch = watch(
-         () => isSignedIn.value,
-         (value) => {
-            if (!value) return dialog?.close?.();
-            dialog = dialogs.open(dialogComponent, dialogOptions);
+         () => [currentTenant.value?.id, isSignedIn.value],
+         ([newTenantId, signedIn]) => {
+            if (!signedIn) return dialog?.close?.();
+            if (newTenantId !== tenantId) return dialog?.close?.();
+            dialog ??= dialogs.open(dialogComponent, dialogOptions);
          }
       );
 
-      const terminate = watch(
-         () => currentTenant.value?.id,
-         () => {
-            dialog?.close?.();
-            unwatch?.();
-         },
-         { once: true }
-      );
-
       _set(dialogOptions, 'data.unwatch', unwatch);
+      _set(dialogOptions, 'props.closeButtonProps', {
+         onclick: unwatch,
+         severity: 'secondary',
+         rounded: true
+      });
 
       dialogOptions.onClose = (options) => {
-         terminate?.();
-         if (options.type === 'dialog-close') unwatch?.();
+         dialog = null;
+         if (options.type !== 'dialog-close') return;
+         unwatch?.();
       };
    }
 

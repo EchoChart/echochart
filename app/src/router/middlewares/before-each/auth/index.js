@@ -1,20 +1,34 @@
+import { CustomAuthError } from '@supabase/supabase-js';
+
 export const authBeforeEach = async (to, from, next) => {
-   if (!to.meta.requiresAuth) {
-      return next();
-   }
+   const authStore = useAuthStore();
+   const { meta, query } = to;
 
-   try {
-      const authStore = useAuthStore();
-
+   if (meta?.requiresAuth) {
       await authStore.initialized;
 
       const { error } = await supabase.auth.refreshSession();
 
-      if (error) throw Error(error);
-
-      next();
-   } catch (error) {
-      supabase.auth.signOut();
-      next({ name: 'login' });
+      if (error) {
+         error.status = 401;
+         throw error;
+      }
    }
+
+   if (meta?.requiredPermissions) {
+      const {
+         ability: { cannot }
+      } = authStore;
+      const youShallNotPASS = meta?.requiredPermissions?.some?.(({ action, subject }) =>
+         cannot?.(action, subject)
+      );
+      if (youShallNotPASS) {
+         throw new CustomAuthError(
+            i18n.t('invalid_permissions'),
+            'AuthInvalidCredentialsError',
+            403
+         );
+      }
+   }
+   next();
 };

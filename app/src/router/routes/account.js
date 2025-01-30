@@ -14,10 +14,10 @@ export default [
          icon: PrimeIcons.ID_CARD,
          layout: 'dashboard',
          requiresAuth: true,
-         visible: computed(() => {
+         visible: () => {
             const { isSignedIn } = storeToRefs(useAuthStore());
             return isSignedIn?.value;
-         })
+         }
       },
       // redirect: {
       //     name: 'account-profile'

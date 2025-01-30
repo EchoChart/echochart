@@ -269,6 +269,10 @@ export default () => {
 
    const getSurfaceColor = computed(() => colors[layoutState.surface]);
 
+   const {
+      ability: { can }
+   } = useAuthStore();
+
    const routes = computed(() => {
       function routesToNestedObject(routes) {
          const root = {};
@@ -293,9 +297,12 @@ export default () => {
                .map(([key, { items, route }], i) => {
                   const { meta } = route;
                   const currentKey = parentKey ? `${parentKey}_${i + 1}` : `${i}`;
-                  let visible = isRef(meta.visible) ? meta?.visible?.value : meta?.visible;
                   const index = meta.index || ++lastIndex;
 
+                  let visible = meta?.visible;
+                  visible ??= meta?.requiredPermissions?.every?.(({ action, subject }) =>
+                     can?.(action, subject)
+                  );
                   visible ??= isVisible;
 
                   return {

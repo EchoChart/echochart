@@ -1,4 +1,5 @@
 import { UserModel } from '@/services/models/UserModel';
+import { ABILITY_TOKEN } from '@casl/vue';
 import Collection from '@lib/Collection';
 import { jwtDecode } from 'jwt-decode';
 import { useToast } from 'primevue/usetoast';
@@ -10,36 +11,57 @@ export const useAuthStore = defineStore('auth', () => {
    const toast = useToast();
    const router = useRouter();
    const route = useRoute();
-   const user = shallowRef(new UserModel());
-   const isSignedIn = computed(() => !!user?.value?.id);
+   const user = new UserModel();
+   const isSignedIn = computed(() => !!user?.id);
    const currentTenant = new Collection({
       id: null,
       display_name: _get(window.location.href.match(tenantURLRegex), 'groups.tenant', null)
    });
    const branches = new Collection([]);
+   const ability = inject(ABILITY_TOKEN);
 
-   function setUser(userData = null) {
-      if (!_isNil(userData)) {
-         if (_isNil(user.value)) {
-            user.value = new UserModel(userData);
-            return;
-         }
-         user.value._merge(userData);
-         user.value._setDefaults(user.value.toObject);
-         return;
-      }
-      user.value = null;
-   }
+   function setBranches() {
+      if (!session.access_token) return branches._reset();
 
-   function fetchBranches() {
-      if (!session.access_token) return;
-      const tenants = jwtDecode(session.access_token)?.app_metadata?.allowed_tenants || [];
+      const jwt = jwtDecode(session.access_token);
+      const tenants = jwt?.app_metadata?.allowed_tenants || [];
+
       if (_isNil(tenants) || tenants.length <= 0) {
          return;
       }
       branches._reset(tenants);
-      if (!tenants.some(({ id }) => id === currentTenant?.id)) currentTenant._set(tenants[0]);
+
+      const tenant = tenants.find(
+         ({ display_name }) => display_name === currentTenant?.display_name
+      );
+
+      if (tenant) currentTenant?._set(tenant);
+      else currentTenant?._set(tenants[0]);
    }
+
+   function setPermissions() {
+      if (!session?.access_token) return;
+      const permissions = jwtDecode(session?.access_token)?.app_metadata?.permissions || [];
+      ability.update(
+         permissions.map(({ command, resource_name }) => ({
+            action: command,
+            subject: resource_name?.replace?.('public.', '')
+         }))
+      );
+   }
+
+   watch(
+      () => currentTenant?.id,
+      async (value) => {
+         if (_isNil(value)) return;
+         await supabase.auth.updateUser({
+            data: {
+               current_tenant_id: value
+            }
+         });
+         await supabase.auth.refreshSession();
+      }
+   );
 
    router.isReady().then(() => {
       watch(
@@ -60,11 +82,6 @@ export const useAuthStore = defineStore('auth', () => {
             }
          }
       );
-
-      watch(
-         () => currentTenant?.id,
-         () => supabase.auth.refreshSession()
-      );
    });
 
    const initialized = new Promise((resolve) => {
@@ -73,7 +90,7 @@ export const useAuthStore = defineStore('auth', () => {
             if (event === 'SIGNED_OUT' && !isSignedIn.value) {
                return;
             }
-            const userToGreet = event === 'SIGNED_IN' ? newSession.user : user.value;
+            const userToGreet = event === 'SIGNED_IN' ? newSession.user : user;
             const summary = i18n.t(`${event === 'SIGNED_IN' ? 'welcome' : 'goodby'}`, {
                name: userToGreet?.display_name || userToGreet?.email
             });
@@ -84,14 +101,14 @@ export const useAuthStore = defineStore('auth', () => {
                severity
             });
          }
-         session._setDefaults(newSession)._reset();
-         setUser(newSession?.user || null);
+         session._reset(newSession);
+         user._reset(newSession?.user);
 
-         branches._reset();
-         fetchBranches();
+         setBranches();
+         setPermissions();
 
          if (event === 'INITIAL_SESSION') {
-            resolve(event, newSession);
+            resolve({ event, newSession });
          } else if (event === 'SIGNED_IN') {
             //
          } else if (event === 'SIGNED_OUT') {
@@ -124,6 +141,7 @@ export const useAuthStore = defineStore('auth', () => {
       user,
       isSignedIn,
       initialized,
+      ability,
       loginWithPassword,
       logout
    };

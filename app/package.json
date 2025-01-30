@@ -13,6 +13,8 @@
       "commit": "cz"
    },
    "dependencies": {
+      "@casl/ability": "^6.7.3",
+      "@casl/vue": "^2.2.2",
       "@primevue/core": "^4.2.1",
       "@primevue/themes": "^4.2.1",
       "@supabase/supabase-js": "^2.46.2",

@@ -17,6 +17,8 @@ import Ripple from 'primevue/ripple';
 import Tooltip from 'primevue/tooltip';
 import router from './router';
 import { FunctionsHttpError } from '@supabase/supabase-js';
+import { defineAbility } from '@casl/ability';
+import { abilitiesPlugin } from '@casl/vue';
 
 export const app = createApp(App);
 
@@ -54,6 +56,14 @@ router.onError((error, to, from) => {
       }
    }
 });
+
+app.use(
+   abilitiesPlugin,
+   defineAbility(() => {}),
+   {
+      useGlobalProperties: true
+   }
+);
 app.use(createPinia());
 app.use(i18NPlugin);
 app.use(PrimeVue, {
