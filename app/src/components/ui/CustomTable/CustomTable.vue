@@ -87,7 +87,7 @@ onMeta(meta.value);
       @page="(value) => onMeta(value)"
       @sort="(value) => onMeta(value)"
       v-bind="tableProps"
-      :value="tableProps?.value?.length ? tableProps?.value : new Array(tableProps?.rows)"
+      :value="tableProps?.value"
    >
       <template #expansion="slotProps">
          <span name="expansion" v-bind="{ ...slotProps, loading }" />
@@ -181,7 +181,7 @@ onMeta(meta.value);
          <template v-if="!column.expander" #body="body">
             <slot :name="`${_snakeCase(body?.field)}_body`" v-bind="body">
                <Skeleton
-                  v-if="loading && !tableProps?.value?.length"
+                  v-if="loading"
                   :height="
                      actions._data?.length > 0 && tableProps?.value?.length > 0
                         ? '2.5rem'
