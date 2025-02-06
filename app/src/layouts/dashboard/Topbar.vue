@@ -7,29 +7,29 @@ const version = import.meta.env.PACKAGE_VERSION;
 </script>
 
 <template>
-   <div class="layout-topbar-logo-container">
-      <Button
-         type="button"
-         class="layout-sidebar-button"
-         rounded
-         text
-         aria-label="Sidebar toggle button"
-         severity="secondary"
-         :icon="PrimeIcons.BARS"
-         @click="sidebarToggle"
-         v-if="isSignedIn"
-      />
-      <Teleport
-         to="#sidebar-start"
-         defer
-         :disabled="!layoutState.sidebarActive || layoutState.sidebarMode !== 'overlay'"
-      >
+   <Teleport
+      to="#sidebar-start"
+      defer
+      :disabled="!layoutState.sidebarActive || layoutState.sidebarMode !== 'overlay'"
+   >
+      <div class="layout-topbar-logo-container flex">
+         <Button
+            type="button"
+            class="layout-sidebar-button"
+            rounded
+            text
+            aria-label="Sidebar toggle button"
+            severity="secondary"
+            :icon="PrimeIcons.BARS"
+            @click="sidebarToggle"
+            v-if="isSignedIn"
+         />
          <router-link
             to="/"
             class="layout-topbar-logo flex mx-auto items-center justify-center text-[1.5rem] font-[500] gap-1"
          >
             <svg
-               class="max-w-[min(5rem,10vw)]"
+               class="!w-[clamp(2rem,10vw,4rem)]"
                viewBox="0 0 54 40"
                fill="none"
                xmlns="http://www.w3.org/2000/svg"
@@ -62,13 +62,13 @@ const version = import.meta.env.PACKAGE_VERSION;
                </g>
             </svg>
 
-            <span>
+            <span class="flex flex-col">
                EchoChart
                <span v-if="version" class="text-xs text-muted-color" v-text="`${version}`" />
             </span>
          </router-link>
-      </Teleport>
-   </div>
+      </div>
+   </Teleport>
 
    <div class="layout-topbar-actions">
       <AccountPopover v-if="isSignedIn" class="mt-auto" />

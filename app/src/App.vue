@@ -1,6 +1,4 @@
-<script setup>
-const { currentTenant } = storeToRefs(useAuthStore());
-</script>
+<script setup></script>
 
 <template>
    <Suspense>

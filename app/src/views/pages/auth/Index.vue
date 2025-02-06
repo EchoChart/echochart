@@ -1,10 +1,10 @@
 <script setup>
-const bgX = ref(`center`);
-const bgY = ref(`center`);
+const lightX = ref(`center`);
+const lightY = ref(`center`);
 
 const onMouseMove = _throttle((e) => {
-   bgX.value = `${e.x}px`;
-   bgY.value = `${e.y}px`;
+   lightX.value = `${e.x}px`;
+   lightY.value = `${e.y}px`;
 }, 30);
 </script>
 
@@ -67,8 +67,8 @@ const onMouseMove = _throttle((e) => {
 
 <style lang="scss" scoped>
 .welcome-bg {
-   --bg-x: v-bind(bgX);
-   --bg-y: v-bind(bgY);
+   --light-x: v-bind(lightX);
+   --light-y: v-bind(lightY);
    --bg-color-1: var(--p-primary-400);
    --bg-color-2: var(--p-primary-700);
    --inner-size: 1vw;
@@ -78,7 +78,7 @@ const onMouseMove = _throttle((e) => {
    background-color: white;
    opacity: 0.8;
    background-image: radial-gradient(
-         circle at var(--bg-x, center) var(--bg-y, center),
+         circle at var(--light-x, center) var(--light-y, center),
          var(--bg-color-1),
          var(--bg-color-2)
       ),

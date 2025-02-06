@@ -19,6 +19,7 @@
    "Prettier-SQL.SQLFlavourOverride": "postgresql",
    "Prettier-SQL.keywordCase": "upper",
    "Prettier-SQL.commaPosition": "before",
+   "Prettier-SQL.expressionWidth": "100",
    "Prettier-SQL.indentStyle": "standard",
    "deno.enable": true,
    "deno.unstable": [

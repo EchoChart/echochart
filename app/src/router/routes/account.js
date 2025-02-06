@@ -19,9 +19,6 @@ export default [
             return isSignedIn?.value;
          }
       },
-      // redirect: {
-      //     name: 'account-profile'
-      // },
       components: {
          default: () => import('@/views/pages/account/Index.vue')
       },
