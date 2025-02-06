@@ -101,6 +101,7 @@ export type Database = {
       }
       permissions: {
         Row: {
+          bypass: boolean | null
           command: Database["public"]["Enums"]["permission_command"]
           condition: string | null
           created_at: string | null
@@ -115,6 +116,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          bypass?: boolean | null
           command: Database["public"]["Enums"]["permission_command"]
           condition?: string | null
           created_at?: string | null
@@ -129,6 +131,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          bypass?: boolean | null
           command?: Database["public"]["Enums"]["permission_command"]
           condition?: string | null
           created_at?: string | null
