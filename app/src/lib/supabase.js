@@ -85,37 +85,40 @@ const handleDelete = async (options) => {
    }
 };
 
+const handleMeta = (url, options) => {
+   const { filters, first, rows, multiSortMeta } = JSON.parse(options.headers?.get?.('meta'));
+   const filterQuery = getFilterQuery(filters);
+   if (_size(filterQuery) > 0) {
+      url += `&${filterQuery}`;
+   }
+   if (!_isNil(first)) {
+      url += `&offset=${first}`;
+   }
+   if (!_isNil(rows)) {
+      url += `&limit=${rows}`;
+   }
+
+   if (_size(multiSortMeta) > 0) {
+      const orderFilters =
+         '&order=' +
+         multiSortMeta.reduce((acc, { field, order }) => {
+            acc.push(`${field}.${order < 0 ? 'desc' : 'asc'}`);
+            return acc;
+         }, []).join`,`;
+
+      url += orderFilters;
+   }
+   options?.headers?.delete('meta');
+   return url;
+};
+
 const memo = _memoize(() => ({}));
 
 const options = {
    global: {
       fetch: async (url, options) => {
          if (options?.headers?.has?.('meta')) {
-            const { filters, first, rows, multiSortMeta } = JSON.parse(
-               options.headers?.get?.('meta')
-            );
-            const filterQuery = getFilterQuery(filters);
-            if (_size(filterQuery) > 0) {
-               url += `&${filterQuery}`;
-            }
-            if (!_isNil(first)) {
-               url += `&offset=${first}`;
-            }
-            if (!_isNil(rows)) {
-               url += `&limit=${rows}`;
-            }
-
-            if (_size(multiSortMeta) > 0) {
-               const orderFilters =
-                  '&order=' +
-                  multiSortMeta.reduce((acc, { field, order }) => {
-                     acc.push(`${field}.${order < 0 ? 'desc' : 'asc'}`);
-                     return acc;
-                  }, []).join`,`;
-
-               url += orderFilters;
-            }
-            options?.headers?.delete('meta');
+            url = handleMeta(url, options);
          }
 
          if (memo.cache.has(url)) return memo.cache.get(url);
@@ -125,6 +128,7 @@ const options = {
          }
 
          const { currentTenant } = useAuthStore();
+
          if (currentTenant?.display_name) {
             options?.headers?.set?.('x-tenant', currentTenant?.display_name);
          }
@@ -135,11 +139,16 @@ const options = {
                ...JSON.parse(options.body)
             });
 
+         const cacheTime = options?.headers?.get?.('prefer')?.startsWith?.('count')
+            ? 1000 * 10
+            : 1000;
+
          const promise = axios({
             url,
             method: options?.method,
             headers: options?.headers,
-            data: options.body ? JSON.parse(options.body) : undefined
+            data: options.body ? JSON.parse(options.body) : undefined,
+            signal: options.signal
          })
             .then((response) => ({
                ok: true,
@@ -148,23 +157,20 @@ const options = {
                text: async () => JSON.stringify(response.data),
                headers: new Headers(response.headers) // Mimic fetch-like headers
             }))
-            .catch((error) => ({
-               ok: false,
-               status: error.response?.status || 500,
-               json: async () => error.response?.data,
-               text: async () => JSON.stringify(error.response?.data),
-               headers: new Headers(error.response?.headers || {})
-            }));
+            .catch((error) => {
+               memo.cache.delete(url);
+               return {
+                  ok: false,
+                  status: error.response?.status || 500,
+                  json: async () => error.response?.data,
+                  text: async () => JSON.stringify(error.response?.data),
+                  headers: new Headers(error.response?.headers || {}),
+                  ...error
+               };
+            })
+            .finally(() => memo.cache.has(url) && _delay(() => memo.cache.delete(url), cacheTime));
 
          memo.cache.set(url, promise);
-
-         const cacheTime = options?.headers?.get?.('prefer')?.startsWith?.('count')
-            ? 1000 * 10
-            : 1000;
-
-         promise.finally(
-            () => memo.cache.has(url) && _delay(() => memo.cache.delete(url), cacheTime)
-         );
 
          return promise;
       }
