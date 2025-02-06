@@ -7,61 +7,115 @@ import { useToast } from 'primevue/usetoast';
 const tenantURLRegex = /^(?:https?:\/\/)?(?<tenant>(?!\d+\.\d+\.\d+\.\d+)[a-zA-Z0-9-]+)\./;
 
 export const useAuthStore = defineStore('auth', () => {
-   const session = new Collection();
+   function useCurrentTenant() {
+      const currentTenant = new Collection({
+         id: null,
+         display_name: _get(window.location.href.match(tenantURLRegex), 'groups.tenant', null)
+      });
+
+      function setCurrentTenant(tenant) {
+         const current_tenant_id = jwt.value?.user_metadata?.current_tenant_id;
+
+         if (branches.value.length <= 0) return;
+
+         tenant ??= branches.value.find(
+            ({ display_name }) => display_name === currentTenant.display_name
+         );
+         tenant ??= branches.value.find(({ id }) => id === current_tenant_id);
+
+         currentTenant?._set(tenant || branches.value[0]);
+      }
+
+      async function changeCurrentTenant(tenant = currentTenant) {
+         const current_tenant_id = jwt.value?.user_metadata?.current_tenant_id;
+         if (current_tenant_id === tenant.id) return;
+
+         setCurrentTenant(tenant);
+
+         await Promise.all([
+            supabase.auth.updateUser({
+               data: {
+                  current_tenant_id: tenant.id
+               }
+            }),
+            supabase.auth.refreshSession()
+         ]);
+      }
+
+      return { currentTenant, setCurrentTenant, changeCurrentTenant };
+   }
+
+   function useAbility() {
+      const ability = inject(ABILITY_TOKEN);
+
+      watch(
+         () => jwt.value?.app_metadata?.permissions,
+         (newPermissions = []) => {
+            ability.update(
+               newPermissions.map(({ command, resource_name }) => ({
+                  action: command,
+                  subject: resource_name?.replace?.('public.', '')
+               }))
+            );
+         },
+         { immediate: true, deep: true }
+      );
+
+      return { ability };
+   }
+
    const toast = useToast();
    const router = useRouter();
    const route = useRoute();
+
+   const session = new Collection();
+   const jwt = computed(() => {
+      return session?.access_token ? jwtDecode(session?.access_token) : null;
+   });
    const user = new UserModel();
    const isSignedIn = computed(() => !!user?.id);
-   const currentTenant = new Collection({
-      id: null,
-      display_name: _get(window.location.href.match(tenantURLRegex), 'groups.tenant', null)
-   });
-   const branches = new Collection([]);
-   const ability = inject(ABILITY_TOKEN);
+   const branches = computed(() => new Collection(jwt?.value?.app_metadata?.allowed_tenants || []));
+   const { currentTenant, setCurrentTenant, changeCurrentTenant } = useCurrentTenant();
+   const { ability } = useAbility();
 
-   function setBranches() {
-      if (!session.access_token) return branches._reset();
-
-      const jwt = jwtDecode(session.access_token);
-      const tenants = jwt?.app_metadata?.allowed_tenants || [];
-
-      if (_isNil(tenants) || tenants.length <= 0) {
-         return;
-      }
-      branches._reset(tenants);
-
-      const tenant = tenants.find(
-         ({ display_name }) => display_name === currentTenant?.display_name
-      );
-
-      if (tenant) currentTenant?._set(tenant);
-      else currentTenant?._set(tenants[0]);
-   }
-
-   function setPermissions() {
-      if (!session?.access_token) return;
-      const permissions = jwtDecode(session?.access_token)?.app_metadata?.permissions || [];
-      ability.update(
-         permissions.map(({ command, resource_name }) => ({
-            action: command,
-            subject: resource_name?.replace?.('public.', '')
-         }))
-      );
-   }
-
-   watch(
-      () => currentTenant?.id,
-      async (value) => {
-         if (_isNil(value)) return;
-         await supabase.auth.updateUser({
-            data: {
-               current_tenant_id: value
+   const initialized = new Promise((resolve) => {
+      supabase.auth.onAuthStateChange(async (event, newSession) => {
+         if (['SIGNED_IN', 'SIGNED_OUT'].includes(event)) {
+            if (event === 'SIGNED_OUT' && !isSignedIn.value) {
+               return;
             }
-         });
-         await supabase.auth.refreshSession();
-      }
-   );
+            const userToGreet = event === 'SIGNED_IN' ? newSession.user : user;
+            const summary = i18n.t(`${event === 'SIGNED_IN' ? 'welcome' : 'goodby'}`, {
+               name: userToGreet?.display_name || userToGreet?.email
+            });
+            const severity = event === 'SIGNED_IN' ? ToastSeverity.SUCCESS : ToastSeverity.INFO;
+            toast.add({
+               life: 3000,
+               summary,
+               severity
+            });
+         }
+         session._reset(newSession);
+         user._reset(newSession?.user);
+
+         setCurrentTenant();
+         changeCurrentTenant(currentTenant);
+
+         if (event === 'INITIAL_SESSION') {
+            resolve({ event, newSession });
+         } else if (event === 'SIGNED_IN') {
+            //
+         } else if (event === 'SIGNED_OUT') {
+            //
+         } else if (event === 'PASSWORD_RECOVERY') {
+            //
+         } else if (event === 'TOKEN_REFRESHED') {
+            //
+         } else if (event === 'USER_UPDATED') {
+            //
+         }
+      });
+   });
 
    router.isReady().then(() => {
       watch(
@@ -84,45 +138,6 @@ export const useAuthStore = defineStore('auth', () => {
       );
    });
 
-   const initialized = new Promise((resolve) => {
-      supabase.auth.onAuthStateChange(async (event, newSession) => {
-         if (['SIGNED_IN', 'SIGNED_OUT'].includes(event)) {
-            if (event === 'SIGNED_OUT' && !isSignedIn.value) {
-               return;
-            }
-            const userToGreet = event === 'SIGNED_IN' ? newSession.user : user;
-            const summary = i18n.t(`${event === 'SIGNED_IN' ? 'welcome' : 'goodby'}`, {
-               name: userToGreet?.display_name || userToGreet?.email
-            });
-            const severity = event === 'SIGNED_IN' ? ToastSeverity.SUCCESS : ToastSeverity.INFO;
-            toast.add({
-               life: 3000,
-               summary,
-               severity
-            });
-         }
-         session._reset(newSession);
-         user._reset(newSession?.user);
-
-         setBranches();
-         setPermissions();
-
-         if (event === 'INITIAL_SESSION') {
-            resolve({ event, newSession });
-         } else if (event === 'SIGNED_IN') {
-            //
-         } else if (event === 'SIGNED_OUT') {
-            //
-         } else if (event === 'PASSWORD_RECOVERY') {
-            //
-         } else if (event === 'TOKEN_REFRESHED') {
-            //
-         } else if (event === 'USER_UPDATED') {
-            //
-         }
-      });
-   });
-
    const loginWithPassword = async (loginData) => {
       const { data, error } = await supabase.auth.signInWithPassword(loginData);
       if (error) throw error;
@@ -137,6 +152,7 @@ export const useAuthStore = defineStore('auth', () => {
    return {
       session,
       currentTenant,
+      changeCurrentTenant,
       branches,
       user,
       isSignedIn,
