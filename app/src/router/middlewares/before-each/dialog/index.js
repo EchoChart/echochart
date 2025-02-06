@@ -85,9 +85,10 @@ export const dialogBeforeEach = async (to, from, next) => {
 
       const unwatch = watch(
          () => [currentTenant.value?.id, isSignedIn.value],
-         ([newTenantId, signedIn]) => {
+         async ([newTenantId, signedIn]) => {
             if (!signedIn) return dialog?.close?.();
-            if (newTenantId !== tenantId) return dialog?.close?.();
+            if (newTenantId !== tenantId && !_isNil(to.meta.requiredPermissions))
+               return dialog?.close?.();
             dialog ??= dialogs.open(dialogComponent, dialogOptions);
          }
       );
