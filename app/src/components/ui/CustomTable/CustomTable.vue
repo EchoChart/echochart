@@ -87,19 +87,20 @@ onMeta(meta.value);
       @page="(value) => onMeta(value)"
       @sort="(value) => onMeta(value)"
       v-bind="tableProps"
-      :value="tableProps?.value"
+      :value="
+         tableProps?.value?.length > 0 || !loading ? tableProps?.value : new Array(tableProps?.rows)
+      "
    >
       <template #expansion="slotProps">
          <span name="expansion" v-bind="{ ...slotProps, loading }" />
       </template>
       <template #empty> <span v-text="$t('no_data_found')" /> </template>
       <Column
-         v-if="$slots.expansion"
+         v-if="$slots.expansion && tableProps?.value?.length"
          field="_expansion"
          :reorderableColumn="false"
          expander
-         headerStyle="width: 3rem"
-         style="width: 5rem !important"
+         style="width: 3rem !important"
       />
       <Column
          v-for="(column, i) in tableProps?.columns"
@@ -181,7 +182,7 @@ onMeta(meta.value);
          <template v-if="!column.expander" #body="body">
             <slot :name="`${_snakeCase(body?.field)}_body`" v-bind="body">
                <Skeleton
-                  v-if="loading"
+                  v-if="loading && !_has(body?.data, body.field)"
                   :height="
                      actions._data?.length > 0 && tableProps?.value?.length > 0
                         ? '2.5rem'
@@ -224,6 +225,6 @@ onMeta(meta.value);
 </template>
 <style lang="scss">
 .p-datatable-mask.p-overlay-mask {
-   background-color: rgba($color: #000, $alpha: 0.2);
+   background-color: rgba($color: #aaa, $alpha: 0.1);
 }
 </style>
