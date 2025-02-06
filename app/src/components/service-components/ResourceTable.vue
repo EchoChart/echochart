@@ -1,6 +1,7 @@
 <script setup>
 import Collection from '@/lib/Collection';
-const { currentTenant } = storeToRefs(useAuthStore());
+const authStore = useAuthStore();
+const { currentTenant } = storeToRefs(authStore);
 
 defineOptions({
    inheritAttrs: false
@@ -42,13 +43,13 @@ const totalRecords = ref(0);
 const routeLoading = inject('routeLoading', false);
 const loading = ref(routeLoading.value);
 
-let abort = new AbortController();
+let ac = new AbortController();
 
 async function getValues(metaObj) {
    if (loading.value) return;
    try {
-      abort?.abort?.();
-      abort = new AbortController();
+      ac?.abort?.();
+      ac = new AbortController();
 
       meta._reset(metaObj);
 
@@ -57,7 +58,7 @@ async function getValues(metaObj) {
       const req = supabase
          .from(props.from)
          .select(props.select)
-         .abortSignal(abort.signal)
+         .abortSignal(ac.signal)
          .throwOnError();
 
       !_isEmpty(meta._data) && req.setHeader?.('meta', JSON.stringify(meta._data));
@@ -67,7 +68,7 @@ async function getValues(metaObj) {
          const countReq = supabase
             .from(props.from)
             .select?.(props.select, props.count)
-            .abortSignal?.(abort.signal)
+            .abortSignal?.(ac.signal)
             .eq?.('tenant_id', currentTenant.value.id);
 
          !_isEmpty(meta._data) &&
@@ -85,7 +86,10 @@ async function getValues(metaObj) {
 
 const updateCallback = () => getValues(meta._data);
 onMounted(() => emitter.on(`${props.from}-update`, updateCallback));
-onUnmounted(() => emitter.off(`${props.from}-update`, updateCallback));
+onBeforeUnmount(() => {
+   emitter.off(`${props.from}-update`, updateCallback);
+   ac.abort?.();
+});
 
 const tableProps = computed(() => ({
    totalRecords: totalRecords.value,
