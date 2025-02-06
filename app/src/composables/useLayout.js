@@ -298,12 +298,17 @@ export default () => {
                   const { meta } = route;
                   const currentKey = parentKey ? `${parentKey}_${i + 1}` : `${i}`;
                   const index = meta.index || ++lastIndex;
-
                   let visible = meta?.visible;
-                  visible ??= meta?.requiredPermissions?.every?.(({ action, subject }) =>
-                     can?.(action, subject)
+
+                  const children = toNestedArray(items, currentKey, visible || true, index).filter(
+                     (c) => c.visible
                   );
-                  visible ??= isVisible;
+                  if (meta?.requiredPermissions)
+                     visible ??= meta?.requiredPermissions?.every?.(({ action, subject }) =>
+                        can?.(action, subject)
+                     );
+
+                  visible ??= children.length > 0 ? true : isVisible;
 
                   return {
                      key: currentKey,
@@ -312,8 +317,8 @@ export default () => {
                      visible,
                      route: { ...route, replace: meta?.replace },
                      index,
-                     ...(_size(items) > 0 && {
-                        items: toNestedArray(items, currentKey, visible, index)
+                     ...(_size(children) > 0 && {
+                        items: children
                      })
                   };
                })
