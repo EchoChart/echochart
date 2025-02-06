@@ -11,13 +11,7 @@ export default [
       meta: {
          index: 0,
          icon: PrimeIcons.BUILDING,
-         requiresAuth: true,
-         requiredPermissions: [
-            {
-               action: 'select',
-               subject: 'tenants'
-            }
-         ]
+         requiresAuth: true
       },
       name: 'branch',
       redirect: { name: 'branch-roles' },
@@ -42,6 +36,17 @@ export default [
                   name: 'branch-roles-list',
                   meta: {
                      index: -1,
+                     // visible: false,
+                     requiredPermissions: [
+                        {
+                           action: 'select',
+                           subject: 'roles'
+                        },
+                        {
+                           action: 'select',
+                           subject: 'role_permissions'
+                        }
+                     ],
                      icon: PrimeIcons.LIST
                   },
                   components: {
@@ -54,12 +59,16 @@ export default [
                   name: 'branch-roles-add',
                   meta: {
                      icon: PrimeIcons.PLUS,
+                     // visible: false,
                      requiredPermissions: [
                         {
-                           action: 'select',
-                           subject: 'role_permissions'
+                           action: 'create',
+                           subject: 'roles'
                         },
-                        { action: 'insert', subject: 'roles' }
+                        {
+                           action: 'create',
+                           subject: 'role_permissions'
+                        }
                      ]
                   },
                   components: {
@@ -73,7 +82,17 @@ export default [
                   props: true,
                   meta: {
                      icon: PrimeIcons.PENCIL,
-                     visible: false
+                     visible: false,
+                     requiredPermissions: [
+                        {
+                           action: 'modify',
+                           subject: 'roles'
+                        },
+                        {
+                           action: 'modify',
+                           subject: 'role_permissions'
+                        }
+                     ]
                   },
                   components: {
                      default: () => import('@/views/pages/branch/roles/Upsert.vue'),
