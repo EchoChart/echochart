@@ -1,6 +1,9 @@
 <script setup>
-const { user } = storeToRefs(useAuthStore());
 const accountMenu = ref();
+
+const authStore = useAuthStore();
+const { changeCurrentTenant } = authStore;
+const { user, branches, currentTenant } = storeToRefs(authStore);
 
 const { routes } = useLayout();
 const accountMenuItems = computed(() => {
@@ -29,6 +32,18 @@ const accountMenuItems = computed(() => {
                <Chip :label="user.display_name" :image="user.avatar_url" />
                <small v-text="user.email" />
             </div>
+            <span class="empty:hidden p-4" id="sidebar-end">
+               <Select
+                  v-if="branches?.length > 0"
+                  fluid=""
+                  size="small"
+                  :label="$t('branch')"
+                  :model-value="currentTenant._data"
+                  @change="(e) => changeCurrentTenant(e.value)"
+                  optionLabel="display_name"
+                  :options="branches._data"
+               />
+            </span>
          </template>
 
          <template #item="{ item, props, hasSubmenu }">
