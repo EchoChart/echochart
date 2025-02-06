@@ -27,10 +27,10 @@ export default class Collection {
 
       const proxy = new Proxy(this, {
          /**
-          * Retrieve all keys from the target object.
+          * Retrieve all keys from the target's state object.
           */
          ownKeys(target) {
-            return Reflect.ownKeys(target).concat(_keys(target._state.value));
+            return _keys(target._state.value);
          },
          /**
           * Check if a key exists in the target or its state.
