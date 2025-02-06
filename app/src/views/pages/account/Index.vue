@@ -1,4 +1,11 @@
 <script setup>
+const router = useRouter();
+onBeforeRouteUpdate?.(async (to) => {
+   if (!to?.query?.showDialog && to.name == 'account') {
+      return await router.replace({ name: 'account-profile' });
+   }
+});
+
 const { routes, breakpoints } = useLayout();
 const tabs = computed(() => routes.value.find((item) => item.route?.name == 'account')?.items);
 const dialogRef = inject('dialogRef', null);
