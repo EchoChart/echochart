@@ -106,4 +106,18 @@ beforeEachMiddlewares.forEach((middleware) => {
    router.beforeEach(middleware);
 });
 
+router.onError((error, to, from) => {
+   switch (error.status) {
+      case 401:
+         supabase.auth.signOut();
+         router.replace({ name: 'login' });
+         break;
+      case 403: {
+         to.name = 'access-denied';
+         router.push(to);
+         break;
+      }
+   }
+});
+
 export default router;
