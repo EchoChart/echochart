@@ -61,7 +61,7 @@ const dialogRef = inject('dialogRef', null);
 
 const tableProps = computed(() => ({
    from: 'roles',
-   select: '*, permissions(*)',
+   select: '*, permissions(id, kind, group_name)',
    columns: columns,
    rowActions: rowActions._data,
    ...attrs
@@ -71,18 +71,18 @@ const tableProps = computed(() => ({
    <div class="card">
       <ResourceTable v-bind="tableProps" :mapClass="Collection">
          <template #header>
-            <Teleport to="#page-toolbar" defer :disabled="dialogRef">
+            <Teleport v-if="$can('create', 'roles')" to="#page-toolbar" defer :disabled="dialogRef">
                <div class="flex items-center justify-end gap-4">
                   <CustomLink :to="{ name: 'branch-roles-add' }">
                      <template #default="{ navigate }">
-                        <Button :label="$t('add')" @click="() => navigate()" />
+                        <Button variant="outlined" :label="$t('add')" @click="navigate" />
                      </template>
                   </CustomLink>
                </div>
             </Teleport>
          </template>
          <template #expansion="{ data }">
-            <Upsert :id="data?.id" />
+            <Upsert :data="data" />
          </template>
       </ResourceTable>
    </div>
