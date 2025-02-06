@@ -2,7 +2,7 @@ import { CustomAuthError } from '@supabase/supabase-js';
 
 export const authBeforeEach = async (to, from, next) => {
    const authStore = useAuthStore();
-   const { meta, query } = to;
+   const { meta } = to;
 
    if (meta?.requiresAuth) {
       await authStore.initialized;
@@ -24,7 +24,7 @@ export const authBeforeEach = async (to, from, next) => {
       );
       if (youShallNotPASS) {
          throw new CustomAuthError(
-            i18n.t('invalid_permissions'),
+            i18n.t('insufficient_permissions'),
             'AuthInvalidCredentialsError',
             403
          );
