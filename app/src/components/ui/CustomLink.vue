@@ -61,6 +61,7 @@ const itemClick = (item) => {
          @click.prevent="() => itemClick(route)"
          @contextmenu="(e) => contextMenu.show(e)"
          :disabled="routeLoading"
+         class="!cursor-alias [&>*]:!cursor-alias"
       >
          <slot v-bind="{ href, navigate, isExactActive, isActive, route }" />
       </a>
