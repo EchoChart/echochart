@@ -1,6 +1,6 @@
 <script setup>
 const { layoutState } = useLayout();
-const { branches, currentTenant } = storeToRefs(useAuthStore());
+const { currentTenant } = storeToRefs(useAuthStore());
 
 const containerClass = computed(() => {
    return {
@@ -34,27 +34,12 @@ const containerClass = computed(() => {
                leave-active-class="animate-fadeoutleft animate-ease-in animate-duration-[calc(var(--transition-duration))]"
                mode="out-in"
             >
-               <!-- <span v-if="Component" > -->
                <aside v-if="Component" class="layout-sidebar" :key="currentTenant?.display_name">
                   <span class="empty:hidden p-4" id="sidebar-start" />
                   <Suspense>
                      <component :is="Component" />
                   </Suspense>
-                  <span class="empty:hidden p-4" id="sidebar-end">
-                     <Select
-                        v-if="branches?.length > 0"
-                        fluid=""
-                        size="small"
-                        :label="$t('branch')"
-                        :model-value="currentTenant._data"
-                        @change="(e) => _assign(currentTenant, e.value)"
-                        optionLabel="display_name"
-                        :options="branches._data"
-                     />
-                  </span>
                </aside>
-               <!-- <div class="layout-mask animate-fadein animate-ease-out" /> -->
-               <!-- </span> -->
             </Transition>
          </RouterView>
          <main class="layout-main">
