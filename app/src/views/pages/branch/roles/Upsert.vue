@@ -15,8 +15,6 @@ const props = defineProps({
    }
 });
 
-const isEditing = computed(() => _isString(props.id) && !_isEmpty(props.id) && _isNil(props.data));
-
 const initialFormData = {
    ...props.data,
    permissions: _keyBy(props.data?.permissions, 'id') || {}
@@ -26,7 +24,6 @@ const form = new Form({
    id: null,
    data: null,
    rules: {
-      id: 'required|string',
       display_name: 'required|string',
       permissions: 'required'
    }
@@ -40,7 +37,6 @@ const getRole = async () => {
       .single()
       .throwOnError()
       .then(({ data: { display_name, permissions, id } }) => {
-         // role._setDefaults({ display_name, id })._reset();
          form
             ._setDefaults({
                id,
@@ -51,17 +47,7 @@ const getRole = async () => {
       });
 };
 
-const updateCallback = (data) => {
-   if (props?.data?.id) {
-      return;
-   }
-   if (data?.id === form.id) {
-      getRole();
-   }
-};
-onMounted(() => emitter.on('roles-update', updateCallback));
-onUnmounted(() => emitter.off('roles-update', updateCallback));
-
+const isEditing = computed(() => _isString(props.id) && !_isEmpty(props.id) && _isNil(props.data));
 watch(
    () => isEditing.value,
    async (editing) => {
@@ -73,6 +59,21 @@ watch(
    },
    { immediate: true, once: true }
 );
+
+const updateCallback = (data) => {
+   if (props?.data?.id) {
+      return;
+   }
+   if (data?.id === form.id) {
+      getRole();
+   }
+};
+
+const routeLoading = inject('routeLoading', false);
+if (!routeLoading.value) {
+   onMounted(() => emitter.on('roles-update', updateCallback));
+   onUnmounted(() => emitter.off('roles-update', updateCallback));
+}
 
 const save = async () => {
    if (!form._validate()) return;
@@ -125,6 +126,7 @@ const save = async () => {
                fluid
                :label="i18n.t('display_name')"
                :error="form?._errors.first('display_name')"
+               :readonly="!$can('modify', 'roles') && !$can('create', 'roles')"
             >
                <template #default="slotProps">
                   <InputText
@@ -139,13 +141,19 @@ const save = async () => {
                fluid
                :label="i18n.t('permissions')"
                :error="form?._errors.first('permissions')"
+               :disabled="
+                  !$can('modify', 'role_permissions') && !$can('create', 'role_permissions')
+               "
             >
                <template #default="slotProps">
                   <SelectPermissions v-bind="slotProps" v-model="form['permissions']" />
                </template>
             </FormField>
          </div>
-         <div class="flex flex-wrap items-end justify-end gap-4 w-full">
+         <div
+            v-if="$can('create', 'roles') || $can('modify', 'roles')"
+            class="flex flex-wrap items-end justify-end gap-4 w-full"
+         >
             <Button
                :label="$t('save')"
                class="flex-[.2]"
