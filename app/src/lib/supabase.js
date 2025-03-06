@@ -1,3 +1,11 @@
+/**
+ * @file This file is responsible for configuring and creating an instance of Supabase with custom fetch behavior.
+ *
+ * It includes functions to handle different types of filter conditions, date formatting, confirmation dialogs for delete actions,
+ * and memoization for caching API requests. The main purpose is to provide a flexible and secure way to interact with the database
+ * through the Supabase client.
+ */
+
 import { app } from '@/main';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import axios from 'axios';
@@ -198,6 +206,14 @@ const getFilterQuery = (filters) => {
 
    return query;
 };
+
+/**
+ * @function handleDelete
+ * Handles the delete action, including confirming with the user and preventing deletion if not confirmed.
+ *
+ * @param {Object} options - The fetch options object.
+ * @returns {Promise<boolean>} A promise that resolves to true if deletion is confirmed, otherwise false.
+ */
 const handleDelete = async (options) => {
    const confirmed = new Promise((resolve) => {
       const item = JSON.parse(options.headers?.get?.('item'));
@@ -224,36 +240,62 @@ const handleDelete = async (options) => {
    }
 };
 
+/**
+ * @function handleMeta
+ * Modifies the URL based on pagination and sorting metadata provided in the headers.
+ *
+ * @param {string} url - The base URL.
+ * @param {Object} options - The fetch options object.
+ * @returns {string} The modified URL.
+ */
 const handleMeta = (url, options) => {
    const { filters, first, rows, multiSortMeta } = JSON.parse(options.headers?.get?.('meta'));
    const filterQuery = getFilterQuery(filters);
-   if (_size(filterQuery) > 0) {
-      url += `&${filterQuery}`;
-   }
-   if (!_isNil(first)) {
-      url += `&offset=${first}`;
-   }
-   if (!_isNil(rows)) {
-      url += `&limit=${rows}`;
-   }
+
+   if (_size(filterQuery) > 0) url += `${filterQuery}`;
+
+   if (!_isNil(first)) url += `&offset=${first}`;
+
+   if (!_isNil(rows)) url += `&limit=${rows}`;
 
    if (_size(multiSortMeta) > 0) {
       const orderFilters =
          '&order=' +
-         multiSortMeta.reduce((acc, { field, order }) => {
-            acc.push(`${field}.${order < 0 ? 'desc' : 'asc'}`);
-            return acc;
-         }, []).join`,`;
+         multiSortMeta
+            .reduce((acc, { field, order }) => {
+               const nestedFormat = field
+                  .split('.')
+                  .reverse()
+                  .reduce((acc, part) => `${part}${acc ? `(${acc})` : ''}`, '');
+               const sortOrder = order < 0 ? 'desc' : 'asc';
+
+               acc.push(`${nestedFormat}.${sortOrder}`);
+               return acc;
+            }, [])
+            .join(',');
 
       url += orderFilters;
    }
+
    options?.headers?.delete('meta');
    return url;
 };
 
+/**
+ * @constant memo
+ * A memoization utility to cache API requests for a certain amount of time.
+ */
 const memo = _memoize(() => ({}));
 
+/**
+ * @type {Object}
+ * Configuration object for the Supabase client, including a custom fetch function that handles memoization,
+ * global tenant ID addition, and delete confirmation.
+ */
 const options = {
+   auth: {
+      detectSessionInUrl: true
+   },
    global: {
       fetch: async (url, options) => {
          if (options?.headers?.has?.('meta')) {
@@ -272,15 +314,14 @@ const options = {
             options?.headers?.set?.('x-tenant', currentTenant?.display_name);
          }
 
-         if (currentTenant?.id && !_isNil(options.body) && !_isArray(JSON.parse(options.body)))
+         const body = JSON.parse(options?.body || '{}');
+         if (currentTenant?.id && !_isNil(body) && !_isEmpty(body) && !_isArray(body))
             options.body = JSON.stringify({
                tenant_id: currentTenant?.id,
-               ...JSON.parse(options.body)
+               ...body
             });
 
-         const cacheTime = options?.headers?.get?.('prefer')?.startsWith?.('count')
-            ? 1000 * 10
-            : 1000;
+         const cacheTime = 1000;
 
          const promise = axios({
             url,
@@ -294,7 +335,7 @@ const options = {
                status: response.status,
                json: async () => response.data,
                text: async () => JSON.stringify(response.data),
-               headers: new Headers(response.headers) // Mimic fetch-like headers
+               headers: new Headers(response.headers)
             }))
             .catch((error) => {
                memo.cache.delete(url);
