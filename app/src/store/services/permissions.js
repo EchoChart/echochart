@@ -1,23 +1,31 @@
 import Collection from '@/lib/Collection';
 
 export const usePermissionsStore = defineStore('permissions', () => {
-   const permissions = new Collection(null);
+   const usePermissions = () => {
+      const defaultSelect = 'id,resource_name,group_name,kind';
+      const permissions = new Collection(null);
 
-   async function fetchPermissions(select = 'id,resource_name,group_name,kind') {
-      return supabase.from('permissions').select(select).throwOnError();
-   }
-
-   async function getPermissions() {
-      if (_isNil(permissions._data)) {
-         const { data } = await fetchPermissions();
-         permissions._setDefaults(data || [])._reset();
+      async function fetchPermissions(select = defaultSelect) {
+         const res = await supabase.from('permissions').select(select).throwOnError();
+         const { data } = res;
+         permissions._set(data);
+         return res;
       }
-      return permissions;
-   }
+
+      async function getPermissions(select = defaultSelect) {
+         if (_isNil(permissions._data)) await fetchPermissions(select);
+
+         return permissions;
+      }
+
+      return {
+         permissions,
+         fetchPermissions,
+         getPermissions
+      };
+   };
 
    return {
-      permissions,
-      fetchPermissions,
-      getPermissions
+      ...usePermissions()
    };
 });
