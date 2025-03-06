@@ -154,21 +154,85 @@ CREATE TABLE
 CREATE INDEX product_categories_product_id_idx ON public.product_categories (product_id);
 CREATE INDEX product_categories_category_id_idx ON public.product_categories (category_id);
 
--- Addresses Table
-CREATE INDEX IF NOT EXISTS idx_addresses_tenant_id ON public.addresses (tenant_id);
+-- Tenant Stocks Table
+CREATE TABLE IF NOT EXISTS public.stocks (
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+   tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+   product_id UUID NOT NULL REFERENCES public.products(id) ON DELETE CASCADE,
+   serial_number TEXT UNIQUE,
+   barcode TEXT,
+   quantity INTEGER NOT NULL DEFAULT 1 CHECK (quantity > 0), -- Prevents division by zero
+   used INTEGER NOT NULL DEFAULT 0 CHECK (used >= 0), -- Ensures valid values
+   available INTEGER GENERATED ALWAYS AS 
+      (CASE WHEN quantity >= used THEN quantity - used ELSE 0 END) STORED, -- Prevents negative stock
+   cost NUMERIC(10,2) NOT NULL CHECK (cost >= 0), -- Ensures cost is never negative
+   unit_cost NUMERIC(10,2) GENERATED ALWAYS AS 
+      (CASE WHEN quantity > 0 AND cost > 0 THEN cost / quantity ELSE 0 END) STORED, -- Prevents division by zero
+   currency_code CHAR(3) NOT NULL DEFAULT 'TRY' CHECK (currency_code ~ '^[A-Z]{3}$'), -- Ensures valid 3-letter currency code
+   vendor TEXT,
+   details TEXT,
+   created_at TIMESTAMPTZ DEFAULT NOW(),
 
-CREATE INDEX IF NOT EXISTS idx_addresses_country_province ON public.addresses (country, province);
+   -- Additional data integrity constraints
+   CHECK (quantity >= used) -- Ensures you can't use more than you have
+);
 
-CREATE INDEX IF NOT EXISTS idx_addresses_postal_code ON public.addresses (postal_code);
+-- Indexes for performance optimization
+CREATE INDEX idx_stocks_tenant_id ON public.stocks(tenant_id);
+CREATE INDEX idx_stocks_product_id ON public.stocks(product_id);
+CREATE INDEX idx_stocks_serial_number ON public.stocks(serial_number);
+CREATE INDEX idx_stocks_barcode ON public.stocks(barcode);
+CREATE INDEX idx_stocks_created_at ON public.stocks(created_at DESC);
+CREATE INDEX idx_stocks_display_name ON public.stocks (tenant_id, product_id);
 
-CREATE INDEX IF NOT EXISTS idx_addresses_created_updated_at ON public.addresses (created_at, updated_at);
+CREATE
+OR REPLACE VIEW public.stock_view
+WITH
+   (security_invoker = true) AS
+SELECT
+   s.*,
+   p.display_name,
+   p.brand
+FROM
+   public.stocks s
+   JOIN public.products p ON s.product_id = p.id;
 
--- Roles Table
-CREATE INDEX IF NOT EXISTS idx_roles_tenant_id_display_name ON public.roles (tenant_id, display_name);
+CREATE OR REPLACE VIEW public.stock_vendors AS
+SELECT DISTINCT vendor as display_name FROM public.stocks;
+   
+CREATE OR REPLACE VIEW public.stock_vendor_stats AS
+SELECT 
+  vendor,
+  p.id as product_id,
+  COUNT(*) AS total_products,
+  SUM(quantity) AS total_quantity,
+  SUM(available) AS total_available,
+  SUM(used) AS total_used,
+  SUM(cost) AS total_cost,
+  ROUND(AVG(cost)::NUMERIC(10,2), 2) AS average_cost,
+  ROUND(AVG(unit_cost)::NUMERIC(10,2), 2) AS average_unit_cost
+FROM 
+  public.products p
+JOIN
+  public.stocks s on s.product_id = p.id
+GROUP BY 
+  vendor, p.id;
 
-CREATE INDEX IF NOT EXISTS idx_roles_is_default ON public.roles (is_default);
-
-CREATE INDEX IF NOT EXISTS idx_roles_created_updated_at ON public.roles (created_at, updated_at);
+CREATE OR REPLACE VIEW public.stock_product_stats AS
+SELECT
+   p.display_name,
+   p.brand,
+   SUM(s.quantity) AS total_quantity,
+   SUM(s.available) AS available_quantity,
+   SUM(s.used) AS used_quantity,
+   SUM(s.cost) AS total_cost,
+   ROUND(AVG(unit_cost)::NUMERIC(10,2), 2) AS average_unit_cost
+FROM
+   public.products p
+JOIN
+  public.stocks s ON s.product_id = p.id
+GROUP BY
+   p.display_name, p.brand;
 
 -- User Roles Table
 CREATE INDEX IF NOT EXISTS idx_user_roles_user_role ON public.user_roles (user_id, role_id);

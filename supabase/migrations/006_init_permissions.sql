@@ -20,6 +20,9 @@ ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE public.product_categories ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE public.stocks ENABLE ROW LEVEL SECURITY;
+
+
 GRANT usage ON SCHEMA "private" TO supabase_auth_admin;
 
 GRANT EXECUTE ON FUNCTION private.custom_access_token_hook TO supabase_auth_admin;

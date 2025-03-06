@@ -1,42 +1,46 @@
 INSERT INTO
-   public.permissions (resource_name, group_name, command, kind, bypass, throws_error)
+   public.permissions (resource_name, group_name, command, kind, bypass, throws_error, resource_condition)
 VALUES
    -- tenants
-   ('public.tenants', 'branches', 'select', 'read', FALSE, FALSE),
-   ('public.tenants', 'branches', 'insert', 'create', FALSE, FALSE),
-   ('public.tenants', 'branches', 'update', 'modify', FALSE, FALSE),
-   ('public.tenants', 'branches', 'delete', 'modify', FALSE, FALSE),
-   ('public.users', 'users', 'select', 'read', FALSE, FALSE),
+   ('public.tenants', 'branches', 'select', 'read', FALSE, FALSE, NULL),
+   ('public.tenants', 'branches', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.tenants', 'branches', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.tenants', 'branches', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
    -- users   
-   ('public.users', 'users', 'insert', 'create', FALSE, FALSE),
-   ('public.users', 'users', 'update', 'modify', FALSE, FALSE),
-   ('public.users', 'users', 'delete', 'modify', FALSE, FALSE),
+   ('public.users', 'users', 'select', 'read', FALSE, FALSE, NULL),
+   ('public.users', 'users', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.users', 'users', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.users', 'users', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
    -- tenants_users   
-   ('public.tenants_users', 'users', 'select', 'read', TRUE, FALSE),
-   ('public.tenants_users', 'users', 'insert', 'create', FALSE, FALSE),
-   ('public.tenants_users', 'users', 'update', 'modify', FALSE, FALSE),
-   ('public.tenants_users', 'users', 'delete', 'modify', FALSE, FALSE),
-   ('public.roles', 'roles', 'select', 'read', FALSE, FALSE),
+   ('public.tenants_users', 'users', 'select', 'read', TRUE, FALSE, NULL),
+   ('public.tenants_users', 'users', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.tenants_users', 'users', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.tenants_users', 'users', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
    -- roles   
-   ('public.roles', 'roles', 'insert', 'create', FALSE, FALSE),
-   ('public.roles', 'roles', 'update', 'modify', FALSE, FALSE),
-   ('public.roles', 'roles', 'delete', 'modify', FALSE, FALSE),
+   ('public.roles', 'roles', 'select', 'read', FALSE, FALSE, NULL),
+   ('public.roles', 'roles', 'insert', 'create', FALSE, FALSE, 'is_default <> TRUE'),
+   ('public.roles', 'roles', 'update', 'modify', FALSE, FALSE, 'is_default <> TRUE'),
+   ('public.roles', 'roles', 'delete', 'modify', FALSE, FALSE, 'is_default <> TRUE'),
    --
    --
-   -- user_roles   
-   ('public.user_roles', 'roles', 'select', 'read', TRUE, FALSE),
-   ('public.user_roles', 'roles', 'insert', 'create', FALSE, FALSE),
-   ('public.user_roles', 'roles', 'update', 'modify', FALSE, FALSE),
-   ('public.user_roles', 'roles', 'delete', 'modify', FALSE, FALSE),
+   -- user_roles 
+   ('public.user_roles', 'roles', 'select', 'read', TRUE, FALSE, NULL),
+   ('public.user_roles', 'roles', 'insert', 'create', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.roles r WHERE r.id = role_id AND r.is_default <> TRUE)'),
+   ('public.user_roles', 'roles', 'update', 'modify', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.roles r WHERE r.id = role_id AND r.is_default <> TRUE)'),
+   ('public.user_roles', 'roles', 'delete', 'modify', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.roles r WHERE r.id = role_id AND r.is_default <> TRUE)'),
    --
    --
    -- role_permissions   
+   ('public.role_permissions', 'roles', 'select', 'read', TRUE, FALSE, NULL),
+   ('public.role_permissions', 'roles', 'insert', 'create', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.roles r WHERE r.id = role_id AND r.is_default <> TRUE)'),
+   ('public.role_permissions', 'roles', 'update', 'modify', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.roles r WHERE r.id = role_id AND r.is_default <> TRUE)'),
+   ('public.role_permissions', 'roles', 'delete', 'modify', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.roles r WHERE r.id = role_id AND r.is_default <> TRUE)'),
    --
    --
    -- product_category
