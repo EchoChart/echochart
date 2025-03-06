@@ -1,4 +1,5 @@
 <script setup>
+import { DIALOG_POSITIONS } from '@/router';
 import { RouterLink } from 'vue-router';
 
 defineOptions({
@@ -32,7 +33,7 @@ const constextMenuItems = computed(() => {
             ...route.value,
             query: {
                ...route.value?.query,
-               showDialog: 'center'
+               showDialog: DIALOG_POSITIONS.CENTER
             }
          }
       },
@@ -42,7 +43,7 @@ const constextMenuItems = computed(() => {
 
 const itemClick = (item) => {
    if (dialogRef) {
-      item.query.showDialog = 'center';
+      item.query.showDialog = DIALOG_POSITIONS.CENTER;
    }
 
    router.push(item);
