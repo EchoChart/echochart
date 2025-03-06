@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.2.1-alpha.1...echochart-supabase-v0.2.2-alpha.1) (2025-02-06)
+
+
+### Bug Fixes
+
+* **migrations:** ensure proper newline at end of file in init_schemas.sql ([6de4162](https://github.com/EchoChart/echochart/commit/6de416228cc0f32ce9afe58625783ea52126347e))
+
 ## [0.2.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.2.0-alpha.1...echochart-supabase-v0.2.1-alpha.1) (2025-01-30)
 
 
