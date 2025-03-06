@@ -1,7 +1,12 @@
 <script setup>
 import Collection from '@/lib/Collection';
 import { isVNode } from 'vue';
-const { currentTenant } = storeToRefs(useAuthStore());
+
+const DATA_TYPES = {
+   numeric: 'numeric',
+   decimal: 'numeric',
+   date: 'date'
+};
 
 defineOptions({
    inheritAttrs: false
@@ -10,17 +15,19 @@ const props = defineProps({
    rowActions: {
       type: Array,
       default: () => []
+   },
+   filters: {
+      type: Object,
+      default: () => ({})
    }
 });
-const emit = defineEmits(['meta']);
+const emit = defineEmits(['meta', 'update:filters']);
 const attrs = useAttrs();
 const dialogRef = inject('dialogRef', null);
 
 const stateStorage = !dialogRef?.value ? 'local' : 'session';
 
-const stateKey = !dialogRef?.value
-   ? 'dt-' + [attrs?.stateKey, currentTenant?.value?.display_name]?.filter(Boolean).join('-')
-   : _uniqueId('dt-');
+const stateKey = !dialogRef?.value ? 'dt-' + attrs?.stateKey : _uniqueId('dt-');
 
 !!dialogRef?.value && sessionStorage.removeItem(stateKey);
 
@@ -39,15 +46,49 @@ const meta = (dialogRef?.value ? useSessionStorage : useLocalStorage)?.(
    stateKey,
    {
       expandedRows: {},
-      rows: _get(attrs, 'rows', 5),
-      multiSortMeta: [{ field: 'created_at', order: -1 }],
-      filters: attrs?.columns
-         ?.filter?.(({ field, filter }) => !!filter && !!field)
-         ?.reduce?.((acc, { field, filter }) => _set(acc, field, filter), {})
+      expandedRowGroups: [],
+      rows: _defaultTo(attrs?.rows, 5),
+      multiSortMeta: __.chain(attrs?.columns)
+         .filter(({ field, sortOrder }) => !!field && !!sortOrder)
+         .sortBy(({ sortOrder }) => sortOrder.index || 0)
+         .map(({ field, sortOrder }) => ({ field, order: sortOrder.value }))
+         .value()
    },
    { mergeDefaults: true, writeDefaults: true }
 );
 
+meta.value.filters = _merge(props.filters, meta.value.filters);
+
+const filterInput = computed({
+   get: () => props.filters,
+   set: (values) => {
+      _toPairs(values).forEach(([field, { constraints }]) => {
+         if (!meta.value.filters[field]) return;
+
+         _merge(meta.value.filters[field], {
+            ...values[field],
+            ..._pick(props.filters[field], ['dataType'])
+         });
+
+         if (meta.value.filters[field]?.constraints && _isArray(constraints)) {
+            _set(meta.value.filters[field], 'constraints', constraints);
+         }
+      });
+
+      emit('update:filters', meta.value.filters);
+   }
+});
+
+const onMeta = (value = meta.value) => {
+   _merge(meta.value, { ...value, filters: filterInput.value });
+   emit('meta', meta.value);
+};
+
+watch(
+   () => props.filters,
+   _throttle(() => onMeta(), 500),
+   { deep: true }
+);
 const tableProps = computed(() => ({
    dataKey: 'id',
    reorderableColumns: true,
@@ -63,14 +104,14 @@ const tableProps = computed(() => ({
    showGridlines: true,
    loading: loading.value,
    stateStorage,
+   colspan: 1,
+   rowspan: 1,
+   rowGroupMode: 'rowspan',
+   groupRowsBy: meta.value.multiSortMeta?.map(({ field }) => field),
    ...meta.value,
    ...attrs,
    stateKey
 }));
-
-const onMeta = (value) => emit('meta', value);
-
-onMeta(meta.value);
 </script>
 <template>
    <DataTable
@@ -82,8 +123,10 @@ onMeta(meta.value);
             class: 'empty:hidden'
          }
       }"
-      v-model:filters="meta.filters"
-      @filter="(value) => onMeta(value)"
+      v-model:filters="filterInput"
+      v-model:expanded-rows="meta.expandedRows"
+      v-model:expanded-row-groups="meta.expandedRowGroups"
+      v-model:multi-sort-meta="meta.multiSortMeta"
       @page="(value) => onMeta(value)"
       @sort="(value) => onMeta(value)"
       v-bind="tableProps"
@@ -98,16 +141,17 @@ onMeta(meta.value);
       <Column
          v-if="$slots.expansion && tableProps?.value?.length"
          field="_expansion"
-         :reorderableColumn="false"
          expander
          style="width: 3rem !important"
       />
       <Column
          v-for="(column, i) in tableProps?.columns"
          :key="'column_' + (column?.field + i) || i"
+         showClearButton
+         :data-type="DATA_TYPES[meta?.filters?.[column?.field]?.dataType]"
+         :showFilterOperator="column.field.split('.')?.length > 1 ? false : true"
+         :showFilterMenu="!!meta?.filters?.[`${column.field}`]"
          v-bind="column"
-         :showFilterOperator="false"
-         :showFilterMenu="_has(tableProps, `filters.${column.field}`)"
          :header="$slots[`${_snakeCase(column?.field)}_header`] ? undefined : column?.header"
          :footer="$slots[`${_snakeCase(column?.field)}_footer`] ? undefined : column?.footer"
       >
@@ -134,21 +178,21 @@ onMeta(meta.value);
             <IconField
                :class="[
                   slotProps.class,
-                  _get(meta?.filters, `${column.field}.constraints`, []).some(
+                  meta?.filters?.[`${column.field}`]?.constraints?.some?.(
                      ({ value }) => !_isNil(value)
-                  )
+                  ) || !_isNil(meta?.filters?.[column.field]?.value)
                      ? `text-primary ${PrimeIcons.FILTER_FILL}`
                      : PrimeIcons.FILTER
                ]"
             />
          </template>
-         <template #filter="slotProps" v-if="`${_snakeCase(column?.field)}_filter`">
+         <template #filter="slotProps" v-if="!!meta?.filters?.[column?.field]">
             <slot :name="`${_snakeCase(slotProps?.field)}_filter`" v-bind="slotProps">
                <FormField fluid v-if="slotProps?.filterModel">
                   <template v-slot="inputProps">
                      <DatePicker
                         v-if="
-                           column.dataType === 'date' ||
+                           meta?.filters?.[column?.field]?.dataType === 'date' ||
                            [
                               FilterMatchMode.DATE_IS,
                               FilterMatchMode.DATE_IS_NOT,
@@ -163,9 +207,14 @@ onMeta(meta.value);
                         placeholder="dd/mm/yyyy"
                      />
                      <InputNumber
-                        v-else-if="column.dataType === 'numeric'"
+                        v-else-if="
+                           ['numeric', 'decimal'].includes(meta?.filters?.[column?.field]?.dataType)
+                        "
                         v-bind="inputProps"
                         v-model="slotProps.filterModel.value"
+                        :max-fraction-digits="
+                           meta?.filters?.[column?.field]?.dataType === 'decimal' ? 2 : null
+                        "
                         @keydown.enter="slotProps.filterCallback"
                      />
                      <InputText
@@ -186,10 +235,15 @@ onMeta(meta.value);
                   :height="
                      actions._data?.length > 0 && tableProps?.value?.length > 0
                         ? '2.5rem'
-                        : '1.5rem'
+                        : '2.5rem'
                   "
                />
-               <span v-else v-text="_get(body?.data, body.field)" />
+               <div
+                  v-else
+                  class="truncate"
+                  :title="_get(body?.data, body.field)"
+                  v-text="_get(body?.data, body.field)"
+               />
             </slot>
          </template>
       </Column>
@@ -215,7 +269,7 @@ onMeta(meta.value);
       </Column>
 
       <template
-         v-for="slot in _keys($slots)?.filter((key) => !key.includes('_'))"
+         v-for="slot in _keys($slots)?.filter?.((key) => !key.includes?.('_'))"
          #[slot]="slotProps"
          :key="`slot_${slot}`"
       >
