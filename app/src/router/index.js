@@ -5,6 +5,7 @@ import { beforeEachMiddlewares } from './middlewares';
 import accountRoutes from '@/router/routes/account';
 import authRoutes from '@/router/routes/auth';
 import branchRoutes from '@/router/routes/branch';
+import stockRoutes from '@/router/routes/stock';
 
 export const DIALOG_POSITIONS = {
    LEFT: 'left',
@@ -50,7 +51,7 @@ const router = createRouter({
                         {
                            meta: {
                               icon: PrimeIcons.CHART_LINE,
-                              index: -1,
+                              index: -999,
                               visible: computed(() => {
                                  const { isSignedIn } = storeToRefs(useAuthStore());
                                  return isSignedIn?.value;
@@ -61,6 +62,7 @@ const router = createRouter({
                            component: () => import('@/views/pages/dashboard/Index.vue')
                         },
                         ...branchRoutes,
+                        ...stockRoutes,
                         ...accountRoutes
                      ]
                   },
