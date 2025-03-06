@@ -5,7 +5,7 @@
       "module": "ESNext", // ESNext module system
       "outDir": "./dist", // Output compiled files to dist folder within app
       "baseUrl": ".", // Base URL for relative imports
-      "types": ["vite/client", "node"], // Include Vite and Node.js types
+      "types": ["vite/client", "node", "@types/validatorjs"], // Include Vite and Node.js types
       "useDefineForClassFields": true, // Define class fields according to the spec
       "moduleResolution": "node", // Use Node-style module resolution
       "strict": true, // Enable strict mode
