@@ -2,63 +2,202 @@ import { app } from '@/main';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import axios from 'axios';
 
+/**
+ * @constant FilterModes
+ * @type {Object}
+ * Defines how different filter conditions are translated into API query strings.
+ */
 const FilterModes = {
-   [FilterMatchMode.STARTS_WITH]: (value) => ['like', `${value}*`],
-   [FilterMatchMode.CONTAINS]: (value) => ['like', `*${value}*`],
-   [FilterMatchMode.NOT_CONTAINS]: (value) => ['not.like', `*${value}*`],
-   [FilterMatchMode.ENDS_WITH]: (value) => ['like', `*${value}`],
-   [FilterMatchMode.EQUALS]: (value) => ['eq', value],
-   [FilterMatchMode.NOT_EQUALS]: (value) => ['neq', value],
-   [FilterMatchMode.IN]: (value) => ['in', `(${value.join(',')})`],
-   [FilterMatchMode.LESS_THAN]: (value) => ['lt', value],
-   [FilterMatchMode.LESS_THAN_OR_EQUAL_TO]: (value) => ['lte', value],
-   [FilterMatchMode.GREATER_THAN]: (value) => ['gt', value],
-   [FilterMatchMode.GREATER_THAN_OR_EQUAL_TO]: (value) => ['gte', value],
-   [FilterMatchMode.BETWEEN]: (value) =>
-      value.length === 2 ? ['gte', value[0], 'lte', value[1]] : null,
-   [FilterMatchMode.DATE_IS]: (value, field) => {
-      const date = useDateFormat(value, 'YYYY-MM-DD').value;
-      return `${field}=gte.${date}T00:00:00.000&${field}=lte.${date}T23:59:59.999`;
+   [FilterOperator.OR]: {
+      ['websearch']: (value, field) => `${field}.wfts.${value}`,
+      ['plain']: (value, field) => `${field}.plfts.${value}`,
+      ['phrase']: (value, field) => `${field}.phfts.${value}`,
+      [FilterMatchMode.STARTS_WITH]: (value, field) => `${field}.ilike.${value}*`,
+      [FilterMatchMode.CONTAINS]: (value, field) => `${field}.ilike.*${value}*`,
+      [FilterMatchMode.NOT_CONTAINS]: (value, field) => `${field}.not.ilike.*${value}`,
+      [FilterMatchMode.ENDS_WITH]: (value, field) => `${field}.ilike.*${value}`,
+      [FilterMatchMode.EQUALS]: (value, field) => `${field}.eq.${value}`,
+      [FilterMatchMode.NOT_EQUALS]: (value, field) => `${field}.neq.${value}`,
+      [FilterMatchMode.IN]: (value, field) => `${field}.in.(${value.join(',')})`,
+      [FilterMatchMode.LESS_THAN]: (value, field) => `${field}.lt.${value}`,
+      [FilterMatchMode.LESS_THAN_OR_EQUAL_TO]: (value, field) => `${field}.lte.${value}`,
+      [FilterMatchMode.GREATER_THAN]: (value, field) => `${field}.gt.${value}`,
+      [FilterMatchMode.GREATER_THAN_OR_EQUAL_TO]: (value, field) => `${field}.gte.${value}`,
+      [FilterMatchMode.BETWEEN]: (value, field) =>
+         value.length === 2 ? `and(${field}.gte.${value[0]},${field}.lte.${value[1]})` : null,
+      [FilterMatchMode.DATE_IS]: (value, field) => {
+         const date = useDateFormat(Date.parse(value), 'YYYY-MM-DD').value;
+         return `and(${field}.gte.${date}T00:00:00.000,${field}.lte.${date}T23:59:59.999)`;
+      },
+      [FilterMatchMode.DATE_IS_NOT]: (value, field) => {
+         const date = useDateFormat(Date.parse(value), 'YYYY-MM-DD').value;
+         return `and(${field}.lte.${date}T00:00:00.000,${field}.gt.${date}T23:59:59.999)`;
+      },
+      [FilterMatchMode.DATE_BEFORE]: (value, field) =>
+         `${field}.lt.${useDateFormat(Date.parse(value), 'YYYY-MM-DD').value}`,
+
+      [FilterMatchMode.DATE_AFTER]: (value, field) =>
+         `${field}.gt.${useDateFormat(Date.parse(value), 'YYYY-MM-DD').value}`
    },
-   [FilterMatchMode.DATE_IS_NOT]: (value, field) => {
-      const date = useDateFormat(value, 'YYYY-MM-DD').value;
-      return `or=(${field}.lte.${date}T00:00:00.000,and(${field}.gt.${date}T23:59:59.999))`;
-   },
-   [FilterMatchMode.DATE_BEFORE]: (value) => ['lte', useDateFormat(value, 'YYYY-MM-DD').value],
-   [FilterMatchMode.DATE_AFTER]: (value) => ['gte', useDateFormat(value, 'YYYY-MM-DD').value]
+   [FilterOperator.AND]: {
+      ['websearch']: (value, field) => `${field}=wfts.${value}`,
+      ['plain']: (value, field) => `${field}=plfts.${value}`,
+      ['phrase']: (value, field) => `${field}=phfts.${value}`,
+      [FilterMatchMode.STARTS_WITH]: (value, field) => `${field}=ilike.${value}*`,
+      [FilterMatchMode.CONTAINS]: (value, field) => `${field}=ilike.*${value}*`,
+      [FilterMatchMode.NOT_CONTAINS]: (value, field) => `${field}=not.ilike.*${value}`,
+      [FilterMatchMode.ENDS_WITH]: (value, field) => `${field}=ilike.*${value}`,
+      [FilterMatchMode.EQUALS]: (value, field) => `${field}=eq.${value}`,
+      [FilterMatchMode.NOT_EQUALS]: (value, field) => `${field}=neq.${value}`,
+      [FilterMatchMode.IN]: (value, field) => `${field}=in.(${value.join(',')})`,
+      [FilterMatchMode.LESS_THAN]: (value, field) => `${field}=lt.${value}`,
+      [FilterMatchMode.LESS_THAN_OR_EQUAL_TO]: (value, field) => `${field}=lte.${value}`,
+      [FilterMatchMode.GREATER_THAN]: (value, field) => `${field}=gt.${value}`,
+      [FilterMatchMode.GREATER_THAN_OR_EQUAL_TO]: (value, field) => `${field}=gte.${value}`,
+      [FilterMatchMode.BETWEEN]: (value, field) =>
+         value.length === 2 ? `${field}=gte.${value[0]}&${field}=lte.${value[1]}` : null,
+      [FilterMatchMode.DATE_IS]: (value, field) => {
+         const date = useDateFormat(Date.parse(value), 'YYYY-MM-DD').value;
+         return `${field}=gte.${date}T00:00:00.000&${field}=lte.${date}T23:59:59.999`;
+      },
+      [FilterMatchMode.DATE_IS_NOT]: (value, field) => {
+         const date = useDateFormat(Date.parse(value), 'YYYY-MM-DD').value;
+         return `${field}=lte.${date}T00:00:00.000&${field}=gt.${date}T23:59:59.999`;
+      },
+      [FilterMatchMode.DATE_BEFORE]: (value, field) =>
+         `${field}=lt.${useDateFormat(Date.parse(value), 'YYYY-MM-DD').value}`,
+
+      [FilterMatchMode.DATE_AFTER]: (value, field) =>
+         `${field}=gt.${useDateFormat(Date.parse(value), 'YYYY-MM-DD').value}`
+   }
 };
 
-// Convert filters to Supabase query format
+/**
+ * @function getFilterQuery
+ * Generates a query string based on the given filters.
+ *
+ * @param {Object} filters - The filter configuration object.
+ * @returns {string} The generated query string or an empty string if no valid filters are provided.
+ */
 const getFilterQuery = (filters) => {
    if (_isNil(filters) || _size(filters) <= 0) return '';
 
-   return _toPairs(filters)
-      .reduce((acc, [field, { constraints }]) => {
-         const filterParts = constraints
-            ?.map(({ matchMode, value }) => {
-               const filterMode = FilterModes[matchMode];
-               if (!filterMode) {
-                  console.warn(`Unsupported matchMode: ${matchMode}`);
-                  return null; // Skip unsupported matchModes
-               }
-               if (_isNil(value)) return null;
+   function reducerFn(filters) {
+      function getFilterParts({ field, dataType = 'text', operator, matchMode, value }) {
+         const filterMode = FilterModes[operator][matchMode];
 
-               const filterParts = filterMode(value, field);
-
-               if (!filterParts || filterParts.includes(null)) {
-                  return null; // Skip invalid filters
-               }
-               return `${_isArray(filterParts) ? `${field}=${filterParts.join`.`}` : filterParts}`;
-            })
-            .filter(Boolean); // Remove null/invalid entries
-         if (filterParts?.length) {
-            acc.push(filterParts.join('&'));
+         if (!filterMode) {
+            console.warn(`Unsupported matchMode: ${matchMode}`);
+            return null;
          }
-         return acc;
-      }, [])
-      .join('&');
-};
+         if (_isNil(value) || _isEmpty(value)) return null;
 
+         if (dataType === 'numeric') {
+            value = _toNumber(value);
+            if (!_isSafeInteger(value || '')) return null;
+         }
+         if (dataType === 'decimal') {
+            value = parseFloat(value);
+            if (_isNaN(value)) return null;
+         }
+         if (dataType === 'date' && _isNaN(Date.parse(value))) return null;
+
+         let filterParts = filterMode(value, field, operator, dataType);
+
+         if (!filterParts || filterParts.includes(null)) {
+            return null;
+         }
+
+         return filterParts;
+      }
+
+      return _toPairs(filters).reduce(
+         (acc, [field, { operator, dataType, matchMode, value, constraints }]) => {
+            if (_isString(value)) value = value?.replace?.(/,/g, '.');
+
+            if (!_isNil(value) && _isEmpty(value)) return acc;
+
+            if (!_isNil(matchMode)) {
+               const filterParts = getFilterParts({
+                  field,
+                  dataType,
+                  operator,
+                  matchMode,
+                  value
+               });
+               if (!filterParts || filterParts.includes(null)) {
+                  return acc;
+               }
+
+               acc.push(filterParts);
+            }
+            if (constraints?.length) {
+               constraints?.forEach(({ matchMode, value }) => {
+                  const filterParts = getFilterParts({
+                     field,
+                     dataType,
+                     operator,
+                     matchMode,
+                     value
+                  });
+                  if (!filterParts || filterParts.includes(null)) {
+                     return null;
+                  }
+                  return acc.push(filterParts);
+               });
+            }
+            return acc;
+         },
+         []
+      );
+   }
+
+   const orFilters = _pickBy(filters, ({ operator }) => operator === FilterOperator.OR);
+   const andFilters = _pickBy(filters, ({ operator }) => operator !== FilterOperator.OR);
+
+   delete andFilters?.global;
+   delete orFilters?.global;
+
+   if (filters.global) {
+      const { value, matchMode } = filters.global;
+
+      delete filters.global;
+
+      if (!_isNil(value) && !_isEmpty(value))
+         _toPairs(filters).forEach(([field, { dataType }]) => {
+            const isNested = field?.split?.('.').length !== 1;
+            if (isNested) return;
+
+            let mode = matchMode;
+
+            if (dataType === 'numeric') mode = FilterMatchMode.EQUALS;
+            else if (dataType === 'decimal') mode = FilterMatchMode.EQUALS;
+            else if (dataType === 'date') mode = FilterMatchMode.DATE_IS;
+
+            const targetFilters = isNested ? andFilters : orFilters;
+
+            const operator = FilterOperator.OR;
+
+            targetFilters[field] = {
+               ...targetFilters[field],
+               dataType,
+               operator,
+               constraints: [
+                  ..._get(targetFilters[field], 'constraints', []),
+                  { value, matchMode: mode }
+               ]
+            };
+         });
+   }
+
+   let query = '';
+   const andFilterQuery = reducerFn(andFilters).join('&');
+   const orFilterQuery = reducerFn(orFilters).join(',');
+   if (_size(andFilterQuery) > 0) query += `&${andFilterQuery}`;
+   if (_size(orFilterQuery) > 0) query += `&or=(${orFilterQuery})`;
+
+   return query;
+};
 const handleDelete = async (options) => {
    const confirmed = new Promise((resolve) => {
       const item = JSON.parse(options.headers?.get?.('item'));
