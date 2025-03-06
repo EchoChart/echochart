@@ -1,5 +1,4 @@
 import CustomRouteView from '@/components/layout/CustomRouteView.vue';
-import router from '..';
 
 /**
  * @type {import('vue-router').RouteLocation[]}
@@ -9,12 +8,12 @@ export default [
       path: 'branch',
       component: CustomRouteView,
       meta: {
-         index: 0,
+         index: -1,
          icon: PrimeIcons.BUILDING,
          requiresAuth: true
       },
       name: 'branch',
-      redirect: { name: 'branch-roles' },
+      redirect: { name: 'branch-role' },
       children: [
          {
             path: 'roles',
@@ -27,16 +26,16 @@ export default [
                   }
                ]
             },
-            name: 'branch-roles',
+            name: 'branch-role',
             component: CustomRouteView,
-            redirect: { name: 'branch-roles-list' },
+            redirect: { name: 'branch-role-list' },
             children: [
                {
                   path: 'list',
-                  name: 'branch-roles-list',
+                  name: 'branch-role-list',
                   meta: {
+                     visible: false,
                      index: -1,
-                     // visible: false,
                      requiredPermissions: [
                         {
                            action: 'select',
@@ -56,10 +55,10 @@ export default [
                },
                {
                   path: 'add',
-                  name: 'branch-roles-add',
+                  name: 'branch-role-add',
                   meta: {
+                     visible: false,
                      icon: PrimeIcons.PLUS,
-                     // visible: false,
                      requiredPermissions: [
                         {
                            action: 'create',
@@ -78,10 +77,10 @@ export default [
                },
                {
                   path: ':id?/edit',
-                  name: 'branch-roles-edit',
+                  name: 'branch-role-edit',
                   props: true,
                   meta: {
-                     icon: PrimeIcons.PENCIL,
+                     icon: PrimeIcons.FILE_EDIT,
                      visible: false,
                      requiredPermissions: [
                         {
