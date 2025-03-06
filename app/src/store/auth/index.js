@@ -117,26 +117,27 @@ export const useAuthStore = defineStore('auth', () => {
       });
    });
 
-   router.isReady().then(() => {
-      watch(
-         () => isSignedIn.value,
-         (signedIn) => {
-            if (signedIn) {
-               const backTo = router.options.history.state.back || '/';
-               if (['login', 'register'].includes(route.name)) {
-                  router.replace(backTo);
-               }
+   watch(
+      () => isSignedIn.value,
+      async (signedIn) => {
+         await router.isReady();
+         await initialized;
 
-               return;
+         if (signedIn) {
+            const backTo = router.options.history.state.back || '/';
+            if (['login', 'register'].includes(route.name)) {
+               router.replace(backTo);
             }
 
-            if (route?.meta?.requiresAuth) {
-               if (route.name == 'logout') return router.replace({ name: 'login' });
-               router.push({ name: 'login' });
-            }
+            return;
          }
-      );
-   });
+
+         if (route?.meta?.requiresAuth && !signedIn) {
+            if (route.name == 'logout') return router.replace({ name: 'login' });
+            router.push({ name: 'login' });
+         }
+      }
+   );
 
    const loginWithPassword = async (loginData) => {
       const { data, error } = await supabase.auth.signInWithPassword(loginData);
