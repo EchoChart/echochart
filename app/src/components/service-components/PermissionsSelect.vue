@@ -5,13 +5,6 @@ defineOptions({
    inheritAttrs: false
 });
 
-defineProps({
-   disabled: {
-      type: Boolean,
-      default: false
-   }
-});
-
 const attrs = useAttrs();
 
 const modelValue = defineModel();
@@ -82,8 +75,8 @@ const toggleAll = (e) => {
 };
 
 const tableProps = computed(() => ({
+   stateKey: 'permission',
    dataKey: 'display_name',
-   stateKey: 'permissions',
    paginator: false,
    columns,
    rowActions: [],
@@ -98,7 +91,7 @@ const tableProps = computed(() => ({
          <FormField class="!flex-[0] flex-nowrap" :label="$t('all')">
             <template #default="slotProps">
                <ToggleSwitch
-                  :readonly="disabled"
+                  :readonly="$attrs.readonly"
                   v-bind="slotProps"
                   :model-value="allChecked || false"
                   @change="(e) => toggleAll(e)"
@@ -114,7 +107,7 @@ const tableProps = computed(() => ({
          <FormField class="!flex-[0] flex-nowrap" :label="$t(header || '')">
             <template #default="slotProps">
                <ToggleSwitch
-                  :readonly="disabled"
+                  :readonly="$attrs.readonly"
                   v-bind="slotProps"
                   :model-value="
                      permissionsByKind?.[field]?.every?.((item) =>
@@ -132,7 +125,7 @@ const tableProps = computed(() => ({
          :key="`${kind}_${i}`"
       >
          <ToggleSwitch
-            :readonly="disabled"
+            :readonly="$attrs.readonly"
             :model-value="
                data?.items[field]?.every?.((item) => _includes(_keys(modelValue), item.id)) || false
             "
