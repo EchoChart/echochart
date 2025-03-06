@@ -26,7 +26,8 @@ const form = new Form({
    rules: {
       display_name: 'required|string',
       permissions: 'required'
-   }
+   },
+   useDialogForm: false
 });
 
 const getRole = async () => {
@@ -65,14 +66,14 @@ const updateCallback = (data) => {
       return;
    }
    if (data?.id === form.id) {
-      getRole();
+      form._setDefaults(data)._reset();
    }
 };
 
 const routeLoading = inject('routeLoading', false);
 if (!routeLoading.value) {
-   onMounted(() => emitter.on('roles-update', updateCallback));
-   onUnmounted(() => emitter.off('roles-update', updateCallback));
+   onMounted(() => emitter.on('role-update', updateCallback));
+   onUnmounted(() => emitter.off('role-update', updateCallback));
 }
 
 const save = async () => {
@@ -114,7 +115,7 @@ const save = async () => {
    form._setDefaults(form._data);
    form._reset();
 
-   emitter.emit('roles-update', form._data);
+   emitter.emit('role-update', form._data);
 };
 </script>
 
@@ -141,12 +142,12 @@ const save = async () => {
                fluid
                :label="i18n.t('permissions')"
                :error="form?._errors.first('permissions')"
-               :disabled="
+               :readonly="
                   !$can('modify', 'role_permissions') && !$can('create', 'role_permissions')
                "
             >
                <template #default="slotProps">
-                  <SelectPermissions v-bind="slotProps" v-model="form['permissions']" />
+                  <PermissionsSelect v-bind="slotProps" v-model="form['permissions']" />
                </template>
             </FormField>
          </div>

@@ -8,29 +8,39 @@ defineOptions({
 
 const attrs = useAttrs();
 const router = useRouter();
+
+// Define the columns
 const columns = new Collection([
    {
       field: 'display_name',
       sortable: true,
-      header: i18n.t('display_name'),
-      filter: {
-         operator: FilterOperator.AND,
-         constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
-      },
-      dataType: 'text'
+      header: i18n.t('display_name')
    },
    {
       field: 'created_at',
       sortable: true,
-      header: i18n.t('created_at'),
-      filter: {
-         operator: FilterOperator.AND,
-         constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }]
-      },
-      dataType: 'date'
+      header: i18n.t('created_at')
    }
 ]);
 
+// Define the filters object
+const filters = ref({
+   global: {
+      value: null,
+      matchMode: FilterMatchMode.CONTAINS
+   },
+   display_name: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
+   },
+   created_at: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
+      dataType: 'date'
+   }
+});
+
+const stateKey = 'role';
 const rowActions = new Collection([
    {
       label: i18n.t('delete'),
@@ -41,15 +51,14 @@ const rowActions = new Collection([
             .eq('id', data?.id)
             .setHeader('item', JSON.stringify(data))
             .throwOnError()
-            .then(() => emitter.emit('roles-update', data)),
-      icon: PrimeIcons.TRASH,
-      severity: 'red'
+            .then(() => emitter.emit(`${stateKey}-update`, data)),
+      icon: PrimeIcons.TRASH
    },
    {
       label: i18n.t('edit'),
       command: async ({ data }) =>
          router.push({
-            name: 'branch-roles-edit',
+            name: 'branch-role-edit',
             params: { id: data.id },
             query: { showDialog: true }
          }),
@@ -60,30 +69,29 @@ const rowActions = new Collection([
 const dialogRef = inject('dialogRef', null);
 
 const tableProps = computed(() => ({
+   stateKey,
    from: 'roles',
    select: '*, permissions(id, kind, group_name)',
-   columns: columns,
+   columns: columns._data,
    rowActions: rowActions._data,
    ...attrs
 }));
 </script>
 <template>
-   <div class="card">
-      <ResourceTable v-bind="tableProps" :mapClass="Collection">
-         <template #header>
-            <Teleport v-if="$can('create', 'roles')" to="#page-toolbar" defer :disabled="dialogRef">
-               <div class="flex items-center justify-end gap-4">
-                  <CustomLink :to="{ name: 'branch-roles-add' }">
-                     <template #default="{ navigate }">
-                        <Button variant="outlined" :label="$t('add')" @click="navigate" />
-                     </template>
-                  </CustomLink>
-               </div>
-            </Teleport>
-         </template>
-         <template #expansion="{ data }">
-            <Upsert :data="data" />
-         </template>
-      </ResourceTable>
-   </div>
+   <ResourceTable v-bind="tableProps" v-model:filters="filters" :mapClass="Collection">
+      <template #header>
+         <Teleport v-if="$can('create', 'roles')" to="#page-toolbar" :disabled="dialogRef">
+            <div class="flex items-center justify-end gap-4">
+               <CustomLink :to="{ name: 'branch-role-add' }">
+                  <template #default="{ navigate }">
+                     <Button variant="outlined" :label="$t('add')" @click="navigate" />
+                  </template>
+               </CustomLink>
+            </div>
+         </Teleport>
+      </template>
+      <template #expansion="{ data }">
+         <Upsert :data />
+      </template>
+   </ResourceTable>
 </template>

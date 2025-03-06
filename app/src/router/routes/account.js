@@ -74,7 +74,7 @@ export default [
                icon: PrimeIcons.SIGN_OUT
             },
             async beforeEnter() {
-               const res = new Promise((resolve) => {
+               const res = new Promise((resolve, reject) => {
                   useConfirm().require({
                      icon: PrimeIcons.EXCLAMATION_TRIANGLE,
                      message: i18n.t('are_you_sure_you_want_to_logout?'),
@@ -91,10 +91,10 @@ export default [
                      accept: resolve,
                      reject: async () => {
                         if (router.options.history.state.back) {
-                           return;
+                           return reject(false);
                         }
                         await router.replace({ name: 'dashboard' });
-                        resolve(false);
+                        reject(false);
                      }
                   });
                });
