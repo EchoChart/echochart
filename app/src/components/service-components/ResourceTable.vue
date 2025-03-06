@@ -55,11 +55,7 @@ async function getValues(metaObj) {
 
       loading.value = true;
 
-      const req = supabase
-         .from(props.from)
-         .select(props.select)
-         .abortSignal(ac.signal)
-         .throwOnError();
+      const req = supabase.from(props.from).select(props.select).abortSignal(ac.signal);
 
       !_isEmpty(meta._data) && req.setHeader?.('meta', JSON.stringify(meta._data));
 
@@ -68,13 +64,12 @@ async function getValues(metaObj) {
          const countReq = supabase
             .from(props.from)
             .select?.(props.select, props.count)
-            .abortSignal?.(ac.signal)
-            .eq?.('tenant_id', currentTenant.value.id);
+            .abortSignal?.(ac.signal);
 
          !_isEmpty(meta._data) &&
             countReq.setHeader?.('meta', JSON.stringify(_pick(meta._data, ['filters'])));
 
-         countReq.throwOnError?.().then?.(({ count }) => (totalRecords.value = count));
+         countReq.then?.(({ count }) => (totalRecords.value = count));
       }
 
       const { data } = await req.throwOnError();
@@ -85,9 +80,9 @@ async function getValues(metaObj) {
 }
 
 const updateCallback = () => getValues(meta._data);
-onMounted(() => emitter.on(`${props.from}-update`, updateCallback));
+onMounted(() => emitter.on(`${attrs.stateKey || props.from}-update`, updateCallback));
 onBeforeUnmount(() => {
-   emitter.off(`${props.from}-update`, updateCallback);
+   emitter.off(`${attrs.stateKey || props.from}-update`, updateCallback);
    ac.abort?.();
 });
 
