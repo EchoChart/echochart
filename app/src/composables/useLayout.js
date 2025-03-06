@@ -1,11 +1,11 @@
 import tailwindConfig from '@/../tailwind.config.js';
 import Collection from '@/lib/Collection';
 import router from '@/router';
-import { $t, updatePreset, updateSurfacePalette } from '@primevue/themes';
-import aura from '@primevue/themes/aura';
-import lara from '@primevue/themes/lara';
-import material from '@primevue/themes/material';
-import nora from '@primevue/themes/nora';
+import { $t, updatePreset, updateSurfacePalette } from '@primeuix/themes';
+import aura from '@primeuix/themes/aura';
+import lara from '@primeuix/themes/lara';
+import material from '@primeuix/themes/material';
+import nora from '@primeuix/themes/nora';
 import { breakpointsTailwind } from '@vueuse/core';
 import tailwindColors from 'tailwindcss/colors';
 

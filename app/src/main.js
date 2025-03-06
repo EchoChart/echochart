@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 
 import { i18NPlugin } from '@plugins/i18n';
-import Aura from '@primevue/themes/aura';
+import Aura from '@primeuix/themes/aura';
 import { createPinia } from 'pinia';
 import PrimeVue from 'primevue/config';
 import ConfirmationService from 'primevue/confirmationservice';
