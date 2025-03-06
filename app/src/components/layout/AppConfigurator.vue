@@ -42,8 +42,8 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                <Slider
                   class="my-auto"
                   v-model:modelValue="layoutState.UIScale"
-                  :step="0.01"
-                  :min="0.8"
+                  :step="0.05"
+                  :min="0.75"
                   :max="1.1"
                   :aria-label="$t('change_ui_scale')"
                />
