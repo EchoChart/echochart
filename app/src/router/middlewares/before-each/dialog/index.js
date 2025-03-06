@@ -25,23 +25,24 @@ export const dialogBeforeEach = async (to, from, next) => {
 
    let dialog;
 
-   const onDragend = (e) => {
+   const updateStyles = (e) => {
       const dialogElement = e?.target ?? e;
       if (!dialogElement) return;
 
       if (dialogElement.role != 'dialog') {
-         return onDragend(dialogElement.parentElement);
+         return updateStyles(dialogElement.parentElement);
       }
 
       dialog.options.props.style = dialogElement.style.cssText;
    };
 
-   const onMouseenter = (e) => {
-      const dialogElement = e?.target ?? e;
+   const focusToDialog = (e) => {
+      const dialogElement = e?.target || e;
       if (!dialogElement) return;
 
-      if (!dialogElement?.classList.contains('p-dialog-mask'))
-         return onMouseenter(dialogElement.parentElement);
+      if (!dialogElement?.classList.contains('p-dialog-mask')) {
+         return focusToDialog(dialogElement.parentElement);
+      }
 
       if (dialogElement.querySelectorAll('.p-dialog-maximized').length > 0) return;
 
@@ -70,8 +71,8 @@ export const dialogBeforeEach = async (to, from, next) => {
          keepInViewport: false,
          closeOnEscape: true,
          class: 'max-w-full',
-         onDragend,
-         onMouseenter
+         onDragend: updateStyles,
+         onMousedown: focusToDialog
       }
    };
 
