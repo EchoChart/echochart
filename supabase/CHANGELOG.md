@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.2.2-alpha.1...echochart-supabase-v0.3.0-alpha.1) (2025-03-06)
+
+
+### Features
+
+* **stock:** add stocks table with constraints, indexes, and views for stock management ([6d4e474](https://github.com/EchoChart/echochart/commit/6d4e4745106ef081c1f802de1fd886c911ade11f))
+
 ## [0.2.2-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.2.1-alpha.1...echochart-supabase-v0.2.2-alpha.1) (2025-02-06)
 
 
