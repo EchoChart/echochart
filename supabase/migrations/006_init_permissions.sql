@@ -41,6 +41,10 @@ FROM
    information_schema.columns
 WHERE
    column_name = 'tenant_id' -- Filter for tables containing the 'tenant_id' column
+   AND table_schema = 'public'
+   AND table_name NOT IN (
+      SELECT table_name FROM information_schema.views WHERE table_schema = 'public'
+   )
    LOOP
    -- Enable Row-Level Security (RLS) on the table
    EXECUTE format (
@@ -52,7 +56,7 @@ WHERE
 -- Drop existing policies if they exist to avoid conflicts when reapplying policies
 --   EXECUTE format('DROP POLICY IF EXISTS restrict_to_user_tenants ON %I.%I;', t_schema, t_name);
 EXECUTE format (
-   'DROP POLICY IF EXISTS restrict_to_current_tenant ON %I.%I;',
+   'DROP POLICY IF EXISTS restricts_to_current_tenant ON %I.%I;',
    t_schema,
    t_name
 );
@@ -60,11 +64,11 @@ EXECUTE format (
 -- SELECT policy
 EXECUTE format (
    '
-      CREATE POLICY restrict_select_to_current_tenant ON %I.%I
+      CREATE POLICY restrict_selects_to_current_tenant ON %I.%I
       AS RESTRICTIVE
       FOR SELECT TO authenticated
       USING (
-         tenant_id = (SELECT auth.tenant_id())
+         tenant_id IS NULL OR tenant_id = (SELECT auth.tenant_id())
       );
    ',
    t_schema,
@@ -74,7 +78,7 @@ EXECUTE format (
 -- INSERT policy
 EXECUTE format (
    '
-      CREATE POLICY restrict_insert_to_current_tenant ON %I.%I
+      CREATE POLICY restrict_inserts_to_current_tenant ON %I.%I
       AS RESTRICTIVE
       FOR INSERT TO authenticated
       WITH CHECK (
@@ -88,7 +92,7 @@ EXECUTE format (
 -- UPDATE policy
 EXECUTE format (
    '
-      CREATE POLICY restrict_update_to_allowed_tenant ON %I.%I
+      CREATE POLICY restrict_updates_to_allowed_tenant ON %I.%I
       AS RESTRICTIVE
       FOR UPDATE TO authenticated
       USING (
@@ -105,7 +109,7 @@ EXECUTE format (
 -- DELETE policy
 EXECUTE format (
    '
-      CREATE POLICY restrict_delete_to_current_tenant ON %I.%I
+      CREATE POLICY restrict_deletes_to_current_tenant ON %I.%I
       AS RESTRICTIVE
       FOR DELETE TO authenticated
       USING (
