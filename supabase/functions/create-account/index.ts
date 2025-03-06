@@ -33,9 +33,7 @@ Deno.serve(async (req) => {
          })
          .throwOnError();
 
-      const {
-         data: [role]
-      } = await supabase
+      const { data: role } = await supabase
          .from('roles')
          .insert({
             display_name: 'owner',
@@ -43,14 +41,14 @@ Deno.serve(async (req) => {
             is_default: true
          })
          .select()
+         .single()
          .throwOnError();
 
       await supabase
          .from('user_roles')
          .insert({
             user_id: user.id,
-            role_id: role.id,
-            is_default: true
+            role_id: role.id
          })
          .throwOnError();
 
