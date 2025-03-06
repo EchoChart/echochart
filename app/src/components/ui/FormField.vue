@@ -52,7 +52,7 @@ const inputClass = computed(() => [_has(attrs, 'fluid') ? '!w-full flex-auto' : 
 const errorClass = computed(() => [
    'absolute',
    'left-0 bottom-0 mx-2',
-   'normal-case text-red-300',
+   'capitalize text-red-300',
    'animate animate-fadein animate-duration-[var(--transition-duration)] animate-ease-in-out animate-once'
 ]);
 
@@ -103,7 +103,7 @@ onMounted(() => {
             severity="danger"
             :class="errorClass"
          >
-            {{ _startCase(attrs.error) }}
+            {{ attrs.error }}
          </Message>
 
          <Skeleton
