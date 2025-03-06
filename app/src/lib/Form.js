@@ -21,26 +21,101 @@ Validator.setAttributeFormatter((attr) => {
 Validator.register('phone', (value) => {
    return value.match(/^[+]?[\d]{0,3}\W?[(]?[\d]{3}[)]?[-\s.]?[\d]{3}[-\s.]?[\d]{4,6}$/im);
 });
+Validator.register(
+   'lte',
+   function (value, requirement) {
+      return this.inputValue <= _get(this.validator?.input, requirement, requirement);
+   },
+   ':attribute <= :lte'
+);
+Validator.register(
+   'gte',
+   function (value, requirement) {
+      return this.inputValue >= _get(this.validator?.input, requirement, requirement);
+   },
+   ':attribute >= :gte'
+);
+Validator.register(
+   'lt',
+   function (value, requirement) {
+      return this.inputValue < _get(this.validator?.input, requirement, requirement);
+   },
+   ':attribute < :lt'
+);
+Validator.register(
+   'gt',
+   function (value, requirement) {
+      return this.inputValue > _get(this.validator?.input, requirement, requirement);
+   },
+   ':attribute > :gt'
+);
 
 /**
  * @template T
  * @extends {Collection<T>}
  */
 export class Form extends Collection {
+   /**
+    * Reactive rules object.
+    * @type {Object}
+    */
    _rules = reactive({});
+
+   /**
+    * Reactive errors object.
+    * @type {Errors}
+    */
    _errors = reactive(new Errors());
+
+   /**
+    * Whether the form is valid or not.
+    * @type {boolean}
+    */
    _isValid = true;
+
+   /**
+    * Computed property indicating whether any data has changed.
+    * @type {ComputedRef<boolean>}
+    */
    _isChanged = computed(() => _size(this._changedData) > 0);
+
+   /**
+    * Reactive array of attributes to auto-validate.
+    * @type {Ref<Array|string|null>}
+    */
    _autoValidate = ref([]);
+
+   /**
+    * Reactive flag indicating whether the form uses a dialog.
+    * @type {Ref<boolean>}
+    */
+   _useDialogForm = ref(false);
+
+   /**
+    * Computed property indicating the changed data.
+    * @type {ComputedRef<Object>}
+    */
    _changedData = computed(() => {
       return diff(this._defaults, this._data);
    });
 
-   constructor({ data, rules, autoValidate = [] }) {
+   /**
+    * Constructor for Form class.
+    *
+    * @param {Object} options - Options object.
+    * @param {Object} [options.data={}] - Initial data.
+    * @param {Object} [options.rules={}] - Validation rules.
+    * @param {Array<string>|null} [options.autoValidate=[]] - Attributes to auto-validate.
+    * @param {boolean} [options.useDialogForm=true] - Whether the form uses a dialog.
+    */
+   constructor({ data = {}, rules = {}, autoValidate = [], useDialogForm = true }) {
       super(data);
       this._autoValidate = autoValidate;
+      this._useDialogForm = useDialogForm;
 
-      this._setRules(rules).#_initWatcher().#_initDialogForm();
+      this._setRules(rules).#_initWatcher();
+
+      if (this._useDialogForm) this.#_initDialogForm();
    }
 
    #_initWatcher() {
@@ -80,6 +155,13 @@ export class Form extends Collection {
       return this;
    }
 
+   /**
+    * Validates the form data.
+    *
+    * @param {Array<string>|null} [keys=null] - Attributes to validate.
+    * @param {Object} [rules=this._rules] - Validation rules.
+    * @returns {boolean} - Whether validation passed.
+    */
    _validate(keys = null, rules = this._rules) {
       Validator.useLang(locale.value);
 
@@ -99,6 +181,12 @@ export class Form extends Collection {
       return this._isValid;
    }
 
+   /**
+    * Resets the form data to default values.
+    *
+    * @param {Object} [attrs=this._defaults] - Default attributes.
+    * @returns {Form} - Form instance for chaining.
+    */
    _reset(attrs = this._defaults) {
       super._reset(attrs);
 
@@ -107,6 +195,12 @@ export class Form extends Collection {
       return this;
    }
 
+   /**
+    * Sets the validation rules for the form.
+    *
+    * @param {Object} [rules={}] - Validation rules.
+    * @returns {Form} - Form instance for chaining.
+    */
    _setRules(rules = {}) {
       this._rules = rules;
       return this;
