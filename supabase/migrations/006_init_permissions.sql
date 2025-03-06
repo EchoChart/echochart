@@ -14,6 +14,12 @@ ALTER TABLE public.role_permissions ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE public.product_category ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.product_categories ENABLE ROW LEVEL SECURITY;
+
 GRANT usage ON SCHEMA "private" TO supabase_auth_admin;
 
 GRANT EXECUTE ON FUNCTION private.custom_access_token_hook TO supabase_auth_admin;

@@ -113,21 +113,46 @@ CREATE TABLE
 CREATE INDEX user_roles_user_id_idx ON public.user_roles (user_id);
 CREATE INDEX user_roles_role_id_idx ON public.user_roles (role_id);
 
--- Tenants Table
-CREATE INDEX IF NOT EXISTS idx_tenants_display_name ON public.tenants (display_name);
+-- Products Table
+CREATE TABLE
+   IF NOT EXISTS public.products (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+      tenant_id UUID REFERENCES public.tenants (id) ON DELETE CASCADE,
+      display_name TEXT UNIQUE NOT NULL,
+      brand TEXT,
+      description TEXT,
+      created_at TIMESTAMP DEFAULT NOW (),
+      CONSTRAINT unique_product_display_name UNIQUE (tenant_id, display_name)
+   );
+CREATE INDEX products_display_name_idx ON public.products (display_name);
+CREATE INDEX products_display_name_composite_idx ON public.products (display_name, id);
+CREATE INDEX products_created_at_idx ON public.products (created_at);
 
-CREATE INDEX IF NOT EXISTS idx_tenants_phone_email ON public.tenants (phone, email);
+CREATE OR REPLACE VIEW public.product_brands AS
+SELECT DISTINCT brand as display_name FROM public.products;
 
-CREATE INDEX IF NOT EXISTS idx_tenants_parent_id ON public.tenants (parent_id);
+-- Product Categories Table
+CREATE TABLE
+   IF NOT EXISTS public.product_category (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+      display_name TEXT NOT NULL,
+      description TEXT,
+      created_at TIMESTAMP DEFAULT NOW (),
+      parent_id UUID REFERENCES public.product_category (id) ON DELETE CASCADE
+   );
+CREATE INDEX product_category_display_name_idx ON public.product_category (display_name);
+CREATE INDEX product_category_created_at_idx ON public.product_category (created_at);
 
-CREATE INDEX IF NOT EXISTS idx_tenants_created_updated_at ON public.tenants (created_at, updated_at);
-
--- Users Table
-CREATE INDEX IF NOT EXISTS idx_users_email ON public.users (email);
-
-CREATE INDEX IF NOT EXISTS idx_users_phone ON public.users (phone);
-
-CREATE INDEX IF NOT EXISTS idx_users_created_updated_at ON public.users (created_at, updated_at);
+-- Product Category Table (relationship)
+CREATE TABLE
+   IF NOT EXISTS public.product_categories (
+      product_id UUID NOT NULL REFERENCES public.products (id) ON DELETE CASCADE,
+      category_id UUID NOT NULL REFERENCES public.product_category (id) ON DELETE CASCADE,
+      created_at TIMESTAMP DEFAULT NOW (),
+      PRIMARY KEY (product_id, category_id)
+   );
+CREATE INDEX product_categories_product_id_idx ON public.product_categories (product_id);
+CREATE INDEX product_categories_category_id_idx ON public.product_categories (category_id);
 
 -- Addresses Table
 CREATE INDEX IF NOT EXISTS idx_addresses_tenant_id ON public.addresses (tenant_id);
