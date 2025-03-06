@@ -58,7 +58,6 @@ BEGIN
           , avatar_url = COALESCE(NEW.raw_user_meta_data->>'avatar_url', NULL)
           , email = NEW.email
           , phone = NEW.phone
-          , updated_at = now() -- optional: keep track of the update time
         WHERE id = NEW.id
         RETURNING id INTO user_id;
 
