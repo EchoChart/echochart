@@ -151,10 +151,12 @@ const tableProps = computed(() => ({
             "
          />
       </template>
+      <template #vendor_filter="{ filterModel }">
+         <StockVendorSelect class="min-w-40" v-model="filterModel.value" />
+      </template>
       <template #display_name_body="{ data }">
          <div class="flex flex-col gap-2">
             <span v-text="data?.display_name" />
-            <!-- <span v-text="data?.barcode" /> -->
          </div>
       </template>
    </ResourceTable>

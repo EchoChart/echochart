@@ -165,5 +165,8 @@ const tableProps = computed(() => ({
             "
          />
       </template>
+      <template #vendor_filter="{ filterModel }">
+         <StockVendorSelect class="min-w-40" v-model="filterModel.value" />
+      </template>
    </ResourceTable>
 </template>
