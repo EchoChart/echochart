@@ -19,7 +19,7 @@
       "@primevue/core": "^4.2.1",
       "@supabase/supabase-js": "^2.46.2",
       "@vueuse/core": "^11.1.0",
-      "axios": "^1.7.9",
+      "axios": "^1.8.2",
       "chart.js": "3.3.2",
       "currency-codes": "^2.2.0",
       "deep-object-diff": "^1.1.9",
