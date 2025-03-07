@@ -163,7 +163,7 @@ if (props.id || props.data?.id) {
             </FormField>
          </div>
          <div
-            v-if="$can('create', 'products') || $can('modify', 'products')"
+            v-if="($can('create', 'products') || $can('modify', 'products')) && !readonly"
             class="flex flex-wrap items-end justify-end gap-4 !flex-auto w-full"
          >
             <Button
