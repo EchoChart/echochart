@@ -98,7 +98,8 @@ const getFilterQuery = (filters) => {
             console.warn(`Unsupported matchMode: ${matchMode}`);
             return null;
          }
-         if (_isNil(value) || _isEmpty(value)) return null;
+
+         if (_isNil(value)) return null;
 
          if (dataType === 'numeric') {
             value = _toNumber(value);
@@ -109,6 +110,8 @@ const getFilterQuery = (filters) => {
             if (_isNaN(value)) return null;
          }
          if (dataType === 'date' && _isNaN(Date.parse(value))) return null;
+
+         if ((_isArrayLikeObject(value) || _isString(value)) && _isEmpty(value)) return null;
 
          let filterParts = filterMode(value, field, operator, dataType);
 
