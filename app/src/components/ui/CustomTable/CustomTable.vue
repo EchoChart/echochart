@@ -230,14 +230,7 @@ const tableProps = computed(() => ({
          </template>
          <template v-if="!column.expander" #body="body">
             <slot :name="`${_snakeCase(body?.field)}_body`" v-bind="body">
-               <Skeleton
-                  v-if="loading && !_has(body?.data, body.field)"
-                  :height="
-                     actions._data?.length > 0 && tableProps?.value?.length > 0
-                        ? '2.5rem'
-                        : '2.5rem'
-                  "
-               />
+               <Skeleton v-if="loading && !_has(body?.data, body.field)" :height="'2.5rem'" />
                <div
                   v-else
                   class="truncate"
