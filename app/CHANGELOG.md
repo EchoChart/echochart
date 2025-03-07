@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.4.1-alpha.1...echochart-app-v0.5.0-alpha.1) (2025-03-07)
+
+
+### Features
+
+* add vendor filter to stock tables ([051ca2f](https://github.com/EchoChart/echochart/commit/051ca2fb88b819e26df62b754a0cee271fe82303))
+
 ## [0.4.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.4.0-alpha.1...echochart-app-v0.4.1-alpha.1) (2025-03-07)
 
 
