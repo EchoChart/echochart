@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.4.0-alpha.1...echochart-app-v0.4.1-alpha.1) (2025-03-07)
+
+
+### Bug Fixes
+
+* refine filter query logic to handle empty values more accurately ([f4cd29b](https://github.com/EchoChart/echochart/commit/f4cd29b64121e6434099a5f639a5dd2f0f8e26c7))
+* simplify Skeleton component height logic in CustomTable ([9793b4b](https://github.com/EchoChart/echochart/commit/9793b4b3dc0b8363a74d448daa1dd5a6d2c0699e))
+* update visibility condition for product action buttons based on readonly state ([b693064](https://github.com/EchoChart/echochart/commit/b693064366381574a72eda9c04adf0ce57d65858))
+
 ## [0.4.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.3.1-alpha.1...echochart-app-v0.4.0-alpha.1) (2025-03-06)
 
 
