@@ -41,7 +41,7 @@ export default [
             }
          },
          {
-            path: 'add',
+            path: ':category?/add',
             name: 'product-add',
             props: true,
             meta: {

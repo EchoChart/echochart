@@ -14,6 +14,10 @@ const props = defineProps({
       type: Object,
       default: null,
       required: false
+   },
+   category: {
+      type: String,
+      default: null
    }
 });
 
@@ -21,13 +25,16 @@ const toast = useToast();
 
 const { ability, current_tenant_id } = useAuthStore();
 
+const { getProducts, getCategories } = useProductsStore();
+const categories = await getCategories();
+
 const initialFormData = {
    id: undefined,
    display_name: null,
    brand: null,
    description: null,
    tenant_id: current_tenant_id,
-   categories: []
+   categories: categories.filter((c) => _includes(props.category?.split('|'), c.display_name))
 };
 
 const fields = _keys(initialFormData);
@@ -47,8 +54,6 @@ const readonly = computed(
       (ability.cannot('modify', 'products') && ability.cannot('create', 'products')) ||
       (form.id && !form.tenant_id)
 );
-
-const { getProducts } = useProductsStore();
 
 if (props.id) {
    getProducts().then((products) => {
