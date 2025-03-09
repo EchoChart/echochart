@@ -10,8 +10,9 @@ export const useProductsStore = defineStore('products', () => {
       async function fetchProducts(select = defaultSelect) {
          const res = await supabase.from('products').select(select).throwOnError();
          const { data } = res;
-         products._set(data);
+         products._setDefaults(data || [])._reset();
 
+         productsByCategory._reset();
          data?.forEach((product) => {
             product.categories.forEach((category) => {
                productsByCategory[category.display_name] ??= [];
@@ -28,11 +29,14 @@ export const useProductsStore = defineStore('products', () => {
       async function fetchProductBrands(select = '*') {
          const res = await supabase.from('product_brands').select(select).throwOnError();
          const { data } = res;
-         productBrands._set(data);
+         productBrands._setDefaults(data || [])._reset();
       }
 
       async function getProducts(select = defaultSelect) {
-         if (_isNil(products._data)) await fetchProducts(select);
+         if (_isNil(products._data)) {
+            await fetchProducts(select);
+            emitter.on('product-update', () => fetchProducts(select));
+         }
 
          return products;
       }
@@ -67,7 +71,7 @@ export const useProductsStore = defineStore('products', () => {
       async function fetchCategories(select = '*') {
          const res = await supabase.from('product_category').select(select).throwOnError();
          const { data } = res;
-         categories._set(data);
+         categories._setDefaults(data || [])._reset();
       }
 
       async function getCategories(select = '*') {
