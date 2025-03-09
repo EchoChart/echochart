@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.6.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.5.0-alpha.1...echochart-app-v0.6.0-alpha.1) (2025-03-09)
+
+
+### Features
+
+* enhance ProductSelect component with edit and add functionality, and improve props handling ([6f9dd16](https://github.com/EchoChart/echochart/commit/6f9dd16ff2a3d0807ce4c949fe1af2bf29d0c4c6))
+* improve product and category fetching by resetting state and handling defaults ([7880204](https://github.com/EchoChart/echochart/commit/7880204a6e53bd42c214215a638ba77eb276369b))
+* update product route to include optional category and enhance Upsert component with category prop ([81ba4cb](https://github.com/EchoChart/echochart/commit/81ba4cbc06d6570039041435f6e348a7827b44c8))
+
 ## [0.5.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.4.1-alpha.1...echochart-app-v0.5.0-alpha.1) (2025-03-07)
 
 
