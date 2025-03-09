@@ -49,10 +49,10 @@ const products = computed(() => {
          v-model:model-value="modelValue"
       />
       <RouterLink
-         v-if="showEdit && $can('modify', 'products') && !!modelValue"
+         v-if="showEdit && $can('modify', 'products') && (!!modelValue?.id || !!modelValue)"
          :to="{
             name: 'product-edit',
-            params: { id: modelValue },
+            params: { id: modelValue?.id || modelValue },
             query: { showDialog: 'center' }
          }"
          v-slot="{ navigate }"
