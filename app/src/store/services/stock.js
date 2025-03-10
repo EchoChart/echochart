@@ -27,7 +27,9 @@ export const useStocksStore = defineStore('stocks', () => {
       }
 
       async function getStocks(select = defaultSelect) {
-         if (_isNil(stocks._data)) await fetchStocks(select);
+         if (_isNil(stocks._data)) {
+            await fetchStocks(select);
+         }
          return stocks;
       }
 
@@ -38,6 +40,10 @@ export const useStocksStore = defineStore('stocks', () => {
          }
          return await fetchStock(id, select);
       }
+
+      emitter.on('device-update', () => emitter.emit('stock-update'));
+      emitter.on('spare-part-update', () => emitter.emit('stock-update'));
+      emitter.on('battery-update', () => emitter.emit('stock-update'));
 
       return {
          stocks,
@@ -85,7 +91,7 @@ export const useStocksStore = defineStore('stocks', () => {
    };
 
    return {
-      ...useStocks(),
-      ...useVendors()
+      useStocks,
+      useVendors
    };
 });
