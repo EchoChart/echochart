@@ -47,7 +47,7 @@ const containerClass = computed(() => {
                <div
                   v-if="Component"
                   :key="currentTenant?.display_name"
-                  class="card p-4 mb-4 flex flex-wrap justify-center lg:justify-between gap-8 sticky top-0 shadow-md z-10"
+                  class="card p-4 mb-4 flex flex-wrap justify-center lg:justify-between gap-2 sticky top-0 shadow-md z-10"
                >
                   <Suspense>
                      <component :is="Component" />
