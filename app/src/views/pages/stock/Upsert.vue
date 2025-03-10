@@ -49,6 +49,11 @@ const form = new Form({
    useDialogForm: false
 });
 
+const { ability } = useAuthStore();
+const readonly = computed(
+   () => ability.cannot('modify', 'stocks') && ability.cannot('create', 'stocks')
+);
+
 if (props.id || props.data?.id) {
    const updateCallback = (data) => form._setDefaults(_pick(data, fields))._reset();
    onMounted(() => emitter.on('device-update', updateCallback));
@@ -88,7 +93,7 @@ const save = async () => {
    <div class="card">
       <FormBox @submit="save" @reset="() => form._reset()" class="[&>*]:flex-1">
          <FormField
-            :readonly="!$can('modify', 'stocks') && !$can('create', 'stocks')"
+            :readonly="readonly"
             fluid
             :error="form._errors.first('product_id')"
             :label="$t('product')"
@@ -103,7 +108,7 @@ const save = async () => {
             </template>
          </FormField>
          <FormField
-            :readonly="!$can('modify', 'stocks') && !$can('create', 'stocks')"
+            :readonly="readonly"
             fluid
             :error="form._errors.first('vendor')"
             :label="$t('vendor')"
@@ -115,7 +120,7 @@ const save = async () => {
          <div class="flex-1 flex">
             <FormField
                class="flex-[0.2]"
-               :readonly="!$can('modify', 'stocks') && !$can('create', 'stocks')"
+               :readonly="readonly"
                fluid
                :error="form._errors.first('currency_code')"
                :label="$t('currency')"
@@ -132,7 +137,7 @@ const save = async () => {
             </FormField>
             <FormField
                class="flex-[0.8]"
-               :readonly="!$can('modify', 'stocks') && !$can('create', 'stocks')"
+               :readonly="readonly"
                fluid
                :error="form._errors.first('cost')"
                :label="$t('cost')"
@@ -150,7 +155,7 @@ const save = async () => {
             </FormField>
          </div>
          <FormField
-            :readonly="!$can('modify', 'stocks') && !$can('create', 'stocks')"
+            :readonly="readonly"
             fluid
             :error="form._errors.first('quantity')"
             :label="$t('quantity')"
@@ -160,7 +165,7 @@ const save = async () => {
             </template>
          </FormField>
          <FormField
-            :readonly="!$can('modify', 'stocks') && !$can('create', 'stocks')"
+            :readonly="readonly"
             fluid
             :error="form._errors.first('used')"
             :label="$t('used')"
@@ -171,7 +176,7 @@ const save = async () => {
          </FormField>
          <div class="!flex-auto flex w-full flex-wrap">
             <FormField
-               :readonly="!$can('modify', 'stocks') && !$can('create', 'stocks')"
+               :readonly="readonly"
                fluid
                :error="form._errors.first('barcode')"
                :label="$t('barcode')"
@@ -181,7 +186,7 @@ const save = async () => {
                </template>
             </FormField>
             <FormField
-               :readonly="!$can('modify', 'stocks') && !$can('create', 'stocks')"
+               :readonly="readonly"
                fluid
                :error="form._errors.first('serial_number')"
                :label="$t('serial_number')"
@@ -193,7 +198,7 @@ const save = async () => {
          </div>
          <div class="!flex-auto w-full">
             <FormField
-               :readonly="!$can('modify', 'stocks') && !$can('create', 'stocks')"
+               :readonly="readonly"
                fluid
                :error="form._errors.first('details')"
                :label="$t('details')"
