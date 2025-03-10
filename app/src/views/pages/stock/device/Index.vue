@@ -130,18 +130,17 @@ const tableProps = computed(() => ({
 <template>
    <ResourceTable v-bind="tableProps" v-model:filters="filters">
       <template #header>
-         <div class="flex justify-end gap-4">
-            <KeywordSearchInput v-model="filters.global.value" />
-            <Teleport v-if="$can('create', 'stocks')" to="#page-toolbar" :disabled="dialogRef">
-               <div class="flex items-center justify-end gap-4">
-                  <CustomLink :to="{ name: 'stock-add', params: { category: 'device' } }">
-                     <template #default="{ navigate }">
-                        <Button variant="outlined" :label="$t('add')" @click="navigate" />
-                     </template>
-                  </CustomLink>
-               </div>
-            </Teleport>
-         </div>
+         <Teleport v-if="$can('create', 'stocks')" to="#page-toolbar" :disabled="dialogRef">
+            <span class="flex-1 flex justify-end gap-4 flex-wrap-reverse">
+               <KeywordSearchInput v-model="filters.global.value" />
+
+               <CustomLink :to="{ name: 'stock-add', params: { category: 'device' } }">
+                  <template #default="{ navigate }">
+                     <Button variant="outlined" :label="$t('add')" @click="navigate" />
+                  </template>
+               </CustomLink>
+            </span>
+         </Teleport>
       </template>
       <template #expansion="{ data }">
          <Upsert
