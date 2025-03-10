@@ -1,11 +1,10 @@
 import Collection from '@/lib/Collection';
 
-export const useProductsStore = defineStore('products', () => {
+export const useProductStore = defineStore('products', () => {
    const useProducts = () => {
       const defaultSelect = '*, categories: product_category(*)';
       const products = new Collection(null);
       const productsByCategory = new Collection({});
-      const productBrands = new Collection(null);
 
       async function fetchProducts(select = defaultSelect) {
          const res = await supabase.from('products').select(select).throwOnError();
@@ -26,12 +25,6 @@ export const useProductsStore = defineStore('products', () => {
          return res;
       }
 
-      async function fetchProductBrands(select = '*') {
-         const res = await supabase.from('product_brands').select(select).throwOnError();
-         const { data } = res;
-         productBrands._setDefaults(data || [])._reset();
-      }
-
       async function getProducts(select = defaultSelect) {
          if (_isNil(products._data)) {
             await fetchProducts(select);
@@ -46,22 +39,14 @@ export const useProductsStore = defineStore('products', () => {
          return productsByCategory;
       }
 
-      async function getProductBrands() {
-         if (_isNil(productBrands.data)) await fetchProductBrands();
-         return productBrands;
-      }
-
       return {
          products,
          productsByCategory,
-         productBrands,
 
          fetchProducts,
-         fetchProductBrands,
 
          getProducts,
-         getProductsByCategory,
-         getProductBrands
+         getProductsByCategory
       };
    };
 
@@ -88,8 +73,30 @@ export const useProductsStore = defineStore('products', () => {
       };
    };
 
+   const useBrands = () => {
+      const productBrands = new Collection(null);
+
+      async function fetchProductBrands(select = '*') {
+         const res = await supabase.from('product_brands').select(select).throwOnError();
+         const { data } = res;
+         productBrands._setDefaults(data || [])._reset();
+      }
+
+      async function getProductBrands() {
+         if (_isNil(productBrands.data)) await fetchProductBrands();
+         return productBrands;
+      }
+
+      return {
+         productBrands,
+         fetchProductBrands,
+         getProductBrands
+      };
+   };
+
    return {
-      ...useProducts(),
-      ...useCategories()
+      useProducts,
+      useCategories,
+      useBrands
    };
 });
