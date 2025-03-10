@@ -65,10 +65,10 @@ VALUES
    --
    --
    -- stocks
-   ('public.stocks', 'products', 'select', 'read', FALSE, FALSE, NULL),
-   ('public.stocks', 'products', 'insert', 'create', FALSE, FALSE, NULL),
-   ('public.stocks', 'products', 'update', 'modify', FALSE, FALSE, NULL),
-   ('public.stocks', 'products', 'delete', 'modify', FALSE, FALSE, NULL);
+   ('public.stocks', 'stocks', 'select', 'read', FALSE, FALSE, NULL),
+   ('public.stocks', 'stocks', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.stocks', 'stocks', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.stocks', 'stocks', 'delete', 'modify', FALSE, FALSE, NULL);
 
 INSERT INTO
    public.tenants (display_name)
