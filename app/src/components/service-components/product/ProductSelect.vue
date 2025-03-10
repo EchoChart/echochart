@@ -24,7 +24,7 @@ const modelValue = defineModel('modelValue');
 
 const categories = computed(() => props.category?.split?.('|') || []);
 
-const productStore = useProductsStore();
+const productStore = useProductsStore().useProducts();
 const allProducts = await productStore.getProducts();
 const productsByCategory = await productStore.getProductsByCategory();
 

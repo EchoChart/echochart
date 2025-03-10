@@ -25,8 +25,8 @@ const toast = useToast();
 
 const { ability, current_tenant_id } = useAuthStore();
 
-const { getProducts, getCategories } = useProductsStore();
-const categories = await getCategories();
+const { useProducts, useCategories } = useProductsStore();
+const categories = await useCategories().getCategories();
 
 const initialFormData = {
    id: undefined,
@@ -56,10 +56,12 @@ const readonly = computed(
 );
 
 if (props.id) {
-   getProducts().then((products) => {
-      const product = products?.find?.((product) => product.id === props.id);
-      form._setDefaults(_pick(product, fields))._reset();
-   });
+   useProducts()
+      .getProducts()
+      .then((products) => {
+         const product = products?.find?.((product) => product.id === props.id);
+         form._setDefaults(_pick(product, fields))._reset();
+      });
 }
 
 const save = async () => {

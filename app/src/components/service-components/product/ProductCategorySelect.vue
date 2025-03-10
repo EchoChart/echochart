@@ -2,7 +2,7 @@
 import { PRODUCT_CATEGORY_PROPS } from '@/services/models/ProductModel';
 import { useProductsStore } from '@/store/services/product';
 
-const productStore = useProductsStore();
+const productStore = useProductsStore().useCategories();
 const productCategories = await productStore.getCategories();
 </script>
 
