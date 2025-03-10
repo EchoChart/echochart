@@ -13,7 +13,7 @@ const dialogRef = inject('dialogRef', null);
 const mounted = useMounted();
 </script>
 <template>
-   <div class="card flex flex-col gap-4">
+   <div class="flex flex-col gap-4">
       <Teleport
          v-if="mounted && dialogRef"
          to="#page-toolbar"
