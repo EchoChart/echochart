@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.6.0-alpha.1...echochart-app-v0.7.0-alpha.1) (2025-03-10)
+
+
+### Features
+
+* add stock page with dynamic routing and menu bar integration ([c88e7d8](https://github.com/EchoChart/echochart/commit/c88e7d8d3751460c1d79430f84198aec8a61d7a4))
+
 ## [0.6.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.5.0-alpha.1...echochart-app-v0.6.0-alpha.1) (2025-03-09)
 
 

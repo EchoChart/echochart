@@ -1,6 +1,6 @@
 {
    "name": "echochart-app",
-   "version": "0.6.0-alpha.1",
+   "version": "0.7.0-alpha.1",
    "scripts": {
       "dev": "concurrently \"pnpm dev:supabase-types\" \"pnpm dev:vue\"",
       "dev:vue": "vite --host",
