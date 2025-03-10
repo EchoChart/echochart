@@ -149,7 +149,7 @@ if (props.id || props.data?.id) {
                <ProductCategorySelect
                   v-bind="slotProps"
                   v-model="form.categories"
-                  :disabled="readonly"
+                  :disabled="readonly || !!props.category"
                   :option-value="null"
                />
             </template>
