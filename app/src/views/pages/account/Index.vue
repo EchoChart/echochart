@@ -1,8 +1,9 @@
 <script setup>
+const route = useRoute();
 const router = useRouter();
-onBeforeRouteUpdate?.(async (to) => {
-   if (!to?.query?.showDialog && to.name == 'account') {
-      return await router.replace({ name: 'account-profile' });
+watchEffect(() => {
+   if (!route?.query?.showDialog && route.name == 'account') {
+      router.replace({ name: 'account-profile' });
    }
 });
 
