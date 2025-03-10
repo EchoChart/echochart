@@ -2,10 +2,8 @@
 import { PRODUCT_CATEGORY_PROPS } from '@/services/models/ProductModel';
 import { useProductsStore } from '@/store/services/product';
 
-const routeLoading = inject('routeLoading', false);
-
 const productStore = useProductsStore();
-const productCategories = routeLoading?.value ? [] : await productStore.getCategories();
+const productCategories = await productStore.getCategories();
 </script>
 
 <template>
