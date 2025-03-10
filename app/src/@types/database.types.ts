@@ -51,7 +51,6 @@ export type Database = {
           province: string
           street: string | null
           tenant_id: string
-          updated_at: string | null
         }
         Insert: {
           avenue?: string | null
@@ -69,7 +68,6 @@ export type Database = {
           province: string
           street?: string | null
           tenant_id: string
-          updated_at?: string | null
         }
         Update: {
           avenue?: string | null
@@ -87,7 +85,6 @@ export type Database = {
           province?: string
           street?: string | null
           tenant_id?: string
-          updated_at?: string | null
         }
         Relationships: [
           {
@@ -95,6 +92,77 @@ export type Database = {
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clients: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          full_name: string
+          id: string | null
+          identity_number: string
+          nationality: string | null
+          phone: string | null
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          full_name: string
+          id?: string | null
+          identity_number: string
+          nationality?: string | null
+          phone?: string | null
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          full_name?: string
+          id?: string | null
+          identity_number?: string
+          nationality?: string | null
+          phone?: string | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clients_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clients_addresses: {
+        Row: {
+          address_id: string
+          client_id: string
+        }
+        Insert: {
+          address_id: string
+          client_id: string
+        }
+        Update: {
+          address_id?: string
+          client_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clients_addresses_address_id_fkey"
+            columns: ["address_id"]
+            isOneToOne: false
+            referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clients_addresses_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
             referencedColumns: ["id"]
           },
         ]
@@ -113,7 +181,6 @@ export type Database = {
           resource_condition: string | null
           resource_name: string
           throws_error: boolean | null
-          updated_at: string | null
         }
         Insert: {
           bypass?: boolean | null
@@ -128,7 +195,6 @@ export type Database = {
           resource_condition?: string | null
           resource_name: string
           throws_error?: boolean | null
-          updated_at?: string | null
         }
         Update: {
           bypass?: boolean | null
@@ -143,9 +209,115 @@ export type Database = {
           resource_condition?: string | null
           resource_name?: string
           throws_error?: boolean | null
-          updated_at?: string | null
         }
         Relationships: []
+      }
+      product_categories: {
+        Row: {
+          category_id: string
+          created_at: string | null
+          product_id: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string | null
+          product_id: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string | null
+          product_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_categories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "product_category"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_categories_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_categories_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "stock_vendor_stats"
+            referencedColumns: ["product_id"]
+          },
+        ]
+      }
+      product_category: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          display_name: string
+          id: string
+          parent_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          display_name: string
+          id?: string
+          parent_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          display_name?: string
+          id?: string
+          parent_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_category_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "product_category"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          brand: string | null
+          created_at: string | null
+          description: string | null
+          display_name: string
+          id: string
+          tenant_id: string | null
+        }
+        Insert: {
+          brand?: string | null
+          created_at?: string | null
+          description?: string | null
+          display_name: string
+          id?: string
+          tenant_id?: string | null
+        }
+        Update: {
+          brand?: string | null
+          created_at?: string | null
+          description?: string | null
+          display_name?: string
+          id?: string
+          tenant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       role_permissions: {
         Row: {
@@ -186,28 +358,98 @@ export type Database = {
           display_name: string
           id: string
           is_default: boolean | null
-          tenant_id: string
-          updated_at: string | null
+          tenant_id: string | null
         }
         Insert: {
           created_at?: string | null
           display_name: string
           id?: string
           is_default?: boolean | null
-          tenant_id: string
-          updated_at?: string | null
+          tenant_id?: string | null
         }
         Update: {
           created_at?: string | null
           display_name?: string
           id?: string
           is_default?: boolean | null
-          tenant_id?: string
-          updated_at?: string | null
+          tenant_id?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "roles_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stocks: {
+        Row: {
+          available: number | null
+          barcode: string | null
+          cost: number
+          created_at: string | null
+          currency_code: string
+          details: string | null
+          id: string
+          product_id: string
+          quantity: number
+          serial_number: string | null
+          tenant_id: string
+          unit_cost: number | null
+          used: number
+          vendor: string | null
+        }
+        Insert: {
+          available?: number | null
+          barcode?: string | null
+          cost: number
+          created_at?: string | null
+          currency_code?: string
+          details?: string | null
+          id?: string
+          product_id: string
+          quantity?: number
+          serial_number?: string | null
+          tenant_id: string
+          unit_cost?: number | null
+          used?: number
+          vendor?: string | null
+        }
+        Update: {
+          available?: number | null
+          barcode?: string | null
+          cost?: number
+          created_at?: string | null
+          currency_code?: string
+          details?: string | null
+          id?: string
+          product_id?: string
+          quantity?: number
+          serial_number?: string | null
+          tenant_id?: string
+          unit_cost?: number | null
+          used?: number
+          vendor?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stocks_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stocks_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "stock_vendor_stats"
+            referencedColumns: ["product_id"]
+          },
+          {
+            foreignKeyName: "stocks_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
@@ -223,7 +465,6 @@ export type Database = {
           id: string
           parent_id: string | null
           phone: string | null
-          updated_at: string | null
         }
         Insert: {
           created_at?: string | null
@@ -232,7 +473,6 @@ export type Database = {
           id?: string
           parent_id?: string | null
           phone?: string | null
-          updated_at?: string | null
         }
         Update: {
           created_at?: string | null
@@ -241,7 +481,6 @@ export type Database = {
           id?: string
           parent_id?: string | null
           phone?: string | null
-          updated_at?: string | null
         }
         Relationships: [
           {
@@ -256,19 +495,16 @@ export type Database = {
       tenants_users: {
         Row: {
           created_at: string | null
-          id: string | null
           tenant_id: string
           user_id: string
         }
         Insert: {
           created_at?: string | null
-          id?: string | null
           tenant_id: string
           user_id: string
         }
         Update: {
           created_at?: string | null
-          id?: string | null
           tenant_id?: string
           user_id?: string
         }
@@ -292,22 +528,16 @@ export type Database = {
       user_roles: {
         Row: {
           created_at: string | null
-          id: string | null
-          is_default: boolean | null
           role_id: string
           user_id: string
         }
         Insert: {
           created_at?: string | null
-          id?: string | null
-          is_default?: boolean | null
           role_id: string
           user_id: string
         }
         Update: {
           created_at?: string | null
-          id?: string | null
-          is_default?: boolean | null
           role_id?: string
           user_id?: string
         }
@@ -336,7 +566,6 @@ export type Database = {
           email: string
           id: string
           phone: string | null
-          updated_at: string | null
         }
         Insert: {
           avatar_url?: string | null
@@ -345,7 +574,6 @@ export type Database = {
           email: string
           id?: string
           phone?: string | null
-          updated_at?: string | null
         }
         Update: {
           avatar_url?: string | null
@@ -354,13 +582,92 @@ export type Database = {
           email?: string
           id?: string
           phone?: string | null
-          updated_at?: string | null
         }
         Relationships: []
       }
     }
     Views: {
-      [_ in never]: never
+      product_brands: {
+        Row: {
+          display_name: string | null
+        }
+        Relationships: []
+      }
+      stock_product_stats: {
+        Row: {
+          available_quantity: number | null
+          average_unit_cost: number | null
+          brand: string | null
+          display_name: string | null
+          total_cost: number | null
+          total_quantity: number | null
+          used_quantity: number | null
+        }
+        Relationships: []
+      }
+      stock_vendor_stats: {
+        Row: {
+          average_cost: number | null
+          average_unit_cost: number | null
+          product_id: string | null
+          total_available: number | null
+          total_cost: number | null
+          total_products: number | null
+          total_quantity: number | null
+          total_used: number | null
+          vendor: string | null
+        }
+        Relationships: []
+      }
+      stock_vendors: {
+        Row: {
+          display_name: string | null
+        }
+        Relationships: []
+      }
+      stock_view: {
+        Row: {
+          available: number | null
+          barcode: string | null
+          brand: string | null
+          cost: number | null
+          created_at: string | null
+          currency_code: string | null
+          details: string | null
+          display_name: string | null
+          id: string | null
+          product_id: string | null
+          quantity: number | null
+          serial_number: string | null
+          tenant_id: string | null
+          unit_cost: number | null
+          used: number | null
+          vendor: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stocks_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stocks_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "stock_vendor_stats"
+            referencedColumns: ["product_id"]
+          },
+          {
+            foreignKeyName: "stocks_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       throw_rls_policy_error: {
