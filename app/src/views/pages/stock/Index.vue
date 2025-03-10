@@ -1,8 +1,9 @@
 <script setup>
+const route = useRoute();
 const router = useRouter();
-onBeforeRouteUpdate?.(async (to) => {
-   if (!to?.query?.showDialog && to.name == 'stock') {
-      return await router.replace({ name: 'device-list' });
+watchEffect(() => {
+   if (!route?.query?.showDialog && route.name == 'stock') {
+      router.replace({ name: 'device-list' });
    }
 });
 
