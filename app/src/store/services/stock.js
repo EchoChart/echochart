@@ -6,11 +6,11 @@ export const useStocksStore = defineStore('stocks', () => {
       const stocks = new Collection(null);
 
       async function fetchStocks(select = defaultSelect) {
-         const res = await fetchStocks(select);
+         const res = supabase.from('stocks').select(select).throwOnError();
          const { data } = res;
          stocks._setDefaults(data || [])._reset();
 
-         return supabase.from('stocks').select(select).throwOnError();
+         return res;
       }
 
       async function fetchStock(id = '', select = defaultSelect) {
@@ -41,10 +41,6 @@ export const useStocksStore = defineStore('stocks', () => {
          return await fetchStock(id, select);
       }
 
-      emitter.on('device-update', () => emitter.emit('stock-update'));
-      emitter.on('spare-part-update', () => emitter.emit('stock-update'));
-      emitter.on('battery-update', () => emitter.emit('stock-update'));
-
       return {
          stocks,
 
@@ -54,6 +50,9 @@ export const useStocksStore = defineStore('stocks', () => {
          getStock
       };
    };
+   emitter.on('device-update', () => emitter.emit('stock-update'));
+   emitter.on('spare-part-update', () => emitter.emit('stock-update'));
+   emitter.on('battery-update', () => emitter.emit('stock-update'));
 
    const useVendors = () => {
       const vendors = new Collection(null);
