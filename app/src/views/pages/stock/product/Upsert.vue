@@ -129,7 +129,7 @@ if (props.id || props.data?.id) {
          </FormField>
          <FormField
             class="flex-[0.8]"
-            :readonly="readonly"
+            :disabled="readonly"
             fluid
             :error="form._errors.first('brand')"
             :label="$t('brand')"
