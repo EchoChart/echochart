@@ -1,5 +1,4 @@
 import deviceRoutes from './device';
-import CustomRouteView from '@/components/layout/CustomRouteView.vue';
 import sparePartRoutes from './spare-part';
 import batteryRoutes from './battery';
 import productRoutes from './product';
@@ -8,7 +7,6 @@ export default [
    {
       name: 'stock',
       path: 'stock',
-      redirect: '/stock/device',
       meta: {
          icon: 'pi pi-warehouse',
          requiredPermissions: [
@@ -18,7 +16,10 @@ export default [
             }
          ]
       },
-      component: CustomRouteView,
+      components: {
+         default: () => import('@/views/pages/stock/Index.vue'),
+         skeleton: () => import('@/views/pages/stock/Index.vue')
+      },
       children: [
          {
             path: ':category?/add',
