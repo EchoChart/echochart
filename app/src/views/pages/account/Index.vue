@@ -18,9 +18,8 @@ const mounted = useMounted();
             <template #item="{ item, props, hasSubmenu }">
                <span
                   :class="{
-                     '!text-primary-emphasis hover:!text-current': $route.matched.some(
-                        ({ name }) => name === item.route?.name
-                     )
+                     '!text-primary-emphasis hover:!text-current':
+                        !dialogRef && $route.matched.some(({ name }) => name === item.route?.name)
                   }"
                >
                   <CustomLink v-if="!hasSubmenu" :to="item.route" class="p-menubar-item-link">
