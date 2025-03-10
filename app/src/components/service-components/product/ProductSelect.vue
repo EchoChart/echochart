@@ -22,13 +22,11 @@ defineOptions({
 
 const modelValue = defineModel('modelValue');
 
-const routeLoading = inject('routeLoading', false);
-
 const categories = computed(() => props.category?.split?.('|') || []);
 
 const productStore = useProductsStore();
-const allProducts = routeLoading?.value ? [] : await productStore.getProducts();
-const productsByCategory = routeLoading?.value ? [] : await productStore.getProductsByCategory();
+const allProducts = await productStore.getProducts();
+const productsByCategory = await productStore.getProductsByCategory();
 
 const products = computed(() => {
    if (categories.value.some?.((c) => _keys(productsByCategory._data).includes(c)))
@@ -40,7 +38,6 @@ const products = computed(() => {
 <template>
    <span class="flex gap-2 items-center" :class="$attrs?.class">
       <Select
-         :loading="routeLoading"
          :filter="true"
          :options="products"
          option-label="display_name"
