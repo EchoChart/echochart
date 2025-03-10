@@ -30,7 +30,7 @@ const columns = [
 
 const routeLoading = inject('routeLoading', false);
 
-const { getPermissions } = usePermissionsStore();
+const { getPermissions } = usePermissionsStore().usePermissions();
 
 const permissionKinds = ['read', 'create', 'modify'];
 
