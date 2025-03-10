@@ -68,7 +68,14 @@ VALUES
    ('public.stocks', 'stocks', 'select', 'read', FALSE, FALSE, NULL),
    ('public.stocks', 'stocks', 'insert', 'create', FALSE, FALSE, NULL),
    ('public.stocks', 'stocks', 'update', 'modify', FALSE, FALSE, NULL),
-   ('public.stocks', 'stocks', 'delete', 'modify', FALSE, FALSE, NULL);
+   ('public.stocks', 'stocks', 'delete', 'modify', FALSE, FALSE, NULL),
+   --
+   --
+   -- clients
+   ('public.clients', 'clients', 'select', 'read', FALSE, FALSE, NULL),
+   ('public.clients', 'clients', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.clients', 'clients', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.clients', 'clients', 'delete', 'modify', FALSE, FALSE, NULL);
 
 INSERT INTO
    public.tenants (display_name)

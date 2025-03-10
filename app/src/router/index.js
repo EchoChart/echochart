@@ -6,6 +6,7 @@ import accountRoutes from '@/router/routes/account';
 import authRoutes from '@/router/routes/auth';
 import branchRoutes from '@/router/routes/branch';
 import stockRoutes from '@/router/routes/stock';
+import clientRoutes from '@/router/routes/client';
 
 export const DIALOG_POSITIONS = {
    LEFT: 'left',
@@ -62,6 +63,7 @@ const router = createRouter({
                            component: () => import('@/views/pages/dashboard/Index.vue')
                         },
                         ...branchRoutes,
+                        ...clientRoutes,
                         ...stockRoutes,
                         ...accountRoutes
                      ]

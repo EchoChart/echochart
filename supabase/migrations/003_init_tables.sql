@@ -234,7 +234,29 @@ JOIN
 GROUP BY
    p.display_name, p.brand;
 
--- User Roles Table
-CREATE INDEX IF NOT EXISTS idx_user_roles_user_role ON public.user_roles (user_id, role_id);
+-- Clients Table
+CREATE TABLE
+   IF NOT EXISTS public.clients (
+      id UUID UNIQUE DEFAULT gen_random_uuid (),
+      identity_number TEXT UNIQUE NOT NULL,
+      display_name TEXT NOT NULL,
+      email TEXT UNIQUE,
+      phone TEXT UNIQUE,
+      nationality TEXT,
+      tenant_id UUID NOT NULL REFERENCES public.tenants (id) ON DELETE CASCADE,
+      created_at TIMESTAMP DEFAULT NOW (),
+      PRIMARY KEY (identity_number)
+   );
+CREATE INDEX clients_tenant_id_idx ON public.clients (tenant_id);
+CREATE INDEX clients_created_at_idx ON public.clients (created_at);
+CREATE INDEX clients_display_name_idx ON public.clients (display_name);
 
-CREATE INDEX IF NOT EXISTS idx_user_roles_is_default ON public.user_roles (is_default, created_at);
+-- Clients Addresses(addresses table relationship)
+CREATE TABLE
+   IF NOT EXISTS public.clients_addresses (
+      client_id UUID NOT NULL REFERENCES public.clients (id) ON DELETE CASCADE,
+      address_id UUID NOT NULL REFERENCES public.addresses (id) ON DELETE CASCADE,
+      PRIMARY KEY (client_id, address_id)
+   );
+CREATE INDEX clients_addresses_client_id_idx ON public.clients_addresses (client_id);
+CREATE INDEX clients_addresses_address_id_idx ON public.clients_addresses (address_id);
