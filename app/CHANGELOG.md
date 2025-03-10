@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.7.0-alpha.1...echochart-app-v0.8.0-alpha.1) (2025-03-10)
+
+
+### Features
+
+* add client management functionality with routing and database integration ([febd3f8](https://github.com/EchoChart/echochart/commit/febd3f84cbfbc5bba66f2a8cf1d00937b3919651))
+
 ## [0.7.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.6.0-alpha.1...echochart-app-v0.7.0-alpha.1) (2025-03-10)
 
 
