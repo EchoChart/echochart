@@ -3,7 +3,7 @@ const modelValue = defineModel('modelValue');
 </script>
 
 <template>
-   <IconField class="w-96 max-w-1/4">
+   <IconField class="w-[clamp(12rem,40vw,32rem)]">
       <InputIcon>
          <i class="pi pi-search" />
       </InputIcon>
