@@ -1,5 +1,5 @@
 <script setup>
-import { usePermissionsStore } from '@/store/services/permissions';
+import { usePermissionStore } from '@/store/services/permissions';
 
 defineOptions({
    inheritAttrs: false
@@ -30,7 +30,7 @@ const columns = [
 
 const routeLoading = inject('routeLoading', false);
 
-const { getPermissions } = usePermissionsStore().usePermissions();
+const { getPermissions } = usePermissionStore().usePermissions();
 
 const permissionKinds = ['read', 'create', 'modify'];
 

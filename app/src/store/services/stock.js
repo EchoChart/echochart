@@ -1,6 +1,6 @@
 import Collection from '@/lib/Collection';
 
-export const useStocksStore = defineStore('stocks', () => {
+export const useStockStore = defineStore('stocks', () => {
    const useStocks = () => {
       const defaultSelect = '*, product:products(*, category:product_category(*))';
       const stocks = new Collection(null);

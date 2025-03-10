@@ -1,6 +1,6 @@
 import Collection from '@/lib/Collection';
 
-export const usePermissionsStore = defineStore('permissions', () => {
+export const usePermissionStore = defineStore('permissions', () => {
    const usePermissions = () => {
       const defaultSelect = 'id,resource_name,group_name,kind';
       const permissions = new Collection(null);

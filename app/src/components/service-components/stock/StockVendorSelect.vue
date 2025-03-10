@@ -1,7 +1,7 @@
 <script setup>
-import { useStocksStore } from '@/store/services/stock';
+import { useStockStore } from '@/store/services/stock';
 
-const { getVendors } = useStocksStore().useVendors();
+const { getVendors } = useStockStore().useVendors();
 const vendors = await getVendors();
 </script>
 

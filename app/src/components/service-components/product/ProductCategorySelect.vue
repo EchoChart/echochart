@@ -1,8 +1,8 @@
 <script setup>
 import { PRODUCT_CATEGORY_PROPS } from '@/services/models/ProductModel';
-import { useProductsStore } from '@/store/services/product';
+import { useProductStore } from '@/store/services/product';
 
-const productStore = useProductsStore().useCategories();
+const productStore = useProductStore().useCategories();
 const productCategories = await productStore.getCategories();
 </script>
 

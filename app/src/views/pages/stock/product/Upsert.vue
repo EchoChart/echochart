@@ -1,6 +1,6 @@
 <script setup>
 import { Form } from '@/lib/Form';
-import { useProductsStore } from '@/store/services/product';
+import { useProductStore } from '@/store/services/product';
 
 import { useToast } from 'primevue';
 
@@ -25,7 +25,7 @@ const toast = useToast();
 
 const { ability, current_tenant_id } = useAuthStore();
 
-const { useProducts, useCategories } = useProductsStore();
+const { useProducts, useCategories } = useProductStore();
 const categories = await useCategories().getCategories();
 
 const initialFormData = {

@@ -1,5 +1,5 @@
 <script setup>
-import { useProductsStore } from '@/store/services/product';
+import { useProductStore } from '@/store/services/product';
 const props = defineProps({
    category: {
       type: String,
@@ -24,7 +24,7 @@ const modelValue = defineModel('modelValue');
 
 const categories = computed(() => props.category?.split?.('|') || []);
 
-const productStore = useProductsStore().useProducts();
+const productStore = useProductStore().useProducts();
 const allProducts = await productStore.getProducts();
 const productsByCategory = await productStore.getProductsByCategory();
 

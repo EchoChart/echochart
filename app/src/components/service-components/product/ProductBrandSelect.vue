@@ -1,7 +1,7 @@
 <script setup>
-import { useProductsStore } from '@/store/services/product';
+import { useProductStore } from '@/store/services/product';
 
-const productStore = useProductsStore().useBrands();
+const productStore = useProductStore().useBrands();
 const productBrands = await productStore.getProductBrands();
 </script>
 

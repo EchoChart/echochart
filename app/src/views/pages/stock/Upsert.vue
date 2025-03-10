@@ -1,6 +1,6 @@
 <script setup>
 import { Form } from '@/lib/Form';
-import { useStocksStore } from '@/store/services/stock';
+import { useStockStore } from '@/store/services/stock';
 import currencies from 'currency-codes';
 import { useToast } from 'primevue';
 
@@ -60,7 +60,7 @@ if (props.id || props.data?.id) {
    onUnmounted(() => emitter.off('device-update', updateCallback));
 }
 
-const { getStock } = useStocksStore().useStocks();
+const { getStock } = useStockStore().useStocks();
 if (props.id) {
    getStock(props.id).then((data) => form._setDefaults(_pick(data, fields))._reset());
 }
