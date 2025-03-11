@@ -29,7 +29,6 @@ const { user } = storeToRefs(authStore);
          <FormField fluid :label="$t('display_name')">
             <template v-slot="slotProps">
                <InputText
-                  class="min-w-48"
                   v-bind="slotProps"
                   readonly
                   :model-value="user?.user_metadata?.display_name"
@@ -38,14 +37,13 @@ const { user } = storeToRefs(authStore);
          </FormField>
          <FormField fluid :label="$t('email')">
             <template v-slot="slotProps">
-               <InputText class="min-w-48" v-bind="slotProps" readonly :model-value="user?.email" />
+               <InputText v-bind="slotProps" readonly :model-value="user?.email" />
             </template>
          </FormField>
          <FormField fluid :label="$t('phone')">
             <template v-slot="slotProps">
                <InputMask
                   readonly
-                  class="min-w-48"
                   v-bind="slotProps"
                   :model-value="user?.phone"
                   mask="9999999999999"
@@ -56,32 +54,17 @@ const { user } = storeToRefs(authStore);
       <FormBox legend="Logs" class="flex-1">
          <FormField fluid :label="$t('created_at')">
             <template v-slot="slotProps">
-               <InputText
-                  class="min-w-48"
-                  v-bind="slotProps"
-                  readonly
-                  :model-value="user?.created_at"
-               />
+               <InputText v-bind="slotProps" readonly :model-value="user?.created_at" />
             </template>
          </FormField>
          <FormField fluid :label="$t('email_confirmed_at')">
             <template v-slot="slotProps">
-               <InputText
-                  class="min-w-48"
-                  v-bind="slotProps"
-                  readonly
-                  :model-value="user?.email_confirmed_at"
-               />
+               <InputText v-bind="slotProps" readonly :model-value="user?.email_confirmed_at" />
             </template>
          </FormField>
          <FormField fluid :label="$t('last_sign_in_at')">
             <template v-slot="slotProps">
-               <InputText
-                  class="min-w-48"
-                  v-bind="slotProps"
-                  readonly
-                  :model-value="user?.last_sign_in_at"
-               />
+               <InputText v-bind="slotProps" readonly :model-value="user?.last_sign_in_at" />
             </template>
          </FormField>
       </FormBox>

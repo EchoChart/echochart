@@ -87,7 +87,7 @@ if (props.id || props.data?.id) {
 
 <template>
    <div class="card">
-      <FormBox @submit="save" @reset="() => form._reset()" class="[&>*]:flex-auto">
+      <FormBox @submit="save" @reset="() => form._reset()" class="[&>*]:flex-1">
          <FormField
             :readonly="readonly"
             fluid
@@ -95,7 +95,7 @@ if (props.id || props.data?.id) {
             :label="$t('display_name')"
          >
             <template #default="slotProps">
-               <InputText class="min-w-32" v-bind="slotProps" v-model="form.display_name" />
+               <InputText v-bind="slotProps" v-model="form.display_name" />
             </template>
          </FormField>
          <FormField
@@ -105,7 +105,7 @@ if (props.id || props.data?.id) {
             :label="$t('nationality')"
          >
             <template #default="slotProps">
-               <InputText class="min-w-32" v-bind="slotProps" v-model="form.nationality" />
+               <InputText v-bind="slotProps" v-model="form.nationality" />
             </template>
          </FormField>
          <FormField
@@ -115,7 +115,7 @@ if (props.id || props.data?.id) {
             :label="$t('identity_number')"
          >
             <template #default="slotProps">
-               <InputText class="min-w-32" v-bind="slotProps" v-model="form.identity_number" />
+               <InputText v-bind="slotProps" v-model="form.identity_number" />
             </template>
          </FormField>
          <FormField
@@ -125,7 +125,7 @@ if (props.id || props.data?.id) {
             :label="$t('email')"
          >
             <template #default="slotProps">
-               <InputText class="min-w-32" v-bind="slotProps" v-model="form.email" />
+               <InputText v-bind="slotProps" v-model="form.email" />
             </template>
          </FormField>
          <FormField
@@ -135,12 +135,7 @@ if (props.id || props.data?.id) {
             :label="$t('phone')"
          >
             <template #default="slotProps">
-               <InputMask
-                  class="min-w-32"
-                  v-bind="slotProps"
-                  v-model="form.phone"
-                  mask="99999999999"
-               />
+               <InputMask v-bind="slotProps" v-model="form.phone" mask="99999999999" />
             </template>
          </FormField>
          <div

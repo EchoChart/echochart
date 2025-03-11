@@ -126,7 +126,7 @@ if (props.id || props.data?.id) {
             :label="$t('display_name')"
          >
             <template #default="slotProps">
-               <InputText class="min-w-24" v-bind="slotProps" v-model="form.display_name" />
+               <InputText v-bind="slotProps" v-model="form.display_name" />
             </template>
          </FormField>
          <FormField

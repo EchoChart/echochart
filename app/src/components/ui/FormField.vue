@@ -47,7 +47,10 @@ const labelClass = computed(() => [
    'truncate text-surface-900 dark:text-surface-0 font-medium'
 ]);
 
-const inputClass = computed(() => [_has(attrs, 'fluid') ? '!w-full flex-auto' : 'flex-0']);
+const inputClass = computed(() => [
+   _has(attrs, 'fluid') ? '!w-full flex-auto' : 'flex-0',
+   'min-w-48'
+]);
 
 const errorClass = computed(() => [
    'absolute',

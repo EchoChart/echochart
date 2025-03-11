@@ -93,6 +93,7 @@ const tableProps = computed(() => ({
                <ToggleSwitch
                   :readonly="$attrs.readonly"
                   v-bind="slotProps"
+                  class="min-w-fit"
                   :model-value="allChecked || false"
                   @change="(e) => toggleAll(e)"
                />
@@ -109,6 +110,7 @@ const tableProps = computed(() => ({
                <ToggleSwitch
                   :readonly="$attrs.readonly"
                   v-bind="slotProps"
+                  class="min-w-fit"
                   :model-value="
                      permissionsByKind?.[field]?.every?.((item) =>
                         _includes(_keys(modelValue), item.id)

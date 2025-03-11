@@ -99,12 +99,7 @@ const save = async () => {
             :label="$t('product')"
          >
             <template #default="slotProps">
-               <ProductSelect
-                  v-bind="slotProps"
-                  :category
-                  class="min-w-40"
-                  v-model="form.product_id"
-               />
+               <ProductSelect v-bind="slotProps" :category v-model="form.product_id" />
             </template>
          </FormField>
          <FormField
@@ -114,7 +109,7 @@ const save = async () => {
             :label="$t('vendor')"
          >
             <template #default="slotProps">
-               <StockVendorSelect class="min-w-40" v-bind="slotProps" v-model="form.vendor" />
+               <StockVendorSelect v-bind="slotProps" v-model="form.vendor" />
             </template>
          </FormField>
          <div class="flex-1 flex">
@@ -127,7 +122,6 @@ const save = async () => {
             >
                <template #default="slotProps">
                   <Select
-                     class="min-w-24"
                      :filter="true"
                      v-bind="slotProps"
                      v-model="form.currency_code"
@@ -144,7 +138,6 @@ const save = async () => {
             >
                <template #default="slotProps">
                   <InputNumber
-                     class="min-w-24"
                      v-bind="slotProps"
                      v-model="form.cost"
                      mode="currency"
@@ -161,7 +154,7 @@ const save = async () => {
             :label="$t('quantity')"
          >
             <template #default="slotProps">
-               <InputNumber class="min-w-40" v-bind="slotProps" v-model="form.quantity" :min="0" />
+               <InputNumber v-bind="slotProps" v-model="form.quantity" :min="0" />
             </template>
          </FormField>
          <FormField
@@ -171,7 +164,7 @@ const save = async () => {
             :label="$t('used')"
          >
             <template #default="slotProps">
-               <InputNumber class="min-w-40" v-bind="slotProps" v-model="form.used" :min="0" />
+               <InputNumber v-bind="slotProps" v-model="form.used" :min="0" />
             </template>
          </FormField>
          <div class="!flex-auto flex w-full flex-wrap">
@@ -182,7 +175,7 @@ const save = async () => {
                :label="$t('barcode')"
             >
                <template #default="slotProps">
-                  <InputText class="min-w-40" v-bind="slotProps" v-model="form.barcode" />
+                  <InputText v-bind="slotProps" v-model="form.barcode" />
                </template>
             </FormField>
             <FormField
@@ -192,7 +185,7 @@ const save = async () => {
                :label="$t('serial_number')"
             >
                <template #default="slotProps">
-                  <InputText class="min-w-40" v-bind="slotProps" v-model="form.serial_number" />
+                  <InputText v-bind="slotProps" v-model="form.serial_number" />
                </template>
             </FormField>
          </div>
