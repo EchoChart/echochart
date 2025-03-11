@@ -1,5 +1,6 @@
 <script setup>
 import Collection from '@/lib/Collection';
+import Upsert from './Upsert.vue';
 
 defineOptions({
    inheritAttrs: false
@@ -128,6 +129,9 @@ const tableProps = computed(() => ({
                </CustomLink>
             </span>
          </Teleport>
+      </template>
+      <template #expansion="{ data }">
+         <Upsert :data />
       </template>
    </ResourceTable>
 </template>

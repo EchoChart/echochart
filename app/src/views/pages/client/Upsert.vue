@@ -51,7 +51,7 @@ const readonly = computed(
 
 const { getClient } = useClientsStore().useClients();
 if (props.id) {
-   await getClient().then((res) => form._merge(_pick(res, fields)));
+   await getClient(props.id).then((res) => form._setDefaults(_pick(res, fields))._reset());
 }
 
 const save = async () => {
@@ -91,7 +91,7 @@ if (props.id || props.data?.id) {
          <FormField
             :readonly="readonly"
             fluid
-            :error="form._errors.first('display_name')"
+            :error="form?._errors?.first('display_name')"
             :label="$t('display_name')"
          >
             <template #default="slotProps">
@@ -101,7 +101,7 @@ if (props.id || props.data?.id) {
          <FormField
             :readonly="readonly"
             fluid
-            :error="form._errors.first('nationality')"
+            :error="form?._errors?.first('nationality')"
             :label="$t('nationality')"
          >
             <template #default="slotProps">
@@ -111,7 +111,7 @@ if (props.id || props.data?.id) {
          <FormField
             :readonly="readonly"
             fluid
-            :error="form._errors.first('identity_number')"
+            :error="form?._errors?.first('identity_number')"
             :label="$t('identity_number')"
          >
             <template #default="slotProps">
@@ -121,7 +121,7 @@ if (props.id || props.data?.id) {
          <FormField
             :readonly="readonly"
             fluid
-            :error="form._errors.first('email')"
+            :error="form?._errors?.first('email')"
             :label="$t('email')"
          >
             <template #default="slotProps">
@@ -131,7 +131,7 @@ if (props.id || props.data?.id) {
          <FormField
             :readonly="readonly"
             fluid
-            :error="form._errors.first('phone')"
+            :error="form?._errors?.first('phone')"
             :label="$t('phone')"
          >
             <template #default="slotProps">
@@ -139,7 +139,7 @@ if (props.id || props.data?.id) {
                   class="min-w-32"
                   v-bind="slotProps"
                   v-model="form.phone"
-                  mask="9999999999999"
+                  mask="99999999999"
                />
             </template>
          </FormField>
