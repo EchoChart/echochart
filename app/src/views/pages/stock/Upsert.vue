@@ -78,7 +78,7 @@ const save = async () => {
 
    if (form.id) form._setDefaults(_pick(data, fields))._reset();
 
-   emitter.emit('device-update', form._data);
+   emitter.emit('device-update', data);
 
    toast.add({
       life: 3000,

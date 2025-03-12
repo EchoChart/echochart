@@ -77,28 +77,27 @@ const save = async () => {
          .setHeader('x-delete-confirmed', true)
          .throwOnError();
 
-   await supabase
+   const { data } = await supabase
       .from('products')
       .upsert(payload)
       .eq('id', form.id)
       .select()
       .single()
-      .throwOnError()
-      .then(({ data }) => form._merge(_pick(data, fields)));
+      .throwOnError();
 
    await supabase
       .from('product_categories')
       .insert(
          form.categories.map(({ id: category_id }) => ({
             category_id,
-            product_id: form.id
+            product_id: data.id
          }))
       )
       .throwOnError();
 
-   emitter.emit('product-update', form._data);
+   if (form.id) form._setDefaults(_pick(data, fields))._reset();
 
-   form._setDefaults(form._data)._reset();
+   emitter.emit('product-update', data);
 
    toast.add({
       life: 3000,

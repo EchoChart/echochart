@@ -87,7 +87,7 @@ const save = async () => {
          .setHeader('x-delete-confirmed', true)
          .throwOnError();
 
-   await supabase
+   const { data } = await supabase
       .from('roles')
       .upsert({
          id: form.id,
@@ -95,8 +95,9 @@ const save = async () => {
       })
       .select('id, display_name')
       .single()
-      .throwOnError()
-      .then(({ data }) => form._merge(data));
+      .throwOnError();
+
+   if (form.id) form._setDefaults({ data, permissions: form._data.permissions })._reset();
 
    const payload = _values(_cloneDeep(form._data.permissions)).map(({ id: permission_id }) => ({
       permission_id,
@@ -111,9 +112,6 @@ const save = async () => {
       summary: i18n.t('success'),
       detail: i18n.t('saved', { name: form._data.display_name })
    });
-
-   form._setDefaults(form._data);
-   form._reset();
 
    emitter.emit('role-update', form._data);
 };
