@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.8.0-alpha.1...echochart-app-v0.9.0-alpha.1) (2025-03-12)
+
+
+### Features
+
+* add fetchClient function to retrieve a single client by ID ([458b1a9](https://github.com/EchoChart/echochart/commit/458b1a9ac3e95cd1857039819cc969ca6c4ba241))
+* integrate Upsert component and enhance error handling in client forms ([718b46c](https://github.com/EchoChart/echochart/commit/718b46c09169000e3492c317b848e5602b295bc4))
+
 ## [0.8.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.7.0-alpha.1...echochart-app-v0.8.0-alpha.1) (2025-03-10)
 
 
