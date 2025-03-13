@@ -136,7 +136,6 @@ const save = async () => {
             >
                <template #default="slotProps">
                   <InputText
-                     autofocus
                      v-bind="slotProps"
                      v-model="form['display_name']"
                      class="min-w-[10vw]"
@@ -150,7 +149,7 @@ const save = async () => {
                :readonly="!$can('modify', 'role_permission') && !$can('create', 'role_permission')"
             >
                <template #default="slotProps">
-                  <PermissionsSelect v-bind="slotProps" v-model="form['permission']" />
+                  <PermissionsSelect v-bind="slotProps" v-model="form['permission']" :readonly />
                </template>
             </FormField>
          </div>
