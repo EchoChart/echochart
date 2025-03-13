@@ -1,6 +1,6 @@
 import Collection from '@/lib/Collection';
 
-export const useClientsStore = defineStore('clients', () => {
+export const useClientStore = defineStore('clients', () => {
    const useClients = () => {
       const defaultSelect = '*';
       const clients = new Collection(null);

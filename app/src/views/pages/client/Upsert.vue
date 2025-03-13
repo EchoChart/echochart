@@ -1,6 +1,6 @@
 <script setup>
 import { Form } from '@/lib/Form';
-import { useClientsStore } from '@/store/services/client';
+import { useClientStore } from '@/store/services/client';
 
 import { useToast } from 'primevue';
 
@@ -49,7 +49,7 @@ const readonly = computed(
    () => ability.cannot('modify', 'clients') && ability.cannot('create', 'clients')
 );
 
-const { getClient } = useClientsStore().useClients();
+const { getClient } = useClientStore().useClients();
 if (props.id) {
    await getClient(props.id).then((res) => form._setDefaults(_pick(res, fields))._reset());
 }
