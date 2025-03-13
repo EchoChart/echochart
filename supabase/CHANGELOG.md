@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.4.0-alpha.1...echochart-supabase-v0.5.0-alpha.1) (2025-03-13)
+
+
+### Features
+
+* add tenant_owner table and update account creation logic to associate users with tenants ([f1c9d29](https://github.com/EchoChart/echochart/commit/f1c9d29eb65d7f51848a1416c53be98c56011669))
+
 ## [0.4.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.3.0-alpha.1...echochart-supabase-v0.4.0-alpha.1) (2025-03-10)
 
 
