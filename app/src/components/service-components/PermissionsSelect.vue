@@ -128,6 +128,7 @@ const tableProps = computed(() => ({
       >
          <ToggleSwitch
             :readonly="$attrs.readonly"
+            v-if="data?.items[field]?.some?.((item) => item.id)"
             :model-value="
                data?.items[field]?.every?.((item) => _includes(_keys(modelValue), item.id)) || false
             "
