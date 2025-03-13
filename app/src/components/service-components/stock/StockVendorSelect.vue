@@ -1,7 +1,7 @@
 <script setup>
 import { useStockStore } from '@/store/services/stock';
 
-const { getVendors } = useStockStore().useVendors();
+const { getVendors } = useStockStore();
 const vendors = await getVendors();
 </script>
 

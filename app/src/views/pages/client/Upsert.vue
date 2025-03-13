@@ -49,7 +49,7 @@ const readonly = computed(
    () => ability.cannot('modify', 'client') && ability.cannot('create', 'client')
 );
 
-const { getClient } = useClientStore().useClients();
+const { getClient } = useClientStore();
 if (props.id) {
    await getClient(props.id).then((res) => form._setDefaults(_pick(res, fields))._reset());
 }

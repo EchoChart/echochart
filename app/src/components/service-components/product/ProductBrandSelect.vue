@@ -1,8 +1,8 @@
 <script setup>
 import { useProductStore } from '@/store/services/product';
 
-const productStore = useProductStore().useBrands();
-const productBrands = await productStore.getProductBrands();
+const { getProductBrands } = useProductStore();
+const productBrands = await getProductBrands();
 </script>
 
 <template>

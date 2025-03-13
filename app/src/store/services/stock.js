@@ -90,7 +90,7 @@ export const useStockStore = defineStore('stock', () => {
    };
 
    return {
-      useStocks,
-      useVendors
+      ...useStocks(),
+      ...useVendors()
    };
 });

@@ -26,6 +26,6 @@ export const usePermissionStore = defineStore('permissions', () => {
    };
 
    return {
-      usePermissions
+      ...usePermissions()
    };
 });

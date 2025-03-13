@@ -83,7 +83,7 @@ export const useProductStore = defineStore('product', () => {
       }
 
       async function getProductBrands() {
-         if (_isNil(productBrands.data)) await fetchProductBrands();
+         if (_isNil(productBrands._data)) await fetchProductBrands();
          return productBrands;
       }
 
@@ -95,8 +95,8 @@ export const useProductStore = defineStore('product', () => {
    };
 
    return {
-      useProducts,
-      useCategories,
-      useBrands
+      ...useProducts(),
+      ...useCategories(),
+      ...useBrands()
    };
 });

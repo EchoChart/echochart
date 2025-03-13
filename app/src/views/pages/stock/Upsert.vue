@@ -60,7 +60,7 @@ if (props.id || props.data?.id) {
    onUnmounted(() => emitter.off('device-update', updateCallback));
 }
 
-const { getStock } = useStockStore().useStocks();
+const { getStock } = useStockStore();
 if (props.id) {
    getStock(props.id).then((data) => form._setDefaults(_pick(data, fields))._reset());
 }

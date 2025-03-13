@@ -25,8 +25,8 @@ const toast = useToast();
 
 const { ability, current_tenant_id } = useAuthStore();
 
-const { useProducts, useCategories } = useProductStore();
-const categories = await useCategories().getCategories();
+const { getProducts, getCategories } = useProductStore();
+const categories = await getCategories();
 
 const initialFormData = {
    id: undefined,
@@ -56,12 +56,10 @@ const readonly = computed(
 );
 
 if (props.id) {
-   useProducts()
-      .getProducts()
-      .then((products) => {
-         const product = products?.find?.((product) => product.id === props.id);
-         form._setDefaults(_pick(product, fields))._reset();
-      });
+   getProducts().then((products) => {
+      const product = products?.find?.((product) => product.id === props.id);
+      form._setDefaults(_pick(product, fields))._reset();
+   });
 }
 
 const save = async () => {
@@ -168,8 +166,6 @@ if (props.id || props.data?.id) {
                </template>
             </FormField>
          </div>
-         {{ $can('create', 'role') }}
-         {{ $can('modify', 'role') }}
          <div
             v-if="($can('create', 'product') || $can('modify', 'product')) && !readonly"
             class="flex flex-wrap items-end justify-end gap-4 !flex-auto w-full"

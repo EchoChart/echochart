@@ -51,6 +51,6 @@ export const useClientStore = defineStore('client', () => {
    };
 
    return {
-      useClients
+      ...useClients()
    };
 });
