@@ -3,12 +3,12 @@ import Collection from '@/lib/Collection';
 export const useClientStore = defineStore('client', () => {
    const useClients = () => {
       const defaultSelect = '*';
-      const client = new Collection(null);
+      const clients = new Collection(null);
 
       async function fetchClients(select = defaultSelect) {
          const res = await supabase.from('client').select(select).throwOnError();
          const { data } = res;
-         client._set(data);
+         clients._set(data);
          return res;
       }
 
@@ -25,9 +25,9 @@ export const useClientStore = defineStore('client', () => {
       }
 
       async function getClients(select = defaultSelect) {
-         if (_isNil(client._data)) await fetchClients(select);
+         if (_isNil(clients._data)) await fetchClients(select);
 
-         return client;
+         return clients;
       }
 
       async function getClient(id, select = defaultSelect) {
@@ -40,7 +40,7 @@ export const useClientStore = defineStore('client', () => {
       }
 
       return {
-         client,
+         clients,
 
          fetchClients,
          fetchClient,
