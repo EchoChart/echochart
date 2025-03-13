@@ -51,7 +51,7 @@ const form = new Form({
 
 const readonly = computed(
    () =>
-      (ability.cannot('modify', 'products') && ability.cannot('create', 'products')) ||
+      (ability.cannot('modify', 'product') && ability.cannot('create', 'product')) ||
       (form.id && !form.tenant_id)
 );
 
@@ -78,7 +78,7 @@ const save = async () => {
          .throwOnError();
 
    const { data } = await supabase
-      .from('products')
+      .from('product')
       .upsert(payload)
       .eq('id', form.id)
       .select()
@@ -168,8 +168,10 @@ if (props.id || props.data?.id) {
                </template>
             </FormField>
          </div>
+         {{ $can('create', 'role') }}
+         {{ $can('modify', 'role') }}
          <div
-            v-if="($can('create', 'products') || $can('modify', 'products')) && !readonly"
+            v-if="($can('create', 'product') || $can('modify', 'product')) && !readonly"
             class="flex flex-wrap items-end justify-end gap-4 !flex-auto w-full"
          >
             <Button

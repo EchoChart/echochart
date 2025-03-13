@@ -1,37 +1,37 @@
-ALTER TABLE public.tenants ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.tenant ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE public.addresses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.address ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.user ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE public.tenants_users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.tenant_user ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE public.roles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.role ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE public.permissions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.permission ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE public.role_permissions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.role_permission ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.user_role ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE public.product_category ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.product ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE public.product_categories ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE public.stocks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.stock ENABLE ROW LEVEL SECURITY;
 
 
 GRANT usage ON SCHEMA "private" TO supabase_auth_admin;
 
 GRANT EXECUTE ON FUNCTION private.custom_access_token_hook TO supabase_auth_admin;
 
-CREATE POLICY allow_select_permissions ON public.permissions FOR
+CREATE POLICY allow_select_permission ON public.permission FOR
 SELECT
    TO authenticated USING (TRUE);
 
-CREATE POLICY "Allow auth admin to read tenant users" ON public.tenants_users FOR
+CREATE POLICY "Allow auth admin to read tenant user" ON public.tenant_user FOR
 SELECT
    TO supabase_auth_admin USING (TRUE);
 
@@ -63,7 +63,7 @@ WHERE
    );
 
 -- Drop existing policies if they exist to avoid conflicts when reapplying policies
---   EXECUTE format('DROP POLICY IF EXISTS restrict_to_user_tenants ON %I.%I;', t_schema, t_name);
+--   EXECUTE format('DROP POLICY IF EXISTS restrict_to_user_tenant ON %I.%I;', t_schema, t_name);
 EXECUTE format (
    'DROP POLICY IF EXISTS restricts_to_current_tenant ON %I.%I;',
    t_schema,
@@ -91,7 +91,7 @@ EXECUTE format (
       AS RESTRICTIVE
       FOR INSERT TO authenticated
       WITH CHECK (
-         tenant_id = ANY (auth.allowed_tenants())
+         tenant_id = ANY (auth.allowed_tenant())
       );
    ',
    t_schema,
@@ -105,10 +105,10 @@ EXECUTE format (
       AS RESTRICTIVE
       FOR UPDATE TO authenticated
       USING (
-         tenant_id = ANY (auth.allowed_tenants()) -- Check the current tenant_id before updating
+         tenant_id = ANY (auth.allowed_tenant()) -- Check the current tenant_id before updating
       )
       WITH CHECK (
-         tenant_id = ANY (auth.allowed_tenants()) -- Ensure the updated tenant_id is allowed
+         tenant_id = ANY (auth.allowed_tenant()) -- Ensure the updated tenant_id is allowed
       );
    ',
    t_schema,
@@ -122,7 +122,7 @@ EXECUTE format (
       AS RESTRICTIVE
       FOR DELETE TO authenticated
       USING (
-         tenant_id = ANY (auth.allowed_tenants()) -- Ensure the tenant_id of the row being deleted is allowed
+         tenant_id = ANY (auth.allowed_tenant()) -- Ensure the tenant_id of the row being deleted is allowed
       );
    ',
    t_schema,
@@ -146,23 +146,23 @@ END;
 
 $$ LANGUAGE plpgsql;
 
-DROP POLICY IF EXISTS restrict_to_user_tenants ON public.tenants;
+DROP POLICY IF EXISTS restrict_to_user_tenant ON public.tenant;
 
-CREATE POLICY restrict_to_user_tenants ON public.tenants AS RESTRICTIVE FOR ALL TO authenticated USING (id = ANY (auth.allowed_tenants ()))
+CREATE POLICY restrict_to_user_tenant ON public.tenant AS RESTRICTIVE FOR ALL TO authenticated USING (id = ANY (auth.allowed_tenant ()))
 WITH
-   CHECK (id = ANY (auth.allowed_tenants ()));
+   CHECK (id = ANY (auth.allowed_tenant ()));
 
--- Create a row-level security policy named 'restrict_to_tenant_users' on the 'users' table
-DROP POLICY IF EXISTS restrict_to_tenant_users ON public.users;
+-- Create a row-level security policy named 'restrict_to_tenant_user' on the 'user' table
+DROP POLICY IF EXISTS restrict_to_tenant_user ON public.user;
 
-CREATE POLICY "restrict_to_tenant" ON public.users AS RESTRICTIVE TO authenticated USING (
+CREATE POLICY "restrict_to_tenant" ON public.user AS RESTRICTIVE TO authenticated USING (
    EXISTS (
       SELECT
          1
       FROM
-         tenants_users tu
+         tenant_user tu
       WHERE
-         tu.user_id = public.users.id
+         tu.user_id = public.user.id
          AND tu.tenant_id = (
             SELECT
                auth.tenant_id () AS tenant_id
@@ -175,9 +175,9 @@ WITH
          SELECT
             1
          FROM
-            tenants_users tu
+            tenant_user tu
          WHERE
-            tu.user_id = public.users.id
+            tu.user_id = public.user.id
             AND tu.tenant_id = (
                SELECT
                   auth.tenant_id () AS tenant_id

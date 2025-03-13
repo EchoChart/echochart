@@ -8,10 +8,15 @@ export default [
       path: 'client',
       component: CustomRouteView,
       meta: {
-         visible: true,
          index: -1,
          icon: PrimeIcons.USERS,
-         requiresAuth: true
+         requiresAuth: true,
+         requiredPermissions: [
+            {
+               action: 'read',
+               subject: 'client'
+            }
+         ]
       },
       name: 'client',
       redirect: { name: 'client-list' },
@@ -27,7 +32,7 @@ export default [
                requiredPermissions: [
                   {
                      action: 'read',
-                     subject: 'clients'
+                     subject: 'client'
                   }
                ]
             },

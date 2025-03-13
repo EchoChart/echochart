@@ -14,7 +14,7 @@ export default [
          requiredPermissions: [
             {
                action: 'select',
-               subject: 'stocks'
+               subject: 'stock'
             }
          ]
       },
@@ -34,7 +34,7 @@ export default [
                requiredPermissions: [
                   {
                      action: 'select',
-                     subject: 'stocks'
+                     subject: 'stock'
                   }
                ]
             }

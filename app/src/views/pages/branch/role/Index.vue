@@ -46,7 +46,7 @@ const rowActions = new Collection([
       label: i18n.t('delete'),
       command: async ({ data }) =>
          await supabase
-            .from('roles')
+            .from('role')
             .delete()
             .eq('id', data?.id)
             .setHeader('item', JSON.stringify(data))
@@ -70,8 +70,8 @@ const dialogRef = inject('dialogRef', null);
 
 const tableProps = computed(() => ({
    stateKey,
-   from: 'roles',
-   select: '*, permissions(id, kind, group_name)',
+   from: 'role',
+   select: '*, permission(id, kind, group_name)',
    columns: columns._data,
    rowActions: rowActions._data,
    ...attrs
@@ -80,7 +80,7 @@ const tableProps = computed(() => ({
 <template>
    <ResourceTable v-bind="tableProps" v-model:filters="filters" :mapClass="Collection">
       <template #header>
-         <Teleport v-if="$can('create', 'roles')" to="#page-toolbar" :disabled="dialogRef">
+         <Teleport v-if="$can('create', 'role')" to="#page-toolbar" :disabled="dialogRef">
             <div class="flex items-center justify-end gap-4">
                <CustomLink :to="{ name: 'branch-role-add' }">
                   <template #default="{ navigate }">

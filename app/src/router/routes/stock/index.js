@@ -12,7 +12,7 @@ export default [
          requiredPermissions: [
             {
                action: 'select',
-               subject: 'stocks'
+               subject: 'stock'
             }
          ]
       },

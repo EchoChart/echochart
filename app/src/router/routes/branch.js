@@ -16,13 +16,13 @@ export default [
       redirect: { name: 'branch-role' },
       children: [
          {
-            path: 'roles',
+            path: 'role',
             meta: {
                icon: PrimeIcons.LOCK,
                requiredPermissions: [
                   {
                      action: 'select',
-                     subject: 'roles'
+                     subject: 'role'
                   }
                ]
             },
@@ -39,18 +39,18 @@ export default [
                      requiredPermissions: [
                         {
                            action: 'select',
-                           subject: 'roles'
+                           subject: 'role'
                         },
                         {
                            action: 'select',
-                           subject: 'role_permissions'
+                           subject: 'role_permission'
                         }
                      ],
                      icon: PrimeIcons.LIST
                   },
                   components: {
-                     default: () => import('@/views/pages/branch/roles/Index.vue'),
-                     skeleton: () => import('@/views/pages/branch/roles/Index.vue')
+                     default: () => import('@/views/pages/branch/role/Index.vue'),
+                     skeleton: () => import('@/views/pages/branch/role/Index.vue')
                   }
                },
                {
@@ -62,17 +62,17 @@ export default [
                      requiredPermissions: [
                         {
                            action: 'create',
-                           subject: 'roles'
+                           subject: 'role'
                         },
                         {
                            action: 'create',
-                           subject: 'role_permissions'
+                           subject: 'role_permission'
                         }
                      ]
                   },
                   components: {
-                     default: () => import('@/views/pages/branch/roles/Upsert.vue'),
-                     skeleton: () => import('@/views/pages/branch/roles/Upsert.vue')
+                     default: () => import('@/views/pages/branch/role/Upsert.vue'),
+                     skeleton: () => import('@/views/pages/branch/role/Upsert.vue')
                   }
                },
                {
@@ -85,17 +85,17 @@ export default [
                      requiredPermissions: [
                         {
                            action: 'modify',
-                           subject: 'roles'
+                           subject: 'role'
                         },
                         {
                            action: 'modify',
-                           subject: 'role_permissions'
+                           subject: 'role_permission'
                         }
                      ]
                   },
                   components: {
-                     default: () => import('@/views/pages/branch/roles/Upsert.vue'),
-                     skeleton: () => import('@/views/pages/branch/roles/Upsert.vue')
+                     default: () => import('@/views/pages/branch/role/Upsert.vue'),
+                     skeleton: () => import('@/views/pages/branch/role/Upsert.vue')
                   }
                }
             ]

@@ -1,13 +1,13 @@
 import Collection from '@/lib/Collection';
 
-export const useProductStore = defineStore('products', () => {
+export const useProductStore = defineStore('product', () => {
    const useProducts = () => {
       const defaultSelect = '*, categories: product_category(*)';
       const products = new Collection(null);
       const productsByCategory = new Collection({});
 
       async function fetchProducts(select = defaultSelect) {
-         const res = await supabase.from('products').select(select).throwOnError();
+         const res = await supabase.from('product').select(select).throwOnError();
          const { data } = res;
          products._setDefaults(data || [])._reset();
 

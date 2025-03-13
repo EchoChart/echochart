@@ -82,7 +82,7 @@ const rowActions = new Collection([
       label: i18n.t('delete'),
       command: async ({ data }) =>
          await supabase
-            .from('clients')
+            .from('client')
             .delete()
             .eq('id', data?.id)
             .setHeader('item', JSON.stringify(data))
@@ -108,7 +108,7 @@ const dialogRef = inject('dialogRef', null);
 
 const tableProps = computed(() => ({
    stateKey,
-   from: 'clients',
+   from: 'client',
    select: '*',
    columns: columns._data,
    rowActions: rowActions._data,
@@ -118,7 +118,7 @@ const tableProps = computed(() => ({
 <template>
    <ResourceTable v-bind="tableProps" v-model:filters="filters">
       <template #header>
-         <Teleport v-if="$can('create', 'clients')" to="#page-toolbar" :disabled="dialogRef">
+         <Teleport v-if="$can('create', 'client')" to="#page-toolbar" :disabled="dialogRef">
             <span class="flex-1 flex justify-end gap-4 flex-wrap-reverse">
                <KeywordSearchInput v-model="filters.global.value" />
 

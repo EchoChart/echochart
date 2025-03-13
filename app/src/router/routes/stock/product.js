@@ -15,7 +15,7 @@ export default [
          requiredPermissions: [
             {
                action: 'select',
-               subject: 'products'
+               subject: 'product'
             }
          ]
       },
@@ -35,7 +35,7 @@ export default [
                requiredPermissions: [
                   {
                      action: 'select',
-                     subject: 'products'
+                     subject: 'product'
                   }
                ]
             }

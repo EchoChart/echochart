@@ -1,5 +1,5 @@
 <script setup>
-import { usePermissionStore } from '@/store/services/permissions';
+import { usePermissionStore } from '@/store/services/permission';
 
 defineOptions({
    inheritAttrs: false
@@ -39,14 +39,14 @@ if (!routeLoading?.value) allPermissions = await getPermissions();
 
 const permissionIds = computed(() => allPermissions?._data?.map?.(({ id }) => id));
 
-const permissionsByKind = computed(() => _groupBy(allPermissions?._data, 'kind'));
+const permissionByKind = computed(() => _groupBy(allPermissions?._data, 'kind'));
 
-const permissionsByGroup = computed(() => _groupBy(allPermissions?._data, 'group_name'));
+const permissionByGroup = computed(() => _groupBy(allPermissions?._data, 'group_name'));
 
-const permissions = computed(() =>
-   Object.keys(permissionsByGroup.value)?.map?.((key) => ({
+const permission = computed(() =>
+   Object.keys(permissionByGroup.value)?.map?.((key) => ({
       display_name: key,
-      items: _groupBy(permissionsByGroup.value?.[key], 'kind')
+      items: _groupBy(permissionByGroup.value?.[key], 'kind')
    }))
 );
 
@@ -65,7 +65,7 @@ const togglePermission = (e, items) => {
 };
 
 const togglePermissionColumn = (e, field) => {
-   _values(permissions?.value).forEach((p) => {
+   _values(permission?.value).forEach((p) => {
       togglePermission(e, p?.items[field]);
    });
 };
@@ -81,7 +81,7 @@ const tableProps = computed(() => ({
    columns,
    rowActions: [],
    rows: null,
-   value: permissions.value,
+   value: permission.value,
    ...attrs
 }));
 </script>
@@ -112,7 +112,7 @@ const tableProps = computed(() => ({
                   v-bind="slotProps"
                   class="min-w-fit"
                   :model-value="
-                     permissionsByKind?.[field]?.every?.((item) =>
+                     permissionByKind?.[field]?.every?.((item) =>
                         _includes(_keys(modelValue), item.id)
                      ) || false
                   "

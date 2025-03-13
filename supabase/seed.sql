@@ -1,88 +1,99 @@
 INSERT INTO
-   public.permissions (resource_name, group_name, command, kind, bypass, throws_error, resource_condition)
+   public.permission (resource_name, group_name, command, kind, bypass, throws_error, resource_condition)
 VALUES
-   -- tenants
-   ('public.tenants', 'branches', 'select', 'read', FALSE, FALSE, NULL),
-   ('public.tenants', 'branches', 'insert', 'create', FALSE, FALSE, NULL),
-   ('public.tenants', 'branches', 'update', 'modify', FALSE, FALSE, NULL),
-   ('public.tenants', 'branches', 'delete', 'modify', FALSE, FALSE, NULL),
+   -- tenant
+   ('public.tenant', 'branches', 'select', 'read', FALSE, FALSE, NULL),
+   ('public.tenant', 'branches', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.tenant', 'branches', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.tenant', 'branches', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
-   -- users   
-   ('public.users', 'users', 'select', 'read', FALSE, FALSE, NULL),
-   ('public.users', 'users', 'insert', 'create', FALSE, FALSE, NULL),
-   ('public.users', 'users', 'update', 'modify', FALSE, FALSE, NULL),
-   ('public.users', 'users', 'delete', 'modify', FALSE, FALSE, NULL),
+   -- user   
+   ('public.user', 'user', 'select', 'read', FALSE, FALSE, NULL),
+   ('public.user', 'user', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.user', 'user', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.user', 'user', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
-   -- tenants_users   
-   ('public.tenants_users', 'users', 'select', 'read', TRUE, FALSE, NULL),
-   ('public.tenants_users', 'users', 'insert', 'create', FALSE, FALSE, NULL),
-   ('public.tenants_users', 'users', 'update', 'modify', FALSE, FALSE, NULL),
-   ('public.tenants_users', 'users', 'delete', 'modify', FALSE, FALSE, NULL),
+   -- tenant_user   
+   ('public.tenant_user', 'user', 'select', 'read', TRUE, FALSE, NULL),
+   ('public.tenant_user', 'user', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.tenant_user', 'user', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.tenant_user', 'user', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
-   -- roles   
-   ('public.roles', 'roles', 'select', 'read', FALSE, FALSE, NULL),
-   ('public.roles', 'roles', 'insert', 'create', FALSE, FALSE, 'is_default <> TRUE'),
-   ('public.roles', 'roles', 'update', 'modify', FALSE, FALSE, 'is_default <> TRUE'),
-   ('public.roles', 'roles', 'delete', 'modify', FALSE, FALSE, 'is_default <> TRUE'),
+   -- role   
+   ('public.role', 'role', 'select', 'read', FALSE, FALSE, NULL),
+   ('public.role', 'role', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.role', 'role', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.role', 'role', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
-   -- user_roles 
-   ('public.user_roles', 'roles', 'select', 'read', TRUE, FALSE, NULL),
-   ('public.user_roles', 'roles', 'insert', 'create', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.roles r WHERE r.id = role_id AND r.is_default <> TRUE)'),
-   ('public.user_roles', 'roles', 'update', 'modify', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.roles r WHERE r.id = role_id AND r.is_default <> TRUE)'),
-   ('public.user_roles', 'roles', 'delete', 'modify', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.roles r WHERE r.id = role_id AND r.is_default <> TRUE)'),
+   -- user_role 
+   ('public.user_role', 'role', 'select', 'read', TRUE, FALSE, NULL),
+   ('public.user_role', 'role', 'insert', 'create', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.role r WHERE r.id = role_id AND r.tenant_id IS NOT NULL)'),
+   ('public.user_role', 'role', 'update', 'modify', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.role r WHERE r.id = role_id AND r.tenant_id IS NOT NULL)'),
+   ('public.user_role', 'role', 'delete', 'modify', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.role r WHERE r.id = role_id AND r.tenant_id IS NOT NULL)'),
    --
    --
-   -- role_permissions   
-   ('public.role_permissions', 'roles', 'select', 'read', TRUE, FALSE, NULL),
-   ('public.role_permissions', 'roles', 'insert', 'create', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.roles r WHERE r.id = role_id AND r.is_default <> TRUE)'),
-   ('public.role_permissions', 'roles', 'update', 'modify', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.roles r WHERE r.id = role_id AND r.is_default <> TRUE)'),
-   ('public.role_permissions', 'roles', 'delete', 'modify', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.roles r WHERE r.id = role_id AND r.is_default <> TRUE)'),
+   -- role_permission   
+   ('public.role_permission', 'role', 'select', 'read', TRUE, FALSE, NULL),
+   ('public.role_permission', 'role', 'insert', 'create', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.role r WHERE r.id = role_id AND r.tenant_id IS NOT NULL)'),
+   ('public.role_permission', 'role', 'update', 'modify', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.role r WHERE r.id = role_id AND r.tenant_id IS NOT NULL)'),
+   ('public.role_permission', 'role', 'delete', 'modify', FALSE, FALSE, 'EXISTS (SELECT 1 FROM public.role r WHERE r.id = role_id AND r.tenant_id IS NOT NULL)'),
    --
    --
    -- product_category
-   ('public.product_category', 'products', 'select', 'read', TRUE, FALSE, NULL),
-   -- ('public.product_category', 'products', 'insert', 'create', FALSE, FALSE, NULL),
-   -- ('public.product_category', 'products', 'update', 'modify', FALSE, FALSE, NULL),
-   -- ('public.product_category', 'products', 'delete', 'modify', FALSE, FALSE, NULL),
+   ('public.product_category', 'product', 'select', 'read', TRUE, FALSE, NULL),
+   -- ('public.product_category', 'product', 'insert', 'create', FALSE, FALSE, NULL),
+   -- ('public.product_category', 'product', 'update', 'modify', FALSE, FALSE, NULL),
+   -- ('public.product_category', 'product', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
-   -- products
-   ('public.products', 'products', 'select', 'read', TRUE, FALSE, NULL),
-   ('public.products', 'products', 'insert', 'create', FALSE, FALSE, NULL),
-   ('public.products', 'products', 'update', 'modify', FALSE, FALSE, NULL),
-   ('public.products', 'products', 'delete', 'modify', FALSE, FALSE, NULL),
+   -- product
+   ('public.product', 'product', 'select', 'read', TRUE, FALSE, NULL),
+   ('public.product', 'product', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.product', 'product', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.product', 'product', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
    -- product_categories
-   ('public.product_categories', 'products', 'select', 'read', TRUE, FALSE, NULL),
-   ('public.product_categories', 'products', 'insert', 'create', FALSE, FALSE, NULL),
-   ('public.product_categories', 'products', 'update', 'modify', FALSE, FALSE, NULL),
-   ('public.product_categories', 'products', 'delete', 'modify', FALSE, FALSE, NULL),
+   ('public.product_categories', 'product', 'select', 'read', TRUE, FALSE, NULL),
+   ('public.product_categories', 'product', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.product_categories', 'product', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.product_categories', 'product', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
-   -- stocks
-   ('public.stocks', 'stocks', 'select', 'read', FALSE, FALSE, NULL),
-   ('public.stocks', 'stocks', 'insert', 'create', FALSE, FALSE, NULL),
-   ('public.stocks', 'stocks', 'update', 'modify', FALSE, FALSE, NULL),
-   ('public.stocks', 'stocks', 'delete', 'modify', FALSE, FALSE, NULL),
+   -- stock
+   ('public.stock', 'stock', 'select', 'read', FALSE, FALSE, NULL),
+   ('public.stock', 'stock', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.stock', 'stock', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.stock', 'stock', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
-   -- clients
-   ('public.clients', 'clients', 'select', 'read', FALSE, FALSE, NULL),
-   ('public.clients', 'clients', 'insert', 'create', FALSE, FALSE, NULL),
-   ('public.clients', 'clients', 'update', 'modify', FALSE, FALSE, NULL),
-   ('public.clients', 'clients', 'delete', 'modify', FALSE, FALSE, NULL);
+   -- client
+   ('public.client', 'client', 'select', 'read', FALSE, FALSE, NULL),
+   ('public.client', 'client', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.client', 'client', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.client', 'client', 'delete', 'modify', FALSE, FALSE, NULL);
 
 INSERT INTO
-   public.tenants (display_name)
+   public.tenant (display_name)
 VALUES
    ('bade-gop'),
    ('bade-gop-sarigol'),
    ('bade-avcilar');
+
+INSERT INTO
+   public.role (display_name)
+VALUES
+    ('owner');
+
+INSERT INTO public.role_permission (role_id, permission_id)
+SELECT 
+    (SELECT id FROM public.role WHERE display_name = 'owner' AND tenant_id IS NULL), 
+    id 
+FROM public.permission;
 
 -- Insert Categories with parent-child relationships
 INSERT INTO public.product_category (display_name, description, parent_id, created_at)
@@ -96,7 +107,7 @@ VALUES
 -- Generate Random Products and Assign Categories
 DO $$  
 DECLARE 
-    prod_count INT := 30; -- Generate 30 products
+    prod_count INT := 30; -- Generate 30 product
     cat_ids UUID[]; -- Store category IDs
 BEGIN 
     -- Fetch category IDs in order of display_name to maintain correct assignment
@@ -120,8 +131,8 @@ BEGIN
             NOW() - (random() * interval '10 years') AS created_at
         FROM generate_series(1, prod_count) i
     ),
-    inserted_products AS (
-        INSERT INTO public.products (display_name, brand, description, created_at)
+    inserted_product AS (
+        INSERT INTO public.product (display_name, brand, description, created_at)
         SELECT product_name, brand_name, 'Description for ' || product_name, created_at
         FROM product_data
         RETURNING id -- Return only product ID
@@ -129,7 +140,7 @@ BEGIN
     -- Assign row numbers after insertion
     INSERT INTO public.product_categories (product_id, category_id)
     SELECT p.id, d.assigned_category_id 
-    FROM (SELECT id, ROW_NUMBER() OVER () AS row_num FROM inserted_products) p
+    FROM (SELECT id, ROW_NUMBER() OVER () AS row_num FROM inserted_product) p
     JOIN product_data d ON p.row_num = d.row_num; -- Correctly map inserted product to its category
 END $$;
 
@@ -137,7 +148,7 @@ END $$;
 -- DECLARE  
 --     tenant UUID := '1fdb4405-8c8c-4d1f-9526-eb0dc0e28c32'; -- Placeholder tenant_id  
 -- BEGIN  
---     INSERT INTO public.stocks (
+--     INSERT INTO public.stock (
 --         tenant_id, product_id, quantity, used, cost, currency_code, vendor, serial_number, barcode, details, created_at
 --     )  
 --     SELECT  
@@ -152,7 +163,7 @@ END $$;
 --         'B-' || gen_random_uuid(),  -- Unique barcode per tenant and product  
 --         'Details for tenant product',  
 --         NOW() - (random() * interval '10 years')  -- Random timestamp within the last 10 years  
---     FROM public.products p  
+--     FROM public.product p  
 --     CROSS JOIN generate_series(1, 13) g;  
 -- END $$;
 

@@ -51,7 +51,7 @@ const form = new Form({
 
 const { ability } = useAuthStore();
 const readonly = computed(
-   () => ability.cannot('modify', 'stocks') && ability.cannot('create', 'stocks')
+   () => ability.cannot('modify', 'stock') && ability.cannot('create', 'stock')
 );
 
 if (props.id || props.data?.id) {
@@ -69,7 +69,7 @@ const save = async () => {
    if (!form._validate()) return;
 
    const { data } = await supabase
-      .from('stocks')
+      .from('stock')
       .upsert(form._data)
       .eq('id', form.id)
       .select()
@@ -202,7 +202,7 @@ const save = async () => {
             </FormField>
          </div>
          <div
-            v-if="$can('create', 'stocks') || $can('modify', 'stocks')"
+            v-if="$can('create', 'stock') || $can('modify', 'stock')"
             class="flex flex-wrap items-end justify-end gap-4 !flex-auto w-full"
          >
             <Button

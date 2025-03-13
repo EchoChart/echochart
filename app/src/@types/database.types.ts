@@ -34,7 +34,7 @@ export type Database = {
   }
   public: {
     Tables: {
-      addresses: {
+      address: {
         Row: {
           avenue: string | null
           building_number: string | null
@@ -88,15 +88,15 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "addresses_tenant_id_fkey"
+            foreignKeyName: "address_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
-            referencedRelation: "tenants"
+            referencedRelation: "tenant"
             referencedColumns: ["id"]
           },
         ]
       }
-      clients: {
+      client: {
         Row: {
           created_at: string | null
           email: string | null
@@ -129,15 +129,15 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "clients_tenant_id_fkey"
+            foreignKeyName: "client_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
-            referencedRelation: "tenants"
+            referencedRelation: "tenant"
             referencedColumns: ["id"]
           },
         ]
       }
-      clients_addresses: {
+      client_address: {
         Row: {
           address_id: string
           client_id: string
@@ -152,22 +152,22 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "clients_addresses_address_id_fkey"
+            foreignKeyName: "client_address_address_id_fkey"
             columns: ["address_id"]
             isOneToOne: false
-            referencedRelation: "addresses"
+            referencedRelation: "address"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "clients_addresses_client_id_fkey"
+            foreignKeyName: "client_address_client_id_fkey"
             columns: ["client_id"]
             isOneToOne: false
-            referencedRelation: "clients"
+            referencedRelation: "client"
             referencedColumns: ["id"]
           },
         ]
       }
-      permissions: {
+      permission: {
         Row: {
           bypass: boolean | null
           command: Database["public"]["Enums"]["permission_command"]
@@ -240,7 +240,7 @@ export type Database = {
             foreignKeyName: "product_categories_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
-            referencedRelation: "products"
+            referencedRelation: "product"
             referencedColumns: ["id"]
           },
           {
@@ -284,7 +284,7 @@ export type Database = {
           },
         ]
       }
-      products: {
+      product: {
         Row: {
           brand: string | null
           created_at: string | null
@@ -311,15 +311,15 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "products_tenant_id_fkey"
+            foreignKeyName: "product_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
-            referencedRelation: "tenants"
+            referencedRelation: "tenant"
             referencedColumns: ["id"]
           },
         ]
       }
-      role_permissions: {
+      role_permission: {
         Row: {
           created_at: string | null
           permission_id: string
@@ -337,22 +337,22 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "role_permissions_permission_id_fkey"
+            foreignKeyName: "role_permission_permission_id_fkey"
             columns: ["permission_id"]
             isOneToOne: false
-            referencedRelation: "permissions"
+            referencedRelation: "permission"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "role_permissions_role_id_fkey"
+            foreignKeyName: "role_permission_role_id_fkey"
             columns: ["role_id"]
             isOneToOne: false
-            referencedRelation: "roles"
+            referencedRelation: "role"
             referencedColumns: ["id"]
           },
         ]
       }
-      roles: {
+      role: {
         Row: {
           created_at: string | null
           display_name: string
@@ -376,15 +376,15 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "roles_tenant_id_fkey"
+            foreignKeyName: "role_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
-            referencedRelation: "tenants"
+            referencedRelation: "tenant"
             referencedColumns: ["id"]
           },
         ]
       }
-      stocks: {
+      stock: {
         Row: {
           available: number | null
           barcode: string | null
@@ -435,29 +435,29 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "stocks_product_id_fkey"
+            foreignKeyName: "stock_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
-            referencedRelation: "products"
+            referencedRelation: "product"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "stocks_product_id_fkey"
+            foreignKeyName: "stock_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "stock_vendor_stats"
             referencedColumns: ["product_id"]
           },
           {
-            foreignKeyName: "stocks_tenant_id_fkey"
+            foreignKeyName: "stock_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
-            referencedRelation: "tenants"
+            referencedRelation: "tenant"
             referencedColumns: ["id"]
           },
         ]
       }
-      tenants: {
+      tenant: {
         Row: {
           created_at: string | null
           display_name: string
@@ -484,15 +484,15 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "tenants_parent_id_fkey"
+            foreignKeyName: "tenant_parent_id_fkey"
             columns: ["parent_id"]
             isOneToOne: false
-            referencedRelation: "tenants"
+            referencedRelation: "tenant"
             referencedColumns: ["id"]
           },
         ]
       }
-      tenants_users: {
+      tenant_user: {
         Row: {
           created_at: string | null
           tenant_id: string
@@ -510,22 +510,22 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "tenants_users_tenant_id_fkey"
+            foreignKeyName: "tenant_user_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
-            referencedRelation: "tenants"
+            referencedRelation: "tenant"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "tenants_users_user_id_fkey"
+            foreignKeyName: "tenant_user_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
       }
-      user_roles: {
+      user_role: {
         Row: {
           created_at: string | null
           role_id: string
@@ -543,22 +543,22 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "user_roles_role_id_fkey"
+            foreignKeyName: "user_role_role_id_fkey"
             columns: ["role_id"]
             isOneToOne: false
-            referencedRelation: "roles"
+            referencedRelation: "role"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "user_roles_user_id_fkey"
+            foreignKeyName: "user_role_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
       }
-      users: {
+      user: {
         Row: {
           avatar_url: string | null
           created_at: string | null
@@ -593,7 +593,7 @@ export type Database = {
         }
         Relationships: []
       }
-      stock_product_stats: {
+      stock_product_stat: {
         Row: {
           available_quantity: number | null
           average_unit_cost: number | null
@@ -612,14 +612,14 @@ export type Database = {
           product_id: string | null
           total_available: number | null
           total_cost: number | null
-          total_products: number | null
+          total_product: number | null
           total_quantity: number | null
           total_used: number | null
           vendor: string | null
         }
         Relationships: []
       }
-      stock_vendors: {
+      stock_vendor: {
         Row: {
           display_name: string | null
         }
@@ -646,24 +646,24 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "stocks_product_id_fkey"
+            foreignKeyName: "stock_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
-            referencedRelation: "products"
+            referencedRelation: "product"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "stocks_product_id_fkey"
+            foreignKeyName: "stock_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "stock_vendor_stats"
             referencedColumns: ["product_id"]
           },
           {
-            foreignKeyName: "stocks_tenant_id_fkey"
+            foreignKeyName: "stock_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
-            referencedRelation: "tenants"
+            referencedRelation: "tenant"
             referencedColumns: ["id"]
           },
         ]

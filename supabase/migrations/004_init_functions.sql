@@ -24,8 +24,8 @@ DECLARE
     user_id UUID;
 BEGIN
     BEGIN
-        -- Insert into the users table
-        INSERT INTO public.users (id, display_name, avatar_url, email, phone)
+        -- Insert into the user table
+        INSERT INTO public.user (id, display_name, avatar_url, email, phone)
         VALUES (
             NEW.id
           , COALESCE(NEW.raw_user_meta_data->>'display_name', NULL)
@@ -51,8 +51,8 @@ DECLARE
     user_id UUID;
 BEGIN
     BEGIN
-        -- Update the users table
-        UPDATE public.users
+        -- Update the user table
+        UPDATE public.user
         SET
             display_name = COALESCE(NEW.raw_user_meta_data->>'display_name', NULL)
           , avatar_url = COALESCE(NEW.raw_user_meta_data->>'avatar_url', NULL)
@@ -63,7 +63,7 @@ BEGIN
 
         -- Check if the user ID was updated
         IF NOT FOUND THEN
-            RAISE EXCEPTION 'User with id % does not exist in public.users', NEW.id;
+            RAISE EXCEPTION 'User with id % does not exist in public.user', NEW.id;
         END IF;
 
     EXCEPTION WHEN others THEN
@@ -81,8 +81,8 @@ SET
    search_path = '' AS $$
 BEGIN
     BEGIN
-    -- Delete the profile from the users table
-    DELETE FROM public.users
+    -- Delete the profile from the user table
+    DELETE FROM public.user
     WHERE id = OLD.id;
 
     EXCEPTION WHEN others THEN
@@ -110,19 +110,19 @@ DECLARE
 BEGIN
     -- Determine command based on trigger type
     IF TG_OP = 'INSERT' THEN
-        -- Handle policy creation for new role_permissions
+        -- Handle policy creation for new role_permission
         permission_record := NEW;
     ELSIF TG_OP = 'UPDATE' THEN
-        -- Handle policy update for existing role_permissions
+        -- Handle policy update for existing role_permission
         permission_record := NEW;
     ELSIF TG_OP = 'DELETE' THEN
-        -- Handle policy deletion for removed role_permissions
+        -- Handle policy deletion for removed role_permission
         permission_record := OLD;
     END IF;
 
     target_resource := permission_record.resource_name;
 
-    -- Extract the schema and table name (e.g., 'public.users')
+    -- Extract the schema and table name (e.g., 'public.user')
     target_schema := split_part(target_resource, '.', 1);
     target_table := split_part(target_resource, '.', 2);
 
@@ -268,7 +268,7 @@ OR REPLACE FUNCTION auth.check_permission (p_resource_name TEXT, p_command TEXT)
 SET
    search_path = '' AS $$
 DECLARE
-   permissions JSONB; -- Holds the user's permissions
+   permission JSONB; -- Holds the user's permission
    jwt_claims JSONB; -- Holds the JWT claims
 BEGIN
     -- Retrieve JWT claims
@@ -283,10 +283,10 @@ BEGIN
             RETURN FALSE;
     END;
 
-    -- Retrieve permissions from JWT claims
+    -- Retrieve permission from JWT claims
     BEGIN
-        permissions := COALESCE(
-            jwt_claims->'app_metadata'->'permissions'
+        permission := COALESCE(
+            jwt_claims->'app_metadata'->'permission'
           , '[]'::JSONB
         );
     EXCEPTION
@@ -297,7 +297,7 @@ BEGIN
     -- Check if the user has the required permission
     RETURN EXISTS (
         SELECT 1
-        FROM jsonb_array_elements(permissions) perm
+        FROM jsonb_array_elements(permission) perm
         WHERE perm->>'resource_name' = p_resource_name
         AND perm->>'command' = p_command
     );
@@ -318,7 +318,7 @@ OR REPLACE FUNCTION auth.check_allowed_tenant (tenant_id UUID) RETURNS BOOLEAN S
 SET
    search_path = '' AS $$
 BEGIN
-   RETURN tenant_id = ANY (auth.allowed_tenants());
+   RETURN tenant_id = ANY (auth.allowed_tenant());
 END;
 $$;
 
@@ -330,10 +330,10 @@ DECLARE
     u_id UUID;
     t_id UUID;
     claims JSONB;
-    roles TEXT[];
-    allowed_tenants JSONB;
+    role TEXT[];
+    allowed_tenant JSONB;
     user_metadata JSONB;
-    permissions JSONB;
+    permission JSONB;
     current_tenant_id UUID;
 BEGIN
     -- Extract 'user_id' from the input JSONB
@@ -348,29 +348,29 @@ BEGIN
     -- Retrieve user_metadata from claims or auth.users if it's missing
     user_metadata := claims->'user_metadata';
 
-    -- Add user's tenants to the token
+    -- Add user's tenant to the token
    SELECT COALESCE(
       jsonb_agg(jsonb_build_object('id', t.id, 'display_name', t.display_name))
    , '[]'::jsonb
    )
-   INTO allowed_tenants
-   FROM public.tenants_users tu
-   JOIN public.tenants t ON t.id = tu.tenant_id
+   INTO allowed_tenant
+   FROM public.tenant_user tu
+   JOIN public.tenant t ON t.id = tu.tenant_id
    WHERE user_id = u_id;
 
-    IF allowed_tenants IS NOT NULL THEN
+    IF allowed_tenant IS NOT NULL THEN
         -- Properly convert UUID[] to JSONB before using jsonb_set
-        claims := jsonb_set(claims, '{app_metadata,allowed_tenants}', to_jsonb(allowed_tenants), true);
+        claims := jsonb_set(claims, '{app_metadata,allowed_tenant}', to_jsonb(allowed_tenant), true);
     END IF;
 
    -- Retrieve tenant ID from auth.users.user_metadata or fallback to the first allowed tenant
    SELECT user_metadata->>'current_tenant_id' INTO current_tenant_id;
 
-   -- Check if current_tenant_id is not in allowed_tenants and set the first available one
-   IF current_tenant_id IS NULL OR current_tenant_id NOT IN (SELECT (value->>'id')::UUID FROM jsonb_array_elements(allowed_tenants)) THEN
+   -- Check if current_tenant_id is not in allowed_tenant and set the first available one
+   IF current_tenant_id IS NULL OR current_tenant_id NOT IN (SELECT (value->>'id')::UUID FROM jsonb_array_elements(allowed_tenant)) THEN
       SELECT (value->>'id')::UUID
       INTO current_tenant_id
-      FROM jsonb_array_elements(allowed_tenants)
+      FROM jsonb_array_elements(allowed_tenant)
       LIMIT 1;
    END IF;
 
@@ -379,33 +379,35 @@ BEGIN
         claims := jsonb_set(claims, '{app_metadata,current_tenant_id}', to_jsonb(current_tenant_id), true);
     END IF;
 
-    -- Add user's roles to the token
+    -- Add user's role to the token
     SELECT ARRAY_AGG(role.display_name)
-    INTO roles
-    FROM public.user_roles ur
-    JOIN public.roles role ON role.id = ur.role_id
+    INTO role
+    FROM public.user_role ur
+    JOIN public.role role ON role.id = ur.role_id
     WHERE ur.user_id = u_id;
 
-    IF roles IS NOT NULL THEN
-        claims := jsonb_set(claims, '{app_metadata,roles}', to_jsonb(roles), true);
+    IF role IS NOT NULL THEN
+        claims := jsonb_set(claims, '{app_metadata,role}', to_jsonb(role), true);
     END IF;
 
-    -- Add user's permissions to the token
+    -- Add user's permission to the token
     SELECT JSONB_AGG(
         JSONB_BUILD_OBJECT(
             'resource_name', p.resource_name
           , 'command', p.command
         )
     )
-    INTO permissions
-    FROM public.user_roles ur
-    JOIN public.roles r ON r.id = ur.role_id
-    JOIN public.role_permissions rp ON rp.role_id = ur.role_id
-    JOIN public.permissions p ON p.id = rp.permission_id
-    WHERE ur.user_id = u_id AND r.tenant_id = current_tenant_id;
+    INTO permission
+    FROM public.user_role ur
+    JOIN public.role r ON r.id = ur.role_id
+    JOIN public.role_permission rp ON rp.role_id = ur.role_id
+    JOIN public.permission p ON p.id = rp.permission_id
+    JOIN public.tenant_user tu ON tu.user_id = ur.user_id
+    WHERE ur.user_id = u_id AND tu.tenant_id = current_tenant_id 
+        AND (r.tenant_id = current_tenant_id OR r.tenant_id IS NULL);
 
-    IF permissions IS NOT NULL THEN
-        claims := jsonb_set(claims, '{app_metadata,permissions}', permissions, true);
+    IF permission IS NOT NULL THEN
+        claims := jsonb_set(claims, '{app_metadata,permission}', permission, true);
     END IF;
 
     -- Update the 'claims' field in the token
@@ -417,13 +419,13 @@ $$;
 
 -- Create a helper function to use in RLS policies
 CREATE
-OR REPLACE FUNCTION auth.allowed_tenants () RETURNS UUID[] SECURITY DEFINER LANGUAGE plpgsql STABLE
+OR REPLACE FUNCTION auth.allowed_tenant () RETURNS UUID[] SECURITY DEFINER LANGUAGE plpgsql STABLE
 SET
    search_path = '' AS $$
 DECLARE
    jwt_claims JSONB;
    app_metadata JSONB;
-   allowed_tenants UUID[];
+   allowed_tenant UUID[];
 BEGIN
    BEGIN
       -- Attempt to fetch JWT claims
@@ -440,15 +442,15 @@ BEGIN
          RETURN ARRAY[]::UUID[];
    END;
 
-   -- Extract allowed_tenants from app_metadata and convert it to UUID[]
+   -- Extract allowed_tenant from app_metadata and convert it to UUID[]
    SELECT ARRAY(
       SELECT (tenant->>'id')::UUID
-      FROM JSONB_ARRAY_ELEMENTS(app_metadata -> 'allowed_tenants') AS tenant
+      FROM JSONB_ARRAY_ELEMENTS(app_metadata -> 'allowed_tenant') AS tenant
    )
-   INTO allowed_tenants;
+   INTO allowed_tenant;
 
-   -- Return the allowed_tenants or an empty UUID array if null
-   RETURN COALESCE(allowed_tenants, ARRAY[]::UUID[]);
+   -- Return the allowed_tenant or an empty UUID array if null
+   RETURN COALESCE(allowed_tenant, ARRAY[]::UUID[]);
 END;
 $$;
 
@@ -487,12 +489,12 @@ BEGIN
     IF header_tenant IS NOT NULL THEN
         SELECT id
         INTO header_tenant_id
-        FROM public.tenants
+        FROM public.tenant
         WHERE display_name = header_tenant;
     END IF;
 
-    -- Check if header_tenant_id is in allowed tenants
-    IF header_tenant_id IS NOT NULL AND header_tenant_id = ANY(auth.allowed_tenants()) THEN
+    -- Check if header_tenant_id is in allowed tenant
+    IF header_tenant_id IS NOT NULL AND header_tenant_id = ANY(auth.allowed_tenant()) THEN
         tenant_id := header_tenant_id;
     END IF;
 

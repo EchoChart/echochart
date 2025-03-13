@@ -6,7 +6,7 @@ declare global{
     type Tables = Public['Tables'] & {}
 
     // Users
-    type Users = Tables['users']
+    type Users = Tables['user']
     type UserRow =  Users['Row'] & {
     }
     type UserInsert =  Users['Insert'] & {
@@ -15,7 +15,7 @@ declare global{
     }
 
     // Users
-    type Permissions = Tables['permissions']
+    type Permissions = Tables['permission']
     type PermissionRow =  Permissions['Row'] & {
     }
     type PermissionInsert =  Permissions['Insert'] & {

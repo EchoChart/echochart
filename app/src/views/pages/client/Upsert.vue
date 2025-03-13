@@ -24,7 +24,7 @@ const props = defineProps({
 const toast = useToast();
 
 const initialFormData = {
-   id: null,
+   id: undefined,
    identity_number: null,
    display_name: null,
    email: null,
@@ -46,7 +46,7 @@ const form = new Form({
 
 const { ability } = useAuthStore();
 const readonly = computed(
-   () => ability.cannot('modify', 'clients') && ability.cannot('create', 'clients')
+   () => ability.cannot('modify', 'client') && ability.cannot('create', 'client')
 );
 
 const { getClient } = useClientStore().useClients();
@@ -58,7 +58,7 @@ const save = async () => {
    if (!form._validate()) return;
 
    await supabase
-      .from('clients')
+      .from('client')
       .upsert(form._data)
       .eq('id', form.id)
       .select()
@@ -139,7 +139,7 @@ if (props.id || props.data?.id) {
             </template>
          </FormField>
          <div
-            v-if="($can('create', 'clients') || $can('modify', 'clients')) && !readonly"
+            v-if="($can('create', 'client') || $can('modify', 'client')) && !readonly"
             class="flex flex-wrap items-end justify-end gap-4 !flex-auto w-full"
          >
             <Button

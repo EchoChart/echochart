@@ -17,32 +17,39 @@ const props = defineProps({
 
 const initialFormData = {
    ...props.data,
-   permissions: _keyBy(props.data?.permissions, 'id') || {}
+   permission: _keyBy(props.data?.permission, 'id') || {}
 };
 
 const form = new Form({
-   id: null,
+   id: undefined,
    data: null,
    rules: {
       display_name: 'required|string',
-      permissions: 'required'
+      permission: 'required'
    },
    useDialogForm: false
 });
 
+const { ability } = useAuthStore();
+const readonly = computed(
+   () =>
+      (ability.cannot('modify', 'product') && ability.cannot('create', 'product')) ||
+      (form.id && !form.tenant_id)
+);
+
 const getRole = async () => {
    await supabase
-      .from('roles')
-      .select('id,display_name, permissions(*)')
+      .from('role')
+      .select('id,display_name, permission(*)')
       .eq('id', form.id)
       .single()
       .throwOnError()
-      .then(({ data: { display_name, permissions, id } }) => {
+      .then(({ data: { display_name, permission, id } }) => {
          form
             ._setDefaults({
                id,
                display_name,
-               permissions: _keyBy(permissions, 'id')
+               permission: _keyBy(permission, 'id')
             })
             ._reset();
       });
@@ -81,14 +88,14 @@ const save = async () => {
 
    if (form.id)
       await supabase
-         .from('role_permissions')
+         .from('role_permission')
          .delete()
          .eq('role_id', form.id)
          .setHeader('x-delete-confirmed', true)
          .throwOnError();
 
    const { data } = await supabase
-      .from('roles')
+      .from('role')
       .upsert({
          id: form.id,
          display_name: form._data.display_name
@@ -97,14 +104,14 @@ const save = async () => {
       .single()
       .throwOnError();
 
-   if (form.id) form._setDefaults({ data, permissions: form._data.permissions })._reset();
+   if (form.id) form._setDefaults({ ...data, permission: form._data.permission })._reset();
 
-   const payload = _values(_cloneDeep(form._data.permissions)).map(({ id: permission_id }) => ({
+   const payload = _values(_cloneDeep(form._data.permission)).map(({ id: permission_id }) => ({
       permission_id,
-      role_id: form.id
+      role_id: data.id
    }));
 
-   await supabase.from('role_permissions').insert(payload).throwOnError();
+   await supabase.from('role_permission').insert(payload).throwOnError();
 
    toast.add({
       life: 3000,
@@ -125,7 +132,7 @@ const save = async () => {
                fluid
                :label="i18n.t('display_name')"
                :error="form?._errors.first('display_name')"
-               :readonly="!$can('modify', 'roles') && !$can('create', 'roles')"
+               :readonly="!$can('modify', 'role') && !$can('create', 'role')"
             >
                <template #default="slotProps">
                   <InputText
@@ -138,19 +145,17 @@ const save = async () => {
             </FormField>
             <FormField
                fluid
-               :label="i18n.t('permissions')"
-               :error="form?._errors.first('permissions')"
-               :readonly="
-                  !$can('modify', 'role_permissions') && !$can('create', 'role_permissions')
-               "
+               :label="i18n.t('permission')"
+               :error="form?._errors.first('permission')"
+               :readonly="!$can('modify', 'role_permission') && !$can('create', 'role_permission')"
             >
                <template #default="slotProps">
-                  <PermissionsSelect v-bind="slotProps" v-model="form['permissions']" />
+                  <PermissionsSelect v-bind="slotProps" v-model="form['permission']" />
                </template>
             </FormField>
          </div>
          <div
-            v-if="$can('create', 'roles') || $can('modify', 'roles')"
+            v-if="($can('create', 'role') || $can('modify', 'role')) && !readonly"
             class="flex flex-wrap items-end justify-end gap-4 w-full"
          >
             <Button

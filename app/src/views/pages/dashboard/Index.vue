@@ -1,7 +1,7 @@
 <script setup>
 const { getPrimary, getSurface, isDarkTheme } = useLayout();
 
-const products = ref(null);
+const product = ref(null);
 const chartData = ref(null);
 const chartOptions = ref(null);
 
@@ -144,7 +144,7 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
                   class="flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border"
                   style="width: 2.5rem; height: 2.5rem"
                >
-                  <i class="pi pi-users text-cyan-500 !text-xl"></i>
+                  <i class="pi pi-user text-cyan-500 !text-xl"></i>
                </div>
             </div>
             <span class="text-primary font-medium">520 </span>
@@ -175,7 +175,7 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
       <div class="col-span-12 xl:col-span-6">
          <div class="card">
             <div class="font-semibold text-xl mb-4">Recent Sales</div>
-            <DataTable :value="products" :rows="5" :paginator="true" responsiveLayout="scroll">
+            <DataTable :value="product" :rows="5" :paginator="true" responsiveLayout="scroll">
                <Column style="width: 15%" header="Image">
                   <template #body="slotProps">
                      <img
@@ -420,8 +420,8 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
                      <i class="pi pi-heart !text-xl text-purple-500"></i>
                   </div>
                   <span class="text-surface-900 dark:text-surface-0 leading-normal"
-                     ><span class="text-primary font-bold">12</span> users have added your products
-                     to their wishlist.</span
+                     ><span class="text-primary font-bold">12</span> user have added your product to
+                     their wishlist.</span
                   >
                </li>
             </ul>

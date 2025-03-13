@@ -91,7 +91,7 @@ const rowActions = new Collection([
       label: i18n.t('delete'),
       command: async ({ data }) =>
          await supabase
-            .from('stocks')
+            .from('stock')
             .delete()
             .eq('id', data?.id)
             .setHeader('item', JSON.stringify(data))
@@ -121,7 +121,7 @@ const dialogRef = inject('dialogRef', null);
 const tableProps = computed(() => ({
    stateKey,
    from: 'stock_view',
-   select: '*, product:products!inner(category:product_category!inner(*))',
+   select: '*, product:product!inner(category:product_category!inner(*))',
    columns: columns._data,
    rowActions: rowActions._data,
    ...attrs
@@ -130,7 +130,7 @@ const tableProps = computed(() => ({
 <template>
    <ResourceTable v-bind="tableProps" v-model:filters="filters">
       <template #header>
-         <Teleport v-if="$can('create', 'stocks')" to="#page-toolbar" :disabled="dialogRef">
+         <Teleport v-if="$can('create', 'stock')" to="#page-toolbar" :disabled="dialogRef">
             <span class="flex-1 flex justify-end gap-4 flex-wrap-reverse">
                <KeywordSearchInput v-model="filters.global.value" />
 

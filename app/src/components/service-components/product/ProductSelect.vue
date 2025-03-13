@@ -28,7 +28,7 @@ const productStore = useProductStore().useProducts();
 const allProducts = await productStore.getProducts();
 const productsByCategory = await productStore.getProductsByCategory();
 
-const products = computed(() => {
+const product = computed(() => {
    if (categories.value.some?.((c) => _keys(productsByCategory._data).includes(c)))
       return _flatMap(_values(_pick(productsByCategory._data, categories.value)));
    return allProducts._data;
@@ -39,14 +39,14 @@ const products = computed(() => {
    <span class="flex gap-2 items-center" :class="$attrs?.class">
       <Select
          :filter="true"
-         :options="products"
+         :options="product"
          option-label="display_name"
          option-value="id"
          v-bind="$attrs"
          v-model:model-value="modelValue"
       />
       <RouterLink
-         v-if="showEdit && $can('modify', 'products') && (!!modelValue?.id || !!modelValue)"
+         v-if="showEdit && $can('modify', 'product') && (!!modelValue?.id || !!modelValue)"
          :to="{
             name: 'product-edit',
             params: { id: modelValue?.id || modelValue },
@@ -57,7 +57,7 @@ const products = computed(() => {
          <Button size="small" severity="info" :icon="PrimeIcons.PENCIL" @click="navigate" />
       </RouterLink>
       <RouterLink
-         v-if="showAdd && $can('create', 'products')"
+         v-if="showAdd && $can('create', 'product')"
          :to="{
             name: 'product-add',
             params: { category },

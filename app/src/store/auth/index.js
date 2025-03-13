@@ -49,7 +49,7 @@ export const useAuthStore = defineStore('auth', () => {
       const ability = inject(ABILITY_TOKEN);
 
       watch(
-         () => jwt.value?.app_metadata?.permissions,
+         () => jwt.value?.app_metadata?.permission,
          (newPermissions = []) => {
             ability.update(
                newPermissions.map(({ command, resource_name }) => ({
@@ -74,7 +74,7 @@ export const useAuthStore = defineStore('auth', () => {
    });
    const user = new UserModel();
    const isSignedIn = computed(() => !!user?.id);
-   const branches = computed(() => new Collection(jwt?.value?.app_metadata?.allowed_tenants || []));
+   const branches = computed(() => new Collection(jwt?.value?.app_metadata?.allowed_tenant || []));
    const { currentTenant, setCurrentTenant, changeCurrentTenant } = useCurrentTenant();
    const { ability } = useAbility();
 

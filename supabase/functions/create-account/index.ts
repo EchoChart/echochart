@@ -13,20 +13,20 @@ Deno.serve(async (req) => {
 
       const {
          data: [tenant]
-      } = await supabase.from('tenants').insert(company).select().throwOnError();
+      } = await supabase.from('tenant').insert(company).select().throwOnError();
 
       const { data: userData, error: userError } = await supabase.auth.admin.createUser({
          ...account,
          email_confirm: true
       });
       if (userError) {
-         await supabase.from('tenants').delete().eq('id', tenant.id);
+         await supabase.from('tenant').delete().eq('id', tenant.id);
          throw userError;
       }
       const { user } = userData;
 
       await supabase
-         .from('tenants_users')
+         .from('tenant_user')
          .insert({
             tenant_id: tenant.id,
             user_id: user.id
@@ -34,34 +34,31 @@ Deno.serve(async (req) => {
          .throwOnError();
 
       const { data: role } = await supabase
-         .from('roles')
-         .insert({
-            display_name: 'owner',
-            tenant_id: tenant.id,
-            is_default: true
-         })
+         .from('role')
          .select()
+         .eq('display_name', 'owner')
+         .is('tenant_id', null)
          .single()
          .throwOnError();
 
       await supabase
-         .from('user_roles')
+         .from('user_role')
          .insert({
             user_id: user.id,
             role_id: role.id
          })
          .throwOnError();
 
-      const { data: permissions } = await supabase
-         .from('permissions')
-         .select('id')
-         .filter('resource_name', 'like', '%public.%')
-         .throwOnError();
+      // const { data: permission } = await supabase
+      //    .from('permission')
+      //    .select('id')
+      //    .filter('resource_name', 'like', '%public.%')
+      //    .throwOnError();
 
-      await supabase
-         .from('role_permissions')
-         .insert(permissions.map((p: any) => ({ permission_id: p.id, role_id: role.id })))
-         .throwOnError();
+      // await supabase
+      //    .from('role_permission')
+      //    .insert(permission.map((p: any) => ({ permission_id: p.id, role_id: role.id })))
+      //    .throwOnError();
 
       return new Response(JSON.stringify({ user, tenant }), {
          status: 200,

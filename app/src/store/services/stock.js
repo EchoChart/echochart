@@ -1,12 +1,12 @@
 import Collection from '@/lib/Collection';
 
-export const useStockStore = defineStore('stocks', () => {
+export const useStockStore = defineStore('stock', () => {
    const useStocks = () => {
-      const defaultSelect = '*, product:products(*, category:product_category(*))';
+      const defaultSelect = '*, product:product(*, category:product_category(*))';
       const stocks = new Collection(null);
 
       async function fetchStocks(select = defaultSelect) {
-         const res = supabase.from('stocks').select(select).throwOnError();
+         const res = supabase.from('stock').select(select).throwOnError();
          const { data } = res;
          stocks._setDefaults(data || [])._reset();
 
@@ -17,7 +17,7 @@ export const useStockStore = defineStore('stocks', () => {
          if (_isNil(id) || _isEmpty(id)) return;
 
          const { data } = await supabase
-            .from('stocks')
+            .from('stock')
             .select(select)
             .eq('id', id)
             .single()
@@ -34,7 +34,7 @@ export const useStockStore = defineStore('stocks', () => {
       }
 
       async function getStock(id, select = defaultSelect) {
-         const stock = stocks ? stocks.find?.((stock) => stock.id === id) : null;
+         const stock = stocks?.find?.((stock) => stock.id === id);
          if (stock) {
             return stock;
          }
@@ -59,11 +59,11 @@ export const useStockStore = defineStore('stocks', () => {
       const vendorStats = new Collection(null);
 
       async function fetchVendors(select = '*') {
-         const { data } = await supabase.from('stock_vendors').select(select).throwOnError();
+         const { data } = await supabase.from('stock_vendor').select(select).throwOnError();
          vendors._setDefaults(data || [])._reset();
       }
 
-      async function fetchVendorStats(select = '*, product:products!product_id(*)') {
+      async function fetchVendorStats(select = '*, product:product!product_id(*)') {
          const { data } = await supabase.from('stock_vendor_stats').select(select).throwOnError();
          return data;
       }
