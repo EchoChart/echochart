@@ -36,6 +36,17 @@ CREATE TABLE
 CREATE INDEX tenant_user_user_id_idx ON public.tenant_user (user_id);
 CREATE INDEX tenant_user_tenant_id_idx ON public.tenant_user (tenant_id);
 
+-- Tenant Owners
+CREATE TABLE
+   IF NOT EXISTS public.tenant_owner (
+      user_id UUID NOT NULL REFERENCES public.user (id) ON DELETE CASCADE,
+      tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
+      created_at TIMESTAMP DEFAULT NOW (),
+      PRIMARY KEY (tenant_id, user_id)
+   );
+CREATE INDEX tenant_owner_user_id_idx ON public.tenant_owner (user_id);
+CREATE INDEX tenant_owner_tenant_id_idx ON public.tenant_owner (tenant_id);
+
 -- Addresses
 CREATE TABLE
    IF NOT EXISTS public.address (

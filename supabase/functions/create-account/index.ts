@@ -33,6 +33,14 @@ Deno.serve(async (req) => {
          })
          .throwOnError();
 
+      await supabase
+         .from('tenant_owner')
+         .insert({
+            tenant_id: tenant.id,
+            user_id: user.id
+         })
+         .throwOnError();
+
       const { data: role } = await supabase
          .from('role')
          .select()

@@ -402,9 +402,12 @@ BEGIN
     JOIN public.role r ON r.id = ur.role_id
     JOIN public.role_permission rp ON rp.role_id = ur.role_id
     JOIN public.permission p ON p.id = rp.permission_id
-    JOIN public.tenant_user tu ON tu.user_id = ur.user_id
-    WHERE ur.user_id = u_id AND tu.tenant_id = current_tenant_id 
-        AND (r.tenant_id = current_tenant_id OR r.tenant_id IS NULL);
+    WHERE ur.user_id = u_id 
+        AND ( r.tenant_id = current_tenant_id 
+            OR ( r.tenant_id IS NULL 
+                AND EXISTS( SELECT 1 from public.tenant_owner WHERE user_id = u_id AND tenant_id = current_tenant_id)
+            )
+        );
 
     IF permission IS NOT NULL THEN
         claims := jsonb_set(claims, '{app_metadata,permission}', permission, true);

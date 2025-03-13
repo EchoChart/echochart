@@ -22,6 +22,13 @@ VALUES
    ('public.tenant_user', 'user', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
+   -- tenant_owner   
+   ('public.tenant_owner', 'user', 'select', 'read', TRUE, FALSE, NULL),
+   -- ('public.tenant_user', 'user', 'insert', 'create', FALSE, FALSE, NULL),
+   -- ('public.tenant_user', 'user', 'update', 'modify', FALSE, FALSE, NULL),
+   -- ('public.tenant_user', 'user', 'delete', 'modify', FALSE, FALSE, NULL),
+   --
+   --
    -- role   
    ('public.role', 'role', 'select', 'read', FALSE, FALSE, NULL),
    ('public.role', 'role', 'insert', 'create', FALSE, FALSE, NULL),
