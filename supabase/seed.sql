@@ -2,10 +2,10 @@ INSERT INTO
    public.permission (resource_name, group_name, command, kind, bypass, throws_error, resource_condition)
 VALUES
    -- tenant
-   ('public.tenant', 'branches', 'select', 'read', FALSE, FALSE, NULL),
-   ('public.tenant', 'branches', 'insert', 'create', FALSE, FALSE, NULL),
-   ('public.tenant', 'branches', 'update', 'modify', FALSE, FALSE, NULL),
-   ('public.tenant', 'branches', 'delete', 'modify', FALSE, FALSE, NULL),
+   ('public.tenant', 'branch', 'select', 'read', FALSE, FALSE, NULL),
+--    ('public.tenant', 'branch', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.tenant', 'branch', 'update', 'modify', FALSE, FALSE, NULL),
+--    ('public.tenant', 'branch', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
    -- user   
