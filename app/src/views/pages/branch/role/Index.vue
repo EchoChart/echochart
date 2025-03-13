@@ -80,9 +80,9 @@ const tableProps = computed(() => ({
 <template>
    <ResourceTable v-bind="tableProps" v-model:filters="filters" :mapClass="Collection">
       <template #header>
-         <Teleport v-if="$can('create', 'role')" to="#page-toolbar" :disabled="dialogRef">
+         <Teleport to="#page-toolbar" :disabled="dialogRef">
             <div class="flex items-center justify-end gap-4">
-               <CustomLink :to="{ name: 'branch-role-add' }">
+               <CustomLink v-if="$can('create', 'role')" :to="{ name: 'branch-role-add' }">
                   <template #default="{ navigate }">
                      <Button variant="outlined" :label="$t('add')" @click="navigate" />
                   </template>

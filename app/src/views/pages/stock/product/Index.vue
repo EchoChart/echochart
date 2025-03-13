@@ -109,11 +109,11 @@ const tableProps = computed(() => ({
 <template>
    <ResourceTable v-bind="tableProps" v-model:filters="filters">
       <template #header>
-         <Teleport v-if="$can('create', 'product')" to="#page-toolbar" :disabled="dialogRef">
+         <Teleport to="#page-toolbar" :disabled="dialogRef">
             <span class="flex-1 flex justify-end gap-4 flex-wrap-reverse">
                <KeywordSearchInput v-model="filters.global.value" />
 
-               <CustomLink :to="{ name: 'product-add' }">
+               <CustomLink v-if="$can('create', 'product')" :to="{ name: 'product-add' }">
                   <template #default="{ navigate }">
                      <Button variant="outlined" :label="$t('add')" @click="navigate" />
                   </template>
