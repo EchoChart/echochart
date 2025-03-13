@@ -138,12 +138,7 @@ const tableProps = computed(() => ({
          <span name="expansion" v-bind="{ ...slotProps, loading }" />
       </template>
       <template #empty> <span v-text="$t('no_data_found')" /> </template>
-      <Column
-         v-if="$slots.expansion && tableProps?.value?.length"
-         field="_expansion"
-         expander
-         style="width: 3rem !important"
-      />
+      <Column v-if="$slots.expansion && tableProps?.value?.length" field="_expansion" expander />
       <Column
          v-for="(column, i) in tableProps?.columns"
          :key="'column_' + (column?.field + i) || i"
@@ -154,6 +149,22 @@ const tableProps = computed(() => ({
          v-bind="column"
          :header="$slots[`${_snakeCase(column?.field)}_header`] ? undefined : column?.header"
          :footer="$slots[`${_snakeCase(column?.field)}_footer`] ? undefined : column?.footer"
+         :pt="{
+            bodyCell: ({ instance }) =>
+               _keys(tableProps.expandedRows).some?.((key) =>
+                  $attrs.value?.some?.(
+                     (row) =>
+                        _get(row, tableProps.dataKey) === key &&
+                        _get(instance?.rowData, column.field) === _get(row, column.field) &&
+                        (tableProps.groupRowsBy?.includes(column.field) ||
+                           tableProps.groupRowsBy === column)
+                  )
+               )
+                  ? {
+                       class: 'align-baseline'
+                    }
+                  : undefined
+         }"
       >
          <template
             v-for="slot in _keys($slots)
@@ -273,5 +284,9 @@ const tableProps = computed(() => ({
 <style lang="scss">
 .p-datatable-mask.p-overlay-mask {
    background-color: rgba($color: #aaa, $alpha: 0.1);
+}
+.p-datatable-row-expansion {
+   z-index: 1;
+   position: relative;
 }
 </style>
