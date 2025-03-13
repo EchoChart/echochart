@@ -40,7 +40,7 @@ CREATE INDEX tenants_users_tenant_id_idx ON public.tenants_users (tenant_id);
 CREATE TABLE
    IF NOT EXISTS public.addresses (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-      display_name TEXT NOT NULL UNIQUE,
+      display_name TEXT NOT NULL,
       country TEXT NOT NULL,
       province TEXT NOT NULL,
       district TEXT,
