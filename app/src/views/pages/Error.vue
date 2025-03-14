@@ -21,7 +21,7 @@
                   class="text-muted-color mb-8"
                   v-text="$t('requested_resource_is_not_available')"
                />
-               <img src="/demo/images/error/asset-error.svg" alt="Error" class="mb-8" width="80%" />
+               <img src="/images/error/asset-error.svg" alt="Error" class="mb-8" width="80%" />
                <div class="col-span-12 mt-8 text-center">
                   <div class="flex flex-col gap-4">
                      <CustomLink

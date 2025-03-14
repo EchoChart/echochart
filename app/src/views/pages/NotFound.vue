@@ -16,7 +16,7 @@
                   class="text-surface-600 dark:text-surface-200 mb-8"
                   v-text="$t('requested_resource_is_not_available')"
                />
-               <img src="/demo/images/error/asset-error.svg" alt="Access denied" width="80%" />
+               <img src="/images/error/asset-error.svg" alt="Access denied" width="80%" />
                <CustomLink :to="{ name: 'dashboard' }">
                   <template #default="{ navigate }">
                      <Button
