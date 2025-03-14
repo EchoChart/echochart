@@ -132,7 +132,7 @@ const save = async () => {
                fluid
                :label="i18n.t('display_name')"
                :error="form?._errors.first('display_name')"
-               :readonly="!$can('modify', 'role') && !$can('create', 'role')"
+               :readonly
             >
                <template #default="slotProps">
                   <InputText
@@ -145,11 +145,11 @@ const save = async () => {
             <FormField
                fluid
                :label="i18n.t('permission')"
+               :readonly
                :error="form?._errors.first('permission')"
-               :readonly="!$can('modify', 'role_permission') && !$can('create', 'role_permission')"
             >
                <template #default="slotProps">
-                  <PermissionsSelect v-bind="slotProps" v-model="form['permission']" :readonly />
+                  <PermissionsSelect v-bind="slotProps" v-model="form['permission']" />
                </template>
             </FormField>
          </div>
