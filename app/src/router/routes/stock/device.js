@@ -1,5 +1,5 @@
 import CustomRouteView from '@/components/layout/CustomRouteView.vue';
-import { DIALOG_POSITIONS } from '@/router/constants';
+import { DIALOG_POSITIONS } from '@/constants/router';
 
 /**
  * @type {import('vue-router').RouteLocation[]}

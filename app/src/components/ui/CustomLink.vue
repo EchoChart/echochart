@@ -1,5 +1,5 @@
 <script setup>
-import { DIALOG_POSITIONS } from '@/router/constants';
+import { DIALOG_POSITIONS } from '@/constants/router';
 import { RouterLink } from 'vue-router';
 
 defineOptions({
