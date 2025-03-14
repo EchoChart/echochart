@@ -88,6 +88,7 @@ onUnmounted(() => {
                :to="item.route"
                class="p-panelmenu-header-link flex items-center !gap-4 !p-4"
                :title="$t(item.label)"
+               :contextMenuItems="item?.route?.meta?.contextMenuItems"
             >
                <span
                   v-if="item.icon"

@@ -1,4 +1,5 @@
 import CustomRouteView from '@/components/layout/CustomRouteView.vue';
+import { DIALOG_POSITIONS } from '../constants';
 
 /**
  * @type {import('vue-router').RouteLocation[]}
@@ -23,6 +24,15 @@ export default [
                   {
                      action: 'select',
                      subject: 'role'
+                  }
+               ],
+               contextMenuItems: [
+                  {
+                     label: i18n.t('add'),
+                     route: {
+                        name: 'branch-role-add',
+                        query: { showDialog: DIALOG_POSITIONS.CENTER }
+                     }
                   }
                ]
             },

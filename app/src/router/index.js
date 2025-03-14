@@ -8,18 +8,6 @@ import branchRoutes from '@/router/routes/branch';
 import stockRoutes from '@/router/routes/stock';
 import clientRoutes from '@/router/routes/client';
 
-export const DIALOG_POSITIONS = {
-   LEFT: 'left',
-   RIGHT: 'right',
-   TOP: 'top',
-   BOTTOM: 'bottom',
-   CENTER: 'center',
-   TOP_LEFT: 'topleft',
-   TOP_RIGHT: 'topright',
-   BOTTOM_LEFT: 'bottomleft',
-   BOTTOM_RIGHT: 'bottomright'
-};
-
 const router = createRouter({
    history: createWebHistory(),
    routes: [

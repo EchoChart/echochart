@@ -1,4 +1,5 @@
 import CustomRouteView from '@/components/layout/CustomRouteView.vue';
+import { DIALOG_POSITIONS } from '../constants';
 
 /**
  * @type {import('vue-router').RouteLocation[]}
@@ -15,6 +16,15 @@ export default [
             {
                action: 'read',
                subject: 'client'
+            }
+         ],
+         contextMenuItems: [
+            {
+               label: i18n.t('add'),
+               route: {
+                  name: 'client-add',
+                  query: { showDialog: DIALOG_POSITIONS.CENTER }
+               }
             }
          ]
       },

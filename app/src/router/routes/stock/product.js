@@ -1,4 +1,5 @@
 import CustomRouteView from '@/components/layout/CustomRouteView.vue';
+import { DIALOG_POSITIONS } from '@/router/constants';
 
 /**
  * @type {import('vue-router').RouteLocation[]}
@@ -16,6 +17,15 @@ export default [
             {
                action: 'select',
                subject: 'product'
+            }
+         ],
+         contextMenuItems: [
+            {
+               label: i18n.t('add'),
+               route: {
+                  name: 'product-add',
+                  query: { showDialog: DIALOG_POSITIONS.CENTER }
+               }
             }
          ]
       },
