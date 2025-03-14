@@ -28,14 +28,12 @@ const columns = [
    }
 ];
 
-const routeLoading = inject('routeLoading', false);
-
 const { getPermissions } = usePermissionStore();
 
 const permissionKinds = ['read', 'create', 'modify'];
 
 let allPermissions = null;
-if (!routeLoading?.value) allPermissions = await getPermissions();
+allPermissions = await getPermissions();
 
 const permissionIds = computed(() => allPermissions?._data?.map?.(({ id }) => id));
 
