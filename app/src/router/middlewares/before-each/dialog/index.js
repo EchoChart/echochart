@@ -65,12 +65,12 @@ export const dialogBeforeEach = async (to, from, next) => {
    const dialogOptions = {
       data: { to, from },
       props: {
-         maximizable: true,
+         maximizable: false,
          header: _startCase(i18n.t(to.name)),
          position: showDialog,
          keepInViewport: false,
          closeOnEscape: true,
-         class: 'max-w-full',
+         class: 'max-w-[clamp(32rem,65%,100vw)]',
          onDragend: updateStyles,
          onMousedown: focusToDialog
       }
