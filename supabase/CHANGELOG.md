@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.5.0-alpha.1...echochart-supabase-v0.6.0-alpha.1) (2025-03-14)
+
+
+### Features
+
+* update numeric precision for unit_cost and total_cost to 3 decimal places ([01c0280](https://github.com/EchoChart/echochart/commit/01c028000a2c797621ead39ffd3e6f44c041068b))
+* update tenant_user and tenant_owner references, add role assignment trigger for tenant owners ([ed8428a](https://github.com/EchoChart/echochart/commit/ed8428a6e6adade1b4b24884929fef8255908d21))
+
 ## [0.5.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.4.0-alpha.1...echochart-supabase-v0.5.0-alpha.1) (2025-03-13)
 
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.10.0-alpha.1...echochart-app-v0.11.0-alpha.1) (2025-03-14)
+
+
+### Features
+
+* update numeric precision for unit_cost and total_cost to 3 decimal places ([01c0280](https://github.com/EchoChart/echochart/commit/01c028000a2c797621ead39ffd3e6f44c041068b))
+
 ## [0.10.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.9.0-alpha.1...echochart-app-v0.10.0-alpha.1) (2025-03-14)
 
 
