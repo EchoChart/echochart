@@ -30,6 +30,7 @@ const initialFormData = {
    serial_number: null,
    barcode: null,
    unit_cost: 0,
+   total_cost: 0,
    quantity: 1,
    used: 0,
    currency_code: 'TRY',
@@ -72,16 +73,18 @@ const total_cost = computed({
    get: () => form.unit_cost * form.quantity,
    set: (value) => {
       _set(form, 'unit_cost', value / form.quantity);
-      _set(form, 'total_cost', value || undefined);
+      _set(form, 'total_cost', value >= 0 ? value : undefined);
    }
 });
 
 const save = async () => {
    if (!form._validate()) return;
 
+   const payload = _omit(_pick(form._data, fields), ['total_cost']);
+
    const { data } = await supabase
       .from('stock')
-      .upsert(_pick(form._data, fields))
+      .upsert(payload)
       .eq('id', form.id)
       .select()
       .single()
@@ -98,6 +101,9 @@ const save = async () => {
       detail: i18n.t('saved')
    });
 };
+
+const dialogRef = inject('dialogRef', null);
+_set(dialogRef?.value?.options?.props, 'style', `max-width: clamp(32rem, 50%, 50%);`);
 </script>
 
 <template>
@@ -169,6 +175,7 @@ const save = async () => {
                   <InputNumber
                      v-bind="slotProps"
                      v-model="form.unit_cost"
+                     :max-fraction-digits="3"
                      mode="currency"
                      :currency="form.currency_code"
                      :min="0"
@@ -185,6 +192,7 @@ const save = async () => {
                   <InputNumber
                      v-bind="slotProps"
                      v-model="total_cost"
+                     :max-fraction-digits="3"
                      mode="currency"
                      :currency="form.currency_code"
                      :min="0"

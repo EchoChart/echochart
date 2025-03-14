@@ -175,8 +175,8 @@ CREATE TABLE IF NOT EXISTS public.stock (
    used INTEGER NOT NULL DEFAULT 0 CHECK (used >= 0), -- Ensures valid values
    available INTEGER GENERATED ALWAYS AS 
       (CASE WHEN quantity >= used THEN quantity - used ELSE 0 END) STORED, -- Prevents negative stock
-   unit_cost NUMERIC(10,2) NOT NULL CHECK (unit_cost >= 0), -- Ensures unit_cost is never negative
-   total_cost NUMERIC(10,2) GENERATED ALWAYS AS 
+   unit_cost NUMERIC(10,3) NOT NULL CHECK (unit_cost >= 0), -- Ensures unit_cost is never negative
+   total_cost NUMERIC(10,3) GENERATED ALWAYS AS 
       (CASE WHEN quantity > 0 AND unit_cost > 0 THEN unit_cost * quantity ELSE 0 END) STORED,
    currency_code CHAR(3) NOT NULL DEFAULT 'TRY' CHECK (currency_code ~ '^[A-Z]{3}$'), -- Ensures valid 3-letter currency code
    vendor TEXT,
@@ -219,8 +219,8 @@ SELECT
   SUM(available) AS total_available,
   SUM(used) AS total_used,
   SUM(unit_cost) AS total_cost,
-  ROUND(AVG(unit_cost)::NUMERIC(10,2), 2) AS average_cost,
-  ROUND(AVG(total_cost)::NUMERIC(10,2), 2) AS average_total_cost
+  ROUND(AVG(unit_cost)::NUMERIC(10,3), 2) AS average_cost,
+  ROUND(AVG(total_cost)::NUMERIC(10,3), 2) AS average_total_cost
 FROM 
   public.product p
 JOIN
@@ -236,7 +236,7 @@ SELECT
    SUM(s.available) AS available_quantity,
    SUM(s.used) AS used_quantity,
    SUM(s.unit_cost) AS total_cost,
-   ROUND(AVG(total_cost)::NUMERIC(10,2), 2) AS average_total_cost
+   ROUND(AVG(total_cost)::NUMERIC(10,3), 2) AS average_total_cost
 FROM
    public.product p
 JOIN

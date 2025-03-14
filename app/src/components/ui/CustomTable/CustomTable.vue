@@ -224,7 +224,7 @@ const tableProps = computed(() => ({
                         v-bind="inputProps"
                         v-model="slotProps.filterModel.value"
                         :max-fraction-digits="
-                           meta?.filters?.[column?.field]?.dataType === 'decimal' ? 2 : null
+                           meta?.filters?.[column?.field]?.dataType === 'decimal' ? 3 : null
                         "
                         @keydown.enter="slotProps.filterCallback"
                      />
