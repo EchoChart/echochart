@@ -102,6 +102,20 @@ SELECT
     id 
 FROM public.permission;
 
+CREATE OR REPLACE FUNCTION private.assign_owner_role()
+RETURNS TRIGGER SECURITY DEFINER AS $$
+BEGIN
+    INSERT INTO public.user_role (user_id, role_id)
+    VALUES (NEW.user_id, (SELECT id FROM public.role WHERE display_name = 'owner' AND tenant_id IS NULL));
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_tenant_owners_insert
+AFTER INSERT ON public.tenant_owner
+FOR EACH ROW EXECUTE FUNCTION private.assign_owner_role();
+
 -- Insert Categories with parent-child relationships
 INSERT INTO public.product_category (display_name, description, parent_id, created_at)
 VALUES 

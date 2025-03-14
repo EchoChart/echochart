@@ -210,7 +210,7 @@ FROM
 CREATE OR REPLACE VIEW public.stock_vendor AS
 SELECT DISTINCT vendor as display_name FROM public.stock;
    
-CREATE OR REPLACE VIEW public.stock_vendor_stats AS
+CREATE OR REPLACE VIEW public.stock_vendor_stat AS
 SELECT 
   vendor,
   p.id as product_id,

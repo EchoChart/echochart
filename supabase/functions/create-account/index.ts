@@ -26,14 +26,6 @@ Deno.serve(async (req) => {
       const { user } = userData;
 
       await supabase
-         .from('tenant_user')
-         .insert({
-            tenant_id: tenant.id,
-            user_id: user.id
-         })
-         .throwOnError();
-
-      await supabase
          .from('tenant_owner')
          .insert({
             tenant_id: tenant.id,
@@ -41,31 +33,28 @@ Deno.serve(async (req) => {
          })
          .throwOnError();
 
-      const { data: role } = await supabase
-         .from('role')
-         .select()
-         .eq('display_name', 'owner')
-         .is('tenant_id', null)
-         .single()
-         .throwOnError();
-
       await supabase
-         .from('user_role')
+         .from('tenant_user')
          .insert({
-            user_id: user.id,
-            role_id: role.id
+            tenant_id: tenant.id,
+            user_id: user.id
          })
          .throwOnError();
 
-      // const { data: permission } = await supabase
-      //    .from('permission')
-      //    .select('id')
-      //    .filter('resource_name', 'like', '%public.%')
+      // const { data: role } = await supabase
+      //    .from('role')
+      //    .select()
+      //    .eq('display_name', 'owner')
+      //    .is('tenant_id', null)
+      //    .single()
       //    .throwOnError();
 
       // await supabase
-      //    .from('role_permission')
-      //    .insert(permission.map((p: any) => ({ permission_id: p.id, role_id: role.id })))
+      //    .from('user_role')
+      //    .insert({
+      //       user_id: user.id,
+      //       role_id: role.id
+      //    })
       //    .throwOnError();
 
       return new Response(JSON.stringify({ user, tenant }), {

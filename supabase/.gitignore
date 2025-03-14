@@ -1,6 +1,7 @@
 # Supabase
 .temp
 .env
+.branches
 
 node_modules
 coverage
