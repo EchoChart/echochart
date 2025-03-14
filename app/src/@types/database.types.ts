@@ -388,7 +388,7 @@ export type Database = {
         Row: {
           available: number | null
           barcode: string | null
-          cost: number
+          unit_cost: number
           created_at: string | null
           currency_code: string
           details: string | null
@@ -404,7 +404,7 @@ export type Database = {
         Insert: {
           available?: number | null
           barcode?: string | null
-          cost: number
+          unit_cost: number
           created_at?: string | null
           currency_code?: string
           details?: string | null
@@ -420,7 +420,7 @@ export type Database = {
         Update: {
           available?: number | null
           barcode?: string | null
-          cost?: number
+          unit_cost?: number
           created_at?: string | null
           currency_code?: string
           details?: string | null
@@ -630,7 +630,7 @@ export type Database = {
           available: number | null
           barcode: string | null
           brand: string | null
-          cost: number | null
+          unit_cost: number | null
           created_at: string | null
           currency_code: string | null
           details: string | null

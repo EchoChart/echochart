@@ -19,9 +19,9 @@ const columns = new Collection([
       sortOrder: { value: -1 }
    },
    {
-      field: 'cost',
+      field: 'unit_cost',
       sortable: true,
-      header: i18n.t('cost'),
+      header: i18n.t('unit_cost'),
       dataType: 'numeric'
    },
    {
@@ -69,7 +69,7 @@ const filters = ref({
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
    },
-   cost: {
+   unit_cost: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
       dataType: 'decimal'

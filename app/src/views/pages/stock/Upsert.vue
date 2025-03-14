@@ -29,7 +29,7 @@ const initialFormData = {
    product_id: null,
    serial_number: null,
    barcode: null,
-   cost: 0,
+   unit_cost: 0,
    quantity: 1,
    used: 0,
    currency_code: 'TRY',
@@ -42,7 +42,8 @@ const form = new Form({
    data: _defaults(_pick(props.data, fields), initialFormData),
    rules: {
       product_id: 'required',
-      cost: 'required|min:0',
+      unit_cost: 'required|min:0',
+      total_cost: 'required|min:0',
       quantity: 'required|min:1|gte:used',
       used: 'min:0|lte:quantity'
    },
@@ -55,28 +56,38 @@ const readonly = computed(
 );
 
 if (props.id || props.data?.id) {
-   const updateCallback = (data) => form._setDefaults(_pick(data, fields))._reset();
+   const updateCallback = (data) => {
+      form._setDefaults(_pick(data, fields))._reset();
+   };
    onMounted(() => emitter.on('device-update', updateCallback));
    onUnmounted(() => emitter.off('device-update', updateCallback));
 }
 
 const { getStock } = useStockStore();
 if (props.id) {
-   getStock(props.id).then((data) => form._setDefaults(_pick(data, fields))._reset());
+   await getStock(props.id).then((data) => form._setDefaults(_pick(data, fields))._reset());
 }
+
+const total_cost = computed({
+   get: () => form.unit_cost * form.quantity,
+   set: (value) => {
+      _set(form, 'unit_cost', value / form.quantity);
+      _set(form, 'total_cost', value || undefined);
+   }
+});
 
 const save = async () => {
    if (!form._validate()) return;
 
    const { data } = await supabase
       .from('stock')
-      .upsert(form._data)
+      .upsert(_pick(form._data, fields))
       .eq('id', form.id)
       .select()
       .single()
       .throwOnError();
 
-   if (form.id) form._setDefaults(_pick(data, fields))._reset();
+   if (form.id) form._setDefaults(form._data)._reset();
 
    emitter.emit('device-update', data);
 
@@ -112,9 +123,28 @@ const save = async () => {
                <StockVendorSelect v-bind="slotProps" v-model="form.vendor" />
             </template>
          </FormField>
-         <div class="flex-1 flex">
+         <div class="!flex-auto w-full flex flex-wrap">
             <FormField
-               class="flex-[0.2]"
+               :readonly="readonly"
+               fluid
+               :error="form._errors.first('quantity')"
+               :label="$t('quantity')"
+            >
+               <template #default="slotProps">
+                  <InputNumber v-bind="slotProps" v-model="form.quantity" :min="0" />
+               </template>
+            </FormField>
+            <FormField
+               :readonly="readonly"
+               fluid
+               :error="form._errors.first('used')"
+               :label="$t('used')"
+            >
+               <template #default="slotProps">
+                  <InputNumber v-bind="slotProps" v-model="form.used" :min="0" />
+               </template>
+            </FormField>
+            <FormField
                :readonly="readonly"
                fluid
                :error="form._errors.first('currency_code')"
@@ -130,16 +160,31 @@ const save = async () => {
                </template>
             </FormField>
             <FormField
-               class="flex-[0.8]"
                :readonly="readonly"
                fluid
-               :error="form._errors.first('cost')"
-               :label="$t('cost')"
+               :error="form._errors.first('unit_cost')"
+               :label="$t('unit_cost')"
             >
                <template #default="slotProps">
                   <InputNumber
                      v-bind="slotProps"
-                     v-model="form.cost"
+                     v-model="form.unit_cost"
+                     mode="currency"
+                     :currency="form.currency_code"
+                     :min="0"
+                  />
+               </template>
+            </FormField>
+            <FormField
+               :readonly="readonly"
+               fluid
+               :error="form._errors.first('total_cost')"
+               :label="$t('total_cost')"
+            >
+               <template #default="slotProps">
+                  <InputNumber
+                     v-bind="slotProps"
+                     v-model="total_cost"
                      mode="currency"
                      :currency="form.currency_code"
                      :min="0"
@@ -147,26 +192,6 @@ const save = async () => {
                </template>
             </FormField>
          </div>
-         <FormField
-            :readonly="readonly"
-            fluid
-            :error="form._errors.first('quantity')"
-            :label="$t('quantity')"
-         >
-            <template #default="slotProps">
-               <InputNumber v-bind="slotProps" v-model="form.quantity" :min="0" />
-            </template>
-         </FormField>
-         <FormField
-            :readonly="readonly"
-            fluid
-            :error="form._errors.first('used')"
-            :label="$t('used')"
-         >
-            <template #default="slotProps">
-               <InputNumber v-bind="slotProps" v-model="form.used" :min="0" />
-            </template>
-         </FormField>
          <div class="!flex-auto flex w-full flex-wrap">
             <FormField
                :readonly="readonly"

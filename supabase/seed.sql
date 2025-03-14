@@ -156,14 +156,14 @@ END $$;
 --     tenant UUID := '1fdb4405-8c8c-4d1f-9526-eb0dc0e28c32'; -- Placeholder tenant_id  
 -- BEGIN  
 --     INSERT INTO public.stock (
---         tenant_id, product_id, quantity, used, cost, currency_code, vendor, serial_number, barcode, details, created_at
+--         tenant_id, product_id, quantity, used, unit_cost, currency_code, vendor, serial_number, barcode, details, created_at
 --     )  
 --     SELECT  
 --         tenant,  
 --         p.id,  
 --         FLOOR(random() * 100 + 1)::INTEGER,  -- Random quantity between 1 and 100  
 --         0,  -- `used` starts at 0  
---         ROUND((random() * (500 - 10) + 10)::NUMERIC, 2),  -- Random cost between 10.00 and 500.00  
+--         ROUND((random() * (500 - 10) + 10)::NUMERIC, 2),  -- Random unit_cost between 10.00 and 500.00  
 --         'TRY',  
 --         'EROTIC SHOP ' || lpad(floor(random() * 20)::text, 2, '0'),  
 --         'SN-' || gen_random_uuid(),  -- Unique serial number  

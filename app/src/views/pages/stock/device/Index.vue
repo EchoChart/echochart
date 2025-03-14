@@ -21,9 +21,9 @@ const columns = new Collection([
       header: i18n.t('serial_number')
    },
    {
-      field: 'cost',
+      field: 'unit_cost',
       sortable: true,
-      header: i18n.t('cost')
+      header: i18n.t('unit_cost')
    },
    {
       field: 'vendor',
@@ -64,7 +64,7 @@ const filters = ref({
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
    },
-   cost: {
+   unit_cost: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
       dataType: 'decimal'
