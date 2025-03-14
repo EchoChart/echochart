@@ -84,16 +84,22 @@ onMounted(() => {
          />
       </slot>
 
-      <slot
-         :disabled="isLoading"
-         :id="id"
-         :inputId="id"
-         :invalid="!!attrs.error"
-         v-bind="_omit(attrs, ['class'])"
-         :class="inputClass"
-         :aria-labelledby="(!!attrs.label && `label-${id}`) || undefined"
-         :aria-errormessage="`${id}-errormessage`"
-      />
+      <Suspense>
+         <slot
+            :disabled="isLoading"
+            :loading="isLoading"
+            :id="id"
+            :inputId="id"
+            :invalid="!!attrs.error"
+            v-bind="_omit(attrs, ['class'])"
+            :class="inputClass"
+            :aria-labelledby="(!!attrs.label && `label-${id}`) || undefined"
+            :aria-errormessage="`${id}-errormessage`"
+         />
+         <template #fallback>
+            <Skeleton height="2.5rem" v-bind="_omit(attrs, ['class'])" />
+         </template>
+      </Suspense>
 
       <slot name="error">
          <Message
