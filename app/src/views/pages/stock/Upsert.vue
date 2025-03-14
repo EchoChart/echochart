@@ -72,7 +72,7 @@ if (props.id) {
 const total_cost = computed({
    get: () => form.unit_cost * form.quantity,
    set: (value) => {
-      _set(form, 'unit_cost', value / form.quantity);
+      _set(form, 'unit_cost', _round(value / form.quantity, 2));
       _set(form, 'total_cost', value >= 0 ? value : undefined);
    }
 });
@@ -101,9 +101,6 @@ const save = async () => {
       detail: i18n.t('saved')
    });
 };
-
-const dialogRef = inject('dialogRef', null);
-_set(dialogRef?.value?.options?.props, 'style', `max-width: clamp(32rem, 50%, 50%);`);
 </script>
 
 <template>
