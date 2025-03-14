@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.10.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.9.0-alpha.1...echochart-app-v0.10.0-alpha.1) (2025-03-14)
+
+
+### Features
+
+* add context menu items for branch, client, and stock routes with dialog positions ([3df8f4f](https://github.com/EchoChart/echochart/commit/3df8f4fe3a0fa104836371827f67724ea0a7be0a))
+
+
+### Bug Fixes
+
+* update image paths in Error and NotFound components ([687baea](https://github.com/EchoChart/echochart/commit/687baea61e15270f9d37c9033b519538bbdf2a1b))
+
 ## [0.9.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.8.0-alpha.1...echochart-app-v0.9.0-alpha.1) (2025-03-12)
 
 
