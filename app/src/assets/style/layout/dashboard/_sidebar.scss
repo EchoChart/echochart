@@ -1,107 +1,107 @@
 .layout-wrapper {
-    .layout-sidebar {
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-        height: 100%;
-        min-width: 20rem;
-        max-width: 20rem;
-        z-index: 999;
-        overflow: hidden auto;
-        user-select: none;
-        transition:
-            transform var(--transition-duration) ease-in-out,
-            opacity var(--transition-duration) ease-in-out,
-            padding var(--transition-duration) ease-in-out,
-            margin var(--transition-duration) ease-in-out,
-            min-width var(--transition-duration) ease-in-out,
-            max-width var(--transition-duration) ease-in-out;
-        border-radius: var(--content-border-radius);
-        margin: 0 1rem 0 0;
-        padding-right: 1rem;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        transition-delay: 0s;
-        overflow: hidden auto;
+   .layout-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      height: 100%;
+      min-width: 20rem;
+      max-width: 20rem;
+      z-index: 999;
+      overflow: hidden auto;
+      user-select: none;
+      transition:
+         transform var(--transition-duration) ease-in-out,
+         opacity var(--transition-duration) ease-in-out,
+         padding var(--transition-duration) ease-in-out,
+         margin var(--transition-duration) ease-in-out,
+         min-width var(--transition-duration) ease-in-out,
+         max-width var(--transition-duration) ease-in-out;
+      border-radius: var(--content-border-radius);
+      margin: 0 1rem 0 0;
+      padding-right: 1rem;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      transition-delay: 0s;
+      overflow: hidden auto;
 
-        & #sidebar {
-            &-start,
-            &-end {
-                @apply py-2 rounded-[var(--p-content-border-radius)] bg-[var(--p-content-background)]
-            }
-        }
+      & #sidebar {
+         &-start,
+         &-end {
+            @apply py-2 rounded-[var(--p-content-border-radius)] bg-[var(--p-content-background)];
+         }
+      }
 
-        .p-panelmenu {
+      .p-panelmenu {
+         &-panel,
+         &-submenu {
+            transition:
+               padding var(--transition-duration),
+               margin var(--transition-duration);
+         }
+      }
+   }
+
+   &.layout-static .layout-sidebar {
+      position: sticky;
+      align-self: flex-start;
+   }
+
+   &.layout-overlay .layout-sidebar {
+      position: fixed;
+      border-right: 1px solid var(--surface-border);
+      background-color: var(--surface-overlay);
+      padding: 2rem 1rem;
+      max-height: 100%;
+      box-shadow:
+         0px 3px 5px rgba(0, 0, 0, 0.02),
+         0px 0px 2px rgba(0, 0, 0, 0.05),
+         0px 1px 4px rgba(0, 0, 0, 0.08);
+
+      & ~ .layout-mask {
+         display: unset;
+      }
+   }
+
+   &.layout-mini {
+      @extend .layout-static;
+
+      .layout-sidebar {
+         min-width: 6.25rem;
+         max-width: 6.25rem;
+
+         & #sidebar-start,
+         & #sidebar-end {
+            @apply max-w-0 overflow-hidden;
+         }
+
+         .p-panelmenu {
             &-panel,
             &-submenu {
-                transition:
-                    padding var(--transition-duration),
-                    margin var(--transition-duration);
+               padding-left: 0;
+               padding-right: 0;
             }
-        }
-    }
-
-    &.layout-static .layout-sidebar {
-        position: sticky;
-        align-self: flex-start;
-    }
-
-    &.layout-overlay .layout-sidebar {
-        position: fixed;
-        border-right: 1px solid var(--surface-border);
-        background-color: var(--surface-overlay);
-        padding: 2rem 1rem;
-        max-height: 100%;
-        box-shadow:
-            0px 3px 5px rgba(0, 0, 0, 0.02),
-            0px 0px 2px rgba(0, 0, 0, 0.05),
-            0px 1px 4px rgba(0, 0, 0, 0.08);
-
-        & ~ .layout-mask {
-            display: unset;
-        }
-    }
-
-    &.layout-mini {
-        @extend .layout-static;
-
-        .layout-sidebar {
-            min-width: 6.25rem;
-            max-width: 6.25rem;
-
-            & #sidebar-start,
-            & #sidebar-end {
-                @apply max-w-0 overflow-hidden;
+            &-header {
+               &-label {
+                  display: none;
+               }
             }
+         }
+      }
+   }
 
-            .p-panelmenu {
-                &-panel,
-                &-submenu {
-                    padding-left: 0;
-                    padding-right: 0;
-                }
-                &-header {
-                    &-label {
-                        display: none;
-                    }
-                }
-            }
-        }
-    }
+   &.layout-reveal {
+      @extend .layout-static;
 
-    &.layout-reveal {
-        @extend .layout-static;
-
-        &:has(.layout-sidebar:not(*:hover)) {
-            @extend .layout-mini;
-        }
-    }
+      &:has(.layout-sidebar:not(*:hover)) {
+         @extend .layout-mini;
+      }
+   }
 }
 
 .layout-menu {
-    margin: 1px;
-    transition:
-        opacity var(--transition-duration) ease-in-out,
-        transform var(--transition-duration) ease-in-out;
+   margin: 1px;
+   transition:
+      opacity var(--transition-duration) ease-in-out,
+      transform var(--transition-duration) ease-in-out;
 }
