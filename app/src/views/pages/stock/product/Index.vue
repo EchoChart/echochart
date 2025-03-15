@@ -53,6 +53,10 @@ const filters = ref({
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
    },
+   description: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
+   },
    'categories.display_name': {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.IN }]
