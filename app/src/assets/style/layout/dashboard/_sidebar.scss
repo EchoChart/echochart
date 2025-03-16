@@ -47,6 +47,15 @@
       align-self: flex-start;
    }
 
+   &.layout-auto {
+      @extend .layout-static;
+
+      .layout-sidebar {
+         min-width: auto;
+         max-width: auto;
+      }
+   }
+
    &.layout-overlay .layout-sidebar {
       position: fixed;
       border-right: 1px solid var(--surface-border);
@@ -67,8 +76,8 @@
       @extend .layout-static;
 
       .layout-sidebar {
-         min-width: 6.25rem;
-         max-width: 6.25rem;
+         min-width: 6.5rem;
+         max-width: 6.5rem;
 
          & #sidebar-start,
          & #sidebar-end {

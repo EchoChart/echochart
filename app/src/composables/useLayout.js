@@ -54,9 +54,10 @@ const setActiveMenuItem = (item) => {
 
 const sidebarModeOptions = ref([
    { label: i18n.t('static'), value: 'static' },
-   { label: i18n.t('overlay'), value: 'overlay' },
+   { label: i18n.t('auto'), value: 'auto' },
    { label: i18n.t('mini'), value: 'mini' },
-   { label: i18n.t('reveal'), value: 'reveal' }
+   { label: i18n.t('reveal'), value: 'reveal' },
+   { label: i18n.t('overlay'), value: 'overlay' }
 ]);
 
 const setSidebarMode = (mode) => {
