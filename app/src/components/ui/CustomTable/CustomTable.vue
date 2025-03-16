@@ -19,19 +19,61 @@ const props = defineProps({
    filters: {
       type: Object,
       default: () => ({})
+   },
+   useMeta: {
+      type: Boolean,
+      default: true
    }
 });
 const emit = defineEmits(['meta', 'update:filters']);
 const attrs = useAttrs();
 const dialogRef = inject('dialogRef', null);
 
-const stateStorage = !dialogRef?.value ? 'local' : 'session';
+function useMetaStorage() {
+   const stateStorage = !dialogRef?.value && props.useMeta != false ? 'local' : 'session';
+   const stateKey = stateStorage == 'local' ? 'dt-' + attrs?.stateKey : _uniqueId('dt-');
 
-const stateKey = !dialogRef?.value ? 'dt-' + attrs?.stateKey : _uniqueId('dt-');
+   const meta = (stateStorage == 'local' ? useLocalStorage : useSessionStorage)?.(
+      stateKey,
+      {
+         expandedRows: {},
+         expandedRowGroups: [],
+         rows: _defaultTo(attrs?.rows, 5),
+         multiSortMeta: __.chain(attrs?.columns)
+            .filter(({ field, sortOrder }) => !!field && !!sortOrder)
+            .sortBy(({ sortOrder }) => sortOrder.index || 0)
+            .map(({ field, sortOrder }) => ({ field, order: sortOrder.value }))
+            .value()
+      },
+      { mergeDefaults: true, writeDefaults: true }
+   );
 
-!!dialogRef?.value && sessionStorage.removeItem(stateKey);
+   meta.value.filters = _merge(props.filters, meta.value.filters);
 
-onUnmounted(() => !!dialogRef?.value && sessionStorage.removeItem(stateKey));
+   const onMeta = (value = meta.value) => {
+      _merge(meta.value, { ...value, filters: filterInput.value });
+      emit('meta', meta.value);
+   };
+
+   watch(
+      () => props.filters,
+      _throttle(() => onMeta(), 500),
+      { deep: true }
+   );
+
+   if (stateStorage == 'session') sessionStorage.removeItem(stateKey);
+
+   onUnmounted(() => stateStorage == 'session' && sessionStorage.removeItem(stateKey));
+
+   return {
+      stateStorage,
+      stateKey,
+      meta,
+      onMeta
+   };
+}
+
+const { meta, stateStorage, stateKey, onMeta } = useMetaStorage();
 
 const routeLoading = inject('routeLoading', false);
 const loading = computed(() => {
@@ -41,23 +83,6 @@ const loading = computed(() => {
    return routeLoading.value;
 });
 const actions = new Collection(props.rowActions);
-
-const meta = (dialogRef?.value ? useSessionStorage : useLocalStorage)?.(
-   stateKey,
-   {
-      expandedRows: {},
-      expandedRowGroups: [],
-      rows: _defaultTo(attrs?.rows, 5),
-      multiSortMeta: __.chain(attrs?.columns)
-         .filter(({ field, sortOrder }) => !!field && !!sortOrder)
-         .sortBy(({ sortOrder }) => sortOrder.index || 0)
-         .map(({ field, sortOrder }) => ({ field, order: sortOrder.value }))
-         .value()
-   },
-   { mergeDefaults: true, writeDefaults: true }
-);
-
-meta.value.filters = _merge(props.filters, meta.value.filters);
 
 const filterInput = computed({
    get: () => props.filters,
@@ -79,16 +104,6 @@ const filterInput = computed({
    }
 });
 
-const onMeta = (value = meta.value) => {
-   _merge(meta.value, { ...value, filters: filterInput.value });
-   emit('meta', meta.value);
-};
-
-watch(
-   () => props.filters,
-   _throttle(() => onMeta(), 500),
-   { deep: true }
-);
 const tableProps = computed(() => ({
    dataKey: 'id',
    reorderableColumns: true,
