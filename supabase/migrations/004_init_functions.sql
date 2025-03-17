@@ -126,6 +126,9 @@ BEGIN
     target_schema := split_part(target_resource, '.', 1);
     target_table := split_part(target_resource, '.', 2);
 
+    EXECUTE format('ALTER TABLE %I.%I ENABLE ROW LEVEL SECURITY', target_schema, target_table);
+
+
     -- Check if the table exists
     IF EXISTS (
         SELECT 1
