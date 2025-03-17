@@ -70,7 +70,7 @@ export const dialogBeforeEach = async (to, from, next) => {
          position: showDialog,
          keepInViewport: false,
          closeOnEscape: true,
-         class: 'max-w-[clamp(32rem,65%,100vw)]',
+         class: 'min-w-[clamp(32rem,50%,100vw)] max-w-min',
          onDragend: updateStyles,
          onMousedown: focusToDialog
       }
