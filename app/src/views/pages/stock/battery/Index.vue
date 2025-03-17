@@ -152,7 +152,7 @@ const tableProps = computed(() => ({
       </template>
       <template #expansion="{ data }">
          <Upsert
-            class="w-full"
+            class="p-0"
             :data
             :category="
                data?.product?.category?.map?.(({ display_name }) => display_name).join?.('|')
