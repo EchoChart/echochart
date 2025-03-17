@@ -1,3 +1,10 @@
+-- enable explain
+alter role authenticator
+set pgrst.db_plan_enabled to 'true';
+
+-- reload the config
+notify pgrst, 'reload config';
+
 INSERT INTO
    public.permission (resource_name, group_name, command, kind, bypass, throws_error, resource_condition)
 VALUES
