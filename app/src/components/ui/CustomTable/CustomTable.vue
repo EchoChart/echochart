@@ -146,21 +146,36 @@ const tableProps = computed(() => ({
       @sort="(value) => onMeta(value)"
       v-bind="tableProps"
       :value="
-         tableProps?.value?.length > 0 || !loading ? tableProps?.value : new Array(tableProps?.rows)
+         tableProps?.value?.length > 0 || !loading
+            ? tableProps?.value?.filter?.(
+                 (v) =>
+                    !tableProps?.frozenValue?.some(
+                       (f) => _get(f, tableProps.dataKey) === _get(v, tableProps.dataKey)
+                    )
+              )
+            : new Array(tableProps?.rows)
       "
    >
       <template #expansion="slotProps">
          <span name="expansion" v-bind="{ ...slotProps, loading }" />
       </template>
       <template #empty> <span v-text="$t('no_data_found')" /> </template>
-      <Column v-if="$slots.expansion && tableProps?.value?.length" field="_expansion" expander />
+      <template v-for="slot in _keys($slots)" #[slot]="slotProps" :key="`slot_${slot}`">
+         <slot v-bind="slotProps" :name="slot" :key="`slot_${slot}`" />
+      </template>
+      <Column
+         v-if="$slots.expansion && tableProps?.value?.length"
+         field="_expansion"
+         expander
+         class="!max-w-[4rem] !w-[4rem]"
+      />
       <Column
          v-for="(column, i) in tableProps?.columns"
-         :key="'column_' + (column?.field + i) || i"
+         :key="'column_' + (column?.field ? column?.field + i : i) || i"
          showClearButton
          :data-type="DATA_TYPES[meta?.filters?.[column?.field]?.dataType]"
-         :showFilterOperator="column.field.split('.')?.length > 1 ? false : true"
-         :showFilterMenu="!!meta?.filters?.[`${column.field}`]"
+         :showFilterOperator="column?.field?.split?.('.')?.length > 1 ? false : true"
+         :showFilterMenu="!!meta?.filters?.[`${column?.field}`]"
          v-bind="column"
          :header="$slots[`${_snakeCase(column?.field)}_header`] ? undefined : column?.header"
          :footer="$slots[`${_snakeCase(column?.field)}_footer`] ? undefined : column?.footer"
@@ -170,8 +185,8 @@ const tableProps = computed(() => ({
                   $attrs.value?.some?.(
                      (row) =>
                         _get(row, tableProps.dataKey) === key &&
-                        _get(instance?.rowData, column.field) === _get(row, column.field) &&
-                        (tableProps.groupRowsBy?.includes(column.field) ||
+                        _get(instance?.rowData, column?.field) === _get(row, column?.field) &&
+                        (tableProps.groupRowsBy?.includes(column?.field) ||
                            tableProps.groupRowsBy === column)
                   )
                )
@@ -204,9 +219,9 @@ const tableProps = computed(() => ({
             <IconField
                :class="[
                   slotProps.class,
-                  meta?.filters?.[`${column.field}`]?.constraints?.some?.(
+                  meta?.filters?.[`${column?.field}`]?.constraints?.some?.(
                      ({ value }) => !_isNil(value)
-                  ) || !_isNil(meta?.filters?.[column.field]?.value)
+                  ) || !_isNil(meta?.filters?.[column?.field]?.value)
                      ? `text-primary ${PrimeIcons.FILTER_FILL}`
                      : PrimeIcons.FILTER
                ]"
@@ -254,7 +269,7 @@ const tableProps = computed(() => ({
                </FormField>
             </slot>
          </template>
-         <template v-if="!column.expander" #body="body">
+         <template v-if="!column.expander && column?.field" #body="body">
             <slot :name="`${_snakeCase(body?.field)}_body`" v-bind="body">
                <Skeleton v-if="loading && !_has(body?.data, body.field)" :height="'2.5rem'" />
                <div
@@ -286,14 +301,6 @@ const tableProps = computed(() => ({
             </slot>
          </template>
       </Column>
-
-      <template
-         v-for="slot in _keys($slots)?.filter?.((key) => !key.includes?.('_'))"
-         #[slot]="slotProps"
-         :key="`slot_${slot}`"
-      >
-         <slot :name="slot" v-bind="slotProps" />
-      </template>
    </DataTable>
 </template>
 <style lang="scss">
