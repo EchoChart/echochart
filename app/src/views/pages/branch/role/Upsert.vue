@@ -127,32 +127,27 @@ const save = async () => {
 <template>
    <div class="card">
       <FormBox @submit="save" @reset="() => form?._reset()" v-focustrap>
-         <div v-if="form" class="flex-1 flex flex-col overflow-auto gap-8">
-            <FormField
-               fluid
-               :label="i18n.t('display_name')"
-               :error="form?._errors.first('display_name')"
-               :readonly
-            >
-               <template #default="slotProps">
-                  <InputText
-                     v-bind="slotProps"
-                     v-model="form['display_name']"
-                     class="min-w-[10vw]"
-                  />
-               </template>
-            </FormField>
-            <FormField
-               fluid
-               :label="i18n.t('permission')"
-               :readonly
-               :error="form?._errors.first('permission')"
-            >
-               <template #default="slotProps">
-                  <PermissionsSelect v-bind="slotProps" v-model="form['permission']" />
-               </template>
-            </FormField>
-         </div>
+         <FormField
+            fluid
+            :label="i18n.t('display_name')"
+            :error="form?._errors.first('display_name')"
+            :readonly
+         >
+            <template #default="slotProps">
+               <InputText v-bind="slotProps" v-model="form['display_name']" />
+            </template>
+         </FormField>
+         <FormField
+            class="flex-auto w-full"
+            fluid
+            :label="i18n.t('permission')"
+            :readonly
+            :error="form?._errors.first('permission')"
+         >
+            <template #default="slotProps">
+               <PermissionsSelect v-bind="slotProps" v-model="form['permission']" />
+            </template>
+         </FormField>
          <div
             v-if="($can('create', 'role') || $can('modify', 'role')) && !readonly"
             class="flex flex-wrap items-end justify-end gap-4 w-full"
