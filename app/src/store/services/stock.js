@@ -50,9 +50,11 @@ export const useStockStore = defineStore('stock', () => {
          getStock
       };
    };
-   emitter.on('device-update', () => emitter.emit('stock-update'));
-   emitter.on('spare-part-update', () => emitter.emit('stock-update'));
-   emitter.on('battery-update', () => emitter.emit('stock-update'));
+   emitter.on('stock-update', () => {
+      emitter.emit('device-update');
+      emitter.emit('spare-part-update');
+      emitter.emit('battery-update');
+   });
 
    const useVendors = () => {
       const vendors = new Collection(null);
