@@ -31,7 +31,7 @@ export const useClientStore = defineStore('client', () => {
       }
 
       async function getClient(id, select = defaultSelect) {
-         const client = client.find?.((c) => c?.id === id);
+         const client = clients.find?.((c) => c?.id === id);
 
          if (!_isNil(client)) return client;
 
