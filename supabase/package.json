@@ -1,6 +1,6 @@
 {
    "name": "echochart-supabase",
-   "version": "0.6.0-alpha.1",
+   "version": "0.7.0-alpha.1",
    "scripts": {
       "dev:supabase": "supabase start --ignore-health-check",
       "dev:supabase-types": "supabase gen types typescript --local > @types/database.types.ts",
