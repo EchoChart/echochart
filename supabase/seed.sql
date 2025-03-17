@@ -110,7 +110,9 @@ SELECT
 FROM public.permission;
 
 CREATE OR REPLACE FUNCTION private.assign_owner_role()
-RETURNS TRIGGER SECURITY DEFINER AS $$
+RETURNS TRIGGER SECURITY DEFINER 
+SET
+   search_path = '' AS $$
 BEGIN
     INSERT INTO public.user_role (user_id, role_id)
     VALUES (NEW.user_id, (SELECT id FROM public.role WHERE display_name = 'owner' AND tenant_id IS NULL));
