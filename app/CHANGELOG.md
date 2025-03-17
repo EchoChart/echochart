@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.12.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.11.0-alpha.1...echochart-app-v0.12.0-alpha.1) (2025-03-17)
+
+
+### Features
+
+* add 'auto' sidebar layout option ([7670e43](https://github.com/EchoChart/echochart/commit/7670e43d8e96234241939612349ec0fa4162a118))
+* add 'p-0' class to Upsert component for consistent styling ([db62762](https://github.com/EchoChart/echochart/commit/db62762db9ef50fa3d360b6089cc76d34e0dc19d))
+* add description filter to product index page ([466a06b](https://github.com/EchoChart/echochart/commit/466a06bdd738324364a5edf825268e173a0221ca))
+* enhance CustomTable component with improved slot handling and filter logic ([a3ac3b1](https://github.com/EchoChart/echochart/commit/a3ac3b1b5e7a6bf9646328e12996a320f268d21a))
+* implement meta storage handling with local and session options ([795114f](https://github.com/EchoChart/echochart/commit/795114f64bc6fe63728adbde11add69f1fed8ccb))
+* refactor validator logic into separate module for improved organization ([7e6174d](https://github.com/EchoChart/echochart/commit/7e6174ddb420c579d0186fca527cebc0ed7d142c))
+* update stock event emissions for improved event handling ([1cbfbf2](https://github.com/EchoChart/echochart/commit/1cbfbf237753ce9dc20fae26d0de31b483dd1ef1))
+
+
+### Bug Fixes
+
+* correct variable name from client to clients in getClient function ([1216161](https://github.com/EchoChart/echochart/commit/121616183fce8f0dd44f1c928cce3bfab53ab6d3))
+
 ## [0.11.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.10.0-alpha.1...echochart-app-v0.11.0-alpha.1) (2025-03-14)
 
 

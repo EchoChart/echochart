@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.7.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.6.0-alpha.1...echochart-supabase-v0.7.0-alpha.1) (2025-03-17)
+
+
+### Features
+
+* enable query plan explanation and reload configuration in seed script ([7848a37](https://github.com/EchoChart/echochart/commit/7848a37b504ca2eb2a75669140e541b8ce73933c))
+* enable row level security for specified tables in migration scripts ([2fc35d5](https://github.com/EchoChart/echochart/commit/2fc35d523074819493a1929071e7064ccd28ce57))
+* set search path in assign_owner_role function for improved security context ([685dde5](https://github.com/EchoChart/echochart/commit/685dde56934f2cf6fd4ad77b010a0001f7ea6821))
+
 ## [0.6.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.5.0-alpha.1...echochart-supabase-v0.6.0-alpha.1) (2025-03-14)
 
 
