@@ -29,17 +29,20 @@ const breadcrumbItems = computed(() =>
             :class="{
                '!text-primary text-xl': $route.name === item.name
             }"
+            v-slot="{ navigate }"
          >
-            <span v-bind="props.icon" v-if="item.meta?.icon" :class="[item.meta?.icon]" />
-            <span
-               class="font-semibold lg:block"
-               :class="{
-                  hidden: $route.name !== item.name
-               }"
-               v-bind="props.label"
-               v-if="item.label"
-               v-text="item.label"
-            />
+            <span @click="navigate" class="flex gap-2 items-center">
+               <span v-bind="props.icon" v-if="item.meta?.icon" :class="[item.meta?.icon]" />
+               <span
+                  class="font-semibold lg:block"
+                  :class="{
+                     hidden: $route.name !== item.name
+                  }"
+                  v-bind="props.label"
+                  v-if="item.label"
+                  v-text="item.label"
+               />
+            </span>
          </CustomLink>
       </template>
    </Breadcrumb>

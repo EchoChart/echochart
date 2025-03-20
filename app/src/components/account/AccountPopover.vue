@@ -59,9 +59,12 @@ const accountMenuItems = computed(() => {
                   :to="item.route"
                   v-bind="props.action"
                   class="p-tieredmenu-item-link"
+                  v-slot="{ navigate }"
                >
-                  <span class="p-tieredmenu-item-icon !text-inherit" :class="item.icon" />
-                  <span class="ml-2" v-text="item.label" />
+                  <span @click="navigate">
+                     <span class="p-tieredmenu-item-icon !text-inherit" :class="item.icon" />
+                     <span class="ml-2" v-text="item.label" />
+                  </span>
                </CustomLink>
                <div v-bind="props.action" v-else>
                   <span :class="item.icon" />

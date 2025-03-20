@@ -28,9 +28,11 @@ const mounted = useMounted();
                         !dialogRef && $route.matched.some(({ name }) => name === item.route?.name)
                   }"
                >
-                  <CustomLink v-if="!hasSubmenu" :to="item.route" class="p-menubar-item-link">
-                     <span class="p-menubar-item-icon !text-inherit" :class="item.icon" />
-                     <span class="p-menubar-item-label" v-text="$t(item.label)" />
+                  <CustomLink v-if="!hasSubmenu" :to="item.route" v-slot="{ navigate }">
+                     <div class="p-menubar-item-link" @click="navigate">
+                        <span class="p-menubar-item-icon !text-inherit" :class="item.icon" />
+                        <span class="p-menubar-item-label" v-text="$t(item.label)" />
+                     </div>
                   </CustomLink>
                   <div v-else v-ripple v-bind="props.action">
                      <span :class="item.icon" />

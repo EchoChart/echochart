@@ -56,15 +56,16 @@ const itemClick = (item) => {
    </a>
    <router-link v-else v-bind="$props" custom>
       <a
-         v-ripple
-         v-bind="$attrs"
-         :href="href"
-         @click.prevent="() => itemClick(route)"
          @contextmenu="(e) => contextMenu.show(e)"
          :disabled="routeLoading"
+         :href="href"
+         @click.prevent
          class="!cursor-alias [&>*]:!cursor-alias"
+         v-bind="$attrs"
       >
-         <slot v-bind="{ href, navigate, isExactActive, isActive, route }" />
+         <slot
+            v-bind="{ href, navigate: itemClick.bind(null, route), isExactActive, isActive, route }"
+         />
       </a>
    </router-link>
    <ContextMenu v-if="!isExternalLink" ref="contextMenu" :model="constextMenuItems">

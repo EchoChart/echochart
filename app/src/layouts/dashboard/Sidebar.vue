@@ -86,20 +86,22 @@ onUnmounted(() => {
             <CustomLink
                v-if="!hasSubmenu"
                :to="item.route"
-               class="p-panelmenu-header-link flex items-center !gap-4 !p-4"
                :title="$t(item.label)"
                :contextMenuItems="item?.route?.meta?.contextMenuItems"
+               v-slot="{ navigate }"
             >
-               <span
-                  v-if="item.icon"
-                  class="p-panelmenu-header-icon !text-xl !text-inherit"
-                  :class="item.icon"
-               />
-               <span
-                  class="p-panelmenu-header-label flex-1 !truncate"
-                  v-if="item.label"
-                  v-text="$t(item.label)"
-               />
+               <div class="p-panelmenu-header-link flex items-center !gap-4 !p-4" @click="navigate">
+                  <span
+                     v-if="item.icon"
+                     class="p-panelmenu-header-icon !text-xl !text-inherit"
+                     :class="item.icon"
+                  />
+                  <span
+                     class="p-panelmenu-header-label flex-1 !truncate"
+                     v-if="item.label"
+                     v-text="$t(item.label)"
+                  />
+               </div>
             </CustomLink>
             <div
                v-ripple

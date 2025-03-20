@@ -27,20 +27,17 @@
                      <CustomLink
                         v-if="$router.options.history.state.back"
                         :to="$router.options.history.state.back"
+                        v-slot="{ navigate }"
                      >
-                        <template #default="{ navigate }">
-                           <Button
-                              @click="navigate"
-                              :label="$t('go_back')"
-                              variant="outlined"
-                              severity="danger"
-                           />
-                        </template>
+                        <Button
+                           @click="navigate"
+                           :label="$t('go_back')"
+                           variant="outlined"
+                           severity="danger"
+                        />
                      </CustomLink>
-                     <CustomLink :to="{ name: 'dashboard' }">
-                        <template #default="{ navigate }">
-                           <Button :label="$t('go_to_dashboard')" @click="() => navigate()" />
-                        </template>
+                     <CustomLink :to="{ name: 'dashboard' }" v-slot="{ navigate }">
+                        <Button :label="$t('go_to_dashboard')" @click="navigate" />
                      </CustomLink>
                   </div>
                </div>

@@ -142,10 +142,9 @@ const tableProps = computed(() => ({
                <CustomLink
                   v-if="$can('create', 'stock')"
                   :to="{ name: 'stock-add', params: { category: 'battery' } }"
+                  v-slot="{ navigate }"
                >
-                  <template #default="{ navigate }">
-                     <Button variant="outlined" :label="$t('add')" @click="navigate" />
-                  </template>
+                  <Button variant="outlined" :label="$t('add')" @click="navigate" />
                </CustomLink>
             </span>
          </Teleport>
