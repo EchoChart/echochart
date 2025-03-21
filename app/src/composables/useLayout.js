@@ -304,10 +304,10 @@ export default () => {
                   const children = toNestedArray(items, currentKey, visible || true, index).filter(
                      (c) => c.visible
                   );
-                  if (meta?.requiredPermissions)
-                     visible ??= meta?.requiredPermissions?.every?.(({ action, subject }) =>
-                        can?.(action, subject)
-                     );
+
+                  visible ??= meta?.requiredPermissions?.every?.(({ action, subject }) =>
+                     can?.(action, subject)
+                  );
 
                   visible ??= children.length > 0 ? true : isVisible;
 
