@@ -13,10 +13,6 @@
          class: '!w-10 !h-10 self-center',
          onMouseenter: (e) => e?.target?.parentElement?.classList?.toggle?.('p-speeddial-open')
       }"
-      :pt:pcAction="{
-         size: 'small',
-         class: '!max-w-8 !max-h-8'
-      }"
       :tooltipOptions="{ position: 'top' }"
    />
 </template>
