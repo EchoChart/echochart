@@ -36,7 +36,7 @@ const product = computed(() => {
 </script>
 
 <template>
-   <span class="flex gap-2 items-center" :class="$attrs?.class">
+   <InputGroup :class="$attrs?.class">
       <Select
          :filter="true"
          :options="product"
@@ -45,27 +45,43 @@ const product = computed(() => {
          v-bind="$attrs"
          v-model:model-value="modelValue"
       />
-      <RouterLink
+      <InputGroupAddon
          v-if="showEdit && $can('modify', 'product') && (!!modelValue?.id || !!modelValue)"
-         :to="{
-            name: 'product-edit',
-            params: { id: modelValue?.id || modelValue },
-            query: { showDialog: 'center' }
-         }"
-         v-slot="{ navigate }"
       >
-         <Button size="small" severity="info" :icon="PrimeIcons.PENCIL" @click="navigate" />
-      </RouterLink>
-      <RouterLink
-         v-if="showAdd && $can('create', 'product')"
-         :to="{
-            name: 'product-add',
-            params: { category },
-            query: { showDialog: 'center' }
-         }"
-         v-slot="{ navigate }"
-      >
-         <Button size="small" severity="success" :icon="PrimeIcons.PLUS" @click="navigate" />
-      </RouterLink>
-   </span>
+         <RouterLink
+            :to="{
+               name: 'product-edit',
+               params: { id: modelValue?.id || modelValue },
+               query: { showDialog: 'center' }
+            }"
+            v-slot="{ navigate }"
+         >
+            <Button
+               rounded
+               size="small"
+               severity="info"
+               :icon="PrimeIcons.PENCIL"
+               @click="navigate"
+            />
+         </RouterLink>
+      </InputGroupAddon>
+      <InputGroupAddon v-if="showAdd && $can('create', 'product')">
+         <RouterLink
+            :to="{
+               name: 'product-add',
+               params: { category },
+               query: { showDialog: 'center' }
+            }"
+            v-slot="{ navigate }"
+         >
+            <Button
+               rounded
+               size="small"
+               severity="success"
+               :icon="PrimeIcons.PLUS"
+               @click="navigate"
+            />
+         </RouterLink>
+      </InputGroupAddon>
+   </InputGroup>
 </template>
