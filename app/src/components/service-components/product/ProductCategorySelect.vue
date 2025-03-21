@@ -1,15 +1,22 @@
 <script setup>
+import Collection from '@/lib/Collection';
 import { PRODUCT_CATEGORY_PROPS } from '@/services/models/ProductModel';
-import { useProductStore } from '@/store/services/product';
 
-const { getCategories } = useProductStore();
-const productCategories = await getCategories();
+const props = defineProps({
+   select: {
+      type: String,
+      default: 'id,display_name'
+   }
+});
+
+const { data } = await supabase.from('product_category').select(props.select).throwOnError();
+const categories = new Collection(data);
 </script>
 
 <template>
    <MultiSelect
       :filter="true"
-      :options="productCategories._data"
+      :options="categories._data"
       option-label="display_name"
       option-value="display_name"
       display="chip"

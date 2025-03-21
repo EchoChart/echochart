@@ -1,4 +1,5 @@
 <script setup>
+import Collection from '@/lib/Collection';
 import { useProductStore } from '@/store/services/product';
 const props = defineProps({
    category: {
@@ -13,6 +14,10 @@ const props = defineProps({
    showAdd: {
       type: Boolean,
       default: true
+   },
+   select: {
+      type: String,
+      default: 'id,display_name, categories:product_category!inner(id,display_name)'
    }
 });
 
@@ -24,22 +29,30 @@ const modelValue = defineModel('modelValue');
 
 const categories = computed(() => props.category?.split?.('|') || []);
 
-const { getProducts, getProductsByCategory } = useProductStore();
-const allProducts = await getProducts();
-const productsByCategory = await getProductsByCategory();
+const { data } = await (
+   props.category
+      ? supabase
+           .from('product')
+           .select(props.select)
+           .in('product_category.display_name', categories.value)
+      : supabase.from('product').select(props.select)
+).throwOnError();
 
-const product = computed(() => {
-   if (categories.value.some?.((c) => _keys(productsByCategory._data).includes(c)))
-      return _flatMap(_values(_pick(productsByCategory._data, categories.value)));
-   return allProducts._data;
-});
+const products = new Collection(
+   // props.category
+   //    ? data?.filter?.((product) =>
+   //         product.categories?.some((category) => categories.value.includes(category.display_name))
+   //      )
+   //    :
+   data
+);
 </script>
 
 <template>
    <InputGroup :class="$attrs?.class">
       <Select
          :filter="true"
-         :options="product"
+         :options="products"
          option-label="display_name"
          option-value="id"
          v-bind="$attrs"

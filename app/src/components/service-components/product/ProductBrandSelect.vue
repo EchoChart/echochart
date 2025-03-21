@@ -1,8 +1,14 @@
 <script setup>
-import { useProductStore } from '@/store/services/product';
+import Collection from '@/lib/Collection';
+const props = defineProps({
+   select: {
+      type: String,
+      default: '*'
+   }
+});
 
-const { getProductBrands } = useProductStore();
-const productBrands = await getProductBrands();
+const { data } = await supabase.from('product_brands').select(props.select).throwOnError();
+const productBrands = new Collection(data);
 </script>
 
 <template>
@@ -11,5 +17,13 @@ const productBrands = await getProductBrands();
       :options="productBrands._data"
       option-label="display_name"
       option-value="display_name"
+      @value-change="
+         $emit(
+            'client',
+            productBrands._data.find(
+               (brand) => _get(brand, $attrs.optionValue || 'display_name') == $event
+            )
+         )
+      "
    />
 </template>
