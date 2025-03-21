@@ -26,12 +26,15 @@ const breadcrumbItems = computed(() =>
             :to="breadcrumbItems.length - 1 == item.index ? $route : item"
             v-bind="props.action"
             class="text-sm"
-            :class="{
-               '!text-primary text-xl': $route.name === item.name
-            }"
-            v-slot="{ navigate }"
+            v-slot="{ navigate, isExactActive }"
          >
-            <span @click="navigate" class="flex gap-2 items-center">
+            <button
+               @click="navigate"
+               class="flex gap-2 items-center"
+               :class="{
+                  '!text-primary text-xl': isExactActive
+               }"
+            >
                <span v-bind="props.icon" v-if="item.meta?.icon" :class="[item.meta?.icon]" />
                <span
                   class="font-semibold lg:block"
@@ -42,7 +45,7 @@ const breadcrumbItems = computed(() =>
                   v-if="item.label"
                   v-text="item.label"
                />
-            </span>
+            </button>
          </CustomLink>
       </template>
    </Breadcrumb>

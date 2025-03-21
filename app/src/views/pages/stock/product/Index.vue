@@ -117,10 +117,12 @@ const tableProps = computed(() => ({
             <span class="flex-1 flex justify-end gap-4 flex-wrap-reverse">
                <KeywordSearchInput v-model="filters.global.value" />
 
-               <CustomLink v-if="$can('create', 'product')" :to="{ name: 'product-add' }">
-                  <template #default="{ navigate }">
-                     <Button variant="outlined" :label="$t('add')" @click="navigate" />
-                  </template>
+               <CustomLink
+                  v-if="$can('create', 'product')"
+                  :to="{ name: 'product-add' }"
+                  v-slot="{ navigate }"
+               >
+                  <Button variant="outlined" :label="$t('add')" @click="navigate" />
                </CustomLink>
             </span>
          </Teleport>

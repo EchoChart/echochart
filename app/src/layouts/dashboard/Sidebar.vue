@@ -90,18 +90,21 @@ onUnmounted(() => {
                :contextMenuItems="item?.route?.meta?.contextMenuItems"
                v-slot="{ navigate }"
             >
-               <div class="p-panelmenu-header-link flex items-center !gap-4 !p-4" @click="navigate">
+               <button
+                  class="p-panelmenu-header-link flex items-center justify-start !gap-4 !p-4"
+                  @click="navigate"
+               >
                   <span
                      v-if="item.icon"
                      class="p-panelmenu-header-icon !text-xl !text-inherit"
                      :class="item.icon"
                   />
                   <span
-                     class="p-panelmenu-header-label flex-1 !truncate"
+                     class="p-panelmenu-header-label !truncate"
                      v-if="item.label"
                      v-text="$t(item.label)"
                   />
-               </div>
+               </button>
             </CustomLink>
             <div
                v-ripple
