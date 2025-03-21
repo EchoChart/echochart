@@ -168,6 +168,7 @@ const tableProps = computed(() => ({
          field="_expansion"
          expander
          class="!max-w-[4rem] !w-[4rem]"
+         style="max-width: 4rem !important; width: 4rem !important"
       />
       <Column
          v-for="(column, i) in tableProps?.columns"
