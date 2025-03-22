@@ -91,7 +91,8 @@ onUnmounted(() => {
                v-slot="{ navigate }"
             >
                <button
-                  class="p-panelmenu-header-link flex items-center justify-start !gap-4 !p-4"
+                  v-ripple
+                  class="p-panelmenu-header-link flex items-center justify-start !gap-2 !p-4"
                   @click="navigate"
                >
                   <span
@@ -109,7 +110,7 @@ onUnmounted(() => {
             <div
                v-ripple
                v-else
-               class="p-panelmenu-header-link flex items-center !gap-4 !p-4"
+               class="p-panelmenu-header-link flex items-center !gap-2 !p-4"
                :title="$t(item.label)"
                @click.prevent
             >

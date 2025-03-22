@@ -1,12 +1,7 @@
 .layout-main-container {
-   flex: 1;
-   display: flex;
-   overflow: auto;
-   margin: 0 2rem 0 2rem;
+   @apply flex-1 flex overflow-auto mx-4;
 }
 
 .layout-main {
-   flex: 1;
-   overflow: auto;
-   position: relative;
+   @apply flex-1 overflow-auto relative;
 }

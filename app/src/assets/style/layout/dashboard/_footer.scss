@@ -1,10 +1,5 @@
+// _footer.scss using Tailwind CSS
+
 .layout-footer {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   align-self: flex-end;
-   padding: 0.25rem 0;
-   width: 100%;
-   gap: 0.5rem;
-   background: var(--surface-overlay);
+   @apply flex items-center justify-center w-full gap-2 p-1 bg-[var(--surface-overlay)];
 }

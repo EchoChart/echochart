@@ -1,31 +1,11 @@
 .layout-wrapper {
    .layout-sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      height: 100%;
-      min-width: 20rem;
-      max-width: 20rem;
-      z-index: 999;
-      overflow: hidden auto;
-      user-select: none;
-      transition:
-         transform var(--transition-duration) ease-in-out,
-         opacity var(--transition-duration) ease-in-out,
-         padding var(--transition-duration) ease-in-out,
-         margin var(--transition-duration) ease-in-out,
-         min-width var(--transition-duration) ease-in-out,
-         max-width var(--transition-duration) ease-in-out;
-      border-radius: var(--content-border-radius);
-      margin: 0 1rem 0 0;
-      padding-right: 1rem;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      transition-delay: 0s;
-      overflow: hidden auto;
+      @apply flex flex-col gap-4 h-full min-w-[20rem] max-w-[20rem] 
+       z-[999] overflow-hidden overflow-y-auto select-none 
+       transition-[transform,opacity,padding,margin,min-width,max-width] 
+       duration-300 ease-in-out rounded-lg mr-4 pr-4 left-0 top-0 bottom-0;
 
-      & #sidebar {
+      #sidebar {
          &-start,
          &-end {
             @apply py-2 rounded-[var(--p-content-border-radius)] bg-[var(--p-content-background)];
@@ -35,37 +15,26 @@
       .p-panelmenu {
          &-panel,
          &-submenu {
-            transition:
-               padding var(--transition-duration),
-               margin var(--transition-duration);
+            @apply transition-[padding,margin] duration-300 ease-in-out;
          }
       }
    }
 
    &.layout-static .layout-sidebar {
-      position: sticky;
-      align-self: flex-start;
+      @apply sticky self-start;
    }
 
    &.layout-auto {
       @extend .layout-static;
 
       .layout-sidebar {
-         min-width: auto;
-         max-width: auto;
+         @apply min-w-[auto] max-w-[auto];
       }
    }
 
    &.layout-overlay .layout-sidebar {
-      position: fixed;
-      border-right: 1px solid var(--surface-border);
-      background-color: var(--surface-overlay);
-      padding: 2rem 1rem;
-      max-height: 100%;
-      box-shadow:
-         0px 3px 5px rgba(0, 0, 0, 0.02),
-         0px 0px 2px rgba(0, 0, 0, 0.05),
-         0px 1px 4px rgba(0, 0, 0, 0.08);
+      @apply fixed border-r-2 bg-[var(--surface-overlay)] p-4 max-h-full 
+       shadow-[0px_3px_5px_rgba(0,0,0,0.02),0px_0px_2px_rgba(0,0,0,0.05),0px_1px_4px_rgba(0,0,0,0.08)];
 
       & ~ .layout-mask {
          display: unset;
@@ -76,23 +45,24 @@
       @extend .layout-static;
 
       .layout-sidebar {
-         min-width: 6.5rem;
-         max-width: 6.5rem;
+         @apply min-w-[8rem] max-w-[8rem];
 
-         & #sidebar-start,
-         & #sidebar-end {
+         #sidebar-start,
+         #sidebar-end {
             @apply max-w-0 overflow-hidden;
          }
 
          .p-panelmenu {
             &-panel,
             &-submenu {
-               padding-left: 0;
-               padding-right: 0;
+               @apply px-0;
             }
             &-header {
                &-label {
-                  display: none;
+                  @apply hidden;
+               }
+               &-link {
+                  @apply justify-center;
                }
             }
          }
@@ -109,8 +79,5 @@
 }
 
 .layout-menu {
-   margin: 1px;
-   transition:
-      opacity var(--transition-duration) ease-in-out,
-      transform var(--transition-duration) ease-in-out;
+   @apply m-1 transition-opacity duration-300 ease-in-out transition-transform duration-300 ease-in-out;
 }

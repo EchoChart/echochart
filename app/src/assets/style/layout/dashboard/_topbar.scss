@@ -1,60 +1,33 @@
 .layout-topbar {
-   flex: 0 0 4rem;
-   width: 100%;
-   align-self: flex-start;
-   z-index: 997;
-   padding: 0 2rem;
-   background-color: var(--surface-card);
-   display: flex;
-   align-items: center;
+   @apply flex flex-[0_0_4rem] w-full self-start z-[997] py-0 px-8 bg-[var(--surface-card)] justify-start items-center;
 
-   .layout-topbar-logo-container {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+   &-logo-container {
+      @apply flex items-center gap-4;
    }
 
-   .layout-topbar-logo {
-      display: inline-flex;
-      align-items: center;
-      font-size: 1.5rem;
-      border-radius: var(--content-border-radius);
-      color: var(--text-color);
-      font-weight: 500;
-      gap: 0.5rem;
-
-      svg {
-         width: 3rem;
-      }
+   &-logo {
+      @apply flex flex-1 items-center justify-start text-lg rounded-sm text-[var(--text-color)] mx-auto  font-[500] gap-1;
 
       &:focus-visible {
-         @include focused();
+         @apply ring-2 ring-offset-2 ring-primary;
       }
    }
 
-   .layout-topbar-menu-button {
-      display: none;
+   &-menu-button {
+      @apply hidden; /* display: none; */
    }
 
-   .layout-topbar-actions {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+   &-actions {
+      @apply ml-auto flex items-center gap-4;
    }
 }
 
-@media (max-width: 991px) {
+@media (screen(lg)) {
    .layout-topbar {
-      padding: 0 2rem;
+      @apply px-8;
 
       .layout-topbar-logo-container {
-         width: auto;
-      }
-
-      .layout-sidebar-button {
-         margin-left: 0;
-         margin-right: 0.5rem;
+         @apply w-full;
       }
    }
 }

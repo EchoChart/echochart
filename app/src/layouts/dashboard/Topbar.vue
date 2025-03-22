@@ -12,7 +12,7 @@ const version = import.meta.env.PACKAGE_VERSION;
       defer
       :disabled="!layoutState.sidebarActive || layoutState.sidebarMode !== 'overlay'"
    >
-      <div class="layout-topbar-logo-container flex">
+      <div class="layout-topbar-logo-container">
          <Button
             type="button"
             class="layout-sidebar-button"
@@ -24,10 +24,7 @@ const version = import.meta.env.PACKAGE_VERSION;
             @click="sidebarToggle"
             v-if="isSignedIn"
          />
-         <router-link
-            to="/"
-            class="layout-topbar-logo flex mx-auto items-center justify-center text-[1.5rem] font-[500] gap-1"
-         >
+         <router-link to="/" class="layout-topbar-logo">
             <svg
                class="!w-[clamp(2rem,10vw,4rem)]"
                viewBox="0 0 54 40"
