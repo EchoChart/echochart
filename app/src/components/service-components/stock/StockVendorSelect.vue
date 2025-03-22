@@ -1,8 +1,29 @@
 <script setup>
-import { useStockStore } from '@/store/services/stock';
+import Collection from '@/lib/Collection';
 
-const { getVendors } = useStockStore();
-const vendors = await getVendors();
+const props = defineProps({
+   select: {
+      type: String,
+      default: '*',
+      required: false
+   }
+});
+
+const useVendors = () => {
+   const vendors = new Collection([]);
+   const fetchVendors = async () => {
+      const { data } = await supabase.from('stock_vendor').select(props.select).throwOnError();
+      vendors._setDefaults(data)._reset();
+   };
+   return { vendors, fetchVendors };
+};
+
+const { vendors, fetchVendors } = useVendors();
+
+await fetchVendors();
+
+onMounted(() => emitter.on('stock-update', fetchVendors));
+onUnmounted(() => emitter.off('stock-update', fetchVendors));
 </script>
 
 <template>

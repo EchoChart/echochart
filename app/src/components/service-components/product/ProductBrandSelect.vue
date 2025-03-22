@@ -7,8 +7,23 @@ const props = defineProps({
    }
 });
 
-const { data } = await supabase.from('product_brands').select(props.select).throwOnError();
-const productBrands = new Collection(data);
+const useProductBrands = () => {
+   const productBrands = new Collection([]);
+   const fetchProductBrands = async () => {
+      const { data } = await supabase.from('product_brands').select(props.select);
+      productBrands._setDefaults(data)._reset();
+   };
+   return {
+      productBrands,
+      fetchProductBrands
+   };
+};
+
+const { productBrands, fetchProductBrands } = useProductBrands();
+await fetchProductBrands();
+
+onMounted(() => emitter.on('product-update', fetchProductBrands));
+onUnmounted(() => emitter.off('product-update', fetchProductBrands));
 </script>
 
 <template>

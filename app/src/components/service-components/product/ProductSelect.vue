@@ -1,6 +1,5 @@
 <script setup>
 import Collection from '@/lib/Collection';
-import { useProductStore } from '@/store/services/product';
 const props = defineProps({
    category: {
       type: String,
@@ -29,30 +28,37 @@ const modelValue = defineModel('modelValue');
 
 const categories = computed(() => props.category?.split?.('|') || []);
 
-const { data } = await (
-   props.category
-      ? supabase
-           .from('product')
-           .select(props.select)
-           .in('product_category.display_name', categories.value)
-      : supabase.from('product').select(props.select)
-).throwOnError();
+const useProducts = () => {
+   const products = new Collection([]);
+   const fetchProducts = async () => {
+      const { data } = await (
+         props.category
+            ? supabase
+                 .from('product')
+                 .select(props.select)
+                 .in('product_category.display_name', categories.value)
+            : supabase.from('product').select(props.select)
+      ).throwOnError();
+      products._setDefaults(data)._reset();
+   };
+   return {
+      products,
+      fetchProducts
+   };
+};
+const { products, fetchProducts } = useProducts();
 
-const products = new Collection(
-   // props.category
-   //    ? data?.filter?.((product) =>
-   //         product.categories?.some((category) => categories.value.includes(category.display_name))
-   //      )
-   //    :
-   data
-);
+await fetchProducts();
+
+onMounted(() => emitter.on('product-update', fetchProducts));
+onUnmounted(() => emitter.off('product-update', fetchProducts));
 </script>
 
 <template>
-   <InputGroup :class="$attrs?.class">
+   <InputGroup>
       <Select
          :filter="true"
-         :options="products"
+         :options="products._data"
          option-label="display_name"
          option-value="id"
          v-bind="$attrs"

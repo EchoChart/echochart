@@ -5,24 +5,94 @@ const props = defineProps({
    select: {
       type: String,
       default: '*, address(*)'
+   },
+   showEdit: {
+      type: Boolean,
+      default: true
+   },
+   showAdd: {
+      type: Boolean,
+      default: true
    }
 });
+defineOptions({
+   inheritAttrs: false
+});
+defineEmits('clientSelect');
 
-const { data } = await supabase.from('client').select(props.select).throwOnError();
-const clients = new Collection(data);
+const modelValue = defineModel('modelValue');
+
+const useClients = () => {
+   const clients = new Collection([]);
+   const fetchClients = async () => {
+      const { data } = await supabase.from('client').select(props.select).throwOnError();
+      clients._setDefaults(data)._reset();
+   };
+   return {
+      clients,
+      fetchClients
+   };
+};
+const { clients, fetchClients } = useClients();
+
+await fetchClients();
+
+onMounted(() => emitter.on('client-update', fetchClients));
+onUnmounted(() => emitter.off('client-update', fetchClients));
 </script>
 
 <template>
-   <Select
-      :filter="true"
-      :options="clients._data"
-      option-label="display_name"
-      option-value="id"
-      @value-change="
-         $emit(
-            'client',
-            clients._data.find((c) => _get(c, $attrs.optionValue || 'id') == $event)
-         )
-      "
-   />
+   <InputGroup>
+      <Select
+         :filter="true"
+         :options="clients._data"
+         option-label="display_name"
+         option-value="id"
+         @value-change="
+            $emit(
+               'clientSelect',
+               clients._data.find((c) => _get(c, $attrs.optionValue || 'id') == $event)
+            )
+         "
+         v-bind="$attrs"
+         v-model:model-value="modelValue"
+      />
+      <InputGroupAddon
+         v-if="showEdit && $can('modify', 'client') && (!!modelValue?.id || !!modelValue)"
+      >
+         <RouterLink
+            :to="{
+               name: 'client-manage',
+               params: { id: modelValue?.id || modelValue },
+               query: { showDialog: 'center' }
+            }"
+            v-slot="{ navigate }"
+         >
+            <Button
+               rounded
+               size="small"
+               severity="info"
+               :icon="PrimeIcons.PENCIL"
+               @click="navigate"
+            />
+         </RouterLink>
+      </InputGroupAddon>
+      <InputGroupAddon v-if="showAdd && $can('create', 'client')">
+         <RouterLink
+            :to="{
+               name: 'client-manage',
+               query: { showDialog: 'center' }
+            }"
+            v-slot="{ navigate }"
+         >
+            <Button
+               rounded
+               size="small"
+               severity="success"
+               :icon="PrimeIcons.PLUS"
+               @click="navigate"
+            />
+         </RouterLink>
+      </InputGroupAddon>
+   </InputGroup>
 </template>
