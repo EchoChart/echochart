@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.7.0-alpha.1...echochart-supabase-v0.8.0-alpha.1) (2025-03-25)
+
+
+### Features
+
+* add address management functionality with CRUD operations and related database triggers ([de5dff0](https://github.com/EchoChart/echochart/commit/de5dff0390086010b1d4f37df7900c12741fec61))
+
 ## [0.7.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.6.0-alpha.1...echochart-supabase-v0.7.0-alpha.1) (2025-03-17)
 
 
