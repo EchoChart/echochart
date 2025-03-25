@@ -54,42 +54,47 @@ const itemClick = (item) => {
    <a v-if="isExternalLink" v-ripple v-bind="$attrs" :href="href" target="_blank">
       <slot />
    </a>
-   <router-link
+   <template
       v-else-if="
          route?.meta?.visible ||
          route?.meta?.requiredPermissions?.every?.(({ action, subject }) => $can?.(action, subject))
       "
-      v-bind="$props"
-      custom
    >
-      <div
-         @contextmenu="(e) => contextMenu.show(e)"
-         class="!cursor-alias [&>*]:!cursor-alias flex flex-col"
-      >
-         <slot
-            v-bind="{
-               ...$attrs,
-               href,
-               navigate: itemClick.bind(null, route),
-               isExactActive,
-               isActive,
-               route
-            }"
-         />
-      </div>
-   </router-link>
-   <ContextMenu v-if="!isExternalLink" ref="contextMenu" :model="constextMenuItems">
-      <template #item="{ item, props }">
-         <RouterLink v-if="item.route" v-slot="{ href, route }" :to="item.route" custom>
-            <a v-ripple :href="href" v-bind="props.action" @click.prevent="() => itemClick(route)">
+      <router-link v-bind="$props" custom>
+         <div
+            @contextmenu="(e) => contextMenu.show(e)"
+            class="!cursor-alias [&>*]:!cursor-alias flex flex-col"
+         >
+            <slot
+               v-bind="{
+                  ...$attrs,
+                  href,
+                  navigate: itemClick.bind(null, route),
+                  isExactActive,
+                  isActive,
+                  route
+               }"
+            />
+         </div>
+      </router-link>
+      <ContextMenu v-if="!isExternalLink" ref="contextMenu" :model="constextMenuItems">
+         <template #item="{ item, props }">
+            <RouterLink v-if="item.route" v-slot="{ href, route }" :to="item.route" custom>
+               <a
+                  v-ripple
+                  :href="href"
+                  v-bind="props.action"
+                  @click.prevent="() => itemClick(route)"
+               >
+                  <span :class="item.icon" />
+                  <span class="ml-2" v-text="item.label" />
+               </a>
+            </RouterLink>
+            <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
                <span :class="item.icon" />
                <span class="ml-2" v-text="item.label" />
             </a>
-         </RouterLink>
-         <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-            <span :class="item.icon" />
-            <span class="ml-2" v-text="item.label" />
-         </a>
-      </template>
-   </ContextMenu>
+         </template>
+      </ContextMenu>
+   </template>
 </template>
