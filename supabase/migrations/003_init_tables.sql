@@ -53,16 +53,9 @@ CREATE TABLE
       id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
       display_name TEXT NOT NULL,
       country TEXT NOT NULL,
-      province TEXT NOT NULL,
-      district TEXT,
-      neighborhood TEXT,
-      street TEXT,
-      avenue TEXT,
-      building_number TEXT,
-      floor_number TEXT,
-      door_number TEXT,
-      postal_code TEXT,
-      phone TEXT,
+      city TEXT NOT NULL,
+      district TEXT NOT NULL,
+      details TEXT,
       created_at TIMESTAMP DEFAULT NOW (),
       tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE
    );
@@ -247,16 +240,18 @@ GROUP BY
 -- Clients Table
 CREATE TABLE
    IF NOT EXISTS public.client (
-      id UUID UNIQUE DEFAULT gen_random_uuid (),
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
       identity_number TEXT UNIQUE NOT NULL,
       display_name TEXT NOT NULL,
+      birth_date DATE NOT NULL,
+      gender TEXT CHECK (gender IN ('male', 'female')),
       email TEXT UNIQUE,
       phone TEXT UNIQUE,
       nationality TEXT,
       tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
-      created_at TIMESTAMP DEFAULT NOW (),
-      PRIMARY KEY (identity_number)
+      created_at TIMESTAMP DEFAULT NOW ()
    );
+CREATE INDEX client_identity_number_idx ON public.client (identity_number);
 CREATE INDEX client_tenant_id_idx ON public.client (tenant_id);
 CREATE INDEX client_created_at_idx ON public.client (created_at);
 CREATE INDEX client_display_name_idx ON public.client (display_name);

@@ -7,6 +7,7 @@ import authRoutes from '@/router/routes/auth';
 import branchRoutes from '@/router/routes/branch';
 import stockRoutes from '@/router/routes/stock';
 import clientRoutes from '@/router/routes/client';
+import addressRoutes from '@/router/routes/address';
 
 const router = createRouter({
    history: createWebHistory(),
@@ -51,6 +52,7 @@ const router = createRouter({
                            component: () => import('@/views/pages/dashboard/Index.vue')
                         },
                         ...branchRoutes,
+                        ...addressRoutes,
                         ...clientRoutes,
                         ...stockRoutes,
                         ...accountRoutes

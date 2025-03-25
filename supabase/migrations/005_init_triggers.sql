@@ -21,3 +21,8 @@ CREATE TRIGGER permission_trigger AFTER INSERT
 OR
 UPDATE
 OR DELETE ON public.permission FOR EACH ROW EXECUTE FUNCTION private.manage_policies ();
+
+-- Create a new trigger that will be executed after deleting a row from the client_address table
+DROP TRIGGER IF EXISTS delete_unreferenced_address ON public.client_address;
+
+CREATE TRIGGER delete_unreferenced_address AFTER DELETE ON public.client_address FOR EACH ROW EXECUTE FUNCTION delete_unreferenced_address_function ();

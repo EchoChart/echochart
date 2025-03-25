@@ -89,7 +89,21 @@ VALUES
    ('public.client', 'client', 'select', 'read', FALSE, FALSE, NULL),
    ('public.client', 'client', 'insert', 'create', FALSE, FALSE, NULL),
    ('public.client', 'client', 'update', 'modify', FALSE, FALSE, NULL),
-   ('public.client', 'client', 'delete', 'modify', FALSE, FALSE, NULL);
+   ('public.client', 'client', 'delete', 'modify', FALSE, FALSE, NULL),
+   --
+   --
+   -- address
+   ('public.address', 'address', 'select', 'read', FALSE, FALSE, NULL),
+   ('public.address', 'address', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.address', 'address', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.address', 'address', 'delete', 'modify', FALSE, FALSE, NULL),
+   --
+   --
+   -- client_address
+   ('public.client_address', 'client', 'select', 'read', FALSE, FALSE, NULL),
+   ('public.client_address', 'client', 'insert', 'create', FALSE, FALSE, NULL),
+   ('public.client_address', 'client', 'update', 'modify', FALSE, FALSE, NULL),
+   ('public.client_address', 'client', 'delete', 'modify', FALSE, FALSE, NULL);
 
 INSERT INTO
    public.tenant (display_name)
@@ -196,10 +210,3 @@ END $$;
 --     FROM public.product p  
 --     CROSS JOIN generate_series(1, 13) g;  
 -- END $$;
-
--- enable explain
-alter role authenticator
-set pgrst.db_plan_enabled to 'true';
-
--- reload the config
-notify pgrst, 'reload config';

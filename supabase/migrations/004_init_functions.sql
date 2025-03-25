@@ -93,6 +93,20 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION delete_unreferenced_address ()
+RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER 
+SET
+   search_path = '' AS $$
+BEGIN
+    DELETE FROM public.address
+    WHERE id = OLD.address_id
+    AND NOT EXISTS (
+        SELECT 1 FROM public.client_address WHERE address_id = OLD.address_id
+    );
+    RETURN OLD;
+END;
+$$;
+
 CREATE
 OR REPLACE FUNCTION private.manage_policies () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET

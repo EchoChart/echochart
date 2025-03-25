@@ -1,0 +1,114 @@
+<script setup>
+import ClientUpsertGeneral from './tabs/General.vue';
+import ClientUpsertAddress from './tabs/Address.vue';
+import { Form } from '@/lib/Form';
+import CustomRouteView from '@/components/layout/CustomRouteView.vue';
+
+const props = defineProps({
+   id: {
+      type: String,
+      default: null,
+      required: false
+   },
+   data: {
+      type: Object,
+      default: null,
+      required: false
+   },
+   tab: {
+      type: String,
+      default: 'general',
+      required: false
+   }
+});
+
+const emit = defineEmits('update:tab');
+
+const initialFormData = {
+   id: undefined,
+   identity_number: null,
+   display_name: null,
+   email: null,
+   phone: null,
+   nationality: null,
+   address: []
+};
+
+const fields = _keys(initialFormData);
+
+const form = new Form({
+   data: _defaults(_pick(props.data, fields), initialFormData),
+   rules: {
+      display_name: 'required',
+      identity_number: 'required',
+      email: 'email',
+      phone: 'phone'
+   },
+   useDialogForm: false
+});
+
+if (props.id) {
+   await supabase
+      .from('client')
+      .select('*, address(*)')
+      .eq('id', props.id)
+      .single()
+      .throwOnError()
+      .then(({ data }) => form._setDefaults(_pick(data, fields))._reset());
+}
+
+if (props.id || props.data?.id) {
+   const updateCallback = (data) => form._setDefaults(_pick(data, fields))._reset();
+   onMounted(() => emitter.on('client-update', updateCallback));
+   onUnmounted(() => emitter.off('client-update', updateCallback));
+}
+
+const tabValue = ref(props.tab);
+const tabModel = computed({
+   get: () => tabValue.value,
+   set(value) {
+      tabValue.value = value;
+      emit('update:tab', value);
+   }
+});
+</script>
+
+<template>
+   <div class="card">
+      <Tabs v-model:value="tabModel">
+         <TabList>
+            <Tab
+               value="general"
+               as-child
+               v-slot="slotProps"
+               :disabled="!$can('create', 'client') || !$can('modify', 'client')"
+            >
+               <CustomLink :to="{ name: 'client-manage-general', params: { id: form.id } }">
+                  <button v-bind="slotProps" v-text="$t('general')" />
+               </CustomLink>
+            </Tab>
+            <Tab
+               value="address"
+               :disabled="!form.id || !$can('modify', 'client_address')"
+               as-child
+               v-slot="slotProps"
+            >
+               <CustomLink :to="{ name: 'client-manage-address', params: { id: form.id } }">
+                  <button v-bind="slotProps" v-text="$t('address')" />
+               </CustomLink>
+            </Tab>
+         </TabList>
+         <TabPanels>
+            <TabPanel value="general">
+               <ClientUpsertGeneral class="p-0" :form />
+            </TabPanel>
+            <TabPanel
+               value="address"
+               v-if="tabModel === 'address' && form.id && $can('modify', 'client_address')"
+            >
+               <ClientUpsertAddress class="p-0" :form />
+            </TabPanel>
+         </TabPanels>
+      </Tabs>
+   </div>
+</template>

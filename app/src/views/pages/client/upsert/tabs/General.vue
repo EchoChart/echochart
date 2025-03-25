@@ -1,6 +1,5 @@
 <script setup>
 import { Form } from '@/lib/Form';
-import { useClientStore } from '@/store/services/client';
 
 import { useToast } from 'primevue';
 
@@ -15,8 +14,8 @@ const props = defineProps({
       default: null,
       required: false
    },
-   category: {
-      type: String,
+   form: {
+      type: Form,
       default: null
    }
 });
@@ -27,6 +26,7 @@ const initialFormData = {
    id: undefined,
    identity_number: null,
    display_name: null,
+   birth_date: null,
    email: null,
    phone: null,
    nationality: null
@@ -34,32 +34,41 @@ const initialFormData = {
 
 const fields = _keys(initialFormData);
 
-const form = new Form({
-   data: _defaults(_pick(props.data, fields), initialFormData),
-   rules: {
-      display_name: 'required',
-      email: 'required|email',
-      phone: 'required|phone'
-   },
-   useDialogForm: false
-});
+const form =
+   props.form ||
+   new Form({
+      data: _defaults(_pick(props.data, fields), initialFormData),
+      rules: {
+         display_name: 'required',
+         identity_number: 'required',
+         birth_date: 'required|date',
+         email: 'email',
+         phone: 'phone'
+      },
+      useDialogForm: false
+   });
+
+if (props.id) {
+   await supabase
+      .from('client')
+      .select('*. address(*)')
+      .eq('id', props.id)
+      .single()
+      .throwOnError()
+      .then(({ data }) => form._setDefaults(_pick(data, fields))._reset());
+}
 
 const { ability } = useAuthStore();
 const readonly = computed(
    () => ability.cannot('modify', 'client') && ability.cannot('create', 'client')
 );
 
-const { getClient } = useClientStore();
-if (props.id) {
-   await getClient(props.id).then((res) => form._setDefaults(_pick(res, fields))._reset());
-}
-
 const save = async () => {
    if (!form._validate()) return;
 
    await supabase
       .from('client')
-      .upsert(form._data)
+      .upsert(_pick(form._data, fields))
       .eq('id', form.id)
       .select()
       .single()
@@ -93,50 +102,54 @@ if (props.id || props.data?.id) {
             fluid
             :error="form?._errors?.first('display_name')"
             :label="$t('display_name')"
+            v-slot="slotProps"
          >
-            <template #default="slotProps">
-               <InputText v-bind="slotProps" v-model="form.display_name" />
-            </template>
+            <InputText v-bind="slotProps" v-model="form.display_name" />
          </FormField>
          <FormField
             :readonly="readonly"
             fluid
             :error="form?._errors?.first('nationality')"
             :label="$t('nationality')"
+            v-slot="slotProps"
          >
-            <template #default="slotProps">
-               <InputText v-bind="slotProps" v-model="form.nationality" />
-            </template>
+            <InputText v-bind="slotProps" v-model="form.nationality" />
          </FormField>
          <FormField
             :readonly="readonly"
             fluid
             :error="form?._errors?.first('identity_number')"
             :label="$t('identity_number')"
+            v-slot="slotProps"
          >
-            <template #default="slotProps">
-               <InputText v-bind="slotProps" v-model="form.identity_number" />
-            </template>
+            <InputText v-bind="slotProps" v-model="form.identity_number" />
+         </FormField>
+         <FormField
+            :readonly="readonly"
+            fluid
+            :error="form?._errors?.first('birth_date')"
+            :label="$t('birth_date')"
+            v-slot="slotProps"
+         >
+            <DatePicker v-bind="slotProps" v-model="form.birth_date" />
          </FormField>
          <FormField
             :readonly="readonly"
             fluid
             :error="form?._errors?.first('email')"
             :label="$t('email')"
+            v-slot="slotProps"
          >
-            <template #default="slotProps">
-               <InputText v-bind="slotProps" v-model="form.email" />
-            </template>
+            <InputText v-bind="slotProps" v-model="form.email" />
          </FormField>
          <FormField
             :readonly="readonly"
             fluid
             :error="form?._errors?.first('phone')"
             :label="$t('phone')"
+            v-slot="slotProps"
          >
-            <template #default="slotProps">
-               <InputMask v-bind="slotProps" v-model="form.phone" mask="99999999999" />
-            </template>
+            <InputMask v-bind="slotProps" v-model="form.phone" mask="99999999999" />
          </FormField>
          <div
             v-if="($can('create', 'client') || $can('modify', 'client')) && !readonly"

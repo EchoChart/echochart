@@ -1,39 +1,33 @@
 <script setup>
 import Collection from '@/lib/Collection';
-import ClientUpsert from './upsert/Index.vue';
+import Upsert from './Upsert.vue';
 
 defineOptions({
    inheritAttrs: false
 });
 
-const attrs = useAttrs();
 const router = useRouter();
+
 const columns = new Collection([
    {
       field: 'display_name',
-      header: i18n.t('client'),
       sortable: true,
-      sortOrder: { value: -1 }
+      header: i18n.t('display_name')
    },
    {
-      field: 'identity_number',
+      field: 'country',
       sortable: true,
-      header: i18n.t('identity_number')
+      header: i18n.t('country')
    },
    {
-      field: 'email',
+      field: 'city',
       sortable: true,
-      header: i18n.t('email')
+      header: i18n.t('city')
    },
    {
-      field: 'phone',
+      field: 'district',
       sortable: true,
-      header: i18n.t('phone')
-   },
-   {
-      field: 'nationality',
-      sortable: true,
-      header: i18n.t('nationality')
+      header: i18n.t('district')
    },
    {
       field: 'created_at',
@@ -49,42 +43,38 @@ const filters = ref({
       value: null,
       matchMode: FilterMatchMode.CONTAINS
    },
-   identity_number: {
-      operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
-   },
    display_name: {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
+      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
    },
-   email: {
+   country: {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
+      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
    },
-   phone: {
+   city: {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
+      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
    },
-   nationality: {
+   district: {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
+      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
    },
-   created_at: {
+   details: {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
-      dataType: 'date'
+      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
    }
 });
 
-const stateKey = 'client';
+const stateKey = 'address';
 const rowActions = new Collection([
    {
       label: i18n.t('delete'),
       command: async ({ data }) =>
          await supabase
-            .from('client')
+            .from('address')
             .delete()
-            .eq('id', data?.id)
+            .eq('client_id', data?.id)
+            .eq('address_id', data?.id)
             .setHeader('item', JSON.stringify(data))
             .throwOnError()
             .then(() => emitter.emit(`${stateKey}-update`, data)),
@@ -94,7 +84,7 @@ const rowActions = new Collection([
       label: i18n.t('edit'),
       command: async ({ data }) =>
          router.push({
-            name: 'client-manage',
+            name: 'address-edit',
             params: {
                id: data.id
             },
@@ -104,12 +94,14 @@ const rowActions = new Collection([
    }
 ]);
 
+const attrs = useAttrs();
+
 const dialogRef = inject('dialogRef', null);
 
 const tableProps = computed(() => ({
    stateKey,
-   from: 'client',
-   select: '*, address(*)',
+   from: 'address',
+   select: '*',
    columns: columns._data,
    rowActions: rowActions._data,
    ...attrs
@@ -121,18 +113,17 @@ const tableProps = computed(() => ({
          <Teleport to="#page-toolbar" :disabled="dialogRef">
             <span class="flex-1 flex justify-end gap-4 flex-wrap-reverse">
                <KeywordSearchInput v-model="filters.global.value" />
-               <CustomLink
-                  v-if="$can('create', 'client')"
-                  :to="{ name: 'client-manage' }"
-                  v-slot="{ navigate }"
-               >
-                  <Button variant="outlined" :label="$t('add')" @click="navigate" />
+
+               <CustomLink v-if="$can('create', 'address')" :to="{ name: 'address-add' }">
+                  <template #default="{ navigate }">
+                     <Button variant="outlined" :label="$t('add')" @click="navigate" />
+                  </template>
                </CustomLink>
             </span>
          </Teleport>
       </template>
       <template #expansion="{ data }">
-         <ClientUpsert :data class="p-0" />
+         <Upsert class="p-0" :data />
       </template>
       <template v-for="slot in _keys($slots)" #[slot]="slotProps" :key="slot">
          <slot :name="slot" v-bind="slotProps" />
