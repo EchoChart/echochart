@@ -91,16 +91,11 @@ export default [
          },
          {
             path: 'address',
+            name: 'client-address',
             component: CustomRouteView,
             meta: {
                icon: 'pi pi-address-book',
                requiresAuth: true,
-               requiredPermissions: [
-                  {
-                     action: 'read',
-                     subject: 'client-address'
-                  }
-               ],
                contextMenuItems: computed(() => {
                   const { ability } = useAuthStore();
                   if (ability.can('create', 'address') || ability.can('modify', 'address'))
@@ -116,7 +111,6 @@ export default [
                   return null;
                })
             },
-            name: 'client-address',
             redirect: { name: 'client-address-list' },
             children: [
                {
@@ -129,7 +123,7 @@ export default [
                      requiredPermissions: [
                         {
                            action: 'read',
-                           subject: 'client-address'
+                           subject: 'address'
                         }
                      ]
                   },

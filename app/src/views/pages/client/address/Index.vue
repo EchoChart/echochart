@@ -118,7 +118,12 @@ const tableProps = computed(() => ({
                <KeywordSearchInput v-model="filters.global.value" />
 
                <CustomLink :to="{ name: 'address-list' }" v-slot="{ navigate }">
-                  <Button variant="outlined" :label="$t('manage_addresses')" @click="navigate" />
+                  <Button
+                     variant="outlined"
+                     :label="$t('manage_addresses')"
+                     @click="navigate"
+                     severity="info"
+                  />
                </CustomLink>
                <RouterLink
                   v-if="$can('create', 'client-address') || $can('modify', 'address')"
