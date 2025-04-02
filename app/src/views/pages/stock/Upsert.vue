@@ -1,7 +1,6 @@
 <script setup>
 import { Form } from '@/lib/Form';
 import { useStockStore } from '@/store/services/stock';
-import currencies from 'currency-codes';
 import { useToast } from 'primevue';
 
 const props = defineProps({
@@ -132,69 +131,74 @@ const save = async () => {
                fluid
                :error="form._errors.first('quantity')"
                :label="$t('quantity')"
+               v-slot="slotProps"
             >
-               <template #default="slotProps">
-                  <InputNumber v-bind="slotProps" v-model="form.quantity" :min="0" />
-               </template>
+               <InputNumber v-bind="slotProps" v-model="form.quantity" :min="0" />
             </FormField>
             <FormField
                :readonly="readonly"
                fluid
                :error="form._errors.first('used')"
                :label="$t('used')"
+               v-slot="slotProps"
             >
-               <template #default="slotProps">
-                  <InputNumber v-bind="slotProps" v-model="form.used" :min="0" />
-               </template>
+               <InputNumber v-bind="slotProps" v-model="form.used" :min="0" />
             </FormField>
             <FormField
                :readonly="readonly"
                fluid
                :error="form._errors.first('currency_code')"
                :label="$t('currency')"
+               v-slot="slotProps"
             >
-               <template #default="slotProps">
-                  <Select
-                     :filter="true"
-                     v-bind="slotProps"
-                     v-model="form.currency_code"
-                     :options="currencies.codes()"
-                  />
-               </template>
+               <SelectCurrency v-bind="slotProps" v-model="form.currency_code" />
             </FormField>
             <FormField
                :readonly="readonly"
                fluid
                :error="form._errors.first('unit_cost')"
                :label="$t('unit_cost')"
+               v-slot="slotProps"
             >
-               <template #default="slotProps">
-                  <InputNumber
-                     v-bind="slotProps"
-                     v-model="form.unit_cost"
-                     :max-fraction-digits="3"
-                     mode="currency"
-                     :currency="form.currency_code"
-                     :min="0"
-                  />
-               </template>
+               <InputNumber
+                  v-bind="slotProps"
+                  v-model="form.unit_cost"
+                  :max-fraction-digits="3"
+                  mode="currency"
+                  :currency="form.currency_code"
+                  :min="0"
+               />
             </FormField>
             <FormField
                :readonly="readonly"
                fluid
                :error="form._errors.first('total_cost')"
                :label="$t('total_cost')"
+               v-slot="slotProps"
             >
-               <template #default="slotProps">
-                  <InputNumber
-                     v-bind="slotProps"
-                     v-model="total_cost"
-                     :max-fraction-digits="3"
-                     mode="currency"
-                     :currency="form.currency_code"
-                     :min="0"
-                  />
-               </template>
+               <InputNumber
+                  v-bind="slotProps"
+                  v-model="total_cost"
+                  :max-fraction-digits="3"
+                  mode="currency"
+                  :currency="form.currency_code"
+                  :min="0"
+               />
+            </FormField>
+            <FormField
+               :readonly="readonly"
+               fluid
+               :error="form._errors.first('total_cost')"
+               :label="$t('total_cost')"
+               v-slot="slotProps"
+            >
+               <DatePicker
+                  :selectionMode="'single'"
+                  v-bind="slotProps"
+                  v-model="form.stock_date"
+                  dateFormat="dd/mm/yy"
+                  placeholder="dd/mm/yyyy"
+               />
             </FormField>
          </div>
          <div class="!flex-auto flex w-full flex-wrap">
@@ -203,20 +207,18 @@ const save = async () => {
                fluid
                :error="form._errors.first('barcode')"
                :label="$t('barcode')"
+               v-slot="slotProps"
             >
-               <template #default="slotProps">
-                  <InputText v-bind="slotProps" v-model="form.barcode" />
-               </template>
+               <InputText v-bind="slotProps" v-model="form.barcode" />
             </FormField>
             <FormField
                :readonly="readonly"
                fluid
                :error="form._errors.first('serial_number')"
                :label="$t('serial_number')"
+               v-slot="slotProps"
             >
-               <template #default="slotProps">
-                  <InputText v-bind="slotProps" v-model="form.serial_number" />
-               </template>
+               <InputText v-bind="slotProps" v-model="form.serial_number" />
             </FormField>
          </div>
          <div class="!flex-auto w-full">
@@ -225,10 +227,9 @@ const save = async () => {
                fluid
                :error="form._errors.first('details')"
                :label="$t('details')"
+               v-slot="slotProps"
             >
-               <template #default="slotProps">
-                  <Editor v-bind="slotProps" v-model="form.details" />
-               </template>
+               <Editor v-bind="slotProps" v-model="form.details" />
             </FormField>
          </div>
          <div
