@@ -24,13 +24,10 @@ a {
    }
 
    &::-webkit-scrollbar {
-      width: 0.5rem;
-      height: 0.5rem;
-      background: transparent;
-      border-radius: 1rem;
+      @apply w-[0.25rem] h-[0.25rem] bg-transparent rounded-lg;
    }
 
    &::-webkit-scrollbar-thumb {
-      @apply bg-transparent rounded-lg border-2 border-[var(--text-color)];
+      @apply bg-transparent rounded-lg bg-[var(--text-color-secondary)];
    }
 }
