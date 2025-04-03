@@ -30,6 +30,7 @@ const initialFormData = {
    barcode: null,
    unit_cost: 0,
    total_cost: 0,
+   stock_date: new Date(Date.now()),
    quantity: 1,
    used: 0,
    currency_code: 'TRY',
@@ -188,8 +189,8 @@ const save = async () => {
             <FormField
                :readonly="readonly"
                fluid
-               :error="form._errors.first('total_cost')"
-               :label="$t('total_cost')"
+               :error="form._errors.first('stock_date')"
+               :label="$t('stock_date')"
                v-slot="slotProps"
             >
                <DatePicker
