@@ -11,7 +11,7 @@ VALUES
    -- tenant
    ('public.tenant', 'branch', 'select', 'read', FALSE, FALSE, NULL),
 --    ('public.tenant', 'branch', 'insert', 'create', FALSE, FALSE, NULL),
-   ('public.tenant', 'branch', 'update', 'modify', FALSE, FALSE, NULL),
+--    ('public.tenant', 'branch', 'update', 'modify', FALSE, FALSE, NULL),
 --    ('public.tenant', 'branch', 'delete', 'modify', FALSE, FALSE, NULL),
    --
    --
@@ -140,11 +140,11 @@ AFTER INSERT ON public.tenant_owner
 FOR EACH ROW EXECUTE FUNCTION private.assign_owner_role();
 
 -- Insert Categories with parent-child relationships
-INSERT INTO public.product_category (display_name, description, parent_id, created_at)
+INSERT INTO public.product_category (display_name, details, parent_id, created_at)
 VALUES 
     ('device', 'Devices to assist hearing impairment', NULL, NOW() - (random() * interval '10 years')),
     ('spare part', 'Components for hearing aids', NULL, NOW() - (random() * interval '10 years'));
-INSERT INTO public.product_category (display_name, description, parent_id, created_at)
+INSERT INTO public.product_category (display_name, details, parent_id, created_at)
 VALUES 
     ('battery', 'Device batteries', (SELECT id FROM public.product_category WHERE display_name = 'Spare Part' LIMIT 1), NOW() - (random() * interval '10 years'));
 
@@ -176,8 +176,8 @@ BEGIN
         FROM generate_series(1, prod_count) i
     ),
     inserted_product AS (
-        INSERT INTO public.product (display_name, brand, description, created_at)
-        SELECT product_name, brand_name, 'Description for ' || product_name, created_at
+        INSERT INTO public.product (display_name, brand, details, created_at)
+        SELECT product_name, brand_name, 'details for ' || product_name, created_at
         FROM product_data
         RETURNING id -- Return only product ID
     )

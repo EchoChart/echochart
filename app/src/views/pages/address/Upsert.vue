@@ -80,7 +80,9 @@ const save = async () => {
 };
 
 if (props.id || props.data?.id) {
-   const updateCallback = (data) => form._setDefaults(_pick(data, fields))._reset();
+   const updateCallback = (data) => {
+      if (data?.id === form.id) form._setDefaults(_pick(data, fields))._reset();
+   };
    onMounted(() => emitter.on('address-update', updateCallback));
    onUnmounted(() => emitter.off('address-update', updateCallback));
 }

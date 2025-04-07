@@ -16,9 +16,19 @@ const columns = new Collection([
       sortOrder: { value: -1 }
    },
    {
-      field: 'identity_number',
+      field: 'nationality',
       sortable: true,
-      header: i18n.t('identity_number')
+      header: i18n.t('nationality')
+   },
+   {
+      field: 'identity',
+      sortable: true,
+      header: i18n.t('identity')
+   },
+   {
+      field: 'birth_date',
+      sortable: true,
+      header: i18n.t('birth_date')
    },
    {
       field: 'email',
@@ -29,11 +39,6 @@ const columns = new Collection([
       field: 'phone',
       sortable: true,
       header: i18n.t('phone')
-   },
-   {
-      field: 'nationality',
-      sortable: true,
-      header: i18n.t('nationality')
    },
    {
       field: 'created_at',
@@ -49,9 +54,18 @@ const filters = ref({
       value: null,
       matchMode: FilterMatchMode.CONTAINS
    },
-   identity_number: {
+   identity: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
+   },
+   nationality: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
+   },
+   birth_date: {
+      operator: FilterOperator.AND,
+      dataType: 'date',
+      constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }]
    },
    display_name: {
       operator: FilterOperator.AND,
@@ -62,10 +76,6 @@ const filters = ref({
       constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
    },
    phone: {
-      operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
-   },
-   nationality: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
    },

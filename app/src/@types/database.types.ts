@@ -96,7 +96,7 @@ export type Database = {
                email: string | null;
                full_name: string;
                id: string | null;
-               identity_number: string;
+               identity: string;
                nationality: string | null;
                phone: string | null;
                tenant_id: string;
@@ -106,7 +106,7 @@ export type Database = {
                email?: string | null;
                full_name: string;
                id?: string | null;
-               identity_number: string;
+               identity: string;
                nationality?: string | null;
                phone?: string | null;
                tenant_id: string;
@@ -116,7 +116,7 @@ export type Database = {
                email?: string | null;
                full_name?: string;
                id?: string | null;
-               identity_number?: string;
+               identity?: string;
                nationality?: string | null;
                phone?: string | null;
                tenant_id?: string;
@@ -167,7 +167,7 @@ export type Database = {
                command: Database['public']['Enums']['permission_command'];
                condition: string | null;
                created_at: string | null;
-               description: string | null;
+               details: string | null;
                error_message: string | null;
                group_name: string;
                id: string;
@@ -181,7 +181,7 @@ export type Database = {
                command: Database['public']['Enums']['permission_command'];
                condition?: string | null;
                created_at?: string | null;
-               description?: string | null;
+               details?: string | null;
                error_message?: string | null;
                group_name: string;
                id?: string;
@@ -195,7 +195,7 @@ export type Database = {
                command?: Database['public']['Enums']['permission_command'];
                condition?: string | null;
                created_at?: string | null;
-               description?: string | null;
+               details?: string | null;
                error_message?: string | null;
                group_name?: string;
                id?: string;
@@ -249,21 +249,21 @@ export type Database = {
          product_category: {
             Row: {
                created_at: string | null;
-               description: string | null;
+               details: string | null;
                display_name: string;
                id: string;
                parent_id: string | null;
             };
             Insert: {
                created_at?: string | null;
-               description?: string | null;
+               details?: string | null;
                display_name: string;
                id?: string;
                parent_id?: string | null;
             };
             Update: {
                created_at?: string | null;
-               description?: string | null;
+               details?: string | null;
                display_name?: string;
                id?: string;
                parent_id?: string | null;
@@ -282,7 +282,7 @@ export type Database = {
             Row: {
                brand: string | null;
                created_at: string | null;
-               description: string | null;
+               details: string | null;
                display_name: string;
                id: string;
                tenant_id: string | null;
@@ -290,7 +290,7 @@ export type Database = {
             Insert: {
                brand?: string | null;
                created_at?: string | null;
-               description?: string | null;
+               details?: string | null;
                display_name: string;
                id?: string;
                tenant_id?: string | null;
@@ -298,7 +298,7 @@ export type Database = {
             Update: {
                brand?: string | null;
                created_at?: string | null;
-               description?: string | null;
+               details?: string | null;
                display_name?: string;
                id?: string;
                tenant_id?: string | null;

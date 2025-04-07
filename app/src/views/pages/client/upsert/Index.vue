@@ -26,7 +26,9 @@ const emit = defineEmits('update:tab');
 
 const initialFormData = {
    id: undefined,
-   identity_number: null,
+   identity: null,
+   birth_date: null,
+   gender: null,
    display_name: null,
    email: null,
    phone: null,
@@ -40,7 +42,9 @@ const form = new Form({
    data: _defaults(_pick(props.data, fields), initialFormData),
    rules: {
       display_name: 'required',
-      identity_number: 'required',
+      identity: 'required',
+      birth_date: 'required|date',
+      gender: 'required',
       email: 'email',
       phone: 'phone'
    },
@@ -58,12 +62,14 @@ if (props.id) {
 }
 
 if (props.id || props.data?.id) {
-   const updateCallback = (data) => form._setDefaults(_pick(data, fields))._reset();
+   const updateCallback = (data) => {
+      if (data?.id === form.id) form._setDefaults(_pick(data, fields))._reset();
+   };
    onMounted(() => emitter.on('client-update', updateCallback));
    onUnmounted(() => emitter.off('client-update', updateCallback));
 }
 
-const tabValue = ref(props.tab);
+const tabValue = ref(props.tab || 'general');
 const tabModel = computed({
    get: () => tabValue.value,
    set(value) {
@@ -100,13 +106,13 @@ const tabModel = computed({
          </TabList>
          <TabPanels>
             <TabPanel value="general">
-               <ClientUpsertGeneral class="p-0" :form />
+               <ClientUpsertGeneral class="p-0" :data="form._data" />
             </TabPanel>
             <TabPanel
                value="address"
                v-if="tabModel === 'address' && form.id && $can('modify', 'client_address')"
             >
-               <ClientUpsertAddress class="p-0" :form />
+               <ClientUpsertAddress class="p-0" :data="form._data" />
             </TabPanel>
          </TabPanels>
       </Tabs>

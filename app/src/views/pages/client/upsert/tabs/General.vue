@@ -13,10 +13,6 @@ const props = defineProps({
       type: Object,
       default: null,
       required: false
-   },
-   form: {
-      type: Form,
-      default: null
    }
 });
 
@@ -24,9 +20,10 @@ const toast = useToast();
 
 const initialFormData = {
    id: undefined,
-   identity_number: null,
+   identity: null,
    display_name: null,
    birth_date: null,
+   gender: null,
    email: null,
    phone: null,
    nationality: null
@@ -34,24 +31,24 @@ const initialFormData = {
 
 const fields = _keys(initialFormData);
 
-const form =
-   props.form ||
-   new Form({
-      data: _defaults(_pick(props.data, fields), initialFormData),
-      rules: {
-         display_name: 'required',
-         identity_number: 'required',
-         birth_date: 'required|date',
-         email: 'email',
-         phone: 'phone'
-      },
-      useDialogForm: false
-   });
+const form = new Form({
+   data: _defaults(_pick(props.data, fields), initialFormData),
+   rules: {
+      display_name: 'required',
+      nationality: 'required',
+      identity: 'required',
+      birth_date: 'required|date',
+      gender: 'required',
+      email: 'email',
+      phone: 'phone'
+   },
+   useDialogForm: false
+});
 
 if (props.id) {
    await supabase
       .from('client')
-      .select('*. address(*)')
+      .select('*')
       .eq('id', props.id)
       .single()
       .throwOnError()
@@ -88,7 +85,9 @@ const save = async () => {
 };
 
 if (props.id || props.data?.id) {
-   const updateCallback = (data) => form._setDefaults(_pick(data, fields))._reset();
+   const updateCallback = (data) => {
+      if (data?.id === form.id) form._setDefaults(_pick(data, fields))._reset();
+   };
    onMounted(() => emitter.on('client-update', updateCallback));
    onUnmounted(() => emitter.off('client-update', updateCallback));
 }
@@ -113,16 +112,16 @@ if (props.id || props.data?.id) {
             :label="$t('nationality')"
             v-slot="slotProps"
          >
-            <InputText v-bind="slotProps" v-model="form.nationality" />
+            <SelectCountry v-bind="slotProps" v-model="form.nationality" />
          </FormField>
          <FormField
             :readonly="readonly"
             fluid
-            :error="form?._errors?.first('identity_number')"
-            :label="$t('identity_number')"
+            :error="form?._errors?.first('identity')"
+            :label="$t('identity')"
             v-slot="slotProps"
          >
-            <InputText v-bind="slotProps" v-model="form.identity_number" />
+            <InputText v-bind="slotProps" v-model="form.identity" />
          </FormField>
          <FormField
             :readonly="readonly"
@@ -132,6 +131,25 @@ if (props.id || props.data?.id) {
             v-slot="slotProps"
          >
             <DatePicker v-bind="slotProps" v-model="form.birth_date" />
+         </FormField>
+         <FormField
+            :readonly="readonly"
+            fluid
+            :error="form?._errors?.first('gender')"
+            :label="$t('gender')"
+            v-slot="slotProps"
+         >
+            <SelectButton
+               :options="[
+                  { value: 'male', label: $t('male') },
+                  { value: 'female', label: $t('female') }
+               ]"
+               :allow-empty="false"
+               option-value="value"
+               option-label="label"
+               v-bind="slotProps"
+               v-model="form.gender"
+            />
          </FormField>
          <FormField
             :readonly="readonly"
@@ -149,12 +167,9 @@ if (props.id || props.data?.id) {
             :label="$t('phone')"
             v-slot="slotProps"
          >
-            <InputMask v-bind="slotProps" v-model="form.phone" mask="99999999999" />
+            <InputMask v-bind="slotProps" v-model="form.phone" mask="999 999 9999" unmask />
          </FormField>
-         <div
-            v-if="($can('create', 'client') || $can('modify', 'client')) && !readonly"
-            class="flex flex-wrap items-end justify-end gap-4 !flex-auto w-full"
-         >
+         <div v-if="!readonly" class="flex flex-wrap items-end justify-end gap-4 !flex-auto w-full">
             <Button
                :label="$t('save')"
                class="flex-[.2]"

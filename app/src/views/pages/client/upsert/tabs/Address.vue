@@ -14,10 +14,6 @@ const props = defineProps({
       type: Object,
       default: null,
       required: false
-   },
-   form: {
-      type: Form,
-      default: null
    }
 });
 
@@ -30,15 +26,14 @@ const initialFormData = {
 
 const fields = _keys(initialFormData);
 
-const form =
-   props.form ||
-   new Form({
-      data: _defaults(_pick(props.data, fields), initialFormData),
-      rules: {
-         id: 'required'
-      },
-      useDialogForm: false
-   });
+const form = new Form({
+   data: _defaults(_pick(props.data, fields), initialFormData),
+   rules: {
+      id: 'required',
+      'address.*.id': 'required'
+   },
+   useDialogForm: false
+});
 
 const { ability } = useAuthStore();
 
@@ -93,7 +88,9 @@ const save = async () => {
 };
 
 if (props.id || props.data?.id) {
-   const updateCallback = (data) => form._setDefaults(_pick(data, fields))._reset();
+   const updateCallback = (data) => {
+      if (data?.id === form.id) form._setDefaults(_pick(data, fields))._reset();
+   };
    onMounted(() => emitter.on('client-address-update', updateCallback));
    onUnmounted(() => emitter.off('client-address-update', updateCallback));
 }
@@ -105,7 +102,7 @@ provide('dialogRef', true);
    <div class="card">
       <FormBox @submit="save" @reset="() => form._reset()">
          <FormField
-            v-if="!props.form"
+            v-if="!props.data"
             fluid
             :error="form?._errors?.first('client')"
             :label="$t('client')"

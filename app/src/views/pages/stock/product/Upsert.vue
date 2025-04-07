@@ -32,7 +32,7 @@ const initialFormData = {
    id: undefined,
    display_name: null,
    brand: null,
-   description: null,
+   details: null,
    tenant_id: current_tenant_id,
    categories: categories.filter((c) => _includes(props.category?.split('|'), c.display_name))
 };
@@ -106,7 +106,9 @@ const save = async () => {
 };
 
 if (props.id || props.data?.id) {
-   const updateCallback = (data) => form._setDefaults(_pick(data, fields))._reset();
+   const updateCallback = (data) => {
+      if (data?.id === form.id) form._setDefaults(_pick(data, fields))._reset();
+   };
    onMounted(() => emitter.on('product-update', updateCallback));
    onUnmounted(() => emitter.off('product-update', updateCallback));
 }
@@ -158,11 +160,11 @@ if (props.id || props.data?.id) {
                class="flex-[0.8]"
                :readonly="readonly"
                fluid
-               :error="form._errors.first('description')"
-               :label="$t('description')"
+               :error="form._errors.first('details')"
+               :label="$t('details')"
             >
                <template #default="slotProps">
-                  <Editor v-bind="slotProps" v-model="form.description" />
+                  <Editor v-bind="slotProps" v-model="form.details" />
                </template>
             </FormField>
          </div>
