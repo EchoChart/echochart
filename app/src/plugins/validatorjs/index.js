@@ -1,3 +1,4 @@
+import { isValidPhoneNumber } from 'libphonenumber-js';
 import Validator from 'validatorjs/dist/validator.js';
 import en from 'validatorjs/src/lang/en.js';
 import tr from 'validatorjs/src/lang/tr.js';
@@ -16,7 +17,7 @@ Validator.setAttributeFormatter((attr) => {
 });
 
 Validator.register('phone', (value) => {
-   return value.match(/^[+]?[\d]{0,3}\W?[(]?[\d]{3}[)]?[-\s.]?[\d]{3}[-\s.]?[\d]{4,6}$/im);
+   return isValidPhoneNumber(value);
 });
 Validator.register(
    'lte',

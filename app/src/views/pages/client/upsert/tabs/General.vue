@@ -167,7 +167,7 @@ if (props.id || props.data?.id) {
             :label="$t('phone')"
             v-slot="slotProps"
          >
-            <InputMask v-bind="slotProps" v-model="form.phone" mask="999 999 9999" unmask />
+            <PhoneInput v-bind="slotProps" v-model="form.phone" />
          </FormField>
          <div v-if="!readonly" class="flex flex-wrap items-end justify-end gap-4 !flex-auto w-full">
             <Button
