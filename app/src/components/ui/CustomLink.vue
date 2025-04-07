@@ -15,14 +15,13 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const { navigate, href, route, isActive, isExactActive } = useLink(props);
+const { href, route } = useLink(props);
 
 const isExternalLink = computed(() => {
    return href.value?.startsWith?.('http');
 });
 
 const dialogRef = inject('dialogRef', null);
-const routeLoading = inject('routeLoading', false);
 
 const contextMenu = ref();
 const constextMenuItems = computed(() => {
@@ -60,7 +59,7 @@ const itemClick = (item) => {
          route?.meta?.requiredPermissions?.every?.(({ action, subject }) => $can?.(action, subject))
       "
    >
-      <router-link v-bind="$props" custom>
+      <router-link v-bind="$props" custom v-slot="{ isExactActive, isActive }">
          <div
             @contextmenu="(e) => contextMenu.show(e)"
             class="!cursor-alias [&>*]:!cursor-alias flex flex-col"
