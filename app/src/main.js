@@ -20,43 +20,13 @@ import { FunctionsHttpError } from '@supabase/supabase-js';
 import { defineAbility } from '@casl/ability';
 import { abilitiesPlugin, Can } from '@casl/vue';
 import { resolveAction } from './plugins/casl';
+import { appErrorHandler } from './lib/appErrorHandler';
 
 export const app = createApp(App);
 
 app.config.globalProperties.emitter = emitter;
 
-app.config.errorHandler = async (error) => {
-   if (!error.message && !error.status && !error.code) return;
-   if (error && error instanceof FunctionsHttpError) {
-      const body = await error.context.json();
-      error = _isEmpty(body) ? error.context : body;
-   }
-   console.error(error);
-
-   // if (import.meta.env.DEV) {
-   const summary = `${error.status || '500'}: ${i18n.t(error.details || error.code || error.name || error.statusText || 'unexpected_error')}`;
-   const detail = i18n.t(error.message || 'an_unexpected_error_has_occured');
-
-   const toast = app.config?.globalProperties?.$toast;
-   toast?.add?.({
-      life: 5000,
-      severity: ToastSeverity.WARN,
-      summary,
-      detail
-   });
-
-   switch (error?.status) {
-      case 401:
-         supabase?.auth?.signOut?.();
-         router.replace({ name: 'login' });
-         break;
-      case 403: {
-         router.push({ name: 'access-denied' });
-         break;
-      }
-   }
-   // }
-};
+app.config.errorHandler = appErrorHandler;
 
 app.use(
    abilitiesPlugin,
