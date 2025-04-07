@@ -32,7 +32,6 @@ const initialFormData = {
    total_cost: 0,
    stock_date: new Date(Date.now()),
    quantity: 1,
-   used: 0,
    currency_code: 'TRY',
    vendor: null,
    details: null
@@ -45,8 +44,7 @@ const form = new Form({
       product_id: 'required',
       unit_cost: 'required|min:0',
       total_cost: 'required|min:0',
-      quantity: 'required|min:1|gte:used',
-      used: 'min:0|lte:quantity'
+      quantity: 'required|min:1'
    },
    useDialogForm: false
 });
@@ -126,6 +124,24 @@ const save = async () => {
                <StockVendorSelect v-bind="slotProps" v-model="form.vendor" />
             </template>
          </FormField>
+         <FormField
+            :readonly="readonly"
+            fluid
+            :error="form._errors.first('barcode')"
+            :label="$t('barcode')"
+            v-slot="slotProps"
+         >
+            <InputText v-bind="slotProps" v-model="form.barcode" />
+         </FormField>
+         <FormField
+            :readonly="readonly"
+            fluid
+            :error="form._errors.first('serial_number')"
+            :label="$t('serial_number')"
+            v-slot="slotProps"
+         >
+            <InputText v-bind="slotProps" v-model="form.serial_number" />
+         </FormField>
          <div class="!flex-auto w-full flex flex-wrap">
             <FormField
                :readonly="readonly"
@@ -135,15 +151,6 @@ const save = async () => {
                v-slot="slotProps"
             >
                <InputNumber v-bind="slotProps" v-model="form.quantity" :min="0" />
-            </FormField>
-            <FormField
-               :readonly="readonly"
-               fluid
-               :error="form._errors.first('used')"
-               :label="$t('used')"
-               v-slot="slotProps"
-            >
-               <InputNumber v-bind="slotProps" v-model="form.used" :min="0" />
             </FormField>
             <FormField
                :readonly="readonly"
@@ -200,26 +207,6 @@ const save = async () => {
                   dateFormat="dd/mm/yy"
                   placeholder="dd/mm/yyyy"
                />
-            </FormField>
-         </div>
-         <div class="!flex-auto flex w-full flex-wrap">
-            <FormField
-               :readonly="readonly"
-               fluid
-               :error="form._errors.first('barcode')"
-               :label="$t('barcode')"
-               v-slot="slotProps"
-            >
-               <InputText v-bind="slotProps" v-model="form.barcode" />
-            </FormField>
-            <FormField
-               :readonly="readonly"
-               fluid
-               :error="form._errors.first('serial_number')"
-               :label="$t('serial_number')"
-               v-slot="slotProps"
-            >
-               <InputText v-bind="slotProps" v-model="form.serial_number" />
             </FormField>
          </div>
          <div class="!flex-auto w-full">

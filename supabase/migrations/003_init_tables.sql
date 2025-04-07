@@ -196,7 +196,6 @@ CREATE TABLE
       serial_number TEXT UNIQUE,
       barcode TEXT,
       quantity INTEGER NOT NULL DEFAULT 1 CHECK (quantity > 0), -- Prevents division by zero
-      used INTEGER NOT NULL DEFAULT 0 CHECK (used >= 0), -- Ensures valid values
       unit_cost NUMERIC(10, 3) NOT NULL CHECK (unit_cost >= 0), -- Ensures unit_cost is never negative
       total_cost NUMERIC(10, 3) GENERATED ALWAYS AS (
          CASE
@@ -209,9 +208,7 @@ CREATE TABLE
       vendor TEXT,
       details TEXT,
       stock_date TIMESTAMPTZ DEFAULT NOW (),
-      created_at TIMESTAMPTZ DEFAULT NOW (),
-      -- Additional data integrity constraints
-      CHECK (quantity >= used) -- Ensures you can't use more than you have
+      created_at TIMESTAMPTZ DEFAULT NOW ()
    );
 
 -- Indexes for performance optimization
@@ -231,10 +228,6 @@ CREATE OR REPLACE VIEW public.stock_view
 WITH (security_invoker = true) AS
 SELECT
    s.*,
-   CASE
-      WHEN s.quantity >= s.used THEN s.quantity - s.used
-      ELSE 0
-   END AS available_quantity,
    p.display_name,
    p.brand
 FROM
@@ -256,7 +249,6 @@ SELECT
    p.id as product_id,
    COUNT(*) AS total_product,
    SUM(quantity) AS total_quantity,
-   SUM(used) AS total_used,
    SUM(unit_cost) AS total_cost,
      ROUND(AVG(unit_cost)::NUMERIC(10,3), 2) AS average_cost,
      ROUND(AVG(total_cost)::NUMERIC(10,3), 2) AS average_total_cost
@@ -273,7 +265,6 @@ SELECT
    p.display_name,
    p.brand,
    SUM(s.quantity) AS total_quantity,
-   SUM(s.used) AS used_quantity,
    SUM(s.unit_cost) AS total_cost,
    ROUND(AVG(total_cost)::NUMERIC(10,3), 2) AS average_total_cost
 FROM
