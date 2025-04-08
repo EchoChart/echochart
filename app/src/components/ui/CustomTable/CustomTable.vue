@@ -116,6 +116,7 @@ const tableProps = computed(() => ({
    paginatorTemplate:
       'FirstPageLink PrevPageLink PageLinks NextPageLink RowsPerPageDropdown CurrentPageReport',
    resizableColumns: true,
+   columnResizeMode: stateStorage === 'local' ? 'fit' : 'expand',
    showGridlines: true,
    loading: loading.value,
    stateStorage,
