@@ -31,7 +31,7 @@ const id = attrs.id || useId() || _kebabCase(attrs.label);
 
 const containerClass = computed(() => [
    attrs.class,
-   'flex-1 flex flex-wrap gap-2 items-center',
+   'form-field flex-1 flex flex-wrap gap-2 items-center',
    'mb-auto p-2 relative',
    'transition-[padding] duration-[var(--transition-duration)]'
 ]);

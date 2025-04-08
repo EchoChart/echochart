@@ -13,13 +13,22 @@ defineProps({
       :legend="legend"
       :pt="{
          content: {
-            class: 'flex-1 flex flex-wrap gap-2'
+            class: 'form-box'
          }
       }"
    >
       <slot />
    </Fieldset>
-   <form v-else class="flex-1 flex flex-wrap gap-2" @submit.prevent>
+   <form v-else class="form-box" @submit.prevent>
       <slot :readonly="$attrs.readonly" />
    </form>
 </template>
+<style lang="scss">
+.form-box {
+   @apply flex-1 flex flex-wrap gap-2;
+
+   & > .form-field {
+      @apply flex-1 min-w-min max-w-max;
+   }
+}
+</style>
