@@ -138,7 +138,7 @@ const save = async () => {
             </template>
          </FormField>
          <FormField
-            class="!max-w-full"
+            class="!flex-auto !max-w-none w-full"
             fluid
             :label="i18n.t('permission')"
             :readonly
