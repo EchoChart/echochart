@@ -20,6 +20,7 @@ const categories = new Collection(data);
       option-label="display_name"
       option-value="display_name"
       display="chip"
+      :placeholder="$t('select_category')"
    >
       <template #value="{ value }">
          <Badge

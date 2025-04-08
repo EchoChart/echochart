@@ -6,5 +6,5 @@ const currencies = computed(() => [
 ]);
 </script>
 <template>
-   <Select :filter="true" :options="currencies" />
+   <Select :filter="true" :options="currencies" :placeholder="$t('select_currency')" />
 </template>

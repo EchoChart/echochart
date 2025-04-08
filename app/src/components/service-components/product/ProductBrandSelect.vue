@@ -40,5 +40,6 @@ onUnmounted(() => emitter.off('product-update', fetchProductBrands));
             )
          )
       "
+      :placeholder="$t('select_brand_or_add_new')"
    />
 </template>

@@ -55,14 +55,15 @@ onUnmounted(() => emitter.off('product-update', fetchProducts));
 </script>
 
 <template>
-   <InputGroup>
+   <InputGroup :class="$attrs.class">
       <Select
          :filter="true"
          :options="products._data"
          option-label="display_name"
          option-value="id"
-         v-bind="$attrs"
+         v-bind="_omit($attrs, ['class'])"
          v-model:model-value="modelValue"
+         :placeholder="$t('select_product')"
       />
       <InputGroupAddon
          v-if="showEdit && $can('modify', 'product') && (!!modelValue?.id || !!modelValue)"

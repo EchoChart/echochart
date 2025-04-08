@@ -42,7 +42,7 @@ onUnmounted(() => emitter.off('client-update', fetchClients));
 </script>
 
 <template>
-   <InputGroup>
+   <InputGroup :class="$attrs.class">
       <Select
          :filter="true"
          :options="clients._data"
@@ -54,8 +54,9 @@ onUnmounted(() => emitter.off('client-update', fetchClients));
                clients._data.find((c) => _get(c, $attrs.optionValue || 'id') == $event)
             )
          "
-         v-bind="$attrs"
+         v-bind="_omit($attrs, ['class'])"
          v-model:model-value="modelValue"
+         :placeholder="$t('select_client')"
       />
       <InputGroupAddon
          v-if="showEdit && $can('modify', 'client') && (!!modelValue?.id || !!modelValue)"

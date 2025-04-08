@@ -33,5 +33,6 @@ onUnmounted(() => emitter.off('stock-update', fetchVendors));
       option-label="display_name"
       option-value="display_name"
       editable
+      :placeholder="$t('select_vendor_or_add_new')"
    />
 </template>
