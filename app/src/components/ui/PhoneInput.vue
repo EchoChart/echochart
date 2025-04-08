@@ -1,55 +1,89 @@
 <script setup>
-import { countries } from 'countries-list';
-import { getExampleNumber, isValidPhoneNumber, parsePhoneNumberWithError } from 'libphonenumber-js';
+import {
+   AsYouType,
+   isValidPhoneNumber,
+   parsePhoneNumberWithError,
+   getCountries,
+   getCountryCallingCode
+} from 'libphonenumber-js';
+
+const attrs = useAttrs();
+defineOptions({
+   inheritAttrs: false
+});
 
 const countryPhoneCodes = computed(() =>
-   _values(countries)
-      .flatMap(({ phone, name }) =>
-         phone.map((phone) => ({ name, countryCallingCode: phone.toString() }))
-      )
-      .filter((e) => e?.countryCallingCode?.length <= 3)
+   getCountries()
+      .flatMap((phone) => ({
+         name: phone,
+         countryCallingCode: _toNumber(getCountryCallingCode(phone))
+      }))
       .toSorted((a, b) => a?.countryCallingCode - b?.countryCallingCode)
 );
 
+const isValid = ref(true);
+const invalid = computed(() => attrs.invalid || !isValid.value);
+
 const modelValue = defineModel('modelValue');
 
-const inputValue = computed({
-   get: () =>
-      isValidPhoneNumber(modelValue.value || '')
-         ? parsePhoneNumberWithError(modelValue.value)
-         : getExampleNumber('TR', { TR: '5555555555' }),
-   set: ({ countryCallingCode, nationalNumber }) => {
-      const phone = countryCallingCode + nationalNumber;
-      if (isValidPhoneNumber(phone)) {
-         modelValue.value = phone;
+const inputValue = ref(new AsYouType());
+
+inputValue.value.input(modelValue.value || '');
+
+watch(
+   () => inputValue.value,
+   (phone) => {
+      if (phone.isValid()) modelValue.value = phone.getNumberValue();
+   },
+   { deep: true }
+);
+
+watch(
+   () => modelValue.value,
+   (phone) => {
+      if (isValidPhoneNumber(phone || '')) {
+         const instance = parsePhoneNumberWithError(phone);
+         inputValue.value = new AsYouType(instance.country);
+         inputValue.value.input(instance.nationalNumber);
+         return;
       }
-   }
-});
+      inputValue.value = new AsYouType();
+   },
+   { immediate: true }
+);
 </script>
 
 <template>
-   <InputGroup>
-      <InputGroupAddon class="!p-0">
+   <InputGroup :class="$attrs.class">
+      <InputGroupAddon class="!p-0 !border-0">
          <Select
-            :model-value="inputValue.countryCallingCode"
-            @value-change="inputValue = { ...inputValue, countryCallingCode: $event }"
+            :model-value="countryPhoneCodes.find((e) => e.name == inputValue.getCountry())"
+            @value-change="inputValue = new AsYouType($event.name)"
             :options="countryPhoneCodes"
-            option-label="name"
-            option-value="countryCallingCode"
             filter
-            :filter-fields="['name', 'countryCallingCode']"
+            :filter-fields="['countryCallingCode', 'name']"
+            class="h-full !rounded-[inherit]"
+            :invalid
          >
-            <template #value="{ value }">{{ value }}</template>
+            <template #value="{ value }">
+               <span>{{ [value?.name || '?', value?.countryCallingCode || '?'].join(' | ') }}</span>
+            </template>
             <template #option="{ option }">
-               <span>{{ [option?.countryCallingCode, option?.name].join(' | ') }}</span>
+               <span>{{ [option?.name, option?.countryCallingCode].join(' | ') }}</span>
             </template>
          </Select>
       </InputGroupAddon>
       <InputMask
-         :model-value="inputValue.nationalNumber"
-         @value-change="inputValue = { ...inputValue, nationalNumber: $event }"
-         mask="999 999 9999"
+         v-bind="_omit($attrs, ['class'])"
+         :model-value="inputValue.getNationalNumber()"
+         @value-change="
+            inputValue.reset();
+            inputValue.input($event);
+         "
+         mask="(9?99) 999-9999"
          unmask
+         :auto-clear="false"
+         :invalid
       />
    </InputGroup>
 </template>
