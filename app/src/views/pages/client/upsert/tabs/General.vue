@@ -151,24 +151,26 @@ if (props.id || props.data?.id) {
                v-model="form.gender"
             />
          </FormField>
-         <FormField
-            :readonly="readonly"
-            fluid
-            :error="form?._errors?.first('email')"
-            :label="$t('email')"
-            v-slot="slotProps"
-         >
-            <InputText v-bind="slotProps" v-model="form.email" />
-         </FormField>
-         <FormField
-            :readonly="readonly"
-            fluid
-            :error="form?._errors?.first('phone')"
-            :label="$t('phone')"
-            v-slot="slotProps"
-         >
-            <PhoneInput v-bind="slotProps" v-model="form.phone" />
-         </FormField>
+         <div class="form-box !flex-auto">
+            <FormField
+               :readonly="readonly"
+               fluid
+               :error="form?._errors?.first('email')"
+               :label="$t('email')"
+               v-slot="slotProps"
+            >
+               <InputText v-bind="slotProps" v-model="form.email" />
+            </FormField>
+            <FormField
+               :readonly="readonly"
+               fluid
+               :error="form?._errors?.first('phone')"
+               :label="$t('phone')"
+               v-slot="slotProps"
+            >
+               <PhoneInput v-bind="slotProps" v-model="form.phone" />
+            </FormField>
+         </div>
          <div v-if="!readonly" class="flex flex-wrap items-end justify-end gap-4 !flex-auto w-full">
             <Button
                :label="$t('save')"
