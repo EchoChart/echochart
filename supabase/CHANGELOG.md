@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.8.0-alpha.1...echochart-supabase-v0.9.0-alpha.1) (2025-04-08)
+
+
+### Features
+
+* introduce SelectCountry component and update filters for consistency in client and product forms ([c037eca](https://github.com/EchoChart/echochart/commit/c037eca085ba1477c2a3cb2313f8d96d35613830))
+
 ## [0.8.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.7.0-alpha.1...echochart-supabase-v0.8.0-alpha.1) (2025-03-25)
 
 

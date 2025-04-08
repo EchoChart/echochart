@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.14.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.13.0-alpha.1...echochart-app-v0.14.0-alpha.1) (2025-04-08)
+
+
+### Features
+
+* add columnResizeMode property to CustomTable for improved column resizing behavior ([ea0560b](https://github.com/EchoChart/echochart/commit/ea0560b881605593d58868f2d8f5533627d27839))
+* add PhoneInput component for enhanced phone number input handling and validation ([cd3116d](https://github.com/EchoChart/echochart/commit/cd3116d05f7f390c60be26af56388e8d22083591))
+* add placeholders to select components for improved user guidance ([2c5fa0e](https://github.com/EchoChart/echochart/commit/2c5fa0e4b84399c43df4ca2db9f40033bcb21e20))
+* add stock_date field to Upsert form and update related error handling ([c671915](https://github.com/EchoChart/echochart/commit/c671915992367527e62e4f33dfd63fac94ba5299))
+* enhance PhoneInput component with improved phone number validation and formatting ([14ffaaa](https://github.com/EchoChart/echochart/commit/14ffaaa4dbf6c95bb9fc97768a68096cb2630384))
+* implement centralized app error handler for improved error management ([a3fa40b](https://github.com/EchoChart/echochart/commit/a3fa40bd609e33987240113d866b0b2eff9d10ca))
+* introduce SelectCountry component and update filters for consistency in client and product forms ([c037eca](https://github.com/EchoChart/echochart/commit/c037eca085ba1477c2a3cb2313f8d96d35613830))
+* replace currency-codes with countries-list and implement SelectCurrency component ([ea748c2](https://github.com/EchoChart/echochart/commit/ea748c2170833cb2388d58d8ad00fa3935358224))
+
 ## [0.13.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.12.0-alpha.1...echochart-app-v0.13.0-alpha.1) (2025-03-25)
 
 
