@@ -95,7 +95,7 @@ if (props.id || props.data?.id) {
 
 <template>
    <div class="card">
-      <FormBox @submit="save" @reset="() => form._reset()" class="[&>*]:flex-1">
+      <FormBox @submit="save" @reset="() => form._reset()">
          <FormField
             :readonly="readonly"
             fluid

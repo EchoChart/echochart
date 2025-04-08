@@ -116,7 +116,7 @@ if (props.id || props.data?.id) {
 
 <template>
    <div class="card">
-      <FormBox @submit="save" @reset="() => form._reset()" class="[&>*]:flex-1">
+      <FormBox @submit="save" @reset="() => form._reset()">
          <FormField
             class="flex-[0.8]"
             :readonly="readonly"
@@ -155,19 +155,17 @@ if (props.id || props.data?.id) {
                />
             </template>
          </FormField>
-         <div class="!flex-auto w-full">
-            <FormField
-               class="flex-[0.8]"
-               :readonly="readonly"
-               fluid
-               :error="form._errors.first('details')"
-               :label="$t('details')"
-            >
-               <template #default="slotProps">
-                  <Editor v-bind="slotProps" v-model="form.details" />
-               </template>
-            </FormField>
-         </div>
+         <FormField
+            class="!flex-auto !max-w-full w-full"
+            :readonly="readonly"
+            fluid
+            :error="form._errors.first('details')"
+            :label="$t('details')"
+         >
+            <template #default="slotProps">
+               <Editor v-bind="slotProps" v-model="form.details" />
+            </template>
+         </FormField>
          <div
             v-if="($can('create', 'product') || $can('modify', 'product')) && !readonly"
             class="flex flex-wrap items-end justify-end gap-4 !flex-auto w-full"

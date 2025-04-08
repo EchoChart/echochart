@@ -90,7 +90,7 @@ if (props.id || props.data?.id) {
 
 <template>
    <div class="card">
-      <FormBox @submit="save" @reset="() => form._reset()" class="[&>*]:flex-1">
+      <FormBox @submit="save" @reset="() => form._reset()">
          <FormField
             :readonly="readonly"
             fluid
@@ -132,7 +132,7 @@ if (props.id || props.data?.id) {
             </template>
          </FormField>
          <FormField
-            class="!flex-auto w-full"
+            class="!flex-auto !max-w-full w-full"
             :readonly="readonly"
             fluid
             :error="form._errors.first('details')"
