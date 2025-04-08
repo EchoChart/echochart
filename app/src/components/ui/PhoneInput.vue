@@ -33,7 +33,8 @@ inputValue.value.input(modelValue.value || '');
 watch(
    () => inputValue.value,
    (phone) => {
-      if (phone.isValid()) modelValue.value = phone.getNumberValue();
+      if (phone.isValid() && modelValue.value !== phone.getNumberValue())
+         modelValue.value = phone.getNumberValue();
    },
    { deep: true }
 );
