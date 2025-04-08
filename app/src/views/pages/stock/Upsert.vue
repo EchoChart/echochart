@@ -32,7 +32,7 @@ const initialFormData = {
    total_cost: 0,
    stock_date: new Date(Date.now()),
    quantity: 1,
-   currency_code: 'TRY',
+   currency_code: null,
    vendor: null,
    details: null
 };
@@ -103,26 +103,24 @@ const save = async () => {
 
 <template>
    <div class="card">
-      <FormBox @submit="save" @reset="() => form._reset()" class="[&>*]:flex-1">
+      <FormBox @submit="save" @reset="() => form._reset()">
          <FormField
             :readonly="readonly"
             fluid
             :error="form._errors.first('product_id')"
             :label="$t('product')"
+            v-slot="slotProps"
          >
-            <template #default="slotProps">
-               <ProductSelect v-bind="slotProps" :category v-model="form.product_id" />
-            </template>
+            <ProductSelect v-bind="slotProps" :category v-model="form.product_id" />
          </FormField>
          <FormField
             :readonly="readonly"
             fluid
             :error="form._errors.first('vendor')"
             :label="$t('vendor')"
+            v-slot="slotProps"
          >
-            <template #default="slotProps">
-               <StockVendorSelect v-bind="slotProps" v-model="form.vendor" />
-            </template>
+            <StockVendorSelect v-bind="slotProps" v-model="form.vendor" />
          </FormField>
          <FormField
             :readonly="readonly"
@@ -142,84 +140,82 @@ const save = async () => {
          >
             <InputText v-bind="slotProps" v-model="form.serial_number" />
          </FormField>
-         <div class="!flex-auto w-full flex flex-wrap">
-            <FormField
-               :readonly="readonly"
-               fluid
-               :error="form._errors.first('quantity')"
-               :label="$t('quantity')"
-               v-slot="slotProps"
-            >
-               <InputNumber v-bind="slotProps" v-model="form.quantity" :min="0" />
-            </FormField>
-            <FormField
-               :readonly="readonly"
-               fluid
-               :error="form._errors.first('currency_code')"
-               :label="$t('currency')"
-               v-slot="slotProps"
-            >
-               <SelectCurrency v-bind="slotProps" v-model="form.currency_code" />
-            </FormField>
-            <FormField
-               :readonly="readonly"
-               fluid
-               :error="form._errors.first('unit_cost')"
-               :label="$t('unit_cost')"
-               v-slot="slotProps"
-            >
-               <InputNumber
-                  v-bind="slotProps"
-                  v-model="form.unit_cost"
-                  :max-fraction-digits="3"
-                  mode="currency"
-                  :currency="form.currency_code"
-                  :min="0"
-               />
-            </FormField>
-            <FormField
-               :readonly="readonly"
-               fluid
-               :error="form._errors.first('total_cost')"
-               :label="$t('total_cost')"
-               v-slot="slotProps"
-            >
-               <InputNumber
-                  v-bind="slotProps"
-                  v-model="total_cost"
-                  :max-fraction-digits="3"
-                  mode="currency"
-                  :currency="form.currency_code"
-                  :min="0"
-               />
-            </FormField>
-            <FormField
-               :readonly="readonly"
-               fluid
-               :error="form._errors.first('stock_date')"
-               :label="$t('stock_date')"
-               v-slot="slotProps"
-            >
-               <DatePicker
-                  :selectionMode="'single'"
-                  v-bind="slotProps"
-                  v-model="form.stock_date"
-                  dateFormat="dd/mm/yy"
-                  placeholder="dd/mm/yyyy"
-               />
-            </FormField>
-         </div>
-         <div class="!flex-auto w-full">
-            <FormField
-               :readonly="readonly"
-               fluid
-               :error="form._errors.first('details')"
-               :label="$t('details')"
-               v-slot="slotProps"
-            >
-               <Editor v-bind="slotProps" v-model="form.details" />
-            </FormField>
-         </div>
+         <FormField
+            :readonly="readonly"
+            fluid
+            :error="form._errors.first('stock_date')"
+            :label="$t('stock_date')"
+            v-slot="slotProps"
+         >
+            <DatePicker
+               :selectionMode="'single'"
+               v-bind="slotProps"
+               v-model="form.stock_date"
+               dateFormat="dd/mm/yy"
+               placeholder="dd/mm/yyyy"
+            />
+         </FormField>
+         <FormField
+            :readonly="readonly"
+            fluid
+            :error="form._errors.first('quantity')"
+            :label="$t('quantity')"
+            v-slot="slotProps"
+         >
+            <InputNumber v-bind="slotProps" v-model="form.quantity" :min="0" />
+         </FormField>
+         <FormField
+            :readonly="readonly"
+            fluid
+            :error="form._errors.first('currency_code')"
+            :label="$t('currency')"
+            v-slot="slotProps"
+         >
+            <SelectCurrency v-bind="slotProps" v-model="form.currency_code" />
+         </FormField>
+         <FormField
+            :readonly="readonly"
+            fluid
+            :error="form._errors.first('unit_cost')"
+            :label="$t('unit_cost')"
+            v-slot="slotProps"
+         >
+            <InputNumber
+               v-bind="slotProps"
+               v-model="form.unit_cost"
+               :max-fraction-digits="3"
+               :mode="form.currency_code ? 'currency' : 'decimal'"
+               :currency="form.currency_code || undefined"
+               :min="0"
+            />
+         </FormField>
+         <FormField
+            :readonly="readonly"
+            fluid
+            :error="form._errors.first('total_cost')"
+            :label="$t('total_cost')"
+            v-slot="slotProps"
+         >
+            <InputNumber
+               v-bind="slotProps"
+               v-model="total_cost"
+               :max-fraction-digits="3"
+               :mode="form.currency_code ? 'currency' : 'decimal'"
+               :currency="form.currency_code || undefined"
+               :min="0"
+            />
+         </FormField>
+         <FormField
+            :readonly="readonly"
+            fluid
+            :error="form._errors.first('details')"
+            :label="$t('details')"
+            v-slot="slotProps"
+            class="!flex-auto !max-w-full w-full"
+         >
+            <Editor v-bind="slotProps" v-model="form.details" />
+         </FormField>
+         <hr />
          <div
             v-if="$can('create', 'stock') || $can('modify', 'stock')"
             class="flex flex-wrap items-end justify-end gap-4 !flex-auto w-full"
