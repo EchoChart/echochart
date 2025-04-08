@@ -29,7 +29,6 @@ const initialFormData = {
    serial_number: null,
    barcode: null,
    unit_cost: 0,
-   total_cost: 0,
    stock_date: new Date(Date.now()),
    quantity: 1,
    currency_code: null,
@@ -44,7 +43,8 @@ const form = new Form({
       product_id: 'required',
       unit_cost: 'required|min:0',
       total_cost: 'required|min:0',
-      quantity: 'required|min:1'
+      quantity: 'required|min:1',
+      currency_code: 'required'
    },
    useDialogForm: false
 });
@@ -68,17 +68,17 @@ if (props.id) {
 }
 
 const total_cost = computed({
-   get: () => form.unit_cost * form.quantity,
+   get: () => _round(form.unit_cost * form.quantity, 3),
    set: (value) => {
-      _set(form, 'unit_cost', _round(value / form.quantity, 2));
-      _set(form, 'total_cost', value >= 0 ? value : undefined);
+      _set(form, 'unit_cost', _round(value / form.quantity, 3));
+      _set(form, 'total_cost', value);
    }
 });
 
 const save = async () => {
    if (!form._validate()) return;
 
-   const payload = _omit(_pick(form._data, fields), ['total_cost']);
+   const payload = _pick(form._data, fields);
 
    const { data } = await supabase
       .from('stock')
@@ -104,57 +104,59 @@ const save = async () => {
 <template>
    <div class="card">
       <FormBox @submit="save" @reset="() => form._reset()">
-         <FormField
-            :readonly="readonly"
-            fluid
-            :error="form._errors.first('product_id')"
-            :label="$t('product')"
-            v-slot="slotProps"
-         >
-            <ProductSelect v-bind="slotProps" :category v-model="form.product_id" />
-         </FormField>
-         <FormField
-            :readonly="readonly"
-            fluid
-            :error="form._errors.first('vendor')"
-            :label="$t('vendor')"
-            v-slot="slotProps"
-         >
-            <StockVendorSelect v-bind="slotProps" v-model="form.vendor" />
-         </FormField>
-         <FormField
-            :readonly="readonly"
-            fluid
-            :error="form._errors.first('barcode')"
-            :label="$t('barcode')"
-            v-slot="slotProps"
-         >
-            <InputText v-bind="slotProps" v-model="form.barcode" />
-         </FormField>
-         <FormField
-            :readonly="readonly"
-            fluid
-            :error="form._errors.first('serial_number')"
-            :label="$t('serial_number')"
-            v-slot="slotProps"
-         >
-            <InputText v-bind="slotProps" v-model="form.serial_number" />
-         </FormField>
-         <FormField
-            :readonly="readonly"
-            fluid
-            :error="form._errors.first('stock_date')"
-            :label="$t('stock_date')"
-            v-slot="slotProps"
-         >
-            <DatePicker
-               :selectionMode="'single'"
-               v-bind="slotProps"
-               v-model="form.stock_date"
-               dateFormat="dd/mm/yy"
-               placeholder="dd/mm/yyyy"
-            />
-         </FormField>
+         <div class="form-box !flex-auto w-full">
+            <FormField
+               :readonly="readonly"
+               fluid
+               :error="form._errors.first('product_id')"
+               :label="$t('product')"
+               v-slot="slotProps"
+            >
+               <ProductSelect v-bind="slotProps" :category v-model="form.product_id" />
+            </FormField>
+            <FormField
+               :readonly="readonly"
+               fluid
+               :error="form._errors.first('vendor')"
+               :label="$t('vendor')"
+               v-slot="slotProps"
+            >
+               <StockVendorSelect v-bind="slotProps" v-model="form.vendor" />
+            </FormField>
+            <FormField
+               :readonly="readonly"
+               fluid
+               :error="form._errors.first('barcode')"
+               :label="$t('barcode')"
+               v-slot="slotProps"
+            >
+               <InputText v-bind="slotProps" v-model="form.barcode" />
+            </FormField>
+            <FormField
+               :readonly="readonly"
+               fluid
+               :error="form._errors.first('serial_number')"
+               :label="$t('serial_number')"
+               v-slot="slotProps"
+            >
+               <InputText v-bind="slotProps" v-model="form.serial_number" />
+            </FormField>
+            <FormField
+               :readonly="readonly"
+               fluid
+               :error="form._errors.first('stock_date')"
+               :label="$t('stock_date')"
+               v-slot="slotProps"
+            >
+               <DatePicker
+                  :selectionMode="'single'"
+                  v-bind="slotProps"
+                  v-model="form.stock_date"
+                  dateFormat="dd/mm/yy"
+                  placeholder="dd/mm/yyyy"
+               />
+            </FormField>
+         </div>
          <FormField
             :readonly="readonly"
             fluid
