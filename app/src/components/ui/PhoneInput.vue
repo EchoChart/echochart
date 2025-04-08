@@ -62,7 +62,7 @@ watch(
             :options="countryPhoneCodes"
             filter
             :filter-fields="['countryCallingCode', 'name']"
-            class="h-full !rounded-[inherit]"
+            class="h-full !rounded-[inherit] -mr-[1px]"
             :invalid
          >
             <template #value="{ value }">
