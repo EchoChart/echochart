@@ -172,6 +172,7 @@ const tableProps = computed(() => ({
          style="max-width: 4rem !important; width: 4rem !important"
       />
       <Column
+         class="!min-w-32"
          v-for="(column, i) in tableProps?.columns"
          :key="'column_' + (column?.field ? column?.field + i : i) || i"
          showClearButton
