@@ -5,6 +5,8 @@ import * as path from 'node:path';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import packageVersion from 'vite-plugin-package-version';
+import viteCompression from 'vite-plugin-compression';
+
 import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
@@ -17,6 +19,7 @@ export default defineConfig({
       port: 6161
    },
    plugins: [
+      viteCompression(),
       packageVersion(),
       vue(),
       Components({
