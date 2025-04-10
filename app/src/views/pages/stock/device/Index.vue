@@ -31,9 +31,9 @@ const columns = new Collection([
       header: i18n.t('vendor')
    },
    {
-      field: 'created_at',
+      field: 'stock_date',
       sortable: true,
-      header: i18n.t('created_at'),
+      header: i18n.t('stock_date'),
       sortOrder: { value: -1 }
    }
 ]);
@@ -78,7 +78,7 @@ const filters = ref({
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
    },
-   created_at: {
+   stock_date: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
       dataType: 'date'
