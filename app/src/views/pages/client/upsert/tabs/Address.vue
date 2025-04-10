@@ -119,7 +119,7 @@ provide('dialogRef', true);
             fluid
             :error="form?._errors?.first('address')"
             v-slot="slotProps"
-            class="flex-auto w-full"
+            class="!flex-auto !max-w-none w-full"
          >
             <AddressTable
                v-bind="slotProps"
