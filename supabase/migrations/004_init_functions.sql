@@ -134,7 +134,7 @@ BEGIN
     target_schema := split_part(target_resource, '.', 1);
     target_table := split_part(target_resource, '.', 2);
 
-    EXECUTE format($f$ALTER TABLE %I.%I ENABLE ROW LEVEL SECURITY$f$, target_schema, target_table);
+    EXECUTE format($f$ ALTER TABLE %I.%I ENABLE ROW LEVEL SECURITY $f$, target_schema, target_table);
 
 
     -- Check if the table exists
@@ -162,7 +162,7 @@ BEGIN
         -- Handle DELETE operation (drop policy)
         IF TG_OP = 'DELETE' OR TG_OP = 'UPDATE' THEN
             -- Drop the policy if the permission is deleted
-            EXECUTE format($f$DROP POLICY IF EXISTS %I ON %s$f$, policy_name, target_resource);
+            EXECUTE format($f$ DROP POLICY IF EXISTS %I ON %s $f$, policy_name, target_resource);
             RAISE LOG 'Policy "%" dropped for % on command %', policy_name, target_resource, command;
         END IF;
 
@@ -191,17 +191,17 @@ BEGIN
                      $f$
                         CREATE POLICY %I ON %I.%I FOR %s TO authenticated USING (
                         CASE
-                                WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
-                                THEN true
-                                WHEN (%L = TRUE) THEN
-                                    public.throw_rls_policy_error(%L)
+                            WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
+                            THEN true
+                            WHEN (%L = TRUE) THEN
+                                public.throw_rls_policy_error(%L)
                         END
                         ) WITH CHECK (
                         CASE
-                                WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
-                                THEN true
-                                WHEN (%L = TRUE) THEN
-                                    public.throw_rls_policy_error(%L)
+                            WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
+                            THEN true
+                            WHEN (%L = TRUE) THEN
+                                public.throw_rls_policy_error(%L)
                         END
                         )
                     $f$
@@ -236,11 +236,11 @@ BEGIN
                         CREATE POLICY %I ON %I.%I FOR %s TO authenticated
                         %s (TRUE)
                     $f$
-                     , policy_name
-                     , target_schema
-                     , target_table
-                     , command
-                     , policy_clause
+                    , policy_name
+                    , target_schema
+                    , target_table
+                    , command
+                    , policy_clause
                   );
                ELSE
                   -- Default for SELECT and DELETE
@@ -248,10 +248,10 @@ BEGIN
                     $f$
                         CREATE POLICY %I ON %I.%I FOR %s TO authenticated %s (
                         CASE
-                                WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
-                                THEN true
-                                WHEN (%L = TRUE) THEN
-                                    public.throw_rls_policy_error(%L)
+                            WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
+                            THEN true
+                            WHEN (%L = TRUE) THEN
+                                public.throw_rls_policy_error(%L)
                         END
                         )
                     $f$
