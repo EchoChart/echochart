@@ -218,7 +218,7 @@ const getFilterQuery = (filters) => {
  * @returns {Promise<boolean>} A promise that resolves to true if deletion is confirmed, otherwise false.
  */
 const handleDelete = async (options) => {
-   const confirmed = new Promise((resolve) => {
+   return await new Promise((resolve, reject) => {
       const item = JSON.parse(options.headers?.get?.('item'));
 
       return app.config?.globalProperties?.$confirm?.require?.({
@@ -235,12 +235,9 @@ const handleDelete = async (options) => {
             outlined: true
          },
          accept: () => resolve(true),
-         reject: () => resolve(false)
+         reject: () => reject(i18n.t('user_cancelled_action'))
       });
    });
-   if ((await confirmed) === false) {
-      throw new Error(i18n.t('user_cancelled_action'));
-   }
 };
 
 /**
