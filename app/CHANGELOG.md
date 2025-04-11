@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.15.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.14.0-alpha.1...echochart-app-v0.15.0-alpha.1) (2025-04-11)
+
+
+### Features
+
+* add ActionButtons component for handling row actions in CustomTable ([2409c1c](https://github.com/EchoChart/echochart/commit/2409c1cae6f7ecde6b4e492c8f8f5762e17e58f1))
+* add email and phone templates for ResourceTable to enhance data display ([efad75b](https://github.com/EchoChart/echochart/commit/efad75b3bbfc68a2039643885070a98c78d40d4f))
+
+
+### Bug Fixes
+
+* add minimum width to table columns for better layout ([1a9946c](https://github.com/EchoChart/echochart/commit/1a9946c43ee1516722da32fcc9e509b8cd293038))
+* add vite-plugin-compression for improved asset compression ([e69052d](https://github.com/EchoChart/echochart/commit/e69052db5e05bf36977d75b766b2180919dc986b))
+* adjust AddressTable class for improved layout responsiveness ([df95426](https://github.com/EchoChart/echochart/commit/df9542670889e23ffa2ae1115a1e83f4d0b5426d))
+* adjust layout for permission field in role upsert component ([797ec85](https://github.com/EchoChart/echochart/commit/797ec8561cf06c8a819da93cb55f6902b6c9078b))
+* adjust margin for PhoneInput component styling ([e36a498](https://github.com/EchoChart/echochart/commit/e36a498c85963c72abd27a0dbd0cfd15460d36cb))
+* enhance phone validation logic to ensure country code is included ([c499bcc](https://github.com/EchoChart/echochart/commit/c499bccaed0aaecf71d47c2e44b2aed454123df8))
+* optimize phone number validation logic in PhoneInput component ([75ea589](https://github.com/EchoChart/echochart/commit/75ea589c2947ec8dd87f526bf881beee552620ad))
+* rename 'created_at' to 'stock_date' for consistency across battery, device, and spare-part components ([bfded88](https://github.com/EchoChart/echochart/commit/bfded8830c0ff527a980c22cd5b684d8a7224954))
+* simplify FormField usage by removing unnecessary template slots in profile and update-password components ([59bfcbe](https://github.com/EchoChart/echochart/commit/59bfcbe2233f0805d733a14776467890305b60a4))
+* streamline FormField usage by removing unnecessary template slots in Login and Register components ([cdbc3f4](https://github.com/EchoChart/echochart/commit/cdbc3f42a8f44e30d4d91fcd9904cf663960b1aa))
+* update form validation and calculations in Upsert component ([4b6ce6e](https://github.com/EchoChart/echochart/commit/4b6ce6eb2e67417deedbe065e76fb9c2d8967ad3))
+* update handleDelete function to properly handle promise rejection ([75db2e1](https://github.com/EchoChart/echochart/commit/75db2e189930b9e38eabd411819289efd929650e))
+* update permission check in ClientSelect and ProductSelect components to use 'read' instead of 'modify' ([74612af](https://github.com/EchoChart/echochart/commit/74612af97e73e735ba65baa95ed75c08d94eae98))
+* wrap email and phone input fields in a form box for better layout ([65bb4c0](https://github.com/EchoChart/echochart/commit/65bb4c09dcfbc7b597a7cb94e12f00c092e8c51d))
+
 ## [0.14.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.13.0-alpha.1...echochart-app-v0.14.0-alpha.1) (2025-04-08)
 
 
