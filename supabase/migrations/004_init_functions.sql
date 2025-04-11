@@ -1,7 +1,6 @@
-CREATE
-OR REPLACE FUNCTION "public"."throw_rls_policy_error" ("message" TEXT) RETURNS "pg_catalog"."bool"
+CREATE OR REPLACE FUNCTION "public"."throw_rls_policy_error" ("message" TEXT) RETURNS "pg_catalog"."bool"
 SET
-   "search_path" = '' AS $BODY$
+    "search_path" = '' AS $$
 DECLARE
   error_message text;
 BEGIN
@@ -12,13 +11,12 @@ BEGIN
     RAISE EXCEPTION '%', error_message USING ERRCODE = '42501';
     RETURN false;
 END;
-$BODY$ LANGUAGE plpgsql STABLE COST 100;
+$$ LANGUAGE plpgsql STABLE COST 100;
 
 -- Create or replace the handle_new_user function
-CREATE
-OR REPLACE FUNCTION private.handle_new_user () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
+CREATE OR REPLACE FUNCTION private.handle_new_user () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
-   search_path = '' AS $$
+    search_path = '' AS $$
 DECLARE
     tenant_id UUID;
     user_id UUID;
@@ -43,10 +41,9 @@ END;
 $$;
 
 -- Create or replace the handle_update_user function
-CREATE
-OR REPLACE FUNCTION private.handle_update_user () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
+CREATE OR REPLACE FUNCTION private.handle_update_user () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
-   search_path = '' AS $$
+    search_path = '' AS $$
 DECLARE
     user_id UUID;
 BEGIN
@@ -75,10 +72,9 @@ END;
 $$;
 
 -- Create or replace the handle_user_delete function
-CREATE
-OR REPLACE FUNCTION private.handle_user_delete () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
+CREATE OR REPLACE FUNCTION private.handle_user_delete () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
-   search_path = '' AS $$
+    search_path = '' AS $$
 BEGIN
     BEGIN
     -- Delete the profile from the user table
@@ -93,10 +89,9 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION delete_unreferenced_address ()
-RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER 
+CREATE OR REPLACE FUNCTION delete_unreferenced_address () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
-   search_path = '' AS $$
+    search_path = '' AS $$
 BEGIN
     DELETE FROM public.address
     WHERE id = OLD.address_id
@@ -107,10 +102,9 @@ BEGIN
 END;
 $$;
 
-CREATE
-OR REPLACE FUNCTION private.manage_policies () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
+CREATE OR REPLACE FUNCTION private.manage_policies () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
-   search_path = '' AS $$
+    search_path = '' AS $$
 DECLARE
     permission_record RECORD;
     target_resource TEXT;
@@ -140,7 +134,7 @@ BEGIN
     target_schema := split_part(target_resource, '.', 1);
     target_table := split_part(target_resource, '.', 2);
 
-    EXECUTE format('ALTER TABLE %I.%I ENABLE ROW LEVEL SECURITY', target_schema, target_table);
+    EXECUTE format($f$ALTER TABLE %I.%I ENABLE ROW LEVEL SECURITY$f$, target_schema, target_table);
 
 
     -- Check if the table exists
@@ -168,7 +162,7 @@ BEGIN
         -- Handle DELETE operation (drop policy)
         IF TG_OP = 'DELETE' OR TG_OP = 'UPDATE' THEN
             -- Drop the policy if the permission is deleted
-            EXECUTE format('DROP POLICY IF EXISTS %I ON %s', policy_name, target_resource);
+            EXECUTE format($f$DROP POLICY IF EXISTS %I ON %s$f$, policy_name, target_resource);
             RAISE LOG 'Policy "%" dropped for % on command %', policy_name, target_resource, command;
         END IF;
 
@@ -183,10 +177,10 @@ BEGIN
             IF command = 'update' THEN
                IF permission_record.bypass = TRUE THEN
                   EXECUTE format(
-                     '
-                     CREATE POLICY %I ON %I.%I FOR %s TO authenticated
-                     USING(true) WITH CHECK (TRUE)
-                     '
+                    $f$
+                        CREATE POLICY %I ON %I.%I FOR %s TO authenticated
+                        USING(true) WITH CHECK (TRUE)
+                    $f$
                   , policy_name
                   , target_schema
                   , target_table
@@ -194,21 +188,23 @@ BEGIN
                   );
                ELSE
                   EXECUTE format(
-                     'CREATE POLICY %I ON %I.%I FOR %s TO authenticated USING (
+                     $f$
+                        CREATE POLICY %I ON %I.%I FOR %s TO authenticated USING (
                         CASE
-                              WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
-                              THEN true
-                              WHEN (%L = TRUE) THEN
-                                 public.throw_rls_policy_error(%L)
+                                WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
+                                THEN true
+                                WHEN (%L = TRUE) THEN
+                                    public.throw_rls_policy_error(%L)
                         END
-                     ) WITH CHECK (
+                        ) WITH CHECK (
                         CASE
-                              WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
-                              THEN true
-                              WHEN (%L = TRUE) THEN
-                                 public.throw_rls_policy_error(%L)
+                                WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
+                                THEN true
+                                WHEN (%L = TRUE) THEN
+                                    public.throw_rls_policy_error(%L)
                         END
-                     )'
+                        )
+                    $f$
                   , policy_name
                   , target_schema
                   , target_table
@@ -236,10 +232,10 @@ BEGIN
 
                IF permission_record.bypass = TRUE THEN
                   EXECUTE format(
-                     '
-                     CREATE POLICY %I ON %I.%I FOR %s TO authenticated
-                     %s (TRUE)
-                     '
+                    $f$
+                        CREATE POLICY %I ON %I.%I FOR %s TO authenticated
+                        %s (TRUE)
+                    $f$
                      , policy_name
                      , target_schema
                      , target_table
@@ -249,14 +245,16 @@ BEGIN
                ELSE
                   -- Default for SELECT and DELETE
                   EXECUTE format(
-                     'CREATE POLICY %I ON %I.%I FOR %s TO authenticated %s (
+                    $f$
+                        CREATE POLICY %I ON %I.%I FOR %s TO authenticated %s (
                         CASE
-                              WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
-                              THEN true
-                              WHEN (%L = TRUE) THEN
-                                 public.throw_rls_policy_error(%L)
+                                WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
+                                THEN true
+                                WHEN (%L = TRUE) THEN
+                                    public.throw_rls_policy_error(%L)
                         END
-                     )'
+                        )
+                    $f$
                   , policy_name
                   , target_schema
                   , target_table
@@ -280,10 +278,9 @@ BEGIN
 END;
 $$;
 
-CREATE
-OR REPLACE FUNCTION auth.check_permission (p_resource_name TEXT, p_command TEXT) RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER STABLE
+CREATE OR REPLACE FUNCTION auth.check_permission (p_resource_name TEXT, p_command TEXT) RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER STABLE
 SET
-   search_path = '' AS $$
+    search_path = '' AS $$
 DECLARE
    permission JSONB; -- Holds the user's permission
    jwt_claims JSONB; -- Holds the JWT claims
@@ -321,28 +318,25 @@ BEGIN
 END;
 $$;
 
-CREATE
-OR REPLACE FUNCTION auth.check_tenant_id (tenant_id UUID) RETURNS BOOLEAN STABLE LANGUAGE plpgsql SECURITY DEFINER
+CREATE OR REPLACE FUNCTION auth.check_tenant_id (tenant_id UUID) RETURNS BOOLEAN STABLE LANGUAGE plpgsql SECURITY DEFINER
 SET
-   search_path = '' AS $$
+    search_path = '' AS $$
 BEGIN
    RETURN tenant_id = (SELECT auth.tenant_id());
 END;
 $$;
 
-CREATE
-OR REPLACE FUNCTION auth.check_allowed_tenant (tenant_id UUID) RETURNS BOOLEAN STABLE LANGUAGE plpgsql SECURITY DEFINER
+CREATE OR REPLACE FUNCTION auth.check_allowed_tenant (tenant_id UUID) RETURNS BOOLEAN STABLE LANGUAGE plpgsql SECURITY DEFINER
 SET
-   search_path = '' AS $$
+    search_path = '' AS $$
 BEGIN
    RETURN tenant_id = ANY (auth.allowed_tenant());
 END;
 $$;
 
-CREATE
-OR REPLACE FUNCTION private.custom_access_token_hook (e JSONB) RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER STABLE
+CREATE OR REPLACE FUNCTION private.custom_access_token_hook (e JSONB) RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER STABLE
 SET
-   search_path = '' AS $$
+    search_path = '' AS $$
 DECLARE
     u_id UUID;
     t_id UUID;
@@ -438,10 +432,9 @@ END;
 $$;
 
 -- Create a helper function to use in RLS policies
-CREATE
-OR REPLACE FUNCTION auth.allowed_tenant () RETURNS UUID[] SECURITY DEFINER LANGUAGE plpgsql STABLE
+CREATE OR REPLACE FUNCTION auth.allowed_tenant () RETURNS UUID[] SECURITY DEFINER LANGUAGE plpgsql STABLE
 SET
-   search_path = '' AS $$
+    search_path = '' AS $$
 DECLARE
    jwt_claims JSONB;
    app_metadata JSONB;
@@ -474,8 +467,7 @@ BEGIN
 END;
 $$;
 
-CREATE
-OR REPLACE FUNCTION auth.tenant_id () RETURNS UUID SECURITY DEFINER AS $BODY$
+CREATE OR REPLACE FUNCTION auth.tenant_id () RETURNS UUID SECURITY DEFINER AS $$
 DECLARE
    tenant_id UUID := NULL;
    header_tenant TEXT := NULL;
@@ -521,4 +513,4 @@ BEGIN
     -- Return the resolved tenant_id
     RETURN tenant_id;
 END;
-$BODY$ LANGUAGE plpgsql STABLE COST 100;
+$$ LANGUAGE plpgsql STABLE COST 100;
