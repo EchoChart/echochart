@@ -53,7 +53,7 @@
       "husky": "^9.1.7",
       "lint-staged": "^15.3.0",
       "postcss": "^8.4.40",
-      "prettier": "^3.2.5",
+      "prettier": "^3.5.3",
       "release-please": "^16.15.0",
       "sass": "^1.55.0",
       "tailwindcss": "^3.4.6",
