@@ -110,41 +110,38 @@ const submit = async () => {
                <div class="flex flex-col gap-4">
                   <div class="mx-auto text-xl font-medium" v-text="$t('account_info')" />
                   <FormField
+                     v-slot="slotProps"
                      fluid
                      :label="$t('email')"
                      :error="form._errors.first('account.email')"
                   >
-                     <template v-slot="slotProps">
-                        <InputText autofocus v-bind="slotProps" v-model="form['account.email']" />
-                     </template>
+                     <InputText autofocus v-bind="slotProps" v-model="form['account.email']" />
                   </FormField>
                   <FormField
+                     v-slot="slotProps"
                      fluid
                      :label="$t('password')"
                      :error="form._errors.first('account.password')"
                   >
-                     <template v-slot="slotProps">
-                        <Password
-                           v-bind="slotProps"
-                           v-model="form['account.password']"
-                           :toggleMask="true"
-                           :feedback="false"
-                        />
-                     </template>
+                     <Password
+                        v-bind="slotProps"
+                        v-model="form['account.password']"
+                        :toggleMask="true"
+                        :feedback="false"
+                     />
                   </FormField>
                   <FormField
+                     v-slot="slotProps"
                      fluid
                      :label="$t('password_confirmation')"
                      :error="form._errors.first('account.password_confirmation')"
                   >
-                     <template v-slot="slotProps">
-                        <Password
-                           v-bind="slotProps"
-                           v-model="form['account.password_confirmation']"
-                           :toggleMask="true"
-                           :feedback="false"
-                        />
-                     </template>
+                     <Password
+                        v-bind="slotProps"
+                        v-model="form['account.password_confirmation']"
+                        :toggleMask="true"
+                        :feedback="false"
+                     />
                   </FormField>
                   <div class="w-1/2 self-end">
                      <Button
@@ -165,35 +162,28 @@ const submit = async () => {
                      v-text="$t('company_info')"
                   />
                   <FormField
+                     v-slot="slotProps"
                      fluid
                      :label="$t('display_name')"
                      :error="form._errors.first('company.display_name')"
                   >
-                     <template v-slot="slotProps">
-                        <InputText v-bind="slotProps" v-model="form['company.display_name']" />
-                     </template>
+                     <InputText v-bind="slotProps" v-model="form['company.display_name']" />
                   </FormField>
                   <FormField
+                     v-slot="slotProps"
                      fluid
                      :label="$t('email')"
                      :error="form._errors.first('company.email')"
                   >
-                     <template v-slot="slotProps">
-                        <InputText v-bind="slotProps" v-model="form['company.email']" />
-                     </template>
+                     <InputText v-bind="slotProps" v-model="form['company.email']" />
                   </FormField>
                   <FormField
+                     v-slot="slotProps"
                      fluid
                      :label="$t('phone')"
                      :error="form._errors.first('company.phone')"
                   >
-                     <template v-slot="slotProps">
-                        <InputMask
-                           v-bind="slotProps"
-                           v-model="form['phone']"
-                           mask="9999999999999"
-                        />
-                     </template>
+                     <PhoneInput v-bind="slotProps" v-model="form['phone']" />
                   </FormField>
                   <div class="self-stretch flex gap-8">
                      <Button

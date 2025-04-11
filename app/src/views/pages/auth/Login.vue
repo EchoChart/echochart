@@ -53,28 +53,27 @@ if (rememberMe.value) {
          <span class="text-muted-color font-medium" v-text="$t('please_login_to_continue')" />
       </div>
       <div class="flex-auto flex flex-col gap-8">
-         <FormField fluid :label="'email'" :error="form._errors.first('email')">
-            <template v-slot="slotProps">
-               <InputText autofocus v-bind="slotProps" v-model="form['email']" />
-            </template>
+         <FormField v-slot="slotProps" fluid :label="'email'" :error="form._errors.first('email')">
+            <InputText autofocus v-bind="slotProps" v-model="form['email']" />
          </FormField>
-         <FormField fluid :label="'password'" :error="form._errors.first('password')">
-            <template v-slot="slotProps">
-               <Password
-                  v-bind="slotProps"
-                  v-model="form.password"
-                  :toggleMask="true"
-                  :feedback="false"
-               />
-            </template>
+         <FormField
+            v-slot="slotProps"
+            fluid
+            :label="'password'"
+            :error="form._errors.first('password')"
+         >
+            <Password
+               v-bind="slotProps"
+               v-model="form.password"
+               :toggleMask="true"
+               :feedback="false"
+            />
          </FormField>
 
          <div class="flex flex-col gap-8">
             <div class="flex items-center justify-between gap-4">
-               <FormField reverse :label="'Remember me'">
-                  <template v-slot="slotProps">
-                     <Checkbox v-bind="slotProps" class="min-w-fit" v-model="rememberMe" binary
-                  /></template>
+               <FormField v-slot="slotProps" reverse :label="'Remember me'">
+                  <Checkbox v-bind="slotProps" class="min-w-fit" v-model="rememberMe" binary />
                </FormField>
 
                <RouterLink
