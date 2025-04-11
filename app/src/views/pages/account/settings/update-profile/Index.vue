@@ -42,33 +42,20 @@ const save = async () => {
 </script>
 <template>
    <FormBox @submit="save" @reset="() => form?._reset()" v-focustrap>
-      <div v-if="form" class="flex-1 flex flex-wrap gap-4">
-         <FormField fluid :label="'display_name'" :error="form?._errors.first('data.display_name')">
-            <template #default="slotProps">
-               <InputText
-                  autofocus
-                  v-bind="slotProps"
-                  v-model="form['data.display_name']"
-                  class="min-w-[10vw]"
-               />
-            </template>
-         </FormField>
-         <FormField fluid :label="'email'" :error="form?._errors.first('email')">
-            <template #default="slotProps">
-               <InputText v-bind="slotProps" v-model="form['email']" class="min-w-[10vw]" />
-            </template>
-         </FormField>
-         <FormField fluid :label="$t('phone')" :error="form._errors.first('phone')">
-            <template v-slot="slotProps">
-               <InputMask
-                  v-bind="slotProps"
-                  v-model="form['phone']"
-                  mask="9999999999999"
-                  class="min-w-[10vw]"
-               />
-            </template>
-         </FormField>
-      </div>
+      <FormField
+         fluid
+         v-slot="slotProps"
+         :label="'display_name'"
+         :error="form?._errors.first('data.display_name')"
+      >
+         <InputText autofocus v-bind="slotProps" v-model="form['data.display_name']" />
+      </FormField>
+      <FormField fluid v-slot="slotProps" :label="'email'" :error="form?._errors.first('email')">
+         <InputText v-bind="slotProps" v-model="form['email']" class="min-w-[10vw]" />
+      </FormField>
+      <FormField fluid v-slot="slotProps" :label="$t('phone')" :error="form._errors.first('phone')">
+         <InputMask v-bind="slotProps" v-model="form['phone']" mask="9999999999999" />
+      </FormField>
       <div class="flex flex-wrap items-end justify-end gap-4 w-full">
          <Button
             :label="$t('save')"

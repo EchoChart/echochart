@@ -32,36 +32,31 @@ const save = async () => {
 </script>
 <template>
    <FormBox @submit="save" @reset="() => form._reset()" v-focustrap>
-      <div class="flex-1 flex flex-wrap gap-4">
-         <FormField :label="'password'" :error="form._errors.first('password')">
-            <template #default="slotProps">
-               <Password
-                  fluid
-                  autofocus
-                  v-bind="slotProps"
-                  :toggle-mask="true"
-                  :feedback="false"
-                  v-model="form['password']"
-                  @input="() => form._validate(['password'])"
-               />
-            </template>
-         </FormField>
-         <FormField
-            :label="'password_confirmation'"
-            :error="form._errors.first('password_confirmation')"
-         >
-            <template #default="slotProps">
-               <Password
-                  fluid
-                  v-bind="slotProps"
-                  :toggle-mask="true"
-                  :feedback="false"
-                  v-model="form['password_confirmation']"
-                  @input="() => form._validate()"
-               />
-            </template>
-         </FormField>
-      </div>
+      <FormField v-slot="slotProps" :label="'password'" :error="form._errors.first('password')">
+         <Password
+            fluid
+            autofocus
+            v-bind="slotProps"
+            :toggle-mask="true"
+            :feedback="false"
+            v-model="form['password']"
+            @input="() => form._validate(['password'])"
+         />
+      </FormField>
+      <FormField
+         v-slot="slotProps"
+         :label="'password_confirmation'"
+         :error="form._errors.first('password_confirmation')"
+      >
+         <Password
+            fluid
+            v-bind="slotProps"
+            :toggle-mask="true"
+            :feedback="false"
+            v-model="form['password_confirmation']"
+            @input="() => form._validate()"
+         />
+      </FormField>
       <div class="flex flex-wrap items-end justify-end gap-4 w-full">
          <Button :label="$t('save')" class="flex-[.2]" :disabled="!form._isChanged" type="submit" />
          <Button
