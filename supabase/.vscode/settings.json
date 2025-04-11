@@ -5,7 +5,6 @@
    },
    "eslint.workingDirectories": [{ "mode": "auto" }, { "directory": "." }],
    "editor.formatOnSave": true,
-   "eslint.format.enable": true,
    "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "always"
    },
@@ -14,13 +13,8 @@
       "editor.defaultFormatter": "esbenp.prettier-vscode"
    },
    "[sql]": {
-      "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
+      "editor.defaultFormatter": "ReneSaarsoo.sql-formatter-vsc"
    },
-   "Prettier-SQL.SQLFlavourOverride": "postgresql",
-   "Prettier-SQL.keywordCase": "upper",
-   "Prettier-SQL.commaPosition": "before",
-   "Prettier-SQL.expressionWidth": "100",
-   "Prettier-SQL.indentStyle": "standard",
    "deno.enable": true,
    "deno.unstable": [
       "bare-node-builtins",
