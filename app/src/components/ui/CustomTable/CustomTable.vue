@@ -120,8 +120,6 @@ const tableProps = computed(() => ({
    showGridlines: true,
    loading: loading.value,
    stateStorage,
-   colspan: 1,
-   rowspan: 1,
    rowGroupMode: 'rowspan',
    groupRowsBy: meta.value.multiSortMeta?.map(({ field }) => field),
    ...meta.value,
@@ -168,7 +166,7 @@ const tableProps = computed(() => ({
          v-if="$slots.expansion && tableProps?.value?.length"
          field="_expansion"
          expander
-         class="!max-w-[4rem] !w-[4rem]"
+         class="!min-w-[4rem] !max-w-[4rem] !w-[4rem]"
          style="max-width: 4rem !important; width: 4rem !important"
       />
       <Column
@@ -289,11 +287,21 @@ const tableProps = computed(() => ({
          field="_actions"
          :header="i18n.t('actions')"
          :key="'table_action'"
+         :style="actions._data?.length && `min-width: ${actions._data?.length * 4}rem`"
       >
          <template #body="body">
             <slot name="table_actions">
-               <ActionSpeedDial
+               <!-- <ActionSpeedDial
                   :model="
+                     actions._data?.map((item) => ({
+                        ...item,
+                        visible: item?.visible?.bind?.(undefined, body) || item?.visible,
+                        command: item?.command?.bind?.(undefined, body)
+                     }))
+                  "
+               /> -->
+               <ActionButtons
+                  :items="
                      actions._data?.map((item) => ({
                         ...item,
                         visible: item?.visible?.bind?.(undefined, body) || item?.visible,
