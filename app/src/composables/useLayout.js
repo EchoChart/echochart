@@ -337,18 +337,18 @@ export default () => {
    });
 
    const namedRoutes = computed(() => {
-      function reducer(acc, value) {
+      function renameItemsToChildren(acc, value) {
          if (value.items) {
             value.children ??= {};
             value.items.forEach((item) => {
-               _merge(value.children, reducer({}, item));
+               _merge(value.children, renameItemsToChildren({}, item));
             });
             delete value.items;
          }
          acc[value.route?.name || value.label] = value;
          return acc;
       }
-      return routes.value.reduce(reducer, {});
+      return routes.value.reduce(renameItemsToChildren, {});
    });
 
    return {
