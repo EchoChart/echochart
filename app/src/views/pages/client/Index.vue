@@ -1,6 +1,7 @@
 <script setup>
 import Collection from '@/lib/Collection';
 import ClientUpsert from './upsert/Index.vue';
+import parsePhoneNumberFromString from 'libphonenumber-js';
 
 defineOptions({
    inheritAttrs: false
@@ -143,6 +144,22 @@ const tableProps = computed(() => ({
       </template>
       <template #expansion="{ data }">
          <ClientUpsert :data class="p-0" />
+      </template>
+      <template #email_body="{ data, field }">
+         <a
+            v-if="_get(data, field)"
+            class="underline"
+            :href="'mailto:' + _get(data, field)"
+            v-text="_get(data, field)"
+         />
+      </template>
+      <template #phone_body="{ data, field }">
+         <a
+            v-if="_get(data, field)"
+            class="underline"
+            :href="parsePhoneNumberFromString(_get(data, field, ''))?.getURI?.()"
+            v-text="_get(data, field)"
+         />
       </template>
       <template v-for="slot in _keys($slots)" #[slot]="slotProps" :key="slot">
          <slot :name="slot" v-bind="slotProps" />
