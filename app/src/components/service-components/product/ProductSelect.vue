@@ -66,7 +66,7 @@ onUnmounted(() => emitter.off('product-update', fetchProducts));
          :placeholder="$t('select_product')"
       />
       <InputGroupAddon
-         v-if="showEdit && $can('modify', 'product') && (!!modelValue?.id || !!modelValue)"
+         v-if="showEdit && $can('read', 'product') && (!!modelValue?.id || !!modelValue)"
       >
          <RouterLink
             :to="{

@@ -59,7 +59,7 @@ onUnmounted(() => emitter.off('client-update', fetchClients));
          :placeholder="$t('select_client')"
       />
       <InputGroupAddon
-         v-if="showEdit && $can('modify', 'client') && (!!modelValue?.id || !!modelValue)"
+         v-if="showEdit && $can('read', 'client') && (!!modelValue?.id || !!modelValue)"
       >
          <RouterLink
             :to="{
