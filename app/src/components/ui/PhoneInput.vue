@@ -33,22 +33,20 @@ const modelValue = defineModel('modelValue', {
       const inputValue = new AsYouType();
       inputValue.input(value || '');
 
-      if (inputValue.country) {
+      if (inputValue.country && _isNil(countrySelect.value.name)) {
          countrySelect.value = {
-            name: null,
-            countryCallingCode: null
+            name: inputValue.getCountry(),
+            countryCallingCode: inputValue.getCallingCode()
          };
-         countrySelect.value.name = inputValue.getCountry();
-         countrySelect.value.countryCallingCode = inputValue.getCallingCode();
       }
 
       return inputValue.getNationalNumber();
    },
    set: (value) => {
-      if (isSupportedCountry(countrySelect.value?.name)) {
+      if (isSupportedCountry(countrySelect.value?.name) && !_isNil(value) && !_isEmpty(value)) {
          return '+' + countrySelect.value?.countryCallingCode + (value || '');
       }
-      return value;
+      return value || null;
    }
 });
 </script>
@@ -58,6 +56,7 @@ const modelValue = defineModel('modelValue', {
       <InputGroupAddon class="!p-0 !border-0">
          <Select
             v-model:model-value="countrySelect"
+            @blur="modelValue = modelValue"
             :options="countryPhoneCodes"
             filter
             :filter-fields="['name', 'countryCallingCode']"
