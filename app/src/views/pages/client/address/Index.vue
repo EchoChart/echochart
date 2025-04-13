@@ -86,15 +86,17 @@ const stateKey = 'client-address';
 const rowActions = new Collection([
    {
       label: i18n.t('delete'),
-      command: async ({ data }) =>
-         await supabase
-            .from('client_address')
-            .delete()
-            .eq('address_id', data?.address_id)
-            .eq('client_id', data?.client_id)
-            .setHeader('item', JSON.stringify(data))
-            .throwOnError()
-            .then(() => emitter.emit(`${stateKey}-update`, data)),
+      command:
+         ({ data }) =>
+         async () =>
+            await supabase
+               .from('client_address')
+               .delete()
+               .eq('address_id', data?.address_id)
+               .eq('client_id', data?.client_id)
+               .setHeader('item', JSON.stringify(data))
+               .throwOnError()
+               .then(() => emitter.emit(`${stateKey}-update`, data)),
       icon: PrimeIcons.TRASH
    }
 ]);

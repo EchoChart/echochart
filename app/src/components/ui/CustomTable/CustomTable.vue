@@ -302,11 +302,14 @@ const tableProps = computed(() => ({
                /> -->
                <ActionButtons
                   :items="
-                     actions._data?.map((item) => ({
-                        ...item,
-                        visible: item?.visible?.bind?.(undefined, body) || item?.visible,
-                        command: item?.command?.bind?.(undefined, body)
-                     }))
+                     actions._data?.map((item) =>
+                        _fromPairs(
+                           _toPairs(item).map(([key, value]) => [
+                              key,
+                              _isFunction(value) ? value(body) : value
+                           ])
+                        )
+                     )
                   "
                />
             </slot>

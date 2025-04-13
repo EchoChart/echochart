@@ -72,29 +72,33 @@ const stateKey = 'product';
 const rowActions = new Collection([
    {
       label: i18n.t('delete'),
-      command: async ({ data }) =>
-         await supabase
-            .from('product')
-            .delete()
-            .eq('id', data?.id)
-            .setHeader('item', JSON.stringify(data))
-            .throwOnError()
-            .then(() => emitter.emit(`${stateKey}-update`, data)),
+      command:
+         ({ data }) =>
+         async () =>
+            await supabase
+               .from('product')
+               .delete()
+               .eq('id', data?.id)
+               .setHeader('item', JSON.stringify(data))
+               .throwOnError()
+               .then(() => emitter.emit(`${stateKey}-update`, data)),
       icon: PrimeIcons.TRASH
    },
    {
       label: i18n.t('edit'),
-      command: async ({ data }) =>
-         router.push({
-            name: 'product-edit',
-            params: {
-               id: data.id,
-               categories: data?.product?.categories
-                  ?.map?.(({ display_name }) => display_name)
-                  .join?.('|')
-            },
-            query: { showDialog: true }
-         }),
+      command:
+         ({ data }) =>
+         async () =>
+            router.push({
+               name: 'product-edit',
+               params: {
+                  id: data.id,
+                  categories: data?.product?.categories
+                     ?.map?.(({ display_name }) => display_name)
+                     .join?.('|')
+               },
+               query: { showDialog: true }
+            }),
       icon: PrimeIcons.PENCIL
    }
 ]);

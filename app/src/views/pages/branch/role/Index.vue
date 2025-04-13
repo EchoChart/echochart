@@ -44,24 +44,28 @@ const stateKey = 'role';
 const rowActions = new Collection([
    {
       label: i18n.t('delete'),
-      command: async ({ data }) =>
-         await supabase
-            .from('role')
-            .delete()
-            .eq('id', data?.id)
-            .setHeader('item', JSON.stringify(data))
-            .throwOnError()
-            .then(() => emitter.emit(`${stateKey}-update`, data)),
+      command:
+         ({ data }) =>
+         async () =>
+            await supabase
+               .from('role')
+               .delete()
+               .eq('id', data?.id)
+               .setHeader('item', JSON.stringify(data))
+               .throwOnError()
+               .then(() => emitter.emit(`${stateKey}-update`, data)),
       icon: PrimeIcons.TRASH
    },
    {
       label: i18n.t('edit'),
-      command: async ({ data }) =>
-         router.push({
-            name: 'branch-role-edit',
-            params: { id: data.id },
-            query: { showDialog: true }
-         }),
+      command:
+         ({ data }) =>
+         async () =>
+            router.push({
+               name: 'branch-role-edit',
+               params: { id: data.id },
+               query: { showDialog: true }
+            }),
       icon: PrimeIcons.PENCIL
    }
 ]);
