@@ -7,7 +7,7 @@ defineOptions({
 
 const attrs = useAttrs();
 
-const modelValue = defineModel();
+const modelValue = defineModel({ get: (value) => value || [] });
 
 const columns = [
    {
@@ -51,12 +51,13 @@ const isPermissionChecked = (item) => {
 
 const isAllChecked = computed(() => allPermissions?.every?.((item) => isPermissionChecked(item)));
 
-const togglePermission = (items) => {
+const togglePermissions = (items) => {
    modelValue.value = _xorBy(modelValue.value, items, ({ id }) => id);
 };
 
-const togglePermissionColumn = (field) => {
-   togglePermission(permissionByKind?.value[field]);
+const togglePermissionColumn = (checked, field) => {
+   _remove(modelValue.value, ({ kind }) => kind === field);
+   if (checked) modelValue.value = [...modelValue.value, ...permissionByKind.value[field]];
 };
 
 const toggleAll = (checked) => {
@@ -104,7 +105,7 @@ const tableProps = computed(() => ({
                      permissionByKind?.[field]?.every?.((item) => isPermissionChecked(item)) ||
                      false
                   "
-                  @change="() => togglePermissionColumn(field)"
+                  @change="(e) => togglePermissionColumn(e.target.checked, field)"
                />
             </template>
          </FormField>
@@ -118,7 +119,7 @@ const tableProps = computed(() => ({
             :readonly="$attrs.readonly"
             v-if="data?.items[field]?.some?.((item) => item.id)"
             :model-value="data?.items[field]?.every?.((item) => isPermissionChecked(item))"
-            @change="() => togglePermission(data?.items[field])"
+            @change="() => togglePermissions(data?.items[field])"
          />
       </template>
    </CustomTable>
