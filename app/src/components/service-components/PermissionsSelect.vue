@@ -32,44 +32,35 @@ const { getPermissions } = usePermissionStore();
 
 const permissionKinds = ['read', 'create', 'modify'];
 
-let allPermissions = null;
-allPermissions = await getPermissions();
-
-const permissionIds = computed(() => allPermissions?._data?.map?.(({ id }) => id));
+let allPermissions = await getPermissions();
 
 const permissionByKind = computed(() => _groupBy(allPermissions?._data, 'kind'));
 
 const permissionByGroup = computed(() => _groupBy(allPermissions?._data, 'group_name'));
 
-const permission = computed(() =>
+const permissions = computed(() =>
    Object.keys(permissionByGroup.value)?.map?.((key) => ({
       display_name: key,
       items: _groupBy(permissionByGroup.value?.[key], 'kind')
    }))
 );
 
-const allChecked = computed(
-   () =>
-      _size(_difference(permissionIds.value, _keys(modelValue.value))) < 1 &&
-      _size(modelValue.value) > 0
-);
-
-const togglePermission = (e, items) => {
-   items?.forEach((item) => {
-      e?.target?.checked
-         ? _set(modelValue.value, `${item.id}`, item)
-         : _unset(modelValue.value, `${item.id}`);
-   });
+const isPermissionChecked = (item) => {
+   return _find(modelValue.value, ({ id }) => id === item?.id);
 };
 
-const togglePermissionColumn = (e, field) => {
-   _values(permission?.value).forEach((p) => {
-      togglePermission(e, p?.items[field]);
-   });
+const isAllChecked = computed(() => allPermissions?.every?.((item) => isPermissionChecked(item)));
+
+const togglePermission = (items) => {
+   modelValue.value = _xorBy(modelValue.value, items, ({ id }) => id);
 };
 
-const toggleAll = (e) => {
-   permissionKinds?.forEach((kind) => togglePermissionColumn(e, kind));
+const togglePermissionColumn = (field) => {
+   togglePermission(permissionByKind?.value[field]);
+};
+
+const toggleAll = (checked) => {
+   modelValue.value = checked ? allPermissions?._data : [];
 };
 
 const tableProps = computed(() => ({
@@ -79,7 +70,7 @@ const tableProps = computed(() => ({
    columns,
    rowActions: [],
    rows: null,
-   value: permission.value,
+   value: permissions.value,
    ...attrs
 }));
 </script>
@@ -92,8 +83,8 @@ const tableProps = computed(() => ({
                   :readonly="$attrs.readonly"
                   v-bind="slotProps"
                   class="min-w-fit"
-                  :model-value="allChecked || false"
-                  @change="(e) => toggleAll(e)"
+                  :model-value="isAllChecked || false"
+                  @change="(e) => toggleAll(e.target.checked)"
                />
             </template>
          </FormField>
@@ -110,11 +101,10 @@ const tableProps = computed(() => ({
                   v-bind="slotProps"
                   class="min-w-fit"
                   :model-value="
-                     permissionByKind?.[field]?.every?.((item) =>
-                        _includes(_keys(modelValue), item.id)
-                     ) || false
+                     permissionByKind?.[field]?.every?.((item) => isPermissionChecked(item)) ||
+                     false
                   "
-                  @change="(e) => togglePermissionColumn(e, field)"
+                  @change="() => togglePermissionColumn(field)"
                />
             </template>
          </FormField>
@@ -127,10 +117,8 @@ const tableProps = computed(() => ({
          <ToggleSwitch
             :readonly="$attrs.readonly"
             v-if="data?.items[field]?.some?.((item) => item.id)"
-            :model-value="
-               data?.items[field]?.every?.((item) => _includes(_keys(modelValue), item.id)) || false
-            "
-            @change="(e) => togglePermission(e, data?.items[field])"
+            :model-value="data?.items[field]?.every?.((item) => isPermissionChecked(item))"
+            @change="() => togglePermission(data?.items[field])"
          />
       </template>
    </CustomTable>
