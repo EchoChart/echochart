@@ -16,13 +16,12 @@ const props = defineProps({
 });
 
 const initialFormData = {
-   ...props.data,
-   permission: _keyBy(props.data?.permission, 'id') || {}
+   ...props.data
 };
+const fields = _keys(initialFormData);
 
 const form = new Form({
-   id: undefined,
-   data: null,
+   data: _defaults(_pick(props.data, fields), initialFormData),
    rules: {
       display_name: 'required|string',
       permission: 'required'
@@ -31,42 +30,31 @@ const form = new Form({
 });
 
 const { ability } = useAuthStore();
-const readonly = computed(
-   () =>
-      (ability.cannot('modify', 'product') && ability.cannot('create', 'product')) ||
+const readonly = computed(() => {
+   return (
+      (ability.cannot('modify', 'role') && ability.cannot('create', 'role')) ||
       (form.id && !form.tenant_id)
-);
+   );
+});
 
-const getRole = async () => {
+if (props.id) {
    await supabase
       .from('role')
-      .select('id,display_name, permission(*)')
-      .eq('id', form.id)
+      .select('*, permission(id, kind, group_name)')
+      .eq('id', props.id)
       .single()
       .throwOnError()
-      .then(({ data: { display_name, permission, id } }) => {
+      .then(({ data: { id, tenant_id, display_name, permission } }) => {
          form
             ._setDefaults({
                id,
                display_name,
-               permission: _keyBy(permission, 'id')
+               tenant_id,
+               permission
             })
             ._reset();
       });
-};
-
-const isEditing = computed(() => _isString(props.id) && !_isEmpty(props.id) && _isNil(props.data));
-watch(
-   () => isEditing.value,
-   async (editing) => {
-      if (!editing) return form._setDefaults(initialFormData)._reset();
-
-      form._set({ id: props.id });
-
-      await getRole();
-   },
-   { immediate: true, once: true }
-);
+}
 
 const updateCallback = (data) => {
    if (props?.data?.id) {
@@ -86,6 +74,20 @@ if (!routeLoading.value) {
 const save = async () => {
    if (!form._validate()) return;
 
+   // await new Promise((resolve) => setTimeout(resolve, 2000));
+
+   const { data } = await supabase
+      .from('role')
+      .upsert({
+         id: form.id,
+         display_name: form._data.display_name
+      })
+      .select('*, permission(id, kind, group_name)')
+      .single()
+      .throwOnError();
+
+   if (form.id) form._setDefaults({ ...data, permission: form.permission })._reset();
+
    if (form.id)
       await supabase
          .from('role_permission')
@@ -94,19 +96,7 @@ const save = async () => {
          .setHeader('x-delete-confirmed', true)
          .throwOnError();
 
-   const { data } = await supabase
-      .from('role')
-      .upsert({
-         id: form.id,
-         display_name: form._data.display_name
-      })
-      .select('id, display_name')
-      .single()
-      .throwOnError();
-
-   if (form.id) form._setDefaults({ ...data, permission: form._data.permission })._reset();
-
-   const payload = _values(_cloneDeep(form._data.permission)).map(({ id: permission_id }) => ({
+   const payload = form._data.permission.map(({ id: permission_id }) => ({
       permission_id,
       role_id: data.id
    }));
@@ -148,10 +138,7 @@ const save = async () => {
                <PermissionsSelect v-bind="slotProps" v-model="form['permission']" />
             </template>
          </FormField>
-         <div
-            v-if="($can('create', 'role') || $can('modify', 'role')) && !readonly"
-            class="flex flex-wrap items-end justify-end gap-4 w-full"
-         >
+         <div v-if="!readonly" class="flex flex-wrap items-end justify-end gap-4 w-full">
             <Button
                :label="$t('save')"
                class="flex-[.2]"
