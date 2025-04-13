@@ -315,7 +315,13 @@ const options = {
          }
 
          const body = JSON.parse(options?.body || '{}');
-         if (currentTenant?.id && !_isNil(body) && !_isEmpty(body) && !_isArray(body))
+         if (
+            currentTenant?.id &&
+            !_isNil(body) &&
+            !_isEmpty(body) &&
+            !_isArray(body) &&
+            !_includes(url, 'rpc/')
+         )
             options.body = JSON.stringify({
                tenant_id: currentTenant?.id,
                ...body
