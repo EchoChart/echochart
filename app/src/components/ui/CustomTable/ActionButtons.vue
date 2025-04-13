@@ -6,8 +6,6 @@ defineProps({
    }
 });
 
-const { breakpoints } = useLayout();
-
 const getSeverity = (item) => {
    switch (item?.icon) {
       case PrimeIcons.TRASH:
