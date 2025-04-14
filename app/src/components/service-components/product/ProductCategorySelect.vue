@@ -5,7 +5,7 @@ import { PRODUCT_CATEGORY_PROPS } from '@/services/models/ProductModel';
 const props = defineProps({
    select: {
       type: String,
-      default: 'id,display_name'
+      default: '*'
    }
 });
 
