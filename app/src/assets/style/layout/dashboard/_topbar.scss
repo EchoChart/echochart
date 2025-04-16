@@ -25,9 +25,5 @@
 @media (screen(lg)) {
    .layout-topbar {
       @apply px-8;
-
-      .layout-topbar-logo-container {
-         @apply w-full;
-      }
    }
 }
