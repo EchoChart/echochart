@@ -23,18 +23,16 @@ const categories = new Collection(data);
       :placeholder="$t('select_category')"
    >
       <template #value="{ value }">
-         <Badge
+         <Tag
             v-for="category in value"
             :value="$t(category?.display_name || category)"
-            size="large"
             :key="category"
             v-bind="PRODUCT_CATEGORY_PROPS[category?.display_name || category]"
          />
       </template>
       <template #option="{ option }">
-         <Badge
+         <Tag
             :value="$t(option?.display_name || option)"
-            size="large"
             v-bind="PRODUCT_CATEGORY_PROPS[option?.display_name || option]"
          />
       </template>
