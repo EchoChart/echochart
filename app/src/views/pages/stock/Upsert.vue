@@ -65,7 +65,8 @@ if (props.id || props.data?.id) {
 }
 
 const { getStock } = useStockStore();
-if (props.id) {
+const routeLoading = inject('routeLoading', false);
+if (!routeLoading.value && props.id) {
    await getStock(props.id).then((data) => form._setDefaults(_pick(data, fields))._reset());
 }
 

@@ -47,7 +47,8 @@ const readonly = computed(
    () => ability.cannot('modify', 'address') && ability.cannot('create', 'address')
 );
 
-if (props.id) {
+const routeLoading = inject('routeLoading', false);
+if (!routeLoading.value && props.id) {
    supabase
       .from('address')
       .select('*')

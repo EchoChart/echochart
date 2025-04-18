@@ -40,7 +40,8 @@ const readonly = computed(() => {
    );
 });
 
-if (props.id) {
+const routeLoading = inject('routeLoading', false);
+if (!routeLoading.value && props.id) {
    await supabase
       .from('role')
       .select('*, permission(id, kind, group_name)')

@@ -58,7 +58,8 @@ const readonly = computed(
       (form.id && !form.tenant_id)
 );
 
-if (props.id) {
+const routeLoading = inject('routeLoading', false);
+if (!routeLoading.value && props.id) {
    getProducts().then((products) => {
       const product = products?.find?.((product) => product.id === props.id);
       form._setDefaults(_pick(product, fields))._reset();
