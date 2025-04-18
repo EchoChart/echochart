@@ -1,5 +1,6 @@
 <script setup>
-defineProps({
+const props = defineProps({
+   body: Object,
    items: {
       type: Array,
       required: false
@@ -14,13 +15,24 @@ const getSeverity = (item) => {
          return 'info';
    }
 };
+
+const buttons = computed(() => {
+   return props.items.map((item) => {
+      const pairs = Object.entries(item);
+      const transformedPairs = pairs.map(([key, value]) => [
+         key,
+         typeof value === 'function' ? value(props.body) : value
+      ]);
+      return Object.fromEntries(transformedPairs);
+   });
+});
 </script>
 
 <template>
    <div class="flex gap-2 items-center min-w-fit">
       <Button
-         v-for="(item, index) in items"
-         :key="'actionButton' + index"
+         v-for="(item, index) in buttons"
+         :key="_uniqueId('actionButton' + index)"
          size="small"
          @click="item.command"
          v-tooltip="item.label"

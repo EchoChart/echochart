@@ -285,33 +285,12 @@ const tableProps = computed(() => ({
       <Column
          v-if="actions._data?.length && tableProps?.value?.length"
          field="_actions"
-         :header="i18n.t('actions')"
          :key="'table_action'"
          :style="actions._data?.length && `min-width: ${actions._data?.length * 4}rem`"
       >
          <template #body="body">
             <slot name="table_actions">
-               <!-- <ActionSpeedDial
-                  :model="
-                     actions._data?.map((item) => ({
-                        ...item,
-                        visible: item?.visible?.bind?.(undefined, body) || item?.visible,
-                        command: item?.command?.bind?.(undefined, body)
-                     }))
-                  "
-               /> -->
-               <ActionButtons
-                  :items="
-                     actions._data?.map((item) =>
-                        _fromPairs(
-                           _toPairs(item).map(([key, value]) => [
-                              key,
-                              _isFunction(value) ? value(body) : value
-                           ])
-                        )
-                     )
-                  "
-               />
+               <ActionButtons :body :items="actions._data" />
             </slot>
          </template>
       </Column>
