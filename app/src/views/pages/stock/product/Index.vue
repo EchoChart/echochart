@@ -1,7 +1,7 @@
 <script setup>
 import Collection from '@/lib/Collection';
-import Upsert from './Upsert.vue';
 import { PRODUCT_CATEGORY_PROPS } from '@/services/models/ProductModel';
+import Upsert from './Upsert.vue';
 
 defineOptions({
    inheritAttrs: false

@@ -1,8 +1,7 @@
 <script setup>
-import ClientUpsertGeneral from './tabs/General.vue';
-import ClientUpsertAddress from './tabs/Address.vue';
 import { Form } from '@/lib/Form';
-import CustomRouteView from '@/components/layout/CustomRouteView.vue';
+import ClientUpsertAddress from './tabs/Address.vue';
+import ClientUpsertGeneral from './tabs/General.vue';
 
 const props = defineProps({
    id: {
