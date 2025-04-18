@@ -10,9 +10,9 @@ const onMouseMove = _throttle((e) => {
 
 <template>
    <div class="min-h-full flex py-4" @mousemove="(e) => onMouseMove(e)">
-      <div class="flex-1 p-1 flex flex-col lg:flex-row items-stretch justify-center text-surface-0">
+      <div class="flex-1 p-1 flex flex-col md:flex-row items-stretch justify-center text-surface-0">
          <div
-            class="welcome-bg p-12 lg:p-12 -mb-12 mr-0 lg:mb-0 lg:-mr-12 flex-auto self-stretch flex flex-col gap-8 justify-center items-center rounded-[var(--content-border-radius)]"
+            class="welcome-bg p-12 md:p-12 -mb-12 mr-0 md:mb-0 md:-mr-12 flex-auto self-stretch flex flex-col gap-8 justify-center items-center rounded-[var(--content-border-radius)]"
          >
             <span
                class="flex justify-center flex-col gap-8 p-8 bg-surface-900/25 backdrop-blur-sm text-center rounded-[inherit]"
@@ -49,7 +49,7 @@ const onMouseMove = _throttle((e) => {
          </div>
 
          <div
-            class="flex-auto lg:!max-w-[30vw] lg:!min-w-max lg:flex-1 flex justify-self-start p-1 pb-0 z-[1] text-surface-900 dark:text-surface-0 rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[var(--primary-color)] via-[rgba(33,150,243,0)] to-transparent"
+            class="flex-auto md:!max-w-[25vw] md:!min-w-max md:flex-1 flex justify-self-start p-1 pb-0 z-[1] text-surface-900 dark:text-surface-0 rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[var(--primary-color)] via-[rgba(33,150,243,0)] to-transparent"
          >
             <div class="card flex-auto flex flex-col justify-center rounded-[inherit] p-12">
                <CustomRouteView
@@ -77,7 +77,8 @@ const onMouseMove = _throttle((e) => {
    position: relative;
    background-color: white;
    opacity: 0.8;
-   background-image: radial-gradient(
+   background-image:
+      radial-gradient(
          circle at var(--light-x, center) var(--light-y, center),
          var(--bg-color-1),
          var(--bg-color-2)
