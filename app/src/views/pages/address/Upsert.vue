@@ -3,6 +3,9 @@ import { Form } from '@/lib/Form';
 
 import { useToast } from 'primevue';
 
+/**
+ * @typedef {Tables['address']['Row']} Data
+ * @type {{ id: Data['id'], data: Data }} */
 const props = defineProps({
    id: {
       type: String,

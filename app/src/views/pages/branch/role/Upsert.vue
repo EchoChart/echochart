@@ -4,6 +4,9 @@ import { useToast } from 'primevue';
 
 const toast = useToast();
 
+/**
+ * @typedef {Tables['role']['Row']} Data
+ * @type {{ id: Data['id'], data: Data }} */
 const props = defineProps({
    id: {
       type: String,

@@ -4,6 +4,9 @@ import { useProductStore } from '@/store/services/product';
 
 import { useToast } from 'primevue';
 
+/**
+ * @typedef {Tables['product']['Row']} Data
+ * @type {{ id: Data['id'], data: Data }} */
 const props = defineProps({
    id: {
       type: String,

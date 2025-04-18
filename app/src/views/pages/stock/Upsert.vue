@@ -2,7 +2,9 @@
 import { Form } from '@/lib/Form';
 import { useStockStore } from '@/store/services/stock';
 import { useToast } from 'primevue';
-
+/**
+ * @typedef {Tables['stock']['Row']} Data
+ * @type {{ id: Data['id'], data: Data }} */
 const props = defineProps({
    id: {
       type: String,
