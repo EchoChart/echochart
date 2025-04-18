@@ -89,19 +89,6 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION delete_unreferenced_address () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
-SET
-    search_path = '' AS $$
-BEGIN
-    DELETE FROM public.address
-    WHERE id = OLD.address_id
-    AND NOT EXISTS (
-        SELECT 1 FROM public.client_address WHERE address_id = OLD.address_id
-    );
-    RETURN OLD;
-END;
-$$;
-
 CREATE OR REPLACE FUNCTION private.manage_policies () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
     search_path = '' AS $$
@@ -514,3 +501,219 @@ BEGIN
     RETURN tenant_id;
 END;
 $$ LANGUAGE plpgsql STABLE COST 100;
+
+CREATE OR REPLACE FUNCTION private.trg_audit_log () RETURNS TRIGGER LANGUAGE plpgsql SECURITY definer
+SET
+    "search_path" = '' AS $$
+DECLARE
+  user_id UUID;
+  tenant_id UUID;
+  correlation_id TEXT;
+BEGIN
+    BEGIN
+    SELECT auth.uid() INTO user_id;
+    EXCEPTION
+    WHEN OTHERS THEN
+        user_id := NULL;
+    END;
+
+    BEGIN
+    SELECT auth.tenant_id() INTO tenant_id;
+    EXCEPTION
+    WHEN OTHERS THEN
+        tenant_id := NULL;
+    END;
+
+    -- Retrieve correlation_id from the session setting
+    BEGIN
+    correlation_id := coalesce(user_id::TEXT, 'unknown') || '_' || to_char(date_trunc('second', now()), 'YYYYMMDDHH24MISS');
+    EXCEPTION
+    WHEN OTHERS THEN
+        correlation_id := NULL;
+    END;
+
+    INSERT INTO public.audit_log (
+        table_name,
+        table_schema,
+        operation,
+        row_data,
+        old_data,
+        user_id,
+        tenant_id,
+        correlation_id
+    ) VALUES (
+        TG_TABLE_NAME,
+        TG_TABLE_SCHEMA,
+        TG_OP,
+        CASE WHEN TG_OP = 'DELETE' THEN NULL ELSE to_jsonb(NEW) END,
+        CASE WHEN TG_OP = 'INSERT' THEN NULL ELSE to_jsonb(OLD) END,
+        user_id,
+        tenant_id,
+        correlation_id
+    );
+    RETURN NULL;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION public.revert_audit_log (target_correlation_id TEXT) RETURNS void LANGUAGE plpgsql
+SET
+    "search_path" = '' AS $$
+DECLARE
+  audit_record RECORD;
+  columns_text TEXT;
+  values_text TEXT;
+  key_value RECORD; -- Declare a record for iterating over the key-value pairs
+BEGIN
+    IF target_correlation_id IS NOT NULL THEN
+
+    -- Loop through all the audit log entries with the given correlation_id
+    FOR audit_record IN 
+        SELECT * FROM public.audit_log
+        WHERE (correlation_id = target_correlation_id OR id::TEXT = target_correlation_id)
+        AND reverted = FALSE
+        ORDER BY operation DESC
+    LOOP
+        CASE audit_record.operation 
+            WHEN 'INSERT' THEN
+                BEGIN
+                    EXECUTE format('DELETE FROM %I.%I WHERE id = $1',
+                        audit_record.table_schema, audit_record.table_name)
+                        USING (audit_record.row_data->>'id')::UUID;
+                EXCEPTION
+                    WHEN OTHERS THEN
+                        RAISE EXCEPTION 'Failed to revert INSERT operation: %', SQLERRM;
+                END;
+            WHEN 'UPDATE' THEN
+                BEGIN
+                    -- Prepare the columns and values for UPDATE statement
+                    columns_text := '';
+                    values_text := '';
+                    
+                    -- Iterate over the key-value pairs from old_data
+                    FOR key_value IN 
+                        SELECT key, value 
+                        FROM jsonb_each_text(audit_record.old_data)
+                    LOOP
+                        columns_text := columns_text || format('%I, ', key_value.key);
+                        values_text := values_text || format('%L, ', key_value.value);
+                    END LOOP;
+                    
+                    -- Remove the trailing commas
+                    columns_text := rtrim(columns_text, ', ');
+                    values_text := rtrim(values_text, ', ');
+
+                    -- Execute the dynamic SQL for the UPDATE
+                    EXECUTE format('UPDATE %I.%I SET (%s) = (%s) WHERE id = $1', 
+                        audit_record.table_schema, audit_record.table_name, columns_text, values_text) 
+                        USING (audit_record.row_data->>'id')::UUID;
+                EXCEPTION
+                    WHEN OTHERS THEN
+                        RAISE EXCEPTION 'Failed to revert UPDATE operation: %', SQLERRM;
+                END;
+            WHEN 'DELETE' THEN
+                BEGIN
+                    -- Prepare the columns and values for INSERT statement
+                    columns_text := '';
+                    values_text := '';
+                    
+                    -- Iterate over the key-value pairs from old_data
+                    FOR key_value IN 
+                        SELECT key, value 
+                        FROM jsonb_each_text(audit_record.old_data)
+                    LOOP
+                        columns_text := columns_text || format('%I, ', key_value.key);
+                        values_text := values_text || format('%L, ', key_value.value);
+                    END LOOP;
+                    
+                    -- Remove the trailing commas
+                    columns_text := rtrim(columns_text, ', ');
+                    values_text := rtrim(values_text, ', ');
+
+                    -- Execute the dynamic SQL for the INSERT
+                    EXECUTE format('INSERT INTO %I.%I (%s) VALUES (%s)', 
+                                audit_record.table_schema, audit_record.table_name, columns_text, values_text);
+                EXCEPTION
+                    WHEN OTHERS THEN
+                        RAISE EXCEPTION 'Failed to revert DELETE operation: %', SQLERRM;
+                END;
+        END CASE;
+
+        PERFORM set_config('role', 'service_role', true);
+        -- Mark the original audit log record as reverted
+        UPDATE public.audit_log
+        SET reverted = TRUE, reverted_by = (SELECT auth.uid()), reverted_at = now()
+        WHERE id = audit_record.id;
+        PERFORM set_config('role', 'authenticated', true);
+
+    END LOOP;
+
+    END IF;
+
+END;
+$$;
+
+-- Function to CREATE triggers automatically ON all enabled tables
+CREATE OR REPLACE FUNCTION private.audit_sync_triggers () RETURNS void LANGUAGE plpgsql SECURITY definer
+SET
+    "search_path" = '' AS $$
+DECLARE
+  r record;
+  trigger_name TEXT;
+  target_schema TEXT;
+  target_table TEXT;
+BEGIN
+  -- CREATE triggers FOR enabled tables
+  FOR r IN SELECT * FROM private.audit_config WHERE audit_enabled = true LOOP
+    target_schema := split_part(r.table_name, '.', 1);
+    target_table := split_part(r.table_name, '.', 2);
+
+    trigger_name := 'trg_' || target_table || '_audit';
+
+    -- CREATE TRIGGER IF it does not already exist
+    IF not EXISTS (
+      SELECT 1 FROM pg_trigger
+      JOIN pg_class ON pg_trigger.tgrelid = pg_class.oid
+      WHERE pg_trigger.tgname = trigger_name
+      AND pg_class.relname = target_table
+    ) THEN
+      EXECUTE format($f$
+        CREATE TRIGGER %I
+        AFTER INSERT OR UPDATE OR DELETE ON %I.%I
+        FOR each ROW EXECUTE FUNCTION private.trg_audit_log();
+      $f$, trigger_name, target_schema, target_table);
+    END IF;
+  END LOOP;
+  
+  -- DROP triggers FOR disabled tables
+  FOR r IN SELECT * FROM private.audit_config WHERE audit_enabled = false LOOP
+    target_schema := split_part(r.table_name, '.', 1);
+    target_table := split_part(r.table_name, '.', 2);
+
+    trigger_name := 'trg_' || target_table || '_audit';
+    
+    -- DROP TRIGGER IF it EXISTS
+    IF EXISTS (
+      SELECT 1 FROM pg_trigger
+      JOIN pg_class ON pg_trigger.tgrelid = pg_class.oid
+      WHERE pg_trigger.tgname = trigger_name
+      AND pg_class.relname = target_table
+    ) THEN
+      EXECUTE format($f$
+        DROP TRIGGER IF EXISTS %I ON %I.%I;
+      $f$, trigger_name, target_schema, target_table);
+    END IF;
+  END LOOP;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION private.audit_sync_triggers_wrapper () RETURNS trigger LANGUAGE plpgsql SECURITY definer
+SET
+    "search_path" = '' AS $$
+BEGIN
+  -- Call your non-trigger function
+  PERFORM private.audit_sync_triggers();
+  
+  -- Required for statement-level trigger
+  RETURN NULL;
+END;
+$$;

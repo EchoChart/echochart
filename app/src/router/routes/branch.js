@@ -109,6 +109,42 @@ export default [
                   }
                }
             ]
+         },
+         {
+            path: 'audit_log',
+            meta: {
+               icon: PrimeIcons.HISTORY,
+               requiredPermissions: [
+                  {
+                     action: 'select',
+                     subject: 'audit_log'
+                  }
+               ]
+            },
+            name: 'branch-audit-log',
+            component: CustomRouteView,
+            redirect: { name: 'branch-audit-log-list' },
+            children: [
+               {
+                  path: 'list',
+                  name: 'branch-audit-log-list',
+                  meta: {
+                     visible: false,
+                     index: -1,
+                     requiredPermissions: [
+                        {
+                           action: 'select',
+                           subject: 'audit_log'
+                        }
+                     ],
+                     icon: PrimeIcons.LIST
+                  },
+                  components: {
+                     default: () => import('@/views/pages/branch/audit_log/Index.vue'),
+                     skeleton: () => import('@/views/pages/branch/audit_log/Index.vue')
+                  }
+               }
+            ]
          }
       ]
    }

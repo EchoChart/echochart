@@ -153,7 +153,11 @@ VALUES
     ('public.client_address', 'client', 'select', 'read', FALSE, FALSE, NULL),
     ('public.client_address', 'client', 'insert', 'create', FALSE, FALSE, NULL),
     ('public.client_address', 'client', 'update', 'modify', FALSE, FALSE, NULL),
-    ('public.client_address', 'client', 'delete', 'modify', FALSE, FALSE, NULL);
+    ('public.client_address', 'client', 'delete', 'modify', FALSE, FALSE, NULL),
+    --
+    --
+    -- audit_log
+    ('public.audit_log', 'audit_log', 'select', 'read', FALSE, FALSE, 'tenant_id IS NOT NULL');
 
 INSERT INTO
     public.tenant (display_name)
@@ -161,6 +165,21 @@ VALUES
     ('bade-gop'),
     ('bade-gop-sarigol'),
     ('bade-avcilar');
+
+INSERT INTO
+    private.audit_config (table_name, audit_enabled)
+VALUES
+    ('public.tenant', TRUE),
+    ('public.user', TRUE),
+    ('public.user_role', TRUE),
+    ('public.role', TRUE),
+    ('public.role_permission', TRUE),
+    ('public.product', TRUE),
+    ('public.product_categories', TRUE),
+    ('public.stock', TRUE),
+    ('public.client', TRUE),
+    ('public.address', TRUE),
+    ('public.client_address', TRUE);
 
 INSERT INTO
     public.role (display_name)
@@ -221,7 +240,7 @@ VALUES
             LIMIT
                 1
         ),
-        NOW() - (random() * interval '10 years')
+        NOW() - (random() * INTERVAL '10 years')
     );
 
 -- Generate Random Products and Assign Categories
@@ -264,24 +283,116 @@ BEGIN
     JOIN product_data d ON p.row_num = d.row_num; -- Correctly map inserted product to its category
 END $$;
 
--- DO $$  
--- DECLARE  
---     tenant UUID := ''; -- Placeholder tenant_id  
--- BEGIN  
---     INSERT INTO public.stock (
---         tenant_id, product_id, quantity, unit_cost, currency_code, vendor, serial_number, barcode, details, stock_date
---     )  
---     SELECT  
---         tenant,  
---         p.id,  
---         FLOOR(random() * 100 + 1)::INTEGER,  -- Random quantity between 1 and 100  
---         ROUND((random() * (500 - 10) + 10)::NUMERIC, 2),  -- Random unit_cost between 10.00 and 500.00  
---         'TRY',  
---         'EROTIC SHOP ' || lpad(floor(random() * 20)::text, 2, '0'),  
---         'SN-' || gen_random_uuid(),  -- Unique serial number  
---         'B-' || gen_random_uuid(),  -- Unique barcode per tenant and product  
---         'Details for tenant product',  
---         NOW() - (random() * interval '10 years')  -- Random timestamp within the last 10 years  
---     FROM public.product p  
---     CROSS JOIN generate_series(1, 13) g;  
--- END $$;
+-- Seed clients
+CREATE OR REPLACE FUNCTION private.tenant_seed_client (target_tenant_id UUID) RETURNS VOID SECURITY DEFINER LANGUAGE plpgsql
+SET
+    search_path = '' AS $$
+BEGIN
+    -- Seed data for 'client' table
+    INSERT INTO public.client (national_id, display_name, birth_date, gender, email, phone, nationality, tenant_id)
+    VALUES ('1234567890', 'John Doe', '1990-01-01', 'male', 'john.doe@example.com', '+1234567890', 'United States', target_tenant_id),
+        ('0987654321', 'Jane Smith', '1985-06-15', 'female', 'jane.smith@example.com', '+0987654321', 'United Kingdom', target_tenant_id),
+        ('1122334455', 'Robert Johnson', '1992-12-20', 'male', 'robert.johnson@example.com', '+1122334455', 'Australia', target_tenant_id),
+        ('2233445566', 'Emily Davis', '1988-09-10', 'female', 'emily.davis@example.com', '+2233445566', 'Canada', target_tenant_id),
+        ('3344556677', 'Michael Brown', '1995-03-25', 'male', 'michael.brown@example.com', '+3344556677', 'Germany', target_tenant_id),
+        ('4455667788', 'Sarah Wilson', '1984-11-30', 'female', 'sarah.wilson@example.com', '+4455667788', 'Japan', target_tenant_id),
+        ('7788990001', 'Olivia Brown', '1993-05-24', 'male', 'olivia.brown@example.com', '+7788990001', 'United Kingdom', target_tenant_id),
+        ('5566778899', 'William Miller', '1997-07-22', 'male', 'william.miller@example.com', '+5566778899', 'France', target_tenant_id),
+        ('6677889900', 'Jessica Taylor', '1987-04-17', 'female', 'jessica.taylor@example.com', '+6677889900', 'Italy', target_tenant_id),
+        ('7788990011', 'David Anderson', '1993-10-14', 'male', 'david.anderson@example.com', '+7788990011', 'Spain', target_tenant_id),
+        ('8899001122', 'Sophia Martinez', '1989-06-21', 'female', 'sophia.martinez@example.com', '+8899001122', 'Mexico', target_tenant_id);
+END; 
+$$;
+
+-- Seed Address
+CREATE OR REPLACE FUNCTION private.tenant_seed_address (target_tenant_id UUID) RETURNS VOID SECURITY DEFINER LANGUAGE plpgsql
+SET
+    search_path = '' AS $$
+BEGIN
+-- Seed data for 'address' table
+INSERT INTO
+    public.address (display_name, country, city, district, details, tenant_id)
+VALUES
+    ('123 Main St.', 'United States', 'New York', 'Manhattan', '123 Main St.', target_tenant_id),
+    ('456 London Rd.', 'United Kingdom', 'London', 'Camden', '456 London Rd.', target_tenant_id),
+    ('789 Sydney St.', 'Australia', 'Sydney', 'Harbour Bridge', '789 Sydney St.', target_tenant_id),
+    ('101 Toronto Rd.', 'Canada', 'Toronto', 'Downtown', '101 Toronto Rd.', target_tenant_id),
+    ('121 Berlin St.', 'Germany', 'Berlin', 'Mitte', '121 Berlin St.', target_tenant_id),
+    ('161 Seoul St.', 'South Korea', 'Seoul', 'Daegu', '161 Seoul St.', target_tenant_id),
+    ('111 Paris St.', 'France', 'Paris', 'Champs-Élysées', '111 Paris St.', target_tenant_id),
+    ('131 Rio de Janeiro Rd.', 'Brazil', 'Rio de Janeiro', 'Centro', '131 Rio de Janeiro Rd.', target_tenant_id),
+    ('151 Mumbai St.', 'India', 'Mumbai', 'Bandra', '151 Mumbai St.', target_tenant_id),
+    ('171 Beijing St.', 'China', 'Beijing', 'Haidian', '171 Beijing St.', target_tenant_id),
+    ('141 Tokyo St.', 'Japan', 'Tokyo', 'Shinjuku', '141 Tokyo St.', target_tenant_id),
+    ('161 Mexico City St.', 'Mexico', 'Mexico City', 'Centro Historico', '161 Mexico City St.', target_tenant_id),
+    ('131 Sydney Rd.', 'Australia', 'Sydney', 'CBD', '131 Sydney Rd.', target_tenant_id),
+    ('151 Cape Town St.', 'South Africa', 'Cape Town', 'Ville de Cape Town', '151 Cape Town St.', target_tenant_id),
+    ('171 Istanbul St.', 'Turkey', 'Istanbul', 'Tophane', '171 Istanbul St.', target_tenant_id),
+    ('161 Paris St.', 'France', 'Paris', 'Champs-Elysees', '161 Paris St.', target_tenant_id),
+    ('141 Amsterdam St.', 'Netherlands', 'Amsterdam', 'Centrum', '141 Amsterdam St.', target_tenant_id),
+    ('181 Rome St.', 'Italy', 'Rome', 'Piazza Navona', '181 Rome St.', target_tenant_id),
+    ('201 Madrid St.', 'Spain', 'Madrid', 'Plaza Mayor', '201 Madrid St.', target_tenant_id),
+    ('121 Lisbon St.', 'Portugal', 'Lisbon', 'Bairro Alto', '121 Lisbon St.', target_tenant_id),
+    ('221 Mexico City St.', 'Mexico', 'Mexico City', 'Puebla', '221 Mexico City St.', target_tenant_id);
+END; 
+$$;
+
+-- Seed Client Address
+CREATE OR REPLACE FUNCTION private.tenant_seed_client_address (target_tenant_id UUID) RETURNS VOID SECURITY DEFINER LANGUAGE plpgsql
+SET
+    search_path = '' AS $$
+BEGIN
+    WITH client_ids AS (SELECT id FROM public.client WHERE tenant_id = target_tenant_id),
+        address_ids AS (SELECT id FROM public.address WHERE tenant_id = target_tenant_id)
+    INSERT INTO public.client_address (client_id, address_id)
+    SELECT c.id, a.id
+    FROM client_ids c, address_ids a
+    WHERE random() < 0.2;
+END; 
+$$;
+
+-- Seed stock
+CREATE OR REPLACE FUNCTION private.tenant_seed_stock (target_tenant_id UUID) RETURNS VOID SECURITY DEFINER LANGUAGE plpgsql
+SET
+    search_path = '' AS $$
+BEGIN
+    INSERT INTO public.stock (
+        tenant_id, product_id, quantity, unit_cost, currency_code, vendor, serial_number, barcode, details, stock_date
+    )  
+    SELECT  
+        target_tenant_id,  
+        p.id,  
+        FLOOR(random() * 100 + 1)::INTEGER,  -- Random quantity between 1 and 100  
+        ROUND((random() * (500 - 10) + 10)::NUMERIC, 2),  -- Random unit_cost between 10.00 and 500.00  
+        'TRY',  
+        'EROTIC SHOP ' || lpad(floor(random() * 20)::text, 2, '0'),  
+        'SN-' || gen_random_uuid(),  -- Unique serial number  
+        'B-' || gen_random_uuid(),  -- Unique barcode per tenant and product  
+        'Details for tenant product',  
+        NOW() - (random() * interval '10 years')  -- Random timestamp within the last 10 years  
+    FROM public.product p  
+    CROSS JOIN generate_series(1, 13) g;  
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION private.tenant_seed () RETURNS TRIGGER SECURITY DEFINER LANGUAGE plpgsql
+SET
+    search_path = '' AS $$
+BEGIN 
+
+PERFORM private.tenant_seed_client(NEW.id);
+
+PERFORM private.tenant_seed_address(NEW.id);
+
+PERFORM private.tenant_seed_client_address(NEW.id);
+
+PERFORM private.tenant_seed_stock(NEW.id);
+
+RETURN NEW;
+
+END;
+$$;
+
+CREATE TRIGGER trg_seed_tenant
+AFTER INSERT ON public.tenant FOR EACH ROW
+EXECUTE FUNCTION private.tenant_seed ();

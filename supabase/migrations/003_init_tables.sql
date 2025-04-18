@@ -219,6 +219,23 @@ CREATE INDEX idx_stock_created_at ON public.stock (created_at DESC);
 
 CREATE INDEX idx_stock_display_name ON public.stock (tenant_id, product_id);
 
+CREATE TABLE IF NOT EXISTS public.sales (
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
+   product_id UUID NOT NULL REFERENCES public.product (id),
+   assigned_user_id UUID NOT NULL REFERENCES public.user (id),
+   record_type TEXT NOT NULL,
+   record_status TEXT NOT NULL CHECK (record_status IN ('pending', 'approved', 'rejected')),
+   delivery_status TEXT,
+   amount INTEGER NOT NULL CHECK (amount > 0),
+   payment_type TEXT,
+   bid NUMERIC(10, 3) DEFAULT 0.000,
+   bid_discount NUMERIC(10, 3) DEFAULT 0.000,
+   attributes JSONB,
+   details TEXT,
+   created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 CREATE OR REPLACE VIEW public.stock_view
 WITH
    (security_invoker = TRUE) AS
@@ -342,3 +359,44 @@ FROM
    public.client AS c
    JOIN public.client_address AS ca ON c.id = ca.client_id
    JOIN public.address AS a ON a.id = ca.address_id;
+
+-- Configuration table to track which tables have auditing enabled
+CREATE TABLE IF NOT EXISTS private.audit_config (
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   table_name TEXT NOT NULL UNIQUE,
+   audit_enabled BOOLEAN DEFAULT FALSE,
+   created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Main audit log table
+CREATE TABLE IF NOT EXISTS public.audit_log (
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   user_id UUID REFERENCES public.user (id),
+   reverted_by UUID REFERENCES public.user (id),
+   tenant_id UUID REFERENCES public.tenant (id),
+   correlation_id TEXT,
+   table_schema TEXT NOT NULL,
+   table_name TEXT NOT NULL,
+   operation TEXT NOT NULL,
+   row_data JSONB,
+   old_data JSONB,
+   created_at TIMESTAMPTZ DEFAULT NOW(),
+   reverted BOOLEAN DEFAULT FALSE,
+   reverted_at TIMESTAMPTZ DEFAULT NULL
+);
+
+CREATE OR REPLACE VIEW public.audit_log_distinct
+WITH
+   (security_invoker = TRUE) AS
+SELECT DISTINCT
+   ON (correlation_id) *
+FROM
+   public.audit_log
+ORDER BY
+   correlation_id,
+   COALESCE(NULLIF(row_data ->> 'created_at', '')::TIMESTAMPTZ, now()::TIMESTAMPTZ) ASC,
+   operation DESC,
+   CASE
+      WHEN operation = 'DELETE' THEN 0
+      ELSE 1
+   END;

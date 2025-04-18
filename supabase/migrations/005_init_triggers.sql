@@ -30,9 +30,12 @@ UPDATE
 OR DELETE ON public.permission FOR EACH ROW
 EXECUTE FUNCTION private.manage_policies ();
 
--- Create a new trigger that will be executed after deleting a row from the client_address table
-DROP TRIGGER IF EXISTS delete_unreferenced_address ON public.client_address;
+-- Create a new trigger that will be executed after inserting or updating the audit config table
+DROP TRIGGER IF EXISTS trg_audit_config ON private.audit_config;
 
-CREATE TRIGGER delete_unreferenced_address
-AFTER DELETE ON public.client_address FOR EACH ROW
-EXECUTE FUNCTION delete_unreferenced_address ();
+CREATE TRIGGER trg_audit_config
+AFTER INSERT
+OR
+UPDATE
+OR DELETE ON private.audit_config FOR EACH STATEMENT
+EXECUTE FUNCTION private.audit_sync_triggers_wrapper ();
