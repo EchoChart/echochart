@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.9.0-alpha.1...echochart-supabase-v0.10.0-alpha.1) (2025-04-18)
+
+
+### Features
+
+* **audit-log:** add audit log functionality with CRUD operations and UI components ([cf67c7a](https://github.com/EchoChart/echochart/commit/cf67c7a1155bbd108ca8ad96e6ce9d0082bb73df))
+
 ## [0.9.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.8.0-alpha.1...echochart-supabase-v0.9.0-alpha.1) (2025-04-08)
 
 

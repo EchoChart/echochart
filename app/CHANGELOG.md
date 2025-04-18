@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.16.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.15.0-alpha.1...echochart-app-v0.16.0-alpha.1) (2025-04-18)
+
+
+### Features
+
+* **audit-log:** add audit log functionality with CRUD operations and UI components ([cf67c7a](https://github.com/EchoChart/echochart/commit/cf67c7a1155bbd108ca8ad96e6ce9d0082bb73df))
+
+
+### Bug Fixes
+
+* enhance API request validation by excluding RPC calls in Supabase options ([4c1c807](https://github.com/EchoChart/echochart/commit/4c1c807fe3430e14d9de8e40295aaf93bbbad984))
+* streamline country selection logic and improve model value handling in PhoneInput component ([d3dea3f](https://github.com/EchoChart/echochart/commit/d3dea3ff01bb8b5bac46d6b2b75046371cff007e))
+
 ## [0.15.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.14.0-alpha.1...echochart-app-v0.15.0-alpha.1) (2025-04-11)
 
 
