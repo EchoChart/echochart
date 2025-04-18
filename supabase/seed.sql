@@ -1,10 +1,10 @@
 -- enable explain
-alter role authenticator
-set
-    pgrst.db_plan_enabled to 'true';
+ALTER ROLE authenticator
+SET
+    pgrst.db_plan_enabled TO 'true';
 
 -- reload the config
-notify pgrst,
+NOTIFY pgrst,
 'reload config';
 
 INSERT INTO
@@ -202,8 +202,8 @@ EXECUTE FUNCTION private.assign_owner_role ();
 INSERT INTO
     public.product_category (display_name, details, parent_id, created_at)
 VALUES
-    ('device', 'Devices to assist hearing impairment', NULL, NOW() - (random() * interval '10 years')),
-    ('spare part', 'Components for hearing aids', NULL, NOW() - (random() * interval '10 years'));
+    ('device', 'Devices to assist hearing impairment', NULL, NOW() - (random() * INTERVAL '10 years')),
+    ('spare part', 'Components for hearing aids', NULL, NOW() - (random() * INTERVAL '10 years'));
 
 INSERT INTO
     public.product_category (display_name, details, parent_id, created_at)
