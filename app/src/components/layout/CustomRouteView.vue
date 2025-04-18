@@ -12,6 +12,8 @@ const props = defineProps({
 
 const dialogRef = inject('dialogRef', null);
 
+const route = useRoute();
+
 const isResolved = ref(true);
 const isPending = ref(false);
 const isFallback = ref(false);
@@ -24,66 +26,79 @@ provide('routeLoading', isLoading);
 
 const routeComponent = ref(null);
 
-const onResolve = () => {
-   isResolved.value = true;
-   isFallback.value = false;
-   isPending.value = false;
-};
-const onFallback = () => {
-   isFallback.value = true;
-   isResolved.value = false;
-};
-const onPending = () => {
-   isPending.value = true;
-   isResolved.value = false;
+const updateRouteStatus = (status) => {
+   switch (status) {
+      case 'resolve':
+         isResolved.value = true;
+         isFallback.value = false;
+         isPending.value = false;
+         break;
+      case 'fallback':
+         isFallback.value = true;
+         isResolved.value = false;
+         isPending.value = false;
+         break;
+      case 'pending':
+         isPending.value = true;
+         isResolved.value = false;
+         isFallback.value = false;
+         break;
+      default:
+         break;
+   }
 };
 
-const route = useRoute();
+// In watch function
 watch(
    () => route?.fullPath,
-   () => {
-      onResolve();
-   }
+   () => updateRouteStatus('resolve')
 );
+
+// In Suspense events
+const onResolve = () => updateRouteStatus('resolve');
+const onFallback = () => updateRouteStatus('fallback');
+const onPending = () => updateRouteStatus('pending');
 </script>
 
 <template>
-   <RouterView v-bind="$attrs" v-slot="{ Component }">
-      <template v-if="Component && !dialogRef">
-         <slot />
-         <Transition
-            enter-active-class="animate-fadein animate-duration-[calc(var(--transition-duration)*0.5)]"
-            leave-active-class="animate-fadeout animate-duration-[calc(var(--transition-duration)*0.5)]"
-            mode="out-in"
-            v-bind="props.transitionProps"
-         >
-            <span
-               :class="{ contents: isPending || isFallback }"
-               :key="Component?.name || Component?.type"
+   <span class="contents">
+      <RouterView v-bind="$attrs" v-slot="{ Component }">
+         <template v-if="Component && !dialogRef">
+            <slot />
+            <Transition
+               enter-active-class="animate-fadein animate-duration-[calc(var(--transition-duration)*0.5)]"
+               leave-active-class="animate-fadeout animate-duration-[calc(var(--transition-duration)*0.5)]"
+               mode="out-in"
+               v-bind="props.transitionProps"
             >
-               <Suspense
-                  :suspensible="props.suspensible"
-                  @fallback="onFallback"
-                  @pending="onPending"
-                  @resolve="onResolve"
+               <span
+                  :class="{ contents: isPending || isFallback }"
+                  :key="Component?.name || Component?.type"
                >
-                  <component :is="Component" ref="routeComponent" />
-               </Suspense>
-            </span>
-         </Transition>
-      </template>
-   </RouterView>
-   <RouterView
-      name="skeleton"
-      v-slot="{ Component }"
-      :key="routeComponent?.name || routeComponent?.type"
-   >
-      <template v-if="isLoading">
-         <component v-if="Component" :is="Component" />
-         <Skeleton
-            v-else
-            class="min-w-full min-h-[25%] duration-[calc(var(--transition-duration)*0.5]"
-         />
-      </template>
-   </RouterView>
+                  <Suspense
+                     :suspensible="props.suspensible"
+                     @fallback="onFallback"
+                     @pending="onPending"
+                     @resolve="onResolve"
+                  >
+                     <component :is="Component" ref="routeComponent" />
+                  </Suspense>
+               </span>
+            </Transition>
+         </template>
+      </RouterView>
+      <RouterView
+         name="skeleton"
+         v-slot="{ Component }"
+         :key="routeComponent?.name || routeComponent?.type"
+      >
+         <template v-if="isLoading">
+            <component v-if="Component" :is="Component" />
+            <Skeleton
+               v-else
+               class="min-w-full min-h-[25%] duration-[calc(var(--transition-duration)*0.5]"
+            />
+         </template>
+      </RouterView>
+   </span>
 </template>
