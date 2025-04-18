@@ -139,7 +139,7 @@ const tableProps = computed(() => ({
       </template>
       <template #categories_display_name_body="{ data }">
          <div class="flex gap-2 flex-wrap justify-center">
-            <Badge
+            <Tag
                v-for="categories in data?.categories"
                :value="$t(categories.display_name)"
                size="large"
