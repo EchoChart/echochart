@@ -33,7 +33,7 @@ const modelValue = defineModel('modelValue', {
       const inputValue = new AsYouType();
       inputValue.input(value || '');
 
-      if (inputValue.country && _isNil(countrySelect.value.name)) {
+      if (inputValue.country) {
          countrySelect.value = {
             name: inputValue.getCountry(),
             countryCallingCode: inputValue.getCallingCode()
@@ -64,10 +64,12 @@ const modelValue = defineModel('modelValue', {
             :invalid
          >
             <template #value="{ value }">
-               <span>{{ [value?.name, value?.countryCallingCode].join` | ` }}</span>
+               <span>{{ [value?.name, value?.countryCallingCode].filter(Boolean).join` | ` }}</span>
             </template>
             <template #option="{ option }">
-               <span>{{ [option?.name, option?.countryCallingCode].join` | ` }}</span>
+               <span>
+                  {{ [option?.name, option?.countryCallingCode].filter(Boolean).join` | ` }}
+               </span>
             </template>
          </Select>
       </InputGroupAddon>
