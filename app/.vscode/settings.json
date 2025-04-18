@@ -11,7 +11,8 @@
    "stylelint.validate": ["css", "less", "postcss", "scss", "vue"],
    "editor.formatOnSave": true,
    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "always"
+      "source.fixAll.eslint": "always",
+      "source.organizeImports": "always"
    },
    "highlight.regexes": {
       "(<(/)?template(>)?)": {
