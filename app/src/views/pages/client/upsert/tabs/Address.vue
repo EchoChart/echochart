@@ -74,7 +74,7 @@ const save = async () => {
       )
       .throwOnError();
 
-   emitter.emit('client-address-update', form._data);
+   emitter.emit('client_address-update', form._data);
    emitter.emit('client-update', form._data);
 
    form._setDefaults(form._data)._reset();
@@ -91,8 +91,8 @@ if (props.id || props.data?.id) {
    const updateCallback = (data) => {
       if (data?.id === form.id) form._setDefaults(_pick(data, fields))._reset();
    };
-   onMounted(() => emitter.on('client-address-update', updateCallback));
-   onUnmounted(() => emitter.off('client-address-update', updateCallback));
+   onMounted(() => emitter.on('client_address-update', updateCallback));
+   onUnmounted(() => emitter.off('client_address-update', updateCallback));
 }
 
 provide('dialogRef', true);
@@ -107,7 +107,6 @@ provide('dialogRef', true);
             :error="form?._errors?.first('client')"
             :label="$t('client')"
             v-slot="slotProps"
-            class="flex-[.2]"
          >
             <ClientSelect
                v-bind="slotProps"

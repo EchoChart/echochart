@@ -70,7 +70,7 @@ const save = async () => {
       .then(({ data }) => form._merge(_pick(data, fields)));
 
    emitter.emit('address-update', form._data);
-   emitter.emit('client-address-update', form._data);
+   emitter.emit('client_address-update', form._data);
 
    form._setDefaults(form._data)._reset();
 
