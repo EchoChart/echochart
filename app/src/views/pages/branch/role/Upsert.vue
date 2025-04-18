@@ -69,17 +69,12 @@ const updateCallback = (data) => {
    }
 };
 
-const routeLoading = inject('routeLoading', false);
 if (!routeLoading.value) {
    onMounted(() => emitter.on('role-update', updateCallback));
    onUnmounted(() => emitter.off('role-update', updateCallback));
 }
-
 const save = async () => {
    if (!form._validate()) return;
-
-   // await new Promise((resolve) => setTimeout(resolve, 2000));
-
    const { data } = await supabase
       .from('role')
       .upsert({
@@ -90,22 +85,24 @@ const save = async () => {
       .single()
       .throwOnError();
 
-   if (form.id) form._setDefaults({ ...data, permission: form.permission })._reset();
+   if (form._changedData['permission']) {
+      if (props.id || props.data?.id)
+         await supabase
+            .from('role_permission')
+            .delete()
+            .eq('role_id', form.id)
+            .setHeader('x-delete-confirmed', true)
+            .throwOnError();
 
-   if (form.id)
-      await supabase
-         .from('role_permission')
-         .delete()
-         .eq('role_id', form.id)
-         .setHeader('x-delete-confirmed', true)
-         .throwOnError();
+      const payload = form._data.permission.map(({ id: permission_id }) => ({
+         permission_id,
+         role_id: data.id
+      }));
 
-   const payload = form._data.permission.map(({ id: permission_id }) => ({
-      permission_id,
-      role_id: data.id
-   }));
+      await supabase.from('role_permission').insert(payload).throwOnError();
+   }
 
-   await supabase.from('role_permission').insert(payload).throwOnError();
+   if (form.id) form._setDefaults(form._data)._reset();
 
    toast.add({
       life: 3000,
