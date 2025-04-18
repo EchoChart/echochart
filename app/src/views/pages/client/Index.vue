@@ -22,9 +22,9 @@ const columns = new Collection([
       header: i18n.t('nationality')
    },
    {
-      field: 'identity',
+      field: 'national_id',
       sortable: true,
-      header: i18n.t('identity')
+      header: i18n.t('national_id')
    },
    {
       field: 'birth_date',
@@ -55,7 +55,7 @@ const filters = ref({
       value: null,
       matchMode: FilterMatchMode.CONTAINS
    },
-   identity: {
+   national_id: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
    },

@@ -20,7 +20,7 @@ const toast = useToast();
 
 const initialFormData = {
    id: undefined,
-   identity: null,
+   national_id: null,
    display_name: null,
    birth_date: null,
    gender: null,
@@ -36,7 +36,7 @@ const form = new Form({
    rules: {
       display_name: 'required',
       nationality: 'required',
-      identity: 'required',
+      national_id: 'required',
       birth_date: 'required|date',
       gender: 'required',
       email: 'email',
@@ -117,11 +117,11 @@ if (props.id || props.data?.id) {
          <FormField
             :readonly="readonly"
             fluid
-            :error="form?._errors?.first('identity')"
-            :label="$t('identity')"
+            :error="form?._errors?.first('national_id')"
+            :label="$t('national_id')"
             v-slot="slotProps"
          >
-            <InputText v-bind="slotProps" v-model="form.identity" />
+            <InputText v-bind="slotProps" v-model="form.national_id" />
          </FormField>
          <FormField
             :readonly="readonly"

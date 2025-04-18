@@ -26,7 +26,7 @@ const emit = defineEmits('update:tab');
 
 const initialFormData = {
    id: undefined,
-   identity: null,
+   national_id: null,
    birth_date: null,
    gender: null,
    display_name: null,
@@ -42,7 +42,7 @@ const form = new Form({
    data: _defaults(_pick(props.data, fields), initialFormData),
    rules: {
       display_name: 'required',
-      identity: 'required',
+      national_id: 'required',
       birth_date: 'required|date',
       gender: 'required',
       email: 'email',

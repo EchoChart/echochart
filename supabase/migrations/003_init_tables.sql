@@ -279,7 +279,7 @@ GROUP BY
 -- Clients Table
 CREATE TABLE IF NOT EXISTS public.client (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-   identity TEXT UNIQUE NOT NULL,
+   national_id TEXT UNIQUE NOT NULL, -- client's national national_id number
    display_name TEXT NOT NULL,
    birth_date DATE NOT NULL,
    gender TEXT CHECK (gender IN ('male', 'female')),
@@ -290,7 +290,7 @@ CREATE TABLE IF NOT EXISTS public.client (
    created_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE INDEX client_identity_idx ON public.client (identity);
+CREATE INDEX client_national_id_idx ON public.client (national_id);
 
 CREATE INDEX client_tenant_id_idx ON public.client (tenant_id);
 
@@ -325,7 +325,7 @@ SELECT
    -- Client fields with prefix
    c.id AS client_id,
    c.display_name AS client_display_name,
-   c.identity AS client_identity,
+   c.national_id AS client_national_id,
    c.email AS client_email,
    c.phone AS client_phone,
    c.nationality AS client_nationality,
