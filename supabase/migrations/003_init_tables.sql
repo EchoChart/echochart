@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS public.tenant (
    display_name TEXT NOT NULL,
    phone TEXT UNIQUE,
    email TEXT UNIQUE,
-   created_at TIMESTAMP DEFAULT NOW(),
+   created_at TIMESTAMPTZ DEFAULT NOW(),
    parent_id UUID REFERENCES public.tenant (id) ON DELETE CASCADE,
    CONSTRAINT unique_tenant_display_name UNIQUE (id, display_name)
 );
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS public.user (
    avatar_url TEXT,
    email TEXT NOT NULL UNIQUE,
    phone TEXT UNIQUE,
-   created_at TIMESTAMP DEFAULT NOW()
+   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE INDEX user_email_idx ON public.user (email);
@@ -29,9 +29,10 @@ CREATE INDEX user_created_at_idx ON public.user (created_at);
 
 -- Tenant Users
 CREATE TABLE IF NOT EXISTS public.tenant_user (
+   id UUID UNIQUE DEFAULT gen_random_uuid (),
    user_id UUID NOT NULL REFERENCES public.user (id) ON DELETE CASCADE,
    tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
-   created_at TIMESTAMP DEFAULT NOW(),
+   created_at TIMESTAMPTZ DEFAULT NOW(),
    PRIMARY KEY (tenant_id, user_id)
 );
 
@@ -41,9 +42,10 @@ CREATE INDEX tenant_user_tenant_id_idx ON public.tenant_user (tenant_id);
 
 -- Tenant Owners
 CREATE TABLE IF NOT EXISTS public.tenant_owner (
+   id UUID UNIQUE DEFAULT gen_random_uuid (),
    user_id UUID NOT NULL REFERENCES public.user (id) ON DELETE CASCADE,
    tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
-   created_at TIMESTAMP DEFAULT NOW(),
+   created_at TIMESTAMPTZ DEFAULT NOW(),
    PRIMARY KEY (tenant_id, user_id)
 );
 
@@ -59,7 +61,7 @@ CREATE TABLE IF NOT EXISTS public.address (
    city TEXT NOT NULL,
    district TEXT NOT NULL,
    details TEXT,
-   created_at TIMESTAMP DEFAULT NOW(),
+   created_at TIMESTAMPTZ DEFAULT NOW(),
    tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE
 );
 
@@ -82,7 +84,7 @@ CREATE TABLE IF NOT EXISTS public.permission (
    error_message TEXT,
    throws_error BOOLEAN DEFAULT FALSE,
    bypass BOOLEAN DEFAULT FALSE,
-   created_at TIMESTAMP DEFAULT NOW()
+   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE INDEX permission_resource_name_idx ON public.permission (resource_name);
@@ -93,7 +95,7 @@ CREATE INDEX permission_created_at_idx ON public.permission (created_at);
 CREATE TABLE IF NOT EXISTS public.role (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
    display_name TEXT NOT NULL,
-   created_at TIMESTAMP DEFAULT NOW(),
+   created_at TIMESTAMPTZ DEFAULT NOW(),
    tenant_id UUID REFERENCES public.tenant (id) ON DELETE CASCADE,
    CONSTRAINT unique_role_display_name UNIQUE (tenant_id, display_name)
 );
@@ -104,9 +106,10 @@ CREATE INDEX role_created_at_idx ON public.role (created_at);
 
 -- Role Permissions
 CREATE TABLE IF NOT EXISTS public.role_permission (
+   id UUID UNIQUE DEFAULT gen_random_uuid (),
    role_id UUID NOT NULL REFERENCES public.role (id) ON DELETE CASCADE,
    permission_id UUID NOT NULL REFERENCES public.permission (id) ON DELETE CASCADE,
-   created_at TIMESTAMP DEFAULT NOW(),
+   created_at TIMESTAMPTZ DEFAULT NOW(),
    PRIMARY KEY (permission_id, role_id)
 );
 
@@ -116,9 +119,10 @@ CREATE INDEX role_permission_permission_id_idx ON public.role_permission (permis
 
 -- User Roles
 CREATE TABLE IF NOT EXISTS public.user_role (
+   id UUID UNIQUE DEFAULT gen_random_uuid (),
    user_id UUID NOT NULL REFERENCES public.user (id) ON DELETE CASCADE,
    role_id UUID NOT NULL REFERENCES public.role (id) ON DELETE CASCADE,
-   created_at TIMESTAMP DEFAULT NOW(),
+   created_at TIMESTAMPTZ DEFAULT NOW(),
    PRIMARY KEY (user_id, role_id)
 );
 
@@ -133,7 +137,7 @@ CREATE TABLE IF NOT EXISTS public.product (
    display_name TEXT UNIQUE NOT NULL,
    brand TEXT,
    details TEXT,
-   created_at TIMESTAMP DEFAULT NOW(),
+   created_at TIMESTAMPTZ DEFAULT NOW(),
    CONSTRAINT unique_product_display_name UNIQUE (tenant_id, display_name)
 );
 
@@ -154,7 +158,7 @@ CREATE TABLE IF NOT EXISTS public.product_category (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
    display_name TEXT NOT NULL,
    details TEXT,
-   created_at TIMESTAMP DEFAULT NOW(),
+   created_at TIMESTAMPTZ DEFAULT NOW(),
    parent_id UUID REFERENCES public.product_category (id) ON DELETE CASCADE
 );
 
@@ -164,9 +168,10 @@ CREATE INDEX product_category_created_at_idx ON public.product_category (created
 
 -- Product Category Table (relationship)
 CREATE TABLE IF NOT EXISTS public.product_categories (
+   id UUID UNIQUE DEFAULT gen_random_uuid (),
    product_id UUID NOT NULL REFERENCES public.product (id) ON DELETE CASCADE,
    category_id UUID NOT NULL REFERENCES public.product_category (id) ON DELETE CASCADE,
-   created_at TIMESTAMP DEFAULT NOW(),
+   created_at TIMESTAMPTZ DEFAULT NOW(),
    PRIMARY KEY (product_id, category_id)
 );
 
@@ -287,7 +292,7 @@ CREATE TABLE IF NOT EXISTS public.client (
    phone TEXT UNIQUE,
    nationality TEXT,
    tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
-   created_at TIMESTAMP DEFAULT NOW()
+   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE INDEX client_national_id_idx ON public.client (national_id);
@@ -300,9 +305,11 @@ CREATE INDEX client_display_name_idx ON public.client (display_name);
 
 -- Clients Addresses(address table relationship)
 CREATE TABLE IF NOT EXISTS public.client_address (
+   id UUID UNIQUE DEFAULT gen_random_uuid (),
    client_id UUID NOT NULL REFERENCES public.client (id) ON DELETE CASCADE,
    address_id UUID NOT NULL REFERENCES public.address (id) ON DELETE CASCADE,
-   PRIMARY KEY (client_id, address_id)
+   PRIMARY KEY (client_id, address_id),
+   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE INDEX client_address_client_id_idx ON public.client_address (client_id);
