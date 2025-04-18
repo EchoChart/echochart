@@ -1,8 +1,7 @@
 import { BaseModel } from '@services/models/BaseModel';
 
 /**
- * @typedef {UserRow} ModelType
- * @extends {BaseModel<ModelType>}
+ * @extends {BaseModel<Tables['user']['Row']>}
  */
 export class UserModel extends BaseModel {
    avatar_url = computed({
