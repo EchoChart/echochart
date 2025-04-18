@@ -69,8 +69,9 @@ if (rememberMe.value) {
                :feedback="false"
             />
          </FormField>
-
-         <div class="flex flex-col gap-8">
+      </div>
+      <template #form-actions>
+         <div class="flex-1 flex flex-col gap-8">
             <div class="flex items-center justify-between gap-4">
                <FormField v-slot="slotProps" reverse :label="'Remember me'">
                   <Checkbox v-bind="slotProps" class="min-w-fit" v-model="rememberMe" binary />
@@ -91,12 +92,11 @@ if (rememberMe.value) {
             </div>
             <Button
                variant="outlined"
-               class="!border-primary-emphasis"
+               class="!border-primary-emphasis w-[75%] mx-auto"
                type="submit"
                :label="'Login'"
-               fluid
             />
          </div>
-      </div>
+      </template>
    </FormBox>
 </template>

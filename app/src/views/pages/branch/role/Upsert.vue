@@ -116,7 +116,7 @@ const save = async () => {
 
 <template>
    <div class="card">
-      <FormBox @submit="save" @reset="() => form?._reset()" v-focustrap>
+      <FormBox @submit="save" @reset="() => form?._reset()" v-focustrap :form :readonly>
          <FormField
             fluid
             :label="i18n.t('display_name')"
@@ -138,21 +138,6 @@ const save = async () => {
                <PermissionsSelect v-bind="slotProps" v-model="form['permission']" />
             </template>
          </FormField>
-         <div v-if="!readonly" class="flex flex-wrap items-end justify-end gap-4 w-full">
-            <Button
-               :label="$t('save')"
-               class="flex-[.2]"
-               :disabled="!form?._isChanged"
-               type="submit"
-            />
-            <Button
-               :label="$t('reset')"
-               severity="secondary"
-               class="flex-[.2]"
-               :disabled="!form?._isChanged"
-               type="reset"
-            />
-         </div>
       </FormBox>
    </div>
 </template>

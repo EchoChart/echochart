@@ -41,7 +41,7 @@ const save = async () => {
 };
 </script>
 <template>
-   <FormBox @submit="save" @reset="() => form?._reset()" v-focustrap>
+   <FormBox @submit="save" @reset="() => form?._reset()" v-focustrap :form>
       <FormField
          fluid
          v-slot="slotProps"
@@ -56,20 +56,5 @@ const save = async () => {
       <FormField fluid v-slot="slotProps" :label="$t('phone')" :error="form._errors.first('phone')">
          <InputMask v-bind="slotProps" v-model="form['phone']" mask="9999999999999" />
       </FormField>
-      <div class="flex flex-wrap items-end justify-end gap-4 w-full">
-         <Button
-            :label="$t('save')"
-            class="flex-[.2]"
-            :disabled="!form?._isChanged"
-            type="submit"
-         />
-         <Button
-            :label="$t('reset')"
-            severity="secondary"
-            class="flex-[.2]"
-            :disabled="!form?._isChanged"
-            type="reset"
-         />
-      </div>
    </FormBox>
 </template>

@@ -206,6 +206,7 @@ const submit = async () => {
             </StepPanel>
          </StepPanels>
       </Stepper>
+      <template #form-actions><template /></template>
    </FormBox>
 </template>
 <style lang="scss" scoped>
@@ -213,7 +214,8 @@ const submit = async () => {
    box-shadow: inset 0 0 1.5rem 2.5rem var(--surface-ground);
    background-color: #e5e5f7;
    opacity: 0.8;
-   background-image: radial-gradient(circle at center center, var(--p-primary-500), #e5e5f7),
+   background-image:
+      radial-gradient(circle at center center, var(--p-primary-500), #e5e5f7),
       repeating-radial-gradient(
          circle at center center,
          var(--p-primary-300),

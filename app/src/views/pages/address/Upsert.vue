@@ -90,7 +90,7 @@ if (props.id || props.data?.id) {
 
 <template>
    <div class="card">
-      <FormBox @submit="save" @reset="() => form._reset()">
+      <FormBox @submit="save" @reset="() => form._reset()" :form :readonly>
          <FormField
             :readonly="readonly"
             fluid
@@ -142,24 +142,6 @@ if (props.id || props.data?.id) {
                <Editor v-bind="slotProps" v-model="form.details" />
             </template>
          </FormField>
-         <div
-            v-if="($can('create', 'address') || $can('modify', 'address')) && !readonly"
-            class="flex flex-wrap items-end justify-end gap-4 !flex-auto w-full"
-         >
-            <Button
-               :label="$t('save')"
-               class="flex-[.2]"
-               :disabled="!form?._isChanged"
-               type="submit"
-            />
-            <Button
-               :label="$t('reset')"
-               severity="secondary"
-               class="flex-[.2]"
-               :disabled="!form?._isChanged"
-               type="reset"
-            />
-         </div>
       </FormBox>
    </div>
 </template>
