@@ -286,7 +286,11 @@ const tableProps = computed(() => ({
          v-if="actions._data?.length && tableProps?.value?.length"
          field="_actions"
          :key="'table_action'"
-         :style="actions._data?.length && `min-width: ${actions._data?.length * 4}rem`"
+         :style="
+            actions._data?.length &&
+            `min-width: ${actions._data?.length * 4}rem !important;
+            max-width: ${actions._data?.length * 4}rem !important`
+         "
       >
          <template #body="body">
             <slot name="table_actions">
