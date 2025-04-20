@@ -14,7 +14,10 @@ export default [
          requiresAuth: true
       },
       name: 'branch',
-      redirect: { name: 'branch-role' },
+      components: {
+         default: () => import('@/views/pages/branch/Index.vue'),
+         skeleton: () => import('@/views/pages/branch/Index.vue')
+      },
       children: [
          {
             path: 'role',
