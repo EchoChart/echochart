@@ -81,7 +81,7 @@ const save = async () => {
          id: form.id,
          display_name: form._data.display_name
       })
-      .select('*, permission(id, kind, group_name)')
+      .select('*')
       .single()
       .throwOnError();
 
