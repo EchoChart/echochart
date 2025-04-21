@@ -31,7 +31,7 @@ const initialFormData = {
    serial_number: null,
    barcode: null,
    unit_cost: 0,
-   stock_date: new Date(Date.now()),
+   stocked_at: new Date(Date.now()),
    quantity: 1,
    currency_code: null,
    vendor: null,
@@ -44,7 +44,6 @@ const form = new Form({
    rules: {
       product_id: 'required',
       unit_cost: 'required|min:0',
-      total_cost: 'required|min:0',
       quantity: 'required|min:1',
       currency_code: 'required'
    },
@@ -147,14 +146,14 @@ const save = async () => {
             <FormField
                :readonly="readonly"
                fluid
-               :error="form._errors.first('stock_date')"
-               :label="$t('stock_date')"
+               :error="form._errors.first('stocked_at')"
+               :label="$t('stocked_at')"
                v-slot="slotProps"
             >
                <DatePicker
                   :selectionMode="'single'"
                   v-bind="slotProps"
-                  v-model="form.stock_date"
+                  v-model="form.stocked_at"
                   dateFormat="dd/mm/yy"
                   placeholder="dd/mm/yyyy"
                />

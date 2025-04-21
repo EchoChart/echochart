@@ -189,14 +189,6 @@ CREATE TABLE IF NOT EXISTS public.stock (
    quantity INTEGER NOT NULL DEFAULT 1 CHECK (quantity > 0),
    -- Prevents division by zero
    unit_cost NUMERIC(10, 3) NOT NULL CHECK (unit_cost >= 0),
-   -- Ensures unit_cost is never negative
-   total_cost NUMERIC(10, 3) GENERATED ALWAYS AS (
-      CASE
-         WHEN quantity > 0
-         AND unit_cost > 0 THEN unit_cost * quantity
-         ELSE 0
-      END
-   ) STORED,
    -- prettier-ignore
    currency_code CHAR(3) NOT NULL DEFAULT 'TRY' CHECK (currency_code ~ '^[A-Z]{3}$'),
    -- Ensures valid 3-letter currency code
@@ -208,6 +200,8 @@ CREATE TABLE IF NOT EXISTS public.stock (
 
 -- Indexes for performance optimization
 CREATE INDEX IF NOT EXISTS idx_stock_tenant_id ON public.stock (tenant_id);
+
+CREATE INDEX IF NOT EXISTS idx_stock_product_id ON public.stock (product_id);
 
 CREATE INDEX IF NOT EXISTS idx_stock_serial_number ON public.stock (serial_number);
 
@@ -243,7 +237,8 @@ SELECT
    s.*,
    p.display_name,
    p.brand,
-   COALESCE(s.quantity - sold.total_sold, s.quantity) AS available_quantity
+   COALESCE(s.quantity - sold.total_sold, s.quantity) AS available_quantity,
+   (s.unit_cost * s.quantity)::NUMERIC(10, 3) AS total_cost -- Added total_cost calculation to the view
 FROM
    public.stock AS s
    JOIN public.product AS p ON s.product_id = p.id
@@ -266,7 +261,7 @@ CREATE OR REPLACE VIEW public.stock_vendor AS
 SELECT DISTINCT
    vendor AS display_name
 FROM
-   public.stock;
+   public.stock_view;
 
 CREATE OR REPLACE VIEW public.stock_vendor_stat AS
 SELECT
@@ -293,7 +288,7 @@ SELECT
    ROUND(AVG(total_cost)::NUMERIC(10, 3), 2) AS average_total_cost
 FROM
    public.product AS p
-   JOIN public.stock AS s ON s.product_id = p.id
+   JOIN public.stock_view AS s ON s.product_id = p.id
 GROUP BY
    p.display_name,
    p.brand;
