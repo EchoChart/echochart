@@ -296,7 +296,7 @@ export default () => {
          function toNestedArray(obj, parentKey = '', isVisible = false, lastIndex = 0) {
             return _toPairs(obj)
                .map(([key, { items, route }], i) => {
-                  const { meta } = route;
+                  const { meta, name } = route;
                   const currentKey = parentKey ? `${parentKey}_${i + 1}` : `${i}`;
                   const index = meta.index || ++lastIndex;
                   let visible = meta?.visible;
@@ -313,6 +313,7 @@ export default () => {
 
                   return {
                      key: currentKey,
+                     name,
                      label: key,
                      icon: meta.icon,
                      visible,
