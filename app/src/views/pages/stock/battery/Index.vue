@@ -1,7 +1,7 @@
 <script setup>
+import KeywordSearchInput from '@/components/ui/CustomTable/KeywordSearchInput.vue';
 import Collection from '@/lib/Collection';
 import Upsert from '../Upsert.vue';
-import KeywordSearchInput from '@/components/ui/CustomTable/KeywordSearchInput.vue';
 
 defineOptions({
    inheritAttrs: false
@@ -36,9 +36,9 @@ const columns = new Collection([
       header: i18n.t('vendor')
    },
    {
-      field: 'stock_date',
+      field: 'stocked_at',
       sortable: true,
-      header: i18n.t('stock_date'),
+      header: i18n.t('stocked_at'),
       sortOrder: { value: -1 }
    }
 ]);
@@ -83,7 +83,7 @@ const filters = ref({
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
    },
-   stock_date: {
+   stocked_at: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
       dataType: 'date'

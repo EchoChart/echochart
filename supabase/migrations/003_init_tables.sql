@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS public.stock (
    -- Ensures valid 3-letter currency code
    vendor TEXT,
    details TEXT,
-   stock_date TIMESTAMPTZ DEFAULT NOW(),
+   stocked_at TIMESTAMPTZ DEFAULT NOW(),
    created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -274,7 +274,7 @@ SELECT
    ROUND(AVG(total_cost)::NUMERIC(10, 3), 2) AS average_total_cost
 FROM
    public.product AS p
-   JOIN public.stock AS s ON s.product_id = p.id
+   JOIN public.stock_view AS s ON s.product_id = p.id
 GROUP BY
    vendor,
    p.id;
