@@ -73,7 +73,6 @@ const total_cost = computed({
    get: () => _round(form.unit_cost * form.quantity, 3),
    set: (value) => {
       _set(form, 'unit_cost', _round(value / form.quantity, 3));
-      _set(form, 'total_cost', value);
    }
 });
 
