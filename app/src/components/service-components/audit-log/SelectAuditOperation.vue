@@ -1,10 +1,10 @@
 <script setup>
 import Collection from '@/lib/Collection';
 const operations = new Collection([
-   { value: 'INSERT', label: i18n.t('added'), severity: 'success' },
-   { value: 'UPDATE', label: i18n.t('updated'), severity: 'info' },
-   { value: 'DELETE', label: i18n.t('deleted'), severity: 'danger' },
-   { value: 'SELECT', label: i18n.t('selected'), severity: 'success' }
+   { value: 'INSERT', label: i18n.t('add'), severity: 'success' },
+   { value: 'UPDATE', label: i18n.t('update'), severity: 'info' },
+   { value: 'DELETE', label: i18n.t('delete'), severity: 'danger' },
+   { value: 'SELECT', label: i18n.t('read'), severity: 'secondary' }
 ]);
 </script>
 
