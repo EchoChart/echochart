@@ -8,7 +8,7 @@ const modelValue = defineModel('modelValue');
          <i class="pi pi-search" />
       </InputIcon>
       <InputText
-         v-keyfilter="{ pattern: /[a-zA-Z0-9\.\-\/\s]+/ }"
+         v-keyfilter="{ pattern: /[a-zA-Z0-9\.\-\/\s\@]+/ }"
          :placeholder="$t('keyword search')"
          class="w-full"
          v-model="modelValue"
