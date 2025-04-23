@@ -1,7 +1,5 @@
 <script setup>
 import Collection from '@/lib/Collection';
-const authStore = useAuthStore();
-const { currentTenant } = storeToRefs(authStore);
 
 defineOptions({
    inheritAttrs: false
