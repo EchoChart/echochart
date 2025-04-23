@@ -35,7 +35,7 @@ const buttons = computed(() => {
          :key="_uniqueId('actionButton' + index)"
          size="small"
          @click="item.command"
-         v-tooltip="item.label"
+         v-tooltip.left="item.label"
          :severity="getSeverity(item)"
          v-bind="item"
          label=""
