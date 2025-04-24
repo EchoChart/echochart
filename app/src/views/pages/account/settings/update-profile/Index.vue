@@ -54,7 +54,7 @@ const save = async () => {
          <InputText v-bind="slotProps" v-model="form['email']" class="min-w-[10vw]" />
       </FormField>
       <FormField fluid v-slot="slotProps" :label="$t('phone')" :error="form._errors.first('phone')">
-         <InputMask v-bind="slotProps" v-model="form['phone']" mask="9999999999999" />
+         <PhoneInput v-bind="slotProps" v-model="form['phone']" />
       </FormField>
    </FormBox>
 </template>

@@ -37,12 +37,7 @@ const { user } = storeToRefs(authStore);
             <InputText v-bind="slotProps" readonly :model-value="user?.email" />
          </FormField>
          <FormField fluid :label="$t('phone')" v-slot="slotProps">
-            <InputMask
-               readonly
-               v-bind="slotProps"
-               :model-value="user?.phone"
-               mask="9999999999999"
-            />
+            <PhoneInput v-bind="slotProps" :model-value="user?.phone" readonly />
          </FormField>
       </FormBox>
       <FormBox legend="Logs" class="flex-1">
