@@ -11,6 +11,13 @@ defineOptions({
    inheritAttrs: false
 });
 
+defineProps({
+   readonly: {
+      type: Boolean,
+      default: false
+   }
+});
+
 const countryPhoneCodes = computed(() =>
    getCountries()
       .flatMap((phone) => ({
@@ -62,6 +69,7 @@ const modelValue = defineModel('modelValue', {
             :filter-fields="['name', 'countryCallingCode']"
             class="h-full !rounded-[inherit] -mr-[1px]"
             :invalid
+            :disabled="readonly"
          >
             <template #value="{ value }">
                <span>{{ [value?.name, value?.countryCallingCode].filter(Boolean).join` | ` }}</span>
@@ -79,6 +87,7 @@ const modelValue = defineModel('modelValue', {
          mask="(9?99) 999-9999"
          unmask
          :invalid
+         :readonly
       />
    </InputGroup>
 </template>
