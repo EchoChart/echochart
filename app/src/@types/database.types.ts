@@ -83,6 +83,7 @@ export type Database = {
           old_data: Json | null
           operation: string
           reverted: boolean | null
+          reverted_at: string | null
           reverted_by: string | null
           row_data: Json | null
           table_name: string
@@ -97,6 +98,7 @@ export type Database = {
           old_data?: Json | null
           operation: string
           reverted?: boolean | null
+          reverted_at?: string | null
           reverted_by?: string | null
           row_data?: Json | null
           table_name: string
@@ -111,6 +113,7 @@ export type Database = {
           old_data?: Json | null
           operation?: string
           reverted?: boolean | null
+          reverted_at?: string | null
           reverted_by?: string | null
           row_data?: Json | null
           table_name?: string
@@ -150,7 +153,7 @@ export type Database = {
           email: string | null
           gender: string | null
           id: string
-          identity: string
+          national_id: string
           nationality: string | null
           phone: string | null
           tenant_id: string
@@ -162,7 +165,7 @@ export type Database = {
           email?: string | null
           gender?: string | null
           id?: string
-          identity: string
+          national_id: string
           nationality?: string | null
           phone?: string | null
           tenant_id: string
@@ -174,7 +177,7 @@ export type Database = {
           email?: string | null
           gender?: string | null
           id?: string
-          identity?: string
+          national_id?: string
           nationality?: string | null
           phone?: string | null
           tenant_id?: string
@@ -549,7 +552,7 @@ export type Database = {
           product_id: string
           quantity: number
           serial_number: string | null
-          stock_date: string | null
+          stocked_at: string | null
           tenant_id: string
           total_cost: number | null
           unit_cost: number
@@ -564,7 +567,7 @@ export type Database = {
           product_id: string
           quantity?: number
           serial_number?: string | null
-          stock_date?: string | null
+          stocked_at?: string | null
           tenant_id: string
           total_cost?: number | null
           unit_cost: number
@@ -579,7 +582,7 @@ export type Database = {
           product_id?: string
           quantity?: number
           serial_number?: string | null
-          stock_date?: string | null
+          stocked_at?: string | null
           tenant_id?: string
           total_cost?: number | null
           unit_cost?: number
@@ -781,14 +784,15 @@ export type Database = {
       }
     }
     Views: {
-      audit_log_distinct: {
+      audit_log_group: {
         Row: {
+          correlated_logs: Json | null
           correlation_id: string | null
           created_at: string | null
           id: string | null
-          old_data: Json | null
           operation: string | null
           reverted: boolean | null
+          reverted_at: string | null
           reverted_by: string | null
           row_data: Json | null
           table_name: string | null
@@ -834,7 +838,7 @@ export type Database = {
           client_display_name: string | null
           client_email: string | null
           client_id: string | null
-          client_identity: string | null
+          client_national_id: string | null
           client_nationality: string | null
           client_phone: string | null
           client_tenant_id: string | null
@@ -904,7 +908,7 @@ export type Database = {
           product_id: string | null
           quantity: number | null
           serial_number: string | null
-          stock_date: string | null
+          stocked_at: string | null
           tenant_id: string | null
           total_cost: number | null
           unit_cost: number | null
