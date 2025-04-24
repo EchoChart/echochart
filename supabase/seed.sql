@@ -357,7 +357,7 @@ SET
     search_path = '' AS $$
 BEGIN
     INSERT INTO public.stock (
-        tenant_id, product_id, quantity, unit_cost, currency_code, vendor, serial_number, barcode, details, stock_date
+        tenant_id, product_id, quantity, unit_cost, currency_code, vendor, serial_number, barcode, details, stocked_at
     )  
     SELECT  
         target_tenant_id,  
@@ -371,7 +371,7 @@ BEGIN
         'Details for tenant product',  
         NOW() - (random() * interval '10 years')  -- Random timestamp within the last 10 years  
     FROM public.product p  
-    CROSS JOIN generate_series(1, 13) g;  
+    CROSS JOIN generate_series(1, 100) g;  
 END;
 $$;
 
