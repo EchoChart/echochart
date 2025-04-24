@@ -213,6 +213,7 @@ CREATE INDEX IF NOT EXISTS idx_stock_stocked_at ON public.stock (stocked_at DESC
 
 CREATE INDEX IF NOT EXISTS idx_stock_display_name ON public.stock (tenant_id, product_id);
 
+-- Sales Table
 CREATE TABLE IF NOT EXISTS public.sales (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
    tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
@@ -328,7 +329,9 @@ CREATE INDEX IF NOT EXISTS client_address_client_id_idx ON public.client_address
 
 CREATE INDEX IF NOT EXISTS client_address_address_id_idx ON public.client_address (address_id);
 
-CREATE VIEW public.client_address_view AS
+CREATE VIEW public.client_address_view
+WITH
+   (security_invoker = TRUE) AS
 SELECT
    gen_random_uuid () AS id,
    -- Generate a unique ID for the view (optional)
@@ -370,6 +373,7 @@ CREATE TABLE IF NOT EXISTS public.audit_log (
    reverted_by UUID REFERENCES public.user (id),
    tenant_id UUID REFERENCES public.tenant (id),
    correlation_id TEXT,
+   request_id UUID,
    table_schema TEXT NOT NULL,
    table_name TEXT NOT NULL,
    operation TEXT NOT NULL,
@@ -381,17 +385,75 @@ CREATE TABLE IF NOT EXISTS public.audit_log (
 );
 
 CREATE INDEX IF NOT EXISTS idx_audit_log_user_id ON public.audit_log (user_id);
+
+CREATE INDEX IF NOT EXISTS idx_audit_log_tenant_id ON public.audit_log (tenant_id);
+
+CREATE INDEX IF NOT EXISTS idx_audit_log_correlation_id ON public.audit_log (correlation_id);
+
+CREATE INDEX IF NOT EXISTS idx_audit_log_operation ON public.audit_log (operation);
+
+CREATE INDEX IF NOT EXISTS idx_audit_log_created_at ON public.audit_log (created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_audit_log_row_created ON public.audit_log ((row_data ->> 'created_at'))
+WHERE
+   row_data IS NOT NULL
+   AND row_data ->> 'created_at' IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS idx_audit_log_old_created ON public.audit_log ((old_data ->> 'created_at'))
+WHERE
+   old_data IS NOT NULL
+   AND old_data ->> 'created_at' IS NOT NULL;
+
+-- Create or replace the view public.audit_log_group
+CREATE OR REPLACE VIEW public.audit_log_group
 WITH
    (security_invoker = TRUE) AS
 SELECT DISTINCT
-   ON (correlation_id) *
-FROM
-   public.audit_log
-ORDER BY
-   correlation_id,
-   COALESCE(NULLIF(row_data ->> 'created_at', '')::TIMESTAMPTZ, now()::TIMESTAMPTZ) ASC,
-   operation DESC,
+   ON (correlation_id) id,
+   user_id,
+   reverted_by,
+   tenant_id,
+   al.correlation_id,
+   al.request_id,
    CASE
-      WHEN operation = 'DELETE' THEN 0
+      WHEN EXISTS (
+         SELECT
+            1
+         FROM
+            public.audit_log al2
+         WHERE
+            al2.correlation_id = al.correlation_id
+            AND al2.operation = 'INSERT'
+      )
+      AND EXISTS (
+         SELECT
+            1
+         FROM
+            public.audit_log al3
+         WHERE
+            al3.correlation_id = al.correlation_id
+            AND al3.operation = 'DELETE'
+      ) THEN 'UPDATE' -- Mark as UPDATE if both INSERT and DELETE operations exist
+      ELSE operation -- Otherwise, retain the original operation type
+   END AS operation,
+   table_schema,
+   table_name,
+   row_data,
+   created_at,
+   reverted,
+   reverted_at
+FROM
+   public.audit_log al
+   -- Order by correlation_id, then by the timestamp of the row data (or current time if not available), and finally by operation type in descending order
+ORDER BY
+   al.correlation_id,
+   COALESCE(
+      NULLIF(al.row_data ->> 'created_at', '')::TIMESTAMPTZ,
+      NULLIF(al.old_data ->> 'created_at', '')::TIMESTAMPTZ,
+      now()::TIMESTAMPTZ
+   ) ASC,
+   al.operation DESC,
+   CASE
+      WHEN al.operation = 'DELETE' THEN 0 -- Ensure DELETE operations appear before non-DELETE operations
       ELSE 1
    END;

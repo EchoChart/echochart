@@ -502,14 +502,58 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STABLE COST 100;
 
-CREATE OR REPLACE FUNCTION private.trg_audit_log () RETURNS TRIGGER LANGUAGE plpgsql SECURITY definer
+CREATE OR REPLACE FUNCTION private.init_request_id () RETURNS UUID LANGUAGE plpgsql SECURITY DEFINER AS $$
+DECLARE
+  req_id UUID;
+BEGIN
+    req_id := gen_random_uuid();
+    PERFORM set_config('request.id', req_id::TEXT, true);
+    RETURN req_id;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION private.get_request_id () RETURNS UUID LANGUAGE plpgsql SECURITY DEFINER AS $$
+DECLARE
+  req_id UUID;
+BEGIN
+    BEGIN 
+        req_id := current_setting('request.id', true)::UUID;
+        IF req_id IS NULL THEN
+            req_id := private.init_request_id();
+            IF req_id IS NULL THEN
+                RAISE EXCEPTION 'Failed to initialize request ID';
+            END IF;
+        END IF;
+    EXCEPTION WHEN OTHERS THEN
+        RAISE NOTICE 'Exception occurred: %', SQLERRM;
+        req_id := private.init_request_id();
+        IF req_id IS NULL THEN
+            RAISE EXCEPTION 'Failed to initialize request ID after exception';
+        END IF;
+    END;
+    RETURN req_id;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION private.trg_audit_log () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
     "search_path" = '' AS $$
 DECLARE
   user_id UUID;
   tenant_id UUID;
   correlation_id TEXT;
+  request_id UUID;
+  db_role TEXT;
 BEGIN
+    BEGIN
+        SELECT (SELECT auth.role()) INTO db_role;
+        IF db_role <> 'authenticated' THEN
+            RETURN NULL;
+        END IF;
+    EXCEPTION WHEN OTHERS THEN
+        RETURN NULL;
+    END;
+
     BEGIN
     SELECT auth.uid() INTO user_id;
     EXCEPTION
@@ -524,13 +568,15 @@ BEGIN
         tenant_id := NULL;
     END;
 
-    -- Retrieve correlation_id from the session setting
+    -- Generate correlation_id
     BEGIN
     correlation_id := coalesce(user_id::TEXT, 'unknown') || '_' || to_char(date_trunc('second', now()), 'YYYYMMDDHH24MISS');
     EXCEPTION
     WHEN OTHERS THEN
         correlation_id := NULL;
     END;
+
+    SELECT (private.get_request_id())::UUID INTO request_id;
 
     INSERT INTO public.audit_log (
         table_name,
@@ -540,7 +586,8 @@ BEGIN
         old_data,
         user_id,
         tenant_id,
-        correlation_id
+        correlation_id,
+        request_id
     ) VALUES (
         TG_TABLE_NAME,
         TG_TABLE_SCHEMA,
@@ -549,7 +596,8 @@ BEGIN
         CASE WHEN TG_OP = 'INSERT' THEN NULL ELSE to_jsonb(OLD) END,
         user_id,
         tenant_id,
-        correlation_id
+        correlation_id,
+        request_id
     );
     RETURN NULL;
 END;
@@ -653,7 +701,7 @@ END;
 $$;
 
 -- Function to CREATE triggers automatically ON all enabled tables
-CREATE OR REPLACE FUNCTION private.audit_sync_triggers () RETURNS void LANGUAGE plpgsql SECURITY definer
+CREATE OR REPLACE FUNCTION private.audit_sync_triggers () RETURNS void LANGUAGE plpgsql SECURITY DEFINER
 SET
     "search_path" = '' AS $$
 DECLARE
@@ -706,7 +754,7 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION private.audit_sync_triggers_wrapper () RETURNS trigger LANGUAGE plpgsql SECURITY definer
+CREATE OR REPLACE FUNCTION private.audit_sync_triggers_wrapper () RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER
 SET
     "search_path" = '' AS $$
 BEGIN
