@@ -1,6 +1,6 @@
 <script setup>
 import Collection from '@/lib/Collection';
-import AuditLogChangesCard from './AuditLogChangesCard.vue';
+import CorrelatedAuditLogs from './CorrelatedAuditLogs.vue';
 
 defineOptions({
    inheritAttrs: false
@@ -61,7 +61,8 @@ const rowActions = new Collection([
          async () =>
             await supabase
                .rpc('revert_audit_log', { target_correlation_id: data.correlation_id || data.id })
-               .then(() => setTimeout(() => emitter.emit('audit_log-update'), 200)),
+               .throwOnError()
+               .then(() => emitter.emit('audit_log-update')),
       disabled: ({ data }) => data.reverted,
       icon: PrimeIcons.REFRESH
    }
@@ -85,7 +86,7 @@ const dialogRef = inject('dialogRef', null);
 
 const tableProps = computed(() => ({
    stateKey,
-   from: 'audit_log_distinct',
+   from: 'audit_log_group',
    select: '*, done_by:user!user_id(*), reverted_by:user!reverted_by(*)',
    columns: columns._data,
    rowActions: rowActions._data,
@@ -102,13 +103,13 @@ const tableProps = computed(() => ({
          </Teleport>
       </template>
       <template #operation_body="{ data }">
-         <Tag v-bind="getOperationTag({ data })" />
+         <Tag v-if="data" v-bind="getOperationTag({ data })" />
       </template>
       <template #operation_filter="{ filterModel }">
          <SelectAuditOperation v-model="filterModel.value" multiple />
       </template>
       <template #expansion="{ data }">
-         <AuditLogChangesCard :data />
+         <CorrelatedAuditLogs v-if="data" :id="data.correlation_id" />
       </template>
       <template #done_by_body="{ data, field }">
          {{ _get(data, `${field}.display_name`) || _get(data, `${field}.email`) }}
