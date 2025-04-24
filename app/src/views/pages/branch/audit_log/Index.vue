@@ -20,9 +20,9 @@ const columns = new Collection([
       showAddButton: false
    },
    { field: 'done_by', header: i18n.t('done_by') },
+   { field: 'created_at', header: i18n.t('created_at'), sortable: true, sortOrder: { value: -1 } },
    { field: 'reverted_by', header: i18n.t('reverted_by') },
-   { field: 'reverted_at', header: i18n.t('reverted_at'), sortable: true },
-   { field: 'created_at', header: i18n.t('created_at'), sortable: true, sortOrder: { value: -1 } }
+   { field: 'reverted_at', header: i18n.t('reverted_at'), sortable: true }
 ]);
 
 // Define the filters object
