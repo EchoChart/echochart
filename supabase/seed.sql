@@ -236,7 +236,7 @@ VALUES
             FROM
                 public.product_category
             WHERE
-                display_name = 'Spare Part'
+                display_name = 'spare part'
             LIMIT
                 1
         ),

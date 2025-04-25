@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS public.sales (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
    tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
    product_id UUID NOT NULL REFERENCES public.product (id),
-   assigned_user_id UUID NOT NULL REFERENCES public.user (id),
+   user_id UUID NOT NULL REFERENCES public.user (id),
    record_type TEXT NOT NULL,
    record_status TEXT NOT NULL CHECK (record_status IN ('pending', 'approved', 'rejected')),
    delivery_status TEXT,
@@ -403,6 +403,16 @@ CREATE INDEX IF NOT EXISTS idx_audit_log_old_created ON public.audit_log ((old_d
 WHERE
    old_data IS NOT NULL
    AND old_data ->> 'created_at' IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS idx_audit_log_row_created ON public.audit_log ((row_data ->> 'id'))
+WHERE
+   row_data IS NOT NULL
+   AND row_data ->> 'id' IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS idx_audit_log_old_created ON public.audit_log ((old_data ->> 'id'))
+WHERE
+   old_data IS NOT NULL
+   AND old_data ->> 'id' IS NOT NULL;
 
 -- Create or replace the view public.audit_log_group
 CREATE OR REPLACE VIEW public.audit_log_group
