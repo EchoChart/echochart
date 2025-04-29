@@ -181,20 +181,18 @@ const tableProps = computed(() => ({
          :header="$slots[`${_snakeCase(column?.field)}_header`] ? undefined : column?.header"
          :footer="$slots[`${_snakeCase(column?.field)}_footer`] ? undefined : column?.footer"
          :pt="{
-            bodyCell: ({ instance }) =>
-               _keys(tableProps.expandedRows).some?.((key) =>
-                  $attrs.value?.some?.(
-                     (row) =>
-                        _get(row, tableProps.dataKey) === key &&
-                        _get(instance?.rowData, column?.field) === _get(row, column?.field) &&
-                        (tableProps.groupRowsBy?.includes(column?.field) ||
-                           tableProps.groupRowsBy === column)
-                  )
-               )
-                  ? {
-                       class: 'align-baseline'
-                    }
-                  : undefined
+            bodyCell: ({ instance }) => ({
+               class:
+                  _keys(tableProps.expandedRows).some?.((key) =>
+                     $attrs.value?.some?.(
+                        (row) =>
+                           _get(row, tableProps.dataKey) === key &&
+                           _get(instance?.rowData, column?.field) === _get(row, column?.field) &&
+                           (tableProps.groupRowsBy?.includes(column?.field) ||
+                              tableProps.groupRowsBy === column)
+                     )
+                  ) && 'align-baseline'
+            })
          }"
       >
          <template
