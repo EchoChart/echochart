@@ -1,4 +1,3 @@
-import { UserModel } from '@/services/models/UserModel';
 import { ABILITY_TOKEN } from '@casl/vue';
 import Collection from '@lib/Collection';
 import { jwtDecode } from 'jwt-decode';
@@ -72,7 +71,7 @@ export const useAuthStore = defineStore('auth', () => {
    const jwt = computed(() => {
       return session?.access_token ? jwtDecode(session?.access_token) : null;
    });
-   const user = new UserModel();
+   const user = new Collection();
    const isSignedIn = computed(() => !!user?.id);
    const branches = computed(() => new Collection(jwt?.value?.app_metadata?.allowed_tenant || []));
    const { currentTenant, setCurrentTenant, changeCurrentTenant } = useCurrentTenant();

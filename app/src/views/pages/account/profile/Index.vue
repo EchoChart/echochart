@@ -6,12 +6,12 @@ const { user } = storeToRefs(authStore);
 <template>
    <div class="card flex flex-wrap items-start gap-4 p-4">
       <span class="flex-0 mx-auto relative">
-         <Image
-            width="144"
-            :src="user?.avatar_url"
-            preview
+         <AvatarPlaceholder
             :alt="user?.user_metadata?.display_name"
+            preview
             class="min-w-24 rounded-[var(--content-border-radius)] overflow-hidden"
+            :src="user?.avatar_url"
+            :placeholder="user.display_name || user.user_metadata?.display_name"
          />
          <Badge
             v-if="user?.email_confirmed_at"
