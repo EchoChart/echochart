@@ -100,7 +100,7 @@ provide('dialogRef', true);
 </script>
 
 <template>
-   <div class="card">
+   <div class="card p-0">
       <FormBox @submit="save" @reset="() => form._reset()" :form :readonly>
          <FormField
             v-if="!props.data"
