@@ -80,7 +80,7 @@ const tabModel = computed({
 </script>
 
 <template>
-   <div class="card">
+   <div class="card p-0">
       <Tabs v-model:value="tabModel">
          <TabList>
             <Tab
