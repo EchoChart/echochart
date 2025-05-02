@@ -5,7 +5,6 @@ import { useToast } from 'primevue';
 const toast = useToast();
 
 const authStore = useAuthStore();
-await authStore.initialized;
 
 const { user } = storeToRefs(authStore);
 const accountStore = useAccountStore();
@@ -54,7 +53,11 @@ const save = async () => {
          <InputText v-bind="slotProps" v-model="form['email']" class="min-w-[10vw]" />
       </FormField>
       <FormField fluid v-slot="slotProps" :label="$t('phone')" :error="form._errors.first('phone')">
-         <PhoneInput v-bind="slotProps" v-model="form['phone']" />
+         <PhoneInput
+            v-bind="slotProps"
+            :model-value="'+' + form['phone']"
+            @update:model-value="form['phone'] = '+' + $event"
+         />
       </FormField>
    </FormBox>
 </template>

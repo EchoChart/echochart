@@ -15,6 +15,10 @@ defineProps({
    readonly: {
       type: Boolean,
       default: false
+   },
+   loading: {
+      type: Boolean,
+      default: false
    }
 });
 
@@ -70,6 +74,7 @@ const modelValue = defineModel('modelValue', {
             class="h-full !rounded-[inherit] -mr-[1px]"
             :invalid
             :disabled="readonly"
+            :loading
          >
             <template #value="{ value }">
                <span>{{ [value?.name, value?.countryCallingCode].filter(Boolean).join` | ` }}</span>
@@ -88,6 +93,7 @@ const modelValue = defineModel('modelValue', {
          unmask
          :invalid
          :readonly
+         :loading
       />
    </InputGroup>
 </template>
