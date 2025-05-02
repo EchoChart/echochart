@@ -17,12 +17,8 @@
                   v-text="$t('requested_resource_is_not_available')"
                />
                <img src="/images/error/asset-error.svg" alt="Access denied" width="80%" />
-               <CustomLink :to="{ name: 'dashboard' }" v-slot="navigate">
-                  <Button
-                     :label="$t('go_to_dashboard')"
-                     severity="danger"
-                     @click="() => navigate()"
-                  />
+               <CustomLink :to="{ name: 'dashboard' }" v-slot="{ navigate }">
+                  <Button :label="$t('go_to_dashboard')" severity="danger" @click="navigate" />
                </CustomLink>
             </div>
          </div>
