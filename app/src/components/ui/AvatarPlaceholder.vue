@@ -8,8 +8,8 @@ const props = defineProps({
       required: true
    },
    size: {
-      type: Number,
-      default: 100
+      type: String || Number,
+      default: '100%'
    },
    backgroundColor: {
       type: String,
@@ -24,8 +24,8 @@ const props = defineProps({
 const { getPrimaryColor, getSurfaceColor, isDarkTheme } = useLayout();
 
 const firstLetters = computed(() => {
-   const words = props.placeholder.split(' ');
-   if (words.length >= 2) {
+   const words = props.placeholder?.split?.(' ');
+   if (words?.length >= 2) {
       return words
          .slice(0, 2)
          .map((word) => word.charAt(0).toUpperCase())
@@ -52,6 +52,7 @@ const label = computed(() => firstLetters.value || '♥');
             :height="size"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
+            v-bind="slotProps"
          >
             <rect width="100%" height="100%" :fill="bg" />
             <text

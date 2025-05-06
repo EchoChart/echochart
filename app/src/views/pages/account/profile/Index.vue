@@ -9,9 +9,9 @@ const { user } = storeToRefs(authStore);
          <AvatarPlaceholder
             :alt="user?.user_metadata?.display_name"
             preview
-            class="min-w-24 rounded-[var(--content-border-radius)] overflow-hidden"
-            :src="user?.avatar_url"
-            :placeholder="user.display_name || user.user_metadata?.display_name"
+            class="w-32 rounded-[var(--content-border-radius)] overflow-hidden"
+            :src="user?.user_metadata?.avatar_url"
+            :placeholder="user.user_metadata?.display_name || user?.email"
          />
          <Badge
             v-if="user?.email_confirmed_at"
