@@ -96,7 +96,7 @@ const rowActions = new Collection([
                .from('stock')
                .delete()
                .eq('id', data?.id)
-               .setHeader('item', JSON.stringify(data))
+               .setHeader('item', encodeURI(JSON.stringify(data)))
                .throwOnError()
                .then(() => emitter.emit(`${stateKey}-update`, data)),
       icon: PrimeIcons.TRASH

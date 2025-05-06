@@ -219,7 +219,7 @@ const getFilterQuery = (filters) => {
  */
 const handleDelete = async (options) => {
    return await new Promise((resolve, reject) => {
-      const item = JSON.parse(options.headers?.get?.('item'));
+      const item = JSON.parse(decodeURI(options.headers?.get?.('item')));
 
       return app.config?.globalProperties?.$confirm?.require?.({
          icon: PrimeIcons.EXCLAMATION_TRIANGLE,
@@ -249,7 +249,9 @@ const handleDelete = async (options) => {
  * @returns {string} The modified URL.
  */
 const handleMeta = (url, options) => {
-   const { filters, first, rows, multiSortMeta } = JSON.parse(options.headers?.get?.('meta'));
+   const { filters, first, rows, multiSortMeta } = JSON.parse(
+      decodeURI(options.headers?.get?.('meta'))
+   );
    const filterQuery = getFilterQuery(filters);
 
    if (_size(filterQuery) > 0) url += `${filterQuery}`;

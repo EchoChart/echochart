@@ -55,7 +55,7 @@ async function getValues(metaObj) {
 
       const req = supabase.from(props.from).select(props.select).abortSignal(ac.signal);
 
-      !_isEmpty(meta._data) && req.setHeader?.('meta', JSON.stringify(meta._data));
+      !_isEmpty(meta._data) && req.setHeader?.('meta', encodeURI(JSON.stringify(meta._data)));
 
       const usePaginator = _get(attrs, 'paginator', true);
       if (usePaginator) {
@@ -65,7 +65,7 @@ async function getValues(metaObj) {
             .abortSignal?.(ac.signal);
 
          !_isEmpty(meta._data) &&
-            countReq.setHeader?.('meta', JSON.stringify(_pick(meta._data, ['filters'])));
+            countReq.setHeader?.('meta', encodeURI(JSON.stringify(_pick(meta._data, ['filters']))));
 
          countReq.then?.(({ count }) => (totalRecords.value = count));
       }
