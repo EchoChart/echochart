@@ -31,7 +31,7 @@ const id = attrs.id || useId() || _kebabCase(attrs.label);
 
 const containerClass = computed(() => [
    attrs.class,
-   'form-field flex-1 flex flex-wrap gap-2 items-center',
+   'form-field flex flex-wrap gap-2 items-center',
    'mb-auto p-2 relative',
    'transition-[padding] duration-[var(--transition-duration)]'
 ]);
@@ -44,11 +44,11 @@ const labelClass = computed(() => [
    props.reverse && 'order-[1]',
    'flex-auto',
    'my-auto',
-   'truncate text-surface-900 dark:text-surface-0 font-medium'
+   'truncate font-medium'
 ]);
 
 const inputClass = computed(() => [
-   _has(attrs, 'fluid') ? '!w-full flex-auto' : 'flex-0',
+   _has(attrs, 'fluid') ? '!w-full flex-auto' : 'flex-auto',
    'min-w-48'
 ]);
 
