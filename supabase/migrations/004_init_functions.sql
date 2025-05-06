@@ -23,11 +23,10 @@ DECLARE
 BEGIN
     BEGIN
         -- Insert into the user table
-        INSERT INTO public.user (id, display_name, avatar_url, email, phone)
+        INSERT INTO public.user (id, metadata, email, phone)
         VALUES (
             NEW.id
-          , COALESCE(NEW.raw_user_meta_data->>'display_name', NULL)
-          , COALESCE(NEW.raw_user_meta_data->>'avatar_url', NULL)
+          , NEW.raw_user_meta_data
           , NEW.email
           , NEW.phone
         ) RETURNING id INTO user_id;
@@ -51,8 +50,7 @@ BEGIN
         -- Update the user table
         UPDATE public.user
         SET
-            display_name = COALESCE(NEW.raw_user_meta_data->>'display_name', NULL)
-          , avatar_url = COALESCE(NEW.raw_user_meta_data->>'avatar_url', NULL)
+            metadata = NEW.raw_user_meta_data
           , email = NEW.email
           , phone = NEW.phone
         WHERE id = NEW.id
