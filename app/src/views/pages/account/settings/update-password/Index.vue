@@ -32,9 +32,13 @@ const save = async () => {
 </script>
 <template>
    <FormBox @submit="save" @reset="() => form._reset()" v-focustrap :form>
-      <FormField v-slot="slotProps" :label="'password'" :error="form._errors.first('password')">
+      <FormField
+         fluid
+         v-slot="slotProps"
+         :label="'password'"
+         :error="form._errors.first('password')"
+      >
          <Password
-            fluid
             autofocus
             v-bind="slotProps"
             :toggle-mask="true"
@@ -44,12 +48,12 @@ const save = async () => {
          />
       </FormField>
       <FormField
+         fluid
          v-slot="slotProps"
          :label="'password_confirmation'"
          :error="form._errors.first('password_confirmation')"
       >
          <Password
-            fluid
             v-bind="slotProps"
             :toggle-mask="true"
             :feedback="false"

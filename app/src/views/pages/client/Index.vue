@@ -1,7 +1,7 @@
 <script setup>
 import Collection from '@/lib/Collection';
-import ClientUpsert from './upsert/Index.vue';
 import parsePhoneNumberFromString from 'libphonenumber-js';
+import ClientUpsert from './upsert/Index.vue';
 
 defineOptions({
    inheritAttrs: false

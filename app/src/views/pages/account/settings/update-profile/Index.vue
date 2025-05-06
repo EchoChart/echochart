@@ -15,7 +15,7 @@ const form = new Form({
       email_confirm: true,
       phone: user.value?.phone,
       phone_confirm: true,
-      data: user.value?.user_metadata
+      data: { ...user.value?.user_metadata, avatar_url: 'https://doodleipsum.com/700x700/abstract' }
    },
    rules: {
       data: { display_name: 'string' },
@@ -49,14 +49,19 @@ const save = async () => {
       >
          <InputText autofocus v-bind="slotProps" v-model="form['data.display_name']" />
       </FormField>
-      <FormField fluid v-slot="slotProps" :label="'email'" :error="form?._errors.first('email')">
-         <InputText v-bind="slotProps" v-model="form['email']" class="min-w-[10vw]" />
+      <FormField
+         fluid
+         v-slot="slotProps"
+         :label="$t('email')"
+         :error="form?._errors.first('email')"
+      >
+         <InputText v-bind="slotProps" v-model="form['email']" />
       </FormField>
       <FormField fluid v-slot="slotProps" :label="$t('phone')" :error="form._errors.first('phone')">
          <PhoneInput
             v-bind="slotProps"
             :model-value="'+' + form['phone']"
-            @update:model-value="form['phone'] = '+' + $event"
+            @update:model-value="form['phone'] = $event"
          />
       </FormField>
    </FormBox>
