@@ -17,6 +17,7 @@ Validator.setAttributeFormatter((attr) => {
 });
 
 Validator.register('phone', (value) => {
+   if (_isString(value) && !_startsWith(value, '+')) value = '+' + value;
    return isValidPhoneNumber(value);
 });
 Validator.register(
