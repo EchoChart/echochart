@@ -33,7 +33,7 @@ const accountMenuItems = computed(() => {
                   :alt="user?.user_metadata?.display_name"
                   class="!w-24 aspect-square rounded-[var(--content-border-radius)] overflow-hidden"
                   :src="user?.user_metadata?.avatar_url"
-                  :placeholder="user.display_name || user.user_metadata?.display_name"
+                  :placeholder="user.user_metadata?.display_name || user?.email"
                />
                <p
                   v-if="user.user_metadata?.display_name"

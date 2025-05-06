@@ -27,11 +27,11 @@ const firstLetters = computed(() => {
    const words = props.placeholder?.split?.(' ');
    if (words?.length >= 2) {
       return words
-         .slice(0, 2)
-         .map((word) => word.charAt(0).toUpperCase())
-         .join('');
+         ?.slice?.(0, 2)
+         ?.map?.((word) => word.charAt?.(0).toUpperCase?.())
+         ?.join?.('');
    } else {
-      return words.join('').slice(0, 2).toUpperCase();
+      return words?.join?.('').slice?.(0, 2).toUpperCase?.();
    }
 });
 
