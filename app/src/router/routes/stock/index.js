@@ -1,7 +1,8 @@
-import deviceRoutes from './device';
-import sparePartRoutes from './spare-part';
 import batteryRoutes from './battery';
+import deviceRoutes from './device';
 import productRoutes from './product';
+import serviceRoutes from './service';
+import sparePartRoutes from './spare-part';
 
 export default [
    {
@@ -48,6 +49,7 @@ export default [
          ...productRoutes,
          ...deviceRoutes,
          ...sparePartRoutes,
+         ...serviceRoutes,
          ...batteryRoutes
       ]
    }

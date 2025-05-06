@@ -222,6 +222,7 @@ INSERT INTO
     public.product_category (display_name, details, parent_id, created_at)
 VALUES
     ('device', 'Devices to assist hearing impairment', NULL, NOW() - (random() * INTERVAL '10 years')),
+    ('service', 'Services to assist hearing impairment', NULL, NOW() - (random() * INTERVAL '10 years')),
     ('spare part', 'Components for hearing aids', NULL, NOW() - (random() * INTERVAL '10 years'));
 
 INSERT INTO
@@ -258,11 +259,13 @@ BEGIN
             i AS row_num, -- Explicit row number for ordering
             CASE 
                 WHEN i <= prod_count * 0.50 THEN cat_ids[2]  -- Device
-                WHEN i <= prod_count * 0.75  THEN cat_ids[3]  -- Spare Parts
+                WHEN i <= prod_count * 0.60  THEN cat_ids[3]  -- Service
+                WHEN i <= prod_count * 0.75  THEN cat_ids[4]  -- Spare Parts
                 WHEN i <= prod_count * 1 THEN cat_ids[1]  -- Battery
             END AS assigned_category_id,  
             CASE 
                 WHEN i <= prod_count * 0.50 THEN 'Device ' || i
+                WHEN i <= prod_count * 0.60 THEN 'Service ' || i
                 WHEN i <= prod_count * 0.75 THEN 'Spare Part ' || i
                 WHEN i <= prod_count * 1 THEN 'Battery ' || i
             END AS product_name,
