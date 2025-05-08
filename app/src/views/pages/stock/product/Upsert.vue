@@ -46,7 +46,6 @@ const form = new Form({
    data: _defaults(_pick(props.data, fields), initialFormData),
    rules: {
       display_name: 'required',
-      brand: 'required',
       categories: 'required'
    },
    useDialogForm: false
