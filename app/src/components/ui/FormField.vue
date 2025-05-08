@@ -69,6 +69,8 @@ onMounted(() => {
       });
    }
 });
+
+const mounted = useMounted();
 </script>
 
 <template>
@@ -84,22 +86,34 @@ onMounted(() => {
          />
       </slot>
 
-      <Suspense>
-         <slot
-            :disabled="isLoading"
-            :loading="isLoading"
-            :id="id"
-            :inputId="id"
-            :invalid="!!attrs.error"
-            v-bind="_omit(attrs, ['class'])"
-            :class="inputClass"
-            :aria-labelledby="(!!attrs.label && `label-${id}`) || undefined"
-            :aria-errormessage="`${id}-errormessage`"
-         />
-         <template #fallback>
-            <Skeleton height="2.5rem" v-bind="_omit(attrs, ['class'])" />
-         </template>
-      </Suspense>
+      <BlockUI
+         :blocked="$attrs.readonly === true"
+         :pt="{
+            root: { class: 'contents' },
+            mask: {
+               class: '!bg-[transparent]'
+            }
+         }"
+         v-if="mounted"
+      >
+         <Suspense>
+            <slot
+               :disabled="isLoading"
+               :loading="isLoading"
+               :id="id"
+               :inputId="id"
+               :invalid="!!attrs.error"
+               :tabindex="$attrs.readonly ? -1 : $attrs.tabindex"
+               v-bind="_omit(attrs, ['class'])"
+               :class="inputClass"
+               :aria-labelledby="(!!attrs.label && `label-${id}`) || undefined"
+               :aria-errormessage="`${id}-errormessage`"
+            />
+            <template #fallback>
+               <Skeleton height="2.5rem" v-bind="_omit(attrs, ['class'])" />
+            </template>
+         </Suspense>
+      </BlockUI>
 
       <slot name="error">
          <Message
