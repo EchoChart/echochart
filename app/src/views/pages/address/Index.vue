@@ -6,6 +6,8 @@ defineOptions({
    inheritAttrs: false
 });
 
+const attrs = useAttrs();
+
 const router = useRouter();
 
 const columns = new Collection([
@@ -62,7 +64,8 @@ const filters = ref({
    details: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
-   }
+   },
+   ...attrs.filters
 });
 
 const stateKey = 'address';
@@ -96,8 +99,6 @@ const rowActions = new Collection([
       icon: PrimeIcons.PENCIL
    }
 ]);
-
-const attrs = useAttrs();
 
 const dialogRef = inject('dialogRef', null);
 

@@ -48,7 +48,8 @@ const filters = ref({
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
       dataType: 'date'
-   }
+   },
+   ...attrs.filters
 });
 
 const stateKey = 'audit_log';
