@@ -1,6 +1,6 @@
 import Validator from '@/plugins/validatorjs';
 import Collection from '@lib/Collection';
-import { diff, updatedDiff } from 'deep-object-diff';
+import { detailedDiff, diff, updatedDiff } from 'deep-object-diff';
 import Errors from 'validatorjs/src/errors.js';
 
 /**
@@ -50,6 +50,14 @@ export class Form extends Collection {
     */
    _changedData = computed(() => {
       return diff(this._defaults, this._data);
+   });
+
+   /**
+    * Computed property indicating the categorized changed data.
+    * @type {ComputedRef<Object>}
+    */
+   _detailedChagedData = computed(() => {
+      return detailedDiff(this._defaults, this._data);
    });
 
    /**
