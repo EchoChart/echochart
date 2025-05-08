@@ -132,10 +132,10 @@ const tableProps = computed(() => ({
          </Teleport>
       </template>
       <template #brand_filter="{ filterModel }">
-         <ProductBrandSelect v-model="filterModel.value" editable />
+         <SelectProductBrand v-model="filterModel.value" editable />
       </template>
       <template #categories_display_name_filter="{ filterModel }">
-         <ProductCategorySelect v-model="filterModel.value" />
+         <SelectProductCategory v-model="filterModel.value" />
       </template>
       <template #categories_display_name_body="{ data }">
          <div class="flex gap-2 flex-wrap justify-center">

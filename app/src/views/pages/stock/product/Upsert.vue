@@ -140,7 +140,7 @@ if (props.id || props.data?.id) {
             :label="$t('brand')"
          >
             <template #default="slotProps">
-               <ProductBrandSelect v-bind="slotProps" v-model="form.brand" editable />
+               <SelectProductBrand v-bind="slotProps" v-model="form.brand" editable />
             </template>
          </FormField>
          <FormField
@@ -151,7 +151,7 @@ if (props.id || props.data?.id) {
             :label="$t('categories')"
          >
             <template #default="slotProps">
-               <ProductCategorySelect
+               <SelectProductCategory
                   v-bind="slotProps"
                   v-model="form.categories"
                   :disabled="readonly || !!props.category"

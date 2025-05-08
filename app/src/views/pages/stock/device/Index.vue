@@ -158,7 +158,7 @@ const tableProps = computed(() => ({
          />
       </template>
       <template #vendor_filter="{ filterModel }">
-         <StockVendorSelect v-model="filterModel.value" />
+         <SelectStockVendor v-model="filterModel.value" />
       </template>
       <template #display_name_body="{ data }">
          <div class="flex flex-col gap-2">
