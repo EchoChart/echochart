@@ -36,7 +36,7 @@ const constextMenuItems = computed(() => {
             }
          }
       },
-      ...props.contextMenuItems
+      ...(props.contextMenuItems || [])
    ];
 });
 
