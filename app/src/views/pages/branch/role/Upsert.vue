@@ -136,7 +136,7 @@ const save = async () => {
             :error="form?._errors.first('permission')"
          >
             <template #default="slotProps">
-               <PermissionsSelect v-bind="slotProps" v-model="form['permission']" />
+               <SelectPermissions v-bind="slotProps" v-model="form['permission']" />
             </template>
          </FormField>
       </FormBox>
