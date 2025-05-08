@@ -295,19 +295,19 @@ CREATE OR REPLACE FUNCTION private.tenant_seed_client (target_tenant_id UUID) RE
 SET
     search_path = '' AS $$
 BEGIN
-    -- Seed data for 'client' table
     INSERT INTO public.client (national_id, display_name, birth_date, gender, email, phone, nationality, tenant_id)
-    VALUES ('1234567890', 'John Doe', '1990-01-01', 'male', 'john.doe@example.com', '+1234567890', 'United States', target_tenant_id),
-        ('0987654321', 'Jane Smith', '1985-06-15', 'female', 'jane.smith@example.com', '+0987654321', 'United Kingdom', target_tenant_id),
-        ('1122334455', 'Robert Johnson', '1992-12-20', 'male', 'robert.johnson@example.com', '+1122334455', 'Australia', target_tenant_id),
-        ('2233445566', 'Emily Davis', '1988-09-10', 'female', 'emily.davis@example.com', '+2233445566', 'Canada', target_tenant_id),
-        ('3344556677', 'Michael Brown', '1995-03-25', 'male', 'michael.brown@example.com', '+3344556677', 'Germany', target_tenant_id),
-        ('4455667788', 'Sarah Wilson', '1984-11-30', 'female', 'sarah.wilson@example.com', '+4455667788', 'Japan', target_tenant_id),
-        ('7788990001', 'Olivia Brown', '1993-05-24', 'male', 'olivia.brown@example.com', '+7788990001', 'United Kingdom', target_tenant_id),
-        ('5566778899', 'William Miller', '1997-07-22', 'male', 'william.miller@example.com', '+5566778899', 'France', target_tenant_id),
-        ('6677889900', 'Jessica Taylor', '1987-04-17', 'female', 'jessica.taylor@example.com', '+6677889900', 'Italy', target_tenant_id),
-        ('7788990011', 'David Anderson', '1993-10-14', 'male', 'david.anderson@example.com', '+7788990011', 'Spain', target_tenant_id),
-        ('8899001122', 'Sophia Martinez', '1989-06-21', 'female', 'sophia.martinez@example.com', '+8899001122', 'Mexico', target_tenant_id);
+    VALUES 
+        (gen_random_uuid(), 'John Doe', '1990-01-01', 'male', 'john.doe'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'United States', target_tenant_id),
+        (gen_random_uuid(), 'Jane Smith', '1985-06-15', 'female', 'jane.smith'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'United Kingdom', target_tenant_id),
+        (gen_random_uuid(), 'Robert Johnson', '1992-12-20', 'male', 'robert.johnson'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Australia', target_tenant_id),
+        (gen_random_uuid(), 'Emily Davis', '1988-09-10', 'female', 'emily.davis'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Canada', target_tenant_id),
+        (gen_random_uuid(), 'Michael Brown', '1995-03-25', 'male', 'michael.brown'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Germany', target_tenant_id),
+        (gen_random_uuid(), 'Sarah Wilson', '1984-11-30', 'female', 'sarah.wilson'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Japan', target_tenant_id),
+        (gen_random_uuid(), 'Olivia Brown', '1993-05-24', 'male', 'olivia.brown'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'United Kingdom', target_tenant_id),
+        (gen_random_uuid(), 'William Miller', '1997-07-22', 'male', 'william.miller'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'France', target_tenant_id),
+        (gen_random_uuid(), 'Jessica Taylor', '1987-04-17', 'female', 'jessica.taylor'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Italy', target_tenant_id),
+        (gen_random_uuid(), 'David Anderson', '1993-10-14', 'male', 'david.anderson'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Spain', target_tenant_id),
+        (gen_random_uuid(), 'Sophia Martinez', '1989-06-21', 'female', 'sophia.martinez'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Mexico', target_tenant_id);
 END; 
 $$;
 
