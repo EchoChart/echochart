@@ -15,8 +15,8 @@ const containerClass = computed(() => {
       <RouterView v-slot="{ Component }" name="layout-topbar">
          <Transition
             appear
-            enter-active-class="animate-fadeinup animate-ease-out animate-duration-[calc(var(--transition-duration))]"
-            leave-active-class="animate-fadeoutup animate-ease-in animate-duration-[calc(var(--transition-duration))]"
+            enter-active-class="animate-fadeinup animate-fill-forwards animate-ease-out animate-duration-[var(--transition-duration)]"
+            leave-active-class="animate-fadeoutup animate-fill-forwards animate-ease-in animate-duration-[var(--transition-duration)]"
             mode="out-in"
          >
             <header v-if="Component" class="layout-topbar" :key="currentTenant?.display_name">
@@ -30,8 +30,8 @@ const containerClass = computed(() => {
          <RouterView v-slot="{ Component }" name="layout-sidebar">
             <Transition
                appear
-               enter-active-class="animate-fadeinleft animate-ease-out animate-duration-[calc(var(--transition-duration))]"
-               leave-active-class="animate-fadeoutleft animate-ease-in animate-duration-[calc(var(--transition-duration))]"
+               enter-active-class="animate-fadeinleft animate-fill-forwards animate-ease-out animate-duration-[var(--transition-duration)]"
+               leave-active-class="animate-fadeoutleft animate-fill-forwards animate-ease-in animate-duration-[var(--transition-duration)]"
                mode="out-in"
             >
                <aside v-if="Component" class="layout-sidebar" :key="currentTenant?.display_name">
@@ -70,8 +70,8 @@ const containerClass = computed(() => {
       <RouterView v-slot="{ Component }" name="layout-footer">
          <Transition
             appear
-            enter-active-class="animate-fadeindown animate-ease-out animate-duration-[calc(var(--transition-duration))]"
-            leave-active-class="animate-fadeoutdown animate-ease-in animate-duration-[calc(var(--transition-duration))]"
+            enter-active-class="animate-fadeindown animate-fill-forwards animate-ease-out animate-duration-[var(--transition-duration)]"
+            leave-active-class="animate-fadeoutdown animate-fill-forwards animate-ease-in animate-duration-[var(--transition-duration)]"
             mode="out-in"
          >
             <footer v-if="Component" class="layout-footer">
