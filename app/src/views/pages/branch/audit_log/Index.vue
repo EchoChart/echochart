@@ -52,7 +52,7 @@ const filters = ref({
    ...attrs.filters
 });
 
-const stateKey = 'audit_log';
+const { ability } = useAuthStore();
 const rowActions = new Collection([
    {
       label: ({ data }) =>
@@ -64,7 +64,10 @@ const rowActions = new Collection([
                .rpc('revert_audit_log', { target_correlation_id: data.correlation_id || data.id })
                .throwOnError()
                .then(() => emitter.emit('audit_log-update')),
-      disabled: ({ data }) => data.reverted,
+      disabled: ({ data }) =>
+         data.reverted ||
+         ability.cannot('create', data.resource) ||
+         ability.cannot('modify', data.resource),
       icon: PrimeIcons.REFRESH
    }
 ]);
@@ -72,7 +75,8 @@ const rowActions = new Collection([
 const operations = [
    { value: 'INSERT', label: i18n.t('added'), severity: 'success' },
    { value: 'UPDATE', label: i18n.t('updated'), severity: 'info' },
-   { value: 'DELETE', label: i18n.t('deleted'), severity: 'danger' }
+   { value: 'DELETE', label: i18n.t('deleted'), severity: 'danger' },
+   { value: 'SELECT', label: i18n.t('readed'), severity: 'secondary' }
 ];
 
 const getOperationTag = (body) => {
@@ -85,6 +89,7 @@ const getOperationTag = (body) => {
 
 const dialogRef = inject('dialogRef', null);
 
+const stateKey = 'audit_log';
 const tableProps = computed(() => ({
    stateKey,
    from: 'audit_log_group',
