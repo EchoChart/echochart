@@ -17,13 +17,15 @@ const props = defineProps({
 });
 
 const getLogTagProps = (log) => {
-   switch (log.operation) {
+   switch (_toLower(log.operation)) {
       case 'update':
          return { icon: PrimeIcons.SYNC, severity: 'info' };
       case 'delete':
          return { icon: PrimeIcons.MINUS, severity: 'danger' };
       case 'insert':
          return { icon: PrimeIcons.PLUS, severity: 'success' };
+      case 'select':
+         return { icon: PrimeIcons.PLUS, severity: 'secondary' };
    }
 };
 
@@ -36,8 +38,7 @@ const getChanges = (log) => {
    const rowData = _omitBy(_get(log, 'row_data', {}), omitFn);
    const oldData = _omitBy(_get(log, 'old_data', {}), omitFn);
 
-   log.operation = _toLower(log.operation);
-   const operation = log.operation;
+   const operation = _toLower(log.operation);
 
    if (operation === 'insert') {
       log.changes = _toPairs(rowData).map(([key, value]) => ({
