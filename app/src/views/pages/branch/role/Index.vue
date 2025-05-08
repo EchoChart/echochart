@@ -76,7 +76,7 @@ const dialogRef = inject('dialogRef', null);
 const tableProps = computed(() => ({
    stateKey,
    from: 'role',
-   select: '*, permission(id, kind, group_name)',
+   select: '*, permission(id, kind, group_name, resource_name)',
    columns: columns._data,
    rowActions: rowActions._data,
    ...attrs
