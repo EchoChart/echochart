@@ -1,5 +1,5 @@
 <script setup>
-import ClientSelect from '@/components/service-components/client/ClientSelect.vue';
+import SelectClient from '@/components/service-components/client/SelectClient.vue';
 import { Form } from '@/lib/Form';
 import AddressTable from '@/views/pages/address/Index.vue';
 import { useToast } from 'primevue';
@@ -109,7 +109,7 @@ provide('dialogRef', true);
             :label="$t('client')"
             v-slot="slotProps"
          >
-            <ClientSelect
+            <SelectClient
                v-bind="slotProps"
                v-model="form.id"
                @clientSelect="form._setDefaults($event)._reset()"
