@@ -202,16 +202,20 @@ SELECT
 FROM
     public.permission;
 
-CREATE OR REPLACE FUNCTION private.assign_owner_role () RETURNS TRIGGER SECURITY DEFINER
+CREATE OR REPLACE FUNCTION private.assign_owner_role () RETURNS TRIGGER SECURITY DEFINER LANGUAGE plpgsql
 SET
-    search_path = '' AS $$
-BEGIN
-    INSERT INTO public.user_role (user_id, role_id)
-    VALUES (NEW.user_id, (SELECT id FROM public.role WHERE display_name = 'owner' AND tenant_id IS NULL));
+    search_path = '' AS $$BEGIN
+    -- Check if the role already exists for the user
+    IF NOT EXISTS (
+        SELECT 1 FROM public.user_role WHERE user_id = NEW.user_id AND role_id = (SELECT id FROM public.role WHERE display_name = 'owner' AND tenant_id IS NULL)
+    ) THEN
+        INSERT INTO public.user_role (user_id, role_id)
+        VALUES (NEW.user_id, (SELECT id FROM public.role WHERE display_name = 'owner' AND tenant_id IS NULL));
+    END IF;
     
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 CREATE TRIGGER trigger_tenant_owners_insert
 AFTER INSERT ON public.tenant_owner FOR EACH ROW
