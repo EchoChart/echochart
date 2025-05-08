@@ -25,12 +25,18 @@ const props = defineProps({
 
 const toast = useToast();
 
+/**
+ * @type {Data}
+ */
 const initialFormData = {
    id: undefined,
    product_id: null,
    serial_number: null,
    barcode: null,
+   unit_type: 'pcs',
    unit_cost: 0,
+   unit_discount: 0,
+   unit_tax: 0,
    stocked_at: new Date(Date.now()),
    quantity: 1,
    currency_code: null,
@@ -44,7 +50,9 @@ const form = new Form({
    rules: {
       product_id: 'required',
       unit_cost: 'required|min:0',
+      unit_discount: 'required|lte:unit_cost',
       quantity: 'required|min:1',
+      unit_type: 'required',
       currency_code: 'required'
    },
    useDialogForm: false
@@ -70,9 +78,32 @@ if (!routeLoading.value && props.id) {
 }
 
 const total_cost = computed({
-   get: () => _round(form.unit_cost * form.quantity, 3),
+   get: () =>
+      _round(
+         form.unit_cost * form.quantity -
+            form.unit_discount * form.quantity +
+            form.unit_tax * form.quantity,
+         3
+      ),
    set: (value) => {
-      _set(form, 'unit_cost', _round(value / form.quantity, 3));
+      const total_tax = _round(form.unit_tax * form.quantity, 3);
+      _set(form, 'unit_cost', _round((value - total_tax) / form.quantity, 3));
+   }
+});
+
+const discount = computed({
+   get: () => _round(100 / (form.unit_cost / form.unit_discount), 3) || 0,
+   set: (value) => {
+      _set(form, 'unit_discount', _round((form.unit_cost / 100) * value, 3));
+   }
+});
+
+const tax = computed({
+   get: () => {
+      return _round(100 / (form.unit_cost / form.unit_tax), 3) || 0;
+   },
+   set: (value) => {
+      _set(form, 'unit_tax', _round(((form.unit_cost - form.unit_discount) / 100) * value, 3));
    }
 });
 
@@ -107,25 +138,25 @@ const save = async () => {
       <FormBox @submit="save" @reset="() => form._reset()" :form :readonly>
          <div class="form-box !flex-auto w-full">
             <FormField
-               :readonly="readonly"
+               :readonly
                fluid
                :error="form._errors.first('product_id')"
                :label="$t('product')"
                v-slot="slotProps"
             >
-               <ProductSelect v-bind="slotProps" :category v-model="form.product_id" />
+               <SelectProduct v-bind="slotProps" :category v-model="form.product_id" />
             </FormField>
             <FormField
-               :readonly="readonly"
+               :readonly
                fluid
                :error="form._errors.first('vendor')"
                :label="$t('vendor')"
                v-slot="slotProps"
             >
-               <StockVendorSelect v-bind="slotProps" v-model="form.vendor" />
+               <SelectStockVendor v-bind="slotProps" v-model="form.vendor" />
             </FormField>
             <FormField
-               :readonly="readonly"
+               :readonly
                fluid
                :error="form._errors.first('barcode')"
                :label="$t('barcode')"
@@ -134,7 +165,7 @@ const save = async () => {
                <InputText v-bind="slotProps" v-model="form.barcode" />
             </FormField>
             <FormField
-               :readonly="readonly"
+               :readonly
                fluid
                :error="form._errors.first('serial_number')"
                :label="$t('serial_number')"
@@ -143,7 +174,7 @@ const save = async () => {
                <InputText v-bind="slotProps" v-model="form.serial_number" />
             </FormField>
             <FormField
-               :readonly="readonly"
+               :readonly
                fluid
                :error="form._errors.first('stocked_at')"
                :label="$t('stocked_at')"
@@ -159,16 +190,21 @@ const save = async () => {
             </FormField>
          </div>
          <FormField
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form._errors.first('quantity')"
             :label="$t('quantity')"
             v-slot="slotProps"
          >
-            <InputNumber v-bind="slotProps" v-model="form.quantity" :min="0" />
+            <InputGroup v-bind="slotProps">
+               <InputNumber v-model="form.quantity" :min="0" />
+               <InputGroupAddon class="!p-0">
+                  <SelectStockUnitType class="!border-0" v-model="form.unit_type" />
+               </InputGroupAddon>
+            </InputGroup>
          </FormField>
          <FormField
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form._errors.first('currency_code')"
             :label="$t('currency')"
@@ -177,7 +213,7 @@ const save = async () => {
             <SelectCurrency v-bind="slotProps" v-model="form.currency_code" />
          </FormField>
          <FormField
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form._errors.first('unit_cost')"
             :label="$t('unit_cost')"
@@ -193,15 +229,15 @@ const save = async () => {
             />
          </FormField>
          <FormField
-            :readonly="readonly"
+            :readonly
             fluid
-            :error="form._errors.first('total_cost')"
-            :label="$t('total_cost')"
+            :error="form._errors.first('unit_discount')"
+            :label="$t('unit_discount')"
             v-slot="slotProps"
          >
             <InputNumber
                v-bind="slotProps"
-               v-model="total_cost"
+               v-model="form.unit_discount"
                :max-fraction-digits="3"
                :mode="form.currency_code ? 'currency' : 'decimal'"
                :currency="form.currency_code || undefined"
@@ -209,7 +245,79 @@ const save = async () => {
             />
          </FormField>
          <FormField
-            :readonly="readonly"
+            :readonly
+            fluid
+            :error="form._errors.first('unit_tax')"
+            :label="$t('unit_tax')"
+            v-slot="slotProps"
+         >
+            <InputNumber
+               v-bind="slotProps"
+               v-model="form.unit_tax"
+               :max-fraction-digits="3"
+               :mode="form.currency_code ? 'currency' : 'decimal'"
+               :currency="form.currency_code || undefined"
+               :min="0"
+            />
+         </FormField>
+         <span class="flex gap-[inherit]">
+            <FormField
+               :readonly
+               fluid
+               :error="form._errors.first('discount')"
+               :label="$t('discount')"
+               v-slot="slotProps"
+            >
+               <InputNumber
+                  v-bind="slotProps"
+                  v-model="discount"
+                  :max-fraction-digits="3"
+                  :min="0"
+                  :max="100"
+                  :step="1"
+                  :suffix="'%'"
+                  showButtons
+                  buttonLayout="horizontal"
+               />
+            </FormField>
+            <FormField
+               :readonly
+               fluid
+               :error="form._errors.first('tax')"
+               :label="$t('tax')"
+               v-slot="slotProps"
+            >
+               <InputNumber
+                  v-bind="slotProps"
+                  v-model="tax"
+                  :max-fraction-digits="3"
+                  :min="0"
+                  :max="100"
+                  :step="1"
+                  :suffix="'%'"
+                  showButtons
+                  buttonLayout="horizontal"
+               />
+            </FormField>
+            <FormField
+               :readonly
+               fluid
+               :error="form._errors.first('total_cost')"
+               :label="$t('total_cost')"
+               v-slot="slotProps"
+            >
+               <InputNumber
+                  v-bind="slotProps"
+                  v-model="total_cost"
+                  :max-fraction-digits="3"
+                  :mode="form.currency_code ? 'currency' : 'decimal'"
+                  :currency="form.currency_code || undefined"
+                  :min="0"
+               />
+            </FormField>
+         </span>
+         <FormField
+            :readonly
             fluid
             :error="form._errors.first('details')"
             :label="$t('details')"

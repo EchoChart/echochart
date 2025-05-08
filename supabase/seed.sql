@@ -365,7 +365,7 @@ BEGIN
     SELECT  
         target_tenant_id,  
         p.id,  
-        FLOOR(random() * 100 + 1)::INTEGER,  -- Random quantity between 1 and 100  
+        FLOOR(random() * 100 + 10)::INTEGER,  -- Random quantity between 1 and 100  
         ROUND((random() * (500 - 10) + 10)::NUMERIC, 2),  -- Random unit_cost between 10.00 and 500.00  
         'TRY',  
         'EROTIC SHOP ' || lpad(floor(random() * 20)::text, 2, '0'),  

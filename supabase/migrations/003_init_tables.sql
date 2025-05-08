@@ -186,9 +186,10 @@ CREATE TABLE IF NOT EXISTS public.stock (
    serial_number TEXT UNIQUE,
    barcode TEXT,
    quantity INTEGER NOT NULL DEFAULT 1 CHECK (quantity > 0),
-   -- Prevents division by zero
+   unit_type TEXT NOT NULL CHECK (unit_type IN ('pcs', 'kg', 'gr', 'lbs', 'L', 'mL', 'm', 'm²', 'cm', 'in')) DEFAULT 'pcs',
    unit_cost NUMERIC(10, 3) NOT NULL CHECK (unit_cost >= 0),
-   -- prettier-ignore
+   unit_discount NUMERIC(10, 3) NOT NULL CHECK (unit_discount <= unit_cost) DEFAULT 0,
+   unit_tax NUMERIC(10, 3) NOT NULL DEFAULT 0,
    currency_code CHAR(3) NOT NULL DEFAULT 'TRY' CHECK (currency_code ~ '^[A-Z]{3}$'),
    -- Ensures valid 3-letter currency code
    vendor TEXT,
