@@ -213,15 +213,15 @@ CREATE INDEX IF NOT EXISTS idx_stock_stocked_at ON public.stock (stocked_at DESC
 
 CREATE INDEX IF NOT EXISTS idx_stock_display_name ON public.stock (tenant_id, product_id);
 
--- Sales Table
-CREATE TABLE IF NOT EXISTS public.sales (
+-- Record Table
+CREATE TABLE IF NOT EXISTS public.record (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
    tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
-   product_id UUID NOT NULL REFERENCES public.product (id),
-   user_id UUID NOT NULL REFERENCES public.user (id),
+   client_id UUID REFERENCES public.client (id) ON DELETE CASCADE,
+   stock_id UUID REFERENCES public.stock (id) ON DELETE CASCADE,
+   user_id UUID REFERENCES public.user (id) ON DELETE SET NULL,
    record_type TEXT NOT NULL,
-   record_status TEXT NOT NULL CHECK (record_status IN ('pending', 'approved', 'rejected')),
-   delivery_status TEXT,
+   record_status TEXT NOT NULL CHECK (record_status IN ('pending', 'approved', 'rejected', 'client_pending', 'done')),
    amount INTEGER NOT NULL CHECK (amount > 0),
    payment_type TEXT,
    bid NUMERIC(10, 3) DEFAULT 0.000,
@@ -238,25 +238,25 @@ SELECT
    s.*,
    p.display_name,
    p.brand,
-   COALESCE(s.quantity - sold.total_sold, s.quantity) AS available_quantity,
-   (s.unit_cost * s.quantity)::NUMERIC(10, 3) AS total_cost -- Added total_cost calculation to the view
+   COALESCE(s.quantity - used.total_used, s.quantity) AS available_quantity,
+   (s.unit_cost * s.quantity)::NUMERIC(10, 3) AS total_cost
 FROM
    public.stock AS s
    JOIN public.product AS p ON s.product_id = p.id
    LEFT JOIN (
       SELECT
          tenant_id,
-         product_id,
-         SUM(amount) AS total_sold
+         stock_id,
+         SUM(amount) AS total_used
       FROM
-         public.sales
+         public.record
       WHERE
          record_status = 'approved'
       GROUP BY
          tenant_id,
-         product_id
-   ) AS sold ON s.tenant_id = sold.tenant_id
-   AND s.product_id = sold.product_id;
+         stock_id
+   ) AS used ON s.tenant_id = used.tenant_id
+   AND s.id = used.stock_id;
 
 CREATE OR REPLACE VIEW public.stock_vendor AS
 SELECT DISTINCT
