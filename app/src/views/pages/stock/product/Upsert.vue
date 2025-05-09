@@ -29,7 +29,6 @@ const toast = useToast();
 const { ability, current_tenant_id } = useAuthStore();
 
 const { getProducts, getCategories } = useProductStore();
-const categories = await getCategories();
 
 const initialFormData = {
    id: undefined,
@@ -37,7 +36,7 @@ const initialFormData = {
    brand: null,
    details: null,
    tenant_id: current_tenant_id,
-   categories: categories.filter((c) => _includes(props.category?.split('|'), c.display_name))
+   categories: null
 };
 
 const fields = _keys(initialFormData);
@@ -51,19 +50,31 @@ const form = new Form({
    useDialogForm: false
 });
 
+const routeLoading = inject('routeLoading', false);
+if (!routeLoading.value) {
+   if (props.id)
+      getProducts().then((products) => {
+         const product = products?.find?.((product) => product.id === props.id);
+         form._setDefaults(_pick(product, fields))._reset();
+      });
+   else
+      getCategories().then((categories) =>
+         form
+            ._setDefaults({
+               ...form,
+               categories: categories.filter((c) =>
+                  _includes(props.category?.split('|'), c.display_name)
+               )
+            })
+            ._reset()
+      );
+}
+
 const readonly = computed(
    () =>
       (ability.cannot('modify', 'product') && ability.cannot('create', 'product')) ||
       (form.id && !form.tenant_id)
 );
-
-const routeLoading = inject('routeLoading', false);
-if (!routeLoading.value && props.id) {
-   getProducts().then((products) => {
-      const product = products?.find?.((product) => product.id === props.id);
-      form._setDefaults(_pick(product, fields))._reset();
-   });
-}
 
 const save = async () => {
    if (!form._validate()) return;
