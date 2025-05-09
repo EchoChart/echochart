@@ -10,7 +10,7 @@ const dialogRef = inject('dialogRef', null);
 
 const form = new Form({
    data: {
-      email: 'test@test.com',
+      email: '',
       password: 'asdqwe123'
    },
    rules: {
@@ -73,7 +73,7 @@ if (rememberMe.value) {
       <template #form-actions>
          <div class="flex-1 flex flex-col gap-8">
             <div class="flex items-center justify-between gap-4">
-               <FormField v-slot="slotProps" reverse :label="'Remember me'">
+               <FormField v-slot="slotProps" reverse :label="'Remember me'" class="max-w-fit">
                   <Checkbox v-bind="slotProps" class="min-w-fit" v-model="rememberMe" binary />
                </FormField>
 
