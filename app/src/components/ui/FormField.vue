@@ -94,7 +94,6 @@ const mounted = useMounted();
                class: '!bg-[transparent]'
             }
          }"
-         v-if="mounted"
       >
          <Suspense>
             <slot
@@ -110,7 +109,7 @@ const mounted = useMounted();
                :aria-errormessage="`${id}-errormessage`"
             />
             <template #fallback>
-               <Skeleton height="2.5rem" v-bind="_omit(attrs, ['class'])" />
+               <Skeleton height="2.5rem" :class="inputClass" v-bind="_omit(attrs, ['class'])" />
             </template>
          </Suspense>
       </BlockUI>

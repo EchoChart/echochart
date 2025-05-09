@@ -55,8 +55,8 @@ defineProps({
 .form-box {
    @apply flex-1 flex flex-wrap gap-2;
 
-   & > .form-field {
-      @apply flex-1 min-w-min max-w-max;
+   & .form-field {
+      @apply flex-1 min-w-min;
    }
 }
 </style>
