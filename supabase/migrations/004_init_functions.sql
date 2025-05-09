@@ -500,7 +500,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STABLE COST 100;
 
-CREATE OR REPLACE FUNCTION private.init_request_id () RETURNS UUID LANGUAGE plpgsql SECURITY DEFINER AS $$
+CREATE OR REPLACE FUNCTION private.init_request_id () RETURNS UUID LANGUAGE plpgsql SECURITY DEFINER
+SET
+    search_path = '' AS $$
 DECLARE
   req_id UUID;
 BEGIN
@@ -510,7 +512,9 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION private.get_request_id () RETURNS UUID LANGUAGE plpgsql SECURITY DEFINER AS $$
+CREATE OR REPLACE FUNCTION private.get_request_id () RETURNS UUID LANGUAGE plpgsql SECURITY DEFINER
+SET
+    search_path = '' AS $$
 DECLARE
   req_id UUID;
 BEGIN
