@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS public.tenant (
    CONSTRAINT unique_tenant_display_name UNIQUE (id, display_name)
 );
 
-CREATE INDEX IF NOT EXISTS tenant_display_name_idx ON public.tenant (display_name);
+CREATE INDEX IF NOT EXISTS idx_tenant_display_name ON public.tenant (display_name);
 
-CREATE INDEX IF NOT EXISTS tenant_created_at_idx ON public.tenant (created_at);
+CREATE INDEX IF NOT EXISTS idx_tenant_created_at ON public.tenant (created_at);
 
 -- Users
 CREATE TABLE IF NOT EXISTS public.user (
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS public.user (
    created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS user_email_idx ON public.user (email);
+CREATE INDEX IF NOT EXISTS idx_user_email ON public.user (email);
 
-CREATE INDEX IF NOT EXISTS user_created_at_idx ON public.user (created_at);
+CREATE INDEX IF NOT EXISTS idx_user_created_at ON public.user (created_at);
 
 -- Tenant Users
 CREATE TABLE IF NOT EXISTS public.tenant_user (
@@ -35,9 +35,9 @@ CREATE TABLE IF NOT EXISTS public.tenant_user (
    PRIMARY KEY (tenant_id, user_id)
 );
 
-CREATE INDEX IF NOT EXISTS tenant_user_user_id_idx ON public.tenant_user (user_id);
+CREATE INDEX IF NOT EXISTS idx_tenant_user_user_id ON public.tenant_user (user_id);
 
-CREATE INDEX IF NOT EXISTS tenant_user_tenant_id_idx ON public.tenant_user (tenant_id);
+CREATE INDEX IF NOT EXISTS idx_tenant_user_tenant_id ON public.tenant_user (tenant_id);
 
 -- Tenant Owners
 CREATE TABLE IF NOT EXISTS public.tenant_owner (
@@ -48,9 +48,9 @@ CREATE TABLE IF NOT EXISTS public.tenant_owner (
    PRIMARY KEY (tenant_id, user_id)
 );
 
-CREATE INDEX IF NOT EXISTS tenant_owner_user_id_idx ON public.tenant_owner (user_id);
+CREATE INDEX IF NOT EXISTS idx_tenant_owner_user_id ON public.tenant_owner (user_id);
 
-CREATE INDEX IF NOT EXISTS tenant_owner_tenant_id_idx ON public.tenant_owner (tenant_id);
+CREATE INDEX IF NOT EXISTS idx_tenant_owner_tenant_id ON public.tenant_owner (tenant_id);
 
 -- Addresses
 CREATE TABLE IF NOT EXISTS public.address (
@@ -64,11 +64,11 @@ CREATE TABLE IF NOT EXISTS public.address (
    tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE
 );
 
-CREATE INDEX IF NOT EXISTS address_tenant_id_idx ON public.address (tenant_id);
+CREATE INDEX IF NOT EXISTS idx_address_tenant_id ON public.address (tenant_id);
 
-CREATE INDEX IF NOT EXISTS address_display_name_idx ON public.address (display_name);
+CREATE INDEX IF NOT EXISTS idx_address_display_name ON public.address (display_name);
 
-CREATE INDEX IF NOT EXISTS address_created_at_idx ON public.address (created_at);
+CREATE INDEX IF NOT EXISTS idx_address_created_at ON public.address (created_at);
 
 -- App Permissions
 CREATE TABLE IF NOT EXISTS public.permission (
@@ -86,9 +86,9 @@ CREATE TABLE IF NOT EXISTS public.permission (
    created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS permission_resource_name_idx ON public.permission (resource_name);
+CREATE INDEX IF NOT EXISTS idx_permission_resource_name ON public.permission (resource_name);
 
-CREATE INDEX IF NOT EXISTS permission_created_at_idx ON public.permission (created_at);
+CREATE INDEX IF NOT EXISTS idx_permission_created_at ON public.permission (created_at);
 
 -- Roles
 CREATE TABLE IF NOT EXISTS public.role (
@@ -99,9 +99,9 @@ CREATE TABLE IF NOT EXISTS public.role (
    CONSTRAINT unique_role_display_name UNIQUE (tenant_id, display_name)
 );
 
-CREATE INDEX IF NOT EXISTS role_tenant_id_idx ON public.role (tenant_id);
+CREATE INDEX IF NOT EXISTS idx_role_tenant_id ON public.role (tenant_id);
 
-CREATE INDEX IF NOT EXISTS role_created_at_idx ON public.role (created_at);
+CREATE INDEX IF NOT EXISTS idx_role_created_at ON public.role (created_at);
 
 -- Role Permissions
 CREATE TABLE IF NOT EXISTS public.role_permission (
@@ -112,9 +112,9 @@ CREATE TABLE IF NOT EXISTS public.role_permission (
    PRIMARY KEY (permission_id, role_id)
 );
 
-CREATE INDEX IF NOT EXISTS role_permission_role_id_idx ON public.role_permission (role_id);
+CREATE INDEX IF NOT EXISTS idx_role_permission_role_id ON public.role_permission (role_id);
 
-CREATE INDEX IF NOT EXISTS role_permission_permission_id_idx ON public.role_permission (permission_id);
+CREATE INDEX IF NOT EXISTS idx_role_permission_permission_id ON public.role_permission (permission_id);
 
 -- User Roles
 CREATE TABLE IF NOT EXISTS public.user_role (
@@ -125,9 +125,9 @@ CREATE TABLE IF NOT EXISTS public.user_role (
    PRIMARY KEY (user_id, role_id)
 );
 
-CREATE INDEX IF NOT EXISTS user_role_user_id_idx ON public.user_role (user_id);
+CREATE INDEX IF NOT EXISTS idx_user_role_user_id ON public.user_role (user_id);
 
-CREATE INDEX IF NOT EXISTS user_role_role_id_idx ON public.user_role (role_id);
+CREATE INDEX IF NOT EXISTS idx_user_role_role_id ON public.user_role (role_id);
 
 -- Products Table
 CREATE TABLE IF NOT EXISTS public.product (
@@ -140,11 +140,11 @@ CREATE TABLE IF NOT EXISTS public.product (
    CONSTRAINT unique_product_display_name UNIQUE (tenant_id, display_name)
 );
 
-CREATE INDEX IF NOT EXISTS product_display_name_idx ON public.product (display_name);
+CREATE INDEX IF NOT EXISTS idx_product_id_tenant ON product (id, tenant_id);
 
-CREATE INDEX IF NOT EXISTS product_display_name_composite_idx ON public.product (display_name, id);
+CREATE INDEX IF NOT EXISTS idx_product_display_name_composite ON public.product (display_name, id);
 
-CREATE INDEX IF NOT EXISTS product_created_at_idx ON public.product (created_at);
+CREATE INDEX IF NOT EXISTS idx_product_created_at ON public.product (created_at);
 
 CREATE OR REPLACE VIEW public.product_brands AS
 SELECT DISTINCT
@@ -161,9 +161,9 @@ CREATE TABLE IF NOT EXISTS public.product_category (
    parent_id UUID REFERENCES public.product_category (id) ON DELETE CASCADE
 );
 
-CREATE INDEX IF NOT EXISTS product_category_display_name_idx ON public.product_category (display_name);
+CREATE INDEX IF NOT EXISTS idx_product_category_display_name ON public.product_category (display_name);
 
-CREATE INDEX IF NOT EXISTS product_category_created_at_idx ON public.product_category (created_at);
+CREATE INDEX IF NOT EXISTS idx_product_category_created_at ON public.product_category (created_at);
 
 -- Product Category Table (relationship)
 CREATE TABLE IF NOT EXISTS public.product_categories (
@@ -174,9 +174,9 @@ CREATE TABLE IF NOT EXISTS public.product_categories (
    PRIMARY KEY (product_id, category_id)
 );
 
-CREATE INDEX IF NOT EXISTS product_categories_product_id_idx ON public.product_categories (product_id);
+CREATE INDEX IF NOT EXISTS idx_product_categories_product_id ON public.product_categories (product_id);
 
-CREATE INDEX IF NOT EXISTS product_categories_category_id_idx ON public.product_categories (category_id);
+CREATE INDEX IF NOT EXISTS idx_product_categories_category_id ON public.product_categories (category_id);
 
 -- Tenant Stocks Table
 CREATE TABLE IF NOT EXISTS public.stock (
@@ -198,6 +198,7 @@ CREATE TABLE IF NOT EXISTS public.stock (
 );
 
 -- Indexes for performance optimization
+CREATE INDEX IF NOT EXISTS idx_stock_id_tenant ON stock (id, tenant_id);
 CREATE INDEX IF NOT EXISTS idx_stock_tenant_id ON public.stock (tenant_id);
 
 CREATE INDEX IF NOT EXISTS idx_stock_product_id ON public.stock (product_id);
@@ -206,9 +207,9 @@ CREATE INDEX IF NOT EXISTS idx_stock_serial_number ON public.stock (serial_numbe
 
 CREATE INDEX IF NOT EXISTS idx_stock_barcode ON public.stock (barcode);
 
-CREATE INDEX IF NOT EXISTS idx_stock_created_at ON public.stock (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_stock_created_at ON public.stock (created_at);
 
-CREATE INDEX IF NOT EXISTS idx_stock_stocked_at ON public.stock (stocked_at DESC);
+CREATE INDEX IF NOT EXISTS idx_stock_stocked_at ON public.stock (stocked_at);
 
 CREATE INDEX IF NOT EXISTS idx_stock_display_name ON public.stock (tenant_id, product_id);
 
@@ -227,6 +228,7 @@ CREATE TABLE IF NOT EXISTS public.record (
    details TEXT,
    created_at TIMESTAMPTZ DEFAULT NOW()
 );
+CREATE INDEX IF NOT EXISTS idx_record_tenant_id ON public.record (tenant_id);
 
 CREATE OR REPLACE VIEW public.stock_view
 WITH
@@ -322,9 +324,9 @@ CREATE TABLE IF NOT EXISTS public.client_address (
    created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS client_address_client_id_idx ON public.client_address (client_id);
+CREATE INDEX IF NOT EXISTS idx_client_address_client_id ON public.client_address (client_id);
 
-CREATE INDEX IF NOT EXISTS client_address_address_id_idx ON public.client_address (address_id);
+CREATE INDEX IF NOT EXISTS idx_client_address_address_id ON public.client_address (address_id);
 
 CREATE VIEW public.client_address_view
 WITH
@@ -389,7 +391,7 @@ CREATE INDEX IF NOT EXISTS idx_audit_log_correlation_id ON public.audit_log (cor
 
 CREATE INDEX IF NOT EXISTS idx_audit_log_operation ON public.audit_log (operation);
 
-CREATE INDEX IF NOT EXISTS idx_audit_log_created_at ON public.audit_log (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_audit_log_created_at ON public.audit_log (created_at);
 
 CREATE INDEX IF NOT EXISTS idx_audit_log_row_created ON public.audit_log ((row_data ->> 'created_at'))
 WHERE
