@@ -84,12 +84,12 @@ const total_cost = computed({
       const t = tax.value / 100;
       const q = form.quantity;
 
-      if (q === 0 || 1 - d <= 0) return; // avoid division by zero or invalid math
+      if (q === 0 || 1 - d <= 0) return;
 
       const effectiveMultiplier = (1 - d) * (1 + t);
       const unit_cost = value / (q * effectiveMultiplier);
 
-      _set(form, 'unit_cost', unit_cost);
+      form._set('unit_cost', unit_cost);
    }
 });
 
@@ -99,7 +99,7 @@ const discount = computed({
       return (form.unit_discount / form.unit_cost) * 100;
    },
    set: (value) => {
-      _set(form, 'unit_discount', form.unit_cost * 0.01 * value);
+      form._set('unit_discount', form.unit_cost * 0.01 * value);
    }
 });
 
@@ -110,7 +110,7 @@ const tax = computed({
       return (form.unit_tax / base) * 100;
    },
    set: (value) => {
-      _set(form, 'unit_tax', (form.unit_cost - form.unit_discount) * 0.01 * value);
+      form._set('unit_tax', (form.unit_cost - form.unit_discount) * 0.01 * value);
    }
 });
 
@@ -143,7 +143,7 @@ const save = async () => {
 <template>
    <div class="card">
       <FormBox @submit="save" @reset="() => form._reset()" :form :readonly>
-         <span class="form-box place-content-start">
+         <FormBox :legend="$t('information')">
             <FormField
                :readonly
                fluid
@@ -165,24 +165,6 @@ const save = async () => {
             <FormField
                :readonly
                fluid
-               :error="form._errors.first('barcode')"
-               :label="$t('barcode')"
-               v-slot="slotProps"
-            >
-               <InputText v-bind="slotProps" v-model="form.barcode" />
-            </FormField>
-            <FormField
-               :readonly
-               fluid
-               :error="form._errors.first('serial_number')"
-               :label="$t('serial_number')"
-               v-slot="slotProps"
-            >
-               <InputText v-bind="slotProps" v-model="form.serial_number" />
-            </FormField>
-            <FormField
-               :readonly
-               fluid
                :error="form._errors.first('stocked_at')"
                :label="$t('stocked_at')"
                v-slot="slotProps"
@@ -195,155 +177,178 @@ const save = async () => {
                   placeholder="dd/mm/yyyy"
                />
             </FormField>
-         </span>
-         <span class="form-box place-content-start">
-            <FormField
-               :readonly
-               fluid
-               :error="form._errors.first('quantity')"
-               :label="$t('quantity')"
-               v-slot="slotProps"
-            >
-               <InputGroup>
+            <span class="form-box !flex-auto">
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form._errors.first('barcode')"
+                  :label="$t('barcode')"
+                  v-slot="slotProps"
+               >
+                  <InputText v-bind="slotProps" v-model="form.barcode" />
+               </FormField>
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form._errors.first('serial_number')"
+                  :label="$t('serial_number')"
+                  v-slot="slotProps"
+               >
+                  <InputText v-bind="slotProps" v-model="form.serial_number" />
+               </FormField>
+            </span>
+         </FormBox>
+
+         <FormBox :legend="$t('financial')">
+            <span class="form-box !flex-auto place-content-start">
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form._errors.first('quantity')"
+                  :label="$t('quantity')"
+                  v-slot="slotProps"
+               >
+                  <InputGroup>
+                     <InputNumber
+                        v-model="form.quantity"
+                        showButtons
+                        buttonLayout="horizontal"
+                        :step="form.unit_type === 'pcs' ? 1 : 0.1"
+                        v-bind="slotProps"
+                     />
+                     <InputGroupAddon class="!p-0 !min-w-fit">
+                        <SelectStockUnitType class="!border-0" v-model="form.unit_type" />
+                     </InputGroupAddon>
+                  </InputGroup>
+               </FormField>
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form._errors.first('currency_code')"
+                  :label="$t('currency')"
+                  v-slot="slotProps"
+               >
+                  <SelectCurrency v-bind="slotProps" v-model="form.currency_code" />
+               </FormField>
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form._errors.first('unit_cost')"
+                  :label="$t('unit_cost')"
+                  v-slot="slotProps"
+               >
                   <InputNumber
-                     v-model="form.quantity"
+                     v-bind="slotProps"
+                     v-model="form.unit_cost"
+                     :max-fraction-digits="2"
+                     :mode="form.currency_code ? 'currency' : 'decimal'"
+                     :currency="form.currency_code || undefined"
+                     :min="0"
+                     :step="0.01"
                      showButtons
                      buttonLayout="horizontal"
-                     :step="form.unit_type === 'pcs' ? 1 : 0.1"
-                     v-bind="slotProps"
                   />
-                  <InputGroupAddon class="!p-0 !min-w-fit">
-                     <SelectStockUnitType class="!border-0" v-model="form.unit_type" />
-                  </InputGroupAddon>
-               </InputGroup>
-            </FormField>
-            <FormField
-               :readonly
-               fluid
-               :error="form._errors.first('currency_code')"
-               :label="$t('currency')"
-               v-slot="slotProps"
-            >
-               <SelectCurrency v-bind="slotProps" v-model="form.currency_code" />
-            </FormField>
-            <FormField
-               :readonly
-               fluid
-               :error="form._errors.first('unit_cost')"
-               :label="$t('unit_cost')"
-               v-slot="slotProps"
-            >
-               <InputNumber
-                  v-bind="slotProps"
-                  v-model="form.unit_cost"
-                  :max-fraction-digits="2"
-                  :mode="form.currency_code ? 'currency' : 'decimal'"
-                  :currency="form.currency_code || undefined"
-                  :min="0"
-                  :step="0.01"
-                  showButtons
-                  buttonLayout="horizontal"
-               />
-            </FormField>
-            <FormField
-               :readonly
-               fluid
-               :error="form._errors.first('unit_discount')"
-               :label="$t('unit_discount')"
-               v-slot="slotProps"
-            >
-               <InputNumber
-                  v-bind="slotProps"
-                  v-model="form.unit_discount"
-                  :max-fraction-digits="2"
-                  :mode="form.currency_code ? 'currency' : 'decimal'"
-                  :currency="form.currency_code || undefined"
-                  :min="0"
-                  :max="form.unit_cost"
-                  :step="0.01"
-                  showButtons
-                  buttonLayout="horizontal"
-               />
-            </FormField>
-            <FormField
-               :readonly
-               fluid
-               :error="form._errors.first('unit_tax')"
-               :label="$t('unit_tax')"
-               v-slot="slotProps"
-            >
-               <InputNumber
-                  v-bind="slotProps"
-                  v-model="form.unit_tax"
-                  :max-fraction-digits="2"
-                  :mode="form.currency_code ? 'currency' : 'decimal'"
-                  :currency="form.currency_code || undefined"
-                  :min="0"
-                  :step="0.01"
-                  showButtons
-                  buttonLayout="horizontal"
-               />
-            </FormField>
-         </span>
-         <span class="form-box place-content-start">
-            <FormField
-               :readonly
-               fluid
-               :error="form._errors.first('discount')"
-               :label="$t('discount')"
-               v-slot="slotProps"
-            >
-               <InputNumber
-                  v-bind="slotProps"
-                  v-model="discount"
-                  :max-fraction-digits="0"
-                  :min="0"
-                  :max="100"
-                  :suffix="'%'"
-                  :step="1"
-                  showButtons
-                  buttonLayout="horizontal"
-               />
-            </FormField>
-            <FormField
-               :readonly
-               fluid
-               :error="form._errors.first('tax')"
-               :label="$t('tax')"
-               v-slot="slotProps"
-            >
-               <InputNumber
-                  v-bind="slotProps"
-                  v-model="tax"
-                  :max-fraction-digits="0"
-                  :min="0"
-                  :max="100"
-                  :suffix="'%'"
-                  :step="1"
-                  showButtons
-                  buttonLayout="horizontal"
-               />
-            </FormField>
-            <FormField
-               :readonly
-               fluid
-               :error="form._errors.first('total_cost')"
-               :label="$t('total_cost')"
-               v-slot="slotProps"
-            >
-               <InputNumber
-                  v-bind="slotProps"
-                  v-model="total_cost"
-                  :max-fraction-digits="2"
-                  :mode="form.currency_code ? 'currency' : 'decimal'"
-                  :currency="form.currency_code || undefined"
-                  :min="0"
-                  :step="0.01"
-                  showButtons
-                  buttonLayout="horizontal"
-               />
-            </FormField>
-         </span>
+               </FormField>
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form._errors.first('unit_discount')"
+                  :label="$t('unit_discount')"
+                  v-slot="slotProps"
+               >
+                  <InputNumber
+                     v-bind="slotProps"
+                     v-model="form.unit_discount"
+                     :max-fraction-digits="2"
+                     :mode="form.currency_code ? 'currency' : 'decimal'"
+                     :currency="form.currency_code || undefined"
+                     :min="0"
+                     :max="form.unit_cost"
+                     :step="0.01"
+                     showButtons
+                     buttonLayout="horizontal"
+                  />
+               </FormField>
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form._errors.first('unit_tax')"
+                  :label="$t('unit_tax')"
+                  v-slot="slotProps"
+               >
+                  <InputNumber
+                     v-bind="slotProps"
+                     v-model="form.unit_tax"
+                     :max-fraction-digits="2"
+                     :mode="form.currency_code ? 'currency' : 'decimal'"
+                     :currency="form.currency_code || undefined"
+                     :min="0"
+                     :step="0.01"
+                     showButtons
+                     buttonLayout="horizontal"
+                  />
+               </FormField>
+            </span>
+            <span class="form-box !flex-auto place-content-start">
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form._errors.first('discount')"
+                  :label="$t('discount')"
+                  v-slot="slotProps"
+               >
+                  <InputNumber
+                     v-bind="slotProps"
+                     v-model="discount"
+                     :max-fraction-digits="2"
+                     :min="0"
+                     :max="100"
+                     :suffix="'%'"
+                     :step="1"
+                     showButtons
+                     buttonLayout="horizontal"
+                  />
+               </FormField>
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form._errors.first('tax')"
+                  :label="$t('tax')"
+                  v-slot="slotProps"
+               >
+                  <InputNumber
+                     v-bind="slotProps"
+                     v-model="tax"
+                     :max-fraction-digits="2"
+                     :min="0"
+                     :max="100"
+                     :suffix="'%'"
+                     :step="1"
+                     showButtons
+                     buttonLayout="horizontal"
+                  />
+               </FormField>
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form._errors.first('total_cost')"
+                  :label="$t('total_cost')"
+                  v-slot="slotProps"
+               >
+                  <InputNumber
+                     v-bind="slotProps"
+                     v-model="total_cost"
+                     :max-fraction-digits="2"
+                     :mode="form.currency_code ? 'currency' : 'decimal'"
+                     :currency="form.currency_code || undefined"
+                     :min="0"
+                     :step="0.01"
+                     showButtons
+                     buttonLayout="horizontal"
+                  />
+               </FormField>
+            </span>
+         </FormBox>
          <FormField
             :readonly
             fluid
