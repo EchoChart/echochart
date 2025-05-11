@@ -219,12 +219,10 @@ CREATE TABLE IF NOT EXISTS public.record (
    client_id UUID REFERENCES public.client (id) ON DELETE CASCADE,
    stock_id UUID REFERENCES public.stock (id) ON DELETE CASCADE,
    user_id UUID REFERENCES public.user (id) ON DELETE SET NULL,
-   record_type TEXT NOT NULL,
-   record_status TEXT NOT NULL CHECK (record_status IN ('pending', 'approved', 'rejected', 'client_pending', 'done')),
-   amount INTEGER NOT NULL CHECK (amount > 0),
+   amount NUMERIC(10, 2) NOT NULL DEFAULT 0.00 CHECK (
    payment_type TEXT,
-   bid NUMERIC(10, 3) DEFAULT 0.000,
-   bid_discount NUMERIC(10, 3) DEFAULT 0.000,
+   bid NUMERIC(10, 2) DEFAULT 0.00,
+   bid_discount NUMERIC(10, 2) DEFAULT 0.00,
    attributes JSONB,
    details TEXT,
    created_at TIMESTAMPTZ DEFAULT NOW()
@@ -238,7 +236,7 @@ SELECT
    p.display_name,
    p.brand,
    COALESCE(s.quantity - used.total_used, s.quantity) AS available_quantity,
-   (s.unit_cost * s.quantity)::NUMERIC(10, 3) AS total_cost
+   (s.unit_cost * s.quantity)::NUMERIC(10, 2) AS total_cost
 FROM
    public.stock AS s
    JOIN public.product AS p ON s.product_id = p.id
@@ -270,8 +268,8 @@ SELECT
    COUNT(*) AS total_product,
    SUM(quantity) AS total_quantity,
    SUM(unit_cost) AS total_cost,
-   ROUND(AVG(unit_cost)::NUMERIC(10, 3), 2) AS average_cost,
-   ROUND(AVG(total_cost)::NUMERIC(10, 3), 2) AS average_total_cost
+   ROUND(AVG(unit_cost)::NUMERIC(10, 2), 2) AS average_cost,
+   ROUND(AVG(total_cost)::NUMERIC(10, 2), 2) AS average_total_cost
 FROM
    public.product AS p
    JOIN public.stock_view AS s ON s.product_id = p.id
@@ -285,7 +283,7 @@ SELECT
    p.brand,
    SUM(s.quantity) AS total_quantity,
    SUM(s.unit_cost) AS total_cost,
-   ROUND(AVG(total_cost)::NUMERIC(10, 3), 2) AS average_total_cost
+   ROUND(AVG(total_cost)::NUMERIC(10, 2), 2) AS average_total_cost
 FROM
    public.product AS p
    JOIN public.stock_view AS s ON s.product_id = p.id
