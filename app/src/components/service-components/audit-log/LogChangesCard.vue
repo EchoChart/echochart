@@ -81,10 +81,16 @@ const getChanges = (log) => {
 
 function formatValue(value) {
    if (_isNil(value)) return '—';
-   if (typeof value === 'object') return _toString(value);
+   if (typeof value === 'object') {
+      if (Array.isArray(value)) {
+         return value.map((item) => formatValue(item)).join(', ');
+      }
+      return Object.keys(value)
+         .map((key) => `${i18n.t(key)}: ${formatValue(value[key])}`)
+         .join(', ');
+   }
    return value;
 }
-
 const log = new Collection(getChanges(props.data));
 
 const routeLoading = inject('routeLoading', false);
