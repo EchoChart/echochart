@@ -66,8 +66,8 @@ const rowActions = new Collection([
                .then(() => emitter.emit('audit_log-update')),
       disabled: ({ data }) =>
          data.reverted ||
-         ability.cannot('create', data.resource) ||
-         ability.cannot('modify', data.resource),
+         ability.cannot('create', data.table_name) ||
+         ability.cannot('modify', data.table_name),
       icon: PrimeIcons.REFRESH
    }
 ]);
