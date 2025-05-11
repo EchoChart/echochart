@@ -16,7 +16,7 @@ CREATE INDEX IF NOT EXISTS idx_tenant_created_at ON public.tenant (created_at);
 -- Users
 CREATE TABLE IF NOT EXISTS public.user (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-   metadata JSONB,
+   metadata JSONB DEFAULT '{}',
    email TEXT NOT NULL UNIQUE,
    phone TEXT UNIQUE,
    created_at TIMESTAMPTZ DEFAULT NOW()
@@ -224,7 +224,7 @@ CREATE TABLE IF NOT EXISTS public.record (
    payment_type TEXT,
    bid NUMERIC(10, 2) DEFAULT 0.00,
    bid_discount NUMERIC(10, 2) DEFAULT 0.00,
-   attributes JSONB,
+   attributes JSONB DEFAULT '{}',
    details TEXT,
    created_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -376,8 +376,8 @@ CREATE TABLE IF NOT EXISTS public.audit_log (
    table_schema TEXT NOT NULL,
    table_name TEXT NOT NULL,
    operation TEXT NOT NULL,
-   row_data JSONB,
-   old_data JSONB,
+   row_data JSONB DEFAULT '{}',
+   old_data JSONB DEFAULT '{}',
    created_at TIMESTAMPTZ DEFAULT NOW(),
    reverted BOOLEAN DEFAULT FALSE,
    reverted_at TIMESTAMPTZ DEFAULT NULL
