@@ -96,7 +96,7 @@ if (props.id || props.data?.id) {
    <div class="card">
       <FormBox @submit="save" @reset="() => form._reset()" :form :readonly>
          <FormField
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form?._errors?.first('display_name')"
             :label="$t('display_name')"
@@ -105,28 +105,18 @@ if (props.id || props.data?.id) {
                <InputText v-bind="slotProps" v-model="form.display_name" />
             </template>
          </FormField>
-         <FormField
-            :readonly="readonly"
-            fluid
-            :error="form?._errors?.first('country')"
-            :label="$t('country')"
-         >
+         <FormField :readonly fluid :error="form?._errors?.first('country')" :label="$t('country')">
             <template #default="slotProps">
                <InputText v-bind="slotProps" v-model="form.country" />
             </template>
          </FormField>
-         <FormField
-            :readonly="readonly"
-            fluid
-            :error="form?._errors?.first('city')"
-            :label="$t('city')"
-         >
+         <FormField :readonly fluid :error="form?._errors?.first('city')" :label="$t('city')">
             <template #default="slotProps">
                <InputText v-bind="slotProps" v-model="form.city" />
             </template>
          </FormField>
          <FormField
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form?._errors?.first('district')"
             :label="$t('district')"
@@ -137,7 +127,7 @@ if (props.id || props.data?.id) {
          </FormField>
          <FormField
             class="!flex-auto !max-w-full w-full"
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form._errors.first('details')"
             :label="$t('details')"

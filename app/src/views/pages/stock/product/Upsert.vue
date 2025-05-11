@@ -133,7 +133,7 @@ if (props.id || props.data?.id) {
       <FormBox @submit="save" @reset="() => form._reset()" :form :readonly>
          <FormField
             class="flex-[0.8]"
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form._errors.first('display_name')"
             :label="$t('display_name')"
@@ -155,7 +155,7 @@ if (props.id || props.data?.id) {
          </FormField>
          <FormField
             class="flex-[0.8]"
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form._errors.first('categories')"
             :label="$t('categories')"
@@ -171,7 +171,7 @@ if (props.id || props.data?.id) {
          </FormField>
          <FormField
             class="!flex-auto !max-w-full w-full"
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form._errors.first('details')"
             :label="$t('details')"

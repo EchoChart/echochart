@@ -98,7 +98,7 @@ if (props.id || props.data?.id) {
    <div class="card p-0">
       <FormBox @submit="save" @reset="() => form._reset()" :form :readonly>
          <FormField
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form?._errors?.first('display_name')"
             :label="$t('display_name')"
@@ -107,7 +107,7 @@ if (props.id || props.data?.id) {
             <InputText v-bind="slotProps" v-model="form.display_name" />
          </FormField>
          <FormField
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form?._errors?.first('nationality')"
             :label="$t('nationality')"
@@ -116,7 +116,7 @@ if (props.id || props.data?.id) {
             <SelectCountry v-bind="slotProps" v-model="form.nationality" />
          </FormField>
          <FormField
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form?._errors?.first('national_id')"
             :label="$t('national_id')"
@@ -125,7 +125,7 @@ if (props.id || props.data?.id) {
             <InputText v-bind="slotProps" v-model="form.national_id" />
          </FormField>
          <FormField
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form?._errors?.first('birth_date')"
             :label="$t('birth_date')"
@@ -134,7 +134,7 @@ if (props.id || props.data?.id) {
             <DatePicker v-bind="slotProps" v-model="form.birth_date" />
          </FormField>
          <FormField
-            :readonly="readonly"
+            :readonly
             fluid
             :error="form?._errors?.first('gender')"
             :label="$t('gender')"
@@ -154,7 +154,7 @@ if (props.id || props.data?.id) {
          </FormField>
          <div class="form-box !flex-auto">
             <FormField
-               :readonly="readonly"
+               :readonly
                fluid
                :error="form?._errors?.first('email')"
                :label="$t('email')"
@@ -163,7 +163,7 @@ if (props.id || props.data?.id) {
                <InputText v-bind="slotProps" v-model="form.email" />
             </FormField>
             <FormField
-               :readonly="readonly"
+               :readonly
                fluid
                :error="form?._errors?.first('phone')"
                :label="$t('phone')"
