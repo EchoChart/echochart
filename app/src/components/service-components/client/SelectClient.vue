@@ -18,7 +18,7 @@ const props = defineProps({
 defineOptions({
    inheritAttrs: false
 });
-defineEmits('clientSelect');
+defineEmits(['clientSelect']);
 
 const modelValue = defineModel('modelValue');
 

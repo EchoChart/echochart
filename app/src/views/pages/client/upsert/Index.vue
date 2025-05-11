@@ -21,7 +21,7 @@ const props = defineProps({
    }
 });
 
-const emit = defineEmits('update:tab');
+const emit = defineEmits(['update:tab']);
 
 const initialFormData = {
    id: undefined,
