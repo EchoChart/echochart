@@ -31,8 +31,9 @@ const id = attrs.id || useId() || _kebabCase(attrs.label);
 
 const containerClass = computed(() => [
    attrs.class,
-   'form-field flex flex-wrap gap-2 items-center',
-   'mb-auto p-2 relative',
+   'form-field flex gap-2 items-center',
+   _has(attrs, 'fluid') ? 'flex-col' : 'flex-row',
+   'my-auto p-2 relative',
    'transition-[padding] duration-[var(--transition-duration)]'
 ]);
 
@@ -42,9 +43,9 @@ const containerStyle = computed(() => ({
 
 const labelClass = computed(() => [
    props.reverse && 'order-[1]',
-   'flex-auto',
+   _has(attrs, 'fluid') ? '!w-full flex-auto' : 'flex-0 w-fit',
    'my-auto',
-   'truncate font-medium'
+   'font-medium'
 ]);
 
 const inputClass = computed(() => [
@@ -69,8 +70,6 @@ onMounted(() => {
       });
    }
 });
-
-const mounted = useMounted();
 </script>
 
 <template>
