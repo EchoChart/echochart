@@ -6,13 +6,13 @@
 export default class Collection {
    /**
     * Reactive state of the collection.
-    * @type {import('vue').Ref<T>}
+    * @type {T}
     */
    _state = ref();
 
    /**
     * Default state of the collection.
-    * @type {import('vue').Ref<T>}
+    * @type {T}
     */
    _defaults = ref();
 
