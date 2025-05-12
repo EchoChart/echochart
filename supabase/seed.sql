@@ -156,15 +156,15 @@ VALUES
     ('public.client_address', 'client', 'delete', 'modify', FALSE, FALSE, NULL),
     --
     --
+    -- record
+    ('public.record', 'record', 'select', 'read', FALSE, FALSE, NULL),
+    ('public.record', 'record', 'insert', 'create', FALSE, FALSE, NULL),
+    ('public.record', 'record', 'update', 'modify', FALSE, FALSE, NULL),
+    ('public.record', 'record', 'delete', 'modify', FALSE, FALSE, NULL),
+    --
+    --
     -- audit_log
     ('public.audit_log', 'audit_log', 'select', 'read', FALSE, FALSE, 'tenant_id IS NOT NULL');
-
-INSERT INTO
-    public.tenant (display_name)
-VALUES
-    ('bade-gop'),
-    ('bade-gop-sarigol'),
-    ('bade-avcilar');
 
 INSERT INTO
     private.audit_config (table_name, audit_enabled)
@@ -179,7 +179,8 @@ VALUES
     ('public.stock', TRUE),
     ('public.client', TRUE),
     ('public.address', TRUE),
-    ('public.client_address', TRUE);
+    ('public.client_address', TRUE),
+    ('public.record', TRUE);
 
 INSERT INTO
     public.role (display_name)
@@ -382,6 +383,57 @@ BEGIN
 END;
 $$;
 
+-- Seed record
+CREATE OR REPLACE FUNCTION private.tenant_seed_record (target_tenant_id UUID) RETURNS VOID SECURITY DEFINER LANGUAGE plpgsql
+SET
+    search_path = '' AS $$
+DECLARE
+    stock_rec RECORD;
+BEGIN
+
+    FOR stock_rec IN 
+        SELECT  
+            s.id,
+            'sale'::TEXT AS record_type,
+            'pending'::TEXT AS record_status,
+            ROUND((LEAST(random() * (s.available_quantity - 1) + 1, s.available_quantity))::NUMERIC, 2) AS amount,
+            'credit_card'::TEXT AS payment_type,
+            ROUND((random() * (500 - 10) + 10)::NUMERIC, 2) AS bid,
+            ROUND((random() * (10 - 1) + 1)::NUMERIC, 2) AS bid_discount,
+            c.id AS client_id,
+            'Details for tenant record'::TEXT AS details,  
+            NOW() - (random() * interval '10 days') AS created_at
+        FROM public.stock_view s 
+        JOIN public.product p ON s.product_id = p.id
+        INNER JOIN public.client c ON c.tenant_id = target_tenant_id AND random() < 0.25
+        WHERE s.tenant_id = target_tenant_id
+        AND s.available_quantity > 0
+    LOOP
+
+        -- Check if the amount is less than or equal to available quantity
+        IF stock_rec.amount <= (SELECT available_quantity FROM public.stock_view WHERE id = stock_rec.id) THEN
+            INSERT INTO public.record (
+                tenant_id, stock_id, record_type, record_status, amount, payment_type, bid, bid_discount, client_id, details, created_at
+            )  
+            VALUES 
+            (
+                target_tenant_id,
+                stock_rec.id,
+                stock_rec.record_type,
+                stock_rec.record_status,
+                stock_rec.amount,
+                stock_rec.payment_type,
+                stock_rec.bid,
+                stock_rec.bid_discount,
+                stock_rec.client_id,
+                stock_rec.details,
+                stock_rec.created_at
+            );
+        END IF;
+    END LOOP;
+
+END;$$;
+
 CREATE OR REPLACE FUNCTION private.tenant_seed () RETURNS TRIGGER SECURITY DEFINER LANGUAGE plpgsql
 SET
     search_path = '' AS $$
@@ -394,6 +446,8 @@ PERFORM private.tenant_seed_address(NEW.id);
 PERFORM private.tenant_seed_client_address(NEW.id);
 
 PERFORM private.tenant_seed_stock(NEW.id);
+
+PERFORM private.tenant_seed_record(NEW.id);
 
 RETURN NEW;
 

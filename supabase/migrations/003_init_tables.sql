@@ -129,6 +129,30 @@ CREATE INDEX IF NOT EXISTS idx_user_role_user_id ON public.user_role (user_id);
 
 CREATE INDEX IF NOT EXISTS idx_user_role_role_id ON public.user_role (role_id);
 
+-- Clients Table
+CREATE TABLE IF NOT EXISTS public.client (
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
+   national_id TEXT UNIQUE NOT NULL, -- client's national national_id number
+   display_name TEXT NOT NULL,
+   birth_date DATE NOT NULL,
+   gender TEXT CHECK (gender IN ('male', 'female')),
+   email TEXT UNIQUE,
+   phone TEXT UNIQUE,
+   nationality TEXT,
+   created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_client_id_tenant ON client (id, tenant_id);
+
+CREATE INDEX IF NOT EXISTS idx_client_national_id ON public.client (national_id);
+
+CREATE INDEX IF NOT EXISTS idx_client_tenant_id ON public.client (tenant_id);
+
+CREATE INDEX IF NOT EXISTS idx_client_created_at ON public.client (created_at);
+
+CREATE INDEX IF NOT EXISTS idx_client_display_name ON public.client (display_name);
+
 -- Products Table
 CREATE TABLE IF NOT EXISTS public.product (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
@@ -141,6 +165,8 @@ CREATE TABLE IF NOT EXISTS public.product (
 );
 
 CREATE INDEX IF NOT EXISTS idx_product_id_tenant ON product (id, tenant_id);
+
+CREATE INDEX IF NOT EXISTS idx_product_display_name ON public.product (display_name);
 
 CREATE INDEX IF NOT EXISTS idx_product_display_name_composite ON public.product (display_name, id);
 
@@ -199,6 +225,7 @@ CREATE TABLE IF NOT EXISTS public.stock (
 
 -- Indexes for performance optimization
 CREATE INDEX IF NOT EXISTS idx_stock_id_tenant ON stock (id, tenant_id);
+
 CREATE INDEX IF NOT EXISTS idx_stock_tenant_id ON public.stock (tenant_id);
 
 CREATE INDEX IF NOT EXISTS idx_stock_product_id ON public.stock (product_id);
@@ -220,7 +247,19 @@ CREATE TABLE IF NOT EXISTS public.record (
    client_id UUID REFERENCES public.client (id) ON DELETE CASCADE,
    stock_id UUID REFERENCES public.stock (id) ON DELETE CASCADE,
    user_id UUID REFERENCES public.user (id) ON DELETE SET NULL,
+   record_type TEXT NOT NULL CHECK (record_type IN ('trial', 'sale', 'assembly', 'repair', 'promotion')),
+   record_status TEXT NOT NULL CHECK (
+      CASE
+         WHEN record_type = 'repair' THEN record_status IN ('pending', 'at_service', 'bid_pending', 'bid_approved', 'bid_rejected', 'done')
+         ELSE record_status IN ('pending', 'approved', 'rejected', 'client_pending', 'done')
+      END
+   ),
    amount NUMERIC(10, 2) NOT NULL DEFAULT 0.00 CHECK (
+      CASE
+         WHEN record_type IN ('sale', 'promotion') THEN amount > 0
+         ELSE amount >= 0
+      END
+   ),
    payment_type TEXT,
    bid NUMERIC(10, 2) DEFAULT 0.00,
    bid_discount NUMERIC(10, 2) DEFAULT 0.00,
@@ -228,7 +267,26 @@ CREATE TABLE IF NOT EXISTS public.record (
    details TEXT,
    created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
 CREATE INDEX IF NOT EXISTS idx_record_tenant_id ON public.record (tenant_id);
+
+CREATE INDEX IF NOT EXISTS idx_record_client_id ON public.record (client_id);
+
+CREATE INDEX IF NOT EXISTS idx_record_stock_id ON public.record (stock_id);
+
+CREATE INDEX IF NOT EXISTS idx_record_user_id ON public.record (user_id);
+
+CREATE INDEX IF NOT EXISTS idx_record_tenant_client_id ON public.record (tenant_id, client_id);
+
+CREATE INDEX IF NOT EXISTS idx_record_tenant_stock_id ON public.record (tenant_id, stock_id);
+
+CREATE INDEX IF NOT EXISTS idx_record_amount ON public.record (amount);
+
+CREATE INDEX IF NOT EXISTS idx_record_bid ON public.record (bid);
+
+CREATE INDEX IF NOT EXISTS idx_record_status ON public.record (record_status);
+
+CREATE INDEX IF NOT EXISTS idx_record_created ON public.record (created_at);
 
 CREATE OR REPLACE VIEW public.stock_view
 WITH
@@ -250,7 +308,8 @@ FROM
       FROM
          public.record
       WHERE
-         record_status = 'approved'
+         record_status IN ('approved', 'pending', 'client_pending', 'done')
+         AND record_type IN ('promotion', 'sale')
       GROUP BY
          tenant_id,
          stock_id
@@ -292,28 +351,6 @@ FROM
 GROUP BY
    p.display_name,
    p.brand;
-
--- Clients Table
-CREATE TABLE IF NOT EXISTS public.client (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-   national_id TEXT UNIQUE NOT NULL, -- client's national national_id number
-   display_name TEXT NOT NULL,
-   birth_date DATE NOT NULL,
-   gender TEXT CHECK (gender IN ('male', 'female')),
-   email TEXT UNIQUE,
-   phone TEXT UNIQUE,
-   nationality TEXT,
-   tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
-   created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE INDEX IF NOT EXISTS client_national_id_idx ON public.client (national_id);
-
-CREATE INDEX IF NOT EXISTS client_tenant_id_idx ON public.client (tenant_id);
-
-CREATE INDEX IF NOT EXISTS client_created_at_idx ON public.client (created_at);
-
-CREATE INDEX IF NOT EXISTS client_display_name_idx ON public.client (display_name);
 
 -- Clients Addresses(address table relationship)
 CREATE TABLE IF NOT EXISTS public.client_address (
@@ -461,7 +498,7 @@ ORDER BY
       NULLIF(al.old_data ->> 'created_at', '')::TIMESTAMPTZ,
       now()::TIMESTAMPTZ
    ) ASC,
-   al.operation DESC,
+   al.operation,
    CASE
       WHEN al.operation = 'DELETE' THEN 0 -- Ensure DELETE operations appear before non-DELETE operations
       ELSE 1

@@ -767,3 +767,16 @@ BEGIN
   RETURN NULL;
 END;
 $$;
+
+CREATE OR REPLACE FUNCTION validate_record_amount () RETURNS TRIGGER SECURITY DEFINER LANGUAGE plpgsql AS $$
+BEGIN
+    IF OLD.stock_id = NEW.stock_id AND TG_OP = 'UPDATE' THEN
+        IF NEW.amount > OLD.amount + (SELECT available_quantity FROM public.stock_view WHERE id = NEW.stock_id) THEN
+            RAISE EXCEPTION 'Amount cannot be greater than available quantity';
+        END IF;
+    ELSIF NOT EXISTS(SELECT 1 FROM public.record WHERE id = NEW.id) AND NEW.amount > (SELECT available_quantity FROM public.stock_view WHERE id = NEW.stock_id) THEN
+        RAISE EXCEPTION 'Amount cannot be greater than available quantity';
+    END IF;
+   
+    RETURN NEW;
+END;$$;

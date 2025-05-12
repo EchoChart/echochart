@@ -8,6 +8,8 @@ defineOptions({
 
 const attrs = useAttrs();
 const router = useRouter();
+
+// Define the columns without filters
 const columns = new Collection([
    {
       field: 'display_name',
@@ -16,14 +18,16 @@ const columns = new Collection([
       sortOrder: { value: -1 }
    },
    {
-      field: 'serial_number',
-      sortable: true,
-      header: i18n.t('serial_number')
-   },
-   {
       field: 'unit_cost',
       sortable: true,
-      header: i18n.t('unit_cost')
+      header: i18n.t('unit_cost'),
+      dataType: 'numeric'
+   },
+   {
+      field: 'quantity',
+      sortable: true,
+      header: i18n.t('quantity'),
+      dataType: 'numeric'
    },
    {
       field: 'vendor',
@@ -38,7 +42,6 @@ const columns = new Collection([
    }
 ]);
 
-// Define the filters object
 const filters = ref({
    global: {
       value: null,
@@ -46,17 +49,17 @@ const filters = ref({
    },
    'product.category.display_name': {
       operator: FilterOperator.AND,
-      constraints: [{ value: 'device', matchMode: FilterMatchMode.EQUALS }]
+      constraints: [{ value: 'service', matchMode: FilterMatchMode.EQUALS }]
    },
    display_name: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
    },
-   brand: {
+   ['brand']: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
    },
-   barcode: {
+   ['barcode']: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
    },
@@ -86,7 +89,7 @@ const filters = ref({
    ...attrs.filters
 });
 
-const stateKey = 'device';
+const stateKey = 'service';
 const rowActions = new Collection([
    {
       label: i18n.t('delete'),
@@ -123,29 +126,24 @@ const rowActions = new Collection([
 
 const dialogRef = inject('dialogRef', null);
 
-const tableProps = computed(() =>
-   _merge(
-      {
-         stateKey,
-         from: 'stock_view',
-         select: '*, product:product!inner(category:product_category!inner(*))',
-         columns: columns._data,
-         rowActions: rowActions._data
-      },
-      attrs
-   )
-);
+const tableProps = computed(() => ({
+   stateKey,
+   from: 'stock_view',
+   select: '*, product:product!inner(*, category:product_category!inner(*))',
+   columns: columns._data,
+   rowActions: rowActions._data,
+   ...attrs
+}));
 </script>
 <template>
    <ResourceTable v-bind="tableProps" v-model:filters="filters">
       <template #header>
-         <Teleport to="#page-toolbar" :disabled="dialogRef">
+         <Teleport v-if="$can('create', 'stock')" to="#page-toolbar" :disabled="dialogRef">
             <span class="flex-1 flex justify-end gap-4 flex-wrap-reverse">
                <KeywordSearchInput v-model="filters.global.value" />
 
                <CustomLink
-                  v-if="$can('create', 'stock')"
-                  :to="{ name: 'stock-add', params: { category: 'device' } }"
+                  :to="{ name: 'stock-add', params: { category: 'service' } }"
                   v-slot="{ navigate }"
                >
                   <Button variant="outlined" :label="$t('add')" @click="navigate" />
@@ -164,11 +162,6 @@ const tableProps = computed(() =>
       </template>
       <template #vendor_filter="{ filterModel }">
          <SelectStockVendor v-model="filterModel.value" />
-      </template>
-      <template #display_name_body="{ data }">
-         <div class="flex flex-col gap-2">
-            <span v-text="data?.display_name" />
-         </div>
       </template>
    </ResourceTable>
 </template>

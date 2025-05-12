@@ -3,11 +3,12 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { beforeEachMiddlewares } from './middlewares';
 
 import accountRoutes from '@/router/routes/account';
+import addressRoutes from '@/router/routes/address';
 import authRoutes from '@/router/routes/auth';
 import branchRoutes from '@/router/routes/branch';
-import stockRoutes from '@/router/routes/stock';
 import clientRoutes from '@/router/routes/client';
-import addressRoutes from '@/router/routes/address';
+import recordRoutes from '@/router/routes/record';
+import stockRoutes from '@/router/routes/stock';
 
 const router = createRouter({
    history: createWebHistory(),
@@ -55,7 +56,8 @@ const router = createRouter({
                         ...addressRoutes,
                         ...clientRoutes,
                         ...stockRoutes,
-                        ...accountRoutes
+                        ...accountRoutes,
+                        ...recordRoutes
                      ]
                   },
                   ...authRoutes,
