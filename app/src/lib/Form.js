@@ -129,7 +129,7 @@ export class Form extends Collection {
       let values = this._data;
 
       if (_isArray(keys)) {
-         rules = _pick(this._rules, keys);
+         rules = _pick(rules, keys);
          values = _pick(this._data, keys);
       }
 
