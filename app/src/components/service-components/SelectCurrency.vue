@@ -1,9 +1,5 @@
 <script setup>
-import { countries } from 'countries-list';
-
-const currencies = computed(() => [
-   ...new Set(_values(countries).flatMap(({ currency }) => currency)).values()
-]);
+import { currencies } from '@/constants/form/common';
 </script>
 <template>
    <Select :filter="true" :options="currencies" :placeholder="$t('select_currency')" />
