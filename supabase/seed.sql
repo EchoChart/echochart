@@ -403,3 +403,10 @@ $$;
 CREATE TRIGGER trg_seed_tenant
 AFTER INSERT ON public.tenant FOR EACH ROW
 EXECUTE FUNCTION private.tenant_seed ();
+
+INSERT INTO
+    public.tenant (display_name)
+VALUES
+    ('bade-gop'),
+    ('bade-gop-sarigol'),
+    ('bade-avcilar');
