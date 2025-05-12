@@ -134,6 +134,9 @@ export class Form extends Collection {
       }
 
       const validation = new Validator(values, rules);
+
+      validation.form = this;
+
       const passed = validation.passes();
 
       _assign(this._errors, validation.errors);
