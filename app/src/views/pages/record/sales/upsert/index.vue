@@ -1,7 +1,10 @@
 <script setup>
+import { currencies } from '@/constants/form/common';
+import { paymentTypes, recordStatuses, recordTypes } from '@/constants/form/record';
 import { Form } from '@/lib/Form';
 import StockList from '@/views/pages/stock/device/Index.vue';
 import { useDialog, useToast } from 'primevue';
+import AssemblyForm from './AssemblyForm.vue';
 
 /**
  * @typedef {Tables['record']['Row']} Data
@@ -20,147 +23,6 @@ const props = defineProps({
 });
 
 const toast = useToast();
-
-const recordTypes = [
-   {
-      value: 'trial',
-      label: i18n.t('trial')
-   },
-   {
-      value: 'sale',
-      label: i18n.t('sale')
-   },
-   {
-      value: 'assembly',
-      label: i18n.t('assembly')
-   },
-   {
-      value: 'repair',
-      label: i18n.t('repair')
-   },
-   {
-      value: 'promotion',
-      label: i18n.t('promotion')
-   }
-];
-
-const mold_type = [
-   {
-      value: 'biopar',
-      label: i18n.t('biopar')
-   },
-   {
-      value: 'hard',
-      label: i18n.t('hard')
-   }
-];
-
-const mold_model = [
-   {
-      value: 'micro',
-      label: i18n.t('micro')
-   },
-   {
-      value: 'full',
-      label: i18n.t('full')
-   },
-   {
-      value: 'half',
-      label: i18n.t('half')
-   },
-   {
-      value: 'supported',
-      label: i18n.t('supported')
-   },
-   {
-      value: 'prob',
-      label: i18n.t('prob')
-   }
-];
-
-const mold_ventilation = [
-   {
-      min: 0.8,
-      max: 3,
-      step: 0.2
-   }
-];
-
-const mold_hop_size = [1, 2, 3, 4, 5];
-
-const mold_hop_power = ['s', 'm', 'p', 'hp', '85', '100', '105'];
-
-const inner_mold_hop_power = ['65', '80', '100'];
-
-const inner_mold_handle = false;
-const inner_mold_wifi = false;
-const inner_mold_button = false;
-
-const repair_outer_service_name = '';
-const repair_outer_service_bid = '';
-
-const recordStatuses = computed(() =>
-   form.record_type === 'repair'
-      ? [
-           {
-              value: 'pending',
-              label: i18n.t('pending')
-           },
-           {
-              value: 'at_service',
-              label: i18n.t('at_service')
-           },
-           {
-              value: 'bid_pending',
-              label: i18n.t('bid_pending')
-           },
-           {
-              value: 'bid_approved',
-              label: i18n.t('bid_approved')
-           },
-           {
-              value: 'bid_rejected',
-              label: i18n.t('bid_rejected')
-           },
-           {
-              value: 'done',
-              label: i18n.t('done')
-           }
-        ]
-      : [
-           {
-              value: 'pending',
-              label: i18n.t('pending')
-           },
-           {
-              value: 'approved',
-              label: i18n.t('approved')
-           },
-           {
-              value: 'rejected',
-              label: i18n.t('rejected')
-           },
-           {
-              value: 'client_pending',
-              label: i18n.t('client_pending')
-           },
-           {
-              value: 'done',
-              label: i18n.t('done')
-           }
-        ]
-);
-
-const paymentTypes = [
-   {
-      value: 'cash',
-      label: i18n.t('cash')
-   },
-   {
-      value: 'credit_card',
-      label: i18n.t('credit card')
-   }
-];
 
 /**@type {Data} */
 const initialFormData = {
@@ -185,15 +47,36 @@ const fields = _keys(initialFormData);
 /**@type {Data & Form<Data>} */
 const form = new Form({
    data: _defaults(_pick(props.data, fields), initialFormData),
-   rules: {
+   useDialogForm: false
+});
+
+const available_quantity = computed(() =>
+   _round(
+      form?.stock?.id === form?._defaults?.stock_id
+         ? form?._defaults.amount + form?.stock?.available_quantity
+         : form?.stock?.available_quantity,
+      2
+   )
+);
+
+form._rules = computed(() => {
+   const statuses = _get(recordStatuses, form.record_type, [])
+      ?.map((e) => e?.value)
+      ?.join(',');
+
+   const amount = {
+      min: form.stock?.unit_type === 'pcs' ? 1 : 0.01,
+      max: available_quantity?.value
+   };
+
+   return {
       record_type: `required|in:${recordTypes.map((e) => e.value).join(',')}`,
-      record_status: `required|record_status`,
-      amount: 'numeric|gt:0|record_amount',
       bid: 'numeric|min:0',
       bid_discount: 'numeric|min:0|lte:bid',
-      'attributes.currency_code': 'required'
-   },
-   useDialogForm: false
+      'attributes.currency_code': `required|in:${currencies.join(',')}`,
+      amount: `numeric|between:${amount.min},${amount.max}`,
+      record_status: `required|in:${statuses}`
+   };
 });
 
 if (props.id || props.data?.id) {
@@ -207,11 +90,6 @@ if (props.id || props.data?.id) {
 const { ability } = useAuthStore();
 const readonly = computed(
    () => ability.cannot('modify', 'record') && ability.cannot('create', 'record')
-);
-const available_quantity = computed(() =>
-   form.stock?.id === form._defaults?.stock_id
-      ? form._defaults.amount + form.stock?.available_quantity
-      : form.stock?.available_quantity
 );
 
 const dialogs = useDialog();
@@ -232,7 +110,6 @@ const selectStock = () => {
             }
          },
          selectionMode: 'single',
-         keepInViewport: true,
          frozenValue: form.stock ? [form.stock] : undefined,
          selection: form.stock,
          'onUpdate:selection': (value) => (form.stock = value || form.stock),
@@ -243,7 +120,8 @@ const selectStock = () => {
       }),
       {
          props: {
-            header: i18n.t('select_stock')
+            header: i18n.t('select_stock'),
+            class: '!min-w-[clamp(32rem,50%,100vw)] !max-w-min'
          }
       }
    );
@@ -261,6 +139,12 @@ if (!routeLoading.value && props.id) {
 }
 
 const save = async () => {
+   if (form.record_type !== 'assembly') {
+      delete form.attributes.mold_type;
+      delete form.attributes.mold_model;
+      delete form.attributes.mold_ventilation;
+   }
+
    if (!form._validate()) return;
 
    const payload = _omit(form._data, 'stock');
@@ -328,7 +212,7 @@ const save = async () => {
                   v-bind="slotProps"
                   option-label="label"
                   option-value="value"
-                  :options="recordStatuses"
+                  :options="recordStatuses[form.record_type]"
                   v-model="form.record_status"
                />
             </FormField>
@@ -373,46 +257,69 @@ const save = async () => {
             <FormField
                :readonly
                fluid
-               :error="form._errors.first('bid')"
-               :label="$t('bid')"
+               :error="form._errors.first('payment_type')"
+               :label="$t('payment_type')"
                v-slot="slotProps"
             >
-               <InputNumber
+               <Select
                   v-bind="slotProps"
-                  v-model="form.bid"
-                  :max-fraction-digits="2"
-                  :min="0"
-                  :step="0.01"
-                  showButtons
-                  buttonLayout="horizontal"
+                  :options="paymentTypes"
+                  option-label="label"
+                  option-value="value"
+                  v-model="form.payment_type"
                />
             </FormField>
-            <FormField
-               :readonly
-               fluid
-               :error="form._errors.first('bid_discount')"
-               :label="$t('bid_discount')"
-               v-slot="slotProps"
-            >
-               <InputNumber
-                  v-bind="slotProps"
-                  v-model="form.bid_discount"
-                  :max-fraction-digits="2"
-                  :min="0"
-                  :max="form.bid"
-                  :step="0.01"
-                  showButtons
-                  buttonLayout="horizontal"
-               />
-            </FormField>
+            <span class="form_box !flex-auto">
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form._errors.first('bid')"
+                  :label="$t('bid')"
+                  v-slot="slotProps"
+               >
+                  <InputNumber
+                     v-bind="slotProps"
+                     v-model="form.bid"
+                     :max-fraction-digits="2"
+                     :min="0"
+                     :step="0.01"
+                     showButtons
+                     buttonLayout="horizontal"
+                  />
+               </FormField>
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form._errors.first('bid_discount')"
+                  :label="$t('bid_discount')"
+                  v-slot="slotProps"
+               >
+                  <InputNumber
+                     v-bind="slotProps"
+                     v-model="form.bid_discount"
+                     :max-fraction-digits="2"
+                     :min="0"
+                     :max="form.bid"
+                     :step="0.01"
+                     showButtons
+                     buttonLayout="horizontal"
+                  />
+               </FormField>
+            </span>
          </FormBox>
+         <AssemblyForm
+            v-if="form.record_type === 'assembly'"
+            class="!flex-auto w-full"
+            :form
+            :readonly
+         />
          <FormField
             :readonly
             fluid
             :error="form._errors.first('details')"
             :label="$t('details')"
             v-slot="slotProps"
-            class="!flex-auto !max-w-full w-full"
+            class="!flex-auto !max-w-full w-full h-fit"
          >
             <Editor v-bind="slotProps" v-model="form.details" />
          </FormField>
