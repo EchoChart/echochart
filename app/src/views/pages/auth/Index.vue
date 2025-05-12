@@ -49,9 +49,9 @@ const onMouseMove = _throttle((e) => {
          </div>
 
          <div
-            class="flex-auto md:!max-w-[25vw] md:!min-w-max md:flex-1 flex justify-self-start p-1 pb-0 z-[1] text-surface-900 dark:text-surface-0 rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[var(--primary-color)] via-[rgba(33,150,243,0)] to-transparent"
+            class="flex-auto md:!max-w-[25vw] md:!min-w-min md:flex-1 flex justify-self-start p-1 pb-0 z-[1] text-surface-900 dark:text-surface-0 rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[var(--primary-color)] via-[rgba(33,150,243,0)] to-transparent"
          >
-            <div class="card flex-auto flex flex-col justify-center rounded-[inherit] p-12">
+            <div class="card flex-auto flex items-center justify-center rounded-[inherit] p-12">
                <CustomRouteView
                   :transitionProps="{
                      class: 'transition-[filter,transform] duration-[calc(var(--transition-duration))]',

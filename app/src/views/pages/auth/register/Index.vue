@@ -71,13 +71,13 @@ const submit = async () => {
 </script>
 
 <template>
-   <FormBox @submit="submit" class="self-center flex-col gap-8" v-focustrap>
-      <div class="text-center flex flex-col justify-center gap-8">
+   <FormBox @submit="submit" class="flex-auto !w-full justify-center gap-8" v-focustrap>
+      <div class="flex-auto w-full text-center flex flex-col justify-center gap-8">
          <div class="text-3xl font-medium" v-text="$t('create_account')" />
 
          <span class="text-muted-color font-medium" v-text="$t('create_an_account_and_join_us')" />
       </div>
-      <Stepper ref="stepper" class="flex-auto flex flex-col gap-8" :value="1">
+      <Stepper ref="stepper" class="flex-auto !w-full flex flex-col gap-8" :value="1">
          <StepList class="flex-wrap sm:flex-nowrap gap-2">
             <Step
                v-for="(step, i) in steps"

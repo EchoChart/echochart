@@ -46,8 +46,8 @@ if (rememberMe.value) {
 </script>
 
 <template>
-   <FormBox @submit="login" class="self-center flex-col gap-8" v-focustrap>
-      <div class="flex-auto text-center flex flex-col justify-center gap-8">
+   <FormBox @submit="login" class="self-center gap-8" v-focustrap>
+      <div class="flex-auto w-full text-center flex flex-col justify-center gap-8">
          <div class="text-3xl font-medium" v-text="$t('welcome_back')" />
 
          <span class="text-muted-color font-medium" v-text="$t('please_login_to_continue')" />
@@ -71,7 +71,7 @@ if (rememberMe.value) {
          </FormField>
       </div>
       <template #form-actions>
-         <div class="flex-1 flex flex-col gap-8">
+         <div class="flex-auto w-full flex flex-col gap-8">
             <div class="flex items-center justify-between gap-4">
                <FormField v-slot="slotProps" reverse :label="'Remember me'" class="max-w-fit">
                   <Checkbox v-bind="slotProps" class="min-w-fit" v-model="rememberMe" binary />
