@@ -82,6 +82,7 @@ export type Database = {
           id: string
           old_data: Json | null
           operation: string
+          request_id: string | null
           reverted: boolean | null
           reverted_at: string | null
           reverted_by: string | null
@@ -97,6 +98,7 @@ export type Database = {
           id?: string
           old_data?: Json | null
           operation: string
+          request_id?: string | null
           reverted?: boolean | null
           reverted_at?: string | null
           reverted_by?: string | null
@@ -112,6 +114,7 @@ export type Database = {
           id?: string
           old_data?: Json | null
           operation?: string
+          request_id?: string | null
           reverted?: boolean | null
           reverted_at?: string | null
           reverted_by?: string | null
@@ -397,6 +400,100 @@ export type Database = {
           },
         ]
       }
+      record: {
+        Row: {
+          amount: number
+          attributes: Json | null
+          bid: number | null
+          bid_discount: number | null
+          client_id: string | null
+          created_at: string | null
+          details: string | null
+          id: string
+          payment_type: string | null
+          record_status: string
+          record_type: string
+          stock_id: string | null
+          tenant_id: string
+          user_id: string | null
+        }
+        Insert: {
+          amount?: number
+          attributes?: Json | null
+          bid?: number | null
+          bid_discount?: number | null
+          client_id?: string | null
+          created_at?: string | null
+          details?: string | null
+          id?: string
+          payment_type?: string | null
+          record_status: string
+          record_type: string
+          stock_id?: string | null
+          tenant_id: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          attributes?: Json | null
+          bid?: number | null
+          bid_discount?: number | null
+          client_id?: string | null
+          created_at?: string | null
+          details?: string | null
+          id?: string
+          payment_type?: string | null
+          record_status?: string
+          record_type?: string
+          stock_id?: string | null
+          tenant_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "record_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "client"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "record_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "client_address_view"
+            referencedColumns: ["client_id"]
+          },
+          {
+            foreignKeyName: "record_stock_id_fkey"
+            columns: ["stock_id"]
+            isOneToOne: false
+            referencedRelation: "stock"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "record_stock_id_fkey"
+            columns: ["stock_id"]
+            isOneToOne: false
+            referencedRelation: "stock_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "record_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenant"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "record_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       role: {
         Row: {
           created_at: string | null
@@ -462,86 +559,6 @@ export type Database = {
           },
         ]
       }
-      sales: {
-        Row: {
-          amount: number
-          assigned_user_id: string
-          attributes: Json | null
-          bid: number | null
-          bid_discount: number | null
-          created_at: string | null
-          delivery_status: string | null
-          details: string | null
-          id: string
-          payment_type: string | null
-          product_id: string
-          record_status: string
-          record_type: string
-          tenant_id: string
-        }
-        Insert: {
-          amount: number
-          assigned_user_id: string
-          attributes?: Json | null
-          bid?: number | null
-          bid_discount?: number | null
-          created_at?: string | null
-          delivery_status?: string | null
-          details?: string | null
-          id?: string
-          payment_type?: string | null
-          product_id: string
-          record_status: string
-          record_type: string
-          tenant_id: string
-        }
-        Update: {
-          amount?: number
-          assigned_user_id?: string
-          attributes?: Json | null
-          bid?: number | null
-          bid_discount?: number | null
-          created_at?: string | null
-          delivery_status?: string | null
-          details?: string | null
-          id?: string
-          payment_type?: string | null
-          product_id?: string
-          record_status?: string
-          record_type?: string
-          tenant_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "sales_assigned_user_id_fkey"
-            columns: ["assigned_user_id"]
-            isOneToOne: false
-            referencedRelation: "user"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "sales_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "product"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "sales_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "stock_vendor_stat"
-            referencedColumns: ["product_id"]
-          },
-          {
-            foreignKeyName: "sales_tenant_id_fkey"
-            columns: ["tenant_id"]
-            isOneToOne: false
-            referencedRelation: "tenant"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       stock: {
         Row: {
           barcode: string | null
@@ -554,8 +571,10 @@ export type Database = {
           serial_number: string | null
           stocked_at: string | null
           tenant_id: string
-          total_cost: number | null
           unit_cost: number
+          unit_discount: number
+          unit_tax: number
+          unit_type: string
           vendor: string | null
         }
         Insert: {
@@ -569,8 +588,10 @@ export type Database = {
           serial_number?: string | null
           stocked_at?: string | null
           tenant_id: string
-          total_cost?: number | null
           unit_cost: number
+          unit_discount?: number
+          unit_tax?: number
+          unit_type?: string
           vendor?: string | null
         }
         Update: {
@@ -584,8 +605,10 @@ export type Database = {
           serial_number?: string | null
           stocked_at?: string | null
           tenant_id?: string
-          total_cost?: number | null
           unit_cost?: number
+          unit_discount?: number
+          unit_tax?: number
+          unit_type?: string
           vendor?: string | null
         }
         Relationships: [
@@ -721,27 +744,24 @@ export type Database = {
       }
       user: {
         Row: {
-          avatar_url: string | null
           created_at: string | null
-          display_name: string | null
           email: string
           id: string
+          metadata: Json | null
           phone: string | null
         }
         Insert: {
-          avatar_url?: string | null
           created_at?: string | null
-          display_name?: string | null
           email: string
           id?: string
+          metadata?: Json | null
           phone?: string | null
         }
         Update: {
-          avatar_url?: string | null
           created_at?: string | null
-          display_name?: string | null
           email?: string
           id?: string
+          metadata?: Json | null
           phone?: string | null
         }
         Relationships: []
@@ -786,11 +806,11 @@ export type Database = {
     Views: {
       audit_log_group: {
         Row: {
-          correlated_logs: Json | null
           correlation_id: string | null
           created_at: string | null
           id: string | null
           operation: string | null
+          request_id: string | null
           reverted: boolean | null
           reverted_at: string | null
           reverted_by: string | null
@@ -912,6 +932,9 @@ export type Database = {
           tenant_id: string | null
           total_cost: number | null
           unit_cost: number | null
+          unit_discount: number | null
+          unit_tax: number | null
+          unit_type: string | null
           vendor: string | null
         }
         Relationships: [
