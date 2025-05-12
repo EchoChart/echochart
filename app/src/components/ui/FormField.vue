@@ -31,9 +31,9 @@ const id = attrs.id || useId() || _kebabCase(attrs.label);
 
 const containerClass = computed(() => [
    attrs.class,
-   'form-field flex gap-2 items-center',
-   _has(attrs, 'fluid') ? 'flex-col' : 'flex-row',
-   'my-auto p-2 relative',
+   'form-field flex gap-x-4 gap-y-2 items-center',
+   _has(attrs, 'fluid') ? 'flex-col justify-center' : 'flex-row',
+   ' p-2 relative',
    'transition-[padding] duration-[var(--transition-duration)]'
 ]);
 
@@ -43,21 +43,21 @@ const containerStyle = computed(() => ({
 
 const labelClass = computed(() => [
    props.reverse && 'order-[1]',
-   _has(attrs, 'fluid') ? '!w-full flex-auto' : 'flex-0 w-fit',
-   'my-auto',
+   _has(attrs, 'fluid') ? 'w-full' : 'flex-0 w-fit my-auto',
+   '',
    'font-medium'
 ]);
 
 const inputClass = computed(() => [
-   _has(attrs, 'fluid') ? '!w-full flex-auto' : 'flex-auto',
+   _has(attrs, 'fluid') ? 'w-full my-auto' : 'flex-auto',
    'min-w-48'
 ]);
 
 const errorClass = computed(() => [
    'absolute',
    'left-0 bottom-0 mx-2',
-   'capitalize text-red-300',
-   'animate animate-fadein animate-duration-[var(--transition-duration)] animate-ease-in-out animate-once'
+   'whitespace-pre-wrap capitalize text-red-300',
+   'animate animate-fadeindown animate-duration-[var(--transition-duration)] animate-ease-in-out animate-once'
 ]);
 
 onMounted(() => {
@@ -74,7 +74,13 @@ onMounted(() => {
 
 <template>
    <div :class="containerClass" :style="containerStyle">
-      <slot name="label">
+      <slot
+         name="label"
+         :for="id"
+         :id="`label-${id}`"
+         :class="labelClass"
+         :title="_startCase(attrs.label)"
+      >
          <label
             v-if="!!attrs.label"
             :for="id"

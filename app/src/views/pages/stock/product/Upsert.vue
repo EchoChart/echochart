@@ -170,7 +170,7 @@ if (props.id || props.data?.id) {
             </template>
          </FormField>
          <FormField
-            class="!flex-auto !max-w-full w-full"
+            class="!flex-auto !max-w-full w-full h-fit"
             :readonly
             fluid
             :error="form._errors.first('details')"

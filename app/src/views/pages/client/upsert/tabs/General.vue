@@ -152,7 +152,7 @@ if (props.id || props.data?.id) {
                v-model="form.gender"
             />
          </FormField>
-         <div class="form-box !flex-auto">
+         <div class="form_box !flex-auto">
             <FormField
                :readonly
                fluid

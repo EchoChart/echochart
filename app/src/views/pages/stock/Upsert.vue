@@ -177,7 +177,7 @@ const save = async () => {
                   placeholder="dd/mm/yyyy"
                />
             </FormField>
-            <span class="form-box !flex-auto">
+            <span class="form_box !flex-auto">
                <FormField
                   :readonly
                   fluid
@@ -200,7 +200,7 @@ const save = async () => {
          </FormBox>
 
          <FormBox :legend="$t('financial')">
-            <span class="form-box !flex-auto place-content-start">
+            <span class="form_box !flex-auto place-content-start">
                <FormField
                   :readonly
                   fluid
@@ -215,6 +215,7 @@ const save = async () => {
                         buttonLayout="horizontal"
                         :step="form.unit_type === 'pcs' ? 1 : 0.1"
                         v-bind="slotProps"
+                        input-class="!rounded-none"
                      />
                      <InputGroupAddon class="!p-0 !min-w-fit">
                         <SelectStockUnitType class="!border-0" v-model="form.unit_type" />
@@ -289,7 +290,7 @@ const save = async () => {
                   />
                </FormField>
             </span>
-            <span class="form-box !flex-auto place-content-start">
+            <span class="form_box !flex-auto place-content-start">
                <FormField
                   :readonly
                   fluid
@@ -355,7 +356,7 @@ const save = async () => {
             :error="form._errors.first('details')"
             :label="$t('details')"
             v-slot="slotProps"
-            class="!flex-auto !max-w-full w-full"
+            class="!flex-auto !max-w-full w-full h-fit"
          >
             <Editor v-bind="slotProps" v-model="form.details" />
          </FormField>
