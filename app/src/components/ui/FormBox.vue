@@ -64,7 +64,7 @@ defineProps({
    }
 
    &-actions {
-      @apply flex flex-wrap items-center justify-end p-4 gap-4 flex-auto sticky bottom-0 bg-transparent backdrop-blur-lg;
+      @apply flex flex-wrap items-center justify-end p-4 gap-4 flex-auto w-full sticky bottom-0 bg-transparent backdrop-blur-lg;
    }
 
    & .form-field {
