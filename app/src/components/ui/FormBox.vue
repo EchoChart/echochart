@@ -13,13 +13,21 @@ defineProps({
    readonly: {
       type: Boolean,
       default: false
+   },
+   invalid: {
+      type: Boolean,
+      default: false
+   },
+   error: {
+      type: [String, Boolean],
+      default: null
    }
 });
 </script>
 
 <template>
    <template v-if="_isNil(legend)">
-      <form class="form_box" @submit.prevent>
+      <form :invalid="!!error" class="form_box" @submit.prevent>
          <slot :readonly :form />
 
          <slot name="form-actions" :form :readonly :legend>
@@ -43,6 +51,7 @@ defineProps({
    </template>
    <template v-else>
       <Fieldset
+         :invalid="!!error"
          :legend="_startCase(legend)"
          :pt="{
             content: {
@@ -52,12 +61,27 @@ defineProps({
          class="form_box"
       >
          <slot />
+         <template #legend="slotProps">
+            <slot name="header">
+               <div class="flex items-center gap-4">
+                  <slot name="legend">
+                     <label v-text="_startCase(legend)" v-bind="slotProps" />
+                  </slot>
+                  <slot name="actions" />
+                  <ErrorBadge v-if="error" :error="error" />
+               </div>
+            </slot>
+         </template>
       </Fieldset>
    </template>
 </template>
 <style lang="scss">
 .form_box {
-   @apply flex-1 flex flex-wrap gap-2;
+   @apply flex-1 flex flex-wrap gap-2 items-start;
+
+   &[invalid='true'] {
+      @apply border-[var(--p-button-danger-border-color)];
+   }
 
    & > .form_box {
       @apply self-start;
@@ -67,7 +91,7 @@ defineProps({
       @apply flex flex-wrap items-center justify-end p-4 gap-4 flex-auto w-full sticky bottom-0 bg-transparent backdrop-blur-lg;
    }
 
-   & .form-field {
+   & .form_field {
       @apply flex-1 min-w-min;
    }
 }
