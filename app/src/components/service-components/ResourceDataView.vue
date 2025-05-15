@@ -42,7 +42,7 @@ const options = computed(() => {
    return res;
 });
 
-const layout = ref('grid');
+const layout = defineModel('layout', { default: 'list' });
 
 let values = ref();
 const modelValue = defineModel({
