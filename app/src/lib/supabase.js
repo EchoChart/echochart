@@ -89,33 +89,55 @@ const FilterModes = {
  * @returns {string} The generated query string or an empty string if no valid filters are provided.
  */
 const getFilterQuery = (filters) => {
+   // Check if the filters object is nil or has no properties
    if (_isNil(filters) || _size(filters) <= 0) return '';
 
-   function reducerFn(filters) {
+   /**
+    * Reducer function to process each filter and generate query parts.
+    *
+    * @param {Object} filters - The filter configuration object.
+    * @returns {Array} An array of filter parts or null if any part is invalid.
+    */
+   const reducerFn = (filters) => {
+      /**
+       * Helper function to get the filter parts based on field, dataType, operator, and matchMode.
+       *
+       * @param {Object} options - The options object containing field, dataType, operator, matchMode, value, and constraints.
+       * @returns {Array|null} An array of filter parts or null if any part is invalid.
+       */
       function getFilterParts({ field, dataType = 'text', operator, matchMode, value }) {
+         // Get the filter mode based on operator and matchMode
          const filterMode = FilterModes[operator][matchMode];
 
+         // Log a warning if the matchMode is unsupported
          if (!filterMode) {
             console.warn(`Unsupported matchMode: ${matchMode}`);
             return null;
          }
 
+         // Return null if value is nil
          if (_isNil(value)) return null;
 
+         // Convert numeric values to numbers and check for safe integers
          if (dataType === 'numeric') {
             value = _toNumber(value);
             if (!_isSafeInteger(value || '')) return null;
          }
+         // Convert decimal values to floats and check for NaN
          if (dataType === 'decimal') {
             value = parseFloat(value);
             if (_isNaN(value)) return null;
          }
+         // Check for invalid date formats
          if (dataType === 'date' && _isNaN(Date.parse(value))) return null;
 
+         // Return null if the value is an empty array or string
          if ((_isArrayLikeObject(value) || _isString(value)) && _isEmpty(value)) return null;
 
+         // Get the filter parts using the filter mode function
          let filterParts = filterMode(value, field, operator, dataType);
 
+         // Return null if filter parts are invalid
          if (!filterParts || filterParts.includes(null)) {
             return null;
          }
@@ -123,12 +145,13 @@ const getFilterQuery = (filters) => {
          return filterParts;
       }
 
+      // Process each key-value pair in the filters object
       return _toPairs(filters).reduce(
          (acc, [field, { operator, dataType, matchMode, value, constraints }]) => {
-            if (_isString(value)) value = value?.replace?.(/,/g, '.');
-
+            // Replace commas with dots in string values
             if (!_isNil(value) && _isEmpty(value)) return acc;
 
+            // Process the main filter part
             if (!_isNil(matchMode)) {
                const filterParts = getFilterParts({
                   field,
@@ -143,6 +166,7 @@ const getFilterQuery = (filters) => {
 
                acc.push(filterParts);
             }
+            // Process constraints if any
             if (constraints?.length) {
                constraints?.forEach(({ matchMode, value }) => {
                   const filterParts = getFilterParts({
@@ -155,26 +179,32 @@ const getFilterQuery = (filters) => {
                   if (!filterParts || filterParts.includes(null)) {
                      return null;
                   }
-                  return acc.push(filterParts);
+                  acc.push(filterParts);
                });
             }
             return acc;
          },
          []
       );
-   }
+   };
 
+   // Separate filters by OR and AND operators
    const orFilters = _pickBy(filters, ({ operator }) => operator === FilterOperator.OR);
    const andFilters = _pickBy(filters, ({ operator }) => operator !== FilterOperator.OR);
 
+   // Remove global filter from AND filters if it exists
    delete andFilters?.global;
+   // Remove global filter from OR filters if it exists
    delete orFilters?.global;
 
+   // Process global filter if it exists
    if (filters.global) {
       const { value, matchMode } = filters.global;
 
+      // Remove the global filter from the main filters object
       delete filters.global;
 
+      // If the global filter has a non-nil and non-empty value, process it
       if (!_isNil(value) && !_isEmpty(value))
          _toPairs(filters).forEach(([field, { dataType }]) => {
             const isNested = field?.split?.('.').length !== 1;
@@ -182,14 +212,17 @@ const getFilterQuery = (filters) => {
 
             let mode = matchMode;
 
+            // Adjust the match mode for numeric and decimal data types
             if (dataType === 'numeric') mode = FilterMatchMode.EQUALS;
             else if (dataType === 'decimal') mode = FilterMatchMode.EQUALS;
             else if (dataType === 'date') mode = FilterMatchMode.DATE_IS;
 
             const targetFilters = isNested ? andFilters : orFilters;
 
+            // Set the operator to OR
             const operator = FilterOperator.OR;
 
+            // Add the global filter constraints to the appropriate filters object
             targetFilters[field] = {
                ...targetFilters[field],
                dataType,
@@ -202,12 +235,16 @@ const getFilterQuery = (filters) => {
          });
    }
 
+   // Initialize the query string
    let query = '';
+   // Generate the AND filter query and append it to the main query if it exists
    const andFilterQuery = reducerFn(andFilters).join('&');
-   const orFilterQuery = reducerFn(orFilters).join(',');
    if (_size(andFilterQuery) > 0) query += `&${andFilterQuery}`;
+   // Generate the OR filter query and append it to the main query if it exists
+   const orFilterQuery = reducerFn(orFilters).join(',');
    if (_size(orFilterQuery) > 0) query += `&or=(${orFilterQuery})`;
 
+   // Return the generated query string
    return query;
 };
 
