@@ -60,9 +60,11 @@ const itemClick = (item) => {
       "
    >
       <router-link v-bind="$props" custom v-slot="{ isExactActive, isActive }">
-         <span
+         <a
+            :href="href"
+            @click.exact.capture.prevent=""
             @contextmenu="(e) => contextMenu.show(e)"
-            @click.ctrl.capture.stop="
+            @click.ctrl.capture.prevent.stop="
                $router.push({ ...route, query: { showDialog: DIALOG_POSITIONS.CENTER } })
             "
             class="!cursor-alias [&>*]:!cursor-alias flex flex-col"
@@ -77,7 +79,7 @@ const itemClick = (item) => {
                   route
                }"
             />
-         </span>
+         </a>
       </router-link>
       <ContextMenu v-if="!isExternalLink" ref="contextMenu" :model="constextMenuItems">
          <template #item="{ item, props }">
