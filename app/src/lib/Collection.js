@@ -52,7 +52,7 @@ export default class Collection {
          get(target, key, receiver) {
             if (Reflect.has(target, key)) {
                const prop = Reflect.get(target, key, receiver);
-               return isRef(prop) ? prop.value : prop;
+               return unref(prop);
             }
             return _get(target._state.value, key);
          },
