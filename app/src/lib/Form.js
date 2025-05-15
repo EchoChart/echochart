@@ -10,7 +10,7 @@ import Errors from 'validatorjs/src/errors.js';
 export class Form extends Collection {
    /**
     * Reactive rules object.
-    * @type {Object}
+    * @type {import('vue').Reactive<{}>}
     */
    _rules = reactive({});
 
@@ -149,7 +149,7 @@ export class Form extends Collection {
     * Resets the form data to default values.
     *
     * @param {Object} [attrs=this._defaults] - Default attributes.
-    * @returns {Form} - Form instance for chaining.
+    * @returns {this} - Form instance for chaining.
     */
    _reset(attrs = this._defaults) {
       super._reset(attrs);
@@ -163,10 +163,10 @@ export class Form extends Collection {
     * Sets the validation rules for the form.
     *
     * @param {Object} [rules={}] - Validation rules.
-    * @returns {Form} - Form instance for chaining.
+    * @returns {this} - Form instance for chaining.
     */
    _setRules(rules = {}) {
-      this._rules = rules;
+      this._rules = reactive(rules);
       return this;
    }
 }
