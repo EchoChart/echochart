@@ -4,7 +4,7 @@
 }
 
 body {
-   @apply font-['Lato'_sans-serif] text-[var(--text-color)] bg-[var(--surface-ground)] min-h-screen overflow-x-hidden antialiased;
+   @apply font-['Lato',sans-serif] text-[var(--text-color)] bg-[var(--surface-ground)] min-h-screen overflow-x-hidden antialiased;
 
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
