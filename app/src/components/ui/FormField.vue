@@ -6,11 +6,15 @@ defineOptions({
 const props = defineProps({
    loading: {
       type: Boolean,
-      default: null
+      default: false
    },
    reverse: {
       type: Boolean,
       default: false
+   },
+   error: {
+      type: [String, Boolean],
+      default: null
    }
 });
 const routeLoading = inject('routeLoading', false);
@@ -23,28 +27,34 @@ const isLoading = computed(() => {
 
 const attrs = useAttrs();
 
-const errorElement = ref(null);
+const errorMessageElement = ref(null);
+const errorTextElement = ref(null);
 
-const { height: errorHeight } = useElementSize(errorElement);
+watch(
+   () => errorTextElement.value,
+   (e) => console.log(e)
+);
+
+const errorElStyle = useElementSize(errorMessageElement);
 
 const id = attrs.id || useId() || _kebabCase(attrs.label);
 
 const containerClass = computed(() => [
    attrs.class,
-   'form-field flex gap-x-4 gap-y-2 items-center',
-   _has(attrs, 'fluid') ? 'flex-col justify-center' : 'flex-row',
-   ' p-2 relative',
+   'form_field flex gap-4',
+   _has(attrs, 'fluid') ? 'flex-col justify-center' : 'flex-row items-center',
+   'p-2 relative',
    'transition-[padding] duration-[var(--transition-duration)]'
 ]);
 
 const containerStyle = computed(() => ({
-   paddingBottom: `${_round(errorHeight?.value + 5)}px`
+   paddingBottom:
+      (!!errorElStyle.height?.value && `calc(${_round(errorElStyle.height?.value)}px + 1rem)`) || ''
 }));
 
-const labelClass = computed(() => [
+const headerClass = computed(() => [
    props.reverse && 'order-[1]',
-   _has(attrs, 'fluid') ? 'w-full' : 'flex-0 w-fit my-auto',
-   '',
+   _has(attrs, 'fluid') ? 'w-full' : 'my-auto',
    'font-medium'
 ]);
 
@@ -54,10 +64,9 @@ const inputClass = computed(() => [
 ]);
 
 const errorClass = computed(() => [
-   'absolute',
-   'left-0 bottom-0 mx-2',
-   'whitespace-pre-wrap capitalize text-red-300',
-   'animate animate-fadeindown animate-duration-[var(--transition-duration)] animate-ease-in-out animate-once'
+   'absolute bottom-0 left-0 max-w-full',
+   'capitalize p-message-error',
+   'animate animate-fadeindown animate-duration-[calc(var(--transition-duration)*2)] animate-ease-in-out animate-once'
 ]);
 
 onMounted(() => {
@@ -74,21 +83,26 @@ onMounted(() => {
 
 <template>
    <div :class="containerClass" :style="containerStyle">
-      <slot
-         name="label"
-         :for="id"
-         :id="`label-${id}`"
-         :class="labelClass"
-         :title="_startCase(attrs.label)"
-      >
-         <label
-            v-if="!!attrs.label"
-            :for="id"
-            :id="`label-${id}`"
-            :class="labelClass"
-            v-text="_startCase(attrs.label)"
-            :title="_startCase(attrs.label)"
-         />
+      <slot name="header" v-bind="{ isLoading, reverse, error, id, errorClass, headerClass }">
+         <div class="flex items-center justify-start gap-4" :class="headerClass">
+            <slot name="label" :for="id" :id="`label-${id}`" :title="_startCase(attrs.label)">
+               <label
+                  v-if="!!attrs.label"
+                  :for="id"
+                  :id="`label-${id}`"
+                  v-text="_startCase(attrs.label)"
+                  :title="_startCase(attrs.label)"
+                  class="flex-1"
+                  :pt="{
+                     text: { class: 'truncate' }
+                  }"
+               />
+            </slot>
+
+            <slot name="actions" />
+
+            <ErrorBadge v-if="_size(error) >= 60" :error="error" />
+         </div>
       </slot>
 
       <BlockUI
@@ -106,7 +120,7 @@ onMounted(() => {
                :loading="isLoading"
                :id="id"
                :inputId="id"
-               :invalid="!!attrs.error"
+               :invalid="!!error"
                :tabindex="$attrs.readonly ? -1 : $attrs.tabindex"
                v-bind="_omit(attrs, ['class'])"
                :class="inputClass"
@@ -121,23 +135,33 @@ onMounted(() => {
 
       <slot name="error">
          <Message
-            size="small"
             :id="`${id}-errormessage`"
-            ref="errorElement"
-            v-if="!!attrs.error"
-            variant="simple"
-            :title="_startCase(attrs.error)"
-            severity="danger"
+            size="small"
+            ref="errorMessageElement"
+            v-if="!!error && _size(error) < 60"
+            severity="error"
             :class="errorClass"
+            :pt="{
+               content: { class: '!py-0' },
+               text: { class: 'whitespace-pre-line line-clamp-2', ref: errorTextElement }
+            }"
+            v-tooltip.bottom="{
+               value: error,
+               pt: {
+                  root: {
+                     class: 'backdrop-blur-lg'
+                  },
+                  text: '!bg-red-400 !bg-opacity-20 !border-red-400 border !text-current '
+               }
+            }"
          >
-            {{ attrs.error }}
+            {{ error }}
          </Message>
-
-         <Skeleton
-            v-if="isLoading"
-            class="!absolute rounded-[inherit] !h-[unset] !w-[unset] !z-10 !left-0 !top-0 !right-0 !bottom-0 opacity-50"
-         />
       </slot>
+      <Skeleton
+         v-if="isLoading"
+         class="!absolute rounded-[inherit] !h-[unset] !w-[unset] !z-10 !left-0 !top-0 !right-0 !bottom-0 opacity-50"
+      />
    </div>
 </template>
 
