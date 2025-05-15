@@ -1,6 +1,6 @@
 <script setup>
 import Collection from '@/lib/Collection';
-import { detailedDiff } from 'deep-object-diff';
+import { detailedDiff, diff } from 'deep-object-diff';
 
 /**
  * @typedef {Tables['audit_log']['Row']} Data
@@ -67,29 +67,44 @@ const getChanges = (log) => {
    for (const [key, value] of _toPairs(diffResult?.deleted)) {
       changes.push({ key, type: 'delete', oldValue: value, newValue: null });
    }
-   for (const [key, value] of _toPairs(diffResult?.updated)) {
+   for (const [key, newValue] of _toPairs(diffResult?.updated)) {
+      let oldValue = _get(oldData, key);
+      if (_isObject(newValue)) {
+         oldValue = diff(_merge(_cloneDeep(_get(oldData, key)), newValue), _get(oldData, key));
+      }
       changes.push({
          key,
          type: 'update',
-         oldValue: _get(oldData, key),
-         newValue: value
+         oldValue,
+         newValue
       });
    }
    log.changes = changes;
    return log;
 };
 
-function formatValue(value) {
+function formatValue(value, indentSize = 1) {
    if (_isNil(value)) return '—';
-   if (typeof value === 'object') {
-      if (Array.isArray(value)) {
-         return value.map((item) => formatValue(item)).join(', ');
+
+   if (_isObject(value) && !_isNil(value)) {
+      const indent = '\t'.repeat(indentSize);
+      if (_isArray(value)) {
+         return (
+            value.map((item) => indent + formatValue(item, indentSize + 1)).join('\n') +
+            '\t'.repeat(indentSize - 1)
+         );
       }
-      return Object.keys(value)
-         .map((key) => `${i18n.t(key)}: ${formatValue(value[key])}`)
-         .join(', ');
+
+      const entries = _keys(value).map((key) => {
+         const formattedKey = i18n.te(key) ? i18n.t(key) : key;
+         const formattedValue = formatValue(value[key], indentSize + 1);
+         if (formattedValue !== '—')
+            return `${indent}\n${indent}${formattedKey}: ${formattedValue}`;
+      });
+
+      return entries.join('');
    }
-   return value;
+   return i18n.te(value) ? i18n.t(value) : value;
 }
 const log = new Collection(getChanges(props.data));
 
@@ -107,32 +122,25 @@ if (!routeLoading?.value && props.id) {
 </script>
 
 <template>
-   <Panel :header="log.table_name">
+   <Panel :header="log?.table_name">
       <template #icons>
-         <Tag v-bind="getLogTagProps(log._data)" />
+         <Tag v-bind="getLogTagProps(log?._data)" />
       </template>
       <div class="flex gap-x-8 gap-y-4 flex-wrap" v-if="_size(log.changes) > 0">
          <div
-            v-for="(entry, i) in log.changes"
-            :key="log.id + i"
-            class="flex items-baseline gap-2 whitespace-normal"
+            v-for="(entry, i) in log?.changes"
+            :key="log?.id + i"
+            class="flex items-baseline gap-2 overflow-auto"
          >
             <span class="font-medium text-sm">{{ entry?.key }}</span>
 
             <div class="flex items-center flex-wrap gap-2 text-sm">
-               <Tag
-                  severity="danger"
-                  v-if="entry?.type !== 'add'"
-                  v-tooltip="formatValue(entry?.oldValue)"
-                  :value="formatValue(entry?.oldValue)"
-               />
-               <Tag
-                  v-if="entry?.type !== 'delete'"
-                  severity="success"
-                  class="font-semibold"
-                  v-tooltip="formatValue(entry?.newValue)"
-                  :value="formatValue(entry?.newValue)"
-               />
+               <Tag severity="danger" v-if="entry?.type !== 'add'">
+                  <pre v-text="_trim(formatValue(entry?.oldValue))" />
+               </Tag>
+               <Tag v-if="entry?.type !== 'delete'" severity="success" class="font-semibold">
+                  <pre v-text="_trim(formatValue(entry?.newValue))" />
+               </Tag>
             </div>
          </div>
       </div>
