@@ -10,17 +10,18 @@ import ToastService from 'primevue/toastservice';
 
 import '@/assets/style/styles.scss';
 import '@/assets/style/tailwind.css';
+import { defineAbility } from '@casl/ability';
+import { abilitiesPlugin, Can } from '@casl/vue';
+import { VueQueryPlugin } from '@tanstack/vue-query';
 import DialogService from 'primevue/dialogservice';
 import FocusTrap from 'primevue/focustrap';
 import KeyFilter from 'primevue/keyfilter';
 import Ripple from 'primevue/ripple';
 import Tooltip from 'primevue/tooltip';
-import router from './router';
-import { FunctionsHttpError } from '@supabase/supabase-js';
-import { defineAbility } from '@casl/ability';
-import { abilitiesPlugin, Can } from '@casl/vue';
-import { resolveAction } from './plugins/casl';
 import { appErrorHandler } from './lib/appErrorHandler';
+import { resolveAction } from './plugins/casl';
+import { mutationCache, queryCache, queryClient } from './plugins/tanstack-query';
+import router from './router';
 
 export const app = createApp(App);
 
@@ -44,6 +45,14 @@ app.use(PrimeVue, {
       options: {
          darkModeSelector: '[color-scheme*="dark"]'
       }
+   }
+});
+
+app.use(VueQueryPlugin, {
+   queryClient,
+   queryClientConfig: {
+      queryCache,
+      mutationCache
    }
 });
 

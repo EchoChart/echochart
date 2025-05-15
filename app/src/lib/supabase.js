@@ -7,6 +7,7 @@
  */
 
 import { app } from '@/main';
+import { clientPersister, queryClient } from '@/plugins/tanstack-query';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import axios from 'axios';
 
@@ -284,12 +285,6 @@ const handleMeta = (url, options) => {
 };
 
 /**
- * @constant memo
- * A memoization utility to cache API requests for a certain amount of time.
- */
-const memo = _memoize(() => ({}));
-
-/**
  * @type {Object}
  * Configuration object for the Supabase client, including a custom fetch function that handles memoization,
  * global tenant ID addition, and delete confirmation.
@@ -299,24 +294,47 @@ const options = {
       detectSessionInUrl: true
    },
    global: {
+      /**
+       * Custom fetch function that modifies the request to include tenant information and handle specific conditions.
+       * @param {string} url - The URL of the request.
+       * @param {Object} options - The options object for the request, including method, headers, body, etc.
+       * @returns {Promise<Object>} - A promise that resolves with the response from the server.
+       */
       fetch: async (url, options) => {
+         const { currentTenant } = useAuthStore();
+         const body = JSON.parse(options?.body || '{}');
+
+         /**
+          * Handles meta data in the URL if present in the headers.
+          * @param {string} url - The original URL.
+          * @param {Object} options - The options object for the request.
+          * @returns {string} - The modified URL with meta data handled.
+          */
          if (options?.headers?.has?.('meta')) {
             url = handleMeta(url, options);
          }
 
-         if (memo.cache.has(url)) return memo.cache.get(url);
-
+         /**
+          * Confirms delete actions to prevent accidental deletions.
+          * @param {Object} options - The options object for the request.
+          * @returns {Promise<void>} - A promise that resolves after confirming deletion.
+          */
          if (options.method === 'DELETE' && !options.headers.has('x-delete-confirmed')) {
             await handleDelete(options);
          }
 
-         const { currentTenant } = useAuthStore();
-
+         /**
+          * Adds the current tenant's display name to the headers if available.
+          * @param {Object} options - The options object for the request.
+          */
          if (currentTenant?.display_name) {
             options?.headers?.set?.('x-tenant', currentTenant?.display_name);
          }
 
-         const body = JSON.parse(options?.body || '{}');
+         /**
+          * Adds the tenant ID to the body of the request if it's a non-empty, non-array object and not an RPC call.
+          * @param {Object} options - The options object for the request.
+          */
          if (
             currentTenant?.id &&
             !_isNil(body) &&
@@ -329,16 +347,34 @@ const options = {
                ...body
             });
 
-         const cacheTime = 1000;
+         /**
+          * Executes the query using axios and handles the response.
+          * @returns {Promise<Object>} - A promise that resolves with the response from the server.
+          */
+         const queryFn = () =>
+            axios({
+               url,
+               method: options?.method,
+               headers: options?.headers,
+               data: options.body ? JSON.parse(options.body) : undefined,
+               signal: options.signal
+            });
 
-         const promise = axios({
-            url,
-            method: options?.method,
-            headers: options?.headers,
-            data: options.body ? JSON.parse(options.body) : undefined,
-            signal: options.signal
-         })
+         /**
+          * Fetches the query using queryClient and handles memoization.
+          * @returns {Promise<Object>} - A promise that resolves with the response from the server.
+          */
+         const promise = queryClient
+            .fetchQuery({
+               queryKey: [url],
+               queryFn,
+               networkMode: 'always',
+               persister: !_isNil(window) ? clientPersister.persisterFn : undefined,
+               gcTime: 1000 * 60 * 60 * 24, // garbage collection time
+               staleTime: url.includes('/rest') ? 1000 * 30 : 0
+            })
             .then((response) => ({
+               ...response,
                ok: true,
                status: response.status,
                json: async () => response.data,
@@ -346,19 +382,16 @@ const options = {
                headers: new Headers(response.headers)
             }))
             .catch((error) => {
-               memo.cache.delete(url);
+               console.log(error);
                return {
                   ok: false,
                   status: error.response?.status || 500,
-                  json: async () => error.response?.data,
-                  text: async () => JSON.stringify(error.response?.data),
-                  headers: new Headers(error.response?.headers || {}),
+                  json: async () => error.response.data,
+                  text: async () => JSON.stringify(error.response.data),
+                  headers: new Headers(error.response.headers),
                   ...error
                };
-            })
-            .finally(() => memo.cache.has(url) && _delay(() => memo.cache.delete(url), cacheTime));
-
-         memo.cache.set(url, promise);
+            });
 
          return promise;
       }
