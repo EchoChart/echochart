@@ -21,6 +21,9 @@ const breadcrumbItems = computed(() =>
 
 <template>
    <Breadcrumb :home="home" :model="breadcrumbItems">
+      <template #separator>
+         <i :class="PrimeIcons.CHEVRON_RIGHT" />
+      </template>
       <template #item="{ item, props }">
          <CustomLink
             :to="breadcrumbItems.length - 1 == item.index ? $route : item"
@@ -32,7 +35,7 @@ const breadcrumbItems = computed(() =>
                @click="navigate"
                class="flex gap-2 items-center"
                :class="{
-                  '!text-primary text-xl': isExactActive
+                  '!text-primary !text-xl !underline': isExactActive
                }"
             >
                <span v-bind="props.icon" v-if="item.meta?.icon" :class="[item.meta?.icon]" />
