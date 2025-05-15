@@ -6,16 +6,17 @@ import tr from 'validatorjs/src/lang/tr.js';
 Validator.setMessages('tr', tr);
 Validator.setMessages('en', en);
 
-const attributeFormatter = (attr) => {
-   return attr
-      .replace?.(/(\.|_|-)/g, ' ')
-      .split?.('.')
+export const formAttributeFormatter = (attr) => {
+   const words = attr
+      .split?.(/[\.\s]/g)
       .map?.((e) => {
-         if (Number.isNaN(Number.parseInt(e))) return _startCase(e);
+         if (Number.isNaN(Number.parseInt(e))) return e;
       })
-      .join?.(' ');
+      .filter(Boolean);
+   const attributeName = _lowerCase(_startCase(i18n.t(_last(words))));
+   return attributeName;
 };
-Validator.setAttributeFormatter(attributeFormatter);
+Validator.setAttributeFormatter(formAttributeFormatter);
 
 Validator.register('phone', (value) => {
    if (_isString(value) && !_startsWith(value, '+')) value = '+' + value;
