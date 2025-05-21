@@ -33,6 +33,7 @@
    },
    "include": [
       "src/**/*.*", // Include all files in the src directory
+      "components.d.ts", // Include auto-imports definitions if used
       "auto-imports.d.ts", // Include auto-imports definitions if used
       "tailwind.config.js", // Include Tailwind config
       "vite.config.mjs" // Include Vite config

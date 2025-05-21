@@ -4,8 +4,8 @@ import lodash from 'lodash';
 import * as path from 'node:path';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
-import packageVersion from 'vite-plugin-package-version';
 import viteCompression from 'vite-plugin-compression';
+import packageVersion from 'vite-plugin-package-version';
 
 import { defineConfig } from 'vite';
 
