@@ -6,9 +6,6 @@ defineOptions({
 });
 
 const props = defineProps({
-   mapClass: {
-      type: Function
-   },
    from: {
       type: String,
       required: true
@@ -26,6 +23,7 @@ const props = defineProps({
       })
    }
 });
+
 const meta = new Collection({});
 const values = props.mapClass ? new props.mapClass([]) : new Collection([]);
 const modelValue = defineModel({
@@ -36,7 +34,7 @@ const modelValue = defineModel({
 
 const attrs = useAttrs();
 
-const totalRecords = ref(0);
+const totalRecords = ref(5);
 
 const routeLoading = inject('routeLoading', false);
 const loading = ref(routeLoading.value);
@@ -45,6 +43,7 @@ let ac = new AbortController();
 
 async function getValues(metaObj) {
    if (loading.value) return;
+
    try {
       ac?.abort?.();
       ac = new AbortController();
@@ -64,8 +63,10 @@ async function getValues(metaObj) {
             .select?.(props.select, props.count)
             .abortSignal?.(ac.signal);
 
-         !_isEmpty(meta._data) &&
-            countReq.setHeader?.('meta', encodeURI(JSON.stringify(_pick(meta._data, ['filters']))));
+         if (!_isEmpty(meta._data)) {
+            const encodedMeta = encodeURI(JSON.stringify(_pick(meta._data, ['filters'])));
+            countReq.setHeader?.('meta', encodedMeta);
+         }
 
          countReq.then?.(({ count }) => (totalRecords.value = count));
       }
@@ -88,6 +89,7 @@ const tableProps = computed(() => ({
    totalRecords: totalRecords.value,
    stateKey: props.from,
    loading: loading.value,
+   value: values._data,
    onMeta: async (value) => await getValues(value),
    ...attrs
 }));
@@ -95,7 +97,7 @@ const tableProps = computed(() => ({
 const mounted = useMounted();
 </script>
 <template>
-   <CustomTable :value="values?._data" v-bind="tableProps">
+   <CustomTable v-bind="tableProps">
       <template v-for="slot in _keys($slots)" #[slot]="slotProps" :key="slot">
          <slot :name="slot" v-if="mounted" v-bind="slotProps" />
       </template>
