@@ -17,7 +17,7 @@ const props = defineProps({
 });
 
 const getLogTagProps = (log) => {
-   switch (_toLower(log.operation)) {
+   switch (_toLower(log?.operation)) {
       case 'update':
          return { icon: PrimeIcons.SYNC, severity: 'info' };
       case 'delete':
@@ -30,6 +30,8 @@ const getLogTagProps = (log) => {
 };
 
 const getChanges = (log) => {
+   if (!_isObject(log)) return {};
+
    const omitFn = (value, key) => {
       if (['id', 'created_at', 'tenant_id'].includes(key)) return true;
       return false;
@@ -38,7 +40,7 @@ const getChanges = (log) => {
    const rowData = _omitBy(_get(log, 'row_data', {}), omitFn);
    const oldData = _omitBy(_get(log, 'old_data', {}), omitFn);
 
-   const operation = _toLower(log.operation);
+   const operation = _toLower(log?.operation);
 
    if (operation === 'insert') {
       log.changes = _toPairs(rowData).map(([key, value]) => ({
@@ -106,17 +108,17 @@ function formatValue(value, indentSize = 1) {
    }
    return i18n.te(value) ? i18n.t(value) : value;
 }
+
 const log = new Collection(getChanges(props.data));
 
-const routeLoading = inject('routeLoading', false);
-if (!routeLoading?.value && props.id) {
+if (props.id) {
    await supabase
       .from('audit_log')
       .select('*')
-      .eq('id', props.id)
+      .or(`id.eq.${props.id},correlation_id.eq.${props.id}`)
       .single()
       .then((res) => {
-         log._setDefaults(getChanges(res._data))._reset();
+         log._setDefaults(getChanges(res.data))._reset();
       });
 }
 </script>
