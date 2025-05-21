@@ -61,7 +61,7 @@ const togglePermissionColumn = (checked, field) => {
 };
 
 const toggleAll = (checked) => {
-   modelValue.value = checked ? allPermissions?._data : [];
+   modelValue.value = checked ? _cloneDeep(allPermissions?._data) : [];
 };
 
 const tableProps = computed(() => ({
