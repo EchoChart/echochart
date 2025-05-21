@@ -21,9 +21,7 @@ const breadcrumbItems = computed(() =>
 
 <template>
    <Breadcrumb :home="home" :model="breadcrumbItems">
-      <template #separator>
-         <i :class="PrimeIcons.CHEVRON_RIGHT" />
-      </template>
+      <template #separator> / </template>
       <template #item="{ item, props }">
          <CustomLink
             :to="breadcrumbItems.length - 1 == item.index ? $route : item"
