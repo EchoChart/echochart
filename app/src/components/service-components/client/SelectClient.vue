@@ -22,18 +22,14 @@ defineEmits(['clientSelect']);
 
 const modelValue = defineModel('modelValue');
 
-const useClients = () => {
-   const clients = new Collection([]);
-   const fetchClients = async () => {
-      const { data } = await supabase.from('client').select(props.select).throwOnError();
-      clients._setDefaults(data)._reset();
-   };
-   return {
-      clients,
-      fetchClients
-   };
-};
-const { clients, fetchClients } = useClients();
+const clients = new Collection([]);
+
+const fetchClients = async () =>
+   await supabase
+      .from('client')
+      .select(props.select)
+      .throwOnError()
+      .then(({ data }) => clients._merge(data));
 
 await fetchClients();
 
@@ -51,13 +47,14 @@ onUnmounted(() => emitter.off('client-update', fetchClients));
          @value-change="
             $emit(
                'clientSelect',
-               clients._data.find((c) => _get(c, $attrs.optionValue || 'id') == $event)
+               clients.find((c) => _get(c, $attrs.optionValue || 'id') == $event)
             )
          "
          v-bind="_omit($attrs, ['class'])"
          v-model:model-value="modelValue"
          :placeholder="$t('select_client')"
       />
+
       <InputGroupAddon
          v-if="showEdit && $can('read', 'client') && (!!modelValue?.id || !!modelValue)"
       >
@@ -95,5 +92,15 @@ onUnmounted(() => emitter.off('client-update', fetchClients));
             />
          </RouterLink>
       </InputGroupAddon>
+      <InputGroupAddon v-if="showAdd && $can('read', 'client')">
+         <Button
+            rounded
+            size="small"
+            severity="secondary"
+            :icon="PrimeIcons.REFRESH"
+            @click="fetchClients"
+         />
+      </InputGroupAddon>
+      <slot name="addons" />
    </InputGroup>
 </template>
