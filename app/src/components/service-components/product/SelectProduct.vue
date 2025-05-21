@@ -76,13 +76,7 @@ onUnmounted(() => emitter.off('product-update', fetchProducts));
             }"
             v-slot="{ navigate }"
          >
-            <Button
-               rounded
-               size="small"
-               severity="info"
-               :icon="PrimeIcons.PENCIL"
-               @click="navigate"
-            />
+            <Button size="small" severity="info" :icon="PrimeIcons.PENCIL" @click="navigate" />
          </RouterLink>
       </InputGroupAddon>
       <InputGroupAddon v-if="showAdd && $can('create', 'product')">
@@ -94,13 +88,7 @@ onUnmounted(() => emitter.off('product-update', fetchProducts));
             }"
             v-slot="{ navigate }"
          >
-            <Button
-               rounded
-               size="small"
-               severity="success"
-               :icon="PrimeIcons.PLUS"
-               @click="navigate"
-            />
+            <Button size="small" severity="success" :icon="PrimeIcons.PLUS" @click="navigate" />
          </RouterLink>
       </InputGroupAddon>
    </InputGroup>
