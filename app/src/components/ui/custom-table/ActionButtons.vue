@@ -1,4 +1,5 @@
 <script setup>
+/**@type{{items:import('primevue/menuitem').MenuItem[]}}} */
 const props = defineProps({
    body: Object,
    items: {

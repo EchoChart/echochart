@@ -27,31 +27,33 @@ defineProps({
 
 <template>
    <template v-if="_isNil(legend)">
-      <form :invalid="!!error" class="form_box" @submit.prevent>
+      <form :invalid="invalid || !!error" class="form_box" @submit.prevent>
          <slot :readonly :form />
 
          <slot name="form-actions" :form :readonly :legend>
             <div v-if="!readonly" class="form_box-actions">
-               <Button
-                  :label="$t('save')"
-                  class="flex-[.2] w-48"
-                  :disabled="!form?._isChanged"
-                  type="submit"
-               />
-               <Button
-                  :label="$t('reset')"
-                  severity="secondary"
-                  class="flex-[.2] w-48"
-                  :disabled="!form?._isChanged"
-                  type="reset"
-               />
+               <span class="flex-[0] flex items-center gap-4 p-4 justify-end backdrop-blur-lg">
+                  <Button
+                     :label="$t('save')"
+                     class="flex-1 w-48"
+                     :disabled="!form?._isChanged"
+                     type="submit"
+                  />
+                  <Button
+                     :label="$t('reset')"
+                     severity="secondary"
+                     class="flex-1to w-48"
+                     :disabled="!form?._isChanged"
+                     type="reset"
+                  />
+               </span>
             </div>
          </slot>
       </form>
    </template>
    <template v-else>
       <Fieldset
-         :invalid="!!error"
+         :invalid="invalid || !!error"
          :legend="_startCase(legend)"
          :pt="{
             content: {
@@ -88,11 +90,11 @@ defineProps({
    }
 
    &-actions {
-      @apply flex flex-wrap items-center justify-end p-4 gap-4 flex-auto w-full sticky bottom-0 bg-transparent backdrop-blur-lg;
+      @apply w-full flex justify-end items-center sticky bottom-0 bg-transparent;
    }
 
    & .form_field {
-      @apply flex-1 min-w-min;
+      @apply min-w-min;
    }
 }
 </style>

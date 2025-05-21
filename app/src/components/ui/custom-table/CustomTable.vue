@@ -1,5 +1,6 @@
 <script setup>
 import Collection from '@/lib/Collection';
+import { diff } from 'deep-object-diff';
 import { isVNode } from 'vue';
 
 const DATA_TYPES = {
@@ -11,20 +12,31 @@ const DATA_TYPES = {
 defineOptions({
    inheritAttrs: false
 });
+
+/**@type {import('primevue').DataTableProps & {columns: import('primevue').ColumnProps[], mapClass: Class, rowActions: import('primevue/menuitem').MenuItem[]}} */
 const props = defineProps({
-   rowActions: {
-      type: Array,
+   columns: {
+      type: [Object, Array],
       default: () => []
+   },
+   mapClass: {
+      type: Function,
+      default: null
    },
    filters: {
       type: Object,
       default: () => ({})
+   },
+   rowActions: {
+      type: Array,
+      default: () => []
    },
    useMeta: {
       type: Boolean,
       default: true
    }
 });
+
 const emit = defineEmits(['meta', 'update:filters']);
 const attrs = useAttrs();
 const dialogRef = inject('dialogRef', null);
@@ -55,11 +67,7 @@ function useMetaStorage() {
       emit('meta', meta.value);
    };
 
-   watch(
-      () => props.filters,
-      _throttle(() => onMeta(), 500),
-      { deep: true }
-   );
+   watch(() => meta.value.filters, _throttle(onMeta, 500), { deep: true });
 
    if (stateStorage == 'session') sessionStorage.removeItem(stateKey);
 
@@ -104,6 +112,21 @@ const filterInput = computed({
    }
 });
 
+const selection = defineModel('selection');
+
+const values = defineModel('value');
+
+const tableValue = computed(() => {
+   return values.value?.length > 0 || !loading.value
+      ? values.value?.filter?.(
+           (v) =>
+              !tableProps.value?.frozenValue?.some(
+                 (f) => _get(f, tableProps.value.dataKey) === _get(v, tableProps.value.dataKey)
+              )
+        )
+      : new Array(tableProps.value?.rows);
+});
+
 const tableProps = computed(() => ({
    dataKey: 'id',
    reorderableColumns: true,
@@ -116,7 +139,6 @@ const tableProps = computed(() => ({
    paginatorTemplate:
       'FirstPageLink PrevPageLink PageLinks NextPageLink RowsPerPageDropdown CurrentPageReport',
    resizableColumns: true,
-   columnResizeMode: stateStorage === 'local' ? 'fit' : 'expand',
    showGridlines: true,
    loading: loading.value,
    stateStorage,
@@ -141,19 +163,12 @@ const tableProps = computed(() => ({
       v-model:expanded-rows="meta.expandedRows"
       v-model:expanded-row-groups="meta.expandedRowGroups"
       v-model:multi-sort-meta="meta.multiSortMeta"
+      v-model:selection="selection"
       @page="(value) => onMeta(value)"
       @sort="(value) => onMeta(value)"
       v-bind="tableProps"
-      :value="
-         tableProps?.value?.length > 0 || !loading
-            ? tableProps?.value?.filter?.(
-                 (v) =>
-                    !tableProps?.frozenValue?.some(
-                       (f) => _get(f, tableProps.dataKey) === _get(v, tableProps.dataKey)
-                    )
-              )
-            : new Array(tableProps?.rows)
-      "
+      selection-mode="radioButton"
+      :value="tableValue"
    >
       <template #expansion="slotProps">
          <span name="expansion" v-bind="{ ...slotProps, loading }" />
@@ -163,7 +178,12 @@ const tableProps = computed(() => ({
          <slot v-bind="slotProps" :name="slot" :key="`slot_${slot}`" />
       </template>
       <Column
-         v-if="$slots.expansion && tableProps?.value?.length"
+         v-if="tableProps.selectionMode"
+         :selectionMode="tableProps.selectionMode"
+         headerStyle="width: 3rem"
+      />
+      <Column
+         v-if="$slots.expansion && (tableProps?.frozenValue?.length || tableValue?.length)"
          field="_expansion"
          expander
          class="!min-w-[4rem] !max-w-[4rem] !w-[4rem]"
@@ -171,7 +191,7 @@ const tableProps = computed(() => ({
       />
       <Column
          class="!min-w-32"
-         v-for="(column, i) in tableProps?.columns"
+         v-for="(column, i) in columns"
          :key="'column_' + (column?.field ? column?.field + i : i) || i"
          showClearButton
          :data-type="DATA_TYPES[meta?.filters?.[column?.field]?.dataType]"
@@ -180,20 +200,6 @@ const tableProps = computed(() => ({
          v-bind="column"
          :header="$slots[`${_snakeCase(column?.field)}_header`] ? undefined : column?.header"
          :footer="$slots[`${_snakeCase(column?.field)}_footer`] ? undefined : column?.footer"
-         :pt="{
-            bodyCell: ({ instance }) => ({
-               class:
-                  _keys(tableProps.expandedRows).some?.((key) =>
-                     $attrs.value?.some?.(
-                        (row) =>
-                           _get(row, tableProps.dataKey) === key &&
-                           _get(instance?.rowData, column?.field) === _get(row, column?.field) &&
-                           (tableProps.groupRowsBy?.includes(column?.field) ||
-                              tableProps.groupRowsBy === column)
-                     )
-                  ) && 'align-baseline'
-            })
-         }"
       >
          <template
             v-for="slot in _keys($slots)
@@ -281,7 +287,7 @@ const tableProps = computed(() => ({
          </template>
       </Column>
       <Column
-         v-if="actions._data?.length && tableProps?.value?.length"
+         v-if="actions._data?.length && (tableProps?.frozenValue?.length || tableValue?.length)"
          field="_actions"
          :key="'table_action'"
          :style="
@@ -299,11 +305,17 @@ const tableProps = computed(() => ({
    </DataTable>
 </template>
 <style lang="scss">
-.p-datatable-mask.p-overlay-mask {
-   background-color: rgba($color: #aaa, $alpha: 0.1);
-}
-.p-datatable-row-expansion {
-   z-index: 1;
-   position: relative;
+.p-datatable {
+   &-tbody tr {
+      td[rowspan] {
+         @apply align-baseline;
+      }
+   }
+   &-mask.p-overlay-mask {
+      @apply bg-[rgba(250,250,250,0.1)];
+   }
+   &-row-expansion {
+      @apply z-10 relative;
+   }
 }
 </style>
