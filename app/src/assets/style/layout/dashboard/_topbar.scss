@@ -1,5 +1,5 @@
 .layout-topbar {
-   @apply flex flex-[0_0_4rem] w-full self-start z-[997] p-4 bg-[var(--surface-card)] justify-start items-center;
+   @apply flex flex-[0_0_5rem] w-full self-start z-[997] p-5 bg-[var(--surface-card)] justify-between items-center;
 
    &-logo-container {
       @apply flex items-center gap-4;
