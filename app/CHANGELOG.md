@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.17.0-alpha.1...echochart-app-v0.17.1-alpha.1) (2025-05-22)
+
+
+### Bug Fixes
+
+* add currency_code field to Database type for improved data structure ([052f2c8](https://github.com/EchoChart/echochart/commit/052f2c84027cfe5fd9c712498a2da5115de54384))
+
 ## [0.17.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.16.0-alpha.1...echochart-app-v0.17.0-alpha.1) (2025-05-22)
 
 
