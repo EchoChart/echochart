@@ -408,6 +408,7 @@ export type Database = {
           bid_discount: number | null
           client_id: string | null
           created_at: string | null
+          currency_code: string
           details: string | null
           id: string
           payment_type: string | null
@@ -425,6 +426,7 @@ export type Database = {
           bid_discount?: number | null
           client_id?: string | null
           created_at?: string | null
+          currency_code?: string
           details?: string | null
           id?: string
           payment_type?: string | null
@@ -442,6 +444,7 @@ export type Database = {
           bid_discount?: number | null
           client_id?: string | null
           created_at?: string | null
+          currency_code?: string
           details?: string | null
           id?: string
           payment_type?: string | null
