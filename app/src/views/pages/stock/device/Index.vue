@@ -82,8 +82,7 @@ const filters = ref({
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
       dataType: 'date'
-   },
-   ...attrs.filters
+   }
 });
 
 const stateKey = 'device';
@@ -123,18 +122,14 @@ const rowActions = new Collection([
 
 const dialogRef = inject('dialogRef', null);
 
-const tableProps = computed(() =>
-   _merge(
-      {
-         stateKey,
-         from: 'stock_view',
-         select: '*, product:product!inner(category:product_category!inner(*))',
-         columns: columns._data,
-         rowActions: rowActions._data
-      },
-      attrs
-   )
-);
+const tableProps = computed(() => ({
+   stateKey,
+   from: 'stock_view',
+   select:
+      'id, display_name, serial_number, unit_cost, vendor, stocked_at, product:product!inner(category:product_category!inner(*))',
+   columns: columns._data,
+   rowActions: rowActions._data
+}));
 </script>
 <template>
    <ResourceTable v-bind="tableProps" v-model:filters="filters">
@@ -154,13 +149,7 @@ const tableProps = computed(() =>
          </Teleport>
       </template>
       <template #expansion="{ data }">
-         <Upsert
-            class="p-0"
-            :data
-            :category="
-               data?.product?.category?.map?.(({ display_name }) => display_name).join?.('|')
-            "
-         />
+         <Upsert class="p-0" :id="data.id" />
       </template>
       <template #vendor_filter="{ filterModel }">
          <SelectStockVendor v-model="filterModel.value" />
