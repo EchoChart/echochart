@@ -768,7 +768,9 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION validate_record_amount () RETURNS TRIGGER SECURITY DEFINER LANGUAGE plpgsql AS $$
+CREATE OR REPLACE FUNCTION validate_record_amount () RETURNS TRIGGER SECURITY DEFINER LANGUAGE plpgsql
+SET
+    "search_path" = '' AS $$
 BEGIN
     IF OLD.stock_id = NEW.stock_id AND TG_OP = 'UPDATE' THEN
         IF NEW.amount > OLD.amount + (SELECT available_quantity FROM public.stock_view WHERE id = NEW.stock_id) THEN
