@@ -414,6 +414,7 @@ export type Database = {
           record_status: string
           record_type: string
           stock_id: string | null
+          tax: number | null
           tenant_id: string
           user_id: string | null
         }
@@ -430,6 +431,7 @@ export type Database = {
           record_status: string
           record_type: string
           stock_id?: string | null
+          tax?: number | null
           tenant_id: string
           user_id?: string | null
         }
@@ -446,6 +448,7 @@ export type Database = {
           record_status?: string
           record_type?: string
           stock_id?: string | null
+          tax?: number | null
           tenant_id?: string
           user_id?: string | null
         }
