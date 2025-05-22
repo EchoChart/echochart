@@ -40,8 +40,7 @@ const readonly = computed(() => {
    );
 });
 
-const routeLoading = inject('routeLoading', false);
-if (!routeLoading.value && props.id) {
+if (props.id) {
    await supabase
       .from('role')
       .select('*, permission(id, kind, group_name)')
@@ -69,10 +68,8 @@ const updateCallback = (data) => {
    }
 };
 
-if (!routeLoading.value) {
-   onMounted(() => emitter.on('role-update', updateCallback));
-   onUnmounted(() => emitter.off('role-update', updateCallback));
-}
+onMounted(() => emitter.on('role-update', updateCallback));
+onUnmounted(() => emitter.off('role-update', updateCallback));
 const save = async () => {
    if (!form._validate()) return;
    const { data } = await supabase
@@ -86,7 +83,7 @@ const save = async () => {
       .throwOnError();
 
    if (form._changedData['permission']) {
-      if (props.id || props.data?.id)
+      if (form.id)
          await supabase
             .from('role_permission')
             .delete()
