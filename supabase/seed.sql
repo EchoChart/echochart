@@ -467,6 +467,6 @@ EXECUTE FUNCTION private.tenant_seed ();
 INSERT INTO
     public.tenant (display_name)
 VALUES
-    ('bade-gop'),
-    ('bade-gop-sarigol'),
+    -- ('bade-gop'),
+    -- ('bade-gop-sarigol'),
     ('bade-avcilar');
