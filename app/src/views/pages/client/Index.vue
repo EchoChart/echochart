@@ -148,7 +148,7 @@ const tableProps = computed(() => ({
          </Teleport>
       </template>
       <template #expansion="{ data }">
-         <ClientUpsert :data class="p-0" />
+         <ClientUpsert :id="data.id" class="p-0" />
       </template>
       <template #email_body="{ data, field }">
          <a
