@@ -129,7 +129,7 @@ if (props.id || props.data?.id) {
             class="!flex-auto !max-w-full w-full h-fit"
             :readonly
             fluid
-            :error="form._errors.first('details')"
+            :error="form?._errors?.first('details')"
             :label="$t('details')"
          >
             <template #default="slotProps">

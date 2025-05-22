@@ -135,7 +135,7 @@ if (props.id || props.data?.id) {
             class="flex-[0.8]"
             :readonly
             fluid
-            :error="form._errors.first('display_name')"
+            :error="form?._errors?.first('display_name')"
             :label="$t('display_name')"
          >
             <template #default="slotProps">
@@ -146,7 +146,7 @@ if (props.id || props.data?.id) {
             class="flex-[0.8]"
             :disabled="readonly"
             fluid
-            :error="form._errors.first('brand')"
+            :error="form?._errors?.first('brand')"
             :label="$t('brand')"
          >
             <template #default="slotProps">
@@ -157,7 +157,7 @@ if (props.id || props.data?.id) {
             class="flex-[0.8]"
             :readonly
             fluid
-            :error="form._errors.first('categories')"
+            :error="form?._errors?.first('categories')"
             :label="$t('categories')"
          >
             <template #default="slotProps">
@@ -173,7 +173,7 @@ if (props.id || props.data?.id) {
             class="!flex-auto !max-w-full w-full h-fit"
             :readonly
             fluid
-            :error="form._errors.first('details')"
+            :error="form?._errors?.first('details')"
             :label="$t('details')"
          >
             <template #default="slotProps">

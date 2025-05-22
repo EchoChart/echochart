@@ -53,14 +53,19 @@ if (rememberMe.value) {
          <span class="text-muted-color font-medium" v-text="$t('please_login_to_continue')" />
       </div>
       <div class="flex-auto flex flex-col gap-8">
-         <FormField v-slot="slotProps" fluid :label="'email'" :error="form._errors.first('email')">
+         <FormField
+            v-slot="slotProps"
+            fluid
+            :label="'email'"
+            :error="form?._errors?.first('email')"
+         >
             <InputText autofocus v-bind="slotProps" v-model="form['email']" />
          </FormField>
          <FormField
             v-slot="slotProps"
             fluid
             :label="'password'"
-            :error="form._errors.first('password')"
+            :error="form?._errors?.first('password')"
          >
             <Password
                v-bind="slotProps"

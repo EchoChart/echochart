@@ -113,7 +113,7 @@ const submit = async () => {
                      v-slot="slotProps"
                      fluid
                      :label="$t('email')"
-                     :error="form._errors.first('account.email')"
+                     :error="form?._errors?.first('account.email')"
                   >
                      <InputText autofocus v-bind="slotProps" v-model="form['account.email']" />
                   </FormField>
@@ -121,7 +121,7 @@ const submit = async () => {
                      v-slot="slotProps"
                      fluid
                      :label="$t('password')"
-                     :error="form._errors.first('account.password')"
+                     :error="form?._errors?.first('account.password')"
                   >
                      <Password
                         v-bind="slotProps"
@@ -134,7 +134,7 @@ const submit = async () => {
                      v-slot="slotProps"
                      fluid
                      :label="$t('password_confirmation')"
-                     :error="form._errors.first('account.password_confirmation')"
+                     :error="form?._errors?.first('account.password_confirmation')"
                   >
                      <Password
                         v-bind="slotProps"
@@ -165,7 +165,7 @@ const submit = async () => {
                      v-slot="slotProps"
                      fluid
                      :label="$t('display_name')"
-                     :error="form._errors.first('company.display_name')"
+                     :error="form?._errors?.first('company.display_name')"
                   >
                      <InputText v-bind="slotProps" v-model="form['company.display_name']" />
                   </FormField>
@@ -173,7 +173,7 @@ const submit = async () => {
                      v-slot="slotProps"
                      fluid
                      :label="$t('email')"
-                     :error="form._errors.first('company.email')"
+                     :error="form?._errors?.first('company.email')"
                   >
                      <InputText v-bind="slotProps" v-model="form['company.email']" />
                   </FormField>
@@ -181,7 +181,7 @@ const submit = async () => {
                      v-slot="slotProps"
                      fluid
                      :label="$t('phone')"
-                     :error="form._errors.first('company.phone')"
+                     :error="form?._errors?.first('company.phone')"
                   >
                      <PhoneInput v-bind="slotProps" v-model="form['phone']" />
                   </FormField>

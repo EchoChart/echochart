@@ -36,7 +36,7 @@ const save = async () => {
          fluid
          v-slot="slotProps"
          :label="'password'"
-         :error="form._errors.first('password')"
+         :error="form?._errors?.first('password')"
       >
          <Password
             autofocus
@@ -51,7 +51,7 @@ const save = async () => {
          fluid
          v-slot="slotProps"
          :label="'password_confirmation'"
-         :error="form._errors.first('password_confirmation')"
+         :error="form?._errors?.first('password_confirmation')"
       >
          <Password
             v-bind="slotProps"
