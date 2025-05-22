@@ -76,7 +76,7 @@ const version = import.meta.env.PACKAGE_VERSION;
          type="button"
          rounded
       />
-      <Popover class="w-min !left-auto !right-4" ref="appConfigurator">
+      <Popover class="w-min" ref="appConfigurator">
          <AppConfigurator />
       </Popover>
    </div>
