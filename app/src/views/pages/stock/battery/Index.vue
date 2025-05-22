@@ -1,5 +1,4 @@
 <script setup>
-import KeywordSearchInput from '@/components/ui/CustomTable/KeywordSearchInput.vue';
 import Collection from '@/lib/Collection';
 import Upsert from '../Upsert.vue';
 
@@ -131,7 +130,8 @@ const tableProps = computed(() => ({
    datakey: 'id',
    stateKey,
    from: 'stock_view',
-   select: '*, product:product!inner(*, category:product_category!inner(*))',
+   select:
+      'id, display_name, unit_cost, quantity, vendor, stocked_at, product:product!inner(category:product_category!inner(*))',
    columns: columns._data,
    rowActions: rowActions._data,
    ...attrs
@@ -157,7 +157,7 @@ const tableProps = computed(() => ({
       <template #expansion="{ data }">
          <Upsert
             class="p-0"
-            :data
+            :id="data.id"
             :category="
                data?.product?.category?.map?.(({ display_name }) => display_name).join?.('|')
             "
