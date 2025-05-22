@@ -56,18 +56,18 @@ const { ability } = useAuthStore();
 const rowActions = new Collection([
    {
       label: ({ data }) =>
-         data.reverted ? i18n.t('already_reverted') : i18n.t('attempt_to_revert'),
+         data?.reverted ? i18n.t('already_reverted') : i18n.t('attempt_to_revert'),
       command:
          ({ data }) =>
          async () =>
             await supabase
-               .rpc('revert_audit_log', { target_correlation_id: data.correlation_id || data.id })
+               .rpc('revert_audit_log', { target_correlation_id: data?.correlation_id || data?.id })
                .throwOnError()
                .then(() => emitter.emit('audit_log-update')),
       disabled: ({ data }) =>
-         data.reverted ||
-         ability.cannot('create', data.table_name) ||
-         ability.cannot('modify', data.table_name),
+         data?.reverted ||
+         ability.cannot('create', data?.table_name) ||
+         ability.cannot('modify', data?.table_name),
       icon: PrimeIcons.REFRESH
    }
 ]);
@@ -115,7 +115,7 @@ const tableProps = computed(() => ({
          <SelectAuditOperation v-model="filterModel.value" multiple />
       </template>
       <template #expansion="{ data }">
-         <CorrelatedAuditLogs v-if="data" :id="data.correlation_id" />
+         <CorrelatedAuditLogs v-if="data" :id="data.correlation_id" layout="list" />
       </template>
       <template #done_by_body="{ data, field }">
          {{ _get(data, `${field}.display_name`) || _get(data, `${field}.email`) }}

@@ -39,15 +39,15 @@ const meta = {
    >
       <template #grid="slotProps">
          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 overflow-auto">
-            <template v-for="(log, index) in slotProps.items" :key="'grid_log_' + log.id + index">
-               <LogChangesCard :data="log" />
+            <template v-for="(data, index) in slotProps.items" :key="'grid_log_' + data.id + index">
+               <LogChangesCard :data />
             </template>
          </div>
       </template>
       <template #list="slotProps">
          <div class="grid grid-cols-1 gap-2">
-            <template v-for="(log, index) in slotProps.items" :key="'log_' + log.id + index">
-               <LogChangesCard :data="log" />
+            <template v-for="(data, index) in slotProps.items" :key="'log_' + data.id + index">
+               <LogChangesCard :data />
             </template>
          </div>
       </template>
