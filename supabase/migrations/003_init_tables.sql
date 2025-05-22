@@ -247,7 +247,7 @@ CREATE TABLE IF NOT EXISTS public.record (
    client_id UUID REFERENCES public.client (id) ON DELETE CASCADE,
    stock_id UUID REFERENCES public.stock (id) ON DELETE CASCADE,
    user_id UUID REFERENCES public.user (id) ON DELETE SET NULL,
-   record_type TEXT NOT NULL CHECK (record_type IN ('trial', 'sale', 'assembly', 'repair', 'promotion')),
+   record_type TEXT NOT NULL CHECK (record_type IN ('trial', 'sale', 'assemble', 'repair', 'promotion')),
    record_status TEXT NOT NULL CHECK (
       CASE
          WHEN record_type = 'repair' THEN record_status IN ('pending', 'at_service', 'bid_pending', 'bid_approved', 'bid_rejected', 'done')

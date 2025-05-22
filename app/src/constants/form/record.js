@@ -8,8 +8,8 @@ export const recordTypes = [
       label: i18n.t('sale')
    },
    {
-      value: 'assembly',
-      label: i18n.t('assembly')
+      value: 'assemble',
+      label: i18n.t('assemble')
    },
    {
       value: 'repair',
