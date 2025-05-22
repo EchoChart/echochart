@@ -365,13 +365,15 @@ SET
     search_path = '' AS $$
 BEGIN
     INSERT INTO public.stock (
-        tenant_id, product_id, quantity, unit_cost, currency_code, vendor, serial_number, barcode, details, stocked_at
+        tenant_id, product_id, quantity, unit_cost, unit_discount, unit_tax, currency_code, vendor, serial_number, barcode, details, stocked_at
     )  
     SELECT  
         target_tenant_id,  
         p.id,  
         FLOOR(random() * 100 + 10)::INTEGER,  -- Random quantity between 1 and 100  
-        ROUND((random() * (500 - 10) + 10)::NUMERIC, 2),  -- Random unit_cost between 10.00 and 500.00  
+        ROUND((random() * (500 - 10) + 200)::NUMERIC, 2),  -- Random unit_cost between 200.00 and 500.00  
+        ROUND((random() * (90 - 10) + 10)::NUMERIC, 2),  -- Random unit_discount between 10.00 and 90.00  
+        ROUND((random() * (90 - 10) + 10)::NUMERIC, 2),  -- Random unit_tax between 10.00 and 90.00  
         'TRY',  
         'EROTIC SHOP ' || lpad(floor(random() * 20)::text, 2, '0'),  
         'SN-' || gen_random_uuid(),  -- Unique serial number  
@@ -379,7 +381,7 @@ BEGIN
         'Details for tenant product',  
         NOW() - (random() * interval '10 years')  -- Random timestamp within the last 10 years  
     FROM public.product p  
-    CROSS JOIN generate_series(1, 100) g;  
+    CROSS JOIN generate_series(1, 200) g;  
 END;
 $$;
 
