@@ -1,6 +1,5 @@
 <script setup>
 import { Form } from '@/lib/Form';
-import { useStockStore } from '@/store/services/stock';
 import { useToast } from 'primevue';
 /**
  * @typedef {Tables['stock']['Row']} Data
@@ -13,11 +12,6 @@ const props = defineProps({
    },
    data: {
       type: Object,
-      default: null,
-      required: false
-   },
-   category: {
-      type: String,
       default: null,
       required: false
    }
@@ -41,7 +35,8 @@ const initialFormData = {
    quantity: 1,
    currency_code: null,
    vendor: null,
-   details: null
+   details: null,
+   product: undefined
 };
 const fields = _keys(initialFormData);
 
@@ -63,18 +58,27 @@ const readonly = computed(
    () => ability.cannot('modify', 'stock') && ability.cannot('create', 'stock')
 );
 
-if (props.id || props.data?.id) {
-   const updateCallback = (data) => {
-      form._setDefaults(_pick(data, fields))._reset();
-   };
-   onMounted(() => emitter.on('device-update', updateCallback));
-   onUnmounted(() => emitter.off('device-update', updateCallback));
+if (props.id) {
+   await supabase
+      .from('stock_view')
+      .select('*, product:product!inner(category:product_category!inner(id,display_name))')
+      .eq('id', props.id)
+      .single()
+      .throwOnError()
+      .then(({ data }) => form._setDefaults(_pick(data, fields))._reset());
 }
 
-const { getStock } = useStockStore();
-const routeLoading = inject('routeLoading', false);
-if (!routeLoading.value && props.id) {
-   await getStock(props.id).then((data) => form._setDefaults(_pick(data, fields))._reset());
+if (props.id || props.data?.id) {
+   const updateCallback = (data) => {
+      if (props?.data?.id) {
+         return;
+      }
+      if (data?.id === form.id) {
+         form._setDefaults(data)._reset();
+      }
+   };
+   onMounted(() => emitter.on('stock-update', updateCallback));
+   onUnmounted(() => emitter.off('stock-update', updateCallback));
 }
 
 const total_cost = computed({
@@ -115,6 +119,8 @@ const tax = computed({
 });
 
 const save = async () => {
+   form._set('product', undefined);
+
    if (!form._validate()) return;
 
    const payload = _pick(form._data, fields);
@@ -127,7 +133,7 @@ const save = async () => {
       .single()
       .throwOnError();
 
-   if (form.id) form._setDefaults(form._data)._reset();
+   if (form.id) form._setDefaults(data)._reset();
 
    emitter.emit('stock-update', data);
 
@@ -147,16 +153,20 @@ const save = async () => {
             <FormField
                :readonly
                fluid
-               :error="form._errors.first('product_id')"
+               :error="form?._errors?.first('product_id')"
                :label="$t('product')"
                v-slot="slotProps"
             >
-               <SelectProduct v-bind="slotProps" :category v-model="form.product_id" />
+               <SelectProduct
+                  v-bind="slotProps"
+                  :category="form?.product?.category?.map?.((c) => c.display_name)?.join?.('|')"
+                  v-model="form.product_id"
+               />
             </FormField>
             <FormField
                :readonly
                fluid
-               :error="form._errors.first('vendor')"
+               :error="form?._errors?.first('vendor')"
                :label="$t('vendor')"
                v-slot="slotProps"
             >
@@ -165,7 +175,7 @@ const save = async () => {
             <FormField
                :readonly
                fluid
-               :error="form._errors.first('stocked_at')"
+               :error="form?._errors?.first('stocked_at')"
                :label="$t('stocked_at')"
                v-slot="slotProps"
             >
@@ -181,7 +191,7 @@ const save = async () => {
                <FormField
                   :readonly
                   fluid
-                  :error="form._errors.first('barcode')"
+                  :error="form?._errors?.first('barcode')"
                   :label="$t('barcode')"
                   v-slot="slotProps"
                >
@@ -190,7 +200,7 @@ const save = async () => {
                <FormField
                   :readonly
                   fluid
-                  :error="form._errors.first('serial_number')"
+                  :error="form?._errors?.first('serial_number')"
                   :label="$t('serial_number')"
                   v-slot="slotProps"
                >
@@ -199,12 +209,12 @@ const save = async () => {
             </span>
          </FormBox>
 
-         <FormBox :legend="$t('financial')">
+         <FormBox :legend="$t('financial')" class="!flex-auto">
             <span class="form_box !flex-auto place-content-start">
                <FormField
                   :readonly
                   fluid
-                  :error="form._errors.first('quantity')"
+                  :error="form?._errors?.first('quantity')"
                   :label="$t('quantity')"
                   v-slot="slotProps"
                >
@@ -225,16 +235,18 @@ const save = async () => {
                <FormField
                   :readonly
                   fluid
-                  :error="form._errors.first('currency_code')"
+                  :error="form?._errors?.first('currency_code')"
                   :label="$t('currency')"
                   v-slot="slotProps"
                >
                   <SelectCurrency v-bind="slotProps" v-model="form.currency_code" />
                </FormField>
+            </span>
+            <span class="form_box !flex-auto place-content-start">
                <FormField
                   :readonly
                   fluid
-                  :error="form._errors.first('unit_cost')"
+                  :error="form?._errors?.first('unit_cost')"
                   :label="$t('unit_cost')"
                   v-slot="slotProps"
                >
@@ -253,7 +265,7 @@ const save = async () => {
                <FormField
                   :readonly
                   fluid
-                  :error="form._errors.first('unit_discount')"
+                  :error="form?._errors?.first('unit_discount')"
                   :label="$t('unit_discount')"
                   v-slot="slotProps"
                >
@@ -273,7 +285,7 @@ const save = async () => {
                <FormField
                   :readonly
                   fluid
-                  :error="form._errors.first('unit_tax')"
+                  :error="form?._errors?.first('unit_tax')"
                   :label="$t('unit_tax')"
                   v-slot="slotProps"
                >
@@ -294,7 +306,26 @@ const save = async () => {
                <FormField
                   :readonly
                   fluid
-                  :error="form._errors.first('discount')"
+                  :error="form?._errors?.first('total_cost')"
+                  :label="$t('total_cost')"
+                  v-slot="slotProps"
+               >
+                  <InputNumber
+                     v-bind="slotProps"
+                     v-model="total_cost"
+                     :max-fraction-digits="2"
+                     :mode="form.currency_code ? 'currency' : 'decimal'"
+                     :currency="form.currency_code || undefined"
+                     :min="0"
+                     :step="0.01"
+                     showButtons
+                     buttonLayout="horizontal"
+                  />
+               </FormField>
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form?._errors?.first('discount')"
                   :label="$t('discount')"
                   v-slot="slotProps"
                >
@@ -313,7 +344,7 @@ const save = async () => {
                <FormField
                   :readonly
                   fluid
-                  :error="form._errors.first('tax')"
+                  :error="form?._errors?.first('tax')"
                   :label="$t('tax')"
                   v-slot="slotProps"
                >
@@ -322,28 +353,8 @@ const save = async () => {
                      v-model="tax"
                      :max-fraction-digits="2"
                      :min="0"
-                     :max="100"
                      :suffix="'%'"
                      :step="1"
-                     showButtons
-                     buttonLayout="horizontal"
-                  />
-               </FormField>
-               <FormField
-                  :readonly
-                  fluid
-                  :error="form._errors.first('total_cost')"
-                  :label="$t('total_cost')"
-                  v-slot="slotProps"
-               >
-                  <InputNumber
-                     v-bind="slotProps"
-                     v-model="total_cost"
-                     :max-fraction-digits="2"
-                     :mode="form.currency_code ? 'currency' : 'decimal'"
-                     :currency="form.currency_code || undefined"
-                     :min="0"
-                     :step="0.01"
                      showButtons
                      buttonLayout="horizontal"
                   />
@@ -353,7 +364,7 @@ const save = async () => {
          <FormField
             :readonly
             fluid
-            :error="form._errors.first('details')"
+            :error="form?._errors?.first('details')"
             :label="$t('details')"
             v-slot="slotProps"
             class="!flex-auto !max-w-full w-full h-fit"
