@@ -32,7 +32,7 @@ defineProps({
 
          <slot name="form-actions" :form :readonly :legend>
             <div v-if="!readonly" class="form_box-actions">
-               <span class="flex-[0] flex items-center gap-4 p-4 justify-end backdrop-blur-lg">
+               <span class="flex-[0] flex items-center gap-4 p-4 justify-end backdrop-blur-md">
                   <Button
                      :label="$t('save')"
                      class="flex-1 w-48"
