@@ -261,8 +261,10 @@ CREATE TABLE IF NOT EXISTS public.record (
       END
    ),
    payment_type TEXT,
+   currency_code CHAR(3) NOT NULL DEFAULT 'TRY' CHECK (currency_code ~ '^[A-Z]{3}$'),
    bid NUMERIC(10, 2) DEFAULT 0.00,
    bid_discount NUMERIC(10, 2) DEFAULT 0.00,
+   tax NUMERIC(10, 2) DEFAULT 0.00,
    attributes JSONB DEFAULT '{}',
    details TEXT,
    created_at TIMESTAMPTZ DEFAULT NOW()
