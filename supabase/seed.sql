@@ -400,14 +400,16 @@ BEGIN
             'pending'::TEXT AS record_status,
             ROUND((LEAST(random() * (s.available_quantity - 1) + 1, s.available_quantity))::NUMERIC, 2) AS amount,
             'credit_card'::TEXT AS payment_type,
-            ROUND((random() * (500 - 10) + 10)::NUMERIC, 2) AS bid,
-            ROUND((random() * (10 - 1) + 1)::NUMERIC, 2) AS bid_discount,
+            'TRY'::TEXT AS currency_code,
+            ROUND((random() * (500 - 10) + 200)::NUMERIC, 2) AS bid,
+            ROUND((random() * (90 - 10) + 10)::NUMERIC, 2) AS bid_discount,
+            ROUND((random() * (90 - 10) + 10)::NUMERIC, 2) AS tax,
             c.id AS client_id,
             'Details for tenant record'::TEXT AS details,  
             NOW() - (random() * interval '10 days') AS created_at
         FROM public.stock_view s 
         JOIN public.product p ON s.product_id = p.id
-        INNER JOIN public.client c ON c.tenant_id = target_tenant_id AND random() < 0.25
+        INNER JOIN public.client c ON c.tenant_id = target_tenant_id AND random() < 0.75
         WHERE s.tenant_id = target_tenant_id
         AND s.available_quantity > 0
     LOOP
@@ -415,7 +417,7 @@ BEGIN
         -- Check if the amount is less than or equal to available quantity
         IF stock_rec.amount <= (SELECT available_quantity FROM public.stock_view WHERE id = stock_rec.id) THEN
             INSERT INTO public.record (
-                tenant_id, stock_id, record_type, record_status, amount, payment_type, bid, bid_discount, client_id, details, created_at
+                tenant_id, stock_id, record_type, record_status, amount, payment_type, currency_code, bid, bid_discount, tax, client_id, details, created_at
             )  
             VALUES 
             (
@@ -425,8 +427,10 @@ BEGIN
                 stock_rec.record_status,
                 stock_rec.amount,
                 stock_rec.payment_type,
+                stock_rec.currency_code,
                 stock_rec.bid,
                 stock_rec.bid_discount,
+                stock_rec.tax,
                 stock_rec.client_id,
                 stock_rec.details,
                 stock_rec.created_at
