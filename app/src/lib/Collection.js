@@ -71,8 +71,7 @@ export default class Collection {
                   ? Reflect.set(prop, 'value', value)
                   : Reflect.set(target, key, value, receiver);
             }
-            if (_isNil(value) && !_isNil(_get(target._state, key, null)))
-               return _unset(target._state.value, key);
+            if (_isNil(value)) return _unset(target._state.value, key);
             else return _set(target._state.value, key, value);
          }
       });
