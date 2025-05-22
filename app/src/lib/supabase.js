@@ -249,13 +249,15 @@ const getFilterQuery = (filters) => {
 };
 
 /**
- * @function handleDelete
+ * @function handleDeleteDialog
  * Handles the delete action, including confirming with the user and preventing deletion if not confirmed.
  *
  * @param {Object} options - The fetch options object.
  * @returns {Promise<boolean>} A promise that resolves to true if deletion is confirmed, otherwise false.
  */
-const handleDelete = async (options) => {
+const handleDeleteDialog = async (options) => {
+   if (_toUpper(options.method) !== 'DELETE' || options.headers.has('x-delete-confirmed')) return;
+
    return await new Promise((resolve, reject) => {
       const item = JSON.parse(decodeURI(options.headers?.get?.('item')));
 
@@ -287,6 +289,8 @@ const handleDelete = async (options) => {
  * @returns {string} The modified URL.
  */
 const handleMeta = (url, options) => {
+   if (!options?.headers?.has?.('meta')) return url;
+
    const { filters, first, rows, multiSortMeta } = JSON.parse(
       decodeURI(options.headers?.get?.('meta'))
    );
@@ -317,72 +321,42 @@ const handleMeta = (url, options) => {
       url += orderFilters;
    }
 
-   options?.headers?.delete('meta');
+   options?.headers?.delete?.('meta');
    return url;
 };
 
 /**
- * @type {Object}
  * Configuration object for the Supabase client, including a custom fetch function that handles memoization,
  * global tenant ID addition, and delete confirmation.
+ * @type {import('@supabase/supabase-js').SupabaseClientOptions<Extract<keyof Db, "public">>}
  */
 const options = {
    auth: {
       detectSessionInUrl: true
    },
    global: {
-      /**
-       * Custom fetch function that modifies the request to include tenant information and handle specific conditions.
-       * @param {string} url - The URL of the request.
-       * @param {Object} options - The options object for the request, including method, headers, body, etc.
-       * @returns {Promise<Object>} - A promise that resolves with the response from the server.
-       */
       fetch: async (url, options) => {
          const { currentTenant } = useAuthStore();
          const body = JSON.parse(options?.body || '{}');
 
-         /**
-          * Handles meta data in the URL if present in the headers.
-          * @param {string} url - The original URL.
-          * @param {Object} options - The options object for the request.
-          * @returns {string} - The modified URL with meta data handled.
-          */
-         if (options?.headers?.has?.('meta')) {
-            url = handleMeta(url, options);
-         }
+         url = handleMeta(url, options);
 
-         /**
-          * Confirms delete actions to prevent accidental deletions.
-          * @param {Object} options - The options object for the request.
-          * @returns {Promise<void>} - A promise that resolves after confirming deletion.
-          */
-         if (options.method === 'DELETE' && !options.headers.has('x-delete-confirmed')) {
-            await handleDelete(options);
-         }
+         await handleDeleteDialog(options);
 
-         /**
-          * Adds the current tenant's display name to the headers if available.
-          * @param {Object} options - The options object for the request.
-          */
          if (currentTenant?.display_name) {
             options?.headers?.set?.('x-tenant', currentTenant?.display_name);
          }
 
-         /**
-          * Adds the tenant ID to the body of the request if it's a non-empty, non-array object and not an RPC call.
-          * @param {Object} options - The options object for the request.
-          */
          if (
             currentTenant?.id &&
             !_isNil(body) &&
             !_isEmpty(body) &&
             !_isArray(body) &&
             !_includes(url, 'rpc/')
-         )
-            options.body = JSON.stringify({
-               tenant_id: currentTenant?.id,
-               ...body
-            });
+         ) {
+            _merge(body, { tenant_id: currentTenant?.id });
+            options.body = JSON.stringify(body);
+         }
 
          /**
           * Executes the query using axios and handles the response.
