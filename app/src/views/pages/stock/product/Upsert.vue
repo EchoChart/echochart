@@ -1,6 +1,5 @@
 <script setup>
 import { Form } from '@/lib/Form';
-import { useProductStore } from '@/store/services/product';
 
 import { useToast } from 'primevue';
 
@@ -10,13 +9,11 @@ import { useToast } from 'primevue';
 const props = defineProps({
    id: {
       type: String,
-      default: null,
-      required: false
+      default: null
    },
    data: {
       type: Object,
-      default: null,
-      required: false
+      default: null
    },
    category: {
       type: String,
@@ -27,8 +24,6 @@ const props = defineProps({
 const toast = useToast();
 
 const { ability, current_tenant_id } = useAuthStore();
-
-const { getProducts, getCategories } = useProductStore();
 
 const initialFormData = {
    id: undefined,
@@ -50,24 +45,26 @@ const form = new Form({
    useDialogForm: false
 });
 
-const routeLoading = inject('routeLoading', false);
-if (!routeLoading.value) {
-   if (props.id)
-      getProducts().then((products) => {
-         const product = products?.find?.((product) => product.id === props.id);
-         form._setDefaults(_pick(product, fields))._reset();
-      });
-   else
-      getCategories().then((categories) =>
-         form
-            ._setDefaults({
-               ...form,
-               categories: categories.filter((c) =>
-                  _includes(props.category?.split('|'), c.display_name)
-               )
-            })
-            ._reset()
-      );
+if (props.id) {
+   const { data: product } = await supabase
+      .from('product')
+      .select('*, categories:product_category!inner(*)')
+      .eq('id', props.id)
+      .single()
+      .throwOnError();
+   form._setDefaults(_pick(product, fields))._reset();
+} else if (props.category) {
+   const { data: categories } = await supabase
+      .from('product_category')
+      .select('*')
+      .in('display_name', props.category?.split('|'))
+      .throwOnError();
+   form
+      ._setDefaults({
+         ...form._data,
+         categories
+      })
+      ._reset();
 }
 
 const readonly = computed(
@@ -81,35 +78,37 @@ const save = async () => {
 
    const payload = _omit(form._data, ['categories']);
 
-   if (form.id)
-      await supabase
-         .from('product_categories')
-         .delete()
-         .eq('product_id', form.id)
-         .setHeader('x-delete-confirmed', true)
-         .throwOnError();
-
    const { data } = await supabase
       .from('product')
       .upsert(payload)
       .eq('id', form.id)
-      .select()
+      .select('*')
       .single()
       .throwOnError();
 
-   await supabase
-      .from('product_categories')
-      .insert(
-         form.categories.map(({ id: category_id }) => ({
-            category_id,
-            product_id: data.id
-         }))
-      )
-      .throwOnError();
+   form._merge(data);
 
-   if (form.id) form._setDefaults(_pick(data, fields))._reset();
+   if (form._changedData['categories']) {
+      if (form.id) {
+         await supabase
+            .from('product_categories')
+            .delete()
+            .eq('product_id', form.id)
+            .setHeader('x-delete-confirmed', true)
+            .throwOnError();
+      }
 
-   emitter.emit('product-update', data);
+      const payload = form.categories.map(({ id: category_id }) => ({
+         category_id,
+         product_id: form.id
+      }));
+
+      await supabase.from('product_categories').insert(payload).throwOnError();
+   }
+
+   if (form.id) form._setDefaults(form._data)._reset();
+
+   emitter.emit('product-update', _merge(data, form._data));
 
    toast.add({
       life: 3000,
