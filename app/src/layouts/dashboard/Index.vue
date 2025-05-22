@@ -1,6 +1,9 @@
 <script setup>
 const { layoutState } = useLayout();
 const { currentTenant } = storeToRefs(useAuthStore());
+import { useIsFetching } from '@tanstack/vue-query';
+
+const isFetching = useIsFetching();
 
 const containerClass = computed(() => {
    return {
@@ -47,7 +50,7 @@ const containerClass = computed(() => {
                <div
                   v-if="Component"
                   :key="currentTenant?.display_name"
-                  class="card p-4 mb-4 flex flex-wrap justify-center lg:justify-between gap-2 sticky top-0 shadow-md z-10"
+                  class="card p-4 mb-4 flex justify-center lg:justify-between gap-2 sticky top-0 shadow-md z-10"
                >
                   <Suspense>
                      <component :is="Component" />
@@ -81,5 +84,10 @@ const containerClass = computed(() => {
             </footer>
          </Transition>
       </RouterView>
+      <ProgressBar
+         mode="indeterminate"
+         v-if="isFetching"
+         class="!fixed bottom-0 left-0 right-0 !h-[0.25rem] z-[999]"
+      />
    </div>
 </template>
