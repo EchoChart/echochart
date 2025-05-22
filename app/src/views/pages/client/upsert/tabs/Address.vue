@@ -14,6 +14,16 @@ const props = defineProps({
       type: Object,
       default: null,
       required: false
+   },
+   from: {
+      type: String,
+      default: 'client',
+      required: false
+   },
+   select: {
+      type: String,
+      default: 'id,display_name, address(*)',
+      required: false
    }
 });
 
@@ -41,11 +51,10 @@ const readonly = computed(
    () => ability.cannot('modify', 'client_address') && ability.cannot('create', 'client_address')
 );
 
-const routeLoading = inject('routeLoading', false);
-if (!routeLoading.value && props.id) {
+if (props.id) {
    supabase
-      .from('client')
-      .select('id, address(*)')
+      .from(props.from)
+      .select(props.select)
       .eq('id', props.id)
       .single()
       .throwOnError()
@@ -103,7 +112,7 @@ provide('dialogRef', true);
    <div class="card p-0">
       <FormBox @submit="save" @reset="() => form._reset()" :form :readonly>
          <FormField
-            v-if="!props.data"
+            v-if="!data && !id"
             fluid
             :error="form?._errors?.first('client')"
             :label="$t('client')"

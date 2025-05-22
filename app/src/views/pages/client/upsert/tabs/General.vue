@@ -45,8 +45,7 @@ const form = new Form({
    useDialogForm: false
 });
 
-const routeLoading = inject('routeLoading', false);
-if (!routeLoading.value && props.id) {
+if (props.id) {
    await supabase
       .from('client')
       .select('*')
