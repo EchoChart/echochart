@@ -114,7 +114,7 @@ const dialogRef = inject('dialogRef', null);
 const tableProps = computed(() => ({
    stateKey,
    from: 'record',
-   select: '*,stock:stock_view!inner(*), client!inner(id,display_name)',
+   select: '*,stock:stock_view!inner(display_name), client!inner(display_name)',
    columns: columns._data,
    rowActions: rowActions._data,
    ...attrs
@@ -135,7 +135,7 @@ const tableProps = computed(() => ({
          </Teleport>
       </template>
       <template #expansion="{ data }">
-         <Upsert :data class="p-0" />
+         <Upsert :id="data.id" class="p-0" />
       </template>
    </ResourceTable>
 </template>
