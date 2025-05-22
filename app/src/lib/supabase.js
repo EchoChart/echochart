@@ -371,20 +371,32 @@ const options = {
                signal: options.signal
             });
 
+         /**@type {URL} */
+         const { pathname, searchParams } = URL.parse(url);
+         const method = _toUpper(options.method);
+         const isDataUpdating =
+            _includes(['POST', 'PATCH', 'DELETE', 'PUT'], method) && _startsWith(pathname, '/rest');
+         const isDataFetcing = _includes(['GET', 'HEAD'], method) && _startsWith(pathname, '/rest');
+         const queryFilters = _fromPairs(searchParams.entries().toArray());
+         const queryKey = [pathname, queryFilters, body];
+         const staleTime = isDataFetcing ? 1000 * 20 : 1000;
+         const gcTime = isDataFetcing ? 1000 * 60 * 60 * 24 : 1000;
+         const persister =
+            !_isNil(window) && isDataFetcing ? clientPersister.persisterFn : undefined;
+
          /**
           * Fetches the query using queryClient and handles memoization.
           * @returns {Promise<Object>} - A promise that resolves with the response from the server.
           */
          const promise = queryClient
             .fetchQuery({
-               queryKey: [url],
+               queryKey,
                queryFn,
-               networkMode: 'always',
-               persister: !_isNil(window) ? clientPersister.persisterFn : undefined,
-               gcTime: 1000 * 60 * 60 * 24, // garbage collection time
-               staleTime: url.includes('/rest') ? 1000 * 30 : 0
+               persister,
+               gcTime,
+               staleTime
             })
-            .then((response) => ({
+            .then(async (response) => ({
                ...response,
                ok: true,
                status: response.status,
@@ -392,16 +404,43 @@ const options = {
                text: async () => JSON.stringify(response.data),
                headers: new Headers(response.headers)
             }))
-            .catch((error) => {
-               console.log(error);
-               return {
-                  ok: false,
-                  status: error.response?.status || 500,
-                  json: async () => error.response.data,
-                  text: async () => JSON.stringify(error.response.data),
-                  headers: new Headers(error.response.headers),
-                  ...error
-               };
+            .catch((error) => ({
+               ...error,
+               ok: false,
+               status: error?.response?.status || 500,
+               json: async () => error?.response?.data,
+               text: async () => JSON.stringify(error?.response?.data),
+               headers: new Headers(error?.response?.headers)
+            }))
+            .finally(async () => {
+               if (!isDataUpdating) return;
+               await queryClient.invalidateQueries({
+                  predicate: (query) => {
+                     const [, , sourceBody] = queryKey;
+                     const targetBody = query?.state?.data?.data;
+
+                     const compareIdsDeep = (source, target, sourceKey, targetKey) => {
+                        if (_isObject(source)) {
+                           return _some(_toPairs(source), ([sourceKey, sourceItem]) => {
+                              return compareIdsDeep(sourceItem, target, sourceKey, targetKey);
+                           });
+                        }
+
+                        if (_isObject(target)) {
+                           return _some(_toPairs(target), ([targetKey, targetItem]) => {
+                              return compareIdsDeep(source, targetItem, sourceKey, targetKey);
+                           });
+                        }
+
+                        if (!_endsWith(_toLower(sourceKey), 'id')) return false;
+                        if (!_endsWith(_toLower(targetKey), 'id')) return false;
+                        return _isEqual(source, target);
+                     };
+
+                     const dataStaled = compareIdsDeep(sourceBody, targetBody);
+                     return dataStaled;
+                  }
+               });
             });
 
          return promise;
