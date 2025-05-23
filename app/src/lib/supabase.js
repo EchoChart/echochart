@@ -257,9 +257,12 @@ const getFilterQuery = (filters) => {
  */
 const handleDeleteDialog = async (options) => {
    if (_toUpper(options.method) !== 'DELETE' || options.headers.has('x-delete-confirmed')) return;
+   options.headers.delete('x-delete-confirmed');
 
    return await new Promise((resolve, reject) => {
       const item = JSON.parse(decodeURI(options.headers?.get?.('item')));
+
+      if (item) options.headers.delete('item');
 
       return app.config?.globalProperties?.$confirm?.require?.({
          icon: PrimeIcons.EXCLAMATION_TRIANGLE,
