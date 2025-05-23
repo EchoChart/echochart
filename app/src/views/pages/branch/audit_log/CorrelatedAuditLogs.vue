@@ -1,5 +1,5 @@
 <script setup>
-import ResourceDataView from '@/components/service-components/ResourceDataView.vue';
+import ResourceDataView from '@/components/service-components/resource-data-view/ResourceDataView.vue';
 import { DataView } from 'primevue';
 
 /**
