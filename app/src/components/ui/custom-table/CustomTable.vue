@@ -1,6 +1,5 @@
 <script setup>
 import Collection from '@/lib/Collection';
-import { diff } from 'deep-object-diff';
 import { isVNode } from 'vue';
 
 const DATA_TYPES = {
@@ -13,18 +12,15 @@ defineOptions({
    inheritAttrs: false
 });
 
-/**@type {import('primevue').DataTableProps & {columns: import('primevue').ColumnProps[], mapClass: Class, rowActions: import('primevue/menuitem').MenuItem[]}} */
+/**@type {CustomTableProps} */
 const props = defineProps({
    columns: {
-      type: [Object, Array],
       default: () => []
    },
    mapClass: {
-      type: Function,
       default: null
    },
    filters: {
-      type: Object,
       default: () => ({})
    },
    rowActions: {
@@ -32,10 +28,10 @@ const props = defineProps({
       default: () => []
    },
    useMeta: {
-      type: Boolean,
       default: true
    }
 });
+props.columns[0].sortOrder;
 
 const emit = defineEmits(['meta', 'update:filters']);
 const attrs = useAttrs();
