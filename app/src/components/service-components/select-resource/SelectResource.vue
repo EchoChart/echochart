@@ -1,5 +1,5 @@
 <script setup>
-import ResourceTable from '@components/service-components/ResourceTable.vue';
+import ResourceTable from '@/components/service-components/resource-table/ResourceTable.vue';
 import { useDialog } from 'primevue';
 
 defineOptions({
