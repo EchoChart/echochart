@@ -416,8 +416,17 @@ const options = {
                if (!isDataUpdating) return;
                await queryClient.invalidateQueries({
                   predicate: (query) => {
-                     const [, , sourceBody] = queryKey;
+                     const [sourcePath, sourceFilters, sourceBody] = queryKey;
                      const targetBody = query?.state?.data?.data;
+
+                     _toPairs(sourceFilters).forEach(([key, value]) => {
+                        key = _toLower(key);
+                        if (!_endsWith(key, 'id')) return;
+                        if (_has(sourceBody, key)) return;
+
+                        const filter = _replace(value, /.+\./, '');
+                        _set(sourceBody, key, filter);
+                     });
 
                      const compareIdsDeep = (source, target, sourceKey, targetKey) => {
                         if (_isObject(source)) {
