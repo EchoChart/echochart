@@ -131,10 +131,9 @@ const save = async () => {
             :label="i18n.t('permission')"
             :readonly
             :error="form?._errors.first('permission')"
+            v-slot="slotProps"
          >
-            <template #default="slotProps">
-               <SelectPermissions v-bind="slotProps" v-model="form['permission']" />
-            </template>
+            <SelectPermissions v-bind="slotProps" v-model="form['permission']" />
          </FormField>
       </FormBox>
    </div>

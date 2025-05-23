@@ -97,7 +97,7 @@ const tableProps = computed(() => ({
          </Teleport>
       </template>
       <template #expansion="{ data }">
-         <Upsert class="p-0" :data />
+         <Upsert class="p-0" :id="data.id" />
       </template>
    </ResourceTable>
 </template>
