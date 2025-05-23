@@ -152,7 +152,7 @@ BEGIN
         END IF;
 
         -- Extract policy error message
-        policy_error_message := COALESCE(permission_record.error_message, format('You don''t have permission to %I on %I', kind, permission_record.group_name));
+        policy_error_message := COALESCE(permission_record.error_message, format('You don''t have permission to %I on %I', COALESCE(kind, command), COALESCE(permission_record.group_name, target_table)));
 
         -- Handle INSERT operation (create policy)
         IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
@@ -768,15 +768,15 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION validate_record_amount () RETURNS TRIGGER SECURITY DEFINER LANGUAGE plpgsql
+CREATE OR REPLACE FUNCTION validate_record_quantity () RETURNS TRIGGER SECURITY DEFINER LANGUAGE plpgsql
 SET
     "search_path" = '' AS $$
 BEGIN
     IF OLD.stock_id = NEW.stock_id AND TG_OP = 'UPDATE' THEN
-        IF NEW.amount > OLD.amount + (SELECT available_quantity FROM public.stock_view WHERE id = NEW.stock_id) THEN
+        IF NEW.quantity > OLD.quantity + (SELECT available_quantity FROM public.stock_view WHERE id = NEW.stock_id) THEN
             RAISE EXCEPTION 'Amount cannot be greater than available quantity';
         END IF;
-    ELSIF NOT EXISTS(SELECT 1 FROM public.record WHERE id = NEW.id) AND NEW.amount > (SELECT available_quantity FROM public.stock_view WHERE id = NEW.stock_id) THEN
+    ELSIF NOT EXISTS(SELECT 1 FROM public.record WHERE id = NEW.id) AND NEW.quantity > (SELECT available_quantity FROM public.stock_view WHERE id = NEW.stock_id) THEN
         RAISE EXCEPTION 'Amount cannot be greater than available quantity';
     END IF;
    

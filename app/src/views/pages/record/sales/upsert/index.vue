@@ -38,7 +38,7 @@ const initialFormData = {
    user_id: undefined,
    record_type: undefined,
    record_status: undefined,
-   amount: undefined,
+   quantity: undefined,
    payment_type: undefined,
    curreny_code: undefined,
    bid: 3000,
@@ -76,7 +76,7 @@ form._setRules(
          ?.map((e) => e?.value)
          ?.join(',');
 
-      const amount = {
+      const quantity = {
          min: form.stock?.unit_type === 'pcs' ? 1 : 0.01,
          max: availableQuantity?.value
       };
@@ -108,7 +108,7 @@ form._setRules(
          ...attributeRules,
          record_type: `required|in:${recordTypes.map((e) => e.value).join(',')}`,
          currency_code: `required|in:${currencies.join(',')}`,
-         amount: `required_with:stock_id|numeric|min:${amount.min}|max:${amount.max}`,
+         quantity: `required_with:stock_id|numeric|min:${quantity.min}|max:${quantity.max}`,
          record_status: `required|in:${statuses}`
       };
    })
@@ -153,7 +153,7 @@ const tax = computed({
 const availableQuantity = computed(() => {
    const quantity = _round(
       form?.stock?.id === form?._defaults?.stock_id
-         ? form?._defaults.amount + form?.stock?.available_quantity
+         ? form?._defaults.quantity + form?.stock?.available_quantity
          : form?.stock?.available_quantity,
       2
    );
@@ -398,14 +398,15 @@ const save = async () => {
             <FormField
                :readonly
                fluid
-               :error="form?._errors?.first('amount')"
-               :label="$t('amount')"
+               :error="form?._errors?.first('quantity')"
+               :label="$t('quantity')"
                v-slot="slotProps"
                :disabled="!availableQuantity"
             >
+               {{ form.stock?.unit_type }}
                <InputNumber
                   v-bind="slotProps"
-                  v-model="form.amount"
+                  v-model="form.quantity"
                   :max-fraction-digits="form.stock?.unit_type === 'pcs' ? 0 : 2"
                   :min="0"
                   :max="availableQuantity"

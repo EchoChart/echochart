@@ -10,6 +10,7 @@ const attrs = useAttrs();
 const router = useRouter();
 
 // Define the columns
+/**@type {CustomTableProps['columns']} */
 const columns = new Collection([
    {
       field: 'stock.display_name',
@@ -27,9 +28,9 @@ const columns = new Collection([
       header: i18n.t('record_type')
    },
    {
-      field: 'amount',
+      field: 'quantity',
       sortable: true,
-      header: i18n.t('amount')
+      header: i18n.t('quantity')
    },
    {
       field: 'bid',
@@ -61,7 +62,7 @@ const filters = ref({
       operator: FilterOperator.AND,
       constraints: [{ value: 'sale', matchMode: FilterMatchMode.STARTS_WITH }]
    },
-   amount: {
+   quantity: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
       dataType: 'decimal'

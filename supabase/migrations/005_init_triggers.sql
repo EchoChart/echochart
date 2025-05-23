@@ -43,4 +43,4 @@ EXECUTE FUNCTION private.audit_sync_triggers_wrapper ();
 CREATE TRIGGER before_record_insert_update BEFORE INSERT
 OR
 UPDATE ON public.record FOR EACH ROW
-EXECUTE FUNCTION validate_record_amount ();
+EXECUTE FUNCTION validate_record_quantity ();

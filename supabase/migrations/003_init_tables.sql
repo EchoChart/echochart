@@ -73,10 +73,10 @@ CREATE INDEX IF NOT EXISTS idx_address_created_at ON public.address (created_at)
 -- App Permissions
 CREATE TABLE IF NOT EXISTS public.permission (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-   resource_name PERMISSION_RESOURCE NOT NULL,
-   group_name TEXT NOT NULL,
-   command PERMISSION_COMMAND NOT NULL,
-   kind PERMISSION_KIND NOT NULL,
+   resource_name valid_permission_resource NOT NULL,
+   group_name TEXT DEFAULT NULL,
+   command type_permission_command NOT NULL,
+   kind type_permission_kind NOT NULL,
    condition TEXT,
    resource_condition TEXT DEFAULT 'TRUE',
    details TEXT,
@@ -211,12 +211,15 @@ CREATE TABLE IF NOT EXISTS public.stock (
    product_id UUID NOT NULL REFERENCES public.product (id) ON DELETE CASCADE,
    serial_number TEXT UNIQUE,
    barcode TEXT,
-   quantity NUMERIC(10, 2) NOT NULL DEFAULT 1 CHECK (quantity > 0),
-   unit_type TEXT NOT NULL CHECK (unit_type IN ('pcs', 'kg', 'gr', 'lbs', 'L', 'mL', 'm', 'm²', 'cm', 'in')) DEFAULT 'pcs',
-   unit_cost NUMERIC(10, 2) NOT NULL CHECK (unit_cost >= 0),
-   unit_discount NUMERIC(10, 2) NOT NULL CHECK (unit_discount <= unit_cost) DEFAULT 0,
+   quantity valid_stock_quantity,
+   unit_type type_stock_unit_type NOT NULL DEFAULT 'pcs',
+   unit_cost valid_stock_unit_cost DEFAULT 0,
+   unit_discount NUMERIC(10, 2) NOT NULL CHECK (
+      unit_discount >= 0
+      AND unit_discount <= unit_cost
+   ) DEFAULT 0,
    unit_tax NUMERIC(10, 2) NOT NULL DEFAULT 0,
-   currency_code CHAR(3) NOT NULL DEFAULT 'TRY' CHECK (currency_code ~ '^[A-Z]{3}$'),
+   currency_code valid_currency_code NOT NULL DEFAULT 'TRY',
    vendor TEXT,
    details TEXT,
    stocked_at TIMESTAMPTZ DEFAULT NOW(),
@@ -247,21 +250,28 @@ CREATE TABLE IF NOT EXISTS public.record (
    client_id UUID REFERENCES public.client (id) ON DELETE CASCADE,
    stock_id UUID REFERENCES public.stock (id) ON DELETE CASCADE,
    user_id UUID REFERENCES public.user (id) ON DELETE SET NULL,
-   record_type TEXT NOT NULL CHECK (record_type IN ('trial', 'sale', 'assemble', 'repair', 'promotion')),
+   record_type valid_record_type NOT NULL,
    record_status TEXT NOT NULL CHECK (
       CASE
-         WHEN record_type = 'repair' THEN record_status IN ('pending', 'at_service', 'bid_pending', 'bid_approved', 'bid_rejected', 'done')
-         ELSE record_status IN ('pending', 'approved', 'rejected', 'client_pending', 'done')
+         WHEN record_type = 'repair' THEN record_status IN (
+            'pending',
+            'pending_service',
+            'client_pending_service_bid',
+            'client_approved_service_bid',
+            'client_rejected_service_bid',
+            'done'
+         )
+         ELSE record_status IN ('pending', 'approved', 'rejected', 'pending_client', 'done')
       END
    ),
-   amount NUMERIC(10, 2) NOT NULL DEFAULT 0.00 CHECK (
+   quantity NUMERIC(10, 2) NOT NULL DEFAULT 0.00 CHECK (
       CASE
-         WHEN record_type IN ('sale', 'promotion') THEN amount > 0
-         ELSE amount >= 0
+         WHEN record_type IN ('sale', 'promotion') THEN quantity > 0
+         ELSE quantity >= 0
       END
    ),
-   payment_type TEXT,
-   currency_code CHAR(3) NOT NULL DEFAULT 'TRY' CHECK (currency_code ~ '^[A-Z]{3}$'),
+   payment_type valid_record_payment_type,
+   currency_code valid_currency_code NOT NULL DEFAULT 'TRY',
    bid NUMERIC(10, 2) DEFAULT 0.00,
    bid_discount NUMERIC(10, 2) DEFAULT 0.00,
    tax NUMERIC(10, 2) DEFAULT 0.00,
@@ -282,7 +292,7 @@ CREATE INDEX IF NOT EXISTS idx_record_tenant_client_id ON public.record (tenant_
 
 CREATE INDEX IF NOT EXISTS idx_record_tenant_stock_id ON public.record (tenant_id, stock_id);
 
-CREATE INDEX IF NOT EXISTS idx_record_amount ON public.record (amount);
+CREATE INDEX IF NOT EXISTS idx_record_quantity ON public.record (quantity);
 
 CREATE INDEX IF NOT EXISTS idx_record_bid ON public.record (bid);
 
@@ -306,11 +316,11 @@ FROM
       SELECT
          tenant_id,
          stock_id,
-         SUM(amount) AS total_used
+         SUM(quantity) AS total_used
       FROM
          public.record
       WHERE
-         record_status IN ('approved', 'pending', 'client_pending', 'done')
+         record_status IN ('approved', 'pending', 'pending_client', 'done')
          AND record_type IN ('promotion', 'sale')
       GROUP BY
          tenant_id,

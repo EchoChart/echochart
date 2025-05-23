@@ -40,20 +40,20 @@ export const recordStatuses = new Proxy(
             label: i18n.t('pending')
          },
          {
-            value: 'at_service',
-            label: i18n.t('at_service')
+            value: 'pending_service',
+            label: i18n.t('pending_service')
          },
          {
-            value: 'bid_pending',
-            label: i18n.t('bid_pending')
+            value: 'client_pending_service_bid',
+            label: i18n.t('client_pending_service_bid')
          },
          {
-            value: 'bid_approved',
-            label: i18n.t('bid_approved')
+            value: 'client_approved_service_bid',
+            label: i18n.t('client_approved_service_bid')
          },
          {
-            value: 'bid_rejected',
-            label: i18n.t('bid_rejected')
+            value: 'client_rejected_service_bid',
+            label: i18n.t('client_rejected_service_bid')
          },
          {
             value: 'done',
@@ -74,8 +74,8 @@ export const recordStatuses = new Proxy(
             label: i18n.t('rejected')
          },
          {
-            value: 'client_pending',
-            label: i18n.t('client_pending')
+            value: 'pending_client',
+            label: i18n.t('pending_client')
          },
          {
             value: 'done',

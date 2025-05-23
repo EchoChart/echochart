@@ -32,10 +32,10 @@ VALUES
     --
     --
     -- tenant_owner   
-    ('public.tenant_owner', 'user', 'select', 'read', TRUE, FALSE, NULL),
-    -- ('public.tenant_user', 'user', 'insert', 'create', FALSE, FALSE, NULL),
-    -- ('public.tenant_user', 'user', 'update', 'modify', FALSE, FALSE, NULL),
-    -- ('public.tenant_user', 'user', 'delete', 'modify', FALSE, FALSE, NULL),
+    ('public.tenant_owner', 'branch', 'select', 'read', TRUE, FALSE, NULL),
+    -- ('public.tenant_user', NULL, 'insert', 'create', FALSE, FALSE, NULL),
+    -- ('public.tenant_user', NULL, 'update', 'modify', FALSE, FALSE, NULL),
+    -- ('public.tenant_user', NULL, 'delete', 'modify', FALSE, FALSE, NULL),
     --
     --
     -- role   
@@ -362,10 +362,9 @@ $$;
 -- Seed stock
 CREATE OR REPLACE FUNCTION private.tenant_seed_stock (target_tenant_id UUID) RETURNS VOID SECURITY DEFINER LANGUAGE plpgsql
 SET
-    search_path = '' AS $$
-BEGIN
+    search_path = '' AS $$BEGIN
     INSERT INTO public.stock (
-        tenant_id, product_id, quantity, unit_cost, unit_discount, unit_tax, currency_code, vendor, serial_number, barcode, details, stocked_at
+        tenant_id, product_id, quantity, unit_cost, unit_discount, unit_tax, currency_code, vendor, serial_number, barcode, details, stocked_at, unit_type
     )  
     SELECT  
         target_tenant_id,  
@@ -380,10 +379,19 @@ BEGIN
         'B-' || gen_random_uuid(),  -- Unique barcode per tenant and product  
         'Details for tenant product',  
         NOW() - (random() * interval '10 years')  -- Random timestamp within the last 10 years  
+    , CASE FLOOR(random() * 8 + 1)
+        WHEN 1 THEN 'pcs'
+        WHEN 2 THEN 'kg'
+        WHEN 3 THEN 'gr'
+        WHEN 4 THEN 'lbs'
+        WHEN 5 THEN 'L'
+        WHEN 6 THEN 'mL'
+        WHEN 7 THEN 'm'
+        ELSE 'cm'
+      END::public.type_stock_unit_type AS unit_type
     FROM public.product p  
     CROSS JOIN generate_series(1, 200) g;  
-END;
-$$;
+END;$$;
 
 -- Seed record
 CREATE OR REPLACE FUNCTION private.tenant_seed_record (target_tenant_id UUID) RETURNS VOID SECURITY DEFINER LANGUAGE plpgsql
@@ -398,7 +406,7 @@ BEGIN
             s.id,
             'sale'::TEXT AS record_type,
             'pending'::TEXT AS record_status,
-            ROUND((LEAST(random() * (s.available_quantity - 1) + 1, s.available_quantity))::NUMERIC, 2) AS amount,
+            ROUND((LEAST(random() * (s.available_quantity - 1) + 1, s.available_quantity))::NUMERIC, 2) AS quantity,
             'credit_card'::TEXT AS payment_type,
             'TRY'::TEXT AS currency_code,
             ROUND((random() * (500 - 10) + 200)::NUMERIC, 2) AS bid,
@@ -414,10 +422,10 @@ BEGIN
         AND s.available_quantity > 0
     LOOP
 
-        -- Check if the amount is less than or equal to available quantity
-        IF stock_rec.amount <= (SELECT available_quantity FROM public.stock_view WHERE id = stock_rec.id) THEN
+        -- Check if the quantity is less than or equal to available quantity
+        IF stock_rec.quantity <= (SELECT available_quantity FROM public.stock_view WHERE id = stock_rec.id) THEN
             INSERT INTO public.record (
-                tenant_id, stock_id, record_type, record_status, amount, payment_type, currency_code, bid, bid_discount, tax, client_id, details, created_at
+                tenant_id, stock_id, record_type, record_status, quantity, payment_type, currency_code, bid, bid_discount, tax, client_id, details, created_at
             )  
             VALUES 
             (
@@ -425,7 +433,7 @@ BEGIN
                 stock_rec.id,
                 stock_rec.record_type,
                 stock_rec.record_status,
-                stock_rec.amount,
+                stock_rec.quantity,
                 stock_rec.payment_type,
                 stock_rec.currency_code,
                 stock_rec.bid,
