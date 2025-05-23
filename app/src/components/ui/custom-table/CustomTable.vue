@@ -31,7 +31,6 @@ const props = defineProps({
       default: true
    }
 });
-props.columns[0].sortOrder;
 
 const emit = defineEmits(['meta', 'update:filters']);
 const attrs = useAttrs();
