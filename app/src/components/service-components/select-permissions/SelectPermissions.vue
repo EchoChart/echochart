@@ -1,5 +1,7 @@
 <script setup>
+import Collection from '@/lib/Collection';
 import { usePermissionStore } from '@/store/services/permission';
+import { red } from 'tailwindcss/colors';
 
 defineOptions({
    inheritAttrs: false
@@ -28,11 +30,15 @@ const columns = [
    }
 ];
 
-const { getPermissions } = usePermissionStore();
-
 const permissionKinds = ['read', 'create', 'modify'];
 
-let allPermissions = await getPermissions();
+const allPermissions = new Collection(
+   await supabase
+      .from('permission')
+      .select('id,resource_name,group_name,kind')
+      .throwOnError()
+      .then((res) => res.data)
+);
 
 const permissionByKind = computed(() => _groupBy(allPermissions?._data, 'kind'));
 
