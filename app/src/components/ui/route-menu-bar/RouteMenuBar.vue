@@ -17,15 +17,15 @@ const tabs = computed(() => props.route?.items);
          <template #item="{ item, props, hasSubmenu }">
             <span
                :class="{
-                  'route-menu-bar__item':
+                  route_menu_bar__item:
                      !dialogRef && $route.matched.some(({ name }) => name === item.route?.name)
                }"
             >
                <CustomLink v-if="!hasSubmenu" :to="item.route" v-slot="{ navigate }">
-                  <span class="route-menu-bar__link p-menubar-item-link" @click="navigate">
-                     <span class="route-menu-bar__icon p-menubar-item-icon" :class="item.icon" />
+                  <span class="route_menu_bar__link p-menubar-item-link" @click="navigate">
+                     <span class="route_menu_bar__icon p-menubar-item-icon" :class="item.icon" />
                      <span
-                        class="route-menu-bar__label p-menubar-item-label"
+                        class="route_menu_bar__label p-menubar-item-label"
                         v-text="$t(item.label)"
                      />
                   </span>
@@ -35,7 +35,7 @@ const tabs = computed(() => props.route?.items);
                   <span v-text="$t(item.label)" />
                   <span
                      v-if="hasSubmenu"
-                     class="route-menu-bar__submenu-indicator pi pi-fw pi-angle-down"
+                     class="route_menu_bar__submenu-indicator pi pi-fw pi-angle-down"
                   />
                </div>
             </span>
@@ -45,7 +45,7 @@ const tabs = computed(() => props.route?.items);
 </template>
 
 <style lang="scss">
-.route-menu-bar {
+.route_menu_bar {
    &__item {
       @apply text-primary-emphasis hover:text-current;
    }

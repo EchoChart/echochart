@@ -12,7 +12,7 @@ defineProps({
 <template>
    <Badge
       severity="danger"
-      class="error-badge__badge"
+      class="error_badge__badge"
       v-tooltip="{
          value: error,
          pt: {
@@ -23,12 +23,12 @@ defineProps({
          }
       }"
    >
-      <i class="error-badge__icon" :class="PrimeIcons.EXCLAMATION_CIRCLE" />
+      <i class="error_badge__icon" :class="PrimeIcons.EXCLAMATION_CIRCLE" />
    </Badge>
 </template>
 
 <style lang="scss">
-.error-badge {
+.error_badge {
    &__badge {
       @apply p-0;
    }

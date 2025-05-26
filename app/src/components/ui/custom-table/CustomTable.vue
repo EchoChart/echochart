@@ -148,10 +148,10 @@ const tableProps = computed(() => ({
    <DataTable
       :pt="{
          header: {
-            class: 'custom-table__header'
+            class: 'custom_table__header'
          },
          footer: {
-            class: 'custom-table__footer'
+            class: 'custom_table__footer'
          }
       }"
       v-model:filters="filterInput"
@@ -164,13 +164,13 @@ const tableProps = computed(() => ({
       v-bind="tableProps"
       selection-mode="radioButton"
       :value="tableValue"
-      class="custom-table"
+      class="custom_table"
    >
       <template #expansion="slotProps">
-         <span class="custom-table__expansion" v-bind="{ ...slotProps, loading }" />
+         <span class="custom_table__expansion" v-bind="{ ...slotProps, loading }" />
       </template>
       <template #empty>
-         <span class="custom-table__no-data" v-text="$t('no_data_found')" />
+         <span class="custom_table__no-data" v-text="$t('no_data_found')" />
       </template>
       <template v-for="slot in _keys($slots)" #[slot]="slotProps" :key="`slot_${slot}`">
          <slot v-bind="slotProps" :name="slot" :key="`slot_${slot}`" />
@@ -178,16 +178,16 @@ const tableProps = computed(() => ({
       <Column
          v-if="tableProps.selectionMode"
          :selectionMode="tableProps.selectionMode"
-         class="custom-table__column--header"
+         class="custom_table__column--header"
       />
       <Column
          v-if="$slots.expansion && (tableProps?.frozenValue?.length || tableValue?.length)"
          field="_expansion"
          expander
-         class="custom-table__column--expander"
+         class="custom_table__column--expander"
       />
       <Column
-         class="custom-table__column"
+         class="custom_table__column"
          v-for="(column, i) in columns"
          :key="'column_' + (column?.field ? column?.field + i : i) || i"
          showClearButton
@@ -224,7 +224,7 @@ const tableProps = computed(() => ({
                   meta?.filters?.[`${column?.field}`]?.constraints?.some?.(
                      ({ value }) => !_isNil(value)
                   ) || !_isNil(meta?.filters?.[column?.field]?.value)
-                     ? `custom-table__filter-icon ${PrimeIcons.FILTER_FILL}`
+                     ? `custom_table__filter-icon ${PrimeIcons.FILTER_FILL}`
                      : PrimeIcons.FILTER
                ]"
             />
@@ -276,7 +276,7 @@ const tableProps = computed(() => ({
                <Skeleton v-if="loading && !_has(body?.data, body.field)" :height="'2rem'" />
                <div
                   v-else
-                  class="custom-table__cell"
+                  class="custom_table__cell"
                   :title="_get(body?.data, body.field)"
                   v-text="_get(body?.data, body.field)"
                />
@@ -305,7 +305,7 @@ const tableProps = computed(() => ({
    </DataTable>
 </template>
 <style lang="scss">
-.custom-table {
+.custom_table {
    &__header {
       @apply empty:hidden;
    }

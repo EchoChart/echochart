@@ -8,7 +8,7 @@ const props = defineProps({
       required: true
    },
    size: {
-      type: String || Number,
+      type: [String, Number],
       default: '100%'
    },
    backgroundColor: {
@@ -43,7 +43,7 @@ const label = computed(() => firstLetters.value || '♥');
 </script>
 
 <template>
-   <Image>
+   <Image class="avatar_placeholder">
       <template #image="slotProps">
          <img v-if="src" :src :alt="placeholder" v-bind="slotProps" />
          <svg
@@ -53,6 +53,7 @@ const label = computed(() => firstLetters.value || '♥');
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
             v-bind="slotProps"
+            class="avatar_placeholder__image"
          >
             <rect width="100%" height="100%" :fill="bg" />
             <text
@@ -62,7 +63,7 @@ const label = computed(() => firstLetters.value || '♥');
                text-anchor="middle"
                :fill="color"
                font-size="40"
-               class="font-[inherit] font-bold"
+               class="avatar_placeholder__label"
             >
                {{ label }}
             </text>
@@ -77,6 +78,7 @@ const label = computed(() => firstLetters.value || '♥');
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
             v-bind="slotProps"
+            class="avatar_placeholder__image"
          >
             <rect width="100%" height="100%" :fill="bg" />
             <text
@@ -86,7 +88,7 @@ const label = computed(() => firstLetters.value || '♥');
                text-anchor="middle"
                :fill="color"
                font-size="40"
-               class="font-[inherit] font-bold"
+               class="avatar_placeholder__label"
             >
                {{ label }}
             </text>
@@ -94,3 +96,15 @@ const label = computed(() => firstLetters.value || '♥');
       </template>
    </Image>
 </template>
+
+<style lang="scss">
+.avatar_placeholder {
+   &__image {
+      @apply w-full h-full;
+   }
+
+   &__label {
+      @apply font-bold;
+   }
+}
+</style>

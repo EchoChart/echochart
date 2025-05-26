@@ -30,7 +30,7 @@ const buttons = computed(() => {
 </script>
 
 <template>
-   <div class="custom-table__action-buttons">
+   <div class="custom_table__action_buttons">
       <Button
          v-for="(item, index) in buttons"
          :key="_uniqueId('actionButton' + index)"
@@ -45,8 +45,8 @@ const buttons = computed(() => {
 </template>
 
 <style lang="scss">
-.custom-table {
-   &__action-buttons {
+.custom_table {
+   &__action_buttons {
       @apply flex gap-2 items-center min-w-fit;
    }
 }

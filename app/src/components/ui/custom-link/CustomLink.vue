@@ -79,7 +79,7 @@ const itemClick = (item) => {
       v-bind="$attrs"
       :href="href"
       target="_blank"
-      class="custom-link__external"
+      class="custom_link__external"
    >
       <slot />
    </a>
@@ -97,7 +97,7 @@ const itemClick = (item) => {
             @click.ctrl.capture.prevent.stop="
                $router.push({ ...route, query: { showDialog: DIALOG_POSITIONS.CENTER } })
             "
-            class="custom-link__internal flex flex-col"
+            class="custom_link__internal flex flex-col"
          >
             <slot
                v-bind="{
@@ -119,10 +119,10 @@ const itemClick = (item) => {
                   :href="href"
                   v-bind="props.action"
                   @click.prevent="() => itemClick(route)"
-                  class="custom-link__context-menu-item"
+                  class="custom_link__context-menu-item"
                >
-                  <span :class="PrimeIcons.ALIGN_CENTER" class="custom-link__icon" />
-                  <span class="custom-link__label" v-text="item.label" />
+                  <span :class="PrimeIcons.ALIGN_CENTER" class="custom_link__icon" />
+                  <span class="custom_link__label" v-text="item.label" />
                </a>
             </RouterLink>
             <a
@@ -131,10 +131,10 @@ const itemClick = (item) => {
                :href="item.url"
                :target="item.target"
                v-bind="props.action"
-               class="custom-link__context-menu-item"
+               class="custom_link__context-menu-item"
             >
-               <span :class="PrimeIcons.ALIGN_CENTER" class="custom-link__icon" />
-               <span class="custom-link__label" v-text="item.label" />
+               <span :class="PrimeIcons.ALIGN_CENTER" class="custom_link__icon" />
+               <span class="custom_link__label" v-text="item.label" />
             </a>
          </template>
       </ContextMenu>
@@ -142,7 +142,7 @@ const itemClick = (item) => {
 </template>
 
 <style lang="scss">
-.custom-link {
+.custom_link {
    &__external {
       @apply cursor-alias [&>*]:!cursor-alias !important;
    }

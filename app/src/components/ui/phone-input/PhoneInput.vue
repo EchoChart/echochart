@@ -73,25 +73,25 @@ const modelValue = defineModel('modelValue', {
 </script>
 
 <template>
-   <InputGroup :class="$attrs.class" class="phone-input__container">
-      <InputGroupAddon class="phone-input__addon">
+   <InputGroup :class="$attrs.class" class="phone_input__container">
+      <InputGroupAddon class="phone_input__addon">
          <Select
             v-model="selectedCountry"
             :options="countryPhoneCodes"
             filter
             :filter-fields="['countryCode', 'countryCallingCode']"
-            class="phone-input__select"
+            class="phone_input__select"
             :disabled="readonly"
             :loading="loading"
             :invalid="invalid"
          >
             <template #value="{ value }">
-               <span class="phone-input__selected-value">
+               <span class="phone_input__selected-value">
                   {{ [value?.countryCode, value?.countryCallingCode].filter(Boolean).join` | ` }}
                </span>
             </template>
             <template #option="{ option }">
-               <span class="phone-input__option">
+               <span class="phone_input__option">
                   {{ [option?.countryCode, option?.countryCallingCode].filter(Boolean).join` | ` }}
                </span>
             </template>
@@ -99,7 +99,7 @@ const modelValue = defineModel('modelValue', {
       </InputGroupAddon>
       <InputMask
          v-bind="_omit({ ...$attrs, ...$props }, ['class'])"
-         class="phone-input__text"
+         class="phone_input__text"
          :model-value="modelValue.getNationalNumber()"
          @value-change="modelValue = '+' + selectedCountry.countryCallingCode + $event"
          mask="(9?99) 999-9999"
@@ -112,7 +112,7 @@ const modelValue = defineModel('modelValue', {
 </template>
 
 <style lang="scss">
-.phone-input {
+.phone_input {
    &__select {
       @apply max-h-none !h-full !rounded-[inherit] -mr-[1px];
    }
