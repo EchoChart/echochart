@@ -5,18 +5,15 @@ defineOptions({
    inheritAttrs: false
 });
 
+/**@type {ResourceTableProps} */
 const props = defineProps({
    from: {
-      type: String,
       required: true
    },
    select: {
-      type: String,
-      default: '*',
       required: true
    },
    count: {
-      type: Object,
       default: () => ({
          count: 'exact',
          head: true

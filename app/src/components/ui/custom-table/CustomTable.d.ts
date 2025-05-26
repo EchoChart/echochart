@@ -2,6 +2,8 @@ import Collection from '@/lib/Collection';
 import { ColumnProps, DataTableProps } from 'primevue';
 import { MenuItem } from 'primevue/menuitem';
 
+export {};
+
 declare global {
    type CustomTableProps = {
       rowActions: MenuItem[];
