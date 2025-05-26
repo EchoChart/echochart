@@ -10,7 +10,7 @@ import Errors from 'validatorjs/src/errors.js';
 export class Form extends Collection {
    /**
     * Reactive rules object.
-    * @type {import('vue').Reactive<{}>}
+    * @type {import('vue').Reactive<import('validatorjs').Rules>}
     */
    _rules = reactive({});
 
@@ -65,7 +65,7 @@ export class Form extends Collection {
     *
     * @param {Object} options - Options object.
     * @param {Object} [options.data={}] - Initial data.
-    * @param {Object} [options.rules={}] - Validation rules.
+    * @param {import('validatorjs').Rules} [options.rules={}] - Validation rules.
     * @param {Array<string>|null} [options.autoValidate=[]] - Attributes to auto-validate.
     * @param {boolean} [options.useDialogForm=true] - Whether the form uses a dialog.
     */
@@ -120,7 +120,7 @@ export class Form extends Collection {
     * Validates the form data.
     *
     * @param {Array<string>|null} [keys=null] - Attributes to validate.
-    * @param {Object} [rules=this._rules] - Validation rules.
+    * @param {import('validatorjs').Rules} [rules=this._rules] - Validation rules.
     * @returns {boolean} - Whether validation passed.
     */
    _validate(keys = null, rules = this._rules) {
@@ -162,7 +162,7 @@ export class Form extends Collection {
    /**
     * Sets the validation rules for the form.
     *
-    * @param {Object} [rules={}] - Validation rules.
+    * @param {import('validatorjs').Rules} [rules={}] - Validation rules.
     * @returns {this} - Form instance for chaining.
     */
    _setRules(rules = {}) {
