@@ -2,11 +2,14 @@
 import { DIALOG_POSITIONS } from '@/constants/router';
 import { RouterLink } from 'vue-router';
 
+/**
+ * CustomLink component for internal and external links with context menu support.
+ */
 defineOptions({
    inheritAttrs: false
 });
 
-/**@type {CustomLinkProps} */
+/** @type {CustomLinkProps} */
 const props = defineProps({
    ...RouterLink.props,
    contextMenuItems: {
@@ -17,13 +20,29 @@ const props = defineProps({
 const router = useRouter();
 const { href, route } = useLink(props);
 
+/**
+ * Determines if the link is an external link.
+ * @type {import('vue').ComputedRef<boolean>}
+ */
 const isExternalLink = computed(() => {
    return href.value?.startsWith?.('http');
 });
 
+/**
+ * Reference to the dialog component.
+ * @type {import('vue').Ref<null | any>}
+ */
 const dialogRef = inject('dialogRef', null);
 
+/**
+ * Reference to the context menu component.
+ * @type {import('vue').Ref<null | any>}
+ */
 const contextMenu = ref();
+
+/**
+ * Computed property for context menu items with additional actions.
+ */
 const contextMenuItems = computed(() => {
    return [
       {
@@ -40,6 +59,10 @@ const contextMenuItems = computed(() => {
    ];
 });
 
+/**
+ * Handles item click in the context menu.
+ * @param {import('vue-router').RouteLocationResolvedGeneric} item - The route location object.
+ */
 const itemClick = (item) => {
    if (dialogRef) {
       item.query.showDialog = DIALOG_POSITIONS.CENTER;
