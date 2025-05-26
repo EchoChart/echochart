@@ -6,10 +6,10 @@ defineOptions({
    inheritAttrs: false
 });
 
+/**@type {CustomLinkProps} */
 const props = defineProps({
    ...RouterLink.props,
    contextMenuItems: {
-      type: Array,
       default: () => []
    }
 });
@@ -24,7 +24,7 @@ const isExternalLink = computed(() => {
 const dialogRef = inject('dialogRef', null);
 
 const contextMenu = ref();
-const constextMenuItems = computed(() => {
+const contextMenuItems = computed(() => {
    return [
       {
          label: i18n.t('open_in_window'),
@@ -66,7 +66,7 @@ const itemClick = (item) => {
          route?.meta?.requiredPermissions?.every?.(({ action, subject }) => $can?.(action, subject))
       "
    >
-      <router-link v-bind="$props" custom v-slot="{ isExactActive, isActive }">
+      <router-link v-bind="props" custom v-slot="{ isExactActive, isActive }">
          <a
             :href="href"
             @click.exact.capture.prevent=""
@@ -88,7 +88,7 @@ const itemClick = (item) => {
             />
          </a>
       </router-link>
-      <ContextMenu v-if="!isExternalLink" ref="contextMenu" :model="constextMenuItems">
+      <ContextMenu v-if="!isExternalLink" ref="contextMenu" :model="contextMenuItems">
          <template #item="{ item, props }">
             <RouterLink v-if="item.route" v-slot="{ href, route }" :to="item.route" custom>
                <a
