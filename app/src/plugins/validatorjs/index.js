@@ -8,6 +8,7 @@ Validator.setMessages('en', en);
 
 export const formAttributeFormatter = (attr) => {
    const words = attr
+      .replace('_id', '')
       .split?.(/[\.\s]/g)
       .map?.((e) => {
          if (Number.isNaN(Number.parseInt(e))) return e;
