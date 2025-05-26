@@ -23,13 +23,14 @@ const props = defineProps({
 });
 const attrs = useAttrs();
 const slots = useSlots();
+const tableProps = reactive(_merge({}, _cloneDeep(props.tableProps)));
 
 let dialog = null;
 const dialogs = useDialog();
 
-const tableProps = reactive(_merge({}, props.tableProps));
+const dialogContent = h(ResourceTable, tableProps, slots);
 const selectResource = () => {
-   dialog = dialogs.open(h(ResourceTable, tableProps, slots), {
+   dialog = dialogs.open(dialogContent, {
       props: {
          header: i18n.t('select_item'),
          class: '!min-w-[clamp(32rem,50%,100vw)] !max-w-min'
@@ -39,7 +40,7 @@ const selectResource = () => {
 };
 watch(
    () => props.tableProps,
-   (value) => _merge(tableProps, value),
+   (value) => _merge(tableProps, _cloneDeep(value)),
    { deep: true }
 );
 </script>
