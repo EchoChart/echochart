@@ -92,15 +92,6 @@ onUnmounted(() => emitter.off('client-update', fetchClients));
             />
          </RouterLink>
       </InputGroupAddon>
-      <InputGroupAddon v-if="showAdd && $can('read', 'client')">
-         <Button
-            rounded
-            size="small"
-            severity="secondary"
-            :icon="PrimeIcons.REFRESH"
-            @click="fetchClients"
-         />
-      </InputGroupAddon>
       <slot name="addons" />
    </InputGroup>
 </template>
