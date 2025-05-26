@@ -16,11 +16,9 @@ const printElement = async (e, darkMode = false) => {
    const beforePrint = () => document.body.classList.add('printing');
    const afterPrint = () => {
       document.body.classList.remove('printing');
-      removeEventListener('beforeprint', beforePrint);
-      removeEventListener('afterprint', afterPrint);
    };
-   addEventListener('beforeprint', beforePrint);
-   addEventListener('afterprint', afterPrint);
+   addEventListener('beforeprint', beforePrint, { once: true });
+   addEventListener('afterprint', afterPrint, { once: true });
 
    if (darkTheme !== darkMode) await toggleDarkMode(null, darkMode).finished;
 
@@ -37,7 +35,6 @@ const printElement = async (e, darkMode = false) => {
 <template>
    <Button
       size="small"
-      class="self-center"
       :icon="PrimeIcons.PRINT"
       variant="outlined"
       severity="info"
