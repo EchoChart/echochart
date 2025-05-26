@@ -29,6 +29,7 @@ const initialFormData = {
    nationality: null
 };
 
+/**@type {[keyof Data]} */
 const fields = _keys(initialFormData);
 
 const form = new Form({

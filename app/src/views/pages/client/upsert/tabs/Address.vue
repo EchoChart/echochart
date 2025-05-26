@@ -34,6 +34,7 @@ const initialFormData = {
    address: []
 };
 
+/**@type {[keyof Data]} */
 const fields = _keys(initialFormData);
 
 const form = new Form({
@@ -112,7 +113,6 @@ provide('dialogRef', true);
    <div class="card p-0">
       <FormBox @submit="save" @reset="() => form._reset()" :form :readonly>
          <FormField
-            v-if="!data && !id"
             fluid
             :error="form?._errors?.first('client')"
             :label="$t('client')"

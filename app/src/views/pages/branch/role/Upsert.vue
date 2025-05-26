@@ -21,6 +21,8 @@ const props = defineProps({
 const initialFormData = {
    ...props.data
 };
+
+/**@type {[keyof Data]} */
 const fields = _keys(initialFormData);
 
 const form = new Form({
