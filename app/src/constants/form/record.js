@@ -123,9 +123,23 @@ export const moldModels = [
       label: i18n.t('prob')
    }
 ];
+export const innerMoldModels = [
+   {
+      value: 'ITE',
+      label: i18n.t('ITE')
+   },
+   {
+      value: 'ITC',
+      label: i18n.t('ITC')
+   },
+   {
+      value: 'CIC',
+      label: i18n.t('CIC')
+   }
+];
 
 export const moldVentilation = {
-   min: 0.8,
+   min: 0,
    max: 3,
    step: 0.2
 };
@@ -136,6 +150,6 @@ export const moldSpeakerSize = {
    step: 1
 };
 
-export const moldHopPowers = ['s', 'm', 'p', 'hp', '85', '100', '105'];
+export const moldSpeakerPowers = ['s', 'm', 'p', 'hp', '85', '100', '105'];
 
-export const innerMoldHopPowers = ['65', '80', '100'];
+export const innerMoldSpeakerPowers = ['65', '80', '100'];
