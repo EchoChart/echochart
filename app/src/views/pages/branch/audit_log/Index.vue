@@ -9,6 +9,7 @@ defineOptions({
 const attrs = useAttrs();
 
 // Define the columns
+/**@type {Collection<ResourceTableProps['columns']>} */
 const columns = new Collection([
    { field: 'table_name', header: i18n.t('resource'), sortable: true, showFilterMenu: false },
    {
@@ -26,6 +27,8 @@ const columns = new Collection([
 ]);
 
 // Define the filters object
+
+/**@type {Ref<ResourceTableProps['filters']>} */
 const filters = ref({
    global: {
       value: null,

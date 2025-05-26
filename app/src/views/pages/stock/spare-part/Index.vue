@@ -10,6 +10,7 @@ const attrs = useAttrs();
 const router = useRouter();
 
 // Define the columns without filters
+/**@type {Collection<ResourceTableProps['columns']>} */
 const columns = new Collection([
    {
       field: 'display_name',
@@ -42,6 +43,7 @@ const columns = new Collection([
    }
 ]);
 
+/**@type {Ref<ResourceTableProps['filters']>} */
 const filters = ref({
    global: {
       value: null,

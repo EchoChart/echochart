@@ -8,6 +8,7 @@ defineOptions({
 });
 
 const attrs = useAttrs();
+/**@type {Collection<ResourceTableProps['columns']>} */
 const columns = new Collection([
    {
       field: 'client_display_name',
@@ -46,6 +47,7 @@ const columns = new Collection([
 ]);
 
 // Define the filters object
+/**@type {Ref<ResourceTableProps['filters']>} */
 const filters = ref({
    global: {
       value: null,

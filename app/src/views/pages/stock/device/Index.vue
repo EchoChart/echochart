@@ -6,8 +6,8 @@ defineOptions({
    inheritAttrs: false
 });
 
-const attrs = useAttrs();
 const router = useRouter();
+/**@type {Collection<ResourceTableProps['columns']>} */
 const columns = new Collection([
    {
       field: 'display_name',
@@ -39,6 +39,7 @@ const columns = new Collection([
 ]);
 
 // Define the filters object
+/**@type {Ref<ResourceTableProps['filters']>} */
 const filters = ref({
    global: {
       value: null,

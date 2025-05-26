@@ -1,6 +1,6 @@
 <script setup>
 import Collection from '@/lib/Collection';
-import Upsert from './upsert/index.vue';
+import Upsert from '@/views/pages/record/upsert/index.vue';
 
 defineOptions({
    inheritAttrs: false
@@ -10,7 +10,7 @@ const attrs = useAttrs();
 const router = useRouter();
 
 // Define the columns
-/**@type {CustomTableProps['columns']} */
+/**@type {Collection<ResourceTableProps['columns']>} */
 const columns = new Collection([
    {
       field: 'stock.display_name',
@@ -45,6 +45,7 @@ const columns = new Collection([
 ]);
 
 // Define the filters object
+/**@type {Ref<ResourceTableProps['filters']>} */
 const filters = ref({
    global: {
       value: null,
