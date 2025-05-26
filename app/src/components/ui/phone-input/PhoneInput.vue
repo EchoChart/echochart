@@ -3,8 +3,7 @@ import {
    AsYouType,
    getCountries,
    getCountryCallingCode,
-   isSupportedCountry,
-   isValidPhoneNumber
+   isSupportedCountry
 } from 'libphonenumber-js';
 import { InputText } from 'primevue';
 
@@ -74,25 +73,25 @@ const modelValue = defineModel('modelValue', {
 </script>
 
 <template>
-   <InputGroup :class="$attrs.class">
-      <InputGroupAddon class="!p-0 !border-0">
+   <InputGroup :class="$attrs.class" class="phone-input__container">
+      <InputGroupAddon class="phone-input__addon">
          <Select
             v-model="selectedCountry"
             :options="countryPhoneCodes"
             filter
             :filter-fields="['countryCode', 'countryCallingCode']"
-            class="h-full !rounded-[inherit] -mr-[1px]"
+            class="phone-input__select"
             :disabled="readonly"
-            :loading
-            :invalid
+            :loading="loading"
+            :invalid="invalid"
          >
             <template #value="{ value }">
-               <span>{{
-                  [value?.countryCode, value?.countryCallingCode].filter(Boolean).join` | `
-               }}</span>
+               <span class="phone-input__selected-value">
+                  {{ [value?.countryCode, value?.countryCallingCode].filter(Boolean).join` | ` }}
+               </span>
             </template>
             <template #option="{ option }">
-               <span>
+               <span class="phone-input__option">
                   {{ [option?.countryCode, option?.countryCallingCode].filter(Boolean).join` | ` }}
                </span>
             </template>
@@ -100,13 +99,31 @@ const modelValue = defineModel('modelValue', {
       </InputGroupAddon>
       <InputMask
          v-bind="_omit({ ...$attrs, ...$props }, ['class'])"
+         class="phone-input__text"
          :model-value="modelValue.getNationalNumber()"
          @value-change="modelValue = '+' + selectedCountry.countryCallingCode + $event"
          mask="(9?99) 999-9999"
          unmask
-         :readonly
-         :loading
-         :invalid
+         :readonly="readonly"
+         :loading="loading"
+         :invalid="invalid"
       />
    </InputGroup>
 </template>
+
+<style lang="scss">
+.phone-input {
+   &__select {
+      @apply max-h-none !h-full !rounded-[inherit] -mr-[1px];
+   }
+
+   &__selected-value,
+   &__option {
+      @apply block;
+   }
+
+   &__addon {
+      @apply max-h-none !p-0 !border-0;
+   }
+}
+</style>
