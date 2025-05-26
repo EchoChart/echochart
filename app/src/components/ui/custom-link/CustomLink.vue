@@ -50,7 +50,14 @@ const itemClick = (item) => {
 </script>
 
 <template>
-   <a v-if="isExternalLink" v-ripple v-bind="$attrs" :href="href" target="_blank">
+   <a
+      v-if="isExternalLink"
+      v-ripple
+      v-bind="$attrs"
+      :href="href"
+      target="_blank"
+      class="custom-link__external"
+   >
       <slot />
    </a>
    <template
@@ -67,7 +74,7 @@ const itemClick = (item) => {
             @click.ctrl.capture.prevent.stop="
                $router.push({ ...route, query: { showDialog: DIALOG_POSITIONS.CENTER } })
             "
-            class="!cursor-alias [&>*]:!cursor-alias flex flex-col"
+            class="custom-link__internal flex flex-col"
          >
             <slot
                v-bind="{
@@ -89,16 +96,40 @@ const itemClick = (item) => {
                   :href="href"
                   v-bind="props.action"
                   @click.prevent="() => itemClick(route)"
+                  class="custom-link__context-menu-item"
                >
-                  <span :class="item.icon" />
-                  <span class="ml-2" v-text="item.label" />
+                  <span :class="PrimeIcons.ALIGN_CENTER" class="custom-link__icon" />
+                  <span class="custom-link__label" v-text="item.label" />
                </a>
             </RouterLink>
-            <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-               <span :class="item.icon" />
-               <span class="ml-2" v-text="item.label" />
+            <a
+               v-else
+               v-ripple
+               :href="item.url"
+               :target="item.target"
+               v-bind="props.action"
+               class="custom-link__context-menu-item"
+            >
+               <span :class="PrimeIcons.ALIGN_CENTER" class="custom-link__icon" />
+               <span class="custom-link__label" v-text="item.label" />
             </a>
          </template>
       </ContextMenu>
    </template>
 </template>
+
+<style lang="scss">
+.custom-link {
+   &__external {
+      @apply cursor-alias [&>*]:!cursor-alias !important;
+   }
+
+   &__internal {
+      @apply flex flex-col;
+   }
+
+   &__context-menu-item {
+      @apply flex items-center gap-4;
+   }
+}
+</style>
