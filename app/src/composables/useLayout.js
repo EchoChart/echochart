@@ -89,7 +89,7 @@ const toggleDarkMode = (e, value = !layoutState.isDark) => {
       return;
    }
 
-   document.startViewTransition(() => toggleDark(value));
+   return document.startViewTransition(() => toggleDark(value));
 };
 
 const sidebarToggle = () => {
