@@ -143,9 +143,9 @@ onMounted(() => {
                value: error,
                pt: {
                   root: {
-                     class: 'backdrop-blur-lg'
+                     class: 'error-tooltip'
                   },
-                  text: '!bg-red-400 !bg-opacity-20 !border-red-400 border !text-current '
+                  text: 'error-tooltip-text'
                }
             }"
          >

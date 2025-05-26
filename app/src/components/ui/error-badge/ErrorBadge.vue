@@ -1,4 +1,6 @@
 <script setup>
+import { defineProps } from 'vue';
+
 defineProps({
    error: {
       type: String,
@@ -6,20 +8,33 @@ defineProps({
    }
 });
 </script>
+
 <template>
    <Badge
       severity="danger"
-      class="!p-0"
+      class="error-badge__badge"
       v-tooltip="{
          value: error,
          pt: {
             root: {
-               class: 'backdrop-blur-md'
+               class: 'error-tooltip'
             },
-            text: '!bg-red-400 !bg-opacity-20 !border-red-400 border !text-current '
+            text: 'error-tooltip-text'
          }
       }"
    >
-      <i class="!text-lg" :class="PrimeIcons.EXCLAMATION_CIRCLE" />
+      <i class="error-badge__icon" :class="PrimeIcons.EXCLAMATION_CIRCLE" />
    </Badge>
 </template>
+
+<style lang="scss">
+.error-badge {
+   &__badge {
+      @apply p-0;
+   }
+
+   &__icon {
+      @apply text-lg;
+   }
+}
+</style>
