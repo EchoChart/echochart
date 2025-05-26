@@ -111,7 +111,7 @@ const boxElement = ref();
    }
 
    &__actions-bar {
-      @apply w-full flex justify-end items-center sticky bottom-0 bg-transparent rounded-[var(--content-border-radius)] pointer-events-none;
+      @apply w-full flex justify-end items-center sticky bottom-0 bg-transparent  pointer-events-none;
 
       & * {
          @apply pointer-events-auto;
@@ -119,7 +119,7 @@ const boxElement = ref();
    }
 
    &__button-container {
-      @apply flex flex-wrap items-center gap-4 p-8 justify-end backdrop-blur-sm;
+      @apply flex flex-wrap items-center gap-4 p-8 justify-end rounded-[var(--content-border-radius)] backdrop-blur-sm;
    }
 
    &__button {
