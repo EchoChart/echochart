@@ -222,6 +222,7 @@ CREATE TABLE IF NOT EXISTS public.stock (
    currency_code valid_currency_code NOT NULL DEFAULT 'TRY',
    vendor TEXT,
    details TEXT,
+   attributes JSONB DEFAULT '{}',
    stocked_at TIMESTAMPTZ DEFAULT NOW(),
    created_at TIMESTAMPTZ DEFAULT NOW()
 );

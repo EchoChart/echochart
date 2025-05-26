@@ -26,7 +26,7 @@ CREATE DOMAIN valid_record_payment_type AS TEXT CHECK (VALUE IN ('cash', 'credit
 
 CREATE DOMAIN valid_stock_quantity AS NUMERIC(10, 2) CHECK (
    CASE
-      WHEN VALUE > 0 THEN TRUE
+      WHEN VALUE >= 0 THEN TRUE
       ELSE FALSE
    END
 );
