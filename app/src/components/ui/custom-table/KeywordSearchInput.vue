@@ -3,10 +3,26 @@ const modelValue = defineModel('modelValue');
 </script>
 
 <template>
-   <IconField class="w-[clamp(12rem,40vw,32rem)]">
+   <IconField class="keyword_search__field">
       <InputIcon>
-         <i class="pi pi-search" />
+         <i class="keyword_search__icon pi pi-search" />
       </InputIcon>
-      <InputText :placeholder="$t('keyword search')" class="w-full" v-model="modelValue" />
+      <InputText
+         :placeholder="$t('keyword search')"
+         class="keyword_search__input"
+         v-model="modelValue"
+      />
    </IconField>
 </template>
+
+<style lang="scss">
+.keyword_search {
+   &__field {
+      @apply w-[clamp(12rem,40vw,32rem)];
+   }
+
+   &__input {
+      @apply w-full;
+   }
+}
+</style>
