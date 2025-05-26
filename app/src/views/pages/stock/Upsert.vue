@@ -28,18 +28,21 @@ const initialFormData = {
    serial_number: null,
    barcode: null,
    unit_type: 'pcs',
-   unit_cost: 0,
-   unit_discount: 0,
-   unit_tax: 0,
+   unit_cost: 2000,
+   unit_discount: 300,
+   unit_tax: 500,
    stocked_at: new Date(Date.now()),
-   quantity: 1,
-   currency_code: null,
+   quantity: 4,
+   currency_code: 'TRY',
    vendor: null,
    details: null,
    product: undefined
 };
+
+/**@type {[keyof Data]} */
 const fields = _keys(initialFormData);
 
+/**@type {Data & Form<Data>} */
 const form = new Form({
    data: _defaults(_pick(props.data, fields), initialFormData),
    rules: {
@@ -52,6 +55,16 @@ const form = new Form({
    },
    useDialogForm: false
 });
+
+const staticRules = form._rules || {};
+form._setRules(
+   computed(() => {
+      return {
+         ...staticRules,
+         quantity: `required|min:1${+!!form.serial_number ? '|max:1' : ''}`
+      };
+   })
+);
 
 const { ability } = useAuthStore();
 const readonly = computed(
@@ -81,41 +94,45 @@ if (props.id || props.data?.id) {
    onUnmounted(() => emitter.off('stock-update', updateCallback));
 }
 
+const calcFinancials = (total, quantity, discountPercentage, taxPercentage) => {
+   const d = discountPercentage * 0.01;
+   const t = taxPercentage * 0.01;
+   const q = quantity;
+
+   if (1 - d <= 0 || q <= 0) return;
+
+   const effectiveMultiplier = (1 - d) * (1 + t);
+   const new_cost = total / (effectiveMultiplier * q);
+   const new_discount = new_cost * d;
+   const new_tax = (new_cost - new_discount) * t;
+
+   form._merge({
+      unit_cost: new_cost,
+      unit_discount: new_discount,
+      unit_tax: new_tax
+   });
+};
+
 const total_cost = computed({
    get: () => (form.unit_cost - form.unit_discount + form.unit_tax) * form.quantity,
-   set: (value) => {
-      const d = discount.value / 100;
-      const t = tax.value / 100;
-      const q = form.quantity;
-
-      if (q === 0 || 1 - d <= 0) return;
-
-      const effectiveMultiplier = (1 - d) * (1 + t);
-      const unit_cost = value / (q * effectiveMultiplier);
-
-      form._set('unit_cost', unit_cost);
-   }
+   set: (value) => calcFinancials(value, form.quantity, discount.value, tax.value)
 });
 
 const discount = computed({
    get: () => {
       if (!form.unit_cost) return 0;
-      return (form.unit_discount / form.unit_cost) * 100;
+      return (form.unit_discount / form.unit_cost) * 100 || 0;
    },
-   set: (value) => {
-      form._set('unit_discount', form.unit_cost * 0.01 * value);
-   }
+   set: (value) => calcFinancials(total_cost.value, form.quantity, value, tax.value)
 });
 
 const tax = computed({
    get: () => {
       const base = form.unit_cost - form.unit_discount;
       if (base <= 0) return 0;
-      return (form.unit_tax / base) * 100;
+      return (form.unit_tax / base) * 100 || 0;
    },
-   set: (value) => {
-      form._set('unit_tax', (form.unit_cost - form.unit_discount) * 0.01 * value);
-   }
+   set: (value) => calcFinancials(total_cost.value, form.quantity, discount.value, value)
 });
 
 const save = async () => {
@@ -159,7 +176,10 @@ const save = async () => {
             >
                <SelectProduct
                   v-bind="slotProps"
-                  :category="form?.product?.category?.map?.((c) => c.display_name)?.join?.('|')"
+                  :category="
+                     form?.product?.category?.map?.((c) => c.display_name)?.join?.('|') ||
+                     $route.params.category
+                  "
                   v-model="form.product_id"
                />
             </FormField>
@@ -222,7 +242,7 @@ const save = async () => {
                      <InputNumber
                         v-model="form.quantity"
                         showButtons
-                        buttonLayout="horizontal"
+                        :min="0"
                         :step="form.unit_type === 'pcs' ? 1 : 0.1"
                         v-bind="slotProps"
                         input-class="!rounded-none"
@@ -256,10 +276,9 @@ const save = async () => {
                      :max-fraction-digits="2"
                      :mode="form.currency_code ? 'currency' : 'decimal'"
                      :currency="form.currency_code || undefined"
-                     :min="0"
+                     :min="form.unit_discount"
                      :step="0.01"
                      showButtons
-                     buttonLayout="horizontal"
                   />
                </FormField>
                <FormField
@@ -269,18 +288,31 @@ const save = async () => {
                   :label="$t('unit_discount')"
                   v-slot="slotProps"
                >
-                  <InputNumber
-                     v-bind="slotProps"
-                     v-model="form.unit_discount"
-                     :max-fraction-digits="2"
-                     :mode="form.currency_code ? 'currency' : 'decimal'"
-                     :currency="form.currency_code || undefined"
-                     :min="0"
-                     :max="form.unit_cost"
-                     :step="0.01"
-                     showButtons
-                     buttonLayout="horizontal"
-                  />
+                  <InputGroup>
+                     <InputNumber
+                        v-bind="slotProps"
+                        v-model="form.unit_discount"
+                        :max-fraction-digits="2"
+                        :mode="form.currency_code ? 'currency' : 'decimal'"
+                        :currency="form.currency_code || undefined"
+                        :min="0"
+                        :max="form.unit_cost"
+                        :step="0.01"
+                        showButtons
+                     />
+                     <InputGroupAddon class="!p-0">
+                        <InputNumber
+                           class="!w-28"
+                           v-model="discount"
+                           :max-fraction-digits="2"
+                           :min="0"
+                           :max="100"
+                           :suffix="'%'"
+                           :step="1"
+                           showButtons
+                        />
+                     </InputGroupAddon>
+                  </InputGroup>
                </FormField>
                <FormField
                   :readonly
@@ -289,20 +321,32 @@ const save = async () => {
                   :label="$t('unit_tax')"
                   v-slot="slotProps"
                >
-                  <InputNumber
-                     v-bind="slotProps"
-                     v-model="form.unit_tax"
-                     :max-fraction-digits="2"
-                     :mode="form.currency_code ? 'currency' : 'decimal'"
-                     :currency="form.currency_code || undefined"
-                     :min="0"
-                     :step="0.01"
-                     showButtons
-                     buttonLayout="horizontal"
-                  />
+                  <InputGroup>
+                     <InputNumber
+                        v-bind="slotProps"
+                        v-model="form.unit_tax"
+                        :max-fraction-digits="2"
+                        :mode="form.currency_code ? 'currency' : 'decimal'"
+                        :currency="form.currency_code || undefined"
+                        :min="0"
+                        :max="form.unit_cost"
+                        :step="0.01"
+                        showButtons
+                     />
+                     <InputGroupAddon class="!p-0">
+                        <InputNumber
+                           class="!w-28"
+                           v-model="tax"
+                           :max-fraction-digits="2"
+                           :min="0"
+                           :max="100"
+                           :suffix="'%'"
+                           :step="1"
+                           showButtons
+                        />
+                     </InputGroupAddon>
+                  </InputGroup>
                </FormField>
-            </span>
-            <span class="form_box !flex-auto place-content-start">
                <FormField
                   :readonly
                   fluid
@@ -319,44 +363,6 @@ const save = async () => {
                      :min="0"
                      :step="0.01"
                      showButtons
-                     buttonLayout="horizontal"
-                  />
-               </FormField>
-               <FormField
-                  :readonly
-                  fluid
-                  :error="form?._errors?.first('discount')"
-                  :label="$t('discount')"
-                  v-slot="slotProps"
-               >
-                  <InputNumber
-                     v-bind="slotProps"
-                     v-model="discount"
-                     :max-fraction-digits="2"
-                     :min="0"
-                     :max="100"
-                     :suffix="'%'"
-                     :step="1"
-                     showButtons
-                     buttonLayout="horizontal"
-                  />
-               </FormField>
-               <FormField
-                  :readonly
-                  fluid
-                  :error="form?._errors?.first('tax')"
-                  :label="$t('tax')"
-                  v-slot="slotProps"
-               >
-                  <InputNumber
-                     v-bind="slotProps"
-                     v-model="tax"
-                     :max-fraction-digits="2"
-                     :min="0"
-                     :suffix="'%'"
-                     :step="1"
-                     showButtons
-                     buttonLayout="horizontal"
                   />
                </FormField>
             </span>
