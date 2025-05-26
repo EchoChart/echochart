@@ -3,6 +3,8 @@ import { Form } from '@/lib/Form';
 
 import { useToast } from 'primevue';
 
+/**
+ * @type {{ id: ClientUpsertFormData['id'], data: ClientUpsertFormData }} */
 const props = defineProps({
    id: {
       type: String,
@@ -18,6 +20,8 @@ const props = defineProps({
 
 const toast = useToast();
 
+/**
+ * @type {ClientUpsertFormData} */
 const initialFormData = {
    id: undefined,
    national_id: null,
@@ -29,9 +33,10 @@ const initialFormData = {
    nationality: null
 };
 
-/**@type {[keyof Data]} */
+/**@type {[keyof ClientUpsertFormData]} */
 const fields = _keys(initialFormData);
 
+/**@type {ClientUpsertFormData & Form<ClientUpsertFormData>} */
 const form = new Form({
    data: _defaults(_pick(props.data, fields), initialFormData),
    rules: {

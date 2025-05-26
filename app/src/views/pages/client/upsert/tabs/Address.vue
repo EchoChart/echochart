@@ -4,6 +4,8 @@ import { Form } from '@/lib/Form';
 import AddressTable from '@/views/pages/address/Index.vue';
 import { useToast } from 'primevue';
 
+/**
+ * @type {{ id: ClientUpsertFormData['id'], data: ClientUpsertFormData, from: ResourceTableProps['from'],select: ResourceTableProps['select'] }} */
 const props = defineProps({
    id: {
       type: String,
@@ -34,9 +36,10 @@ const initialFormData = {
    address: []
 };
 
-/**@type {[keyof Data]} */
+/**@type {[keyof ClientUpsertFormData]} */
 const fields = _keys(initialFormData);
 
+/**@type {ClientUpsertFormData & Form<ClientUpsertFormData>} */
 const form = new Form({
    data: _defaults(_pick(props.data, fields), initialFormData),
    rules: {
@@ -114,7 +117,7 @@ provide('dialogRef', true);
       <FormBox @submit="save" @reset="() => form._reset()" :form :readonly>
          <FormField
             fluid
-            :error="form?._errors?.first('client')"
+            :error="form?._errors?.first('id')"
             :label="$t('client')"
             v-slot="slotProps"
          >
