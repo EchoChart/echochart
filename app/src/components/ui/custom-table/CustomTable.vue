@@ -166,14 +166,21 @@ const tableProps = computed(() => ({
       :value="tableValue"
       class="custom_table"
    >
-      <template #expansion="slotProps">
-         <span class="custom_table__expansion" v-bind="{ ...slotProps, loading }" />
-      </template>
       <template #empty>
          <span class="custom_table__no-data" v-text="$t('no_data_found')" />
       </template>
       <template v-for="slot in _keys($slots)" #[slot]="slotProps" :key="`slot_${slot}`">
          <slot v-bind="slotProps" :name="slot" :key="`slot_${slot}`" />
+      </template>
+      <template v-if="!tableProps.loading" #expansion="slotProps">
+         <span class="custom_table__expansion">
+            <Suspense>
+               <slot name="expansion" v-bind="{ ...tableProps, ...slotProps }" />
+               <template #fallback>
+                  <ProgressBar mode="indeterminate" class="!h-1" />
+               </template>
+            </Suspense>
+         </span>
       </template>
       <Column
          v-if="tableProps.selectionMode"
