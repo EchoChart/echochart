@@ -121,7 +121,7 @@ const itemClick = (item) => {
                   @click.prevent="() => itemClick(route)"
                   class="custom_link__context-menu-item"
                >
-                  <span :class="PrimeIcons.ALIGN_CENTER" class="custom_link__icon" />
+                  <span v-if="item.icon" :class="item.icon" class="custom_link__icon" />
                   <span class="custom_link__label" v-text="item.label" />
                </a>
             </RouterLink>
@@ -133,7 +133,7 @@ const itemClick = (item) => {
                v-bind="props.action"
                class="custom_link__context-menu-item"
             >
-               <span :class="PrimeIcons.ALIGN_CENTER" class="custom_link__icon" />
+               <span v-if="item.icon" :class="item.icon" class="custom_link__icon" />
                <span class="custom_link__label" v-text="item.label" />
             </a>
          </template>
