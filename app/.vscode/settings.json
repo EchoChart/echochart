@@ -47,6 +47,5 @@
             }
          ]
       }
-   },
-   "css.lint.unknownAtRules": "ignore"
+   }
 }
