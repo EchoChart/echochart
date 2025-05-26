@@ -19,18 +19,18 @@ const getSeverity = (item) => {
 
 const buttons = computed(() => {
    return props.items.map((item) => {
-      const pairs = Object.entries(item);
+      const pairs = _toPairs(item);
       const transformedPairs = pairs.map(([key, value]) => [
          key,
          typeof value === 'function' ? value(props.body) : value
       ]);
-      return Object.fromEntries(transformedPairs);
+      return _fromPairs(transformedPairs);
    });
 });
 </script>
 
 <template>
-   <div class="flex gap-2 items-center min-w-fit">
+   <div class="custom-table__action-buttons">
       <Button
          v-for="(item, index) in buttons"
          :key="_uniqueId('actionButton' + index)"
@@ -43,3 +43,11 @@ const buttons = computed(() => {
       />
    </div>
 </template>
+
+<style lang="scss">
+.custom-table {
+   &__action-buttons {
+      @apply flex gap-2 items-center min-w-fit;
+   }
+}
+</style>
