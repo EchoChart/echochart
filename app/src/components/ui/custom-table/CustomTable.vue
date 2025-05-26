@@ -148,10 +148,10 @@ const tableProps = computed(() => ({
    <DataTable
       :pt="{
          header: {
-            class: 'empty:hidden'
+            class: 'custom-table__header'
          },
          footer: {
-            class: 'empty:hidden'
+            class: 'custom-table__footer'
          }
       }"
       v-model:filters="filterInput"
@@ -164,28 +164,30 @@ const tableProps = computed(() => ({
       v-bind="tableProps"
       selection-mode="radioButton"
       :value="tableValue"
+      class="custom-table"
    >
       <template #expansion="slotProps">
-         <span name="expansion" v-bind="{ ...slotProps, loading }" />
+         <span class="custom-table__expansion" v-bind="{ ...slotProps, loading }" />
       </template>
-      <template #empty> <span v-text="$t('no_data_found')" /> </template>
+      <template #empty>
+         <span class="custom-table__no-data" v-text="$t('no_data_found')" />
+      </template>
       <template v-for="slot in _keys($slots)" #[slot]="slotProps" :key="`slot_${slot}`">
          <slot v-bind="slotProps" :name="slot" :key="`slot_${slot}`" />
       </template>
       <Column
          v-if="tableProps.selectionMode"
          :selectionMode="tableProps.selectionMode"
-         headerStyle="width: 3rem"
+         class="custom-table__column--header"
       />
       <Column
          v-if="$slots.expansion && (tableProps?.frozenValue?.length || tableValue?.length)"
          field="_expansion"
          expander
-         class="!min-w-[4rem] !max-w-[4rem] !w-[4rem]"
-         style="max-width: 4rem !important; width: 4rem !important"
+         class="custom-table__column--expander"
       />
       <Column
-         class="!min-w-32"
+         class="custom-table__column"
          v-for="(column, i) in columns"
          :key="'column_' + (column?.field ? column?.field + i : i) || i"
          showClearButton
@@ -222,7 +224,7 @@ const tableProps = computed(() => ({
                   meta?.filters?.[`${column?.field}`]?.constraints?.some?.(
                      ({ value }) => !_isNil(value)
                   ) || !_isNil(meta?.filters?.[column?.field]?.value)
-                     ? `text-primary ${PrimeIcons.FILTER_FILL}`
+                     ? `custom-table__filter-icon ${PrimeIcons.FILTER_FILL}`
                      : PrimeIcons.FILTER
                ]"
             />
@@ -274,7 +276,7 @@ const tableProps = computed(() => ({
                <Skeleton v-if="loading && !_has(body?.data, body.field)" :height="'2rem'" />
                <div
                   v-else
-                  class="truncate"
+                  class="custom-table__cell"
                   :title="_get(body?.data, body.field)"
                   v-text="_get(body?.data, body.field)"
                />
@@ -282,7 +284,10 @@ const tableProps = computed(() => ({
          </template>
       </Column>
       <Column
-         v-if="actions._data?.length && (tableProps?.frozenValue?.length || tableValue?.length)"
+         v-if="
+            (actions._data?.length && (tableProps?.frozenValue?.length || tableValue?.length)) ||
+            $slots.table_actions
+         "
          field="_actions"
          :key="'table_action'"
          :style="
@@ -300,6 +305,43 @@ const tableProps = computed(() => ({
    </DataTable>
 </template>
 <style lang="scss">
+.custom-table {
+   &__header {
+      @apply empty:hidden;
+   }
+
+   &__footer {
+      @apply empty:hidden;
+   }
+
+   &__expansion {
+      @apply z-10 relative;
+   }
+
+   &__no-data {
+      @apply text-center;
+   }
+
+   &__column {
+      @apply min-w-32;
+      &--header {
+         @apply min-w-[3rem] max-w-[3rem] w-[3rem];
+      }
+
+      &--expander {
+         @apply min-w-[4rem] !max-w-[4rem] !w-[4rem] !important;
+      }
+   }
+
+   &__filter-icon {
+      @apply text-primary;
+   }
+
+   &__cell {
+      @apply truncate;
+   }
+}
+
 .p-datatable {
    &-tbody tr {
       td[rowspan] {
@@ -310,7 +352,7 @@ const tableProps = computed(() => ({
       @apply bg-[rgba(250,250,250,0.1)];
    }
    &-row-expansion {
-      @apply z-10 relative;
+      @apply relative;
    }
 }
 </style>
