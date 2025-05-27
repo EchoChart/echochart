@@ -48,31 +48,29 @@ const updateRouteStatus = (status) => {
    }
 };
 
-// In watch function
 watch(
    () => route?.fullPath,
    () => updateRouteStatus('resolve')
 );
 
-// In Suspense events
 const onResolve = () => updateRouteStatus('resolve');
 const onFallback = () => updateRouteStatus('fallback');
 const onPending = () => updateRouteStatus('pending');
 </script>
 
 <template>
-   <span class="contents">
+   <span class="route_view__contents">
       <RouterView v-bind="$attrs" v-slot="{ Component }">
          <template v-if="Component && !dialogRef">
             <slot />
             <Transition
-               enter-active-class="animate-fadein animate-duration-[calc(var(--transition-duration)*0.5)]"
-               leave-active-class="animate-fadeout animate-duration-[calc(var(--transition-duration)*0.5)]"
+               enter-active-class="route_view__transition--enter"
+               leave-active-class="route_view__transition--leave"
                mode="out-in"
                v-bind="props.transitionProps"
             >
                <span
-                  :class="{ contents: isPending || isFallback }"
+                  :class="{ route_view__contents: isPending || isFallback }"
                   :key="Component?.name || Component?.type"
                >
                   <Suspense
@@ -94,11 +92,28 @@ const onPending = () => updateRouteStatus('pending');
       >
          <template v-if="isLoading">
             <component v-if="Component" :is="Component" />
-            <Skeleton
-               v-else
-               class="min-w-full min-h-[25%] duration-[calc(var(--transition-duration)*0.5]"
-            />
+            <Skeleton v-else class="route_view__skeleton" />
          </template>
       </RouterView>
    </span>
 </template>
+
+<style lang="scss">
+.route_view {
+   &__contents {
+      @apply contents;
+   }
+
+   &__transition--enter {
+      @apply animate-fadein animate-duration-[calc(var(--transition-duration)*0.75)];
+   }
+
+   &__transition--leave {
+      @apply animate-fadeout animate-duration-[calc(var(--transition-duration)*0.75)];
+   }
+
+   &__skeleton {
+      @apply min-w-full min-h-[25%] duration-[calc(var(--transition-duration)*0.75)];
+   }
+}
+</style>
