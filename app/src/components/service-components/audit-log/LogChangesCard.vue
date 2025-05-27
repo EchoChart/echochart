@@ -124,28 +124,65 @@ if (props.id) {
 </script>
 
 <template>
-   <Panel :header="log?.table_name">
+   <Panel :header="log?.table_name" class="audit-log-card">
       <template #icons>
-         <Tag v-bind="getLogTagProps(log?._data)" />
+         <Tag v-bind="getLogTagProps(log?._data)" class="audit-log-card__tag" />
       </template>
-      <div class="flex gap-x-8 gap-y-4 flex-wrap" v-if="_size(log.changes) > 0">
+      <div class="audit-log-card__changes-container" v-if="_size(log.changes) > 0">
          <div
             v-for="(entry, i) in log?.changes"
             :key="log?.id + i"
-            class="flex items-baseline gap-2 overflow-auto"
+            class="audit-log-card__change-item"
          >
-            <span class="font-medium text-sm">{{ entry?.key }}</span>
+            <span class="audit-log-card__change-key">{{ entry?.key }}</span>
 
-            <div class="flex items-center flex-wrap gap-2 text-sm">
-               <Tag severity="danger" v-if="entry?.type !== 'add'">
+            <div class="audit-log-card__change-values">
+               <Tag severity="danger" v-if="entry?.type !== 'add'" class="audit-log-card__tag">
                   <pre v-text="_trim(formatValue(entry?.oldValue))" />
                </Tag>
-               <Tag v-if="entry?.type !== 'delete'" severity="success" class="font-semibold">
+               <Tag
+                  v-if="entry?.type !== 'delete'"
+                  severity="success"
+                  class="audit-log-card__tag audit-log-card__tag--add"
+               >
                   <pre v-text="_trim(formatValue(entry?.newValue))" />
                </Tag>
             </div>
          </div>
       </div>
-      <span v-else v-text="$t('no_changes')" />
+      <span v-else v-text="$t('no_changes')" class="audit-log-card__no-changes" />
    </Panel>
 </template>
+
+<style lang="scss">
+.audit-log-card {
+   &__tag {
+      @apply inline-block;
+      &--add {
+         @apply font-semibold;
+      }
+   }
+
+   &__changes {
+      &-container {
+         @apply flex gap-x-8 gap-y-4 flex-wrap;
+      }
+
+      &-item {
+         @apply flex items-baseline gap-2 overflow-auto;
+      }
+
+      &-key {
+         @apply font-medium text-sm;
+      }
+
+      &-values {
+         @apply flex items-center flex-wrap gap-2 text-sm;
+      }
+   }
+
+   &__no-changes {
+      @apply block;
+   }
+}
+</style>
