@@ -26,21 +26,21 @@ const breadcrumbItems = computed(() =>
          <CustomLink
             :to="breadcrumbItems.length - 1 == item.index ? $route : item"
             v-bind="props.action"
-            class="text-sm"
+            class="breadcrumb__link"
             v-slot="{ navigate, isExactActive }"
          >
             <button
                @click="navigate"
-               class="flex gap-2 items-center"
+               class="breadcrumb__container"
                :class="{
-                  '!text-primary !text-xl !underline': isExactActive
+                  'breadcrumb__link--active': isExactActive
                }"
             >
                <span v-bind="props.icon" v-if="item.meta?.icon" :class="[item.meta?.icon]" />
                <span
-                  class="font-semibold lg:block"
+                  class="breadcrumb__label"
                   :class="{
-                     hidden: $route.name !== item.name
+                     'breadcrumb__label--hidden': $route.name !== item.name
                   }"
                   v-bind="props.label"
                   v-if="item.label"
@@ -51,3 +51,27 @@ const breadcrumbItems = computed(() =>
       </template>
    </Breadcrumb>
 </template>
+
+<style lang="scss">
+.breadcrumb {
+   &__container {
+      @apply flex items-center gap-2;
+   }
+
+   &__link {
+      @apply text-sm;
+   }
+
+   &__link--active {
+      @apply text-primary text-xl underline !important;
+   }
+
+   &__label {
+      @apply font-semibold lg:block !important;
+
+      &--hidden {
+         @apply hidden;
+      }
+   }
+}
+</style>
