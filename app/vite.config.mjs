@@ -9,22 +9,36 @@ import packageVersion from 'vite-plugin-package-version';
 
 import { defineConfig } from 'vite';
 
-// https://vitejs.dev/config/
 export default defineConfig({
    build: {
       target: 'esnext',
-      modulePreload: true
+      modulePreload: true,
+      minify: 'esbuild',
+      assetsInlineLimit: 2048,
+      rollupOptions: {
+         output: {
+            chunkFileNames: 'assets/chunk.[name].[hash].js',
+            entryFileNames: 'assets/[name].[hash].js',
+            assetFileNames: 'assets/[name].[hash].[ext]'
+         }
+      },
+      dynamicImportVarsOptions: {
+         warnOnError: true,
+         exclude: []
+      }
    },
    server: {
-      port: 6161
+      port: 6161,
+      watch: {
+         usePolling: true
+      }
    },
    plugins: [
-      viteCompression(),
+      viteCompression({ algorithm: 'brotliCompress', ext: '.br' }),
+      viteCompression({ algorithm: 'gzip', ext: '.gz' }),
       packageVersion(),
       vue(),
-      Components({
-         resolvers: [PrimeVueResolver()]
-      }),
+      Components({ resolvers: [PrimeVueResolver()] }),
       AutoImport({
          vueTemplate: true,
          defaultExportByFilename: true,
@@ -89,5 +103,16 @@ export default defineConfig({
          '@composables': path.resolve(__dirname, 'src/composables'),
          '@types': path.resolve(__dirname, 'src/@types')
       }
+   },
+   optimizeDeps: {
+      include: [
+         'vue',
+         'vue-router',
+         '@vueuse/core',
+         'pinia',
+         '@primevue/core/api',
+         '@plugins/mitt',
+         'lodash'
+      ]
    }
 });
