@@ -1,7 +1,5 @@
 <script setup>
 import Collection from '@/lib/Collection';
-import { usePermissionStore } from '@/store/services/permission';
-import { red } from 'tailwindcss/colors';
 
 defineOptions({
    inheritAttrs: false
