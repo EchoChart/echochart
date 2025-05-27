@@ -17,11 +17,11 @@ const { isSignedIn } = storeToRefs(useAuthStore());
 </script>
 
 <template>
-   <div class="config-panel p-1 bg-surface-0 dark:bg-surface-900">
-      <div class="flex flex-col gap-8 items-start justify-start">
-         <div class="self-stretch justify-stretch flex gap-4">
-            <div class="flex flex-col gap-3">
-               <span class="text-sm text-muted-color font-semibold" v-text="$t('dark_mode')" />
+   <div class="app-configurator__panel">
+      <div class="app-configurator__content">
+         <div class="app-configurator__row">
+            <div class="app-configurator__column">
+               <span class="app-configurator__label" v-text="$t('dark_mode')" />
 
                <ToggleButton
                   @change="toggleDarkMode"
@@ -33,14 +33,14 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                   :aria-label="$t('toggle_dark_mode')"
                />
             </div>
-            <div class="flex-1 flex flex-col gap-4">
+            <div class="app-configurator__column">
                <span
-                  class="text-sm text-muted-color font-semibold"
+                  class="app-configurator__label"
                   v-text="`${$t('ui_scale')}: ${layoutState.UIScale}`"
                />
 
                <Slider
-                  class="my-auto"
+                  class="app-configurator__slider"
                   v-model:modelValue="layoutState.UIScale"
                   :step="0.05"
                   :min="0.75"
@@ -49,19 +49,18 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                />
             </div>
          </div>
-         <div class="flex flex-col gap-3">
-            <span class="text-sm text-muted-color font-semibold">Primary</span>
-            <div class="flex gap-3 flex-wrap justify-center items-center">
+         <div class="app-configurator__section">
+            <span class="app-configurator__label">Primary</span>
+            <div class="app-configurator__color-buttons">
                <Button
                   v-for="primaryColor of primaryColors"
                   :key="primaryColor.name"
                   :title="primaryColor.name"
-                  class="w-5 h-5 !p-0 !rounded-full !border-0 outline-none outline-offset-1"
-                  :class="
-                     layoutState.primary === primaryColor.name
-                        ? 'scale-150 m-1 !outline-primary-500/75'
-                        : ''
-                  "
+                  class="app-configurator__color-button"
+                  :class="{
+                     'app-configurator__color-button--active':
+                        layoutState.primary === primaryColor.name
+                  }"
                   :raised="layoutState.primary === primaryColor.name"
                   @click="updateColors('primary', primaryColor)"
                   :style="{
@@ -70,15 +69,17 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                />
             </div>
          </div>
-         <div class="flex flex-col gap-3">
-            <span class="text-sm text-muted-color font-semibold">Surface</span>
-            <div class="flex gap-3 flex-wrap justify-center items-center">
+         <div class="app-configurator__section">
+            <span class="app-configurator__label">Surface</span>
+            <div class="app-configurator__color-buttons">
                <Button
                   v-for="surface of surfaces"
                   :key="surface.name"
                   :title="surface.name"
-                  class="w-5 h-5 !p-0 !rounded-full !border-0 outline-none outline-offset-1"
-                  :class="layoutState.surface === surface.name ? `scale-150 m-1` : ''"
+                  class="app-configurator__color-button"
+                  :class="{
+                     'app-configurator__color-button--active': layoutState.surface === surface.name
+                  }"
                   :raised="layoutState.surface === surface.name"
                   @click="updateColors('surface', surface)"
                   :style="{
@@ -89,8 +90,8 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                />
             </div>
          </div>
-         <div class="flex flex-col gap-3">
-            <span class="text-sm text-muted-color font-semibold" v-text="$t('presets')" />
+         <div class="app-configurator__section">
+            <span class="app-configurator__label" v-text="$t('presets')" />
             <SelectButton
                :modelValue="layoutState.preset"
                @change="({ value }) => setPreset(value)"
@@ -99,8 +100,8 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                :aria-label="$t('select_preset')"
             />
          </div>
-         <div v-if="isSignedIn" class="hidden sm:flex flex-col gap-3">
-            <span class="text-sm text-muted-color font-semibold" v-text="$t('menu_mode')" />
+         <div v-if="isSignedIn" class="app-configurator__section">
+            <span class="app-configurator__label" v-text="$t('menu_mode')" />
             <SelectButton
                :modelValue="layoutState.sidebarMode"
                @change="({ value }) => setSidebarMode(value)"
@@ -114,3 +115,47 @@ const { isSignedIn } = storeToRefs(useAuthStore());
       </div>
    </div>
 </template>
+
+<style lang="scss">
+.app-configurator {
+   &__panel {
+      @apply p-1 bg-surface-0 dark:bg-surface-900;
+   }
+
+   &__content {
+      @apply flex flex-col gap-8 items-start justify-start;
+   }
+
+   &__row {
+      @apply self-stretch justify-stretch flex gap-8;
+   }
+
+   &__column {
+      @apply flex-1 flex flex-col gap-3;
+   }
+
+   &__label {
+      @apply text-sm text-muted-color font-semibold;
+   }
+
+   &__slider {
+      @apply my-auto;
+   }
+
+   &__section {
+      @apply flex flex-col gap-3;
+   }
+
+   &__color-buttons {
+      @apply flex gap-3 flex-wrap justify-center items-center;
+   }
+
+   &__color-button {
+      @apply w-5 h-5 !p-0 !rounded-full !border-0 outline-none outline-offset-1;
+
+      &--active {
+         @apply scale-150 m-1 !outline-primary-500/75;
+      }
+   }
+}
+</style>
