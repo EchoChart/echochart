@@ -185,13 +185,14 @@ const tableProps = computed(() => ({
       <Column
          v-if="tableProps.selectionMode"
          :selectionMode="tableProps.selectionMode"
-         class="custom_table__column--header"
+         class="custom_table__column custom_table__column--header"
       />
       <Column
          v-if="$slots.expansion && (tableProps?.frozenValue?.length || tableValue?.length)"
          field="_expansion"
          expander
-         class="custom_table__column--expander"
+         class="custom_table__column custom_table__column--expander"
+         style="max-width: 4rem !important; width: 4rem !important"
       />
       <Column
          class="custom_table__column"
@@ -299,9 +300,11 @@ const tableProps = computed(() => ({
          :key="'table_action'"
          :style="
             actions._data?.length &&
-            `min-width: ${actions._data?.length * 4}rem !important;
+            `width: ${actions._data?.length * 4}rem !important;
+            min-width: ${actions._data?.length * 4}rem !important;
             max-width: ${actions._data?.length * 4}rem !important`
          "
+         class="custom_table__column"
       >
          <template #body="body">
             <slot name="table_actions">
@@ -332,11 +335,11 @@ const tableProps = computed(() => ({
    &__column {
       @apply min-w-32;
       &--header {
-         @apply min-w-[3rem] max-w-[3rem] w-[3rem];
+         @apply min-w-[3rem] max-w-[3rem] w-[3rem] !important;
       }
 
       &--expander {
-         @apply min-w-[4rem] !max-w-[4rem] !w-[4rem] !important;
+         @apply min-w-[4rem] max-w-[4rem] w-[4rem] !important;
       }
    }
 
