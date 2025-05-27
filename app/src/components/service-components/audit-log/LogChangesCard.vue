@@ -124,65 +124,48 @@ if (props.id) {
 </script>
 
 <template>
-   <Panel :header="log?.table_name" class="audit-log-card">
+   <Panel class="audit_log__panel" :header="log?.table_name">
       <template #icons>
-         <Tag v-bind="getLogTagProps(log?._data)" class="audit-log-card__tag" />
+         <Tag v-bind="getLogTagProps(log?._data)" />
       </template>
-      <div class="audit-log-card__changes-container" v-if="_size(log.changes) > 0">
-         <div
-            v-for="(entry, i) in log?.changes"
-            :key="log?.id + i"
-            class="audit-log-card__change-item"
-         >
-            <span class="audit-log-card__change-key">{{ entry?.key }}</span>
+      <div class="audit_log__changes-container" v-if="_size(log.changes) > 0">
+         <div v-for="(entry, i) in log?.changes" :key="log?.id + i" class="audit_log__change-item">
+            <span class="audit_log__key">{{ entry?.key }}</span>
 
-            <div class="audit-log-card__change-values">
-               <Tag severity="danger" v-if="entry?.type !== 'add'" class="audit-log-card__tag">
+            <div class="audit_log__value-container">
+               <Tag severity="danger" v-if="entry?.type !== 'add'" class="audit_log__old-value">
                   <pre v-text="_trim(formatValue(entry?.oldValue))" />
                </Tag>
-               <Tag
-                  v-if="entry?.type !== 'delete'"
-                  severity="success"
-                  class="audit-log-card__tag audit-log-card__tag--add"
-               >
+               <Tag v-if="entry?.type !== 'delete'" severity="success" class="audit_log__new-value">
                   <pre v-text="_trim(formatValue(entry?.newValue))" />
                </Tag>
             </div>
          </div>
       </div>
-      <span v-else v-text="$t('no_changes')" class="audit-log-card__no-changes" />
+      <span v-else v-text="$t('no_changes')" class="audit_log__no-changes" />
    </Panel>
 </template>
 
 <style lang="scss">
-.audit-log-card {
-   &__tag {
-      @apply inline-block;
-      &--add {
-         @apply font-semibold;
-      }
+.audit_log {
+   &__changes-container {
+      @apply flex gap-x-8 gap-y-4 flex-wrap;
    }
 
-   &__changes {
-      &-container {
-         @apply flex gap-x-8 gap-y-4 flex-wrap;
-      }
-
-      &-item {
-         @apply flex items-baseline gap-2 overflow-auto;
-      }
-
-      &-key {
-         @apply font-medium text-sm;
-      }
-
-      &-values {
-         @apply flex items-center flex-wrap gap-2 text-sm;
-      }
+   &__change-item {
+      @apply flex items-baseline gap-2 overflow-auto;
    }
 
-   &__no-changes {
-      @apply block;
+   &__key {
+      @apply font-medium text-sm;
+   }
+
+   &__value-container {
+      @apply flex items-center flex-wrap gap-2 text-sm;
+   }
+
+   &__new-value {
+      @apply font-semibold;
    }
 }
 </style>
