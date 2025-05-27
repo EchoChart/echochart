@@ -3,8 +3,8 @@ import Collection from '@/lib/Collection';
 const operations = new Collection([
    { value: 'INSERT', label: i18n.t('add'), severity: 'success' },
    { value: 'UPDATE', label: i18n.t('update'), severity: 'info' },
-   { value: 'DELETE', label: i18n.t('delete'), severity: 'danger' },
-   { value: 'SELECT', label: i18n.t('read'), severity: 'secondary' }
+   { value: 'DELETE', label: i18n.t('delete'), severity: 'danger' }
+   // { value: 'SELECT', label: i18n.t('read'), severity: 'secondary' }
 ]);
 </script>
 
