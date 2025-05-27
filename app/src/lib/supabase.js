@@ -470,7 +470,7 @@ export const supabase = import.meta.env.DEV
         options
      )
    : createClient(
-        import.meta.env.SUPABASE_PROJECT_URL,
-        import.meta.env.SUPABASE_PROJECT_ANON_KEY,
+        import.meta.env.VITE_SUPABASE_PROJECT_URL,
+        import.meta.env.VITE_SUPABASE_PROJECT_ANON_KEY,
         options
      );
