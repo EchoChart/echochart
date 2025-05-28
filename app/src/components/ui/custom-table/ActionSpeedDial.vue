@@ -4,7 +4,7 @@
    <SpeedDial
       :transitionDelay="40"
       direction="right"
-      class="custom_table__action-speeddial-container"
+      class="custom_table__action-speeddial"
       @mouseleave="(e) => e?.target?.classList?.remove?.('p-speeddial-open')"
       :buttonProps="{
          severity: 'secondary',
@@ -20,9 +20,7 @@
 <style lang="scss">
 .custom_table {
    &__action-speeddial {
-      &-container {
-         @apply justify-self-start;
-      }
+      @apply justify-self-start;
 
       &-button {
          @apply !w-10 !h-10 self-center;
