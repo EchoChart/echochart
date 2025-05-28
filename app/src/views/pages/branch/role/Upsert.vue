@@ -48,16 +48,8 @@ if (props.id) {
       .select('*, permission(id, kind, group_name)')
       .eq('id', props.id)
       .single()
-      .throwOnError()
-      .then(({ data: { id, tenant_id, display_name, permission } }) => {
-         form
-            ._setDefaults({
-               id,
-               display_name,
-               tenant_id,
-               permission
-            })
-            ._reset();
+      .then(({ data }) => {
+         form._setDefaults(data)._reset();
       });
 }
 
