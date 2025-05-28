@@ -16,7 +16,7 @@ export class Form extends Collection {
 
    /**
     * Reactive errors object.
-    * @type {Errors}
+    * @type {import('vue').Reactive<Errors>}
     */
    _errors = reactive(new Errors());
 
