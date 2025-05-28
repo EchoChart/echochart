@@ -32,6 +32,7 @@ const errorTextElement = ref(null);
 
 const errorElStyle = useElementSize(errorMessageElement);
 
+/**@type {String} */
 const id = attrs.id || useId() || _kebabCase(attrs.label);
 
 const containerClass = computed(() => [
@@ -85,7 +86,7 @@ onMounted(() => {
                   :id="`label-${id}`"
                   v-text="_startCase(attrs.label)"
                   :title="_startCase(attrs.label)"
-                  class="form_field__header__label"
+                  class="form_field__header-label"
                   :pt="{
                      text: { class: 'truncate' }
                   }"
@@ -93,6 +94,8 @@ onMounted(() => {
             </slot>
 
             <slot name="actions" />
+
+            <slot name="badges" />
 
             <ErrorBadge v-if="_size(error) >= 60" :error="error" />
          </div>
@@ -174,6 +177,10 @@ onMounted(() => {
       }
       &--reverse {
          @apply order-[1];
+      }
+
+      &-label {
+         @apply flex-1;
       }
    }
 
