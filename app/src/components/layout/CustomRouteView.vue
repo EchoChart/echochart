@@ -64,8 +64,8 @@ const onPending = () => updateRouteStatus('pending');
          <template v-if="Component && !dialogRef">
             <slot />
             <Transition
-               enter-active-class="route_view__transition--enter"
-               leave-active-class="route_view__transition--leave"
+               enter-active-class="route_view__transition route_view__transition--enter"
+               leave-active-class="route_view__transition route_view__transition--leave"
                mode="out-in"
                v-bind="props.transitionProps"
             >
@@ -104,12 +104,15 @@ const onPending = () => updateRouteStatus('pending');
       @apply contents;
    }
 
-   &__transition--enter {
-      @apply animate-fadein animate-duration-[calc(var(--transition-duration)*0.75)];
-   }
+   &__transition {
+      @apply animate-duration-[calc(var(--transition-duration)*0.75)];
 
-   &__transition--leave {
-      @apply animate-fadeout animate-duration-[calc(var(--transition-duration)*0.75)];
+      &--enter {
+         @apply animate-fadein;
+      }
+      &--leave {
+         @apply animate-fadeout;
+      }
    }
 
    &__skeleton {
