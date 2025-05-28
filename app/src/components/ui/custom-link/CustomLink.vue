@@ -79,7 +79,7 @@ const itemClick = (item) => {
       v-bind="$attrs"
       :href="href"
       target="_blank"
-      class="custom_link__external"
+      class="custom_link custom_link__external"
    >
       <slot />
    </a>
@@ -97,7 +97,8 @@ const itemClick = (item) => {
             @click.ctrl.capture.prevent.stop="
                $router.push({ ...route, query: { showDialog: DIALOG_POSITIONS.CENTER } })
             "
-            class="custom_link__internal flex flex-col"
+            class="custom_link__internal"
+            :class="{ 'custom_link__internal--cursor-context': contextMenuItems.length > 0 }"
          >
             <slot
                v-bind="{
@@ -143,12 +144,11 @@ const itemClick = (item) => {
 
 <style lang="scss">
 .custom_link {
-   &__external {
-      @apply cursor-alias [&>*]:!cursor-alias !important;
-   }
-
    &__internal {
       @apply flex flex-col;
+      &--cursor-context {
+         @apply cursor-alias [&>*]:!cursor-alias !important;
+      }
    }
 
    &__context-menu-item {
