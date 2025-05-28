@@ -124,30 +124,34 @@ if (props.id) {
 </script>
 
 <template>
-   <Panel class="audit_log__panel" :header="log?.table_name">
+   <Panel class="audit_card__panel" :header="log?.table_name">
       <template #icons>
          <Tag v-bind="getLogTagProps(log?._data)" />
       </template>
-      <div class="audit_log__changes-container" v-if="_size(log.changes) > 0">
-         <div v-for="(entry, i) in log?.changes" :key="log?.id + i" class="audit_log__change-item">
-            <span class="audit_log__key">{{ entry?.key }}</span>
+      <div class="audit_card__changes-container" v-if="_size(log.changes) > 0">
+         <div v-for="(entry, i) in log?.changes" :key="log?.id + i" class="audit_card__change-item">
+            <span class="audit_card__key">{{ entry?.key }}</span>
 
-            <div class="audit_log__value-container">
-               <Tag severity="danger" v-if="entry?.type !== 'add'" class="audit_log__old-value">
+            <div class="audit_card__value-container">
+               <Tag severity="danger" v-if="entry?.type !== 'add'" class="audit_card__old-value">
                   <pre v-text="_trim(formatValue(entry?.oldValue))" />
                </Tag>
-               <Tag v-if="entry?.type !== 'delete'" severity="success" class="audit_log__new-value">
+               <Tag
+                  v-if="entry?.type !== 'delete'"
+                  severity="success"
+                  class="audit_card__new-value"
+               >
                   <pre v-text="_trim(formatValue(entry?.newValue))" />
                </Tag>
             </div>
          </div>
       </div>
-      <span v-else v-text="$t('no_changes')" class="audit_log__no-changes" />
+      <span v-else v-text="$t('no_changes')" class="audit_card__no-changes" />
    </Panel>
 </template>
 
 <style lang="scss">
-.audit_log {
+.audit_card {
    &__changes-container {
       @apply flex gap-x-8 gap-y-4 flex-wrap;
    }
