@@ -1,23 +1,22 @@
-<script setup>
+<script setup lang="ts">
 defineOptions({
    inheritAttrs: false
 });
 
-const props = defineProps({
-   loading: {
-      type: Boolean,
-      default: false
-   },
-   reverse: {
-      type: Boolean,
-      default: false
-   },
-   error: {
-      type: [String, Boolean],
-      default: null
-   }
+export type FormFieldProps = {
+   id?: string;
+   tabIndex?: number;
+   loading?: boolean;
+   reverse?: boolean;
+   error?: string | boolean;
+   label?: string;
+   readonly?: boolean;
+};
+
+const props = withDefaults(defineProps<FormFieldProps>(), {
+   // default props
 });
-const routeLoading = inject('routeLoading', false);
+const routeLoading = inject('routeLoading', false as any);
 const isLoading = computed(() => {
    if (!_isNil(props.loading)) {
       return props.loading;
@@ -33,7 +32,7 @@ const errorTextElement = ref(null);
 const errorElStyle = useElementSize(errorMessageElement);
 
 /**@type {String} */
-const id = attrs.id || useId() || _kebabCase(attrs.label);
+const id = props.id || useId() || _kebabCase(props.label);
 
 const containerClass = computed(() => [
    attrs.class,
@@ -48,11 +47,13 @@ const containerStyle = computed(() => ({
 }));
 
 const headerClass = computed(() => [
+   'form_field__header',
    props.reverse && 'form_field__header--reverse',
    _has(attrs, 'fluid') && 'form_field__header--fluid'
 ]);
 
 const inputClass = computed(() => [
+   'form_field__input',
    _has(attrs, 'fluid') && 'form_field__input--fluid',
    props.reverse && 'form_field__input--reverse'
 ]);
@@ -75,17 +76,17 @@ onMounted(() => {
    <div :class="containerClass" :style="containerStyle">
       <slot name="header" v-bind="{ isLoading, reverse, error, id, errorClass, headerClass }">
          <div
-            v-if="!!attrs.label || $slots.label || $slots.actions || _size(error) >= 60"
+            v-if="!!props.label || $slots.label || $slots.actions || _size(error as string) >= 60"
             class="form_field__header"
             :class="headerClass"
          >
-            <slot name="label" :for="id" :id="`label-${id}`" :title="_startCase(attrs.label)">
+            <slot name="label" :for="id" :id="`label-${id}`" :title="props.label">
                <label
-                  v-if="!!attrs.label"
+                  v-if="!!props.label"
                   :for="id"
                   :id="`label-${id}`"
-                  v-text="_startCase(attrs.label)"
-                  :title="_startCase(attrs.label)"
+                  v-text="props.label"
+                  :title="props.label"
                   class="form_field__header-label"
                   :pt="{
                      text: { class: 'truncate' }
@@ -97,12 +98,12 @@ onMounted(() => {
 
             <slot name="badges" />
 
-            <ErrorBadge v-if="_size(error) >= 60" :error="error" />
+            <ErrorBadge v-if="_size(error as string) >= 60" :error="error" />
          </div>
       </slot>
 
       <BlockUI
-         :blocked="$attrs.readonly === true"
+         :blocked="readonly === true"
          :pt="{
             root: { class: 'contents' },
             mask: {
@@ -117,11 +118,11 @@ onMounted(() => {
                :id="id"
                :inputId="id"
                :invalid="!!error"
-               :tabindex="$attrs.readonly ? -1 : $attrs.tabindex"
+               :tabIndex="readonly ? -1 : tabIndex"
+               :aria-labelledby="(!!props.label && `label-${id}`) || undefined"
+               :aria-errormessage="`${id}-errormessage`"
                v-bind="_omit(attrs, ['class'])"
                :class="inputClass"
-               :aria-labelledby="(!!attrs.label && `label-${id}`) || undefined"
-               :aria-errormessage="`${id}-errormessage`"
             />
             <template #fallback>
                <Skeleton height="2.5rem" :class="inputClass" v-bind="_omit(attrs, ['class'])" />
@@ -134,7 +135,7 @@ onMounted(() => {
             :id="`${id}-errormessage`"
             size="small"
             ref="errorMessageElement"
-            v-if="!!error && _size(error) < 60"
+            v-if="!!error && _size(error as string) < 60"
             severity="error"
             class="form_field__error"
             :class="errorClass"
@@ -180,7 +181,7 @@ onMounted(() => {
       }
 
       &-label {
-         @apply flex-1;
+         @apply flex-1 first-letter:uppercase;
       }
    }
 
@@ -199,7 +200,7 @@ onMounted(() => {
    }
 
    &__skeleton {
-      @apply absolute rounded-[inherit] !h-[unset] !w-[unset] !z-10 !left-0 !top-0 !right-0 !bottom-0 opacity-50;
+      @apply absolute rounded-[inherit] !h-[unset] !w-[unset] !min-w-32 !z-10 !left-0 !top-0 !right-0 !bottom-0 opacity-50;
    }
 }
 </style>

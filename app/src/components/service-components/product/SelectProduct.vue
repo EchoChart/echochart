@@ -29,7 +29,7 @@ const modelValue = defineModel('modelValue');
 const categories = computed(() => props.category?.split?.('|') || []);
 
 const useProducts = () => {
-   const products = new Collection([]);
+   const products = Collection.create([]);
    const fetchProducts = async () => {
       const { data } = await (
          props.category

@@ -3,7 +3,7 @@ import Collection from '@/lib/Collection';
 export const useStockStore = defineStore('stock', () => {
    const useStocks = () => {
       const defaultSelect = '*, product:product(*, category:product_category(*))';
-      const stocks = new Collection(null);
+      const stocks = Collection.create(null);
 
       async function fetchStocks(select = defaultSelect) {
          const res = supabase.from('stock').select(select).throwOnError();
@@ -57,8 +57,8 @@ export const useStockStore = defineStore('stock', () => {
    });
 
    const useVendors = () => {
-      const vendors = new Collection(null);
-      const vendorStats = new Collection(null);
+      const vendors = Collection.create(null);
+      const vendorStats = Collection.create(null);
 
       async function fetchVendors(select = '*') {
          const { data } = await supabase.from('stock_vendor').select(select).throwOnError();

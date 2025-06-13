@@ -43,7 +43,7 @@ const initialFormData = {
 const fields = _keys(initialFormData);
 
 /**@type {Data & Form<Data>} */
-const form = new Form({
+const form = Form.create({
    data: _defaults(_pick(props.data, fields), initialFormData),
    rules: {
       product_id: 'required',
@@ -166,7 +166,7 @@ const save = async () => {
 <template>
    <div class="card">
       <FormBox @submit="save" @reset="() => form._reset()" :form :readonly>
-         <FormBox :legend="$t('information')">
+         <FormBox class="!flex-auto" :legend="$t('information')">
             <FormField
                :readonly
                fluid

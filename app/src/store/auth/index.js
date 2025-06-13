@@ -7,7 +7,7 @@ const tenantURLRegex = /^(?:https?:\/\/)?(?<tenant>(?!\d+\.\d+\.\d+\.\d+)[a-zA-Z
 
 export const useAuthStore = defineStore('auth', () => {
    function useCurrentTenant() {
-      const currentTenant = new Collection({
+      const currentTenant = Collection.create({
          id: null,
          display_name: _get(window.location.href.match(tenantURLRegex), 'groups.tenant', null)
       });
@@ -67,13 +67,15 @@ export const useAuthStore = defineStore('auth', () => {
    const router = useRouter();
    const route = useRoute();
 
-   const session = new Collection();
+   const session = Collection.create();
    const jwt = computed(() => {
       return session?.access_token ? jwtDecode(session?.access_token) : null;
    });
-   const user = new Collection();
+   const user = Collection.create();
    const isSignedIn = computed(() => !!user?.id);
-   const branches = computed(() => new Collection(jwt?.value?.app_metadata?.allowed_tenant || []));
+   const branches = computed(() =>
+      Collection.create(jwt?.value?.app_metadata?.allowed_tenant || [])
+   );
    const { currentTenant, setCurrentTenant, changeCurrentTenant } = useCurrentTenant();
    const { ability } = useAbility();
 

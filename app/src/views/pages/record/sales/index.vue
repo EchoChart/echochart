@@ -1,4 +1,7 @@
-<script setup>
+<script setup lang="ts" generic="T extends Tables['record']['Row']">
+import ResourceTable, {
+   ResourceTableProps
+} from '@/components/service-components/resource-table/ResourceTable.vue';
 import Collection from '@/lib/Collection';
 import Upsert from '@/views/pages/record/upsert/index.vue';
 
@@ -9,9 +12,7 @@ defineOptions({
 const attrs = useAttrs();
 const router = useRouter();
 
-// Define the columns
-/**@type {Collection<ResourceTableProps['columns']>} */
-const columns = new Collection([
+const columns = Collection.create<ResourceTableProps['columns']>([
    {
       field: 'stock.display_name',
       sortable: true,
@@ -21,11 +22,6 @@ const columns = new Collection([
       field: 'client.display_name',
       sortable: true,
       header: i18n.t('client')
-   },
-   {
-      field: 'record_type',
-      sortable: true,
-      header: i18n.t('record_type')
    },
    {
       field: 'quantity',
@@ -44,9 +40,7 @@ const columns = new Collection([
    }
 ]);
 
-// Define the filters object
-/**@type {Ref<ResourceTableProps['filters']>} */
-const filters = ref({
+const filters = ref<ResourceTableProps['filters']>({
    global: {
       value: null,
       matchMode: FilterMatchMode.CONTAINS
@@ -78,11 +72,12 @@ const filters = ref({
       constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
       dataType: 'date'
    },
-   ...attrs.filters
+   ...(attrs.filters as ResourceTableProps['filters'])
 });
 
 const stateKey = 'sales';
-const rowActions = new Collection([
+
+const rowActions = Collection.create<ResourceTableProps['rowActions']>([
    {
       label: i18n.t('delete'),
       command:
@@ -102,28 +97,27 @@ const rowActions = new Collection([
       command:
          ({ data }) =>
          async () =>
-            router.push({
+            await router.push({
                name: 'sales-edit',
                params: { id: data.id },
-               query: { showDialog: true }
+               query: { showDialog: 'true' }
             }),
       icon: PrimeIcons.PENCIL
    }
 ]);
 
-const dialogRef = inject('dialogRef', null);
-
-const tableProps = computed(() => ({
-   stateKey,
-   from: 'record',
-   select: '*,stock:stock_view!inner(display_name), client!inner(display_name)',
-   columns: columns._data,
-   rowActions: rowActions._data,
-   ...attrs
-}));
+const dialogRef = inject('dialogRef', false);
 </script>
 <template>
-   <ResourceTable v-bind="tableProps" v-model:filters="filters" :mapClass="Collection">
+   <component
+      :is="ResourceTable<T>"
+      :stateKey
+      :from="'record'"
+      :select="'*,stock:stock_view!inner(display_name), client!inner(display_name)'"
+      :columns="columns._data"
+      :rowActions="rowActions._data"
+      v-model:filters="filters"
+   >
       <template #header>
          <Teleport to="#page-toolbar" :disabled="dialogRef">
             <span class="flex-1 flex justify-end gap-4 flex-wrap-reverse">
@@ -139,5 +133,5 @@ const tableProps = computed(() => ({
       <template #expansion="{ data }">
          <Upsert :id="data.id" class="p-0" />
       </template>
-   </ResourceTable>
+   </component>
 </template>

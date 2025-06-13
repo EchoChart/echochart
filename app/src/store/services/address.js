@@ -3,7 +3,7 @@ import Collection from '@/lib/Collection';
 export const useAddressStore = defineStore('address', () => {
    const useAddresses = () => {
       const defaultSelect = '*';
-      const addresses = new Collection(null);
+      const addresses = Collection.create(null);
 
       async function fetchAddresses(select = defaultSelect) {
          const res = await supabase.from('address').select(select).throwOnError();

@@ -10,7 +10,7 @@ defineOptions({
 const attrs = useAttrs();
 const router = useRouter();
 /**@type {Collection<ResourceTableProps['columns']>} */
-const columns = new Collection([
+const columns = Collection.create([
    {
       field: 'display_name',
       sortable: true,
@@ -72,7 +72,7 @@ const filters = ref({
 });
 
 const stateKey = 'product';
-const rowActions = new Collection([
+const rowActions = Collection.create([
    {
       label: i18n.t('delete'),
       command:

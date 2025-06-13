@@ -3,7 +3,7 @@ import Collection from '@/lib/Collection';
 export const useClientStore = defineStore('client', () => {
    const useClients = () => {
       const defaultSelect = '*';
-      const clients = new Collection(null);
+      const clients = Collection.create(null);
 
       async function fetchClients(select = defaultSelect) {
          const res = await supabase.from('client').select(select).throwOnError();

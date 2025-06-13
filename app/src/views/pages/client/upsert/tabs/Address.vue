@@ -40,8 +40,8 @@ const initialFormData = {
 const fields = _keys(initialFormData);
 
 /**@type {ClientUpsertFormData & Form<ClientUpsertFormData>} */
-const form = new Form({
-   data: _defaults(_pick(props.data, fields), initialFormData),
+const form = Form.create({
+   data: _defaults(props.data, initialFormData),
    rules: {
       id: 'required',
       'address.*.id': 'required'

@@ -1,0 +1,127 @@
+// app/src/lib/Form.ts
+
+import Validator from '@/plugins/validatorjs';
+import { detailedDiff, diff, updatedDiff } from 'deep-object-diff';
+import { Errors, Rules } from 'validatorjs';
+import ValidatorErrors from 'validatorjs/src/errors';
+import Collection from './Collection';
+
+export class Form<T = any> extends Collection<T> {
+   _rules = reactive({});
+   _errors = reactive<Errors>(new ValidatorErrors());
+   _isValid = true;
+   _autoValidate = ref([]);
+   _useDialogForm = ref(false);
+   readonly _changedData = computed(() =>
+      diff(
+         (this._defaults as unknown as Ref<Partial<T & object>>).value,
+         (this._data as Ref<T & object>).value
+      )
+   );
+   readonly _isChanged = computed(() => _size(this._changedData.value) > 0);
+   readonly _detailedChagedData = computed(() =>
+      detailedDiff(
+         (this._defaults as unknown as Ref<Partial<T & object>>).value,
+         (this._data as Ref<T & object>).value
+      )
+   );
+
+   constructor({
+      data = {} as T,
+      rules = {},
+      autoValidate = [],
+      useDialogForm = true
+   }: {
+      data?: T;
+      rules?: Rules;
+      autoValidate?: string[];
+      useDialogForm?: boolean;
+   }) {
+      super(data);
+
+      _set(this, 'autoValidate', autoValidate);
+      _set(this, 'useDialogForm', useDialogForm);
+
+      this._setRules(rules).#_initWatcher();
+
+      if (this._useDialogForm) this.#_initDialogForm();
+      return this;
+   }
+
+   #_initWatcher() {
+      watch(
+         () => [this._autoValidate, this._data, this._rules],
+         ([validateAttributes, changedData, changedRules]) => {
+            if (validateAttributes === true) {
+               this._isValid = this._validate(
+                  updatedDiff(changedData as object, changedRules as object)
+               );
+               return;
+            }
+
+            if (_isArray(validateAttributes) && _size(validateAttributes) > 0) {
+               const data = _pick(changedData, validateAttributes);
+               const rules = _pick(changedRules, validateAttributes) as Rules;
+               this._isValid = this._validate(data, rules);
+            }
+         },
+         { deep: true }
+      );
+      return this;
+   }
+
+   #_initDialogForm() {
+      const dialogRef = inject<any>('dialogRef', false);
+
+      if (dialogRef) {
+         this._merge(dialogRef?.data?.form);
+
+         watch(
+            () => this._toJson,
+            () => {
+               _set(dialogRef, 'data.form', this._data);
+            },
+            { immediate: true }
+         );
+      }
+      return this;
+   }
+
+   _validate(keys: Partial<T> | null = null, rules: Rules = this._rules): boolean {
+      Validator.useLang(locale.value);
+
+      let values: Partial<T> = this._data;
+
+      if (_isArray(keys)) {
+         rules = _pick(rules, keys);
+         values = _pick(this._data, keys);
+      }
+      const validation = new Validator(values, rules);
+
+      validation.form = this;
+
+      const passed = validation.passes();
+
+      _assign(this._errors, validation.errors);
+      this._isValid = passed;
+
+      return this._isValid;
+   }
+
+   _reset(attrs = this._defaults as T): this {
+      super._reset(attrs);
+
+      this._errors = reactive<Errors>(new ValidatorErrors());
+
+      return this;
+   }
+
+   _setRules(rules = {}): this {
+      this._rules = reactive(rules);
+      return this;
+   }
+
+   static create<T>(...args: any[]) {
+      return super.create<T>(...args) as Form<T> & Form<T>['_data'];
+   }
+}

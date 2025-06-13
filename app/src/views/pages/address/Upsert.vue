@@ -33,7 +33,7 @@ const initialFormData = {
 /**@type {[keyof Data]} */
 const fields = _keys(initialFormData);
 
-const form = new Form({
+const form = Form.create({
    data: _defaults(_pick(props.data, fields), initialFormData),
    rules: {
       display_name: 'required',

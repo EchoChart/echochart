@@ -10,7 +10,7 @@ const props = defineProps({
 });
 
 const { data } = await supabase.from('product_category').select(props.select).throwOnError();
-const categories = new Collection(data);
+const categories = Collection.create(data);
 </script>
 
 <template>

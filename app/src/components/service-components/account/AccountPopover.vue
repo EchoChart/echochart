@@ -33,7 +33,7 @@ const accountMenuItems = computed(() => {
             <div v-if="user" class="account_popover__user_info">
                <AvatarPlaceholder
                   :alt="user?.user_metadata?.display_name"
-                  class="overflow-hidden account_popover__avatar"
+                  class="account_popover__avatar"
                   :src="user?.user_metadata?.avatar_url"
                   :placeholder="user.user_metadata?.display_name || user?.email"
                />
@@ -73,12 +73,12 @@ const accountMenuItems = computed(() => {
                      class="account_popover__menu_item_button"
                   >
                      <span class="account_popover__menu_item_icon" :class="item.icon" />
-                     <span class="account_popover__menu_item_label" v-text="item.label" />
+                     <span class="account_popover__menu_item_label" v-text="$t(item.label)" />
                   </button>
                </CustomLink>
                <div v-bind="props.action" v-else class="account_popover__menu_group">
                   <span :class="item.icon" />
-                  <label class="account_popover__menu_item_label" v-text="item.label" />
+                  <label class="account_popover__menu_item_label" v-text="$t(item.label)" />
                   <span
                      v-if="hasSubmenu"
                      :class="PrimeIcons.ANGLE_RIGHT"

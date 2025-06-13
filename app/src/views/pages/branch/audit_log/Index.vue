@@ -10,7 +10,7 @@ const attrs = useAttrs();
 
 // Define the columns
 /**@type {Collection<ResourceTableProps['columns']>} */
-const columns = new Collection([
+const columns = Collection.create([
    { field: 'table_name', header: i18n.t('resource'), sortable: true, showFilterMenu: false },
    {
       field: 'operation',
@@ -20,9 +20,9 @@ const columns = new Collection([
       showFilterOperator: false,
       showAddButton: false
    },
-   { field: 'done_by', header: i18n.t('done_by') },
+   { field: 'user_id', header: i18n.t('done_by'), sortable: true },
    { field: 'created_at', header: i18n.t('created_at'), sortable: true, sortOrder: { value: -1 } },
-   { field: 'reverted_by', header: i18n.t('reverted_by') },
+   { field: 'reverted_by', header: i18n.t('reverted_by'), sortable: true },
    { field: 'reverted_at', header: i18n.t('reverted_at'), sortable: true }
 ]);
 
@@ -56,7 +56,7 @@ const filters = ref({
 });
 
 const { ability } = useAuthStore();
-const rowActions = new Collection([
+const rowActions = Collection.create([
    {
       label: ({ data }) =>
          data?.reverted ? i18n.t('already_reverted') : i18n.t('attempt_to_revert'),
@@ -96,14 +96,14 @@ const stateKey = 'audit_log';
 const tableProps = computed(() => ({
    stateKey,
    from: 'audit_log_group',
-   select: '*, done_by:user!user_id(*), reverted_by:user!reverted_by(*)',
+   select: '*, user_id:user!user_id(*), reverted_by:user!reverted_by(*)',
    columns: columns._data,
    rowActions: rowActions._data,
    ...attrs
 }));
 </script>
 <template>
-   <ResourceTable v-bind="tableProps" v-model:filters="filters" :mapClass="Collection">
+   <ResourceTable v-bind="tableProps" v-model:filters="filters">
       <template #header>
          <Teleport to="#page-toolbar" :disabled="dialogRef">
             <span class="flex-1 flex justify-end gap-4 flex-wrap-reverse">
@@ -120,7 +120,7 @@ const tableProps = computed(() => ({
       <template #expansion="{ data }">
          <CorrelatedAuditLogs v-if="data" :id="data.correlation_id" layout="list" />
       </template>
-      <template #done_by_body="{ data, field }">
+      <template #user_id_body="{ data, field }">
          {{ _get(data, `${field}.display_name`) || _get(data, `${field}.email`) }}
       </template>
       <template #reverted_by_body="{ data, field }">

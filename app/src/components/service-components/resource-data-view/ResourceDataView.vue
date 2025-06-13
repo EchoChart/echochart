@@ -48,7 +48,7 @@ let values = ref();
 const modelValue = defineModel({
    get: (value) => value || values,
    set: (value) => {
-      values.value = new props.mapClass(value);
+      values.value = props.mapClass.create?.(value);
       return values.value;
    },
    default: []
@@ -59,9 +59,9 @@ const attrs = useAttrs();
 const totalRecords = ref(0);
 
 const routeLoading = inject('routeLoading', false);
-const loading = ref(routeLoading.value);
+const loading = ref(routeLoading);
 
-const meta = new Collection({
+const meta = Collection.create({
    first: 0,
    rows: 5,
    ...props.meta

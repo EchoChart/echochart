@@ -63,7 +63,7 @@ const breadcrumbItems = computed(() =>
    }
 
    &__link--active {
-      @apply text-primary text-xl underline !important;
+      @apply text-primary text-xl !important;
    }
 
    &__label {

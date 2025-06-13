@@ -66,7 +66,12 @@ export const dialogBeforeEach = async (to, from, next) => {
       data: { to, from },
       props: {
          maximizable: false,
-         header: _startCase(i18n.t(to.name)),
+         header: i18n.t(to.name),
+         pt: {
+            header: {
+               class: 'first-letter:uppercase'
+            }
+         },
          position: showDialog,
          keepInViewport: false,
          closeOnEscape: true,

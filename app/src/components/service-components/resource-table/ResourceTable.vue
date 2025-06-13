@@ -1,102 +1,129 @@
-<script setup>
+<script setup lang="ts" generic="T = any">
+import CustomTable, { CustomTableProps } from '@/components/ui/custom-table/CustomTable.vue';
 import Collection from '@/lib/Collection';
+import { DataTableSlots, DataTableStateEvent } from 'primevue';
+
+export declare type ResourceTableProps<T = any> = CustomTableProps<T> & {
+   from: string & keyof Tables;
+   select: string;
+   count?: {
+      head: boolean;
+      count: 'exact' | 'planned' | 'estimated';
+   };
+};
 
 defineOptions({
    inheritAttrs: false
 });
+const slots = defineSlots<DataTableSlots<T>>();
 
-/**@type {ResourceTableProps} */
-const props = defineProps({
-   from: {
-      required: true
-   },
-   select: {
-      required: true
-   },
-   count: {
-      default: () => ({
-         count: 'exact',
-         head: true
-      })
-   }
+const props = withDefaults(defineProps<ResourceTableProps<T>>(), {
+   count: () => ({
+      head: true,
+      count: 'exact'
+   }),
+   paginator: true,
+   alwaysShowPaginator: true,
+   showHeaders: true,
+   useMeta: true,
+   rows: 5,
+   dataKey: 'id' as keyof T,
+   filterDisplay: 'menu',
+   sortMode: 'multiple',
+   rowGroupMode: 'rowspan',
+   reorderableColumns: true,
+   removableSort: true,
+   rowsPerPageOptions: () => [1, 5, 10],
+   paginatorTemplate:
+      'FirstPageLink PrevPageLink PageLinks NextPageLink RowsPerPageDropdown CurrentPageReport',
+   resizableColumns: true,
+   showGridlines: true
 });
+const attrs = useAttrs();
 
-const meta = new Collection({});
-const values = props.mapClass ? new props.mapClass([]) : new Collection([]);
-const modelValue = defineModel({
+const meta = Collection.create<Partial<DataTableStateEvent>>({});
+const onMeta = (value: Partial<DataTableStateEvent>) => getValues(value);
+
+const values = Collection.create<T[]>([] as T[]);
+const modelValue = defineModel<T[]>({
    get: () => values,
-   set: (value) => values._set(value),
+   set: (value: any) => values._set(value),
    default: []
 });
 
-const attrs = useAttrs();
-
-const totalRecords = ref(5);
+const totalRecords = ref<number | null>(5);
 
 const routeLoading = inject('routeLoading', false);
-const loading = ref(routeLoading.value);
+const loading = ref(routeLoading);
 
 let ac = new AbortController();
 
-async function getValues(metaObj) {
+async function getValues(metaObj: Partial<DataTableStateEvent>) {
    if (loading.value) return;
 
    try {
-      ac?.abort?.();
+      ac.abort();
       ac = new AbortController();
 
       meta._reset(metaObj);
 
       loading.value = true;
 
-      const req = supabase.from(props.from).select(props.select).abortSignal(ac.signal);
+      const req = supabase
+         .from(props.from)
+         .select(props.select)
+         .abortSignal(ac.signal)
+         .returns<T[]>();
 
-      !_isEmpty(meta._data) && req.setHeader?.('meta', encodeURI(JSON.stringify(meta._data)));
-
-      const usePaginator = _get(attrs, 'paginator', true);
-      if (usePaginator) {
-         const countReq = supabase
-            .from(props.from)
-            .select?.(props.select, props.count)
-            .abortSignal?.(ac.signal);
-
-         if (!_isEmpty(meta._data)) {
-            const encodedMeta = encodeURI(JSON.stringify(_pick(meta._data, ['filters'])));
-            countReq.setHeader?.('meta', encodedMeta);
-         }
-
-         countReq.then?.(({ count }) => (totalRecords.value = count));
-      }
+      !_isEmpty(meta._data) && req.setHeader('meta', encodeURI(JSON.stringify(meta._data)));
 
       const { data } = await req.throwOnError();
       modelValue.value = data;
+
+      if (props.paginator) {
+         const countReq = supabase
+            .from(props.from)
+            .select(props.select, props.count)
+            .abortSignal(ac.signal);
+
+         if (!_isEmpty(meta._data)) {
+            const encodedMeta = encodeURI(JSON.stringify(_pick(meta._data, ['filters'])));
+            countReq.setHeader('meta', encodedMeta);
+         }
+
+         await countReq.then(({ count }) => {
+            totalRecords.value = count;
+         });
+      }
    } finally {
       loading.value = false;
    }
 }
 
 const updateCallback = () => getValues(meta._data);
-onMounted(() => emitter.on(`${attrs.stateKey || props.from}-update`, updateCallback));
+onMounted(() => emitter.on(`${props.stateKey || props.from}-update`, updateCallback));
 onBeforeUnmount(() => {
-   emitter.off(`${attrs.stateKey || props.from}-update`, updateCallback);
-   ac.abort?.();
+   ac.abort();
+   emitter.off(`${props.stateKey || props.from}-update`, updateCallback);
 });
 
-const tableProps = computed(() => ({
-   totalRecords: totalRecords.value,
-   stateKey: props.from,
-   loading: loading.value,
-   value: values._data,
-   onMeta: async (value) => await getValues(value),
-   ...attrs
-}));
-
 const mounted = useMounted();
+
+const tableProps = computed(() => _merge({}, _omit(props, ['stateKey']), attrs));
 </script>
 <template>
-   <CustomTable v-bind="tableProps">
-      <template v-for="slot in _keys($slots)" #[slot]="slotProps" :key="slot">
+   <component
+      :is="CustomTable<T>"
+      v-bind="tableProps"
+      :totalRecords
+      :stateKey="props.stateKey || props.from"
+      :loading="loading"
+      :lazy="true"
+      :value="values._data"
+      @meta="onMeta"
+   >
+      <template v-for="slot in _keys(slots)" #[slot]="slotProps" :key="slot">
          <slot :name="slot" v-if="mounted" v-bind="slotProps" />
       </template>
-   </CustomTable>
+   </component>
 </template>

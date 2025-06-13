@@ -17,7 +17,7 @@ export const guessUserLocale = computed(() => {
 export const i18NPlugin = createI18n({
    legacy: false,
    locale: guessUserLocale.value,
-   fallbackLocale: 'en',
+   fallbackLocale: 'tr',
    globalInjection: true,
    missingWarn: false,
    fallbackWarn: false

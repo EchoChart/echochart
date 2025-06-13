@@ -8,7 +8,7 @@ const rememberMe = ref(!!localStorage.getItem('remember-me'));
 
 const dialogRef = inject('dialogRef', null);
 
-const form = new Form({
+const form = Form.create({
    data: {
       email: '',
       password: 'asdqwe123'

@@ -19,7 +19,7 @@ const steps = [
    }
 ];
 
-const form = new Form({
+const form = Form.create({
    data: {
       account: {
          email: 'info@akifaycicek.com.tr',

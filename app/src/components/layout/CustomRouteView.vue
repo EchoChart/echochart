@@ -19,10 +19,10 @@ const isPending = ref(false);
 const isFallback = ref(false);
 const isLoading = computed(() => isPending.value || isFallback.value);
 
-provide('routeResolved', isResolved);
-provide('routePending', isPending);
-provide('routeFallback', isFallback);
-provide('routeLoading', isLoading);
+provide('routeResolved', isResolved.value);
+provide('routePending', isPending.value);
+provide('routeFallback', isFallback.value);
+provide('routeLoading', isLoading.value);
 
 const routeComponent = ref(null);
 
@@ -105,7 +105,7 @@ const onPending = () => updateRouteStatus('pending');
    }
 
    &__transition {
-      @apply animate-duration-[calc(var(--transition-duration)*0.75)];
+      @apply animate-duration-[calc(var(--transition-duration)*0.5)] !important;
 
       &--enter {
          @apply animate-fadein;
@@ -116,7 +116,7 @@ const onPending = () => updateRouteStatus('pending');
    }
 
    &__skeleton {
-      @apply min-w-full min-h-[25%] duration-[calc(var(--transition-duration)*0.75)];
+      @apply min-w-full min-h-[25%] duration-[calc(var(--transition-duration)*0.5)] !important;
    }
 }
 </style>

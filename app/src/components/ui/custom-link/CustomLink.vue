@@ -1,49 +1,40 @@
-<script setup>
+<script setup lang="ts">
 import { DIALOG_POSITIONS } from '@/constants/router';
-import { RouterLink } from 'vue-router';
+import { MenuItem } from 'primevue/menuitem';
+import { RouteLocationNormalized, RouterLink, RouterLinkProps } from 'vue-router';
 
-/**
- * CustomLink component for internal and external links with context menu support.
- */
 defineOptions({
    inheritAttrs: false
 });
 
-/** @type {CustomLinkProps} */
-const props = defineProps({
-   ...RouterLink.props,
-   contextMenuItems: {
-      default: () => []
-   }
+export type CustomLinkProps = {
+   contextMenuItems?: MenuItem[];
+} & RouterLinkProps;
+
+const props = withDefaults(defineProps<CustomLinkProps>(), {
+   contextMenuItems: () => []
 });
 
 const router = useRouter();
+
+const { ability } = useAuthStore();
+
 const { href, route } = useLink(props);
 
-/**
- * Determines if the link is an external link.
- * @type {import('vue').ComputedRef<boolean>}
- */
-const isExternalLink = computed(() => {
-   return href.value?.startsWith?.('http');
+const isExternalLink = computed<boolean>(() => {
+   try {
+      new URL(href.value);
+   } catch (error) {
+      return false;
+   }
+   return true;
 });
 
-/**
- * Reference to the dialog component.
- * @type {import('vue').Ref<null | any>}
- */
 const dialogRef = inject('dialogRef', null);
 
-/**
- * Reference to the context menu component.
- * @type {import('vue').Ref<null | any>}
- */
 const contextMenu = ref();
 
-/**
- * Computed property for context menu items with additional actions.
- */
-const contextMenuItems = computed(() => {
+const contextMenuItems = computed<MenuItem[]>(() => {
    return [
       {
          label: i18n.t('open_in_window'),
@@ -55,20 +46,25 @@ const contextMenuItems = computed(() => {
             }
          }
       },
-      ...(props.contextMenuItems || [])
+      ...props.contextMenuItems
    ];
 });
 
-/**
- * Handles item click in the context menu.
- * @param {import('vue-router').RouteLocationResolvedGeneric} item - The route location object.
- */
-const itemClick = (item) => {
+const itemClick = (item: RouteLocationNormalized) => {
    if (dialogRef) {
       item.query.showDialog = DIALOG_POSITIONS.CENTER;
    }
 
    router.push(item);
+};
+
+const checkVisibility = (item: RouteLocationNormalized) => {
+   return (
+      item?.meta?.visible ||
+      (item?.meta?.requiredPermissions as any)?.every?.(({ action, subject }: any) =>
+         ability.can?.(action, subject)
+      )
+   );
 };
 </script>
 
@@ -83,12 +79,7 @@ const itemClick = (item) => {
    >
       <slot />
    </a>
-   <template
-      v-else-if="
-         route?.meta?.visible ||
-         route?.meta?.requiredPermissions?.every?.(({ action, subject }) => $can?.(action, subject))
-      "
-   >
+   <template v-else-if="checkVisibility(route)">
       <router-link v-bind="props" custom v-slot="{ isExactActive, isActive }">
          <a
             :href="href"
@@ -112,7 +103,12 @@ const itemClick = (item) => {
             />
          </a>
       </router-link>
-      <ContextMenu v-if="!isExternalLink" ref="contextMenu" :model="contextMenuItems">
+      <ContextMenu
+         class="custom_link__context-menu"
+         v-if="!isExternalLink"
+         ref="contextMenu"
+         :model="contextMenuItems"
+      >
          <template #item="{ item, props }">
             <RouterLink v-if="item.route" v-slot="{ href, route }" :to="item.route" custom>
                <a

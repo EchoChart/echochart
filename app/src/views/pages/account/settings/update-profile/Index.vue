@@ -9,7 +9,7 @@ const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
 const accountStore = useAccountStore();
 
-const form = new Form({
+const form = Form.create({
    data: {
       email: user.value?.email,
       email_confirm: true,

@@ -4,6 +4,8 @@ export const authBeforeEach = async (to, from, next) => {
    const authStore = useAuthStore();
    const { meta } = to;
 
+   if (from.name === to.name) return next();
+
    if (meta?.requiresAuth) {
       await authStore.initialized;
 

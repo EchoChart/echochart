@@ -8,7 +8,7 @@ const modelValue = defineModel('modelValue');
          <i class="keyword_search__icon pi pi-search" />
       </InputIcon>
       <InputText
-         :placeholder="$t('keyword search')"
+         :placeholder="$t('keyword_search')"
          class="keyword_search__input"
          v-model="modelValue"
       />

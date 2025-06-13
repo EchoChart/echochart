@@ -1,6 +1,6 @@
 <script setup>
 import Collection from '@/lib/Collection';
-const operations = new Collection([
+const operations = Collection.create([
    { value: 'INSERT', label: i18n.t('add'), severity: 'success' },
    { value: 'UPDATE', label: i18n.t('update'), severity: 'info' },
    { value: 'DELETE', label: i18n.t('delete'), severity: 'danger' }

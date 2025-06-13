@@ -25,7 +25,7 @@ import router from './router';
 
 export const app = createApp(App);
 
-app.config.globalProperties.emitter = emitter;
+// app.config.globalProperties.emitter = emitter;
 
 app.config.errorHandler = appErrorHandler;
 
@@ -35,7 +35,7 @@ app.use(
    {
       useGlobalProperties: true
    }
-).component(Can.name, Can);
+).component(Can.name as string, Can);
 app.use(createPinia());
 app.use(i18NPlugin);
 app.use(PrimeVue, {

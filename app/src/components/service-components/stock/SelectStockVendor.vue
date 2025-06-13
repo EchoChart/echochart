@@ -10,7 +10,7 @@ const props = defineProps({
 });
 
 const useVendors = () => {
-   const vendors = new Collection([]);
+   const vendors = Collection.create([]);
    const fetchVendors = async () => {
       const { data } = await supabase.from('stock_vendor').select(props.select).throwOnError();
       vendors._setDefaults(data)._reset();

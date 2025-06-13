@@ -22,7 +22,7 @@ defineEmits(['clientSelect']);
 
 const modelValue = defineModel('modelValue');
 
-const clients = new Collection([]);
+const clients = Collection.create([]);
 
 const fetchClients = async () =>
    await supabase

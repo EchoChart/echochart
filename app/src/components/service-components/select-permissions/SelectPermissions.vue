@@ -30,7 +30,7 @@ const columns = [
 
 const permissionKinds = ['read', 'create', 'modify'];
 
-const allPermissions = new Collection(
+const allPermissions = Collection.create(
    await supabase
       .from('permission')
       .select('id,resource_name,group_name,kind')

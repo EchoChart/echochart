@@ -17,7 +17,7 @@ delete tailwindColors.blueGray;
 
 const colors = _merge(tailwindConfig.theme?.extend?.colors, tailwindColors);
 
-const layoutState = new Collection(
+const layoutState = Collection.create(
    _merge(
       {
          isDark: usePreferredDark(),
@@ -30,7 +30,7 @@ const layoutState = new Collection(
          activeMenuItem: {},
          UIScale: 1
       },
-      JSON.parse(localStorage.getItem('layout-state'))
+      JSON.parse(localStorage.getItem('app-state'))
    )
 );
 
@@ -229,7 +229,7 @@ function applyTheme(type, color) {
 watch(
    () => layoutState._toJson,
    (newlayoutState) => {
-      localStorage.setItem('layout-state', newlayoutState);
+      localStorage.setItem('app-state', newlayoutState);
    },
    { immediate: true }
 );

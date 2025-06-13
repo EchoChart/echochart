@@ -1,32 +1,16 @@
-<script setup>
+<script setup lang="ts" generic="T = any">
 import { Form } from '@/lib/Form';
 
-defineProps({
-   legend: {
-      type: String,
-      default: null
-   },
-   form: {
-      type: Form,
-      default: null
-   },
-   readonly: {
-      type: Boolean,
-      default: false
-   },
-   invalid: {
-      type: Boolean,
-      default: false
-   },
-   error: {
-      type: [String, Boolean],
-      default: null
-   },
-   printable: {
-      type: Boolean,
-      default: false
-   }
-});
+export interface FormBoxProps {
+   legend?: string;
+   form?: Form<T>;
+   readonly?: boolean;
+   invalid?: boolean;
+   error?: string | boolean;
+   printable?: boolean;
+}
+
+defineProps<FormBoxProps>();
 
 const boxElement = ref();
 </script>
@@ -60,7 +44,7 @@ const boxElement = ref();
    <template v-else>
       <Fieldset
          :invalid="invalid || !!error"
-         :legend="_startCase(legend)"
+         :legend="legend"
          :pt="{
             content: {
                class: 'form_box'
@@ -74,19 +58,19 @@ const boxElement = ref();
             <slot name="header" v-bind="$props">
                <div class="form_box__header-container">
                   <slot name="legend" v-bind="$props">
-                     <label
-                        v-text="_startCase(legend)"
-                        v-bind="slotProps"
-                        class="form_box__label"
-                     />
+                     <label v-text="legend" v-bind="slotProps" class="form_box__label" />
                   </slot>
-                  <slot name="actions" />
-                  <PrintElementButton
-                     v-if="printable"
-                     :element="boxElement"
-                     class="form_box__print-button"
-                  />
-                  <ErrorBadge v-if="error" :error="error" class="form_box__error-badge" />
+                  <div class="form_box__header-actions">
+                     <slot name="actions" />
+                  </div>
+                  <div class="form_box__header-actions">
+                     <PrintElementButton
+                        v-if="printable"
+                        :element="boxElement"
+                        class="form_box__print-button"
+                     />
+                     <ErrorBadge v-if="error" :error="error" class="form_box__error-badge" />
+                  </div>
                </div>
             </slot>
          </template>
@@ -106,12 +90,21 @@ const boxElement = ref();
       @apply border-[var(--p-button-danger-border-color)];
    }
 
+   &__header {
+      &-container {
+         @apply flex items-center gap-4;
+      }
+      &-actions {
+         @apply print:!hidden;
+      }
+   }
+
    & > .form_box {
       @apply self-start;
    }
 
    &__actions-bar {
-      @apply w-full flex justify-end items-center sticky bottom-0 bg-transparent  pointer-events-none;
+      @apply w-full flex justify-end items-center sticky bottom-0 bg-transparent pointer-events-none print:!hidden;
 
       & * {
          @apply pointer-events-auto;
@@ -119,15 +112,11 @@ const boxElement = ref();
    }
 
    &__button-container {
-      @apply flex flex-wrap items-center gap-4 p-8 justify-end rounded-[var(--content-border-radius)] backdrop-blur-sm;
+      @apply flex flex-wrap items-center gap-4 p-4 justify-end rounded-[var(--content-border-radius)] backdrop-blur-sm;
    }
 
    &__button {
       @apply flex-1 w-48;
-   }
-
-   &__header-container {
-      @apply flex items-center gap-4;
    }
 }
 </style>

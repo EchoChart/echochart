@@ -4,6 +4,7 @@ export default {
    darkMode: ['selector', '[color-scheme*="dark"]'],
    content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
    plugins: [
+      '@tailwindcss/postcss',
       primeUIPlugin,
       function ({ addBase, theme }) {
          function extractColorVars(colorObj, colorGroup = '') {

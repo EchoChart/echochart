@@ -19,13 +19,15 @@ const props = defineProps({
 });
 
 const initialFormData = {
-   ...props.data
+   id: undefined,
+   display_name: null,
+   permissions: undefined
 };
 
 /**@type {[keyof Data]} */
 const fields = _keys(initialFormData);
 
-const form = new Form({
+const form = Form.create({
    data: _defaults(_pick(props.data, fields), initialFormData),
    rules: {
       display_name: 'required|string',
@@ -68,10 +70,7 @@ const save = async () => {
    if (!form._validate()) return;
    const { data } = await supabase
       .from('role')
-      .upsert({
-         id: form.id,
-         display_name: form._data.display_name
-      })
+      .upsert(_pick(form._data, fields))
       .select('*')
       .single()
       .throwOnError();

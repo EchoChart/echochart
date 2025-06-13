@@ -8,7 +8,7 @@ const props = defineProps({
 });
 
 const useProductBrands = () => {
-   const productBrands = new Collection([]);
+   const productBrands = Collection.create([]);
    const fetchProductBrands = async () => {
       const { data } = await supabase.from('product_brands').select(props.select);
       productBrands._setDefaults(data)._reset();

@@ -3,7 +3,7 @@ import Collection from '@/lib/Collection';
 export const usePermissionStore = defineStore('permissions', () => {
    const usePermissions = () => {
       const defaultSelect = 'id,resource_name,group_name,kind';
-      const permissions = new Collection(null);
+      const permissions = Collection.create(null);
 
       async function fetchPermissions(select = defaultSelect) {
          const res = await supabase.from('permission').select(select).throwOnError();

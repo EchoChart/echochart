@@ -4,7 +4,7 @@ import { useToast } from 'primevue';
 
 const toast = useToast();
 const accountStore = useAccountStore();
-const form = new Form({
+const form = Form.create({
    data: {
       password: '',
       password_confirmation: ''

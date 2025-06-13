@@ -2,11 +2,11 @@ import CustomRouteView from '@/components/layout/CustomRouteView.vue';
 import { DIALOG_POSITIONS } from '@/constants/router';
 
 /**
- * @type {import('vue-router').RouteLocation[]}
+ * @type {import('vue-router').RouteRecordNormalized[]}
  */
 export default [
    {
-      path: 'record',
+      path: i18n.t('record'),
       component: CustomRouteView,
       meta: {
          icon: PrimeIcons.FOLDER,
@@ -16,88 +16,71 @@ export default [
                action: 'read',
                subject: 'record'
             }
+         ],
+         contextMenuItems: [
+            {
+               label: i18n.t('add'),
+               route: {
+                  name: 'record-add',
+                  query: { showDialog: DIALOG_POSITIONS.CENTER }
+               }
+            }
          ]
       },
       name: 'record',
-      redirect: { name: 'sales' },
+      redirect: { name: 'record-list' },
       children: [
          {
-            path: 'sales',
-            name: 'sales',
-            component: CustomRouteView,
-            redirect: { name: 'sales-list' },
+            path: ':record_type?',
+            name: 'record-list',
+            components: {
+               default: () => import('@/views/pages/record/index.vue'),
+               skeleton: () => import('@/views/pages/record/index.vue')
+            },
             meta: {
-               icon: PrimeIcons.DOLLAR,
-               contextMenuItems: [
+               icon: PrimeIcons.FOLDER,
+               visible: false
+            }
+         },
+         {
+            path: 'add',
+            name: 'record-add',
+            props: true,
+            meta: {
+               visible: false,
+               requiredPermissions: [
                   {
-                     label: i18n.t('add'),
-                     route: {
-                        name: 'sales-add',
-                        query: { showDialog: DIALOG_POSITIONS.CENTER }
-                     }
+                     action: 'create',
+                     subject: 'record'
                   }
                ]
             },
-            children: [
-               {
-                  path: 'list',
-                  name: 'sales-list',
-                  meta: {
-                     visible: false,
-                     requiresAuth: true,
-                     requiredPermissions: [
-                        {
-                           action: 'read',
-                           subject: 'record'
-                        }
-                     ]
+            components: {
+               default: () => import('@/views/pages/record/upsert/index.vue'),
+               skeleton: () => import('@/views/pages/record/upsert/index.vue')
+            }
+         },
+         {
+            path: ':id?/edit',
+            name: 'record-edit',
+            props: true,
+            meta: {
+               visible: false,
+               requiredPermissions: [
+                  {
+                     action: 'read',
+                     subject: 'record'
                   },
-                  components: {
-                     default: () => import('@/views/pages/record/sales/Index.vue'),
-                     skeleton: () => import('@/views/pages/record/sales/Index.vue')
+                  {
+                     action: 'modify',
+                     subject: 'record'
                   }
-               },
-               {
-                  path: 'add',
-                  name: 'sales-add',
-                  props: true,
-                  meta: {
-                     visible: false,
-                     requiredPermissions: [
-                        {
-                           action: 'create',
-                           subject: 'record'
-                        }
-                     ]
-                  },
-                  components: {
-                     default: () => import('@/views/pages/record/sales/upsert/Index.vue'),
-                     skeleton: () => import('@/views/pages/record/sales/upsert/Index.vue')
-                  }
-               },
-               {
-                  path: ':id?/edit',
-                  name: 'sales-edit',
-                  props: true,
-                  meta: {
-                     visible: false,
-                     requiredPermissions: [
-                        {
-                           action: 'read',
-                           subject: 'record'
-                        },
-                        {
-                           action: 'modify',
-                           subject: 'record'
-                        }
-                     ]
-                  },
-                  components: {
-                     default: () => import('@/views/pages/record/sales/upsert/Index.vue'),
-                     skeleton: () => import('@/views/pages/record/sales/upsert/Index.vue')
-                  }
-               }
-            ]
+               ]
+            },
+            components: {
+               default: () => import('@/views/pages/record/upsert/index.vue'),
+               skeleton: () => import('@/views/pages/record/upsert/index.vue')
+            }
          }
       ]
    }

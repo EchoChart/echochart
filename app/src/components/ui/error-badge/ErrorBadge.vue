@@ -1,9 +1,7 @@
 <script setup>
-import { defineProps } from 'vue';
-
 defineProps({
    error: {
-      type: String,
+      type: [String, Boolean],
       default: null
    }
 });

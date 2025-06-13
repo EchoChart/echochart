@@ -25,6 +25,9 @@ export default defineConfig({
       dynamicImportVarsOptions: {
          warnOnError: true,
          exclude: []
+      },
+      commonjsOptions: {
+         transformMixedEsModules: true
       }
    },
    server: {

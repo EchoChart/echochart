@@ -34,6 +34,14 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                />
             </div>
             <div class="app-configurator__column">
+               <span class="app-configurator__label" v-text="$t('language')" />
+               <SelectButton
+                  :modelValue="$i18n.locale"
+                  :options="['en', 'tr']"
+                  @change="$router.replace({ params: { locale: $event.value } })"
+               />
+            </div>
+            <div class="app-configurator__column !flex-auto w-full">
                <span
                   class="app-configurator__label"
                   v-text="`${$t('ui_scale')}: ${layoutState.UIScale}`"
@@ -50,7 +58,7 @@ const { isSignedIn } = storeToRefs(useAuthStore());
             </div>
          </div>
          <div class="app-configurator__section">
-            <span class="app-configurator__label">Primary</span>
+            <span class="app-configurator__label" v-text="$t('primary_color')" />
             <div class="app-configurator__color-buttons">
                <Button
                   v-for="primaryColor of primaryColors"
@@ -70,7 +78,7 @@ const { isSignedIn } = storeToRefs(useAuthStore());
             </div>
          </div>
          <div class="app-configurator__section">
-            <span class="app-configurator__label">Surface</span>
+            <span class="app-configurator__label" v-text="$t('surface_color')" />
             <div class="app-configurator__color-buttons">
                <Button
                   v-for="surface of surfaces"
@@ -127,7 +135,7 @@ const { isSignedIn } = storeToRefs(useAuthStore());
    }
 
    &__row {
-      @apply self-stretch justify-stretch flex gap-8;
+      @apply self-stretch flex gap-8 flex-wrap justify-stretch;
    }
 
    &__column {

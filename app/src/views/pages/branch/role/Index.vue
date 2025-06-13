@@ -11,7 +11,7 @@ const router = useRouter();
 
 // Define the columns
 /**@type {Collection<ResourceTableProps['columns']>} */
-const columns = new Collection([
+const columns = Collection.create([
    {
       field: 'display_name',
       sortable: true,
@@ -44,7 +44,7 @@ const filters = ref({
 });
 
 const stateKey = 'role';
-const rowActions = new Collection([
+const rowActions = Collection.create([
    {
       label: i18n.t('delete'),
       command:
@@ -85,7 +85,7 @@ const tableProps = computed(() => ({
 }));
 </script>
 <template>
-   <ResourceTable v-bind="tableProps" v-model:filters="filters" :mapClass="Collection">
+   <ResourceTable v-bind="tableProps" v-model:filters="filters">
       <template #header>
          <Teleport to="#page-toolbar" :disabled="dialogRef">
             <span class="flex-1 flex justify-end gap-4 flex-wrap-reverse">

@@ -5,8 +5,8 @@
       "module": "ESNext", // ESNext module system
       "outDir": "./dist", // Output compiled files to dist folder within app
       "baseUrl": ".", // Base URL for relative imports
-      "types": ["vite/client", "node", "@types/validatorjs"], // Include Vite and Node.js types
-      "useDefineForClassFields": true, // Define class fields according to the spec
+      "typeRoots": ["./node_modules/@types", "./src/types"],
+      "types": ["node", "validatorjs"], // Include Vite and Node.js types
       "moduleResolution": "node", // Use Node-style module resolution
       "strict": true, // Enable strict mode
       "jsx": "preserve", // Preserve JSX (if using React)
@@ -16,6 +16,7 @@
       "esModuleInterop": true, // Allow interop with ES modules
       "lib": ["ESNext", "DOM"], // Include ESNext and DOM libraries
       "skipLibCheck": true, // Skip checking of library files
+      "strictNullChecks": false,
       "composite": true,
       "paths": {
          "@/*": ["src/*"],

@@ -1,105 +1,86 @@
-<script setup>
+<script setup lang="ts" generic="T = any">
 import Collection from '@/lib/Collection';
+import { RemovableRef } from '@vueuse/core';
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
+import {
+   ColumnProps,
+   DataTableFilterEvent,
+   DataTableFilterMetaData,
+   DataTableOperatorFilterMetaData,
+   DataTablePageEvent,
+   DataTableProps,
+   DataTableSortEvent,
+   DataTableSortMeta,
+   DataTableStateEvent
+} from 'primevue';
+import { MenuItem } from 'primevue/menuitem';
 import { isVNode } from 'vue';
+
+export declare type CustomTableProps<T = any> = DataTableProps<T> & {
+   columns: (ColumnProps & { sortOrder?: { value: number }; translateValue?: boolean })[];
+   rowActions?: MenuItem[];
+   useMeta?: boolean;
+   filters?: {
+      [key: string | 'global']: Partial<DataTableFilterMetaData> &
+         Partial<DataTableOperatorFilterMetaData> & {
+            dataType?: 'text' | 'numeric' | 'decimal' | 'date';
+         };
+   };
+};
+export declare type CustomTableEmitOption = {
+   (event: 'meta', value: CustomTableMetaEvent): void;
+   (event: 'update:filters', value: CustomTableProps<T>['filters']): void;
+};
+
+export declare type CustomTableMetaEvent<T = any> = Partial<
+   DataTableFilterEvent &
+      DataTablePageEvent &
+      DataTableStateEvent &
+      DataTableSortEvent & { filters: CustomTableProps<T>['filters'] }
+>;
+
+export declare type UseTableMetaOptions<T = any> = Required<
+   Pick<CustomTableProps<T>, 'useMeta' | 'columns' | 'filters' | 'stateKey' | 'rows'>
+>;
 
 const DATA_TYPES = {
    numeric: 'numeric',
    decimal: 'numeric',
-   date: 'date'
+   date: 'date',
+   text: 'text'
 };
 
 defineOptions({
    inheritAttrs: false
 });
 
-/**@type {CustomTableProps} */
-const props = defineProps({
-   columns: {
-      default: () => []
-   },
-   mapClass: {
-      default: null
-   },
-   filters: {
-      default: () => ({})
-   },
-   rowActions: {
-      type: Array,
-      default: () => []
-   },
-   useMeta: {
-      default: true
-   }
+const props = withDefaults(defineProps<CustomTableProps<T>>(), {
+   showHeaders: true,
+   showGridlines: true,
+   translateValue: true
 });
-
-const emit = defineEmits(['meta', 'update:filters']);
-const attrs = useAttrs();
-const dialogRef = inject('dialogRef', null);
-
-function useMetaStorage() {
-   const stateStorage = !dialogRef?.value && props.useMeta != false ? 'local' : 'session';
-   const stateKey = stateStorage == 'local' ? 'dt-' + attrs?.stateKey : _uniqueId('dt-');
-
-   const meta = (stateStorage == 'local' ? useLocalStorage : useSessionStorage)?.(
-      stateKey,
-      {
-         expandedRows: {},
-         expandedRowGroups: [],
-         rows: _defaultTo(attrs?.rows, 5),
-         multiSortMeta: __.chain(attrs?.columns)
-            .filter(({ field, sortOrder }) => !!field && !!sortOrder)
-            .sortBy(({ sortOrder }) => sortOrder.index || 0)
-            .map(({ field, sortOrder }) => ({ field, order: sortOrder.value }))
-            .value()
-      },
-      { mergeDefaults: true, writeDefaults: true }
-   );
-
-   meta.value.filters = _merge(props.filters, meta.value.filters);
-
-   const onMeta = (value = meta.value) => {
-      _merge(meta.value, { ...value, filters: filterInput.value });
-      emit('meta', meta.value);
-   };
-
-   watch(() => meta.value.filters, _throttle(onMeta, 500), { deep: true });
-
-   if (stateStorage == 'session') sessionStorage.removeItem(stateKey);
-
-   onUnmounted(() => stateStorage == 'session' && sessionStorage.removeItem(stateKey));
-
-   return {
-      stateStorage,
-      stateKey,
-      meta,
-      onMeta
-   };
-}
-
-const { meta, stateStorage, stateKey, onMeta } = useMetaStorage();
+const emit = defineEmits<CustomTableEmitOption>();
+const router = useRouter();
+const route = useRoute();
 
 const routeLoading = inject('routeLoading', false);
 const loading = computed(() => {
-   if (!_isNil(attrs?.loading)) {
-      return attrs?.loading;
-   }
-   return routeLoading.value;
+   return props.loading || routeLoading;
 });
-const actions = new Collection(props.rowActions);
 
 const filterInput = computed({
    get: () => props.filters,
    set: (values) => {
-      _toPairs(values).forEach(([field, { constraints }]) => {
-         if (!meta.value.filters[field]) return;
+      _toPairs(values).forEach(([field, filter]) => {
+         if (!_has(meta.value.filters, field)) return;
 
          _merge(meta.value.filters[field], {
-            ...values[field],
+            ..._get(values as object, field),
             ..._pick(props.filters[field], ['dataType'])
          });
 
-         if (meta.value.filters[field]?.constraints && _isArray(constraints)) {
-            _set(meta.value.filters[field], 'constraints', constraints);
+         if (meta.value.filters[field]?.constraints && _isArray(filter.constraints)) {
+            _set(meta.value.filters[field], 'constraints', filter.constraints);
          }
       });
 
@@ -109,43 +90,105 @@ const filterInput = computed({
 
 const selection = defineModel('selection');
 
-const values = defineModel('value');
+const values = defineModel<CustomTableProps<T>['value']>('value');
+
+const dialogRef = inject('dialogRef', null as any);
+
+function useTableMeta({ useMeta, columns, filters, stateKey, rows }: UseTableMetaOptions<T>) {
+   const stateStorage = !dialogRef?.value && useMeta ? 'local' : 'session';
+   const metaStateKey = 'dt-' + (stateStorage === 'local' ? stateKey : _uniqueId());
+   const routeMeta = computed<CustomTableMetaEvent<T>>(() => {
+      const json = (route.query?.meta as string) || compressToEncodedURIComponent('{}');
+      const decodedMeta = decompressFromEncodedURIComponent(json);
+      return JSON.parse(decodedMeta);
+   });
+
+   const initialValue: Partial<DataTableStateEvent> = {
+      expandedRows: {},
+      expandedRowGroups: [],
+      rows: rows,
+      multiSortMeta: _chain(columns)
+         .filter(({ field, sortOrder }) => !!field && !!sortOrder)
+         .sortBy(({ sortOrder }) => sortOrder?.value || 0)
+         .map(({ field, sortOrder }) => ({ field, order: sortOrder?.value }))
+         .value() as DataTableSortMeta[]
+   };
+   const storageOptions = { mergeDefaults: true, writeDefaults: true };
+
+   const meta = <RemovableRef<CustomTableMetaEvent<T>>>(
+      (stateStorage === 'local' ? useLocalStorage : useSessionStorage)?.(
+         metaStateKey,
+         initialValue,
+         storageOptions
+      )
+   );
+
+   meta.value.filters = _merge(filters, meta.value.filters);
+
+   _merge(meta.value, _get(routeMeta.value, metaStateKey, {}));
+
+   const onMeta = async (event: CustomTableMetaEvent = meta.value) => {
+      _merge(meta.value, { ...event, filters: filterInput.value });
+
+      if (stateStorage === 'local') {
+         const metaData = {
+            ...routeMeta.value,
+            [metaStateKey]: _pick(meta.value, [
+               'filters',
+               'first',
+               'rows',
+               'multiSortMeta',
+               'expandedRows'
+            ])
+         };
+         const json = JSON.stringify(metaData);
+         const compressedMeta = compressToEncodedURIComponent(json);
+         await router.replace({
+            ...route,
+            query: {
+               ...route?.query,
+               meta: compressedMeta
+            }
+         });
+      }
+      emit('meta', meta.value);
+   };
+
+   watch(
+      () => _pick(meta.value, ['filters', 'rows', 'first', 'multiSortMeta']),
+      _throttle(onMeta, 500),
+      { deep: true }
+   );
+
+   if (stateStorage == 'session') sessionStorage.removeItem(metaStateKey);
+
+   onUnmounted(() => stateStorage == 'session' && sessionStorage.removeItem(metaStateKey));
+
+   return {
+      stateStorage,
+      metaStateKey,
+      meta,
+      onMeta
+   };
+}
+
+const actions = Collection.create(props.rowActions);
+const { meta, stateStorage, metaStateKey, onMeta } = useTableMeta(props);
 
 const tableValue = computed(() => {
-   return values.value?.length > 0 || !loading.value
-      ? values.value?.filter?.(
-           (v) =>
-              !tableProps.value?.frozenValue?.some(
-                 (f) => _get(f, tableProps.value.dataKey) === _get(v, tableProps.value.dataKey)
-              )
-        )
-      : new Array(tableProps.value?.rows);
+   const dataKey = props.dataKey as string;
+   const res =
+      values.value?.length > 0
+         ? values.value?.filter?.(
+              (v) => !props.frozenValue?.some((f) => _get(f, dataKey) === _get(v, dataKey))
+           )
+         : new Array(props.totalRecords);
+   return res;
 });
-
-const tableProps = computed(() => ({
-   dataKey: 'id',
-   reorderableColumns: true,
-   paginator: true,
-   filterDisplay: 'menu',
-   sortMode: 'multiple',
-   removableSort: true,
-   lazy: true,
-   rowsPerPageOptions: [1, 5, 10],
-   paginatorTemplate:
-      'FirstPageLink PrevPageLink PageLinks NextPageLink RowsPerPageDropdown CurrentPageReport',
-   resizableColumns: true,
-   showGridlines: true,
-   loading: loading.value,
-   stateStorage,
-   rowGroupMode: 'rowspan',
-   groupRowsBy: meta.value.multiSortMeta?.map(({ field }) => field),
-   ...meta.value,
-   ...attrs,
-   stateKey
-}));
 </script>
 <template>
    <DataTable
+      v-bind="_merge({}, props, $attrs)"
       :pt="{
          header: {
             class: 'custom_table__header'
@@ -154,28 +197,36 @@ const tableProps = computed(() => ({
             class: 'custom_table__footer'
          }
       }"
+      class="custom_table"
+      :rows="meta.rows"
+      :loading="loading"
+      selection-mode="radiobutton"
+      :stateStorage
+      :state-key="metaStateKey"
+      :groupRowsBy="meta.multiSortMeta?.map(({ field }) => field)"
       v-model:filters="filterInput"
-      v-model:expanded-rows="meta.expandedRows"
       v-model:expanded-row-groups="meta.expandedRowGroups"
       v-model:multi-sort-meta="meta.multiSortMeta"
       v-model:selection="selection"
-      @page="(value) => onMeta(value)"
-      @sort="(value) => onMeta(value)"
-      v-bind="tableProps"
-      selection-mode="radioButton"
+      v-model:expanded-rows="meta.expandedRows"
+      @page="(value: any) => onMeta(value)"
+      @sort="(value: any) => onMeta(value)"
       :value="tableValue"
-      class="custom_table"
    >
       <template #empty>
          <span class="custom_table__no-data" v-text="$t('no_data_found')" />
       </template>
-      <template v-for="slot in _keys($slots)" #[slot]="slotProps" :key="`slot_${slot}`">
+      <template
+         v-for="slot in _keys(_omit($slots, ['expansion']))"
+         #[slot]="slotProps"
+         :key="`slot_${slot}`"
+      >
          <slot v-bind="slotProps" :name="slot" :key="`slot_${slot}`" />
       </template>
-      <template v-if="!tableProps.loading" #expansion="slotProps">
-         <span class="custom_table__expansion">
+      <template #expansion="slotProps">
+         <span class="custom_table__expansion" v-if="$slots.expansion">
             <Suspense>
-               <slot name="expansion" v-bind="{ ...tableProps, ...slotProps }" />
+               <slot name="expansion" v-bind="slotProps" />
                <template #fallback>
                   <ProgressBar mode="indeterminate" class="!h-1" />
                </template>
@@ -183,67 +234,65 @@ const tableProps = computed(() => ({
          </span>
       </template>
       <Column
-         v-if="tableProps.selectionMode"
-         :selectionMode="tableProps.selectionMode"
+         v-if="selectionMode && selection"
+         :selectionMode="selectionMode"
          class="custom_table__column custom_table__column--header"
       />
       <Column
-         v-if="$slots.expansion && (tableProps?.frozenValue?.length || tableValue?.length)"
+         v-if="$slots.expansion && (frozenValue?.length || tableValue?.length)"
          field="_expansion"
          expander
          class="custom_table__column custom_table__column--expander"
          style="max-width: 4rem !important; width: 4rem !important"
       />
       <Column
+         v-bind="column"
          class="custom_table__column"
          v-for="(column, i) in columns"
-         :key="'column_' + (column?.field ? column?.field + i : i) || i"
+         :key="'column_' + (column?.field.toString() ? +column?.field.toString() + i : i) || i"
          showClearButton
-         :data-type="DATA_TYPES[meta?.filters?.[column?.field]?.dataType]"
-         :showFilterOperator="column?.field?.split?.('.')?.length > 1 ? false : true"
-         :showFilterMenu="!!meta?.filters?.[`${column?.field}`]"
-         v-bind="column"
-         :header="$slots[`${_snakeCase(column?.field)}_header`] ? undefined : column?.header"
-         :footer="$slots[`${_snakeCase(column?.field)}_footer`] ? undefined : column?.footer"
+         :data-type="_get(DATA_TYPES, meta?.filters?.[column?.field.toString()]?.dataType)"
+         :showFilterOperator="column?.field.toString()?.split?.('.')?.length > 1 ? false : true"
+         :showFilterMenu="!!meta?.filters?.[`${column?.field.toString()}`]"
+         :header="column.header && $t(column.header)"
+         :footer="column.footer && $t(column.footer)"
       >
          <template
             v-for="slot in _keys($slots)
                .filter(
                   (key) =>
+                     key.startsWith(`${_snakeCase(column?.field.toString())}_`) &&
                      !key.endsWith('body') &&
-                     !key.endsWith('filter') &&
-                     key.startsWith(`${_snakeCase(column?.field)}_`)
+                     !key.endsWith('filter')
                )
-               .map((key) => key.replace(`${_snakeCase(column?.field)}_`, ''))"
+               .map((key) => key.replace(`${_snakeCase(column?.field.toString())}_`, ''))"
             #[slot]="slotProps"
-            :key="`${_snakeCase(column?.field)}_slot_${slot}`"
+            :key="`${_snakeCase(column?.field.toString())}_slot_${slot}`"
          >
             <slot
-               v-if="_has($slots, `${_snakeCase(column?.field)}_${slot}`)"
-               :name="`${_snakeCase(column?.field)}_${slot}`"
+               v-if="_has($slots, `${_snakeCase(column?.field.toString())}_${slot}`)"
+               :name="`${_snakeCase(column?.field.toString())}_${slot}`"
                v-bind="_merge(column, _omitBy(slotProps, isVNode))"
             />
          </template>
-
-         <template #filtericon="slotProps">
+         <template #filtericon>
             <IconField
                :class="[
-                  slotProps.class,
-                  meta?.filters?.[`${column?.field}`]?.constraints?.some?.(
+                  meta?.filters?.[`${column?.field.toString()}`]?.constraints?.some?.(
                      ({ value }) => !_isNil(value)
-                  ) || !_isNil(meta?.filters?.[column?.field]?.value)
+                  ) || !_isNil(meta?.filters?.[column?.field.toString()]?.value)
                      ? `custom_table__filter-icon ${PrimeIcons.FILTER_FILL}`
                      : PrimeIcons.FILTER
                ]"
             />
          </template>
-         <template #filter="slotProps" v-if="!!meta?.filters?.[column?.field]">
+         <template #filter="slotProps" v-if="!!meta?.filters?.[column?.field.toString()]">
             <slot :name="`${_snakeCase(slotProps?.field)}_filter`" v-bind="slotProps">
                <FormField fluid v-if="slotProps?.filterModel">
                   <template v-slot="inputProps">
                      <DatePicker
                         v-if="
-                           meta?.filters?.[column?.field]?.dataType === 'date' ||
+                           meta?.filters?.[column?.field.toString()]?.dataType === 'date' ||
                            [
                               FilterMatchMode.DATE_IS,
                               FilterMatchMode.DATE_IS_NOT,
@@ -259,12 +308,16 @@ const tableProps = computed(() => ({
                      />
                      <InputNumber
                         v-else-if="
-                           ['numeric', 'decimal'].includes(meta?.filters?.[column?.field]?.dataType)
+                           ['numeric', 'decimal'].includes(
+                              meta?.filters?.[column?.field.toString()]?.dataType
+                           )
                         "
                         v-bind="inputProps"
                         v-model="slotProps.filterModel.value"
                         :max-fraction-digits="
-                           meta?.filters?.[column?.field]?.dataType === 'decimal' ? 3 : null
+                           meta?.filters?.[column?.field.toString()]?.dataType === 'decimal'
+                              ? 3
+                              : null
                         "
                         @keydown.enter="slotProps.filterCallback"
                      />
@@ -279,21 +332,24 @@ const tableProps = computed(() => ({
                </FormField>
             </slot>
          </template>
-         <template v-if="!column.expander && column?.field" #body="body">
-            <slot :name="`${_snakeCase(body?.field)}_body`" v-bind="body">
-               <Skeleton v-if="loading && !_has(body?.data, body.field)" :height="'2rem'" />
+         <template #body="body" v-if="!column.expander && column?.field.toString()">
+            <slot :name="`${_snakeCase(body?.field?.toString())}_body`" v-bind="body">
+               <Skeleton
+                  v-if="loading && !_has(body?.data, body?.field?.toString())"
+                  :height="'2rem'"
+               />
                <div
                   v-else
                   class="custom_table__cell"
-                  :title="_get(body?.data, body.field)"
-                  v-text="_get(body?.data, body.field)"
+                  :title="$t(_get(body?.data, body?.field?.toString(), ''))"
+                  v-text="$t(_get(body?.data, body?.field?.toString(), ''))"
                />
             </slot>
          </template>
       </Column>
       <Column
          v-if="
-            (actions._data?.length && (tableProps?.frozenValue?.length || tableValue?.length)) ||
+            (actions._data?.length && (frozenValue?.length || tableValue?.length)) ||
             $slots.table_actions
          "
          field="_actions"
@@ -317,11 +373,11 @@ const tableProps = computed(() => ({
 <style lang="scss">
 .custom_table {
    &__header {
-      @apply empty:hidden;
+      @apply empty:hidden !important;
    }
 
    &__footer {
-      @apply empty:hidden;
+      @apply empty:hidden !important;
    }
 
    &__expansion {

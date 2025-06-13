@@ -1,4 +1,4 @@
-export const recordTypes = [
+export const RECORD_TYPES = [
    {
       value: 'trial',
       label: i18n.t('trial')
@@ -21,18 +21,18 @@ export const recordTypes = [
    }
 ];
 
-export const paymentTypes = [
+export const PAYMENT_TYPES = [
    {
       value: 'cash',
       label: i18n.t('cash')
    },
    {
       value: 'credit_card',
-      label: i18n.t('credit card')
+      label: i18n.t('credit_card')
    }
 ];
 
-export const recordStatuses = new Proxy(
+export const RECORD_STATUSES = new Proxy(
    {
       repair: [
          {
@@ -90,7 +90,7 @@ export const recordStatuses = new Proxy(
    }
 );
 
-export const moldTypes = [
+export const MOLD_TYPES = [
    {
       value: 'biopar',
       label: i18n.t('biopar')
@@ -101,7 +101,7 @@ export const moldTypes = [
    }
 ];
 
-export const moldModels = [
+export const MOLD_MODELS = [
    {
       value: 'micro',
       label: i18n.t('micro')
@@ -123,7 +123,7 @@ export const moldModels = [
       label: i18n.t('prob')
    }
 ];
-export const innerMoldModels = [
+export const INNER_MOLD_MODELS = [
    {
       value: 'ITE',
       label: i18n.t('ITE')
@@ -138,18 +138,18 @@ export const innerMoldModels = [
    }
 ];
 
-export const moldVentilation = {
+export const MOLD_VENTILATION = {
    min: 0,
    max: 3,
    step: 0.2
 };
 
-export const moldSpeakerSize = {
+export const MOLD_SPEAKER_SIZE = {
    min: 1,
    max: 5,
    step: 1
 };
 
-export const moldSpeakerPowers = ['s', 'm', 'p', 'hp', '85', '100', '105'];
+export const MOLD_SPEAKER_POWERS = ['s', 'm', 'p', 'hp', '85', '100', '105'];
 
-export const innerMoldSpeakerPowers = ['65', '80', '100'];
+export const INNER_MOLD_SPEAKER_POWERS = ['65', '80', '100'];

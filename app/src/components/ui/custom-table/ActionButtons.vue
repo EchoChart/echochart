@@ -1,31 +1,34 @@
-<script setup>
-/**@type{{items:import('primevue/menuitem').MenuItem[]}}} */
-const props = defineProps({
-   body: Object,
-   items: {
-      type: Array,
-      required: false
-   }
-});
+<script setup lang="ts">
+import { MenuItem } from 'primevue/menuitem';
+import { computed, defineProps } from 'vue';
 
-const getSeverity = (item) => {
+const props = defineProps<{
+   body: object;
+   items?: MenuItem[];
+}>();
+
+const getSeverity = (item: MenuItem): string => {
    switch (item?.icon) {
       case PrimeIcons.TRASH:
          return 'danger';
       case PrimeIcons.PENCIL:
          return 'info';
+      default:
+         return '';
    }
 };
 
 const buttons = computed(() => {
-   return props.items.map((item) => {
-      const pairs = _toPairs(item);
-      const transformedPairs = pairs.map(([key, value]) => [
-         key,
-         typeof value === 'function' ? value(props.body) : value
-      ]);
-      return _fromPairs(transformedPairs);
-   });
+   return props.items
+      ? props.items.map((item) => {
+           const pairs = _toPairs(item);
+           const transformedPairs = pairs.map(([key, value]) => [
+              key,
+              typeof value === 'function' ? value(props.body) : value
+           ]);
+           return _fromPairs(transformedPairs);
+        })
+      : [];
 });
 </script>
 

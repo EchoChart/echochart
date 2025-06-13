@@ -109,7 +109,7 @@ function formatValue(value, indentSize = 1) {
    return i18n.te(value) ? i18n.t(value) : value;
 }
 
-const log = new Collection(getChanges(props.data));
+const log = Collection.create(getChanges(props.data));
 
 if (props.id) {
    await supabase
@@ -124,13 +124,13 @@ if (props.id) {
 </script>
 
 <template>
-   <Panel class="audit_card__panel" :header="log?.table_name">
+   <Panel class="audit_card__panel" :header="$t(log?.table_name)">
       <template #icons>
          <Tag v-bind="getLogTagProps(log?._data)" />
       </template>
       <div class="audit_card__changes-container" v-if="_size(log.changes) > 0">
          <div v-for="(entry, i) in log?.changes" :key="log?.id + i" class="audit_card__change-item">
-            <span class="audit_card__key">{{ entry?.key }}</span>
+            <span class="audit_card__key" v-text="$t(entry?.key)" />
 
             <div class="audit_card__value-container">
                <Tag severity="danger" v-if="entry?.type !== 'add'" class="audit_card__old-value">

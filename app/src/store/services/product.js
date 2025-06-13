@@ -3,8 +3,8 @@ import Collection from '@/lib/Collection';
 export const useProductStore = defineStore('product', () => {
    const useProducts = () => {
       const defaultSelect = '*, categories: product_category(*)';
-      const products = new Collection(null);
-      const productsByCategory = new Collection({});
+      const products = Collection.create(null);
+      const productsByCategory = Collection.create({});
 
       async function fetchProducts(select = defaultSelect) {
          const res = await supabase.from('product').select(select).throwOnError();
@@ -51,7 +51,7 @@ export const useProductStore = defineStore('product', () => {
    };
 
    const useCategories = () => {
-      const categories = new Collection(null);
+      const categories = Collection.create(null);
 
       async function fetchCategories(select = '*') {
          const res = await supabase.from('product_category').select(select).throwOnError();
@@ -74,7 +74,7 @@ export const useProductStore = defineStore('product', () => {
    };
 
    const useBrands = () => {
-      const productBrands = new Collection(null);
+      const productBrands = Collection.create(null);
 
       async function fetchProductBrands(select = '*') {
          const res = await supabase.from('product_brands').select(select).throwOnError();

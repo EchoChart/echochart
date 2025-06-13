@@ -1,22 +1,33 @@
-/**
- * @file This file is responsible for configuring and creating an instance of Supabase with custom fetch behavior.
- *
- * It includes functions to handle different types of filter conditions, date formatting, confirmation dialogs for delete actions,
- * and memoization for caching API requests. The main purpose is to provide a flexible and secure way to interact with the database
- * through the Supabase client.
- */
+// app/src/lib/supabase.ts
 
+import { CustomTableMetaEvent } from '@/components/ui/custom-table/CustomTable.vue';
 import { app } from '@/main';
 import { clientPersister, queryClient } from '@/plugins/tanstack-query';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import axios from 'axios';
+import { FilterOperatorOptions } from '@primevue/core';
+import { createClient, SupabaseClientOptions } from '@supabase/supabase-js';
+import axios, { AxiosHeaders } from 'axios';
 
-/**
- * @constant FilterModes
- * @type {Object}
- * Defines how different filter conditions are translated into API query strings.
- */
-const FilterModes = {
+// Define types
+type FilterMode = {
+   [key: string]: (value: any, field: string) => string | null;
+};
+
+type FilterConfig = {
+   operator: FilterOperatorOptions['AND'] | FilterOperatorOptions['OR'];
+   dataType?: string;
+   matchMode: string;
+   value: any;
+   constraints?: Array<{ matchMode: string; value: any }>;
+};
+
+type Filters = Record<string, FilterConfig>;
+
+type FilterModes = {
+   [key: FilterOperatorOptions['AND'] | FilterOperatorOptions['OR']]: FilterMode;
+};
+
+// FilterModes configuration
+const FilterModes: FilterModes = {
    [FilterOperator.OR]: {
       ['websearch']: (value, field) => `${field}.wfts.${value}`,
       ['plain']: (value, field) => `${field}.plfts.${value}`,
@@ -44,7 +55,6 @@ const FilterModes = {
       },
       [FilterMatchMode.DATE_BEFORE]: (value, field) =>
          `${field}.lt.${useDateFormat(Date.parse(value), 'YYYY-MM-DD').value}`,
-
       [FilterMatchMode.DATE_AFTER]: (value, field) =>
          `${field}.gt.${useDateFormat(Date.parse(value), 'YYYY-MM-DD').value}`
    },
@@ -75,37 +85,28 @@ const FilterModes = {
       },
       [FilterMatchMode.DATE_BEFORE]: (value, field) =>
          `${field}=lt.${useDateFormat(Date.parse(value), 'YYYY-MM-DD').value}`,
-
       [FilterMatchMode.DATE_AFTER]: (value, field) =>
          `${field}=gt.${useDateFormat(Date.parse(value), 'YYYY-MM-DD').value}`
    }
 };
 
-/**
- * @function getFilterQuery
- * Generates a query string based on the given filters.
- *
- * @param {Object} filters - The filter configuration object.
- * @returns {string} The generated query string or an empty string if no valid filters are provided.
- */
-const getFilterQuery = (filters) => {
+const getFilterQuery = (filters: Filters): string => {
    // Check if the filters object is nil or has no properties
    if (_isNil(filters) || _size(filters) <= 0) return '';
-
-   /**
-    * Reducer function to process each filter and generate query parts.
-    *
-    * @param {Object} filters - The filter configuration object.
-    * @returns {Array} An array of filter parts or null if any part is invalid.
-    */
-   const reducerFn = (filters) => {
-      /**
-       * Helper function to get the filter parts based on field, dataType, operator, and matchMode.
-       *
-       * @param {Object} options - The options object containing field, dataType, operator, matchMode, value, and constraints.
-       * @returns {Array|null} An array of filter parts or null if any part is invalid.
-       */
-      function getFilterParts({ field, dataType = 'text', operator, matchMode, value }) {
+   const reducerFn = (filters: Filters): Array<any> => {
+      function getFilterParts({
+         field,
+         dataType = 'text',
+         operator,
+         matchMode,
+         value
+      }: {
+         field: string;
+         dataType?: string;
+         operator: FilterOperatorOptions['AND'] | FilterOperatorOptions['OR'];
+         matchMode: string;
+         value: any;
+      }): string | null {
          // Get the filter mode based on operator and matchMode
          const filterMode = FilterModes[operator][matchMode];
 
@@ -135,7 +136,7 @@ const getFilterQuery = (filters) => {
          if ((_isArrayLikeObject(value) || _isString(value)) && _isEmpty(value)) return null;
 
          // Get the filter parts using the filter mode function
-         let filterParts = filterMode(value, field, operator, dataType);
+         let filterParts = filterMode(value, field);
 
          // Return null if filter parts are invalid
          if (!filterParts || filterParts.includes(null)) {
@@ -147,7 +148,7 @@ const getFilterQuery = (filters) => {
 
       // Process each key-value pair in the filters object
       return _toPairs(filters).reduce(
-         (acc, [field, { operator, dataType, matchMode, value, constraints }]) => {
+         (acc: Array<any>, [field, { operator, dataType, matchMode, value, constraints }]) => {
             // Replace commas with dots in string values
             if (!_isNil(value) && _isEmpty(value)) return acc;
 
@@ -248,14 +249,7 @@ const getFilterQuery = (filters) => {
    return query;
 };
 
-/**
- * @function handleDeleteDialog
- * Handles the delete action, including confirming with the user and preventing deletion if not confirmed.
- *
- * @param {Object} options - The fetch options object.
- * @returns {Promise<boolean>} A promise that resolves to true if deletion is confirmed, otherwise false.
- */
-const handleDeleteDialog = async (options) => {
+const handleDeleteDialog = async (options: RequestInit & Request): Promise<boolean> => {
    if (_toUpper(options.method) !== 'DELETE' || options.headers.has('x-delete-confirmed')) return;
    options.headers.delete('x-delete-confirmed');
 
@@ -283,15 +277,7 @@ const handleDeleteDialog = async (options) => {
    });
 };
 
-/**
- * @function handleMeta
- * Modifies the URL based on pagination and sorting metadata provided in the headers.
- *
- * @param {string} url - The base URL.
- * @param {Object} options - The fetch options object.
- * @returns {string} The modified URL.
- */
-const handleMeta = (url, options) => {
+const handleMeta = (url: string | URL, options: RequestInit & Request): string | URL => {
    if (!options?.headers?.has?.('meta')) return url;
 
    const { filters, first, rows, multiSortMeta } = JSON.parse(
@@ -308,9 +294,9 @@ const handleMeta = (url, options) => {
    if (_size(multiSortMeta) > 0) {
       const orderFilters =
          '&order=' +
-         multiSortMeta
+         (multiSortMeta as CustomTableMetaEvent['multiSortMeta'])
             .reduce((acc, { field, order }) => {
-               const nestedFormat = field
+               const nestedFormat = (field as string)
                   .split('.')
                   .reverse()
                   .reduce((acc, part) => `${part}${acc ? `(${acc})` : ''}`, '');
@@ -328,149 +314,140 @@ const handleMeta = (url, options) => {
    return url;
 };
 
-/**
- * Configuration object for the Supabase client, including a custom fetch function that handles memoization,
- * global tenant ID addition, and delete confirmation.
- * @type {import('@supabase/supabase-js').SupabaseClientOptions<Extract<keyof Db, "public">>}
- */
-const options = {
+const customFetch = async (
+   url: string | URL,
+   options: RequestInit & Request
+): Promise<Response> => {
+   const { currentTenant } = useAuthStore();
+   const body = JSON.parse((options?.body as string) || '{}');
+
+   url = handleMeta(url, options);
+
+   await handleDeleteDialog(options);
+
+   if (currentTenant?.display_name) {
+      options?.headers?.set?.('x-tenant', currentTenant?.display_name);
+   }
+
+   if (
+      currentTenant?.id &&
+      !_isNil(body) &&
+      !_isEmpty(body) &&
+      !_isArray(body) &&
+      !_includes(url as string, 'rpc/')
+   ) {
+      _merge(body, { tenant_id: currentTenant?.id });
+      options.body = JSON.stringify(body) as any;
+   }
+
+   const queryFn = () =>
+      axios({
+         url: url.toString(),
+         method: options?.method,
+         headers: options?.headers as unknown as AxiosHeaders,
+         data: options.body ? JSON.parse(options.body as string) : undefined,
+         signal: options.signal
+      });
+
+   const { pathname, searchParams } = URL.parse(url);
+   const method = _toUpper(options.method);
+   const isDataUpdating =
+      _includes(['POST', 'PATCH', 'DELETE', 'PUT'], method) && _startsWith(pathname, '/rest');
+   const isDataFetcing = _includes(['GET', 'HEAD'], method) && _startsWith(pathname, '/rest');
+   const queryFilters = _fromPairs(searchParams.entries().toArray());
+   const queryKey = [pathname, queryFilters, body];
+   const staleTime = isDataFetcing ? 1000 * 20 : 1000;
+   const gcTime = isDataFetcing ? 1000 * 60 * 60 * 24 : 1000;
+   const persister = !_isNil(window) && isDataFetcing ? clientPersister.persisterFn : undefined;
+
+   const promise = queryClient
+      .fetchQuery({
+         queryKey,
+         queryFn,
+         persister,
+         gcTime,
+         staleTime
+      })
+      .then(async (response) => ({
+         ...response,
+         ok: true,
+         status: response.status,
+         json: async () => response.data,
+         text: async () => JSON.stringify(response.data),
+         headers: new Headers(response.headers as HeadersInit)
+      }))
+      .catch((error) => ({
+         ...error,
+         ok: false,
+         status: error?.response?.status || 500,
+         json: async () => error?.response?.data,
+         text: async () => JSON.stringify(error?.response?.data),
+         headers: new Headers(error?.response?.headers)
+      }))
+      .finally(async () => {
+         if (!isDataUpdating) return;
+         await queryClient.invalidateQueries({
+            predicate: (query) => {
+               const [sourcePath, sourceFilters, sourceBody] = queryKey as any;
+               const targetBody = (query?.state?.data as any)?.data;
+
+               _toPairs(sourceFilters).forEach(([key, value]) => {
+                  key = _toLower(key);
+                  if (!_endsWith(key, 'id')) return;
+                  if (_has(sourceBody, key)) return;
+
+                  const filter = _replace(value as any, /.+\./, '');
+                  _set(sourceBody, key, filter);
+               });
+
+               const compareIdsDeep = (
+                  source: any,
+                  target: any,
+                  sourceKey?: string,
+                  targetKey?: string
+               ): boolean => {
+                  if (_isObject(source)) {
+                     return _some(_toPairs(source), ([sourceKey, sourceItem]) => {
+                        return compareIdsDeep(sourceItem, target, sourceKey, targetKey);
+                     });
+                  }
+
+                  if (_isObject(target)) {
+                     return _some(_toPairs(target), ([targetKey, targetItem]) => {
+                        return compareIdsDeep(source, targetItem, sourceKey, targetKey);
+                     });
+                  }
+
+                  if (!_endsWith(_toLower(sourceKey), 'id')) return false;
+                  if (!_endsWith(_toLower(targetKey), 'id')) return false;
+                  return _isEqual(source, target);
+               };
+
+               const dataStaled = compareIdsDeep(sourceBody, targetBody);
+               return dataStaled;
+            }
+         });
+      });
+
+   return promise;
+};
+
+const supabaseOptions: SupabaseClientOptions<'Public'> = {
    auth: {
-      detectSessionInUrl: true
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: false
    },
    global: {
-      fetch: async (url, options) => {
-         const { currentTenant } = useAuthStore();
-         const body = JSON.parse(options?.body || '{}');
-
-         url = handleMeta(url, options);
-
-         await handleDeleteDialog(options);
-
-         if (currentTenant?.display_name) {
-            options?.headers?.set?.('x-tenant', currentTenant?.display_name);
-         }
-
-         if (
-            currentTenant?.id &&
-            !_isNil(body) &&
-            !_isEmpty(body) &&
-            !_isArray(body) &&
-            !_includes(url, 'rpc/')
-         ) {
-            _merge(body, { tenant_id: currentTenant?.id });
-            options.body = JSON.stringify(body);
-         }
-
-         /**
-          * Executes the query using axios and handles the response.
-          * @returns {Promise<Object>} - A promise that resolves with the response from the server.
-          */
-         const queryFn = () =>
-            axios({
-               url,
-               method: options?.method,
-               headers: options?.headers,
-               data: options.body ? JSON.parse(options.body) : undefined,
-               signal: options.signal
-            });
-
-         /**@type {URL} */
-         const { pathname, searchParams } = URL.parse(url);
-         const method = _toUpper(options.method);
-         const isDataUpdating =
-            _includes(['POST', 'PATCH', 'DELETE', 'PUT'], method) && _startsWith(pathname, '/rest');
-         const isDataFetcing = _includes(['GET', 'HEAD'], method) && _startsWith(pathname, '/rest');
-         const queryFilters = _fromPairs(searchParams.entries().toArray());
-         const queryKey = [pathname, queryFilters, body];
-         const staleTime = isDataFetcing ? 1000 * 20 : 1000;
-         const gcTime = isDataFetcing ? 1000 * 60 * 60 * 24 : 1000;
-         const persister =
-            !_isNil(window) && isDataFetcing ? clientPersister.persisterFn : undefined;
-
-         /**
-          * Fetches the query using queryClient and handles memoization.
-          * @returns {Promise<Object>} - A promise that resolves with the response from the server.
-          */
-         const promise = queryClient
-            .fetchQuery({
-               queryKey,
-               queryFn,
-               persister,
-               gcTime,
-               staleTime
-            })
-            .then(async (response) => ({
-               ...response,
-               ok: true,
-               status: response.status,
-               json: async () => response.data,
-               text: async () => JSON.stringify(response.data),
-               headers: new Headers(response.headers)
-            }))
-            .catch((error) => ({
-               ...error,
-               ok: false,
-               status: error?.response?.status || 500,
-               json: async () => error?.response?.data,
-               text: async () => JSON.stringify(error?.response?.data),
-               headers: new Headers(error?.response?.headers)
-            }))
-            .finally(async () => {
-               if (!isDataUpdating) return;
-               await queryClient.invalidateQueries({
-                  predicate: (query) => {
-                     const [sourcePath, sourceFilters, sourceBody] = queryKey;
-                     const targetBody = query?.state?.data?.data;
-
-                     _toPairs(sourceFilters).forEach(([key, value]) => {
-                        key = _toLower(key);
-                        if (!_endsWith(key, 'id')) return;
-                        if (_has(sourceBody, key)) return;
-
-                        const filter = _replace(value, /.+\./, '');
-                        _set(sourceBody, key, filter);
-                     });
-
-                     const compareIdsDeep = (source, target, sourceKey, targetKey) => {
-                        if (_isObject(source)) {
-                           return _some(_toPairs(source), ([sourceKey, sourceItem]) => {
-                              return compareIdsDeep(sourceItem, target, sourceKey, targetKey);
-                           });
-                        }
-
-                        if (_isObject(target)) {
-                           return _some(_toPairs(target), ([targetKey, targetItem]) => {
-                              return compareIdsDeep(source, targetItem, sourceKey, targetKey);
-                           });
-                        }
-
-                        if (!_endsWith(_toLower(sourceKey), 'id')) return false;
-                        if (!_endsWith(_toLower(targetKey), 'id')) return false;
-                        return _isEqual(source, target);
-                     };
-
-                     const dataStaled = compareIdsDeep(sourceBody, targetBody);
-                     return dataStaled;
-                  }
-               });
-            });
-
-         return promise;
-      }
+      headers: { 'X-Custom-Header': 'MyApp' },
+      fetch: customFetch as typeof fetch
    }
 };
 
-/**
- * @type {SupabaseClient<Db>}
- */
-export const supabase = import.meta.env.DEV
-   ? createClient(
-        import.meta.env.VITE_SUPABASE_PROJECT_URL,
-        import.meta.env.VITE_SUPABASE_PROJECT_ANON_KEY,
-        options
-     )
-   : createClient(
-        import.meta.env.VITE_SUPABASE_PROJECT_URL,
-        import.meta.env.VITE_SUPABASE_PROJECT_ANON_KEY,
-        options
-     );
+const env = (import.meta as any).env;
+
+export const supabase = createClient(
+   env.VITE_SUPABASE_PROJECT_URL,
+   env.VITE_SUPABASE_PROJECT_ANON_KEY,
+   supabaseOptions
+);
