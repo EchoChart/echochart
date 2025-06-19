@@ -7,14 +7,15 @@ defineOptions({
    inheritAttrs: false
 });
 
+const { t } = useI18n();
 const attrs = useAttrs();
 const router = useRouter();
-/**@type {Collection<ResourceTableProps['columns']>} */
-const columns = Collection.create([
+/**@type {ComputedRef<ResourceTableProps['columns']>} */
+const columns = computed(() => [
    {
       field: 'display_name',
       sortable: true,
-      header: i18n.t('product'),
+      header: t('stock.product.table.headers.product'),
       sortOrder: { value: -1 }
    },
    {
@@ -23,19 +24,19 @@ const columns = Collection.create([
       showFilterMatchModes: false,
       showFilterOperator: false,
       showAddButton: false,
-      header: i18n.t('brand')
+      header: t('stock.product.table.headers.brand')
    },
    {
       field: 'categories.display_name',
       showFilterMatchModes: false,
       showFilterOperator: false,
       showAddButton: false,
-      header: i18n.t('categories')
+      header: t('stock.product.table.headers.categories')
    },
    {
       field: 'created_at',
       sortable: true,
-      header: i18n.t('created_at'),
+      header: t('stock.product.table.headers.created_at'),
       sortOrder: { value: -1 }
    }
 ]);
@@ -74,7 +75,7 @@ const filters = ref({
 const stateKey = 'product';
 const rowActions = Collection.create([
    {
-      label: i18n.t('delete'),
+      label: t('action.delete'),
       command:
          ({ data }) =>
          async () =>
@@ -88,7 +89,7 @@ const rowActions = Collection.create([
       icon: PrimeIcons.TRASH
    },
    {
-      label: i18n.t('edit'),
+      label: t('action.edit'),
       command:
          ({ data }) =>
          async () =>
@@ -112,7 +113,7 @@ const tableProps = computed(() => ({
    stateKey,
    from: 'product',
    select: '*, categories:product_category!inner(*)',
-   columns: columns._data,
+   columns: columns.value,
    rowActions: rowActions._data,
    ...attrs
 }));
@@ -129,7 +130,7 @@ const tableProps = computed(() => ({
                   :to="{ name: 'product-add' }"
                   v-slot="{ navigate }"
                >
-                  <Button variant="outlined" :label="$t('add')" @click="navigate" />
+                  <Button variant="outlined" :label="$t('action.add')" @click="navigate" />
                </CustomLink>
             </span>
          </Teleport>
@@ -143,11 +144,11 @@ const tableProps = computed(() => ({
       <template #categories_display_name_body="{ data }">
          <div class="flex gap-2 flex-wrap justify-center">
             <Tag
-               v-for="categories in data?.categories"
-               :value="$t(categories.display_name)"
+               v-for="category in data?.categories"
+               :value="$t(`fields.${_snakeCase(category?.display_name || category) || ''}`)"
                size="large"
-               :key="categories.id"
-               v-bind="PRODUCT_CATEGORY_PROPS[categories.display_name]"
+               :key="category.id"
+               v-bind="PRODUCT_CATEGORY_PROPS[category.display_name]"
             />
          </div>
       </template>

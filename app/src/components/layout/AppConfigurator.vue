@@ -17,50 +17,72 @@ const { isSignedIn } = storeToRefs(useAuthStore());
 </script>
 
 <template>
-   <div class="app-configurator__panel">
-      <div class="app-configurator__content">
-         <div class="app-configurator__row">
-            <div class="app-configurator__column">
-               <span class="app-configurator__label" v-text="$t('dark_mode')" />
-
+   <div class="app-configurator">
+      <FormBox :legend="$t('app_config.app_settings')">
+         <div class="flex gap-[inherit]">
+            <FormField
+               fluid
+               v-slot="slotProps"
+               :label="$t('app_config.theme.dark_mode.toggle_dark_mode')"
+            >
                <ToggleButton
+                  v-bind="slotProps"
                   @change="toggleDarkMode"
                   :modelValue="isDarkTheme"
-                  :onIcon="PrimeIcons.MOON"
-                  :offIcon="PrimeIcons.SUN"
-                  :onLabel="$t('dark')"
-                  :offLabel="$t('light')"
-                  :aria-label="$t('toggle_dark_mode')"
+                  onIcon="pi pi-moon"
+                  offIcon="pi pi-sun"
+                  :onLabel="$t('app_config.theme.dark_mode.dark')"
+                  :offLabel="$t('app_config.theme.dark_mode.light')"
+                  :aria-label="$t('app_config.theme.dark_mode.toggle_dark_mode')"
                />
-            </div>
-            <div class="app-configurator__column">
-               <span class="app-configurator__label" v-text="$t('language')" />
-               <SelectButton
-                  :modelValue="$i18n.locale"
-                  :options="['en', 'tr']"
-                  @change="$router.replace({ params: { locale: $event.value } })"
-               />
-            </div>
-            <div class="app-configurator__column !flex-auto w-full">
-               <span
-                  class="app-configurator__label"
-                  v-text="`${$t('ui_scale')}: ${layoutState.UIScale}`"
-               />
+            </FormField>
 
-               <Slider
-                  class="app-configurator__slider"
-                  v-model:modelValue="layoutState.UIScale"
-                  :step="0.05"
-                  :min="0.75"
-                  :max="1.1"
-                  :aria-label="$t('change_ui_scale')"
-               />
-            </div>
+            <FormField fluid v-slot="slotProps" :label="$t('app_config.language.select_language')">
+               <Select
+                  v-bind="slotProps"
+                  :modelValue="$i18n.locale"
+                  :options="SUPPORTED_LOCALES"
+                  option-label="label"
+                  option-value="value"
+                  @change="$router.replace({ params: { locale: $event.value } })"
+               >
+                  <template #option="{ option }">
+                     <div class="flex gap-2 items-center">
+                        <span
+                           class="flag !aspect-[44/30] !w-8 !h-[unset]"
+                           :class="`flag-${option.value}`"
+                        />
+                        <span v-text="option.label" />
+                     </div>
+                  </template>
+                  <template #value="{ value }">
+                     <div class="flex gap-2 items-center">
+                        <span
+                           class="flag !aspect-[44/30] !w-8 !h-[unset]"
+                           :class="`flag-${value}`"
+                        />
+                     </div>
+                  </template>
+               </Select>
+            </FormField>
          </div>
-         <div class="app-configurator__section">
-            <span class="app-configurator__label" v-text="$t('primary_color')" />
+
+         <FormField fluid v-slot="slotProps" :label="$t('app_config.theme.ui_scale')">
+            <Slider
+               v-bind="slotProps"
+               class="!min-w-32"
+               v-model:modelValue="layoutState.UIScale"
+               :step="0.05"
+               :min="0.75"
+               :max="1.1"
+               :aria-label="$t('app_config.theme.ui_scale')"
+            />
+         </FormField>
+
+         <FormField fluid v-slot="slotProps" :label="$t('app_config.theme.primary_color')">
             <div class="app-configurator__color-buttons">
                <Button
+                  v-bind="slotProps"
                   v-for="primaryColor of primaryColors"
                   :key="primaryColor.name"
                   :title="primaryColor.name"
@@ -76,9 +98,9 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                   }"
                />
             </div>
-         </div>
-         <div class="app-configurator__section">
-            <span class="app-configurator__label" v-text="$t('surface_color')" />
+         </FormField>
+
+         <FormField fluid v-slot="slotProps" :label="$t('app_config.theme.surface_color')">
             <div class="app-configurator__color-buttons">
                <Button
                   v-for="surface of surfaces"
@@ -97,69 +119,48 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                   }"
                />
             </div>
-         </div>
-         <div class="app-configurator__section">
-            <span class="app-configurator__label" v-text="$t('presets')" />
+         </FormField>
+
+         <FormField fluid v-slot="slotProps" :label="$t('app_config.theme.preset.select_preset')">
             <SelectButton
+               v-bind="slotProps"
                :modelValue="layoutState.preset"
                @change="({ value }) => setPreset(value)"
                :options="presetOptions"
                :allowEmpty="false"
-               :aria-label="$t('select_preset')"
+               :aria-label="$t('app_config.theme.preset.select_preset')"
             />
-         </div>
-         <div v-if="isSignedIn" class="app-configurator__section">
-            <span class="app-configurator__label" v-text="$t('menu_mode')" />
-            <SelectButton
+         </FormField>
+
+         <FormField
+            fluid
+            v-slot="slotProps"
+            :label="$t('app_config.sidebar.select_sidebar_mode')"
+            v-if="isSignedIn"
+         >
+            <Select
+               v-bind="slotProps"
                :modelValue="layoutState.sidebarMode"
                @change="({ value }) => setSidebarMode(value)"
                :options="sidebarModeOptions"
                :allowEmpty="false"
                optionLabel="label"
                optionValue="value"
-               :aria-label="$t('select_siderbar_mode')"
+               :aria-label="$t('app_config.sidebar.select_sidebar_mode')"
             />
-         </div>
-      </div>
+         </FormField>
+      </FormBox>
    </div>
 </template>
 
 <style lang="scss">
 .app-configurator {
-   &__panel {
-      @apply p-1 bg-surface-0 dark:bg-surface-900;
-   }
-
-   &__content {
-      @apply flex flex-col gap-8 items-start justify-start;
-   }
-
-   &__row {
-      @apply self-stretch flex gap-8 flex-wrap justify-stretch;
-   }
-
-   &__column {
-      @apply flex-1 flex flex-col gap-3;
-   }
-
-   &__label {
-      @apply text-sm text-muted-color font-semibold;
-   }
-
-   &__slider {
-      @apply my-auto;
-   }
-
-   &__section {
-      @apply flex flex-col gap-3;
-   }
-
    &__color-buttons {
       @apply flex gap-3 flex-wrap justify-center items-center;
    }
 
    &__color-button {
-      @apply w-5 h-5 !p-0 !rounded-full !border-0 outline-none outline-offset-1;
+      @apply w-5 h-5 !p-0 !rounded-full !border-0 outline-none outline-offset-1 !important;
 
       &--active {
          @apply scale-150 m-1 !outline-primary-500/75;

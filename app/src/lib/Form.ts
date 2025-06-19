@@ -2,6 +2,7 @@
 
 import Validator from '@/plugins/validatorjs';
 import { detailedDiff, diff, updatedDiff } from 'deep-object-diff';
+import { PropertyName } from 'lodash';
 import { Errors, Rules } from 'validatorjs';
 import ValidatorErrors from 'validatorjs/src/errors';
 import Collection from './Collection';
@@ -12,6 +13,8 @@ export class Form<T = any> extends Collection<T> {
    _isValid = true;
    _autoValidate = ref([]);
    _useDialogForm = ref(false);
+   _customAttributeNames = reactive<{ [key: PropertyName]: '' }>({});
+
    readonly _changedData = computed(() =>
       diff(
          (this._defaults as unknown as Ref<Partial<T & object>>).value,
@@ -39,12 +42,13 @@ export class Form<T = any> extends Collection<T> {
    }) {
       super(data);
 
-      _set(this, 'autoValidate', autoValidate);
-      _set(this, 'useDialogForm', useDialogForm);
+      _set(this, '_autoValidate', autoValidate);
+      _set(this, '_useDialogForm', useDialogForm);
 
       this._setRules(rules).#_initWatcher();
 
       if (this._useDialogForm) this.#_initDialogForm();
+
       return this;
    }
 
@@ -98,6 +102,8 @@ export class Form<T = any> extends Collection<T> {
       }
       const validation = new Validator(values, rules);
 
+      validation.setAttributeNames(this._customAttributeNames);
+
       validation.form = this;
 
       const passed = validation.passes();
@@ -121,7 +127,12 @@ export class Form<T = any> extends Collection<T> {
       return this;
    }
 
+   _setCustomAttributeNames(names: { [key: PropertyName]: string }): void {
+      _assign(this._customAttributeNames, names);
+   }
+
    static create<T>(...args: any[]) {
-      return super.create<T>(...args) as Form<T> & Form<T>['_data'];
+      const proxy = super.create<T>(...args) as Form<T> & Form<T>['_data'];
+      return proxy;
    }
 }

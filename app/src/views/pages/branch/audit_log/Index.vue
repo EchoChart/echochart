@@ -1,5 +1,6 @@
 <script setup>
 import Collection from '@/lib/Collection';
+import { useI18n } from 'vue-i18n';
 import CorrelatedAuditLogs from './CorrelatedAuditLogs.vue';
 
 defineOptions({
@@ -7,23 +8,33 @@ defineOptions({
 });
 
 const attrs = useAttrs();
+const { t } = useI18n();
 
 // Define the columns
-/**@type {Collection<ResourceTableProps['columns']>} */
-const columns = Collection.create([
-   { field: 'table_name', header: i18n.t('resource'), sortable: true, showFilterMenu: false },
+const columns = computed(() => [
+   {
+      field: 'table_name',
+      header: t('audit_log.table.headers.resource'),
+      sortable: true,
+      showFilterMenu: false
+   },
    {
       field: 'operation',
-      header: i18n.t('operation'),
+      header: t('audit_log.table.headers.operation'),
       sortable: true,
       showFilterMatchModes: false,
       showFilterOperator: false,
       showAddButton: false
    },
-   { field: 'user_id', header: i18n.t('done_by'), sortable: true },
-   { field: 'created_at', header: i18n.t('created_at'), sortable: true, sortOrder: { value: -1 } },
-   { field: 'reverted_by', header: i18n.t('reverted_by'), sortable: true },
-   { field: 'reverted_at', header: i18n.t('reverted_at'), sortable: true }
+   { field: 'user_id', header: t('audit_log.table.headers.done_by'), sortable: true },
+   {
+      field: 'created_at',
+      header: t('audit_log.table.headers.created_at'),
+      sortable: true,
+      sortOrder: { value: -1 }
+   },
+   { field: 'reverted_by', header: t('audit_log.table.headers.reverted_by'), sortable: true },
+   { field: 'reverted_at', header: t('audit_log.table.headers.reverted_at'), sortable: true }
 ]);
 
 // Define the filters object
@@ -59,7 +70,7 @@ const { ability } = useAuthStore();
 const rowActions = Collection.create([
    {
       label: ({ data }) =>
-         data?.reverted ? i18n.t('already_reverted') : i18n.t('attempt_to_revert'),
+         data?.reverted ? t('audit_log.already_reverted') : t('audit_log.attempt_to_revert'),
       command:
          ({ data }) =>
          async () =>
@@ -75,17 +86,17 @@ const rowActions = Collection.create([
    }
 ]);
 
-const operations = [
-   { value: 'INSERT', label: i18n.t('added'), severity: 'success' },
-   { value: 'UPDATE', label: i18n.t('updated'), severity: 'info' },
-   { value: 'DELETE', label: i18n.t('deleted'), severity: 'danger' },
-   { value: 'SELECT', label: i18n.t('readed'), severity: 'secondary' }
-];
+const operations = computed(() => [
+   { value: 'INSERT', label: t('audit_log.added'), severity: 'success' },
+   { value: 'UPDATE', label: t('audit_log.updated'), severity: 'info' },
+   { value: 'DELETE', label: t('audit_log.deleted'), severity: 'danger' },
+   { value: 'SELECT', label: t('audit_log.readed'), severity: 'secondary' }
+]);
 
 const getOperationTag = (body) => {
-   const tag = _clone(_find(operations, (o) => o.value === _get(body, 'data.operation')));
+   const tag = _clone(_find(operations.value, (o) => o.value === _get(body, 'data.operation')));
    if (tag) {
-      tag.value = tag?.label;
+      tag.value = t(tag?.label);
       return tag;
    }
 };
@@ -97,7 +108,7 @@ const tableProps = computed(() => ({
    stateKey,
    from: 'audit_log_group',
    select: '*, user_id:user!user_id(*), reverted_by:user!reverted_by(*)',
-   columns: columns._data,
+   columns: columns.value,
    rowActions: rowActions._data,
    ...attrs
 }));

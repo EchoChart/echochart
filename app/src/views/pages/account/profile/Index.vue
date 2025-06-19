@@ -25,29 +25,29 @@ const { user } = storeToRefs(authStore);
             />
          </Badge>
       </span>
-      <FormBox legend="User info" class="flex-1">
-         <FormField fluid :label="$t('display_name')" v-slot="slotProps">
+      <FormBox :legend="$t('account.profile.user_info')" class="flex-1">
+         <FormField fluid :label="$t('account.profile.name')" v-slot="slotProps">
             <InputText
                v-bind="slotProps"
                readonly
                :model-value="user?.user_metadata?.display_name"
             />
          </FormField>
-         <FormField fluid :label="$t('email')" v-slot="slotProps">
+         <FormField fluid :label="$t('account.profile.email')" v-slot="slotProps">
             <InputText v-bind="slotProps" readonly :model-value="user?.email" />
          </FormField>
-         <FormField fluid :label="$t('phone')" v-slot="slotProps">
+         <FormField fluid :label="$t('account.profile.phone')" v-slot="slotProps">
             <PhoneInput v-bind="slotProps" :model-value="'+' + user?.phone" readonly />
          </FormField>
       </FormBox>
-      <FormBox legend="Logs" class="flex-1">
-         <FormField fluid :label="$t('created_at')" v-slot="slotProps">
+      <FormBox :legend="$t('account.profile.events')" class="flex-1">
+         <FormField fluid :label="$t('account.profile.logs.created_at')" v-slot="slotProps">
             <InputText v-bind="slotProps" readonly :model-value="user?.created_at" />
          </FormField>
-         <FormField fluid :label="$t('email_confirmed_at')" v-slot="slotProps">
+         <FormField fluid :label="$t('account.profile.logs.email_confirmed_at')" v-slot="slotProps">
             <InputText v-bind="slotProps" readonly :model-value="user?.email_confirmed_at" />
          </FormField>
-         <FormField fluid :label="$t('last_sign_in_at')" v-slot="slotProps">
+         <FormField fluid :label="$t('account.profile.logs.last_sign_in_at')" v-slot="slotProps">
             <InputText v-bind="slotProps" readonly :model-value="user?.last_sign_in_at" />
          </FormField>
       </FormBox>

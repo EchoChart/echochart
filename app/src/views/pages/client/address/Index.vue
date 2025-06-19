@@ -7,41 +7,42 @@ defineOptions({
    inheritAttrs: false
 });
 
+const { t, te } = useI18n();
 const attrs = useAttrs();
-/**@type {Collection<ResourceTableProps['columns']>} */
-const columns = Collection.create([
+/**@type {ComputedRef<ResourceTableProps['columns']>} */
+const columns = computed(() => [
    {
       field: 'client_display_name',
       sortable: true,
-      header: i18n.t('client')
+      header: t('client.address.table.headers.client')
    },
    {
       field: 'address_display_name',
       sortable: true,
-      header: i18n.t('address')
+      header: t('client.address.table.headers.address')
    },
    {
       field: 'address_country',
       sortable: true,
-      header: i18n.t('country'),
+      header: t('client.address.table.headers.country'),
       sortOrder: { value: -1 }
    },
    {
       field: 'address_city',
       sortable: true,
-      header: i18n.t('city'),
+      header: t('client.address.table.headers.city'),
       sortOrder: { value: -1 }
    },
    {
       field: 'address_district',
       sortable: true,
-      header: i18n.t('district'),
+      header: t('client.address.table.headers.district'),
       sortOrder: { value: -1 }
    },
    {
       field: 'address_created_at',
       sortable: true,
-      header: i18n.t('created_at'),
+      header: t('client.address.table.headers.created_at'),
       sortOrder: { value: -1 }
    }
 ]);
@@ -87,7 +88,7 @@ const filters = ref({
 const stateKey = 'client-address';
 const rowActions = Collection.create([
    {
-      label: i18n.t('delete'),
+      label: t('action.delete'),
       command:
          ({ data }) =>
          async () =>
@@ -109,7 +110,7 @@ const tableProps = computed(() => ({
    stateKey,
    from: 'client_address_view',
    select: '*',
-   columns: columns._data,
+   columns: columns.value,
    rowActions: rowActions._data,
    ...attrs
 }));
@@ -124,7 +125,7 @@ const tableProps = computed(() => ({
                <CustomLink :to="{ name: 'address-list' }" v-slot="{ navigate }">
                   <Button
                      variant="outlined"
-                     :label="$t('manage_addresses')"
+                     :label="$t('router.action.manage_addresses')"
                      @click="navigate"
                      severity="info"
                   />
@@ -132,12 +133,12 @@ const tableProps = computed(() => ({
                <RouterLink
                   v-if="$can('create', 'client-address') || $can('modify', 'address')"
                   :to="{
-                     name: 'client-manage-address',
+                     name: 'manage-client-address',
                      query: { showDialog: DIALOG_POSITIONS.CENTER }
                   }"
                   v-slot="{ navigate }"
                >
-                  <Button variant="outlined" :label="$t('add')" @click="navigate" />
+                  <Button variant="outlined" :label="$t('action.add')" @click="navigate" />
                </RouterLink>
             </span>
          </Teleport>

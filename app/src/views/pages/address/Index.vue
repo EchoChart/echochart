@@ -6,36 +6,36 @@ defineOptions({
    inheritAttrs: false
 });
 
+const { t } = useI18n();
 const attrs = useAttrs();
 
 const router = useRouter();
 
-/**@type {Collection<ResourceTableProps['columns']>} */
-const columns = Collection.create([
+const columns = computed(() => [
    {
       field: 'display_name',
-      sortable: true,
-      header: i18n.t('display_name')
+      header: t('address.table.headers.address_name'),
+      sortable: true
    },
    {
       field: 'country',
-      sortable: true,
-      header: i18n.t('country')
+      header: t('address.table.headers.country'),
+      sortable: true
    },
    {
       field: 'city',
       sortable: true,
-      header: i18n.t('city')
+      header: t('address.table.headers.city')
    },
    {
       field: 'district',
-      sortable: true,
-      header: i18n.t('district')
+      header: t('address.table.headers.district'),
+      sortable: true
    },
    {
       field: 'created_at',
+      header: t('address.table.headers.created_at'),
       sortable: true,
-      header: i18n.t('created_at'),
       sortOrder: { value: -1 }
    }
 ]);
@@ -72,7 +72,7 @@ const filters = ref({
 const stateKey = 'address';
 const rowActions = Collection.create([
    {
-      label: i18n.t('delete'),
+      label: t('action.delete'),
       command:
          ({ data }) =>
          async () =>
@@ -86,7 +86,7 @@ const rowActions = Collection.create([
       icon: PrimeIcons.TRASH
    },
    {
-      label: i18n.t('edit'),
+      label: t('action.edit'),
       command:
          ({ data }) =>
          async () =>
@@ -107,7 +107,7 @@ const tableProps = computed(() => ({
    stateKey,
    from: 'address',
    select: '*',
-   columns: columns._data,
+   columns: columns.value,
    rowActions: rowActions._data,
    ...attrs
 }));
@@ -121,7 +121,7 @@ const tableProps = computed(() => ({
 
                <CustomLink v-if="$can('create', 'address')" :to="{ name: 'address-add' }">
                   <template #default="{ navigate }">
-                     <Button variant="outlined" :label="$t('add')" @click="navigate" />
+                     <Button variant="outlined" :label="$t('action.add')" @click="navigate" />
                   </template>
                </CustomLink>
             </span>

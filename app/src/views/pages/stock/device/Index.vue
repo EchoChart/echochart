@@ -6,34 +6,36 @@ defineOptions({
    inheritAttrs: false
 });
 
+const { t } = useI18n();
+
 const router = useRouter();
-/**@type {Collection<ResourceTableProps['columns']>} */
-const columns = Collection.create([
+/**@type {ComputedRef<ResourceTableProps['columns']>} */
+const columns = computed(() => [
    {
       field: 'display_name',
       sortable: true,
-      header: i18n.t('product'),
+      header: t('stock.device.table.headers.product'),
       sortOrder: { value: -1 }
    },
    {
       field: 'serial_number',
       sortable: true,
-      header: i18n.t('serial_number')
+      header: t('stock.device.table.headers.serial_number')
    },
    {
       field: 'unit_cost',
       sortable: true,
-      header: i18n.t('unit_cost')
+      header: t('stock.device.table.headers.unit_cost')
    },
    {
       field: 'vendor',
       sortable: true,
-      header: i18n.t('vendor')
+      header: t('stock.device.table.headers.vendor')
    },
    {
       field: 'stocked_at',
       sortable: true,
-      header: i18n.t('stocked_at'),
+      header: t('stock.device.table.headers.stocked_at'),
       sortOrder: { value: -1 }
    }
 ]);
@@ -89,7 +91,7 @@ const filters = ref({
 const stateKey = 'device';
 const rowActions = Collection.create([
    {
-      label: i18n.t('delete'),
+      label: t('action.delete'),
       command:
          ({ data }) =>
          async () =>
@@ -103,7 +105,7 @@ const rowActions = Collection.create([
       icon: PrimeIcons.TRASH
    },
    {
-      label: i18n.t('edit'),
+      label: t('action.edit'),
       command:
          ({ data }) =>
          async () =>
@@ -128,7 +130,7 @@ const tableProps = computed(() => ({
    from: 'stock_view',
    select:
       'id, display_name, serial_number, unit_cost, vendor, stocked_at, product:product!inner(category:product_category!inner(*))',
-   columns: columns._data,
+   columns: columns.value,
    rowActions: rowActions._data
 }));
 </script>
@@ -144,7 +146,7 @@ const tableProps = computed(() => ({
                   :to="{ name: 'stock-add', params: { category: 'device' } }"
                   v-slot="{ navigate }"
                >
-                  <Button variant="outlined" :label="$t('add')" @click="navigate" />
+                  <Button variant="outlined" :label="$t('action.add')" @click="navigate" />
                </CustomLink>
             </span>
          </Teleport>

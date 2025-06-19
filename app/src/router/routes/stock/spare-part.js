@@ -10,6 +10,7 @@ export default [
       name: 'spare-part',
       component: CustomRouteView,
       meta: {
+         label: i18n.t('route.label.spare-parts'),
          requiresAuth: true,
          icon: PrimeIcons.WRENCH,
          requiredPermissions: [
@@ -20,7 +21,7 @@ export default [
          ],
          contextMenuItems: [
             {
-               label: i18n.t('add'),
+               label: i18n.t('action.add'),
                route: {
                   name: 'stock-add',
                   query: { showDialog: DIALOG_POSITIONS.CENTER },
@@ -41,6 +42,7 @@ export default [
                skeleton: () => import('@/views/pages/stock/spare-part/Index.vue')
             },
             meta: {
+               label: i18n.t('route.label.list'),
                visible: false,
                index: -1,
                icon: PrimeIcons.LIST,

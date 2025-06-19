@@ -1,10 +1,11 @@
 <script setup>
 import Collection from '@/lib/Collection';
+const { t, te } = useI18n();
 const operations = Collection.create([
-   { value: 'INSERT', label: i18n.t('add'), severity: 'success' },
-   { value: 'UPDATE', label: i18n.t('update'), severity: 'info' },
-   { value: 'DELETE', label: i18n.t('delete'), severity: 'danger' }
-   // { value: 'SELECT', label: i18n.t('read'), severity: 'secondary' }
+   { value: 'INSERT', label: t('audit_log.add'), severity: 'success' },
+   { value: 'UPDATE', label: t('audit_log.update'), severity: 'info' },
+   { value: 'DELETE', label: t('audit_log.delete'), severity: 'danger' }
+   // { value: 'SELECT', label: t('audit_log.read'), severity: 'secondary' }
 ]);
 </script>
 
@@ -14,7 +15,7 @@ const operations = Collection.create([
       :options="operations._data"
       option-label="label"
       option-value="value"
-      :placeholder="$t('select_operation')"
+      :placeholder="$t('audit_log.select_operation')"
    >
       <template #value="{ value }">
          <Tag

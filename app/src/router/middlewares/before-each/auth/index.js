@@ -26,7 +26,7 @@ export const authBeforeEach = async (to, from, next) => {
       );
       if (youShallNotPASS) {
          throw new CustomAuthError(
-            i18n.t('insufficient_permission'),
+            i18n.t('auth.error.insufficient_permission'),
             'AuthInvalidCredentialsError',
             403
          );

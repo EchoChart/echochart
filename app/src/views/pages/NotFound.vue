@@ -4,14 +4,18 @@
          <div class="not_found_page__gradient-bg">
             <div class="not_found_page__inner-content">
                <span class="not_found_page__error-code" v-text="'404'" />
-               <h1 class="not_found_page__title" v-text="$t('not_found')" />
+               <h1 class="not_found_page__title" v-text="$t('router.not_found')" />
                <div
                   class="not_found_page__description"
-                  v-text="$t('requested_resource_is_not_available')"
+                  v-text="$t('router.requested_resource_is_not_available')"
                />
                <img src="/images/error/asset-error.svg" alt="Access denied" width="80%" />
                <CustomLink :to="{ name: 'dashboard' }" v-slot="{ navigate }">
-                  <Button :label="$t('go_to_dashboard')" severity="danger" @click="navigate" />
+                  <Button
+                     :label="$t('router.action.go_to_dashboard')"
+                     severity="danger"
+                     @click="navigate"
+                  />
                </CustomLink>
             </div>
          </div>

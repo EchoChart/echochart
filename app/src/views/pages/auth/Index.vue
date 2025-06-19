@@ -17,21 +17,14 @@ const onMouseMove = _throttle((e) => {
             <span
                class="flex justify-center flex-col gap-8 p-8 bg-surface-900/25 backdrop-blur-sm text-center rounded-[inherit]"
             >
-               <div class="text-5xl font-medium" v-text="$t('welcome to echochart')" />
-               <span
-                  class="font-medium"
-                  v-text="
-                     $t(
-                        'thank you for choosing us register or log in now to explore personalized solutions'
-                     )
-                  "
-               />
+               <div class="text-5xl font-medium" v-text="$t('auth.welcome.title')" />
+               <span class="font-medium" v-text="$t('auth.welcome.text')" />
                <span id="auth-banner-button" class="contents" />
                <Teleport defer to="#auth-banner-button">
                   <RouterLink
                      custom
                      :to="{
-                        name: $route.name == 'login' ? 'register' : 'login',
+                        name: $route.name == 'auth-login' ? 'auth-register' : 'auth-login',
                         replace: true
                      }"
                      v-slot="{ href, navigate, route }"
@@ -40,7 +33,11 @@ const onMouseMove = _throttle((e) => {
                         as="a"
                         :href="href"
                         @click="navigate"
-                        :label="$t(route.name)"
+                        :label="
+                           $route.name == 'auth-login'
+                              ? $t('route.label.register')
+                              : $t('route.label.login')
+                        "
                         class="!px-24 !py !text-xl"
                      />
                   </RouterLink>

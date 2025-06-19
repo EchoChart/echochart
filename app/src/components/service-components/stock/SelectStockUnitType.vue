@@ -7,6 +7,6 @@ import { STOCK_UNIT_TYPES } from '@/constants/form/stock';
       option-label="label"
       option-value="value"
       :options="STOCK_UNIT_TYPES"
-      :placeholder="$t('select_unit_type')"
+      :placeholder="$t('financial.select_unit_type')"
    />
 </template>

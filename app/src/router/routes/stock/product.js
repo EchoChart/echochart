@@ -10,6 +10,7 @@ export default [
       name: 'product',
       component: CustomRouteView,
       meta: {
+         label: i18n.t('route.label.product'),
          requiresAuth: true,
          index: -1,
          icon: 'pi pi-barcode',
@@ -21,7 +22,7 @@ export default [
          ],
          contextMenuItems: [
             {
-               label: i18n.t('add'),
+               label: i18n.t('action.add'),
                route: {
                   name: 'product-add',
                   query: { showDialog: DIALOG_POSITIONS.CENTER }
@@ -39,6 +40,7 @@ export default [
                skeleton: () => import('@/views/pages/stock/product/Index.vue')
             },
             meta: {
+               label: i18n.t('route.label.list'),
                visible: false,
                index: -1,
                icon: PrimeIcons.LIST,
@@ -55,6 +57,7 @@ export default [
             name: 'product-add',
             props: true,
             meta: {
+               label: i18n.t('route.label.add'),
                visible: false
             },
             components: {
@@ -67,6 +70,7 @@ export default [
             name: 'product-edit',
             props: true,
             meta: {
+               label: i18n.t('route.label.edit'),
                visible: false
             },
             components: {

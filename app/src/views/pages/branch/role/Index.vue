@@ -8,19 +8,27 @@ defineOptions({
 
 const attrs = useAttrs();
 const router = useRouter();
+const { t } = useI18n();
+
+// console.log(
+//    await supabase.functions.invoke(`users/b89581f9-5ddf-414d-b768-143dcfaa6f5d`, {
+//       body: { user_metadata: { display_name: 'akifff' } },
+//       method: 'PUT'
+//    })
+// );
 
 // Define the columns
-/**@type {Collection<ResourceTableProps['columns']>} */
-const columns = Collection.create([
+/**@type {ComputedRef<ResourceTableProps['columns']>} */
+const columns = computed(() => [
    {
       field: 'display_name',
       sortable: true,
-      header: i18n.t('display_name')
+      header: t('role.table.headers.name')
    },
    {
       field: 'created_at',
       sortable: true,
-      header: i18n.t('created_at')
+      header: t('role.table.headers.created_at')
    }
 ]);
 
@@ -46,7 +54,7 @@ const filters = ref({
 const stateKey = 'role';
 const rowActions = Collection.create([
    {
-      label: i18n.t('delete'),
+      label: t('action.delete'),
       command:
          ({ data }) =>
          async () =>
@@ -60,7 +68,7 @@ const rowActions = Collection.create([
       icon: PrimeIcons.TRASH
    },
    {
-      label: i18n.t('edit'),
+      label: t('action.edit'),
       command:
          ({ data }) =>
          async () =>
@@ -79,7 +87,7 @@ const tableProps = computed(() => ({
    stateKey,
    from: 'role',
    select: '*, permission(id, kind, group_name, resource_name)',
-   columns: columns._data,
+   columns: columns.value,
    rowActions: rowActions._data,
    ...attrs
 }));
@@ -92,7 +100,7 @@ const tableProps = computed(() => ({
                <KeywordSearchInput v-model="filters.global.value" />
                <CustomLink v-if="$can('create', 'role')" :to="{ name: 'branch-role-add' }">
                   <template #default="{ navigate }">
-                     <Button variant="outlined" :label="$t('add')" @click="navigate" />
+                     <Button variant="outlined" :label="$t('action.add')" @click="navigate" />
                   </template>
                </CustomLink>
             </span>

@@ -1,0 +1,470 @@
+{
+  "app_config": {
+    "app_settings": "",
+    "theme": {
+      "dark_mode": {
+        "toggle_dark_mode": "",
+        "dark": "",
+        "light": ""
+      },
+      "ui_scale": "",
+      "primary_color": "",
+      "surface_color": "",
+      "preset": {
+        "select_preset": ""
+      }
+    },
+    "language": {
+      "select_language": "",
+      "option": {
+        "en": "",
+        "tr": "",
+        "fr": "",
+        "de": "",
+        "pl": "",
+        "ru": "",
+        "cn": "",
+        "jp": "",
+        "ko": ""
+      }
+    },
+    "sidebar": {
+      "select_sidebar_mode": "",
+      "modes": {
+        "static": "",
+        "auto": "",
+        "mini": "",
+        "reveal": "",
+        "overlay": ""
+      }
+    }
+  },
+  "auth": {
+    "branch": "",
+    "error": {
+      "insufficient_permission": ""
+    },
+    "confirm": {
+      "logout": {
+        "question": "",
+        "header": ""
+      }
+    },
+    "toast": {
+      "welcome": "",
+      "goodby": ""
+    },
+    "welcome": {
+      "title": "",
+      "text": ""
+    },
+    "login": {
+      "welcome_back": "",
+      "please_login_to_continue": "",
+      "forgot_password?": ""
+    },
+    "logout": {
+      "logged_out_successfully": ""
+    },
+    "register": {
+      "create_account": "",
+      "create_an_account_and_join_us": "",
+      "account_info": "",
+      "company_info": ""
+    }
+  },
+  "fields": {
+    "": "",
+    "device": "",
+    "battery": "",
+    "spare_part": "",
+    "service": "",
+    "trial": "",
+    "sale": "",
+    "assemble": "",
+    "repair": "",
+    "promotion": "",
+    "cash": "",
+    "credit_card": "",
+    "pending": "",
+    "pending_service": "",
+    "client holds service bid": "",
+    "client_approved_service_bid": "",
+    "client_rejected_service_bid": "",
+    "done": "",
+    "approved": "",
+    "rejected": "",
+    "pending_client": "",
+    "biopar": "",
+    "hard": "",
+    "micro": "",
+    "full": "",
+    "half": "",
+    "supported": "",
+    "prob": "",
+    "pcs": "",
+    "kg": "",
+    "gr": "",
+    "lbs": "",
+    "L": "",
+    "mL": "",
+    "m": "",
+    "m²": "",
+    "cm": "",
+    "in": "",
+    "password": "",
+    "password_confirmation": "",
+    "name": "",
+    "email": "",
+    "phone": "",
+    "country": "",
+    "city": "",
+    "district": "",
+    "details": "",
+    "remember_me": "",
+    "company": "",
+    "permission": "",
+    "client_id": "",
+    "nationality": "",
+    "national_id": "",
+    "birth_date": "",
+    "gender": "",
+    "behind_ear_molds": "",
+    "attributes": "",
+    "type": "",
+    "model": "",
+    "speaker_power": "",
+    "side": "",
+    "left": "",
+    "right": "",
+    "ventilation": "",
+    "speaker_size": "",
+    "inner_ear_molds": "",
+    "inner_ear_mold": "",
+    "has_bluetooth": "",
+    "has_button": "",
+    "record_type": "",
+    "stock_id": "",
+    "device_side": "",
+    "both": "",
+    "record_status": "",
+    "quantity": "",
+    "payment_type": "",
+    "currency_code": "",
+    "repair_fee": "",
+    "bid": "",
+    "bid_discount": "",
+    "tax": "",
+    "total_bid": "",
+    "insurance_type": "",
+    "retired": "",
+    "worker": "",
+    "insurance_contribution": "",
+    "client_insurance_contribution": "",
+    "brand": "",
+    "categories": "",
+    "product_id": "",
+    "vendor": "",
+    "stocked_at": "",
+    "barcode": "",
+    "serial_number": "",
+    "currency": "",
+    "unit_cost": "",
+    "unit_discount": "",
+    "unit_tax": "",
+    "total_cost": "",
+    "behind_ear_mold": ""
+  },
+  "audit_log": {
+    "no_changes_detected": "",
+    "add": "",
+    "update": "",
+    "delete": "",
+    "read": "",
+    "select_operation": "",
+    "table": {
+      "headers": {
+        "resource": "",
+        "operation": "",
+        "done_by": "",
+        "created_at": "",
+        "reverted_by": "",
+        "reverted_at": ""
+      }
+    },
+    "already_reverted": "",
+    "attempt_to_revert": "",
+    "added": "",
+    "updated": "",
+    "deleted": "",
+    "readed": ""
+  },
+  "client": {
+    "select_client": "",
+    "address": {
+      "table": {
+        "headers": {
+          "client": "",
+          "address": "",
+          "country": "",
+          "city": "",
+          "district": "",
+          "created_at": ""
+        }
+      }
+    },
+    "table": {
+      "headers": {
+        "client": "",
+        "nationality": "",
+        "national_id": "",
+        "birth_date": "",
+        "email": "",
+        "phone": "",
+        "created_at": ""
+      }
+    },
+    "general_info": "",
+    "addresses": "",
+    "gender": {
+      "male": "",
+      "female": ""
+    }
+  },
+  "product": {
+    "select_product": "",
+    "category": {
+      "select_category": ""
+    }
+  },
+  "input": {
+    "select_or_write": ""
+  },
+  "address": {
+    "select_country": "",
+    "table": {
+      "headers": {
+        "address_name": "",
+        "country": "",
+        "city": "",
+        "district": "",
+        "created_at": ""
+      }
+    }
+  },
+  "financial": {
+    "select_currency": "",
+    "select_unit_type": ""
+  },
+  "component": {
+    "select_permission": {
+      "table": {
+        "headers": {
+          "permission_name": "",
+          "read": "",
+          "create": "",
+          "modify": "",
+          "all": ""
+        }
+      }
+    },
+    "table": {
+      "no_data_found": "",
+      "keyword_search": ""
+    }
+  },
+  "common": {
+    "select": ""
+  },
+  "router": {
+    "action": {
+      "open_in_window": "",
+      "manage_addresses": "",
+      "close": "",
+      "go_to_dashboard": "",
+      "go_back": ""
+    },
+    "error_occured": "",
+    "requested_resource_is_not_available": "",
+    "not_found": ""
+  },
+  "action": {
+    "save": "",
+    "reset": "",
+    "confirm": {
+      "delete": {
+        "question": "",
+        "title": ""
+      }
+    },
+    "yes": "",
+    "no": "",
+    "cancelled": "",
+    "add": "",
+    "delete": "",
+    "edit": "",
+    "submit": "",
+    "back": ""
+  },
+  "const": {
+    "earmold": {
+      "inner": {
+        "models": {
+          "ITE": "",
+          "ITC": "",
+          "CIC": ""
+        }
+      }
+    },
+    "record": {
+      "type": {
+        "": ""
+      }
+    }
+  },
+  "route": {
+    "label": {
+      "dashboard": "",
+      "error": "",
+      "notfound": "",
+      "account": "",
+      "profile": "",
+      "settings": "",
+      "update-profile": "",
+      "update-password": "",
+      "logout": "",
+      "address": "",
+      "list": "",
+      "edit": "",
+      "add": "",
+      "register": "",
+      "login": "",
+      "access-denied": "",
+      "branch": "",
+      "branch-role": "",
+      "audit-logs": "",
+      "client": "",
+      "manage": "",
+      "general": "",
+      "record": "",
+      "battery": "",
+      "device": "",
+      "stock": "",
+      "product": "",
+      "service": "",
+      "spare-parts": ""
+    }
+  },
+  "list": "",
+  "account": {
+    "profile": {
+      "user_info": "",
+      "name": "",
+      "email": "",
+      "phone": "",
+      "events": "",
+      "logs": {
+        "created_at": "",
+        "email_confirmed_at": "",
+        "last_sign_in_at": ""
+      }
+    }
+  },
+  "toast": {
+    "updated": "",
+    "success": "",
+    "saved": ""
+  },
+  "register": {
+    "stepper": {
+      "label": {
+        "account": "",
+        "company": ""
+      }
+    }
+  },
+  "role": {
+    "table": {
+      "headers": {
+        "name": "",
+        "created_at": ""
+      }
+    }
+  },
+  "record": {
+    "table": {
+      "headers": {
+        "product": "",
+        "record_type": "",
+        "client": "",
+        "quantity": "",
+        "bid": "",
+        "created_at": ""
+      }
+    },
+    "tab": {
+      "record": "",
+      "earmold": ""
+    },
+    "information": "",
+    "financial": ""
+  },
+  "stock": {
+    "battery": {
+      "table": {
+        "headers": {
+          "product": "",
+          "unit_cost": "",
+          "quantity": "",
+          "vendor": "",
+          "stocked_at": ""
+        }
+      }
+    },
+    "device": {
+      "table": {
+        "headers": {
+          "product": "",
+          "serial_number": "",
+          "unit_cost": "",
+          "vendor": "",
+          "stocked_at": ""
+        }
+      }
+    },
+    "product": {
+      "table": {
+        "headers": {
+          "product": "",
+          "brand": "",
+          "categories": "",
+          "created_at": ""
+        }
+      }
+    },
+    "service": {
+      "table": {
+        "headers": {
+          "product": "",
+          "unit_cost": "",
+          "quantity": "",
+          "vendor": "",
+          "stocked_at": ""
+        }
+      }
+    },
+    "spare_part": {
+      "table": {
+        "headers": {
+          "product": "",
+          "unit_cost": "",
+          "quantity": "",
+          "vendor": "",
+          "stocked_at": ""
+        }
+      }
+    },
+    "information": "",
+    "financial": ""
+  }
+}

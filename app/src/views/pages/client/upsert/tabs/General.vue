@@ -18,6 +18,8 @@ const props = defineProps({
    }
 });
 
+const { t, te } = useI18n();
+
 const toast = useToast();
 
 /**
@@ -85,8 +87,8 @@ const save = async () => {
    toast.add({
       life: 3000,
       severity: ToastSeverity.SUCCESS,
-      summary: i18n.t('success'),
-      detail: i18n.t('saved')
+      summary: t('toast.success'),
+      detail: t('toast.saved')
    });
 };
 
@@ -106,7 +108,7 @@ if (props.id || props.data?.id) {
             :readonly
             fluid
             :error="form?._errors?.first('display_name')"
-            :label="$t('display_name')"
+            :label="$t('fields.name')"
             v-slot="slotProps"
          >
             <InputText v-bind="slotProps" v-model="form.display_name" />
@@ -115,7 +117,7 @@ if (props.id || props.data?.id) {
             :readonly
             fluid
             :error="form?._errors?.first('nationality')"
-            :label="$t('nationality')"
+            :label="$t('fields.nationality')"
             v-slot="slotProps"
          >
             <SelectCountry v-bind="slotProps" v-model="form.nationality" />
@@ -124,7 +126,7 @@ if (props.id || props.data?.id) {
             :readonly
             fluid
             :error="form?._errors?.first('national_id')"
-            :label="$t('national_id')"
+            :label="$t('fields.national_id')"
             v-slot="slotProps"
          >
             <InputText v-bind="slotProps" v-model="form.national_id" />
@@ -133,7 +135,7 @@ if (props.id || props.data?.id) {
             :readonly
             fluid
             :error="form?._errors?.first('birth_date')"
-            :label="$t('birth_date')"
+            :label="$t('fields.birth_date')"
             v-slot="slotProps"
          >
             <DatePicker v-bind="slotProps" v-model="form.birth_date" />
@@ -142,13 +144,13 @@ if (props.id || props.data?.id) {
             :readonly
             fluid
             :error="form?._errors?.first('gender')"
-            :label="$t('gender')"
+            :label="$t('fields.gender')"
             v-slot="slotProps"
          >
             <SelectButton
                :options="[
-                  { value: 'male', label: $t('male') },
-                  { value: 'female', label: $t('female') }
+                  { value: 'male', label: $t('client.gender.male') },
+                  { value: 'female', label: $t('client.gender.female') }
                ]"
                :allow-empty="false"
                option-value="value"
@@ -162,7 +164,7 @@ if (props.id || props.data?.id) {
                :readonly
                fluid
                :error="form?._errors?.first('email')"
-               :label="$t('email')"
+               :label="$t('fields.email')"
                v-slot="slotProps"
             >
                <InputText v-bind="slotProps" v-model="form.email" />
@@ -171,7 +173,7 @@ if (props.id || props.data?.id) {
                :readonly
                fluid
                :error="form?._errors?.first('phone')"
-               :label="$t('phone')"
+               :label="$t('fields.phone')"
                v-slot="slotProps"
             >
                <PhoneInput v-bind="slotProps" v-model="form.phone" />

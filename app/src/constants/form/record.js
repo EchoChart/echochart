@@ -1,142 +1,146 @@
-export const RECORD_TYPES = [
+export const RECORD_TYPES = computed(() => [
    {
       value: 'trial',
-      label: i18n.t('trial')
+      label: i18n.t('fields.trial')
    },
    {
       value: 'sale',
-      label: i18n.t('sale')
+      label: i18n.t('fields.sale')
    },
    {
       value: 'assemble',
-      label: i18n.t('assemble')
+      label: i18n.t('fields.assemble')
    },
    {
       value: 'repair',
-      label: i18n.t('repair')
+      label: i18n.t('fields.repair')
    },
    {
       value: 'promotion',
-      label: i18n.t('promotion')
+      label: i18n.t('fields.promotion')
    }
-];
+]);
 
-export const PAYMENT_TYPES = [
+export const PAYMENT_TYPES = computed(() => [
    {
       value: 'cash',
-      label: i18n.t('cash')
+      label: i18n.t('fields.cash')
    },
    {
       value: 'credit_card',
-      label: i18n.t('credit_card')
+      label: i18n.t('fields.credit_card')
    }
-];
+]);
 
-export const RECORD_STATUSES = new Proxy(
-   {
-      repair: [
+export const RECORD_STATUSES = computed(
+   () =>
+      new Proxy(
          {
-            value: 'pending',
-            label: i18n.t('pending')
+            repair: [
+               {
+                  value: 'pending',
+                  label: i18n.t('fields.pending')
+               },
+               {
+                  value: 'pending_service',
+                  label: i18n.t('fields.pending_service')
+               },
+               {
+                  value: 'client holds service bid',
+                  label: i18n.t('fields.client holds service bid')
+               },
+               {
+                  value: 'client_approved_service_bid',
+                  label: i18n.t('fields.client_approved_service_bid')
+               },
+               {
+                  value: 'client_rejected_service_bid',
+                  label: i18n.t('fields.client_rejected_service_bid')
+               },
+               {
+                  value: 'done',
+                  label: i18n.t('fields.done')
+               }
+            ],
+            common: [
+               {
+                  value: 'pending',
+                  label: i18n.t('fields.pending')
+               },
+               {
+                  value: 'approved',
+                  label: i18n.t('fields.approved')
+               },
+               {
+                  value: 'rejected',
+                  label: i18n.t('fields.rejected')
+               },
+               {
+                  value: 'pending_client',
+                  label: i18n.t('fields.pending_client')
+               },
+               {
+                  value: 'done',
+                  label: i18n.t('fields.done')
+               }
+            ]
          },
          {
-            value: 'pending_service',
-            label: i18n.t('pending_service')
-         },
-         {
-            value: 'client_pending_service_bid',
-            label: i18n.t('client_pending_service_bid')
-         },
-         {
-            value: 'client_approved_service_bid',
-            label: i18n.t('client_approved_service_bid')
-         },
-         {
-            value: 'client_rejected_service_bid',
-            label: i18n.t('client_rejected_service_bid')
-         },
-         {
-            value: 'done',
-            label: i18n.t('done')
+            get(target, key, receiver) {
+               return _get(target, key, _get(target, 'common'));
+            }
          }
-      ],
-      common: [
-         {
-            value: 'pending',
-            label: i18n.t('pending')
-         },
-         {
-            value: 'approved',
-            label: i18n.t('approved')
-         },
-         {
-            value: 'rejected',
-            label: i18n.t('rejected')
-         },
-         {
-            value: 'pending_client',
-            label: i18n.t('pending_client')
-         },
-         {
-            value: 'done',
-            label: i18n.t('done')
-         }
-      ]
-   },
-   {
-      get(target, key, receiver) {
-         return _get(target, key, _get(target, 'common'));
-      }
-   }
+      )
 );
 
-export const MOLD_TYPES = [
+export const MOLD_TYPES = computed(() => [
    {
       value: 'biopar',
-      label: i18n.t('biopar')
+      label: i18n.t('fields.biopar')
    },
    {
       value: 'hard',
-      label: i18n.t('hard')
+      label: i18n.t('fields.hard')
    }
-];
+]);
 
-export const MOLD_MODELS = [
+export const MOLD_MODELS = computed(() => [
    {
       value: 'micro',
-      label: i18n.t('micro')
+      label: i18n.t('fields.micro')
    },
    {
       value: 'full',
-      label: i18n.t('full')
+      label: i18n.t('fields.full')
    },
    {
       value: 'half',
-      label: i18n.t('half')
+      label: i18n.t('fields.half')
    },
    {
       value: 'supported',
-      label: i18n.t('supported')
+      label: i18n.t('fields.supported')
    },
    {
       value: 'prob',
-      label: i18n.t('prob')
+      label: i18n.t('fields.prob')
    }
-];
-export const INNER_MOLD_MODELS = [
+]);
+
+export const INNER_MOLD_MODELS = computed(() => [
    {
       value: 'ITE',
-      label: i18n.t('ITE')
+      label: i18n.t('const.earmold.inner.models.ITE')
    },
    {
       value: 'ITC',
-      label: i18n.t('ITC')
+      label: i18n.t('const.earmold.inner.models.ITC')
    },
    {
       value: 'CIC',
-      label: i18n.t('CIC')
+      label: i18n.t('const.earmold.inner.models.CIC')
    }
-];
+]);
 
 export const MOLD_VENTILATION = {
    min: 0,

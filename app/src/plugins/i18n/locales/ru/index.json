@@ -1,0 +1,470 @@
+{
+   "app_config": {
+      "app_settings": "Настройки приложения",
+      "theme": {
+         "dark_mode": {
+            "toggle_dark_mode": "Переключить темную тему",
+            "dark": "Темная",
+            "light": "Светлая"
+         },
+         "ui_scale": "Масштаб интерфейса",
+         "primary_color": "Основной цвет",
+         "surface_color": "Цвет поверхности",
+         "preset": {
+            "select_preset": "Выберите шаблон"
+         }
+      },
+      "language": {
+         "select_language": "Выберите язык",
+         "option": {
+            "en": "Английский",
+            "tr": "Турецкий",
+            "fr": "Французский",
+            "de": "Немецкий",
+            "pl": "Польский",
+            "ru": "Русский",
+            "cn": "Китайский",
+            "jp": "Японский",
+            "ko": "Корейский"
+         }
+      },
+      "sidebar": {
+         "select_sidebar_mode": "Выберите режим боковой панели",
+         "modes": {
+            "static": "Статический",
+            "auto": "Автоматический",
+            "mini": "Мини",
+            "reveal": "Открыть",
+            "overlay": "Перекрытие"
+         }
+      }
+   },
+   "auth": {
+      "branch": "Филиал",
+      "error": {
+         "insufficient_permission": "Недостаточно прав"
+      },
+      "confirm": {
+         "logout": {
+            "question": "Вы действительно хотите выйти из системы?",
+            "header": "Выйти"
+         }
+      },
+      "toast": {
+         "welcome": "Добро пожаловать",
+         "goodby": "До встречи"
+      },
+      "welcome": {
+         "title": "Добро пожаловать",
+         "text": "Добро пожаловать в приложение CRM для слуховых аппаратов."
+      },
+      "login": {
+         "welcome_back": "Добро пожаловать обратно",
+         "please_login_to_continue": "Пожалуйста, войдите в систему, чтобы продолжить.",
+         "forgot_password?": "Забыли пароль?"
+      },
+      "logout": {
+         "logged_out_successfully": "Вы успешно вышли из системы."
+      },
+      "register": {
+         "create_account": "Создать аккаунт",
+         "create_an_account_and_join_us": "Создайте аккаунт и присоединитесь к нам.",
+         "account_info": "Информация о аккаунте",
+         "company_info": "Информация о компании"
+      }
+   },
+   "fields": {
+      "": "",
+      "device": "устройство",
+      "battery": "батарея",
+      "spare_part": "запчасть",
+      "service": "услуга",
+      "trial": "тест",
+      "sale": "продажа",
+      "assemble": "сборка",
+      "repair": "ремонт",
+      "promotion": "реклама",
+      "cash": "наличные",
+      "credit_card": "кредитная карта",
+      "pending": "ожидание",
+      "pending_service": "ожидание услуги",
+      "client holds service bid": "клиент держит ставку по услуге",
+      "client_approved_service_bid": "клиент одобрел ставку по услуге",
+      "client_rejected_service_bid": "клиент отклонил ставку по услуге",
+      "done": "готово",
+      "approved": "одобрено",
+      "rejected": "отклонено",
+      "pending_client": "ожидание клиента",
+      "biopar": "биопар",
+      "hard": "твердый",
+      "micro": "микро",
+      "full": "полный",
+      "half": "половинный",
+      "supported": "поддерживаемый",
+      "prob": "вероятность",
+      "pcs": "шт",
+      "kg": "кг",
+      "gr": "г",
+      "lbs": "фунт",
+      "L": "л",
+      "mL": "мл",
+      "m": "м",
+      "m²": "м²",
+      "cm": "см",
+      "in": "дюйм",
+      "password": "пароль",
+      "password_confirmation": "подтверждение пароля",
+      "name": "имя",
+      "email": "электронная почта",
+      "phone": "телефон",
+      "country": "страна",
+      "city": "город",
+      "district": "район",
+      "details": "детали",
+      "remember_me": "запомнить меня",
+      "company": "компания",
+      "permission": "разрешение",
+      "client_id": "клиент",
+      "nationality": "национальность",
+      "national_id": "национальный паспорт",
+      "birth_date": "дата рождения",
+      "gender": "пол",
+      "behind_ear_molds": "ушные прокладки",
+      "attributes": "атрибуты",
+      "type": "тип",
+      "model": "модель",
+      "speaker_power": "мощность динамика",
+      "side": "сторона",
+      "left": "левая",
+      "right": "правая",
+      "ventilation": "вентиляция",
+      "speaker_size": "размер динамика",
+      "inner_ear_molds": "внутренние ушные прокладки",
+      "inner_ear_mold": "внутренняя ушная прокладка",
+      "has_bluetooth": "имеет Bluetooth",
+      "has_button": "имеет кнопку",
+      "record_type": "тип записи",
+      "stock_id": "товар",
+      "device_side": "сторона устройства",
+      "both": "оба",
+      "record_status": "статус записи",
+      "quantity": "количество",
+      "payment_type": "тип оплаты",
+      "currency_code": "код валюты",
+      "repair_fee": "стоимость ремонта",
+      "bid": "ставка",
+      "bid_discount": "скидка на ставку",
+      "tax": "налог",
+      "total_bid": "итоговая ставка",
+      "insurance_type": "тип страхования",
+      "retired": "вышел из строя",
+      "worker": "работник",
+      "insurance_contribution": "страховой взнос",
+      "client_insurance_contribution": "страховой взнос клиента",
+      "brand": "бренд",
+      "categories": "категории",
+      "product_id": "товар",
+      "vendor": "поставщик",
+      "stocked_at": "на складе",
+      "barcode": "штрих-код",
+      "serial_number": "серийный номер",
+      "currency": "валюта",
+      "unit_cost": "стоимость за единицу",
+      "unit_discount": "скидка за единицу",
+      "unit_tax": "налог за единицу",
+      "total_cost": "итоговая стоимость",
+      "behind_ear_mold": "ушная прокладка"
+   },
+   "audit_log": {
+      "no_changes_detected": "не обнаружены изменения",
+      "add": "добавить",
+      "update": "обновить",
+      "delete": "удалить",
+      "read": "прочитать",
+      "select_operation": "выбрать операцию",
+      "table": {
+         "headers": {
+            "resource": "ресурс",
+            "operation": "операция",
+            "done_by": "выполнен",
+            "created_at": "создано",
+            "reverted_by": "отменено",
+            "reverted_at": "отменено"
+         }
+      },
+      "already_reverted": "уже отменено",
+      "attempt_to_revert": "попытка отменить",
+      "added": "добавлено",
+      "updated": "обновлено",
+      "deleted": "удалено",
+      "readed": "прочитано"
+   },
+   "client": {
+      "select_client": "Выберите клиента",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "Клиент",
+               "address": "Адрес",
+               "country": "Страна",
+               "city": "Город",
+               "district": "Район",
+               "created_at": "Дата создания"
+            }
+         }
+      },
+      "table": {
+         "headers": {
+            "client": "Клиент",
+            "nationality": "Гражданство",
+            "national_id": "Национальный",
+            "birth_date": "Дата рождения",
+            "email": "Электронная почта",
+            "phone": "Телефон",
+            "created_at": "Дата создания"
+         }
+      },
+      "general_info": "Общая информация",
+      "addresses": "Адреса",
+      "gender": {
+         "male": "Мужской",
+         "female": "Женский"
+      }
+   },
+   "product": {
+      "select_product": "Выберите продукт",
+      "category": {
+         "select_category": "Выберите категорию"
+      }
+   },
+   "input": {
+      "select_or_write": "Выберите или напишите"
+   },
+   "address": {
+      "select_country": "Выберите страну",
+      "table": {
+         "headers": {
+            "address_name": "Название адреса",
+            "country": "Страна",
+            "city": "Город",
+            "district": "Район",
+            "created_at": "Дата создания"
+         }
+      }
+   },
+   "financial": {
+      "select_currency": "Выберите валюту",
+      "select_unit_type": "Выберите тип единицы"
+   },
+   "component": {
+      "select_permission": {
+         "table": {
+            "headers": {
+               "permission_name": "Название разрешения",
+               "read": "Чтение",
+               "create": "Создание",
+               "modify": "Изменение",
+               "all": "Все"
+            }
+         }
+      },
+      "table": {
+         "no_data_found": "Данных не найдено",
+         "keyword_search": "Поиск по ключевому слову"
+      }
+   },
+   "common": {
+      "select": "Выберите"
+   },
+   "router": {
+      "action": {
+         "open_in_window": "Открыть в окне",
+         "manage_addresses": "Управление адресами",
+         "close": "Закрыть",
+         "go_to_dashboard": "Перейти к панели управления",
+         "go_back": "Вернуться назад"
+      },
+      "error_occured": "Произошла ошибка",
+      "requested_resource_is_not_available": "Запрашиваемый ресурс недоступен",
+      "not_found": "Не найдено"
+   },
+   "action": {
+      "save": "Сохранить",
+      "reset": "Сброс",
+      "confirm": {
+         "delete": {
+            "question": "Вы уверены, что хотите удалить этот элемент?",
+            "title": "Подтверждение удаления"
+         }
+      },
+      "yes": "Да",
+      "no": "Нет",
+      "cancelled": "Отменено",
+      "add": "Добавить",
+      "delete": "Удалить",
+      "edit": "Редактировать",
+      "submit": "Отправить",
+      "back": "Назад"
+   },
+   "const": {
+      "earmold": {
+         "inner": {
+            "models": {
+               "ITE": "ITE",
+               "ITC": "ITC",
+               "CIC": "CIC"
+            }
+         }
+      },
+      "record": {
+         "type": {
+            "": "Тип"
+         }
+      }
+   },
+   "route": {
+      "label": {
+         "dashboard": "Панель управления",
+         "error": "Ошибка",
+         "notfound": "Не найдено",
+         "account": "Счет",
+         "profile": "Профиль",
+         "settings": "Настройки",
+         "update-profile": "Обновить профиль",
+         "update-password": "Обновить пароль",
+         "logout": "Выйти",
+         "address": "Адрес",
+         "list": "Список",
+         "edit": "Редактировать",
+         "add": "Добавить",
+         "register": "Регистрация",
+         "login": "Вход",
+         "access-denied": "Доступ запрещен",
+         "branch": "Филиал",
+         "branch-role": "Роль филиала",
+         "audit-logs": "Журнал аудита",
+         "client": "Клиент",
+         "manage": "Управление",
+         "general": "Общее",
+         "record": "Запись",
+         "battery": "Аккумулятор",
+         "device": "Устройство",
+         "stock": "Запас",
+         "product": "Товар",
+         "service": "Услуга",
+         "spare-parts": "Ремкомплект"
+      }
+   },
+   "list": "Список",
+   "account": {
+      "profile": {
+         "user_info": "Информация о пользователе",
+         "name": "Полное имя",
+         "email": "Адрес электронной почты",
+         "phone": "Номер телефона",
+         "events": "События",
+         "logs": {
+            "created_at": "Дата создания",
+            "email_confirmed_at": "Дата подтверждения электронной почты",
+            "last_sign_in_at": "Дата последнего входа"
+         }
+      }
+   },
+   "toast": {
+      "updated": "Обновлено успешно",
+      "success": "Успех",
+      "saved": "Сохранено успешно"
+   },
+   "register": {
+      "stepper": {
+         "label": {
+            "account": "Счет",
+            "company": "Компания"
+         }
+      }
+   },
+   "role": {
+      "table": {
+         "headers": {
+            "name": "Имя",
+            "created_at": "Дата создания"
+         }
+      }
+   },
+   "record": {
+      "table": {
+         "headers": {
+            "product": "Продукт",
+            "record_type": "Тип записи",
+            "client": "Клиент",
+            "quantity": "Количество",
+            "bid": "Ставка",
+            "created_at": "Дата создания"
+         }
+      },
+      "tab": {
+         "record": "Запись",
+         "earmold": "Ушной оттиск"
+      },
+      "information": "Информация",
+      "financial": "Финансовая"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "Продукт",
+               "unit_cost": "Стоимость за единицу",
+               "quantity": "Количество",
+               "vendor": "Поставщик",
+               "stocked_at": "Место хранения"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "Продукт",
+               "serial_number": "Серийный номер",
+               "unit_cost": "Стоимость за единицу",
+               "vendor": "Поставщик",
+               "stocked_at": "Место хранения"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "Продукт",
+               "brand": "Бренд",
+               "categories": "Категории",
+               "created_at": "Дата создания"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "Продукт",
+               "unit_cost": "Стоимость за единицу",
+               "quantity": "Количество",
+               "vendor": "Поставщик",
+               "stocked_at": "Место хранения"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "Продукт",
+               "unit_cost": "Стоимость за единицу",
+               "quantity": "Количество",
+               "vendor": "Поставщик",
+               "stocked_at": "Место хранения"
+            }
+         }
+      },
+      "information": "Информация",
+      "financial": "Финансовая"
+   }
+}

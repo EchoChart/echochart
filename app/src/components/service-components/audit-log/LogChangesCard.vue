@@ -15,6 +15,7 @@ const props = defineProps({
       default: null
    }
 });
+const { t, te } = useI18n();
 
 const getLogTagProps = (log) => {
    switch (_toLower(log?.operation)) {
@@ -98,15 +99,15 @@ function formatValue(value, indentSize = 1) {
       }
 
       const entries = _keys(value).map((key) => {
-         const formattedKey = i18n.te(key) ? i18n.t(key) : key;
          const formattedValue = formatValue(value[key], indentSize + 1);
+         const formattedKey = te('fields.' + key) ? t('fields.' + key) : key;
          if (formattedValue !== '—')
             return `${indent}\n${indent}${formattedKey}: ${formattedValue}`;
       });
 
       return entries.join('');
    }
-   return i18n.te(value) ? i18n.t(value) : value;
+   return te('fields.' + value) ? t('fields.' + value) : value;
 }
 
 const log = Collection.create(getChanges(props.data));
@@ -124,13 +125,13 @@ if (props.id) {
 </script>
 
 <template>
-   <Panel class="audit_card__panel" :header="$t(log?.table_name)">
+   <Panel class="audit_card__panel" :header="$t(log?.table_name || '')">
       <template #icons>
          <Tag v-bind="getLogTagProps(log?._data)" />
       </template>
       <div class="audit_card__changes-container" v-if="_size(log.changes) > 0">
          <div v-for="(entry, i) in log?.changes" :key="log?.id + i" class="audit_card__change-item">
-            <span class="audit_card__key" v-text="$t(entry?.key)" />
+            <span class="audit_card__key" v-text="$t('fields.' + entry?.key || '')" />
 
             <div class="audit_card__value-container">
                <Tag severity="danger" v-if="entry?.type !== 'add'" class="audit_card__old-value">
@@ -146,7 +147,7 @@ if (props.id) {
             </div>
          </div>
       </div>
-      <span v-else v-text="$t('no_changes')" class="audit_card__no-changes" />
+      <span v-else v-text="$t('audit_log.no_changes_detected')" class="audit_card__no-changes" />
    </Panel>
 </template>
 

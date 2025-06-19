@@ -1,10 +1,12 @@
 <script setup>
 import ResourceTable from '@/components/service-components/resource-table/ResourceTable.vue';
 import { useDialog } from 'primevue';
+import { useI18n } from 'vue-i18n';
 
 defineOptions({
    inheritAttrs: false
 });
+const { t, te } = useI18n();
 
 const emit = defineEmits(['dialog']);
 const props = defineProps({
@@ -32,7 +34,7 @@ const dialogContent = h(ResourceTable, tableProps, slots);
 const selectResource = () => {
    dialog = dialogs.open(dialogContent, {
       props: {
-         header: i18n.t('select_item'),
+         header: t('common.select'),
          class: '!min-w-[clamp(32rem,50%,100vw)] !max-w-min'
       }
    });

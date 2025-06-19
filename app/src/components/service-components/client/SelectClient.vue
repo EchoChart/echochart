@@ -52,7 +52,7 @@ onUnmounted(() => emitter.off('client-update', fetchClients));
          "
          v-bind="_omit($attrs, ['class'])"
          v-model:model-value="modelValue"
-         :placeholder="$t('select_client')"
+         :placeholder="$t('client.select_client')"
       />
 
       <InputGroupAddon

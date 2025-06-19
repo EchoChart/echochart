@@ -1,41 +1,47 @@
 <script setup lang="ts" generic="T = any">
 import { Form } from '@/lib/Form';
 
-export interface FormBoxProps {
+export declare type FormBoxProps = {
    legend?: string;
    form?: Form<T>;
    readonly?: boolean;
    invalid?: boolean;
    error?: string | boolean;
    printable?: boolean;
-}
+};
 
 defineProps<FormBoxProps>();
 
-const boxElement = ref();
+const boxElement = ref<HTMLElement | null>(null);
 </script>
 
 <template>
    <template v-if="_isNil(legend)">
-      <form :invalid="invalid || !!error" class="form_box" @submit.prevent>
+      <form :invalid="invalid || !!error" class="form_box" @submit.prevent ref="boxElement">
          <slot v-bind="$props" />
 
          <slot name="form-actions" v-bind="$props">
             <div v-if="!readonly" class="form_box__actions-bar">
                <span class="form_box__button-container">
                   <Button
-                     :label="$t('save')"
+                     :label="$t('action.save')"
                      class="form_box__button"
                      :disabled="!form?._isChanged"
                      type="submit"
                   />
                   <Button
-                     :label="$t('reset')"
+                     :label="$t('action.reset')"
                      severity="secondary"
                      class="form_box__button"
                      :disabled="!form?._isChanged"
                      type="reset"
                   />
+                  <PrintElementButton
+                     v-if="printable"
+                     :element="boxElement"
+                     class="form_box__print-button"
+                  />
+                  <ErrorBadge v-if="error" :error="error" class="form_box__error-badge" />
                </span>
             </div>
          </slot>
@@ -50,15 +56,14 @@ const boxElement = ref();
                class: 'form_box'
             }
          }"
-         class="form_box"
-         :ref="boxElement"
+         :ref="(el) => (boxElement = (el as ComponentPublicInstance)?.$el)"
       >
          <slot />
          <template #legend="slotProps">
             <slot name="header" v-bind="$props">
                <div class="form_box__header-container">
                   <slot name="legend" v-bind="$props">
-                     <label v-text="legend" v-bind="slotProps" class="form_box__label" />
+                     <label v-text="legend" v-bind="slotProps" class="form_box__legend" />
                   </slot>
                   <div class="form_box__header-actions">
                      <slot name="actions" />
@@ -80,7 +85,7 @@ const boxElement = ref();
 
 <style lang="scss">
 .form_box {
-   @apply flex-1 flex flex-wrap gap-2 items-start relative;
+   @apply flex-1 flex flex-wrap gap-2 items-start !relative;
 
    &:has(&) {
       @apply gap-4;
@@ -97,6 +102,9 @@ const boxElement = ref();
       &-actions {
          @apply print:!hidden;
       }
+   }
+   &__legend {
+      @apply first-letter:uppercase;
    }
 
    & > .form_box {

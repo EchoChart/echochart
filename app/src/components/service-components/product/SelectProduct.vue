@@ -63,7 +63,7 @@ onUnmounted(() => emitter.off('product-update', fetchProducts));
          option-value="id"
          v-bind="_omit($attrs, ['class'])"
          v-model:model-value="modelValue"
-         :placeholder="$t('select_product')"
+         :placeholder="$t('product.select_product')"
       />
       <InputGroupAddon
          v-if="showEdit && $can('read', 'product') && (!!modelValue?.id || !!modelValue)"

@@ -9,6 +9,7 @@ export default [
       name: 'stock',
       path: 'stock',
       meta: {
+         label: i18n.t('route.label.stock'),
          icon: 'pi pi-warehouse',
          requiredPermissions: [
             {
@@ -27,6 +28,7 @@ export default [
             name: 'stock-add',
             props: true,
             meta: {
+               label: i18n.t('route.label.add'),
                visible: false
             },
             components: {
@@ -39,6 +41,7 @@ export default [
             name: 'stock-edit',
             props: true,
             meta: {
+               label: i18n.t('route.label.edit'),
                visible: false
             },
             components: {

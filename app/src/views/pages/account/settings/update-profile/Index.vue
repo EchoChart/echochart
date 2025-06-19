@@ -2,6 +2,7 @@
 import { Form } from '@/lib/Form';
 import { useToast } from 'primevue';
 
+const { t, te } = useI18n();
 const toast = useToast();
 
 const authStore = useAuthStore();
@@ -35,7 +36,7 @@ const save = async () => {
    toast.add({
       life: 3000,
       severity: ToastSeverity.SUCCESS,
-      summary: i18n.t('updated')
+      summary: t('toast.updated')
    });
 };
 </script>
@@ -44,7 +45,7 @@ const save = async () => {
       <FormField
          fluid
          v-slot="slotProps"
-         :label="'display_name'"
+         :label="$t('fields.name')"
          :error="form?._errors.first('data.display_name')"
       >
          <InputText autofocus v-bind="slotProps" v-model="form['data.display_name']" />
@@ -52,7 +53,7 @@ const save = async () => {
       <FormField
          fluid
          v-slot="slotProps"
-         :label="$t('email')"
+         :label="$t('fields.email')"
          :error="form?._errors.first('email')"
       >
          <InputText v-bind="slotProps" v-model="form['email']" />
@@ -60,7 +61,7 @@ const save = async () => {
       <FormField
          fluid
          v-slot="slotProps"
-         :label="$t('phone')"
+         :label="$t('fields.phone')"
          :error="form?._errors?.first('phone')"
       >
          <PhoneInput

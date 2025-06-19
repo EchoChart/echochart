@@ -6,9 +6,11 @@ import { DIALOG_POSITIONS } from '@/constants/router';
  */
 export default [
    {
-      path: i18n.t('record'),
+      path: 'record',
+      name: 'record',
       component: CustomRouteView,
       meta: {
+         label: i18n.t('route.label.record'),
          icon: PrimeIcons.FOLDER,
          requiresAuth: true,
          requiredPermissions: [
@@ -19,7 +21,7 @@ export default [
          ],
          contextMenuItems: [
             {
-               label: i18n.t('add'),
+               label: i18n.t('action.add'),
                route: {
                   name: 'record-add',
                   query: { showDialog: DIALOG_POSITIONS.CENTER }
@@ -27,7 +29,6 @@ export default [
             }
          ]
       },
-      name: 'record',
       redirect: { name: 'record-list' },
       children: [
          {
@@ -38,7 +39,8 @@ export default [
                skeleton: () => import('@/views/pages/record/index.vue')
             },
             meta: {
-               icon: PrimeIcons.FOLDER,
+               label: i18n.t('route.label.list'),
+               icon: PrimeIcons.LIST,
                visible: false
             }
          },
@@ -47,7 +49,9 @@ export default [
             name: 'record-add',
             props: true,
             meta: {
+               label: i18n.t('route.label.add'),
                visible: false,
+               icon: PrimeIcons.PLUS,
                requiredPermissions: [
                   {
                      action: 'create',
@@ -65,7 +69,9 @@ export default [
             name: 'record-edit',
             props: true,
             meta: {
+               label: i18n.t('route.label.edit'),
                visible: false,
+               icon: PrimeIcons.PENCIL,
                requiredPermissions: [
                   {
                      action: 'read',

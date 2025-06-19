@@ -48,7 +48,7 @@ const accountMenuItems = computed(() => {
                v-if="branches?.length > 0"
                fluid=""
                size="small"
-               :label="$t('branch')"
+               :label="$t('auth.branch')"
                :model-value="currentTenant._data"
                @change="(e) => changeCurrentTenant(e.value)"
                optionLabel="display_name"
@@ -103,6 +103,10 @@ const accountMenuItems = computed(() => {
 
    &__email {
       @apply text-sm;
+   }
+
+   &__select {
+      @apply my-2;
    }
 
    &__menu {

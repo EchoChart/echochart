@@ -7,8 +7,10 @@ import { DIALOG_POSITIONS } from '../../constants/router';
 export default [
    {
       path: 'client',
+      name: 'client',
       component: CustomRouteView,
       meta: {
+         label: i18n.t('route.label.client'),
          index: -1,
          icon: PrimeIcons.USERS,
          requiresAuth: true,
@@ -19,13 +21,13 @@ export default [
             }
          ]
       },
-      name: 'client',
       redirect: { name: 'client-list' },
       children: [
          {
             path: 'list',
             name: 'client-list',
             meta: {
+               label: i18n.t('route.label.list'),
                icon: PrimeIcons.LIST,
                requiresAuth: true,
                requiredPermissions: [
@@ -36,7 +38,7 @@ export default [
                ],
                contextMenuItems: [
                   {
-                     label: i18n.t('add'),
+                     label: i18n.t('action.add'),
                      route: {
                         name: 'client-manage',
                         query: { showDialog: DIALOG_POSITIONS.CENTER }
@@ -54,6 +56,7 @@ export default [
             name: 'client-manage',
             props: true,
             meta: {
+               label: i18n.t('route.label.manage'),
                visible: false
             },
             components: {
@@ -63,9 +66,10 @@ export default [
             children: [
                {
                   path: 'general',
-                  name: 'client-manage-general',
+                  name: 'manage-client-general',
                   props: true,
                   meta: {
+                     label: i18n.t('route.label.general'),
                      icon: PrimeIcons.USER,
                      visible: false
                   },
@@ -76,9 +80,10 @@ export default [
                },
                {
                   path: 'address',
-                  name: 'client-manage-address',
+                  name: 'manage-client-address',
                   props: true,
                   meta: {
+                     label: i18n.t('route.label.address'),
                      icon: 'pi pi-address-book',
                      visible: false
                   },
@@ -94,6 +99,7 @@ export default [
             name: 'client-address',
             component: CustomRouteView,
             meta: {
+               label: i18n.t('route.label.address'),
                icon: 'pi pi-address-book',
                requiresAuth: true,
                contextMenuItems: computed(() => {
@@ -101,7 +107,7 @@ export default [
                   if (ability.can('create', 'address') || ability.can('modify', 'address'))
                      return [
                         {
-                           label: i18n.t('manage_addresses'),
+                           label: i18n.t('router.action.manage_addresses'),
                            route: {
                               name: 'address-list',
                               query: { showDialog: DIALOG_POSITIONS.CENTER }
@@ -117,6 +123,7 @@ export default [
                   path: 'list',
                   name: 'client-address-list',
                   meta: {
+                     label: i18n.t('route.label.list'),
                      visible: false,
                      index: 2,
                      icon: PrimeIcons.LIST,

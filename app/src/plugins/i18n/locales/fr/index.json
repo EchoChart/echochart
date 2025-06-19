@@ -1,0 +1,470 @@
+{
+   "app_config": {
+      "app_settings": "Paramètres de l'application",
+      "theme": {
+         "dark_mode": {
+            "toggle_dark_mode": "Basculer en mode sombre",
+            "dark": "Sombre",
+            "light": "Clair"
+         },
+         "ui_scale": "Échelle de l'interface",
+         "primary_color": "Couleur principale",
+         "surface_color": "Couleur de surface",
+         "preset": {
+            "select_preset": "Sélectionner un preset"
+         }
+      },
+      "language": {
+         "select_language": "Sélectionner la langue",
+         "option": {
+            "en": "Anglais",
+            "tr": "Turc",
+            "fr": "Français",
+            "de": "Allemand",
+            "pl": "Polonais",
+            "ru": "Russe",
+            "cn": "Chinois",
+            "jp": "Japonais",
+            "ko": "Coréen"
+         }
+      },
+      "sidebar": {
+         "select_sidebar_mode": "Sélectionner le mode de barre latérale",
+         "modes": {
+            "static": "Statique",
+            "auto": "Auto",
+            "mini": "Mini",
+            "reveal": "Révéler",
+            "overlay": "Superposition"
+         }
+      }
+   },
+   "auth": {
+      "branch": "Filiale",
+      "error": {
+         "insufficient_permission": "Permissions insuffisantes"
+      },
+      "confirm": {
+         "logout": {
+            "question": "Êtes-vous sûr de vouloir vous déconnecter ?",
+            "header": "Déconnexion"
+         }
+      },
+      "toast": {
+         "welcome": "Bienvenue",
+         "goodby": "Au revoir"
+      },
+      "welcome": {
+         "title": "Bienvenue",
+         "text": "Bienvenue dans l'application CRM des aides auditives."
+      },
+      "login": {
+         "welcome_back": "Bienvenue de retour",
+         "please_login_to_continue": "Veuillez vous connecter pour continuer.",
+         "forgot_password?": "Mot de passe oublié ?"
+      },
+      "logout": {
+         "logged_out_successfully": "Déconnexion réussie."
+      },
+      "register": {
+         "create_account": "Créer un compte",
+         "create_an_account_and_join_us": "Créez un compte et rejoignez-nous.",
+         "account_info": "Informations du compte",
+         "company_info": "Informations de l'entreprise"
+      }
+   },
+   "fields": {
+      "": "",
+      "device": "dispositif",
+      "battery": "batterie",
+      "spare_part": "pièce de rechange",
+      "service": "service",
+      "trial": "essai",
+      "sale": "vente",
+      "assemble": "assembler",
+      "repair": "réparation",
+      "promotion": "promotion",
+      "cash": "espèces",
+      "credit_card": "carte de crédit",
+      "pending": "en attente",
+      "pending_service": "service en attente",
+      "client holds service bid": "client détient une offre de service",
+      "client_approved_service_bid": "client a approuvé l'offre de service",
+      "client_rejected_service_bid": "client a rejeté l'offre de service",
+      "done": "terminé",
+      "approved": "approuvé",
+      "rejected": "rejeté",
+      "pending_client": "client en attente",
+      "biopar": "biopar",
+      "hard": "dur",
+      "micro": "micro",
+      "full": "plein",
+      "half": "moitié",
+      "supported": "supporté",
+      "prob": "prob",
+      "pcs": "pcs",
+      "kg": "kg",
+      "gr": "gr",
+      "lbs": "lbs",
+      "L": "L",
+      "mL": "mL",
+      "m": "m",
+      "m²": "m²",
+      "cm": "cm",
+      "in": "po",
+      "password": "mot de passe",
+      "password_confirmation": "confirmation du mot de passe",
+      "name": "nom",
+      "email": "email",
+      "phone": "téléphone",
+      "country": "pays",
+      "city": "ville",
+      "district": "district",
+      "details": "détails",
+      "remember_me": "se souvenir de moi",
+      "company": "entreprise",
+      "permission": "permission",
+      "client_id": "client",
+      "nationality": "nationalité",
+      "national_id": "numéro national",
+      "birth_date": "date de naissance",
+      "gender": "genre",
+      "behind_ear_molds": "moulages en oreille externe",
+      "attributes": "attributs",
+      "type": "type",
+      "model": "modèle",
+      "speaker_power": "puissance des haut-parleurs",
+      "side": "côté",
+      "left": "gauche",
+      "right": "droite",
+      "ventilation": "ventilation",
+      "speaker_size": "taille des haut-parleurs",
+      "inner_ear_molds": "moulages en oreille interne",
+      "inner_ear_mold": "moulage en oreille interne",
+      "has_bluetooth": "possède Bluetooth",
+      "has_button": "possède un bouton",
+      "record_type": "type d'enregistrement",
+      "stock_id": "stock",
+      "device_side": "côté du dispositif",
+      "both": "les deux",
+      "record_status": "statut d'enregistrement",
+      "quantity": "quantité",
+      "payment_type": "type de paiement",
+      "currency_code": "code de la devise",
+      "repair_fee": "frais de réparation",
+      "bid": "offre",
+      "bid_discount": "remise sur l'offre",
+      "tax": "taxe",
+      "total_bid": "total de l'offre",
+      "insurance_type": "type d'assurance",
+      "retired": "retraité",
+      "worker": "travailleur",
+      "insurance_contribution": "contribution à l'assurance",
+      "client_insurance_contribution": "contribution à l'assurance du client",
+      "brand": "marque",
+      "categories": "catégories",
+      "product_id": "produit",
+      "vendor": "fournisseur",
+      "stocked_at": "stocké à",
+      "barcode": "code-barre",
+      "serial_number": "numéro de série",
+      "currency": "devise",
+      "unit_cost": "coût unitaire",
+      "unit_discount": "remise unitaire",
+      "unit_tax": "taxe unitaire",
+      "total_cost": "coût total",
+      "behind_ear_mold": "moulage en oreille externe"
+   },
+   "audit_log": {
+      "no_changes_detected": "aucun changement détecté",
+      "add": "ajouter",
+      "update": "mettre à jour",
+      "delete": "supprimer",
+      "read": "lire",
+      "select_operation": "sélectionner l'opération",
+      "table": {
+         "headers": {
+            "resource": "ressource",
+            "operation": "opération",
+            "done_by": "fait par",
+            "created_at": "créé à",
+            "reverted_by": "annulé par",
+            "reverted_at": "annulé à"
+         }
+      },
+      "already_reverted": "déjà annulé",
+      "attempt_to_revert": "essai d'annulation",
+      "added": "ajouté",
+      "updated": "mis à jour",
+      "deleted": "supprimé",
+      "readed": "lu"
+   },
+   "client": {
+      "select_client": "Sélectionner un client",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "Client",
+               "address": "Adresse",
+               "country": "Pays",
+               "city": "Ville",
+               "district": "District",
+               "created_at": "Créé le"
+            }
+         }
+      },
+      "table": {
+         "headers": {
+            "client": "Client",
+            "nationality": "Nationalité",
+            "national_id": "National",
+            "birth_date": "Date de naissance",
+            "email": "Email",
+            "phone": "Téléphone",
+            "created_at": "Créé le"
+         }
+      },
+      "general_info": "Informations générales",
+      "addresses": "Adresses",
+      "gender": {
+         "male": "Masculin",
+         "female": "Féminin"
+      }
+   },
+   "product": {
+      "select_product": "Sélectionner un produit",
+      "category": {
+         "select_category": "Sélectionner une catégorie"
+      }
+   },
+   "input": {
+      "select_or_write": "Sélectionner ou écrire"
+   },
+   "address": {
+      "select_country": "Sélectionner le pays",
+      "table": {
+         "headers": {
+            "address_name": "Nom de l'adresse",
+            "country": "Pays",
+            "city": "Ville",
+            "district": "District",
+            "created_at": "Créé le"
+         }
+      }
+   },
+   "financial": {
+      "select_currency": "Sélectionner la devise",
+      "select_unit_type": "Sélectionner le type d'unité"
+   },
+   "component": {
+      "select_permission": {
+         "table": {
+            "headers": {
+               "permission_name": "Nom de la permission",
+               "read": "Lire",
+               "create": "Créer",
+               "modify": "Modifier",
+               "all": "Tout"
+            }
+         }
+      },
+      "table": {
+         "no_data_found": "Aucune donnée trouvée",
+         "keyword_search": "Recherche par mot-clé"
+      }
+   },
+   "common": {
+      "select": "Sélectionner"
+   },
+   "router": {
+      "action": {
+         "open_in_window": "Ouvrir dans une fenêtre",
+         "manage_addresses": "Gérer les adresses",
+         "close": "Fermer",
+         "go_to_dashboard": "Accéder au tableau de bord",
+         "go_back": "Retour"
+      },
+      "error_occured": "Une erreur s'est produite",
+      "requested_resource_is_not_available": "Le ressource demandée n'est pas disponible",
+      "not_found": "Non trouvé"
+   },
+   "action": {
+      "save": "Enregistrer",
+      "reset": "Réinitialiser",
+      "confirm": {
+         "delete": {
+            "question": "Etes-vous sûr(e) de vouloir supprimer cet élément ?",
+            "title": "Confirmer la suppression"
+         }
+      },
+      "yes": "Oui",
+      "no": "Non",
+      "cancelled": "Annulé",
+      "add": "Ajouter",
+      "delete": "Supprimer",
+      "edit": "Modifier",
+      "submit": "Soumettre",
+      "back": "Retour"
+   },
+   "const": {
+      "earmold": {
+         "inner": {
+            "models": {
+               "ITE": "ITE",
+               "ITC": "ITC",
+               "CIC": "CIC"
+            }
+         }
+      },
+      "record": {
+         "type": {
+            "": "Type"
+         }
+      }
+   },
+   "route": {
+      "label": {
+         "dashboard": "Tableau de bord",
+         "error": "Erreur",
+         "notfound": "Non trouvé",
+         "account": "Compte",
+         "profile": "Profil",
+         "settings": "Paramètres",
+         "update-profile": "Mettre à jour le profil",
+         "update-password": "Mettre à jour le mot de passe",
+         "logout": "Déconnexion",
+         "address": "Adresse",
+         "list": "Liste",
+         "edit": "Modifier",
+         "add": "Ajouter",
+         "register": "S'inscrire",
+         "login": "Se connecter",
+         "access-denied": "Accès refusé",
+         "branch": "Filiale",
+         "branch-role": "Rôle de la filiale",
+         "audit-logs": "Journaux d'audit",
+         "client": "Client",
+         "manage": "Gérer",
+         "general": "Général",
+         "record": "Enregistrement",
+         "battery": "Batterie",
+         "device": "Dispositif",
+         "stock": "Stock",
+         "product": "Produit",
+         "service": "Service",
+         "spare-parts": "Pièces de rechange"
+      }
+   },
+   "list": "Liste",
+   "account": {
+      "profile": {
+         "user_info": "Informations utilisateur",
+         "name": "Nom complet",
+         "email": "Adresse e-mail",
+         "phone": "Numéro de téléphone",
+         "events": "Événements",
+         "logs": {
+            "created_at": "Créé à",
+            "email_confirmed_at": "Confirmer l'e-mail à",
+            "last_sign_in_at": "Dernière connexion à"
+         }
+      }
+   },
+   "toast": {
+      "updated": "Mis à jour avec succès",
+      "success": "Succès",
+      "saved": "Enregistré avec succès"
+   },
+   "register": {
+      "stepper": {
+         "label": {
+            "account": "Compte",
+            "company": "Société"
+         }
+      }
+   },
+   "role": {
+      "table": {
+         "headers": {
+            "name": "Nom",
+            "created_at": "Créé le"
+         }
+      }
+   },
+   "record": {
+      "table": {
+         "headers": {
+            "product": "Produit",
+            "record_type": "Type d'enregistrement",
+            "client": "Client",
+            "quantity": "Quantité",
+            "bid": "Offre",
+            "created_at": "Créé le"
+         }
+      },
+      "tab": {
+         "record": "Enregistrement",
+         "earmold": "Moule d'oreille"
+      },
+      "information": "Informations",
+      "financial": "Finances"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "Produit",
+               "unit_cost": "Coût unitaire",
+               "quantity": "Quantité",
+               "vendor": "Fournisseur",
+               "stocked_at": "Stocké le"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "Produit",
+               "serial_number": "Numéro de série",
+               "unit_cost": "Coût unitaire",
+               "vendor": "Fournisseur",
+               "stocked_at": "Stocké le"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "Produit",
+               "brand": "Marque",
+               "categories": "Catégories",
+               "created_at": "Créé le"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "Produit",
+               "unit_cost": "Coût unitaire",
+               "quantity": "Quantité",
+               "vendor": "Fournisseur",
+               "stocked_at": "Stocké le"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "Produit",
+               "unit_cost": "Coût unitaire",
+               "quantity": "Quantité",
+               "vendor": "Fournisseur",
+               "stocked_at": "Stocké le"
+            }
+         }
+      },
+      "information": "Informations",
+      "financial": "Finances"
+   }
+}

@@ -1,0 +1,470 @@
+{
+   "app_config": {
+      "app_settings": "앱 설정",
+      "theme": {
+         "dark_mode": {
+            "toggle_dark_mode": "다크 모드 전환",
+            "dark": "다크",
+            "light": "라이트"
+         },
+         "ui_scale": "UI 크기 조절",
+         "primary_color": "주 색상",
+         "surface_color": "표면 색상",
+         "preset": {
+            "select_preset": "프리셋 선택"
+         }
+      },
+      "language": {
+         "select_language": "언어 선택",
+         "option": {
+            "en": "영어",
+            "tr": "터키어",
+            "fr": "프랑스어",
+            "de": "독일어",
+            "pl": "폴란드어",
+            "ru": "러시아어",
+            "cn": "중국어",
+            "jp": "일본어",
+            "ko": "한국어"
+         }
+      },
+      "sidebar": {
+         "select_sidebar_mode": "사이드바 모드 선택",
+         "modes": {
+            "static": "정적",
+            "auto": "자동",
+            "mini": "미니",
+            "reveal": "노출",
+            "overlay": "오버레이"
+         }
+      }
+   },
+   "auth": {
+      "branch": "브랜치",
+      "error": {
+         "insufficient_permission": "권한 부족"
+      },
+      "confirm": {
+         "logout": {
+            "question": "로그아웃 하시겠습니까?",
+            "header": "로그아웃"
+         }
+      },
+      "toast": {
+         "welcome": "환영합니다",
+         "goodby": "안녕히 가세요"
+      },
+      "welcome": {
+         "title": "환영합니다",
+         "text": "청력보조기 CRM 애플리케이션에 오신 것을 환영합니다."
+      },
+      "login": {
+         "welcome_back": "안녕하세요 다시",
+         "please_login_to_continue": "계속하려면 로그인 해주세요.",
+         "forgot_password?": "비밀번호를 잊으셨나요?"
+      },
+      "logout": {
+         "logged_out_successfully": "성공적으로 로그아웃되었습니다."
+      },
+      "register": {
+         "create_account": "계정 생성",
+         "create_an_account_and_join_us": "계정을 생성하고 우리와 함께하세요.",
+         "account_info": "계정 정보",
+         "company_info": "회사 정보"
+      }
+   },
+   "fields": {
+      "": "",
+      "device": "장치",
+      "battery": "배터리",
+      "spare_part": "비품",
+      "service": "서비스",
+      "trial": "시범",
+      "sale": "판매",
+      "assemble": "조립",
+      "repair": "수리",
+      "promotion": "프로모션",
+      "cash": "현금",
+      "credit_card": "신용카드",
+      "pending": "대기 중",
+      "pending_service": "대기 중 서비스",
+      "client holds service bid": "클라이언트가 서비스 입찰을 보유 중",
+      "client_approved_service_bid": "클라이언트가 서비스 입찰을 승인",
+      "client_rejected_service_bid": "클라이언트가 서비스 입찰을 거부",
+      "done": "완료",
+      "approved": "승인",
+      "rejected": "거부",
+      "pending_client": "클라이언트 대기 중",
+      "biopar": "바이오파",
+      "hard": "경직",
+      "micro": "마이크로",
+      "full": "완전",
+      "half": "절반",
+      "supported": "지원",
+      "prob": "확률",
+      "pcs": "개",
+      "kg": "킬로그램",
+      "gr": "그램",
+      "lbs": "파운드",
+      "L": "리터",
+      "mL": "밀리리터",
+      "m": "미터",
+      "m²": "제곱미터",
+      "cm": "센티미터",
+      "in": "인치",
+      "password": "비밀번호",
+      "password_confirmation": "비밀번호 확인",
+      "name": "이름",
+      "email": "이메일",
+      "phone": "전화",
+      "country": "국가",
+      "city": "도시",
+      "district": "구",
+      "details": "세부 정보",
+      "remember_me": "나를 기억해줘",
+      "company": "회사",
+      "permission": "권한",
+      "client_id": "클라이언트",
+      "nationality": "국적",
+      "national_id": "국민 여권",
+      "birth_date": "생일",
+      "gender": "성별",
+      "behind_ear_molds": "귀 뒤 몰드",
+      "attributes": "속성",
+      "type": "유형",
+      "model": "모델",
+      "speaker_power": "스피커 출력",
+      "side": "측면",
+      "left": "왼쪽",
+      "right": "오른쪽",
+      "ventilation": "환기",
+      "speaker_size": "스피커 크기",
+      "inner_ear_molds": "귀 안 몰드",
+      "inner_ear_mold": "귀 안 몰드",
+      "has_bluetooth": "블루투스 지원",
+      "has_button": "버튼 지원",
+      "record_type": "레코드 유형",
+      "stock_id": "재고",
+      "device_side": "장치 측면",
+      "both": "양쪽",
+      "record_status": "레코드 상태",
+      "quantity": "수량",
+      "payment_type": "결제 유형",
+      "currency_code": "통화 코드",
+      "repair_fee": "수리 비용",
+      "bid": "입찰",
+      "bid_discount": "입찰 할인",
+      "tax": "세금",
+      "total_bid": "총 입찰",
+      "insurance_type": "보험 유형",
+      "retired": "퇴직",
+      "worker": "직원",
+      "insurance_contribution": "보험 기여",
+      "client_insurance_contribution": "클라이언트 보험 기여",
+      "brand": "브랜드",
+      "categories": "카테고리",
+      "product_id": "제품",
+      "vendor": "공급업체",
+      "stocked_at": "재고 위치",
+      "barcode": "바코드",
+      "serial_number": "시리얼 번호",
+      "currency": "통화",
+      "unit_cost": "단가",
+      "unit_discount": "단위 할인",
+      "unit_tax": "단위 세금",
+      "total_cost": "총 비용",
+      "behind_ear_mold": "귀 뒤 몰드"
+   },
+   "audit_log": {
+      "no_changes_detected": "변경 사항 없음",
+      "add": "추가",
+      "update": "수정",
+      "delete": "삭제",
+      "read": "읽기",
+      "select_operation": "작업 선택",
+      "table": {
+         "headers": {
+            "resource": "자원",
+            "operation": "작업",
+            "done_by": "수행자",
+            "created_at": "생성 일자",
+            "reverted_by": "되돌리기 수행자",
+            "reverted_at": "되돌리기 일자"
+         }
+      },
+      "already_reverted": "이미 되돌려짐",
+      "attempt_to_revert": "되돌리기 시도",
+      "added": "추가됨",
+      "updated": "수정됨",
+      "deleted": "삭제됨",
+      "readed": "읽힘"
+   },
+   "client": {
+      "select_client": "클라이언트 선택",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "클라이언트",
+               "address": "주소",
+               "country": "국가",
+               "city": "도시",
+               "district": "구",
+               "created_at": "생성일"
+            }
+         }
+      },
+      "table": {
+         "headers": {
+            "client": "클라이언트",
+            "nationality": "국적",
+            "national_id": "국민",
+            "birth_date": "생일",
+            "email": "이메일",
+            "phone": "전화",
+            "created_at": "생성일"
+         }
+      },
+      "general_info": "일반 정보",
+      "addresses": "주소",
+      "gender": {
+         "male": "남성",
+         "female": "여성"
+      }
+   },
+   "product": {
+      "select_product": "제품 선택",
+      "category": {
+         "select_category": "카테고리 선택"
+      }
+   },
+   "input": {
+      "select_or_write": "선택하거나 작성"
+   },
+   "address": {
+      "select_country": "국가 선택",
+      "table": {
+         "headers": {
+            "address_name": "주소 이름",
+            "country": "국가",
+            "city": "도시",
+            "district": "구",
+            "created_at": "생성일"
+         }
+      }
+   },
+   "financial": {
+      "select_currency": "화폐 선택",
+      "select_unit_type": "단위 유형 선택"
+   },
+   "component": {
+      "select_permission": {
+         "table": {
+            "headers": {
+               "permission_name": "권한 이름",
+               "read": "읽기",
+               "create": "생성",
+               "modify": "수정",
+               "all": "모두"
+            }
+         }
+      },
+      "table": {
+         "no_data_found": "데이터가 없습니다",
+         "keyword_search": "키워드 검색"
+      }
+   },
+   "common": {
+      "select": "선택"
+   },
+   "router": {
+      "action": {
+         "open_in_window": "창에서 열기",
+         "manage_addresses": "주소 관리",
+         "close": "닫기",
+         "go_to_dashboard": "대시보드로 이동",
+         "go_back": "뒤로 가기"
+      },
+      "error_occured": "오류가 발생했습니다",
+      "requested_resource_is_not_available": "요청한 자원이 사용할 수 없습니다",
+      "not_found": "미발견"
+   },
+   "action": {
+      "save": "저장",
+      "reset": "초기화",
+      "confirm": {
+         "delete": {
+            "question": "이 항목을 삭제하시겠습니까?",
+            "title": "삭제 확인"
+         }
+      },
+      "yes": "예",
+      "no": "아니요",
+      "cancelled": "취소됨",
+      "add": "추가",
+      "delete": "삭제",
+      "edit": "편집",
+      "submit": "제출",
+      "back": "뒤로"
+   },
+   "const": {
+      "earmold": {
+         "inner": {
+            "models": {
+               "ITE": "ITE",
+               "ITC": "ITC",
+               "CIC": "CIC"
+            }
+         }
+      },
+      "record": {
+         "type": {
+            "": "타입"
+         }
+      }
+   },
+   "route": {
+      "label": {
+         "dashboard": "대시보드",
+         "error": "오류",
+         "notfound": "찾을 수 없음",
+         "account": "계정",
+         "profile": "프로필",
+         "settings": "설정",
+         "update-profile": "프로필 업데이트",
+         "update-password": "비밀번호 업데이트",
+         "logout": "로그아웃",
+         "address": "주소",
+         "list": "목록",
+         "edit": "편집",
+         "add": "추가",
+         "register": "등록",
+         "login": "로그인",
+         "access-denied": "접근 거부",
+         "branch": "지점",
+         "branch-role": "지점 역할",
+         "audit-logs": "감사 로그",
+         "client": "고객",
+         "manage": "관리",
+         "general": "일반",
+         "record": "기록",
+         "battery": "배터리",
+         "device": "장치",
+         "stock": "재고",
+         "product": "제품",
+         "service": "서비스",
+         "spare-parts": "부품"
+      }
+   },
+   "list": "목록",
+   "account": {
+      "profile": {
+         "user_info": "사용자 정보",
+         "name": "전체 이름",
+         "email": "이메일 주소",
+         "phone": "전화번호",
+         "events": "이벤트",
+         "logs": {
+            "created_at": "생성일",
+            "email_confirmed_at": "이메일 확인일",
+            "last_sign_in_at": "마지막 로그인일"
+         }
+      }
+   },
+   "toast": {
+      "updated": "성공적으로 업데이트됨",
+      "success": "성공",
+      "saved": "성공적으로 저장됨"
+   },
+   "register": {
+      "stepper": {
+         "label": {
+            "account": "계정",
+            "company": "회사"
+         }
+      }
+   },
+   "role": {
+      "table": {
+         "headers": {
+            "name": "이름",
+            "created_at": "생성일"
+         }
+      }
+   },
+   "record": {
+      "table": {
+         "headers": {
+            "product": "제품",
+            "record_type": "기록 유형",
+            "client": "고객",
+            "quantity": "수량",
+            "bid": "입찰",
+            "created_at": "생성일"
+         }
+      },
+      "tab": {
+         "record": "기록",
+         "earmold": "이어마우드"
+      },
+      "information": "정보",
+      "financial": "재정"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "제품",
+               "unit_cost": "단가",
+               "quantity": "수량",
+               "vendor": "공급업체",
+               "stocked_at": "재고 위치"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "제품",
+               "serial_number": "시리얼 번호",
+               "unit_cost": "단가",
+               "vendor": "공급업체",
+               "stocked_at": "재고 위치"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "제품",
+               "brand": "브랜드",
+               "categories": "카테고리",
+               "created_at": "생성일"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "제품",
+               "unit_cost": "단가",
+               "quantity": "수량",
+               "vendor": "공급업체",
+               "stocked_at": "재고 위치"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "제품",
+               "unit_cost": "단가",
+               "quantity": "수량",
+               "vendor": "공급업체",
+               "stocked_at": "재고 위치"
+            }
+         }
+      },
+      "information": "정보",
+      "financial": "재정"
+   }
+}

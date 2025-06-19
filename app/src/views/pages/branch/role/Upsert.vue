@@ -3,6 +3,7 @@ import { Form } from '@/lib/Form';
 import { useToast } from 'primevue';
 
 const toast = useToast();
+const { t } = useI18n();
 
 /**
  * @typedef {Tables['role']['Row']} Data
@@ -97,8 +98,8 @@ const save = async () => {
    toast.add({
       life: 3000,
       severity: ToastSeverity.SUCCESS,
-      summary: i18n.t('success'),
-      detail: i18n.t('saved', { name: form._data.display_name })
+      summary: t('toast.success'),
+      detail: t('toast.saved', { name: form._data.display_name })
    });
 
    emitter.emit('role-update', form._data);
@@ -110,7 +111,7 @@ const save = async () => {
       <FormBox @submit="save" @reset="() => form?._reset()" v-focustrap :form :readonly>
          <FormField
             fluid
-            :label="i18n.t('display_name')"
+            :label="$t('fields.name')"
             :error="form?._errors.first('display_name')"
             :readonly
          >
@@ -121,7 +122,7 @@ const save = async () => {
          <FormField
             class="!flex-auto !max-w-none w-full"
             fluid
-            :label="i18n.t('permission')"
+            :label="$t('fields.permission')"
             :readonly
             :error="form?._errors.first('permission')"
             v-slot="slotProps"

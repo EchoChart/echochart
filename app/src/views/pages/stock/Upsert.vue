@@ -17,6 +17,7 @@ const props = defineProps({
    }
 });
 
+const { t, te } = useI18n();
 const toast = useToast();
 
 /**
@@ -28,11 +29,11 @@ const initialFormData = {
    serial_number: null,
    barcode: null,
    unit_type: 'pcs',
-   unit_cost: 2000,
-   unit_discount: 300,
-   unit_tax: 500,
+   unit_cost: 0,
+   unit_discount: 0,
+   unit_tax: 0,
    stocked_at: new Date(Date.now()),
-   quantity: 4,
+   quantity: 0,
    currency_code: 'TRY',
    vendor: null,
    details: null,
@@ -107,9 +108,9 @@ const calcFinancials = (total, quantity, discountPercentage, taxPercentage) => {
    const new_tax = (new_cost - new_discount) * t;
 
    form._merge({
-      unit_cost: new_cost,
-      unit_discount: new_discount,
-      unit_tax: new_tax
+      unit_cost: new_cost || 0,
+      unit_discount: new_discount || 0,
+      unit_tax: new_tax || 0
    });
 };
 
@@ -157,8 +158,8 @@ const save = async () => {
    toast.add({
       life: 3000,
       severity: ToastSeverity.SUCCESS,
-      summary: i18n.t('success'),
-      detail: i18n.t('saved')
+      summary: t('toast.success'),
+      detail: t('toast.saved')
    });
 };
 </script>
@@ -166,12 +167,12 @@ const save = async () => {
 <template>
    <div class="card">
       <FormBox @submit="save" @reset="() => form._reset()" :form :readonly>
-         <FormBox class="!flex-auto" :legend="$t('information')">
+         <FormBox class="!flex-auto" :legend="$t('stock.information')">
             <FormField
                :readonly
                fluid
                :error="form?._errors?.first('product_id')"
-               :label="$t('product')"
+               :label="$t('fields.product_id')"
                v-slot="slotProps"
             >
                <SelectProduct
@@ -187,7 +188,7 @@ const save = async () => {
                :readonly
                fluid
                :error="form?._errors?.first('vendor')"
-               :label="$t('vendor')"
+               :label="$t('fields.vendor')"
                v-slot="slotProps"
             >
                <SelectStockVendor v-bind="slotProps" v-model="form.vendor" />
@@ -196,7 +197,7 @@ const save = async () => {
                :readonly
                fluid
                :error="form?._errors?.first('stocked_at')"
-               :label="$t('stocked_at')"
+               :label="$t('fields.stocked_at')"
                v-slot="slotProps"
             >
                <DatePicker
@@ -212,7 +213,7 @@ const save = async () => {
                   :readonly
                   fluid
                   :error="form?._errors?.first('barcode')"
-                  :label="$t('barcode')"
+                  :label="$t('fields.barcode')"
                   v-slot="slotProps"
                >
                   <InputText v-bind="slotProps" v-model="form.barcode" />
@@ -221,7 +222,7 @@ const save = async () => {
                   :readonly
                   fluid
                   :error="form?._errors?.first('serial_number')"
-                  :label="$t('serial_number')"
+                  :label="$t('fields.serial_number')"
                   v-slot="slotProps"
                >
                   <InputText v-bind="slotProps" v-model="form.serial_number" />
@@ -229,13 +230,13 @@ const save = async () => {
             </span>
          </FormBox>
 
-         <FormBox :legend="$t('financial')" class="!flex-auto">
+         <FormBox :legend="$t('stock.financial')" class="!flex-auto">
             <span class="form_box !flex-auto place-content-start">
                <FormField
                   :readonly
                   fluid
                   :error="form?._errors?.first('quantity')"
-                  :label="$t('quantity')"
+                  :label="$t('fields.quantity')"
                   v-slot="slotProps"
                >
                   <InputGroup>
@@ -256,7 +257,7 @@ const save = async () => {
                   :readonly
                   fluid
                   :error="form?._errors?.first('currency_code')"
-                  :label="$t('currency')"
+                  :label="$t('fields.currency')"
                   v-slot="slotProps"
                >
                   <SelectCurrency v-bind="slotProps" v-model="form.currency_code" />
@@ -267,7 +268,7 @@ const save = async () => {
                   :readonly
                   fluid
                   :error="form?._errors?.first('unit_cost')"
-                  :label="$t('unit_cost')"
+                  :label="$t('fields.unit_cost')"
                   v-slot="slotProps"
                >
                   <InputNumber
@@ -285,7 +286,7 @@ const save = async () => {
                   :readonly
                   fluid
                   :error="form?._errors?.first('unit_discount')"
-                  :label="$t('unit_discount')"
+                  :label="$t('fields.unit_discount')"
                   v-slot="slotProps"
                >
                   <InputGroup>
@@ -318,7 +319,7 @@ const save = async () => {
                   :readonly
                   fluid
                   :error="form?._errors?.first('unit_tax')"
-                  :label="$t('unit_tax')"
+                  :label="$t('fields.unit_tax')"
                   v-slot="slotProps"
                >
                   <InputGroup>
@@ -351,7 +352,7 @@ const save = async () => {
                   :readonly
                   fluid
                   :error="form?._errors?.first('total_cost')"
-                  :label="$t('total_cost')"
+                  :label="$t('fields.total_cost')"
                   v-slot="slotProps"
                >
                   <InputNumber
@@ -371,7 +372,7 @@ const save = async () => {
             :readonly
             fluid
             :error="form?._errors?.first('details')"
-            :label="$t('details')"
+            :label="$t('fields.details')"
             v-slot="slotProps"
             class="!flex-auto !max-w-full w-full h-fit"
          >

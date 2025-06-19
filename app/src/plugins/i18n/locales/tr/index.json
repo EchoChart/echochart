@@ -1,0 +1,470 @@
+{
+   "app_config": {
+      "app_settings": "Uygulama Ayarları",
+      "theme": {
+         "dark_mode": {
+            "toggle_dark_mode": "Karanlık Modu Aç/Kapat",
+            "dark": "Karanlık",
+            "light": "Aydınlık"
+         },
+         "ui_scale": "Arayüz Ölçütü",
+         "primary_color": "Ana Renk",
+         "surface_color": "Yüzey Renk",
+         "preset": {
+            "select_preset": "Şablon Seç"
+         }
+      },
+      "language": {
+         "select_language": "Dil Seç",
+         "option": {
+            "en": "İngilizce",
+            "tr": "Türkçe",
+            "fr": "Fransızca",
+            "de": "Almanca",
+            "pl": "Lehce",
+            "ru": "Rusça",
+            "cn": "Çince",
+            "jp": "Japonca",
+            "ko": "Korece"
+         }
+      },
+      "sidebar": {
+         "select_sidebar_mode": "Kenar Çubuğu Modunu Seç",
+         "modes": {
+            "static": "Statik",
+            "auto": "Otomatik",
+            "mini": "Mini",
+            "reveal": "Göster",
+            "overlay": "Yanıt"
+         }
+      }
+   },
+   "auth": {
+      "branch": "Şube",
+      "error": {
+         "insufficient_permission": "Yetersiz Yetki"
+      },
+      "confirm": {
+         "logout": {
+            "question": "Çıkış yapmak istediğinizden emin misiniz?",
+            "header": "Çıkış"
+         }
+      },
+      "toast": {
+         "welcome": "Hoş geldiniz",
+         "goodby": "Görüşmek üzere"
+      },
+      "welcome": {
+         "title": "Hoş geldiniz",
+         "text": "Kulağa Yardım CRM uygulamasına hoş geldiniz."
+      },
+      "login": {
+         "welcome_back": "Yine Hoş geldiniz",
+         "please_login_to_continue": "Devam etmek için lütfen giriş yapın.",
+         "forgot_password?": "Şifremi unuttum?"
+      },
+      "logout": {
+         "logged_out_successfully": "Başarıyla çıkış yapıldı."
+      },
+      "register": {
+         "create_account": "Hesap Oluştur",
+         "create_an_account_and_join_us": "Hesap oluşturun ve bize katılarak birlikte çalışın.",
+         "account_info": "Hesap Bilgileri",
+         "company_info": "Şirket Bilgileri"
+      }
+   },
+   "fields": {
+      "": "",
+      "device": "cihaz",
+      "battery": "bateri",
+      "spare_part": "yedek parça",
+      "service": "hizmet",
+      "trial": "deneme",
+      "sale": "satış",
+      "assemble": "montaj",
+      "repair": "onarım",
+      "promotion": "promosyon",
+      "cash": "nakit",
+      "credit_card": "kredi kartı",
+      "pending": "beklemede",
+      "pending_service": "bekleyen hizmet",
+      "client holds service bid": "müşteri hizmet teklifini tutuyor",
+      "client_approved_service_bid": "müşteri hizmet teklifini onayladı",
+      "client_rejected_service_bid": "müşteri hizmet teklifini reddetti",
+      "done": "bitirildi",
+      "approved": "onaylandı",
+      "rejected": "reddedildi",
+      "pending_client": "bekleyen müşteri",
+      "biopar": "biopar",
+      "hard": "sert",
+      "micro": "mikro",
+      "full": "tam",
+      "half": "yarı",
+      "supported": "destekleniyor",
+      "prob": "prob",
+      "pcs": "adet",
+      "kg": "kg",
+      "gr": "gr",
+      "lbs": "lbs",
+      "L": "L",
+      "mL": "mL",
+      "m": "m",
+      "m²": "m²",
+      "cm": "cm",
+      "in": "in",
+      "password": "şifre",
+      "password_confirmation": "şifre teyidi",
+      "name": "ad",
+      "email": "e-posta",
+      "phone": "telefon",
+      "country": "ülke",
+      "city": "şehir",
+      "district": "ilçe",
+      "details": "detaylar",
+      "remember_me": "beni hatırla",
+      "company": "şirket",
+      "permission": "izin",
+      "client_id": "müşteri",
+      "nationality": "ulusluluk",
+      "national_id": "uluslararası kimlik",
+      "birth_date": "doğum tarihi",
+      "gender": "cinsiyet",
+      "behind_ear_molds": "kulak arkası mold",
+      "attributes": "özellikler",
+      "type": "tür",
+      "model": "model",
+      "speaker_power": "gönderici gücü",
+      "side": "yön",
+      "left": "sol",
+      "right": "sağ",
+      "ventilation": "hava alımı",
+      "speaker_size": "gönderici boyutu",
+      "inner_ear_molds": "kulak içi mold",
+      "inner_ear_mold": "kulak içi mold",
+      "has_bluetooth": "bluetooth var mı",
+      "has_button": "düğme var mı",
+      "record_type": "kayıt türü",
+      "stock_id": "stok",
+      "device_side": "cihaz yönü",
+      "both": "her iki",
+      "record_status": "kayıt durumu",
+      "quantity": "miktar",
+      "payment_type": "ödeme türü",
+      "currency_code": "para birimi kodu",
+      "repair_fee": "onarım ücreti",
+      "bid": "teklif",
+      "bid_discount": "teklif indirimi",
+      "tax": "kdv",
+      "total_bid": "toplam teklif",
+      "insurance_type": "sigorta türü",
+      "retired": "emekli",
+      "worker": "çalışan",
+      "insurance_contribution": "sigorta katkısı",
+      "client_insurance_contribution": "müşteri sigorta katkısı",
+      "brand": "marka",
+      "categories": "kategoriler",
+      "product_id": "ürün",
+      "vendor": "satıcı",
+      "stocked_at": "stokta",
+      "barcode": "barkod",
+      "serial_number": "seri numarası",
+      "currency": "para birimi",
+      "unit_cost": "birim maliyeti",
+      "unit_discount": "birim indirimi",
+      "unit_tax": "birim kdv",
+      "total_cost": "toplam maliyet",
+      "behind_ear_mold": "kulak arkası mold"
+   },
+   "audit_log": {
+      "no_changes_detected": "değişiklik algılanmadı",
+      "add": "ekle",
+      "update": "güncelle",
+      "delete": "sil",
+      "read": "oku",
+      "select_operation": "işlem seç",
+      "table": {
+         "headers": {
+            "resource": "kaynak",
+            "operation": "işlem",
+            "done_by": "yapılan kişi",
+            "created_at": "oluşturulma tarihi",
+            "reverted_by": "geri alındı",
+            "reverted_at": "geri alma tarihi"
+         }
+      },
+      "already_reverted": "zaten geri alındı",
+      "attempt_to_revert": "geri alma denemesi",
+      "added": "eklendi",
+      "updated": "güncellendi",
+      "deleted": "silindi",
+      "readed": "okundu"
+   },
+   "client": {
+      "select_client": "Müşteri Seç",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "Müşteri",
+               "address": "Adres",
+               "country": "Ülke",
+               "city": "Şehir",
+               "district": "İlçe",
+               "created_at": "Oluşturulma Tarihi"
+            }
+         }
+      },
+      "table": {
+         "headers": {
+            "client": "Müşteri",
+            "nationality": "Uyruk",
+            "national_id": "Milli",
+            "birth_date": "Doğum Tarihi",
+            "email": "E-posta",
+            "phone": "Telefon",
+            "created_at": "Oluşturulma Tarihi"
+         }
+      },
+      "general_info": "Genel Bilgiler",
+      "addresses": "Adresler",
+      "gender": {
+         "male": "Erkek",
+         "female": "Kadın"
+      }
+   },
+   "product": {
+      "select_product": "Ürün Seç",
+      "category": {
+         "select_category": "Kategori Seç"
+      }
+   },
+   "input": {
+      "select_or_write": "Seçin veya yazın"
+   },
+   "address": {
+      "select_country": "Ülke seçin",
+      "table": {
+         "headers": {
+            "address_name": "Adres adı",
+            "country": "Ülke",
+            "city": "Şehir",
+            "district": "İlçe",
+            "created_at": "Oluşturulma tarihi"
+         }
+      }
+   },
+   "financial": {
+      "select_currency": "Para birimi seçin",
+      "select_unit_type": "Birim türü seçin"
+   },
+   "component": {
+      "select_permission": {
+         "table": {
+            "headers": {
+               "permission_name": "İzin Adı",
+               "read": "Oku",
+               "create": "Oluştur",
+               "modify": "Değiştir",
+               "all": "Hepsi"
+            }
+         }
+      },
+      "table": {
+         "no_data_found": "Veri bulunamadı",
+         "keyword_search": "Anahtar kelime araması"
+      }
+   },
+   "common": {
+      "select": "Seç"
+   },
+   "router": {
+      "action": {
+         "open_in_window": "Pencere içinde aç",
+         "manage_addresses": "Adresleri yönet",
+         "close": "Kapat",
+         "go_to_dashboard": "Panel'e git",
+         "go_back": "Geri dön"
+      },
+      "error_occured": "Bir hata oluştu",
+      "requested_resource_is_not_available": "İstenen kaynak bulunamadı",
+      "not_found": "Bulunamadı"
+   },
+   "action": {
+      "save": "Kaydet",
+      "reset": "Sıfırla",
+      "confirm": {
+         "delete": {
+            "question": "Bu öğeyi silmek istediğinizden emin misiniz?",
+            "title": "Silme Onayı"
+         }
+      },
+      "yes": "Evet",
+      "no": "Hayır",
+      "cancelled": "İptal edildi",
+      "add": "Ekle",
+      "delete": "Sil",
+      "edit": "Düzenle",
+      "submit": "Gönder",
+      "back": "Geri"
+   },
+   "const": {
+      "earmold": {
+         "inner": {
+            "models": {
+               "ITE": "ITE",
+               "ITC": "ITC",
+               "CIC": "CIC"
+            }
+         }
+      },
+      "record": {
+         "type": {
+            "": "Tip"
+         }
+      }
+   },
+   "route": {
+      "label": {
+         "dashboard": "Konsol",
+         "error": "Hata",
+         "notfound": "Bulunamadı",
+         "account": "Hesap",
+         "profile": "Profil",
+         "settings": "Ayarlar",
+         "update-profile": "Profil Güncelle",
+         "update-password": "Şifre Güncelle",
+         "logout": "Çıkış Yap",
+         "address": "Adres",
+         "list": "Liste",
+         "edit": "Düzenle",
+         "add": "Ekle",
+         "register": "Kayıt Ol",
+         "login": "Giriş Yap",
+         "access-denied": "Erişim Engellendi",
+         "branch": "Şube",
+         "branch-role": "Şube Rolü",
+         "audit-logs": "Audit Logları",
+         "client": "Müşteri",
+         "manage": "Yönet",
+         "general": "Genel",
+         "record": "Kayıt",
+         "battery": "Batarya",
+         "device": "Cihaz",
+         "stock": "Stok",
+         "product": "Ürün",
+         "service": "Hizmet",
+         "spare-parts": "Yedek Parça"
+      }
+   },
+   "list": "Liste",
+   "account": {
+      "profile": {
+         "user_info": "Kullanıcı Bilgileri",
+         "name": "Ad Soyad",
+         "email": "E-posta Adresi",
+         "phone": "Telefon Numarası",
+         "events": "Etkinlikler",
+         "logs": {
+            "created_at": "Oluşturulma Tarihi",
+            "email_confirmed_at": "E-posta Onay Tarihi",
+            "last_sign_in_at": "Son Giriş Tarihi"
+         }
+      }
+   },
+   "toast": {
+      "updated": "Başarıyla Güncellendi",
+      "success": "Başarılı",
+      "saved": "Başarıyla Kaydedildi"
+   },
+   "register": {
+      "stepper": {
+         "label": {
+            "account": "Hesap",
+            "company": "Şirket"
+         }
+      }
+   },
+   "role": {
+      "table": {
+         "headers": {
+            "name": "Ad",
+            "created_at": "Oluşturulma Tarihi"
+         }
+      }
+   },
+   "record": {
+      "table": {
+         "headers": {
+            "product": "Ürün",
+            "record_type": "Kayıt Türü",
+            "client": "Müşteri",
+            "quantity": "Miktar",
+            "bid": "Teklif",
+            "created_at": "Oluşturulma Tarihi"
+         }
+      },
+      "tab": {
+         "record": "Kayıt",
+         "earmold": "Kulaklık"
+      },
+      "information": "Bilgi",
+      "financial": "Finans"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "unit_cost": "Birim Fiyat",
+               "quantity": "Miktar",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stokta"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "serial_number": "Seri Numarası",
+               "unit_cost": "Birim Fiyat",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stokta"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "brand": "Marka",
+               "categories": "Kategoriler",
+               "created_at": "Oluşturulma Tarihi"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "unit_cost": "Birim Fiyat",
+               "quantity": "Miktar",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stokta"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "unit_cost": "Birim Fiyat",
+               "quantity": "Miktar",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stokta"
+            }
+         }
+      },
+      "information": "Bilgi",
+      "financial": "Finans"
+   }
+}

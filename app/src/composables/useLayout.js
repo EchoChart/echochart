@@ -52,12 +52,12 @@ const setActiveMenuItem = (item) => {
    layoutState.activeMenuItem = item?.value || item;
 };
 
-const sidebarModeOptions = ref([
-   { label: i18n.t('static'), value: 'static' },
-   { label: i18n.t('auto'), value: 'auto' },
-   { label: i18n.t('mini'), value: 'mini' },
-   { label: i18n.t('reveal'), value: 'reveal' },
-   { label: i18n.t('overlay'), value: 'overlay' }
+const sidebarModeOptions = computed(() => [
+   { label: i18n.t('app_config.sidebar.modes.static'), value: 'static' },
+   { label: i18n.t('app_config.sidebar.modes.auto'), value: 'auto' },
+   { label: i18n.t('app_config.sidebar.modes.mini'), value: 'mini' },
+   { label: i18n.t('app_config.sidebar.modes.reveal'), value: 'reveal' },
+   { label: i18n.t('app_config.sidebar.modes.overlay'), value: 'overlay' }
 ]);
 
 const setSidebarMode = (mode) => {
@@ -310,11 +310,10 @@ export default () => {
                   );
 
                   visible ??= children.length > 0 ? true : isVisible;
-
                   return {
                      key: currentKey,
                      name,
-                     label: key,
+                     label: i18n.t(meta.label || key),
                      icon: meta.icon,
                      visible,
                      route: { ...route, replace: meta?.replace },

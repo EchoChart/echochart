@@ -6,39 +6,40 @@ defineOptions({
    inheritAttrs: false
 });
 
+const { t } = useI18n();
 const attrs = useAttrs();
 const router = useRouter();
 
 // Define the columns without filters
-/**@type {Collection<ResourceTableProps['columns']>} */
-const columns = Collection.create([
+/**@type {ComputedRef<ResourceTableProps['columns']>} */
+const columns = computed(() => [
    {
       field: 'display_name',
       sortable: true,
-      header: i18n.t('product'),
+      header: t('stock.spare_part.table.headers.product'),
       sortOrder: { value: -1 }
    },
    {
       field: 'unit_cost',
       sortable: true,
-      header: i18n.t('unit_cost'),
+      header: t('stock.spare_part.table.headers.unit_cost'),
       dataType: 'numeric'
    },
    {
       field: 'quantity',
       sortable: true,
-      header: i18n.t('quantity'),
+      header: t('stock.spare_part.table.headers.quantity'),
       dataType: 'numeric'
    },
    {
       field: 'vendor',
       sortable: true,
-      header: i18n.t('vendor')
+      header: t('stock.spare_part.table.headers.vendor')
    },
    {
       field: 'stocked_at',
       sortable: true,
-      header: i18n.t('stocked_at'),
+      header: t('stock.spare_part.table.headers.stocked_at'),
       sortOrder: { value: -1 }
    }
 ]);
@@ -94,7 +95,7 @@ const filters = ref({
 const stateKey = 'spare-part';
 const rowActions = Collection.create([
    {
-      label: i18n.t('delete'),
+      label: t('action.delete'),
       command:
          ({ data }) =>
          async () =>
@@ -108,7 +109,7 @@ const rowActions = Collection.create([
       icon: PrimeIcons.TRASH
    },
    {
-      label: i18n.t('edit'),
+      label: t('action.edit'),
       command:
          ({ data }) =>
          async () =>
@@ -133,7 +134,7 @@ const tableProps = computed(() => ({
    from: 'stock_view',
    select:
       'id, display_name, unit_cost, quantity, vendor, stocked_at, product:product!inner(category:product_category!inner(*))',
-   columns: columns._data,
+   columns: columns.value,
    rowActions: rowActions._data,
    ...attrs
 }));
@@ -149,7 +150,7 @@ const tableProps = computed(() => ({
                   :to="{ name: 'stock-add', params: { category: 'spare part' } }"
                   v-slot="{ navigate }"
                >
-                  <Button variant="outlined" :label="$t('add')" @click="navigate" />
+                  <Button variant="outlined" :label="$t('action.add')" @click="navigate" />
                </CustomLink>
             </span>
          </Teleport>

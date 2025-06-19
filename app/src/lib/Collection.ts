@@ -1,4 +1,4 @@
-import { PropertyPath } from 'lodash';
+import { PropertyName, PropertyPath } from 'lodash';
 import { Ref } from 'vue';
 
 // Define the interface for Collection
@@ -73,7 +73,7 @@ export default class Collection<T = any> implements ICollection<T> {
       return this;
    }
 
-   static create<T>(data: T = {} as T): Collection<T> & Collection<T>['_data'] {
+   static create<T = any>(data: T = {} as T): Collection<T> & Collection<T>['_data'] {
       const instance = new this<T>(data);
       const proxy = new Proxy(instance, {
          /**
@@ -129,7 +129,8 @@ export default class Collection<T = any> implements ICollection<T> {
             }
 
             if (_isNil(value)) return _unset((target._state as Ref<T>).value, key);
-            else return !!_set(target._state as Ref<T>, `value.${key}`, value);
+            else
+               return !!_set((target._state as unknown as Ref<T & object>).value, `${key}`, value);
          }
       });
       return proxy as unknown as Collection<T> & Ref<T>['value'];
@@ -163,7 +164,7 @@ export default class Collection<T = any> implements ICollection<T> {
     * @param value - Default value if the key is not found.
     * @returns {T[keyof T]} - The value associated with the key, or the default value if the key is not found.
     */
-   _get(key: keyof T, value: any = null): T[keyof T] {
+   _get(key: keyof T | PropertyName, value: any = null): T[keyof T] {
       return _get(this._state, key, value);
    }
 

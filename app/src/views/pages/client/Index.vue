@@ -7,45 +7,46 @@ defineOptions({
    inheritAttrs: false
 });
 
+const { t, te } = useI18n();
 const attrs = useAttrs();
 const router = useRouter();
-/**@type {Collection<ResourceTableProps['columns']>} */
-const columns = Collection.create([
+/**@type {ComputedRef<ResourceTableProps['columns']>} */
+const columns = computed(() => [
    {
       field: 'display_name',
-      header: i18n.t('client'),
+      header: t('client.table.headers.client'),
       sortable: true,
       sortOrder: { value: -1 }
    },
    {
       field: 'nationality',
       sortable: true,
-      header: i18n.t('nationality')
+      header: t('client.table.headers.nationality')
    },
    {
       field: 'national_id',
       sortable: true,
-      header: i18n.t('national_id')
+      header: t('client.table.headers.national_id')
    },
    {
       field: 'birth_date',
       sortable: true,
-      header: i18n.t('birth_date')
+      header: t('client.table.headers.birth_date')
    },
    {
       field: 'email',
       sortable: true,
-      header: i18n.t('email')
+      header: t('client.table.headers.email')
    },
    {
       field: 'phone',
       sortable: true,
-      header: i18n.t('phone')
+      header: t('client.table.headers.phone')
    },
    {
       field: 'created_at',
       sortable: true,
-      header: i18n.t('created_at'),
+      header: t('client.table.headers.created_at'),
       sortOrder: { value: -1 }
    }
 ]);
@@ -93,7 +94,7 @@ const filters = ref({
 const stateKey = 'client';
 const rowActions = Collection.create([
    {
-      label: i18n.t('delete'),
+      label: t('action.delete'),
       command:
          ({ data }) =>
          async () =>
@@ -107,7 +108,7 @@ const rowActions = Collection.create([
       icon: PrimeIcons.TRASH
    },
    {
-      label: i18n.t('edit'),
+      label: t('action.edit'),
       command:
          ({ data }) =>
          async () =>
@@ -128,7 +129,7 @@ const tableProps = computed(() => ({
    stateKey,
    from: 'client',
    select: '*, address(*)',
-   columns: columns._data,
+   columns: columns.value,
    rowActions: rowActions._data,
    ...attrs
 }));
@@ -144,7 +145,7 @@ const tableProps = computed(() => ({
                   :to="{ name: 'client-manage' }"
                   v-slot="{ navigate }"
                >
-                  <Button variant="outlined" :label="$t('add')" @click="navigate" />
+                  <Button variant="outlined" :label="$t('action.add')" @click="navigate" />
                </CustomLink>
             </span>
          </Teleport>

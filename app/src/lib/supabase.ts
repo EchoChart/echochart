@@ -154,6 +154,9 @@ const getFilterQuery = (filters: Filters): string => {
 
             // Process the main filter part
             if (!_isNil(matchMode)) {
+               if (_isString(value)) {
+                  value = value.replace(/#/g, '');
+               }
                const filterParts = getFilterParts({
                   field,
                   dataType,
@@ -170,6 +173,9 @@ const getFilterQuery = (filters: Filters): string => {
             // Process constraints if any
             if (constraints?.length) {
                constraints?.forEach(({ matchMode, value }) => {
+                  if (_isString(value)) {
+                     value = value.replace(/#/g, '');
+                  }
                   const filterParts = getFilterParts({
                      field,
                      dataType,
@@ -200,7 +206,7 @@ const getFilterQuery = (filters: Filters): string => {
 
    // Process global filter if it exists
    if (filters.global) {
-      const { value, matchMode } = filters.global;
+      const { value, matchMode, constraints } = filters.global;
 
       // Remove the global filter from the main filters object
       delete filters.global;
@@ -208,8 +214,8 @@ const getFilterQuery = (filters: Filters): string => {
       // If the global filter has a non-nil and non-empty value, process it
       if (!_isNil(value) && !_isEmpty(value))
          _toPairs(filters).forEach(([field, { dataType }]) => {
-            const isNested = field?.split?.('.').length !== 1;
-            if (isNested) return;
+            const isNested = field?.split?.(/\.|->>/).length !== 1;
+            const isJson = field.includes('->');
 
             let mode = matchMode;
 
@@ -218,9 +224,8 @@ const getFilterQuery = (filters: Filters): string => {
             else if (dataType === 'decimal') mode = FilterMatchMode.EQUALS;
             else if (dataType === 'date') mode = FilterMatchMode.DATE_IS;
 
-            const targetFilters = isNested ? andFilters : orFilters;
+            const targetFilters = orFilters;
 
-            // Set the operator to OR
             const operator = FilterOperator.OR;
 
             // Add the global filter constraints to the appropriate filters object
@@ -230,7 +235,8 @@ const getFilterQuery = (filters: Filters): string => {
                operator,
                constraints: [
                   ..._get(targetFilters[field], 'constraints', []),
-                  { value, matchMode: mode }
+                  { value, matchMode: mode },
+                  { value: isJson ? `${value}` : value, matchMode: mode }
                ]
             };
          });
@@ -260,19 +266,21 @@ const handleDeleteDialog = async (options: RequestInit & Request): Promise<boole
 
       return app.config?.globalProperties?.$confirm?.require?.({
          icon: PrimeIcons.EXCLAMATION_TRIANGLE,
-         message: `${i18n.t('are_you_sure_you_want_to_delete?')}`,
-         header: i18n.t('delete', { name: item?.display_name || item?.name || item?.id }),
+         message: `${i18n.t('action.confirm.delete.question', { item })}`,
+         header: i18n.t('action.confirm.delete.title', {
+            name: item?.display_name || item?.name || item?.id
+         }),
          acceptProps: {
-            label: i18n.t('yes'),
+            label: i18n.t('action.yes'),
             outlined: true
          },
          rejectProps: {
-            label: i18n.t('no'),
+            label: i18n.t('action.no'),
             severity: 'secondary',
             outlined: true
          },
          accept: () => resolve(true),
-         reject: () => reject(i18n.t('user_cancelled_action'))
+         reject: () => reject(i18n.t('action.cancelled'))
       });
    });
 };
@@ -297,7 +305,7 @@ const handleMeta = (url: string | URL, options: RequestInit & Request): string |
          (multiSortMeta as CustomTableMetaEvent['multiSortMeta'])
             .reduce((acc, { field, order }) => {
                const nestedFormat = (field as string)
-                  .split('.')
+                  .split(/\./)
                   .reverse()
                   .reduce((acc, part) => `${part}${acc ? `(${acc})` : ''}`, '');
                const sortOrder = order < 0 ? 'desc' : 'asc';
@@ -432,21 +440,20 @@ const customFetch = async (
    return promise;
 };
 
-const supabaseOptions: SupabaseClientOptions<'Public'> = {
+const supabaseOptions: SupabaseClientOptions<'public'> = {
    auth: {
       autoRefreshToken: true,
       persistSession: true,
       detectSessionInUrl: false
    },
    global: {
-      headers: { 'X-Custom-Header': 'MyApp' },
       fetch: customFetch as typeof fetch
    }
 };
 
 const env = (import.meta as any).env;
 
-export const supabase = createClient(
+export const supabase = createClient<Db>(
    env.VITE_SUPABASE_PROJECT_URL,
    env.VITE_SUPABASE_PROJECT_ANON_KEY,
    supabaseOptions

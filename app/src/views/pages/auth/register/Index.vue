@@ -2,22 +2,24 @@
 import { Form } from '@/lib/Form';
 import { PrimeIcons } from '@primevue/core';
 import { useToast } from 'primevue';
+import { useI18n } from 'vue-i18n';
 
 const toast = useToast();
 const router = useRouter();
+const { t } = useI18n();
 
 const stepper = ref();
 const setStep = (step) => _set(stepper.value, 'd_value', step);
-const steps = [
+const steps = computed(() => [
    {
       icon: PrimeIcons.USER_PLUS,
-      label: i18n.t('account')
+      label: t('register.stepper.label.account')
    },
    {
       icon: PrimeIcons.BUILDING,
-      label: i18n.t('company')
+      label: t('register.stepper.label.company')
    }
-];
+]);
 
 const form = Form.create({
    data: {
@@ -64,18 +66,21 @@ const submit = async () => {
    toast.add({
       life: 3000,
       severity: ToastSeverity.SUCCESS,
-      summary: i18n.t('success')
+      summary: t('toast.success')
    });
-   await router.replace({ name: 'login' });
+   await router.replace({ name: 'auth-login' });
 };
 </script>
 
 <template>
    <FormBox @submit="submit" class="flex-auto !w-full justify-center gap-8" v-focustrap>
       <div class="flex-auto w-full text-center flex flex-col justify-center gap-8">
-         <div class="text-3xl font-medium" v-text="$t('create_account')" />
+         <div class="text-3xl font-medium" v-text="$t('auth.register.create_account')" />
 
-         <span class="text-muted-color font-medium" v-text="$t('create_an_account_and_join_us')" />
+         <span
+            class="text-muted-color font-medium"
+            v-text="$t('auth.register.create_an_account_and_join_us')"
+         />
       </div>
       <Stepper ref="stepper" class="flex-auto !w-full flex flex-col gap-8" :value="1">
          <StepList class="flex-wrap sm:flex-nowrap gap-2">
@@ -97,7 +102,7 @@ const submit = async () => {
                      class="flex-auto"
                      v-bind="a11yAttrs.header"
                      :icon="step.icon"
-                     :label="step.label"
+                     :label="$t(step.label)"
                      :variant="!active ? 'outlined' : ''"
                      @click="() => setStep(value)"
                   />
@@ -108,11 +113,14 @@ const submit = async () => {
          <StepPanels>
             <StepPanel :value="1">
                <div class="flex flex-col gap-4">
-                  <div class="mx-auto text-xl font-medium" v-text="$t('account_info')" />
+                  <div
+                     class="mx-auto text-xl font-medium"
+                     v-text="$t('auth.register.account_info')"
+                  />
                   <FormField
                      v-slot="slotProps"
                      fluid
-                     :label="$t('email')"
+                     :label="$t('fields.email')"
                      :error="form?._errors?.first('account.email')"
                   >
                      <InputText autofocus v-bind="slotProps" v-model="form['account.email']" />
@@ -120,7 +128,7 @@ const submit = async () => {
                   <FormField
                      v-slot="slotProps"
                      fluid
-                     :label="$t('password')"
+                     :label="$t('fields.password')"
                      :error="form?._errors?.first('account.password')"
                   >
                      <Password
@@ -133,7 +141,7 @@ const submit = async () => {
                   <FormField
                      v-slot="slotProps"
                      fluid
-                     :label="$t('password_confirmation')"
+                     :label="$t('fields.password_confirmation')"
                      :error="form?._errors?.first('account.password_confirmation')"
                   >
                      <Password
@@ -145,7 +153,7 @@ const submit = async () => {
                   </FormField>
                   <div class="w-1/2 self-end">
                      <Button
-                        :label="$t('company')"
+                        :label="$t('fields.company')"
                         class="w-full"
                         :icon="PrimeIcons.CARET_RIGHT"
                         iconPos="right"
@@ -159,12 +167,12 @@ const submit = async () => {
                <div class="flex flex-col gap-4">
                   <div
                      class="mx-auto text-surface-900 dark:text-surface-0 text-xl font-medium"
-                     v-text="$t('company_info')"
+                     v-text="$t('auth.register.company_info')"
                   />
                   <FormField
                      v-slot="slotProps"
                      fluid
-                     :label="$t('display_name')"
+                     :label="$t('fields.name')"
                      :error="form?._errors?.first('company.display_name')"
                   >
                      <InputText v-bind="slotProps" v-model="form['company.display_name']" />
@@ -172,7 +180,7 @@ const submit = async () => {
                   <FormField
                      v-slot="slotProps"
                      fluid
-                     :label="$t('email')"
+                     :label="$t('fields.email')"
                      :error="form?._errors?.first('company.email')"
                   >
                      <InputText v-bind="slotProps" v-model="form['company.email']" />
@@ -180,21 +188,21 @@ const submit = async () => {
                   <FormField
                      v-slot="slotProps"
                      fluid
-                     :label="$t('phone')"
+                     :label="$t('fields.phone')"
                      :error="form?._errors?.first('company.phone')"
                   >
                      <PhoneInput v-bind="slotProps" v-model="form['phone']" />
                   </FormField>
                   <div class="self-stretch flex gap-8">
                      <Button
-                        label="Back"
+                        :label="$t('action.back')"
                         severity="secondary"
                         class="w-full"
                         :icon="PrimeIcons.CARET_LEFT"
                         @click="() => setStep(1)"
                      />
                      <Button
-                        :label="$t('submit')"
+                        :label="$t('action.submit')"
                         class="w-full"
                         type="submit"
                         variant="outlined"

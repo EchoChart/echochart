@@ -10,7 +10,8 @@ export const dialogBeforeEach = async (to, from, next) => {
       return next();
    }
 
-   const components = _last(to.matched).components;
+   const lastMatchedRoute = _last(to.matched);
+   const components = lastMatchedRoute.components;
    const dialogComponent = h(
       _isFunction(components.default)
          ? defineAsyncComponent({
@@ -66,7 +67,7 @@ export const dialogBeforeEach = async (to, from, next) => {
       data: { to, from },
       props: {
          maximizable: false,
-         header: i18n.t(to.name),
+         header: i18n.t(lastMatchedRoute.meta.label) || '',
          pt: {
             header: {
                class: 'first-letter:uppercase'

@@ -4,6 +4,7 @@ import ResourceTable, {
 } from '@/components/service-components/resource-table/ResourceTable.vue';
 import Collection from '@/lib/Collection';
 import Upsert from '@/views/pages/record/upsert/index.vue';
+import { useI18n } from 'vue-i18n';
 
 defineOptions({
    inheritAttrs: false
@@ -13,39 +14,39 @@ const attrs = useAttrs();
 const router = useRouter();
 const route = useRoute();
 
-console.log(route.params.record_type);
+const { t } = useI18n();
 
-const columns = Collection.create<ResourceTableProps['columns']>([
+const columns = computed<ResourceTableProps['columns']>(() => [
    {
       field: 'stock.display_name',
       sortable: true,
-      header: 'product'
+      header: t('record.table.headers.product')
    },
    {
       field: 'record_type',
       sortable: true,
       showFilterMenu: !route.params.record_type,
-      header: 'record_type'
+      header: t('record.table.headers.record_type')
    },
    {
       field: 'client.display_name',
       sortable: true,
-      header: 'client'
+      header: t('record.table.headers.client')
    },
    {
       field: 'quantity',
       sortable: true,
-      header: 'quantity'
+      header: t('record.table.headers.quantity')
    },
    {
       field: 'bid',
       sortable: true,
-      header: 'bid'
+      header: t('record.table.headers.bid')
    },
    {
       field: 'created_at',
       sortable: true,
-      header: 'created_at'
+      header: t('record.table.headers.created_at')
    }
 ]);
 
@@ -88,7 +89,7 @@ const stateKey = 'record';
 
 const rowActions = Collection.create<ResourceTableProps['rowActions']>([
    {
-      label: i18n.t('delete'),
+      label: t('action.delete'),
       command:
          ({ data }) =>
          async () =>
@@ -102,7 +103,7 @@ const rowActions = Collection.create<ResourceTableProps['rowActions']>([
       icon: PrimeIcons.TRASH
    },
    {
-      label: i18n.t('edit'),
+      label: t('action.edit'),
       command:
          ({ data }) =>
          async () =>
@@ -123,7 +124,7 @@ const dialogRef = inject('dialogRef', false);
       :stateKey
       :from="'record'"
       :select="'*,stock:stock_view!inner(display_name), client!inner(display_name)'"
-      :columns="columns._data"
+      :columns="columns"
       :rowActions="rowActions._data"
       v-model:filters="filters"
    >
@@ -133,7 +134,7 @@ const dialogRef = inject('dialogRef', false);
                <KeywordSearchInput v-model="filters.global.value" />
                <CustomLink v-if="$can('create', 'record')" :to="{ name: 'record-add' }">
                   <template #default="{ navigate }">
-                     <Button variant="outlined" :label="$t('add')" @click="navigate" />
+                     <Button variant="outlined" :label="$t('action.add')" @click="navigate" />
                   </template>
                </CustomLink>
             </span>
@@ -141,6 +142,13 @@ const dialogRef = inject('dialogRef', false);
       </template>
       <template #expansion="{ data }">
          <Upsert :id="data.id" class="p-0" />
+      </template>
+      <template #record_type_body="{ data, field }">
+         {{
+            ($te('const.record.type.' + _get(data, field)) &&
+               $t('const.record.type.' + _get(data, field))) ||
+            _get(data, field)
+         }}
       </template>
    </component>
 </template>

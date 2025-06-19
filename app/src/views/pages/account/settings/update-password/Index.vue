@@ -2,6 +2,7 @@
 import { Form } from '@/lib/Form';
 import { useToast } from 'primevue';
 
+const { t, te } = useI18n();
 const toast = useToast();
 const accountStore = useAccountStore();
 const form = Form.create({
@@ -26,7 +27,7 @@ const save = async () => {
    toast.add({
       life: 3000,
       severity: ToastSeverity.SUCCESS,
-      summary: i18n.t('updated')
+      summary: t('toast.updated')
    });
 };
 </script>
@@ -35,7 +36,7 @@ const save = async () => {
       <FormField
          fluid
          v-slot="slotProps"
-         :label="'password'"
+         :label="$t('fields.password')"
          :error="form?._errors?.first('password')"
       >
          <Password
@@ -50,7 +51,7 @@ const save = async () => {
       <FormField
          fluid
          v-slot="slotProps"
-         :label="'password_confirmation'"
+         :label="$t('fields.password_confirmation')"
          :error="form?._errors?.first('password_confirmation')"
       >
          <Password

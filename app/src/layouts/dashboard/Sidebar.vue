@@ -86,7 +86,7 @@ onUnmounted(() => {
             <CustomLink
                v-if="!hasSubmenu"
                :to="item.route"
-               :title="$t(item.label)"
+               :title="item.label"
                :contextMenuItems="item?.route?.meta?.contextMenuItems"
                v-slot="{ navigate }"
             >
@@ -103,7 +103,7 @@ onUnmounted(() => {
                   <span
                      class="p-panelmenu-header-label !truncate"
                      v-if="item.label"
-                     v-text="$t(item.label)"
+                     v-text="item.label"
                   />
                </button>
             </CustomLink>
@@ -111,7 +111,7 @@ onUnmounted(() => {
                v-ripple
                v-else
                class="p-panelmenu-header-link flex items-center !gap-2 !p-4"
-               :title="$t(item.label)"
+               :title="item.label"
                @click.prevent
             >
                <span
@@ -122,7 +122,7 @@ onUnmounted(() => {
                <span
                   class="p-panelmenu-header-label flex-1 !truncate"
                   v-if="item.label"
-                  v-text="$t(item.label)"
+                  v-text="item.label"
                />
                <span
                   :class="[

@@ -1,0 +1,470 @@
+{
+   "app_config": {
+      "app_settings": "Anwendungseinstellungen",
+      "theme": {
+         "dark_mode": {
+            "toggle_dark_mode": "Dunkelmodus umschalten",
+            "dark": "Dunkel",
+            "light": "Hell"
+         },
+         "ui_scale": "UI-Größe",
+         "primary_color": "Hauptfarbe",
+         "surface_color": "Oberflächenfarbe",
+         "preset": {
+            "select_preset": "Vorlage auswählen"
+         }
+      },
+      "language": {
+         "select_language": "Sprache auswählen",
+         "option": {
+            "en": "Englisch",
+            "tr": "Türkisch",
+            "fr": "Französisch",
+            "de": "Deutsch",
+            "pl": "Polnisch",
+            "ru": "Russisch",
+            "cn": "Chinesisch",
+            "jp": "Japanisch",
+            "ko": "Koreanisch"
+         }
+      },
+      "sidebar": {
+         "select_sidebar_mode": "Seitenleiste-Modus auswählen",
+         "modes": {
+            "static": "Statisch",
+            "auto": "Automatisch",
+            "mini": "Mini",
+            "reveal": "Einblenden",
+            "overlay": "Overlay"
+         }
+      }
+   },
+   "auth": {
+      "branch": "Stamm",
+      "error": {
+         "insufficient_permission": "Nicht ausreichende Berechtigung"
+      },
+      "confirm": {
+         "logout": {
+            "question": "Möchten Sie sich wirklich abmelden?",
+            "header": "Abmelden"
+         }
+      },
+      "toast": {
+         "welcome": "Willkommen",
+         "goodby": "Auf Wiedersehen"
+      },
+      "welcome": {
+         "title": "Willkommen",
+         "text": "Willkommen in der Hearing Aid CRM-Anwendung."
+      },
+      "login": {
+         "welcome_back": "Willkommen zurück",
+         "please_login_to_continue": "Bitte melden Sie sich an, um fortzufahren.",
+         "forgot_password?": "Passwort vergessen?"
+      },
+      "logout": {
+         "logged_out_successfully": "Abmeldung erfolgreich."
+      },
+      "register": {
+         "create_account": "Konto erstellen",
+         "create_an_account_and_join_us": "Konto erstellen und bei uns mitmachen.",
+         "account_info": "Kontoinformationen",
+         "company_info": "Firmeninformationen"
+      }
+   },
+   "fields": {
+      "": "",
+      "device": "Gerät",
+      "battery": "Akku",
+      "spare_part": "Ersatzteil",
+      "service": "Service",
+      "trial": "Test",
+      "sale": "Verkauf",
+      "assemble": "Zusammenbau",
+      "repair": "Reparatur",
+      "promotion": "Promotion",
+      "cash": "Bar",
+      "credit_card": "Kreditkarte",
+      "pending": "Wartend",
+      "pending_service": "Wartender Service",
+      "client holds service bid": "Kunde hält Service-Angebot",
+      "client_approved_service_bid": "Kunde genehmigte Service-Angebot",
+      "client_rejected_service_bid": "Kunde lehnte Service-Angebot ab",
+      "done": "Fertig",
+      "approved": "Genehmigt",
+      "rejected": "Abgelehnt",
+      "pending_client": "Wartender Kunde",
+      "biopar": "Biopar",
+      "hard": "Hart",
+      "micro": "Mikro",
+      "full": "Voll",
+      "half": "Halb",
+      "supported": "Unterstützt",
+      "prob": "Prob",
+      "pcs": "Stk",
+      "kg": "kg",
+      "gr": "gr",
+      "lbs": "lbs",
+      "L": "L",
+      "mL": "mL",
+      "m": "m",
+      "m²": "m²",
+      "cm": "cm",
+      "in": "in",
+      "password": "Passwort",
+      "password_confirmation": "Passwortbestätigung",
+      "name": "Name",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "country": "Land",
+      "city": "Stadt",
+      "district": "Bezirk",
+      "details": "Details",
+      "remember_me": "Erinnere mich",
+      "company": "Firma",
+      "permission": "Berechtigung",
+      "client_id": "Kunde",
+      "nationality": "Nationalität",
+      "national_id": "National ID",
+      "birth_date": "Geburtsdatum",
+      "gender": "Geschlecht",
+      "behind_ear_molds": "Ohrenschellen",
+      "attributes": "Eigenschaften",
+      "type": "Typ",
+      "model": "Modell",
+      "speaker_power": "Lautsprecherleistung",
+      "side": "Seite",
+      "left": "Link",
+      "right": "Recht",
+      "ventilation": "Belüftung",
+      "speaker_size": "Lautsprechergröße",
+      "inner_ear_molds": "Innenschellen",
+      "inner_ear_mold": "Innenschale",
+      "has_bluetooth": "Hat Bluetooth",
+      "has_button": "Hat Knopf",
+      "record_type": "Aufzeichnungstyp",
+      "stock_id": "Lager",
+      "device_side": "Gerätseite",
+      "both": "Beide",
+      "record_status": "Aufzeichnungsstatus",
+      "quantity": "Menge",
+      "payment_type": "Zahlungsart",
+      "currency_code": "Währungscode",
+      "repair_fee": "Reparaturgebühr",
+      "bid": "Angebot",
+      "bid_discount": "Angebotsrabatt",
+      "tax": "Steuer",
+      "total_bid": "Gesamtangebot",
+      "insurance_type": "Versicherungstyp",
+      "retired": "In Ruhestand",
+      "worker": "Mitarbeiter",
+      "insurance_contribution": "Versicherungsbeitrag",
+      "client_insurance_contribution": "Kundenversicherungsbeitrag",
+      "brand": "Marken",
+      "categories": "Kategorien",
+      "product_id": "Produkt",
+      "vendor": "Händler",
+      "stocked_at": "Lagerort",
+      "barcode": "Barcode",
+      "serial_number": "Seriennummer",
+      "currency": "Währung",
+      "unit_cost": "Einheitskosten",
+      "unit_discount": "Einheitsrabatt",
+      "unit_tax": "Einheitssteuer",
+      "total_cost": "Gesamtkosten",
+      "behind_ear_mold": "Ohrenschale"
+   },
+   "audit_log": {
+      "no_changes_detected": "Keine Änderungen erkannt",
+      "add": "Hinzufügen",
+      "update": "Aktualisieren",
+      "delete": "Löschen",
+      "read": "Lesen",
+      "select_operation": "Operation auswählen",
+      "table": {
+         "headers": {
+            "resource": "Ressource",
+            "operation": "Operation",
+            "done_by": "Von",
+            "created_at": "Erstellt am",
+            "reverted_by": "Wiederhergestellt von",
+            "reverted_at": "Wiederhergestellt am"
+         }
+      },
+      "already_reverted": "Bereits wiederhergestellt",
+      "attempt_to_revert": "Versuch zur Wiederherstellung",
+      "added": "Hinzugefügt",
+      "updated": "Aktualisiert",
+      "deleted": "Gelöscht",
+      "readed": "Gelesen"
+   },
+   "client": {
+      "select_client": "Kunde auswählen",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "Kunde",
+               "address": "Adresse",
+               "country": "Land",
+               "city": "Stadt",
+               "district": "Bezirk",
+               "created_at": "Erstellt am"
+            }
+         }
+      },
+      "table": {
+         "headers": {
+            "client": "Kunde",
+            "nationality": "Nationalität",
+            "national_id": "National",
+            "birth_date": "Geburtsdatum",
+            "email": "E-Mail",
+            "phone": "Telefon",
+            "created_at": "Erstellt am"
+         }
+      },
+      "general_info": "Allgemeine Informationen",
+      "addresses": "Adressen",
+      "gender": {
+         "male": "Männlich",
+         "female": "Weiblich"
+      }
+   },
+   "product": {
+      "select_product": "Produkt auswählen",
+      "category": {
+         "select_category": "Kategorie auswählen"
+      }
+   },
+   "input": {
+      "select_or_write": "Auswählen oder eingeben"
+   },
+   "address": {
+      "select_country": "Land auswählen",
+      "table": {
+         "headers": {
+            "address_name": "Adresse name",
+            "country": "Land",
+            "city": "Stadt",
+            "district": "Bezirk",
+            "created_at": "Erstellt am"
+         }
+      }
+   },
+   "financial": {
+      "select_currency": "Währung auswählen",
+      "select_unit_type": "Einheitstyp auswählen"
+   },
+   "component": {
+      "select_permission": {
+         "table": {
+            "headers": {
+               "permission_name": "Berechtigungsname",
+               "read": "Lesen",
+               "create": "Erstellen",
+               "modify": "Ändern",
+               "all": "Alle"
+            }
+         }
+      },
+      "table": {
+         "no_data_found": "Keine Daten gefunden",
+         "keyword_search": "Stichwortsuche"
+      }
+   },
+   "common": {
+      "select": "Auswählen"
+   },
+   "router": {
+      "action": {
+         "open_in_window": "Im Fenster öffnen",
+         "manage_addresses": "Adressen verwalten",
+         "close": "Schließen",
+         "go_to_dashboard": "Zur Übersicht wechseln",
+         "go_back": "Zurück"
+      },
+      "error_occured": "Ein Fehler ist aufgetreten",
+      "requested_resource_is_not_available": "Der angeforderte Ressourcen ist nicht verfügbar",
+      "not_found": "Nicht gefunden"
+   },
+   "action": {
+      "save": "Speichern",
+      "reset": "Zurücksetzen",
+      "confirm": {
+         "delete": {
+            "question": "Möchten Sie diesen Eintrag wirklich löschen?",
+            "title": "Löschen bestätigen"
+         }
+      },
+      "yes": "Ja",
+      "no": "Nein",
+      "cancelled": "Abgebrochen",
+      "add": "Hinzufügen",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "submit": "Absenden",
+      "back": "Zurück"
+   },
+   "const": {
+      "earmold": {
+         "inner": {
+            "models": {
+               "ITE": "ITE",
+               "ITC": "ITC",
+               "CIC": "CIC"
+            }
+         }
+      },
+      "record": {
+         "type": {
+            "": "Typ"
+         }
+      }
+   },
+   "route": {
+      "label": {
+         "dashboard": "Dashboard",
+         "error": "Fehler",
+         "notfound": "Nicht gefunden",
+         "account": "Konto",
+         "profile": "Profil",
+         "settings": "Einstellungen",
+         "update-profile": "Profil aktualisieren",
+         "update-password": "Passwort aktualisieren",
+         "logout": "Abmelden",
+         "address": "Adresse",
+         "list": "Liste",
+         "edit": "Bearbeiten",
+         "add": "Hinzufügen",
+         "register": "Registrieren",
+         "login": "Anmelden",
+         "access-denied": "Zugriff verweigert",
+         "branch": "Filiale",
+         "branch-role": "Filialrolle",
+         "audit-logs": "Audit-Protokolle",
+         "client": "Kunde",
+         "manage": "Verwalten",
+         "general": "Allgemein",
+         "record": "Aufzeichnung",
+         "battery": "Akku",
+         "device": "Gerät",
+         "stock": "Lager",
+         "product": "Produkt",
+         "service": "Service",
+         "spare-parts": "Ersatzteile"
+      }
+   },
+   "list": "Liste",
+   "account": {
+      "profile": {
+         "user_info": "Benutzerinformationen",
+         "name": "Vollständiger Name",
+         "email": "E-Mail-Adresse",
+         "phone": "Telefonnummer",
+         "events": "Ereignisse",
+         "logs": {
+            "created_at": "Erstellt am",
+            "email_confirmed_at": "E-Mail bestätigt am",
+            "last_sign_in_at": "Letzter Login am"
+         }
+      }
+   },
+   "toast": {
+      "updated": "Erfolgreich aktualisiert",
+      "success": "Erfolg",
+      "saved": "Erfolgreich gespeichert"
+   },
+   "register": {
+      "stepper": {
+         "label": {
+            "account": "Konto",
+            "company": "Firma"
+         }
+      }
+   },
+   "role": {
+      "table": {
+         "headers": {
+            "name": "Name",
+            "created_at": "Erstellt am"
+         }
+      }
+   },
+   "record": {
+      "table": {
+         "headers": {
+            "product": "Produkt",
+            "record_type": "Aufzeichnungstyp",
+            "client": "Kunde",
+            "quantity": "Menge",
+            "bid": "Auktion",
+            "created_at": "Erstellt am"
+         }
+      },
+      "tab": {
+         "record": "Aufzeichnung",
+         "earmold": "Ohropax"
+      },
+      "information": "Information",
+      "financial": "Finanzen"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "Produkt",
+               "unit_cost": "Einzelkosten",
+               "quantity": "Menge",
+               "vendor": "Lieferant",
+               "stocked_at": "Lagerort"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "Produkt",
+               "serial_number": "Seriennummer",
+               "unit_cost": "Einzelkosten",
+               "vendor": "Lieferant",
+               "stocked_at": "Lagerort"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "Produkt",
+               "brand": "Markenname",
+               "categories": "Kategorien",
+               "created_at": "Erstellt am"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "Produkt",
+               "unit_cost": "Einzelkosten",
+               "quantity": "Menge",
+               "vendor": "Lieferant",
+               "stocked_at": "Lagerort"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "Produkt",
+               "unit_cost": "Einzelkosten",
+               "quantity": "Menge",
+               "vendor": "Lieferant",
+               "stocked_at": "Lagerort"
+            }
+         }
+      },
+      "information": "Information",
+      "financial": "Finanzen"
+   }
+}

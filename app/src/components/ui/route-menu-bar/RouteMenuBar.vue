@@ -24,15 +24,12 @@ const tabs = computed(() => props.route?.items);
                <CustomLink v-if="!hasSubmenu" :to="item.route" v-slot="{ navigate }">
                   <span class="route_menu_bar__link p-menubar-item-link" @click="navigate">
                      <span class="route_menu_bar__icon p-menubar-item-icon" :class="item.icon" />
-                     <span
-                        class="route_menu_bar__label p-menubar-item-label"
-                        v-text="$t(item.label)"
-                     />
+                     <span class="route_menu_bar__label p-menubar-item-label" v-text="item.label" />
                   </span>
                </CustomLink>
                <div v-else v-ripple v-bind="props.action">
                   <span :class="item.icon" />
-                  <span v-text="$t(item.label)" />
+                  <span v-text="item.label" />
                   <span
                      v-if="hasSubmenu"
                      class="route_menu_bar__submenu-indicator pi pi-fw pi-angle-down"
@@ -48,6 +45,10 @@ const tabs = computed(() => props.route?.items);
 .route_menu_bar {
    &__item {
       @apply text-primary-emphasis hover:text-current;
+   }
+
+   &__label {
+      @apply first-letter:uppercase;
    }
 
    &__icon {

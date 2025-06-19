@@ -16,4 +16,4 @@ watch(
    { immediate: true, once: true }
 );
 </script>
-<template><div v-text="$t(`logged_out_successfully`)" /></template>
+<template><div v-text="$t(`auth.logout.logged_out_successfully`)" /></template>

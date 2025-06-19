@@ -1,21 +1,26 @@
 <script setup lang="ts" generic="T = any">
-import CustomTable, { CustomTableProps } from '@/components/ui/custom-table/CustomTable.vue';
+import CustomTable, {
+   CustomTableProps,
+   CustomTableSlots
+} from '@/components/ui/custom-table/CustomTable.vue';
 import Collection from '@/lib/Collection';
-import { DataTableSlots, DataTableStateEvent } from 'primevue';
+import { DataTableStateEvent } from 'primevue';
 
 export declare type ResourceTableProps<T = any> = CustomTableProps<T> & {
-   from: string & keyof Tables;
+   from: (string & keyof Tables) | (string & keyof Views);
    select: string;
    count?: {
       head: boolean;
       count: 'exact' | 'planned' | 'estimated';
    };
 };
+export declare type ResourceTableSlots<T = any> = CustomTableSlots<T>;
 
 defineOptions({
    inheritAttrs: false
 });
-const slots = defineSlots<DataTableSlots<T>>();
+
+const slots = defineSlots<CustomTableSlots<T>>();
 
 const props = withDefaults(defineProps<ResourceTableProps<T>>(), {
    count: () => ({

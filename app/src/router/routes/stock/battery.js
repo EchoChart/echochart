@@ -4,12 +4,14 @@ import { DIALOG_POSITIONS } from '@/constants/router';
 /**
  * @type {import('vue-router').RouteLocation[]}
  */
+
 export default [
    {
       path: 'battery',
       name: 'battery',
       component: CustomRouteView,
       meta: {
+         label: i18n.t('route.label.battery'),
          requiresAuth: true,
          icon: PrimeIcons.BOLT,
          requiredPermissions: [
@@ -20,7 +22,7 @@ export default [
          ],
          contextMenuItems: [
             {
-               label: i18n.t('add'),
+               label: i18n.t('action.add'),
                route: {
                   name: 'stock-add',
                   query: { showDialog: DIALOG_POSITIONS.CENTER },
@@ -42,6 +44,7 @@ export default [
             },
             meta: {
                visible: false,
+               label: i18n.t('route.label.list'),
                index: -1,
                icon: PrimeIcons.LIST,
                requiredPermissions: [

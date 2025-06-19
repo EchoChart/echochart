@@ -66,6 +66,7 @@ export const useAuthStore = defineStore('auth', () => {
    const toast = useToast();
    const router = useRouter();
    const route = useRoute();
+   const { t, te } = useI18n();
 
    const session = Collection.create();
    const jwt = computed(() => {
@@ -86,9 +87,8 @@ export const useAuthStore = defineStore('auth', () => {
                return;
             }
             const userToGreet = event === 'SIGNED_IN' ? newSession.user : user;
-            const summary = i18n.t(`${event === 'SIGNED_IN' ? 'welcome' : 'goodby'}`, {
-               name: userToGreet?.display_name || userToGreet?.email
-            });
+            const summary =
+               event === 'SIGNED_IN' ? t('auth.toast.welcome') : t('auth.toast.goodby');
             const severity = event === 'SIGNED_IN' ? ToastSeverity.SUCCESS : ToastSeverity.INFO;
             toast.add({
                life: 3000,
@@ -126,7 +126,7 @@ export const useAuthStore = defineStore('auth', () => {
 
          if (signedIn) {
             const backTo = router.options.history.state.back || '/';
-            if (['login', 'register'].includes(route.name)) {
+            if (['auth-login', 'auth-register'].includes(route.name)) {
                router.replace(backTo);
             }
 
@@ -134,8 +134,8 @@ export const useAuthStore = defineStore('auth', () => {
          }
 
          if (route?.meta?.requiresAuth && !signedIn) {
-            if (route.name == 'logout') return router.replace({ name: 'login' });
-            router.push({ name: 'login' });
+            if (route.name == 'logout') return router.replace({ name: 'auth-login' });
+            router.push({ name: 'auth-login' });
          }
       }
    );

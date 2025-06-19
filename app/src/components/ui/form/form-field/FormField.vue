@@ -125,7 +125,12 @@ onMounted(() => {
                :class="inputClass"
             />
             <template #fallback>
-               <Skeleton height="2.5rem" :class="inputClass" v-bind="_omit(attrs, ['class'])" />
+               <Skeleton
+                  height="2.5rem"
+                  class="!min-w-32"
+                  :class="inputClass"
+                  v-bind="_omit(attrs, ['class'])"
+               />
             </template>
          </Suspense>
       </BlockUI>

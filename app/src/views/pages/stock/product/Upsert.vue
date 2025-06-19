@@ -21,6 +21,7 @@ const props = defineProps({
    }
 });
 
+const { t, te } = useI18n();
 const toast = useToast();
 
 const { ability, current_tenant_id } = useAuthStore();
@@ -114,8 +115,8 @@ const save = async () => {
    toast.add({
       life: 3000,
       severity: ToastSeverity.SUCCESS,
-      summary: i18n.t('success'),
-      detail: i18n.t('saved')
+      summary: t('toast.success'),
+      detail: t('toast.saved')
    });
 };
 
@@ -136,7 +137,7 @@ if (props.id || props.data?.id) {
             :readonly
             fluid
             :error="form?._errors?.first('display_name')"
-            :label="$t('display_name')"
+            :label="$t('fields.name')"
          >
             <template #default="slotProps">
                <InputText v-bind="slotProps" v-model="form.display_name" />
@@ -147,7 +148,7 @@ if (props.id || props.data?.id) {
             :disabled="readonly"
             fluid
             :error="form?._errors?.first('brand')"
-            :label="$t('brand')"
+            :label="$t('fields.brand')"
          >
             <template #default="slotProps">
                <SelectProductBrand v-bind="slotProps" v-model="form.brand" editable />
@@ -158,7 +159,7 @@ if (props.id || props.data?.id) {
             :readonly
             fluid
             :error="form?._errors?.first('categories')"
-            :label="$t('categories')"
+            :label="$t('fields.categories')"
          >
             <template #default="slotProps">
                <SelectProductCategory
@@ -174,7 +175,7 @@ if (props.id || props.data?.id) {
             :readonly
             fluid
             :error="form?._errors?.first('details')"
-            :label="$t('details')"
+            :label="$t('fields.details')"
          >
             <template #default="slotProps">
                <Editor v-bind="slotProps" v-model="form.details" />

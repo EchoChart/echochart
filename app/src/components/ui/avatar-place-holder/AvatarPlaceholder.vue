@@ -104,7 +104,7 @@ const label = computed(() => firstLetters.value || '♥');
    }
 
    &__label {
-      @apply font-bold;
+      @apply font-bold first-letter:uppercase;
    }
 }
 </style>

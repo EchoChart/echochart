@@ -1,8 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { PAYMENT_TYPES, RECORD_STATUSES, RECORD_TYPES } from '@/constants/form/record';
 import Collection from '@/lib/Collection';
 import { Form } from '@/lib/Form';
 import StockUpsert from '@/views/pages/stock/Upsert.vue';
+import { RecordUpsertFormData } from './index.vue';
 
 defineProps({
    readonly: {
@@ -11,7 +12,7 @@ defineProps({
    }
 });
 
-const form = inject('recordForm', Form.create({}));
+const form = inject('recordForm', Form.create<RecordUpsertFormData>({}));
 
 const stockTableProps = Collection.create({
    from: 'stock_view',
@@ -70,43 +71,45 @@ const stockTableProps = Collection.create({
       {
          field: 'display_name',
          sortable: true,
-         header: i18n.t('product'),
+         header: 'product',
          sortOrder: { value: -1 }
       },
       {
          field: 'unit_cost',
          sortable: true,
-         header: i18n.t('unit_cost')
+         header: 'unit_cost'
       },
       {
          field: 'vendor',
          sortable: true,
-         header: i18n.t('vendor')
+         header: 'vendor'
       },
       {
          field: 'stocked_at',
          sortable: true,
-         header: i18n.t('stocked_at'),
+         header: 'stocked_at',
          sortOrder: { value: -1 }
       },
       {
          field: 'available_quantity',
          sortable: true,
-         header: i18n.t('available_quantity')
+         header: 'available_quantity'
       }
    ],
    selectionMode: 'single',
-   frozenValue: computed(() => [form.stock]),
-   selection: computed(() => [form.stock]),
-   onRowSelect: ({ data }) => {
+   frozenValue: [form.stock],
+   selection: [form.stock],
+   onRowSelect: ({ data }: { data: RecordUpsertFormData['stock'] }) => {
       form._set('stock_id', data?.id);
       form._set('stock', data);
+      stockTableProps.selection = [form.stock];
+      stockTableProps.frozenValue = [form.stock];
    }
 });
 
 const availableQuantity = inject('avaiableQuantity', 0);
 
-const calcFinancials = (total, discountPercentage, taxPercentage) => {
+const calcFinancials = (total: number, discountPercentage: number, taxPercentage: number) => {
    const d = discountPercentage * 0.01;
    const t = taxPercentage * 0.01;
 
@@ -118,9 +121,9 @@ const calcFinancials = (total, discountPercentage, taxPercentage) => {
    const new_tax = (new_bid - new_bid_discount) * t;
 
    form._merge({
-      bid: new_bid,
-      bid_discount: new_bid_discount,
-      tax: new_tax
+      bid: new_bid || 0,
+      bid_discount: new_bid_discount || 0,
+      tax: new_tax || 0
    });
 };
 
@@ -149,9 +152,9 @@ const tax = computed({
 
 <template>
    <span class="contents">
-      <FormBox :legend="$t('information')" class="!flex-auto">
+      <FormBox :legend="$t('record.information')" class="!flex-auto">
          <FormField
-            :label="$t('record_type')"
+            :label="$t('fields.record_type')"
             :error="form?._errors?.first('record_type')"
             fluid
             :readonly
@@ -166,7 +169,7 @@ const tax = computed({
             />
          </FormField>
          <FormField
-            :label="$t('stock_select')"
+            :label="$t('fields.stock_id')"
             :error="form?._errors?.first('stock_id')"
             fluid
             :readonly
@@ -183,7 +186,7 @@ const tax = computed({
                         :to="{ name: 'stock-add' }"
                         v-slot="{ navigate }"
                      >
-                        <Button variant="outlined" :label="$t('add')" @click="navigate" />
+                        <Button variant="outlined" :label="$t('action.add')" @click="navigate" />
                      </CustomLink>
                   </span>
                </template>
@@ -193,7 +196,7 @@ const tax = computed({
             </SelectResource>
          </FormField>
          <FormField
-            :label="$t('device_side')"
+            :label="$t('fields.device_side')"
             v-if="form.stock?.product?.category?.find?.((c) => c.display_name === 'device')"
             :error="form?._errors?.first(`attributes.device_side`)"
             :readonly
@@ -202,9 +205,9 @@ const tax = computed({
          >
             <SelectButton
                :options="[
-                  { value: 'left', label: $t('left') },
-                  { value: 'pair', label: $t('pair') },
-                  { value: 'right', label: $t('right') }
+                  { value: 'left', label: $t('fields.left') },
+                  { value: 'both', label: $t('fields.both') },
+                  { value: 'right', label: $t('fields.right') }
                ]"
                :allow-empty="false"
                option-value="value"
@@ -216,7 +219,7 @@ const tax = computed({
             />
          </FormField>
          <FormField
-            :label="$t('record_status')"
+            :label="$t('fields.record_status')"
             :error="form?._errors?.first('record_status')"
             fluid
             :readonly
@@ -226,25 +229,25 @@ const tax = computed({
                v-bind="slotProps"
                option-label="label"
                option-value="value"
-               :options="RECORD_STATUSES[form.record_type]"
+               :options="_get(RECORD_STATUSES, form.record_type)"
                v-model="form.record_status"
             />
          </FormField>
          <FormField
             fluid
             :error="form?._errors?.first('client_id')"
-            :label="$t('client')"
+            :label="$t('fields.client_id')"
             v-slot="slotProps"
          >
             <SelectClient v-bind="slotProps" v-model="form.client_id" />
          </FormField>
       </FormBox>
-      <FormBox :legend="$t('financial')" class="!flex-auto">
+      <FormBox :legend="$t('record.financial')" class="!flex-auto">
          <FormField
             :readonly
             fluid
             :error="form?._errors?.first('quantity')"
-            :label="$t('quantity')"
+            :label="$t('fields.quantity')"
             v-slot="slotProps"
             :disabled="!availableQuantity"
          >
@@ -263,7 +266,7 @@ const tax = computed({
             :readonly
             fluid
             :error="form?._errors?.first('payment_type')"
-            :label="$t('payment_type')"
+            :label="$t('fields.payment_type')"
             v-slot="slotProps"
          >
             <Select
@@ -278,7 +281,7 @@ const tax = computed({
             :readonly
             fluid
             :error="form?._errors?.first('currency_code')"
-            :label="$t('currency')"
+            :label="$t('fields.currency_code')"
             v-slot="slotProps"
          >
             <SelectCurrency v-bind="slotProps" v-model="form.currency_code" />
@@ -289,7 +292,7 @@ const tax = computed({
                fluid
                v-if="form.record_type === 'repair'"
                :error="form?._errors?.first(`attributes.repair_fee`)"
-               :label="$t('repair_fee')"
+               :label="$t('fields.repair_fee')"
                v-slot="slotProps"
             >
                <InputNumber
@@ -308,7 +311,7 @@ const tax = computed({
                :readonly
                fluid
                :error="form?._errors?.first('bid')"
-               :label="$t('bid')"
+               :label="$t('fields.bid')"
                v-slot="slotProps"
             >
                <InputNumber
@@ -326,7 +329,7 @@ const tax = computed({
                :readonly
                fluid
                :error="form?._errors?.first('bid_discount')"
-               :label="$t('bid_discount')"
+               :label="$t('fields.bid_discount')"
                v-slot="slotProps"
             >
                <InputGroup>
@@ -358,7 +361,7 @@ const tax = computed({
                :readonly
                fluid
                :error="form?._errors?.first('tax')"
-               :label="$t('tax')"
+               :label="$t('fields.tax')"
                v-slot="slotProps"
             >
                <InputGroup>
@@ -396,7 +399,7 @@ const tax = computed({
                :readonly
                fluid
                :error="form?._errors?.first('total_bid')"
-               :label="$t('total_bid')"
+               :label="$t('fields.total_bid')"
                v-slot="slotProps"
             >
                <InputNumber
@@ -414,7 +417,7 @@ const tax = computed({
 
          <span v-if="form.record_type === 'sale'" class="form_box !flex-auto">
             <FormField
-               :label="$t('insurance_type')"
+               :label="$t('fields.insurance_type')"
                :error="form?._errors?.first('attributes.insurance_type')"
                fluid
                :readonly
@@ -425,8 +428,8 @@ const tax = computed({
                   option-label="label"
                   option-value="value"
                   :options="[
-                     { label: $t('retired'), value: 'retired' },
-                     { label: $t('worker'), value: 'worker' }
+                     { label: $t('fields.retired'), value: 'retired' },
+                     { label: $t('fields.worker'), value: 'worker' }
                   ]"
                   v-model="form.attributes.insurance_type"
                />
@@ -435,7 +438,7 @@ const tax = computed({
                :readonly
                fluid
                :error="form?._errors?.first('attributes.insurance_contribution')"
-               :label="$t('insurance_contribution')"
+               :label="$t('fields.insurance_contribution')"
                v-slot="slotProps"
             >
                <InputNumber
@@ -450,7 +453,7 @@ const tax = computed({
                :readonly
                fluid
                :error="form?._errors?.first('attributes.client_insurance_contribution')"
-               :label="$t('client_insurance_contribution')"
+               :label="$t('fields.client_insurance_contribution')"
                v-slot="slotProps"
             >
                <InputNumber
@@ -467,7 +470,7 @@ const tax = computed({
          :readonly
          fluid
          :error="form?._errors?.first('details')"
-         :label="$t('details')"
+         :label="$t('fields.details')"
          v-slot="slotProps"
          class="!flex-auto !max-w-full w-full h-fit"
       >

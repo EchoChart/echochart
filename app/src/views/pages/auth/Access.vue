@@ -14,9 +14,13 @@ const dialogRef = inject('dialogRef', null);
                class="max-h-[28rem]"
             />
             <div class="col-span-12 text-center">
-               <Button v-if="dialogRef" :label="$t('close')" @click="dialogRef?.close" />
+               <Button
+                  v-if="dialogRef"
+                  :label="$t('router.action.close')"
+                  @click="dialogRef?.close"
+               />
                <CustomLink v-else :to="{ name: 'dashboard' }" v-slot="{ navigate }">
-                  <Button :label="$t('go_to_dashboard')" @click="() => navigate()" />
+                  <Button :label="$t('router.action.go_to_dashboard')" @click="() => navigate()" />
                </CustomLink>
             </div>
          </div>

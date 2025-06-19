@@ -23,7 +23,7 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
    <div class="w-full flex flex-col gap-[inherit]">
       <FormBox
          printable
-         :legend="$t('behind_ear_molds')"
+         :legend="$t('fields.behind_ear_molds')"
          :error="form?._errors?.first(`attributes.behind_ear_molds`)"
       >
          <template #actions>
@@ -43,9 +43,10 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
          </template>
          <FormBox
             printable
+            :title="$t('fields.attributes')"
             v-for="(mold, i) in form?.attributes.behind_ear_molds"
             :key="'behind_ear_mold' + i"
-            :legend="$t('behind_ear_mold')"
+            :legend="$t('fields.behind_ear_mold')"
             class="min-w-fit max-w-max"
          >
             <template #actions>
@@ -61,7 +62,7 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
             <span class="flex flex-wrap items-start gap-[inherit]">
                <FormField
                   fluid
-                  :label="$t('type')"
+                  :label="$t('fields.type')"
                   :error="form?._errors?.first(`attributes.behind_ear_molds.${i}.type`)"
                   :readonly
                   v-slot="slotProps"
@@ -79,7 +80,7 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
                </FormField>
                <FormField
                   fluid
-                  :label="$t('model')"
+                  :label="$t('fields.model')"
                   :error="form?._errors?.first(`attributes.behind_ear_molds.${i}.model`)"
                   :readonly
                   v-slot="slotProps"
@@ -97,7 +98,7 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
                </FormField>
                <FormField
                   fluid
-                  :label="$t('speaker_power')"
+                  :label="$t('fields.speaker_power')"
                   :error="form?._errors?.first(`attributes.behind_ear_molds.${i}.speaker_power`)"
                   :readonly
                   v-slot="slotProps"
@@ -115,15 +116,15 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
             <span class="flex flex-col gap-[inherit]">
                <FormField
                   fluid
-                  :label="$t('side')"
+                  :label="$t('fields.side')"
                   :error="form?._errors?.first(`attributes.behind_ear_molds.${i}.side`)"
                   :readonly
                   v-slot="slotProps"
                >
                   <SelectButton
                      :options="[
-                        { value: 'left', label: $t('left') },
-                        { value: 'right', label: $t('right') }
+                        { value: 'left', label: $t('fields.left') },
+                        { value: 'right', label: $t('fields.right') }
                      ]"
                      :allow-empty="false"
                      option-value="value"
@@ -143,9 +144,7 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
                   <template #label="slotProps">
                      <label
                         v-bind="slotProps"
-                        v-text="
-                           `${_startCase($t('ventilation'))}: ${_get(mold, 'ventilation', '')}`
-                        "
+                        v-text="`${$t('fields.ventilation')}: ${_get(mold, 'ventilation', '')}`"
                      />
                   </template>
                   <template #default="slotProps">
@@ -165,9 +164,7 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
                   <template #label="slotProps">
                      <label
                         v-bind="slotProps"
-                        v-text="
-                           `${_startCase($t('speaker_size'))}: ${_get(mold, 'speaker_size', '')}`
-                        "
+                        v-text="`${$t('fields.speaker_size')}: ${_get(mold, 'speaker_size', '')}`"
                      />
                   </template>
                   <template #default="slotProps">
@@ -183,7 +180,7 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
       </FormBox>
       <FormBox
          printable
-         :legend="$t('inner_ear_molds')"
+         :legend="$t('fields.inner_ear_molds')"
          :error="form?._errors?.first(`attributes.inner_ear_molds`)"
       >
          <template #actions>
@@ -205,7 +202,7 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
             printable
             v-for="(mold, i) in form?.attributes.inner_ear_molds"
             :key="'inner_ear_mold' + i"
-            :legend="$t('inner_ear_mold')"
+            :legend="$t('fields.inner_ear_mold')"
             class="min-w-fit max-w-max"
          >
             <template #actions>
@@ -220,15 +217,15 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
             </template>
             <FormField
                fluid
-               :label="$t('side')"
+               :label="$t('fields.side')"
                :error="form?._errors?.first(`attributes.inner_ear_molds.${i}.side`)"
                :readonly
                v-slot="slotProps"
             >
                <SelectButton
                   :options="[
-                     { value: 'left', label: $t('left') },
-                     { value: 'right', label: $t('right') }
+                     { value: 'left', label: $t('fields.left') },
+                     { value: 'right', label: $t('fields.right') }
                   ]"
                   :allow-empty="false"
                   option-value="value"
@@ -241,7 +238,7 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
             </FormField>
             <FormField
                fluid
-               :label="$t('model')"
+               :label="$t('fields.model')"
                :error="form?._errors?.first(`attributes.inner_ear_molds.${i}.model`)"
                :readonly
                v-slot="slotProps"
@@ -259,7 +256,7 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
             </FormField>
             <FormField
                fluid
-               :label="$t('speaker_power')"
+               :label="$t('fields.speaker_power')"
                :error="form?._errors?.first(`attributes.inner_ear_molds.${i}.speaker_power`)"
                :readonly
                v-slot="slotProps"
@@ -275,20 +272,20 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
             </FormField>
             <span class="flex flex-col items-start gap-[inherit]">
                <FormField
-                  :label="$t('bluetooth')"
+                  :label="$t('fields.has_bluetooth')"
                   :error="form?._errors?.first(`attributes.inner_ear_molds.${i}.bluetooth`)"
                   :readonly
                   v-slot="slotProps"
                >
-                  <Checkbox binary :readonly v-bind="slotProps" v-model="mold.bluetooth" />
+                  <Checkbox binary :readonly v-bind="slotProps" v-model="mold.has_bluetooth" />
                </FormField>
                <FormField
-                  :label="$t('button')"
+                  :label="$t('fields.has_button')"
                   :error="form?._errors?.first(`attributes.inner_ear_molds.${i}.button`)"
                   :readonly
                   v-slot="slotProps"
                >
-                  <Checkbox binary :readonly v-bind="slotProps" v-model="mold.button" />
+                  <Checkbox binary :readonly v-bind="slotProps" v-model="mold.has_button" />
                </FormField>
             </span>
             <div class="w-full flex flex-col gap-[inherit]">
@@ -300,9 +297,7 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
                   <template #label="slotProps">
                      <label
                         v-bind="slotProps"
-                        v-text="
-                           `${_startCase($t('ventilation'))}: ${_get(mold, 'ventilation', '')}`
-                        "
+                        v-text="`${$t('fields.ventilation')}: ${_get(mold, 'ventilation', '')}`"
                      />
                   </template>
                   <template #default="slotProps">

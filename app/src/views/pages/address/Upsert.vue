@@ -19,6 +19,7 @@ const props = defineProps({
    }
 });
 
+const { t, te } = useI18n();
 const toast = useToast();
 
 const initialFormData = {
@@ -78,8 +79,8 @@ const save = async () => {
    toast.add({
       life: 3000,
       severity: ToastSeverity.SUCCESS,
-      summary: i18n.t('success'),
-      detail: i18n.t('saved')
+      summary: t('toast.success'),
+      detail: t('toast.saved')
    });
 };
 
@@ -99,18 +100,28 @@ if (props.id || props.data?.id) {
             :readonly
             fluid
             :error="form?._errors?.first('display_name')"
-            :label="$t('display_name')"
+            :label="$t('fields.name')"
          >
             <template #default="slotProps">
                <InputText v-bind="slotProps" v-model="form.display_name" />
             </template>
          </FormField>
-         <FormField :readonly fluid :error="form?._errors?.first('country')" :label="$t('country')">
+         <FormField
+            :readonly
+            fluid
+            :error="form?._errors?.first('country')"
+            :label="$t('fields.country')"
+         >
             <template #default="slotProps">
                <InputText v-bind="slotProps" v-model="form.country" />
             </template>
          </FormField>
-         <FormField :readonly fluid :error="form?._errors?.first('city')" :label="$t('city')">
+         <FormField
+            :readonly
+            fluid
+            :error="form?._errors?.first('city')"
+            :label="$t('fields.city')"
+         >
             <template #default="slotProps">
                <InputText v-bind="slotProps" v-model="form.city" />
             </template>
@@ -119,7 +130,7 @@ if (props.id || props.data?.id) {
             :readonly
             fluid
             :error="form?._errors?.first('district')"
-            :label="$t('district')"
+            :label="$t('fields.district')"
          >
             <template #default="slotProps">
                <InputText v-bind="slotProps" v-model="form.district" />
@@ -130,7 +141,7 @@ if (props.id || props.data?.id) {
             :readonly
             fluid
             :error="form?._errors?.first('details')"
-            :label="$t('details')"
+            :label="$t('fields.details')"
          >
             <template #default="slotProps">
                <Editor v-bind="slotProps" v-model="form.details" />

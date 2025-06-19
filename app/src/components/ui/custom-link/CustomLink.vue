@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { DIALOG_POSITIONS } from '@/constants/router';
 import { MenuItem } from 'primevue/menuitem';
+import { useI18n } from 'vue-i18n';
 import { RouteLocationNormalized, RouterLink, RouterLinkProps } from 'vue-router';
 
 defineOptions({
@@ -14,6 +15,7 @@ export type CustomLinkProps = {
 const props = withDefaults(defineProps<CustomLinkProps>(), {
    contextMenuItems: () => []
 });
+const { t, te } = useI18n();
 
 const router = useRouter();
 
@@ -37,7 +39,7 @@ const contextMenu = ref();
 const contextMenuItems = computed<MenuItem[]>(() => {
    return [
       {
-         label: i18n.t('open_in_window'),
+         label: t('router.action.open_in_window'),
          route: {
             ...route.value,
             query: {
@@ -66,6 +68,9 @@ const checkVisibility = (item: RouteLocationNormalized) => {
       )
    );
 };
+
+const getItemLabel = (item: MenuItem) =>
+   te(item.label.toString() || '') ? t(item.label.toString() || '') : item.label;
 </script>
 
 <template>
@@ -119,7 +124,7 @@ const checkVisibility = (item: RouteLocationNormalized) => {
                   class="custom_link__context-menu-item"
                >
                   <span v-if="item.icon" :class="item.icon" class="custom_link__icon" />
-                  <span class="custom_link__label" v-text="item.label" />
+                  <span class="custom_link__label" v-text="getItemLabel(item)" />
                </a>
             </RouterLink>
             <a
@@ -131,7 +136,7 @@ const checkVisibility = (item: RouteLocationNormalized) => {
                class="custom_link__context-menu-item"
             >
                <span v-if="item.icon" :class="item.icon" class="custom_link__icon" />
-               <span class="custom_link__label" v-text="item.label" />
+               <span class="custom_link__label" v-text="getItemLabel(item)" />
             </a>
          </template>
       </ContextMenu>
@@ -149,6 +154,10 @@ const checkVisibility = (item: RouteLocationNormalized) => {
 
    &__context-menu-item {
       @apply flex items-center gap-4;
+   }
+
+   &__label {
+      @apply first-letter:uppercase;
    }
 }
 </style>

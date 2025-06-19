@@ -9,6 +9,6 @@ const options = computed(() => _values(countries));
       :options
       option-value="name"
       option-label="name"
-      :placeholder="$t('select_country')"
+      :placeholder="$t('address.select_country')"
    />
 </template>

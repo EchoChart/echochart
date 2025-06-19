@@ -50,6 +50,7 @@ export default defineConfig({
             'vue-router',
             '@vueuse/core',
             'pinia',
+            'vue-i18n',
             {
                from: '@primevue/core/api',
                imports: [
@@ -74,7 +75,7 @@ export default defineConfig({
             },
             {
                from: '@plugins/i18n',
-               imports: ['locale', 'loadLocaleMessages', 'SUPPORT_LOCALES', ['default', 'i18n']]
+               imports: ['locale', 'loadLocaleMessages', 'SUPPORTED_LOCALES', ['default', 'i18n']]
             },
             {
                from: '@plugins/mitt',

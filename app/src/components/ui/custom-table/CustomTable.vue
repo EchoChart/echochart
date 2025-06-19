@@ -9,12 +9,13 @@ import {
    DataTableOperatorFilterMetaData,
    DataTablePageEvent,
    DataTableProps,
+   DataTableSlots,
    DataTableSortEvent,
    DataTableSortMeta,
    DataTableStateEvent
 } from 'primevue';
 import { MenuItem } from 'primevue/menuitem';
-import { isVNode } from 'vue';
+import { isVNode, VNode } from 'vue';
 
 export declare type CustomTableProps<T = any> = DataTableProps<T> & {
    columns: (ColumnProps & { sortOrder?: { value: number }; translateValue?: boolean })[];
@@ -27,9 +28,9 @@ export declare type CustomTableProps<T = any> = DataTableProps<T> & {
          };
    };
 };
-export declare type CustomTableEmitOption = {
-   (event: 'meta', value: CustomTableMetaEvent): void;
-   (event: 'update:filters', value: CustomTableProps<T>['filters']): void;
+export declare type CustomTableEmitOptions<T = any> = {
+   meta: [value: CustomTableMetaEvent<T>];
+   'update:filters': [value: CustomTableProps<T>['filters']];
 };
 
 export declare type CustomTableMetaEvent<T = any> = Partial<
@@ -43,12 +44,18 @@ export declare type UseTableMetaOptions<T = any> = Required<
    Pick<CustomTableProps<T>, 'useMeta' | 'columns' | 'filters' | 'stateKey' | 'rows'>
 >;
 
+export declare type CustomTableSlots<T = any> = DataTableSlots<T> & {
+   [key: string]: VNode[];
+};
+
 const DATA_TYPES = {
    numeric: 'numeric',
    decimal: 'numeric',
    date: 'date',
    text: 'text'
 };
+
+defineSlots<CustomTableSlots<T>>();
 
 defineOptions({
    inheritAttrs: false
@@ -59,9 +66,10 @@ const props = withDefaults(defineProps<CustomTableProps<T>>(), {
    showGridlines: true,
    translateValue: true
 });
-const emit = defineEmits<CustomTableEmitOption>();
+const emit = defineEmits<CustomTableEmitOptions<T>>();
 const router = useRouter();
 const route = useRoute();
+const { t, te } = useI18n();
 
 const routeLoading = inject('routeLoading', false);
 const loading = computed(() => {
@@ -108,9 +116,12 @@ function useTableMeta({ useMeta, columns, filters, stateKey, rows }: UseTableMet
       expandedRowGroups: [],
       rows: rows,
       multiSortMeta: _chain(columns)
-         .filter(({ field, sortOrder }) => !!field && !!sortOrder)
+         .filter(({ sortField, field, sortOrder }) => (!!sortField || !!field) && !!sortOrder)
          .sortBy(({ sortOrder }) => sortOrder?.value || 0)
-         .map(({ field, sortOrder }) => ({ field, order: sortOrder?.value }))
+         .map(({ sortField, field, sortOrder }) => ({
+            field: sortField || field,
+            order: sortOrder?.value
+         }))
          .value() as DataTableSortMeta[]
    };
    const storageOptions = { mergeDefaults: true, writeDefaults: true };
@@ -175,6 +186,11 @@ function useTableMeta({ useMeta, columns, filters, stateKey, rows }: UseTableMet
 const actions = Collection.create(props.rowActions);
 const { meta, stateStorage, metaStateKey, onMeta } = useTableMeta(props);
 
+const getFieldValue = (body: any) => {
+   const value = _get(body?.data, body?.field?.toString(), '') || '';
+   return te(value) ? t(value) : value;
+};
+
 const tableValue = computed(() => {
    const dataKey = props.dataKey as string;
    const res =
@@ -185,7 +201,15 @@ const tableValue = computed(() => {
          : new Array(props.totalRecords);
    return res;
 });
+
+// const columns = computed(() =>
+//    props.columns.map((column) => {
+//       column.field = column.field.toString().replace(/->>?/, '.');
+//       return column;
+//    })
+// );
 </script>
+
 <template>
    <DataTable
       v-bind="_merge({}, props, $attrs)"
@@ -214,7 +238,7 @@ const tableValue = computed(() => {
       :value="tableValue"
    >
       <template #empty>
-         <span class="custom_table__no-data" v-text="$t('no_data_found')" />
+         <span class="custom_table__no-data" v-text="$t('component.table.no_data_found')" />
       </template>
       <template
          v-for="slot in _keys(_omit($slots, ['expansion']))"
@@ -254,8 +278,8 @@ const tableValue = computed(() => {
          :data-type="_get(DATA_TYPES, meta?.filters?.[column?.field.toString()]?.dataType)"
          :showFilterOperator="column?.field.toString()?.split?.('.')?.length > 1 ? false : true"
          :showFilterMenu="!!meta?.filters?.[`${column?.field.toString()}`]"
-         :header="column.header && $t(column.header)"
-         :footer="column.footer && $t(column.footer)"
+         :header="!$slots[`${_snakeCase(column?.field.toString())}_header`] && column.header"
+         :footer="!$slots[`${_snakeCase(column?.field.toString())}_footer`] && column.footer"
       >
          <template
             v-for="slot in _keys($slots)
@@ -341,8 +365,8 @@ const tableValue = computed(() => {
                <div
                   v-else
                   class="custom_table__cell"
-                  :title="$t(_get(body?.data, body?.field?.toString(), ''))"
-                  v-text="$t(_get(body?.data, body?.field?.toString(), ''))"
+                  :title="getFieldValue(body)"
+                  v-text="getFieldValue(body)"
                />
             </slot>
          </template>
@@ -381,7 +405,7 @@ const tableValue = computed(() => {
    }
 
    &__expansion {
-      @apply z-10 relative;
+      @apply relative;
    }
 
    &__no-data {

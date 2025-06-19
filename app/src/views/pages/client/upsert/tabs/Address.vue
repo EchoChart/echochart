@@ -30,12 +30,12 @@ const props = defineProps({
 });
 
 const toast = useToast();
+const { t, te } = useI18n();
 
 const initialFormData = {
    id: undefined,
    address: []
 };
-
 /**@type {[keyof ClientUpsertFormData]} */
 const fields = _keys(initialFormData);
 
@@ -96,8 +96,8 @@ const save = async () => {
    toast.add({
       life: 3000,
       severity: ToastSeverity.SUCCESS,
-      summary: i18n.t('success'),
-      detail: i18n.t('saved')
+      summary: t('toast.success'),
+      detail: t('toast.saved')
    });
 };
 
@@ -118,8 +118,9 @@ provide('dialogRef', true);
          <FormField
             fluid
             :error="form?._errors?.first('id')"
-            :label="$t('client')"
+            :label="$t('fields.client_id')"
             v-slot="slotProps"
+            v-if="!id && !data?.id"
          >
             <SelectClient
                v-bind="slotProps"

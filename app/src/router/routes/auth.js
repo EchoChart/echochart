@@ -34,9 +34,10 @@ export default [
       },
       children: [
          {
-            name: 'register',
-            path: 'register',
+            name: 'auth-register',
+            path: 'auth-register',
             meta: {
+               label: i18n.t('route.label.register'),
                replace: true
             },
             components: {
@@ -45,12 +46,13 @@ export default [
             beforeEnter: logoutBeforeEnter
          },
          {
+            path: 'login',
+            name: 'auth-login',
             meta: {
+               label: i18n.t('route.label.login'),
                icon: PrimeIcons.SIGN_IN,
                replace: true
             },
-            path: 'login',
-            name: 'login',
             component: () => import('@/views/pages/auth/Login.vue'),
             beforeEnter: logoutBeforeEnter
          }
@@ -60,6 +62,7 @@ export default [
       path: 'access-denied',
       name: 'access-denied',
       meta: {
+         label: i18n.t('route.label.access-denied'),
          layout: 'dashboard',
          requiresAuth: false
       },

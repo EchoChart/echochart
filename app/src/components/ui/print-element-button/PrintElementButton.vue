@@ -1,28 +1,33 @@
-<script setup>
-const props = defineProps({
-   element: {
-      type: HTMLElement,
-      default: null
-   }
+<script setup lang="ts">
+import { unref, type Ref } from 'vue';
+
+export declare type PrintElementButtonProps = {
+   element: Element | Ref<Element | null> | null;
+};
+
+const props = withDefaults(defineProps<PrintElementButtonProps>(), {
+   element: null
 });
 
-const printElement = async (e, darkMode = false) => {
-   if (!_isElement(e)) return;
+const printElement = async (el: PrintElementButtonProps['element'], darkMode = false) => {
+   el = unref(el);
+
+   if (!_isElement(el))
+      return console.warn('PrintElementButton: Invalid element provided for printing.');
 
    const { toggleDarkMode, isDarkTheme } = useLayout();
    const darkTheme = !!isDarkTheme.value;
-   let cloned = e.cloneNode(true);
+   const cloned = el.cloneNode(true) as Element;
 
    const beforePrint = () => document.body.classList.add('printing');
-   const afterPrint = () => {
-      document.body.classList.remove('printing');
-   };
+   const afterPrint = () => document.body.classList.remove('printing');
+
    addEventListener('beforeprint', beforePrint, { once: true });
    addEventListener('afterprint', afterPrint, { once: true });
 
    if (darkTheme !== darkMode) await toggleDarkMode(null, darkMode).finished;
 
-   document.body.insertAdjacentElement('beforeend', cloned);
+   document.body.appendChild(cloned);
    cloned.classList.add('printable');
    window.print();
 
@@ -38,13 +43,16 @@ const printElement = async (e, darkMode = false) => {
       :icon="PrimeIcons.PRINT"
       variant="outlined"
       severity="info"
-      @click="(e) => printElement(props.element || e?.target?.parentElement?.offsetParent)"
+      @click="
+         (e) =>
+            printElement(props.element || (e?.target as HTMLElement)?.parentElement?.offsetParent)
+      "
    />
 </template>
 
 <style lang="scss">
 .printable {
-   @apply hidden print:block !important;
+   @apply [visibility:hidden] print:[visibility:visible] !important;
 }
 
 body.printing {

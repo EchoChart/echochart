@@ -6,10 +6,10 @@
                <div class="error-page__icon">
                   <i class="pi pi-fw pi-exclamation-circle"></i>
                </div>
-               <h1 class="error-page__title" v-text="$t('error_occured')"></h1>
+               <h1 class="error-page__title" v-text="$t('router.error_occured')"></h1>
                <span
                   class="error-page__description"
-                  v-text="$t('requested_resource_is_not_available')"
+                  v-text="$t('router.requested_resource_is_not_available')"
                ></span>
                <img src="/images/error/asset-error.svg" alt="Error" class="error-page__image" />
                <div class="error-page__links">
@@ -20,13 +20,13 @@
                   >
                      <Button
                         @click="navigate"
-                        :label="$t('go_back')"
+                        :label="$t('router.action.go_back')"
                         variant="outlined"
                         severity="danger"
                      />
                   </CustomLink>
                   <CustomLink :to="{ name: 'dashboard' }" v-slot="{ navigate }">
-                     <Button :label="$t('go_to_dashboard')" @click="navigate" />
+                     <Button :label="$t('router.action.go_to_dashboard')" @click="navigate" />
                   </CustomLink>
                </div>
             </div>

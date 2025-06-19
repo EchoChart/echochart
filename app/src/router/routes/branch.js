@@ -7,13 +7,14 @@ import { DIALOG_POSITIONS } from '../../constants/router';
 export default [
    {
       path: 'branch',
+      name: 'branch',
       component: CustomRouteView,
       meta: {
+         label: i18n.t('route.label.branch'),
          index: -1,
          icon: PrimeIcons.BUILDING,
          requiresAuth: true
       },
-      name: 'branch',
       components: {
          default: () => import('@/views/pages/branch/Index.vue'),
          skeleton: () => import('@/views/pages/branch/Index.vue')
@@ -21,7 +22,9 @@ export default [
       children: [
          {
             path: 'role',
+            name: 'branch-role',
             meta: {
+               label: i18n.t('route.label.branch-role'),
                icon: PrimeIcons.LOCK,
                requiredPermissions: [
                   {
@@ -31,7 +34,7 @@ export default [
                ],
                contextMenuItems: [
                   {
-                     label: i18n.t('add'),
+                     label: i18n.t('action.add'),
                      route: {
                         name: 'branch-role-add',
                         query: { showDialog: DIALOG_POSITIONS.CENTER }
@@ -39,7 +42,6 @@ export default [
                   }
                ]
             },
-            name: 'branch-role',
             component: CustomRouteView,
             redirect: { name: 'branch-role-list' },
             children: [
@@ -47,6 +49,7 @@ export default [
                   path: 'list',
                   name: 'branch-role-list',
                   meta: {
+                     label: i18n.t('route.label.list'),
                      visible: false,
                      index: -1,
                      requiredPermissions: [
@@ -70,6 +73,7 @@ export default [
                   path: 'add',
                   name: 'branch-role-add',
                   meta: {
+                     label: i18n.t('route.label.add'),
                      visible: false,
                      icon: PrimeIcons.PLUS,
                      requiredPermissions: [
@@ -93,6 +97,7 @@ export default [
                   name: 'branch-role-edit',
                   props: true,
                   meta: {
+                     label: i18n.t('route.label.edit'),
                      icon: PrimeIcons.FILE_EDIT,
                      visible: false,
                      requiredPermissions: [
@@ -114,8 +119,10 @@ export default [
             ]
          },
          {
-            path: 'audit_log',
+            path: 'audit-log',
+            name: 'branch-audit-log',
             meta: {
+               label: i18n.t('route.label.audit-logs'),
                icon: PrimeIcons.HISTORY,
                requiredPermissions: [
                   {
@@ -124,7 +131,6 @@ export default [
                   }
                ]
             },
-            name: 'branch-audit-log',
             component: CustomRouteView,
             redirect: { name: 'branch-audit-log-list' },
             children: [
@@ -132,6 +138,7 @@ export default [
                   path: 'list',
                   name: 'branch-audit-log-list',
                   meta: {
+                     label: i18n.t('route.label.list'),
                      visible: false,
                      index: -1,
                      requiredPermissions: [

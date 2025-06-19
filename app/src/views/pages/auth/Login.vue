@@ -48,15 +48,18 @@ if (rememberMe.value) {
 <template>
    <FormBox @submit="login" class="self-center gap-8" v-focustrap>
       <div class="flex-auto w-full text-center flex flex-col justify-center gap-8">
-         <div class="text-3xl font-medium" v-text="$t('welcome_back')" />
+         <div class="text-3xl font-medium" v-text="$t('auth.login.welcome_back')" />
 
-         <span class="text-muted-color font-medium" v-text="$t('please_login_to_continue')" />
+         <span
+            class="text-muted-color font-medium"
+            v-text="$t('auth.login.please_login_to_continue')"
+         />
       </div>
       <div class="flex-auto flex flex-col gap-8">
          <FormField
             v-slot="slotProps"
             fluid
-            :label="'email'"
+            :label="$t('fields.email')"
             :error="form?._errors?.first('email')"
          >
             <InputText autofocus v-bind="slotProps" v-model="form['email']" />
@@ -64,7 +67,7 @@ if (rememberMe.value) {
          <FormField
             v-slot="slotProps"
             fluid
-            :label="'password'"
+            :label="$t('fields.password')"
             :error="form?._errors?.first('password')"
          >
             <Password
@@ -78,20 +81,25 @@ if (rememberMe.value) {
       <template #form-actions>
          <div class="flex-auto w-full flex flex-col gap-8">
             <div class="flex items-center justify-between gap-4">
-               <FormField v-slot="slotProps" reverse :label="'Remember me'" class="max-w-fit">
+               <FormField
+                  v-slot="slotProps"
+                  reverse
+                  :label="$t('fields.remember_me')"
+                  class="max-w-fit"
+               >
                   <Checkbox v-bind="slotProps" class="min-w-fit" v-model="rememberMe" binary />
                </FormField>
 
                <RouterLink
                   custom
                   v-slot="{ href, navigate }"
-                  :to="{ name: 'login', replace: true }"
+                  :to="{ name: 'auth-login', replace: true }"
                >
                   <a
                      :href="href"
                      @click="navigate"
                      class="font-medium no-underline cursor-pointer text-primary"
-                     v-text="$t('forgot_password_?')"
+                     v-text="$t('auth.login.forgot_password?')"
                   />
                </RouterLink>
             </div>
@@ -99,7 +107,7 @@ if (rememberMe.value) {
                variant="outlined"
                class="!border-primary-emphasis w-[75%] mx-auto"
                type="submit"
-               :label="'Login'"
+               :label="$t('action.submit')"
             />
          </div>
       </template>

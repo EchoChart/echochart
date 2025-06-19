@@ -7,8 +7,10 @@ import { DIALOG_POSITIONS } from '@/constants/router';
 export default [
    {
       path: 'address',
+      name: 'address',
       component: CustomRouteView,
       meta: {
+         label: i18n.t('route.label.address'),
          index: -1,
          visible: false,
          icon: 'pi pi-address-book',
@@ -21,7 +23,7 @@ export default [
          ],
          contextMenuItems: [
             {
-               label: i18n.t('add'),
+               label: i18n.t('action.add'),
                route: {
                   name: 'address-add',
                   query: { showDialog: DIALOG_POSITIONS.CENTER }
@@ -29,13 +31,13 @@ export default [
             }
          ]
       },
-      name: 'address',
       redirect: { name: 'address-list' },
       children: [
          {
             path: 'list',
             name: 'address-list',
             meta: {
+               label: i18n.t('route.label.list'),
                visible: false,
                index: 2,
                icon: PrimeIcons.LIST,
@@ -51,6 +53,7 @@ export default [
             name: 'address-edit',
             props: true,
             meta: {
+               label: i18n.t('route.label.edit'),
                visible: false,
                requiredPermissions: [
                   {
@@ -73,6 +76,7 @@ export default [
             name: 'address-add',
             props: true,
             meta: {
+               label: i18n.t('route.label.add'),
                visible: false,
                requiredPermissions: [
                   {

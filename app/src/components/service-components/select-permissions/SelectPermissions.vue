@@ -5,28 +5,29 @@ defineOptions({
    inheritAttrs: false
 });
 
+const { t } = useI18n();
 const attrs = useAttrs();
 
 const modelValue = defineModel({ get: (value) => value || [] });
 
-const columns = [
+const columns = computed(() => [
    {
       field: 'display_name',
-      header: i18n.t('display_name')
+      header: t('component.select_permission.table.headers.permission_name')
    },
    {
       field: 'read',
-      header: i18n.t('read')
+      header: t('component.select_permission.table.headers.read')
    },
    {
       field: 'create',
-      header: i18n.t('create')
+      header: t('component.select_permission.table.headers.create')
    },
    {
       field: 'modify',
-      header: i18n.t('modify')
+      header: t('component.select_permission.table.headers.modify')
    }
-];
+]);
 
 const permissionKinds = ['read', 'create', 'modify'];
 
@@ -72,7 +73,7 @@ const tableProps = computed(() => ({
    stateKey: 'permission',
    dataKey: 'display_name',
    paginator: false,
-   columns,
+   columns: columns.value,
    rowActions: [],
    rows: null,
    value: permissions.value,
@@ -82,7 +83,10 @@ const tableProps = computed(() => ({
 <template>
    <CustomTable v-bind="tableProps">
       <template #display_name_header>
-         <FormField class="!flex-[0] flex-nowrap" :label="$t('all')">
+         <FormField
+            class="!flex-[0] flex-nowrap"
+            :label="$t('component.select_permission.table.headers.all')"
+         >
             <template #default="slotProps">
                <ToggleSwitch
                   :readonly="$attrs.readonly"
@@ -99,7 +103,7 @@ const tableProps = computed(() => ({
          #[`${kind}_header`]="{ header, field }"
          :key="`${kind}_${i}`"
       >
-         <FormField class="!flex-[0] flex-nowrap" :label="$t(header || '')">
+         <FormField class="!flex-[0] flex-nowrap" :label="header">
             <template #default="slotProps">
                <ToggleSwitch
                   :readonly="$attrs.readonly"

@@ -14,7 +14,7 @@ const router = createRouter({
    history: createWebHistory(),
    routes: [
       {
-         path: `/:locale(${SUPPORT_LOCALES.join('|')})?`,
+         path: `/:locale(${SUPPORTED_LOCALES.value.map((lang) => lang.value).join('|')})?`,
          children: [
             {
                path: ``,
@@ -40,7 +40,10 @@ const router = createRouter({
                      },
                      children: [
                         {
+                           path: 'dashboard',
+                           name: 'dashboard',
                            meta: {
+                              label: i18n.t('route.label.dashboard'),
                               icon: PrimeIcons.CHART_LINE,
                               index: -999,
                               visible: computed(() => {
@@ -48,8 +51,6 @@ const router = createRouter({
                                  return isSignedIn?.value;
                               })
                            },
-                           path: 'dashboard',
-                           name: 'dashboard',
                            component: () => import('@/views/pages/dashboard/Index.vue')
                         },
                         ...branchRoutes,
@@ -69,6 +70,7 @@ const router = createRouter({
                      },
                      children: [
                         {
+                           label: i18n.t('route.label.error'),
                            path: 'error',
                            name: 'error',
                            components: {
@@ -82,6 +84,9 @@ const router = createRouter({
                         {
                            path: `:pathMatch(.*)*`,
                            name: 'notfound',
+                           meta: {
+                              label: i18n.t('route.label.notfound')
+                           },
                            components: {
                               default: () => import('@/views/pages/NotFound.vue'),
                               'layout-topbar': () => import('@/layouts/dashboard/Topbar.vue'),
@@ -106,7 +111,7 @@ router.onError((error, to, from) => {
    switch (error.status) {
       case 401:
          supabase.auth.signOut();
-         router.replace({ name: 'login' });
+         router.replace({ name: 'auth-login' });
          break;
       case 403: {
          to.name = 'access-denied';

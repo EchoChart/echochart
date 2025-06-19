@@ -40,6 +40,6 @@ onUnmounted(() => emitter.off('product-update', fetchProductBrands));
             )
          )
       "
-      :placeholder="$t('select_or_write')"
+      :placeholder="$t('input.select_or_write')"
    />
 </template>

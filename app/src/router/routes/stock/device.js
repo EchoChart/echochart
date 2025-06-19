@@ -10,6 +10,7 @@ export default [
       name: 'device',
       component: CustomRouteView,
       meta: {
+         label: i18n.t('route.label.device'),
          requiresAuth: true,
          icon: 'pi pi-headphones',
          requiredPermissions: [
@@ -20,7 +21,7 @@ export default [
          ],
          contextMenuItems: [
             {
-               label: i18n.t('add'),
+               label: i18n.t('action.add'),
                route: {
                   name: 'stock-add',
                   query: { showDialog: DIALOG_POSITIONS.CENTER },
@@ -42,6 +43,7 @@ export default [
             },
             meta: {
                visible: false,
+               label: i18n.t('list'),
                index: -1,
                icon: PrimeIcons.LIST,
                requiredPermissions: [

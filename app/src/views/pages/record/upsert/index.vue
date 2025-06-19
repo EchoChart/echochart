@@ -3,6 +3,7 @@ import { currencies } from '@/constants/form/common';
 import { RECORD_STATUSES, RECORD_TYPES } from '@/constants/form/record';
 import { Form } from '@/lib/Form';
 import { useToast } from 'primevue';
+import { Rules } from 'validatorjs';
 import AssembleForm from './AssembleForm.vue';
 import RecordForm from './RecordForm.vue';
 
@@ -31,8 +32,8 @@ export type RecordUpsertFormData = Tables['record']['Row'] & {
          model?: string;
          ventilation?: number;
          speaker_power?: string;
-         bluetooth?: boolean;
-         button?: boolean;
+         has_bluetooth?: boolean;
+         has_button?: boolean;
       }[];
    };
 };
@@ -47,6 +48,7 @@ const props = withDefaults(defineProps<RecordUpsertProps>(), {
    select: '*,stock:stock_view!inner(*), client!inner(id,display_name)'
 });
 
+const { t, te } = useI18n();
 const toast = useToast();
 
 const initialFormData: Partial<RecordUpsertFormData> = {
@@ -78,11 +80,11 @@ const form = Form.create<RecordUpsertFormData>({
 provide('recordForm', form);
 
 form._setRules(
-   computed(() => {
-      const statuses = _get(RECORD_STATUSES, form.record_type, [])
+   computed<Rules>((): Rules => {
+      const statuses = _get(RECORD_STATUSES.value, form.record_type, [])
          ?.map((e: any) => e?.value)
          ?.join(',');
-      const types = RECORD_TYPES.map((e) => e.value).join(',');
+      const types = RECORD_TYPES.value.map((e) => e.value).join(',');
 
       const quantity = [
          {
@@ -90,7 +92,7 @@ form._setRules(
             min: form.stock?.unit_type === 'pcs' ? 1 : 0.01,
             max: availableQuantity?.value
          }
-      ];
+      ] as unknown as Rules;
 
       const isDeviceSideRequired = form?.stock?.product?.category?.some?.(
          (category: Partial<Tables['product_category']['Row']>) =>
@@ -201,8 +203,8 @@ const save = async () => {
    toast.add({
       life: 3000,
       severity: ToastSeverity.SUCCESS,
-      summary: i18n.t('success'),
-      detail: i18n.t('saved')
+      summary: t('toast.success'),
+      detail: t('toast.saved')
    });
 };
 </script>
@@ -210,8 +212,8 @@ const save = async () => {
    <div class="card p-0">
       <Tabs value="record" class="w-full">
          <TabList>
-            <Tab value="record">{{ $t('record') }}</Tab>
-            <Tab value="mold">{{ $t('mold') }}</Tab>
+            <Tab value="record">{{ $t('record.tab.record') }}</Tab>
+            <Tab value="earmold">{{ $t('record.tab.earmold') }}</Tab>
          </TabList>
          <TabPanels>
             <TabPanel value="record">
@@ -219,7 +221,7 @@ const save = async () => {
                   <RecordForm :readonly />
                </FormBox>
             </TabPanel>
-            <TabPanel value="mold">
+            <TabPanel value="earmold">
                <FormBox @reset="() => form._reset()" :form :readonly @submit="save">
                   <AssembleForm :readonly />
                </FormBox>
