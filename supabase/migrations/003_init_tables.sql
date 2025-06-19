@@ -257,7 +257,7 @@ CREATE TABLE IF NOT EXISTS public.record (
          WHEN record_type = 'repair' THEN record_status IN (
             'pending',
             'pending_service',
-            'client_pending_service_bid',
+            'client holds service bid',
             'client_approved_service_bid',
             'client_rejected_service_bid',
             'done'
