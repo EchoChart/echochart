@@ -71,7 +71,7 @@
    }
 
    &__links {
-      @apply col-span-12 mt-8 text-center;
+      @apply flex gap-4 mt-8 text-center;
    }
 }
 </style>
