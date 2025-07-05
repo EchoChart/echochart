@@ -107,7 +107,7 @@ const save = async () => {
 </script>
 
 <template>
-   <div class="card">
+   <div class="card p-0">
       <FormBox @submit="save" @reset="() => form?._reset()" v-focustrap :form :readonly>
          <FormField
             fluid
@@ -123,7 +123,7 @@ const save = async () => {
             class="!flex-auto !max-w-none w-full"
             fluid
             :label="$t('fields.permission')"
-            :readonly
+            :readonly="!$can('modify', 'role') || !$can('create', 'role')"
             :error="form?._errors.first('permission')"
             v-slot="slotProps"
          >
