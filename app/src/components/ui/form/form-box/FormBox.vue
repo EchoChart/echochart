@@ -8,43 +8,61 @@ export declare type FormBoxProps = {
    invalid?: boolean;
    error?: string | boolean;
    printable?: boolean;
+   submitText?: string;
+   resetText?: string;
 };
 
-defineProps<FormBoxProps>();
+const props = defineProps<FormBoxProps>();
 
 const boxElement = ref<HTMLElement | null>(null);
 </script>
 
 <template>
    <template v-if="_isNil(legend)">
-      <form :invalid="invalid || !!error" class="form_box" @submit.prevent ref="boxElement">
-         <slot v-bind="$props" />
+      <form
+         :invalid="invalid || !!error"
+         class="form_box"
+         @submit.prevent
+         ref="boxElement"
+         autocomplete="on"
+      >
+         <BlockUI
+            :blocked="readonly === true"
+            :pt="{
+               root: { class: 'contents' },
+               mask: {
+                  class: '!bg-[transparent]'
+               }
+            }"
+         >
+            <slot v-bind="$props" />
 
-         <slot name="form-actions" v-bind="$props">
-            <div v-if="!readonly" class="form_box__actions-bar">
-               <span class="form_box__button-container">
-                  <Button
-                     :label="$t('action.save')"
-                     class="form_box__button"
-                     :disabled="!form?._isChanged"
-                     type="submit"
-                  />
-                  <Button
-                     :label="$t('action.reset')"
-                     severity="secondary"
-                     class="form_box__button"
-                     :disabled="!form?._isChanged"
-                     type="reset"
-                  />
-                  <PrintElementButton
-                     v-if="printable"
-                     :element="boxElement"
-                     class="form_box__print-button"
-                  />
-                  <ErrorBadge v-if="error" :error="error" class="form_box__error-badge" />
-               </span>
-            </div>
-         </slot>
+            <slot name="form-actions" v-bind="$props">
+               <div v-if="!readonly" class="form_box__actions-bar">
+                  <span class="form_box__button-container">
+                     <Button
+                        :label="resetText || $t('action.reset')"
+                        severity="secondary"
+                        class="form_box__button"
+                        :disabled="!form?._isChanged"
+                        type="reset"
+                     />
+                     <Button
+                        :label="submitText || $t('action.save')"
+                        class="form_box__button"
+                        :disabled="!form?._isChanged"
+                        type="submit"
+                     />
+                     <PrintElementButton
+                        v-if="printable"
+                        :element="boxElement"
+                        class="form_box__print-button"
+                     />
+                     <ErrorBadge v-if="error" :error="error" class="form_box__error-badge" />
+                  </span>
+               </div>
+            </slot>
+         </BlockUI>
       </form>
    </template>
    <template v-else>
