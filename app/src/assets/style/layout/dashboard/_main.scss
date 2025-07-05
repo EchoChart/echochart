@@ -1,5 +1,8 @@
 .layout-main-container {
-   @apply flex-1 flex overflow-auto mx-4;
+   @apply flex-1 flex gap-4 overflow-auto mx-4;
+   .layout-sidebar-inactive & {
+      @apply gap-0;
+   }
 }
 
 .layout-main {
