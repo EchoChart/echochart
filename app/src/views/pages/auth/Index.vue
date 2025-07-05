@@ -12,10 +12,10 @@ const onMouseMove = _throttle((e) => {
    <div class="min-h-full flex py-4" @mousemove="(e) => onMouseMove(e)">
       <div class="flex-1 p-1 flex flex-col md:flex-row items-stretch justify-center text-surface-0">
          <div
-            class="welcome-bg p-12 md:p-12 -mb-12 mr-0 md:mb-0 md:-mr-12 flex-auto self-stretch flex flex-col gap-8 justify-center items-center rounded-[var(--content-border-radius)]"
+            class="welcome-bg p-12 md:p-12 -mb-12 me-0 md:mb-0 md:-me-12 flex-auto self-stretch flex flex-col gap-8 justify-center items-center rounded-[var(--content-border-radius)]"
          >
             <span
-               class="flex justify-center flex-col gap-8 p-8 bg-surface-900/25 backdrop-blur-sm text-center rounded-[inherit]"
+               class="flex justify-center flex-col gap-8 p-12 bg-surface-900/25 backdrop-blur-sm text-center rounded-[inherit]"
             >
                <div class="text-5xl font-medium" v-text="$t('auth.welcome.title')" />
                <span class="font-medium" v-text="$t('auth.welcome.text')" />
@@ -46,13 +46,13 @@ const onMouseMove = _throttle((e) => {
          </div>
 
          <div
-            class="flex-auto md:!max-w-[25vw] md:!min-w-min md:flex-1 flex justify-self-start p-1 pb-0 z-[1] text-surface-900 dark:text-surface-0 rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[var(--primary-color)] via-[rgba(33,150,243,0)] to-transparent"
+            class="flex-auto md:!max-w-[25vw] md:!min-w-[32rem] md:flex-1 flex justify-self-start p-1 pb-0 z-[1] text-surface-900 dark:text-surface-0 rounded-[calc(var(--content-border-radius)*6)] bg-gradient-to-b from-[var(--primary-color)] via-[rgba(33,150,243,0)] to-transparent"
          >
             <div class="card flex-auto flex items-center justify-center rounded-[inherit] p-12">
                <CustomRouteView
                   :transitionProps="{
                      class: 'transition-[filter,transform] duration-[calc(var(--transition-duration))]',
-                     enterFromClass: 'blur-xl scale-y-110',
+                     enterFromClass: 'blur-xl scale-y-90',
                      leaveToClass: 'blur-xl scale-y-110'
                   }"
                />

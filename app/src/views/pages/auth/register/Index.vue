@@ -24,13 +24,13 @@ const steps = computed(() => [
 const form = Form.create({
    data: {
       account: {
-         email: 'info@akifaycicek.com.tr',
-         password: 'asdqwe123',
-         password_confirmation: 'asdqwe123'
+         email: '',
+         password: '',
+         password_confirmation: ''
       },
       company: {
-         display_name: 'bade',
-         email: 'info@akifaycicek.com.tr',
+         display_name: '',
+         email: '',
          phone: null
       }
    },
@@ -133,6 +133,7 @@ const submit = async () => {
                   >
                      <Password
                         v-bind="slotProps"
+                        :invalid="true"
                         v-model="form['account.password']"
                         :toggleMask="true"
                         :feedback="false"

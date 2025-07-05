@@ -34,8 +34,8 @@ export default [
       },
       children: [
          {
+            path: 'register',
             name: 'auth-register',
-            path: 'auth-register',
             meta: {
                label: i18n.t('route.label.register'),
                replace: true
@@ -54,6 +54,19 @@ export default [
                replace: true
             },
             component: () => import('@/views/pages/auth/Login.vue'),
+            beforeEnter: logoutBeforeEnter
+         },
+         {
+            path: 'otp',
+            name: 'auth-otp',
+            meta: {
+               requiresAuth: false,
+               label: i18n.t('route.label.enter-auth-otp-code'),
+               icon: PrimeIcons.SIGN,
+               replace: true
+            },
+            alias: ['forgot-password', 'invite-code'],
+            component: () => import('@/views/pages/auth/Otp.vue'),
             beforeEnter: logoutBeforeEnter
          }
       ]
