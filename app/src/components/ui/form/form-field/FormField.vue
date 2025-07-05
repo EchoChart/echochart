@@ -191,7 +191,7 @@ onMounted(() => {
    }
 
    &__input {
-      @apply min-w-48 md:min-w-fit;
+      @apply min-w-min md:min-w-fit;
       &--fluid {
          @apply w-full my-auto;
       }
