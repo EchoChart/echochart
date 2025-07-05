@@ -2,6 +2,7 @@ import CustomRouteView from '@/components/layout/CustomRouteView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { beforeEachMiddlewares } from './middlewares';
 
+import { appErrorHandler } from '@/lib/appErrorHandler';
 import accountRoutes from '@/router/routes/account';
 import addressRoutes from '@/router/routes/address';
 import authRoutes from '@/router/routes/auth';
@@ -70,15 +71,17 @@ const router = createRouter({
                      },
                      children: [
                         {
-                           label: i18n.t('route.label.error'),
                            path: 'error',
                            name: 'error',
+                           meta: {
+                              label: i18n.t('route.label.error')
+                           },
                            components: {
                               default: () => import('@/views/pages/Error.vue'),
                               'layout-topbar': () => import('@/layouts/dashboard/Topbar.vue'),
                               'layout-sidebar': () => import('@/layouts/dashboard/Sidebar.vue'),
-                              'layout-footer': () => import('@/layouts/dashboard/Footer.vue'),
-                              'page-header': () => import('@/components/layout/AppBreadcrumb.vue')
+                              'layout-footer': () => import('@/layouts/dashboard/Footer.vue')
+                              // 'page-header': () => import('@/components/layout/AppBreadcrumb.vue')
                            }
                         },
                         {
@@ -90,8 +93,8 @@ const router = createRouter({
                            components: {
                               default: () => import('@/views/pages/NotFound.vue'),
                               'layout-topbar': () => import('@/layouts/dashboard/Topbar.vue'),
-                              'layout-footer': () => import('@/layouts/dashboard/Footer.vue'),
-                              'page-header': () => import('@/components/layout/AppBreadcrumb.vue')
+                              'layout-footer': () => import('@/layouts/dashboard/Footer.vue')
+                              // 'page-header': () => import('@/components/layout/AppBreadcrumb.vue')
                            }
                         }
                      ]
@@ -107,15 +110,25 @@ beforeEachMiddlewares.forEach((middleware) => {
    router.beforeEach(middleware);
 });
 
-router.onError((error, to, from) => {
-   switch (error.status) {
-      case 401:
-         supabase.auth.signOut();
-         router.replace({ name: 'auth-login' });
+router.onError(async (error, to) => {
+   const status = error?.status;
+
+   switch (status) {
+      case 401: {
+         await router.replace({ name: 'auth-login' });
          break;
+      }
+
       case 403: {
+         await appErrorHandler(error);
          to.name = 'access-denied';
-         router.push(to);
+         await router.push(to);
+         break;
+      }
+
+      default: {
+         await appErrorHandler(error);
+         router.push({ name: 'error' });
          break;
       }
    }
