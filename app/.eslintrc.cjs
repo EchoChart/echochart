@@ -10,10 +10,11 @@ module.exports = {
       'plugin:vue/vue3-essential',
       'eslint:recommended',
       '@vue/eslint-config-prettier',
+      '@vue/eslint-config-typescript',
       './.eslintrc-auto-import.json',
       'plugin:@typescript-eslint/recommended'
    ],
-   plugin: ['@typescript-eslint'],
+   plugins: ['@typescript-eslint'],
    parserOptions: {
       ecmaVersion: 'latest'
    },
