@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { SUPPORTED_LOCALES } from '../plugins/i18n/index.js';
 
-const ollamaModel = 'qwen3:8b-6k';
+const ollamaModel = 'qwen3:8b';
 const sourceLang = 'en';
 const localesDir = './src/plugins/i18n/locales';
 // const rawLangs = process.argv[2]; // e.g., 'tr,de,fr'
@@ -39,12 +39,19 @@ async function askOllama(prompt) {
          stream: false,
          think: false,
          options: {
-            temperature: 0.2
+            temperature: 0.6
          }
       })
    });
 
    const data = await response.json();
+
+   const match = data.message?.content?.match(/<think>([\s\S]*?)<\/think>/i);
+   const thought = match?.[1]?.trim();
+   const answer = data.message.content.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+
+   data.message.content = answer;
+
    return data;
 }
 
@@ -79,7 +86,7 @@ async function translateFile(file, targetLang) {
       const prompt = `
 Translate the following JSON object to **${targetLang}**.
 
-This file contains interface text for a Hearing Aid CRM application used by clinics, audiologists, and patients.
+This JSON contains interface text for a Hearing Aid CRM application used by clinics, audiologists, and patients.
 
 \`\`\`json
 ${chunkString}
