@@ -4,7 +4,7 @@ import { createI18n } from 'vue-i18n';
 
 const { language: navigatorLanguage } = useNavigatorLanguage();
 
-export async function loadLocaleMessages(i18n = i18NPlugin.global, locale) {
+export async function loadLocaleMessages(locale, i18n = i18NPlugin.global) {
    try {
       const messages = await import(`./locales/${locale}/index.json`);
 
@@ -12,18 +12,18 @@ export async function loadLocaleMessages(i18n = i18NPlugin.global, locale) {
    } catch (error) {
       console.warn(error);
    }
-   return nextTick();
 }
 
 export const guessUserLocale = computed(() => {
    if (typeof window !== 'undefined')
-      return localStorage?.getItem?.('app_lang') || navigatorLanguage.value.slice(0, 2) || 'tr';
+      return localStorage?.getItem?.('app_lang') || navigatorLanguage.value.slice(0, 2) || 'en';
+   return 'en';
 });
 
 export const i18NPlugin = createI18n({
    legacy: false,
    locale: guessUserLocale.value,
-   fallbackLocale: guessUserLocale.value,
+   fallbackLocale: 'en',
    globalInjection: true,
    missingWarn: false,
    fallbackWarn: false
@@ -58,7 +58,7 @@ if (typeof window !== 'undefined') {
    watch(
       locale,
       async (newLocale) => {
-         await loadLocaleMessages(i18NPlugin.global, newLocale);
+         await loadLocaleMessages(newLocale);
       },
       { immediate: true, once: true }
    );
