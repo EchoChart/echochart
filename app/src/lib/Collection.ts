@@ -2,7 +2,7 @@ import { PropertyName, PropertyPath } from 'lodash';
 import { Ref } from 'vue';
 
 // Define the interface for Collection
-export interface ICollection<T = any> {
+export interface ICollection<T extends object = any> {
    /**
     * Set default values of the collection.
     * @param attrs - Default attributes to set.
@@ -52,7 +52,7 @@ export interface ICollection<T = any> {
  * Represents a generic type parameter for the collection. This allows the class to be typed dynamically based on the structure of the data being used.
  * `T` can represent an object or an array, where keys, indices, and values define the schema for the reactive state.
  */
-export default class Collection<T = any> implements ICollection<T> {
+export default class Collection<T extends object = any> implements ICollection<T> {
    /**
     * Reactive state of the collection.
     */
@@ -73,7 +73,9 @@ export default class Collection<T = any> implements ICollection<T> {
       return this;
    }
 
-   static create<T = any>(data: T = {} as T): Collection<T> & Collection<T>['_data'] {
+   static create<T extends object = any>(
+      data: T = {} as T
+   ): Collection<T> & Collection<T>['_data'] {
       const instance = new this<T>(data);
       const proxy = new Proxy(instance, {
          /**
