@@ -364,7 +364,7 @@ const customFetch = async (
    const { pathname, searchParams } = URL.parse(url);
    const method = _toUpper(options.method);
    const isDataUpdating =
-      _includes(['POST', 'PATCH', 'DELETE', 'PUT'], method) && _startsWith(pathname, '/rest');
+      _includes(['POST', 'PATCH', 'DELETE', 'PUT'], method) && !_startsWith(pathname, '/auth');
    const isDataFetcing = _includes(['GET', 'HEAD'], method) && _startsWith(pathname, '/rest');
    const queryFilters = _fromPairs(searchParams.entries().toArray());
    const queryKey = [pathname, { ...queryFilters, tenantID: currentTenant?.id }, body];
