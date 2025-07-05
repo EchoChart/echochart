@@ -12,15 +12,15 @@ import '@/assets/style/styles.scss';
 import '@/assets/style/tailwind.css';
 import { defineAbility } from '@casl/ability';
 import { abilitiesPlugin, Can } from '@casl/vue';
+import { appErrorHandler } from '@lib/appErrorHandler';
+import { resolveAction } from '@plugins/casl';
+import { mutationCache, queryCache, queryClient } from '@plugins/tanstack-query';
 import { VueQueryPlugin } from '@tanstack/vue-query';
 import DialogService from 'primevue/dialogservice';
 import FocusTrap from 'primevue/focustrap';
 import KeyFilter from 'primevue/keyfilter';
 import Ripple from 'primevue/ripple';
 import Tooltip from 'primevue/tooltip';
-import { appErrorHandler } from './lib/appErrorHandler';
-import { resolveAction } from './plugins/casl';
-import { mutationCache, queryCache, queryClient } from './plugins/tanstack-query';
 import router from './router';
 
 export const app = createApp(App);
