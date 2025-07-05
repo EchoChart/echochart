@@ -9,7 +9,6 @@ const breadcrumbItems = computed(() =>
    route.matched
       .filter(({ name, path }) => !_isNil(name) && !_isNil(path))
       .map((route, index) => {
-         // const label = route.path.match(/\/([a-zA-Z0-9_-]+)$/)?.[1] || route.name;
          const label = i18n.t(route.meta.label);
          return {
             ...route,
