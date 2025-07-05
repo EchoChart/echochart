@@ -215,7 +215,7 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
                <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
                   <div>
                      <span
-                        class="text-surface-900 dark:text-surface-0 font-medium mr-2 mb-1 md:mb-0"
+                        class="text-surface-900 dark:text-surface-0 font-medium me-2 mb-1 md:mb-0"
                         >Space T-Shirt</span
                      >
                      <div class="mt-1 text-muted-color">Clothing</div>
@@ -227,97 +227,97 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
                      >
                         <div class="bg-orange-500 h-full" style="width: 50%"></div>
                      </div>
-                     <span class="text-orange-500 ml-4 font-medium">%50</span>
+                     <span class="text-orange-500 ms-4 font-medium">%50</span>
                   </div>
                </li>
                <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
                   <div>
                      <span
-                        class="text-surface-900 dark:text-surface-0 font-medium mr-2 mb-1 md:mb-0"
+                        class="text-surface-900 dark:text-surface-0 font-medium me-2 mb-1 md:mb-0"
                         >Portal Sticker</span
                      >
                      <div class="mt-1 text-muted-color">Accessories</div>
                   </div>
-                  <div class="mt-2 md:mt-0 ml-0 md:ml-20 flex items-center">
+                  <div class="mt-2 md:mt-0 ms-0 md:ms-20 flex items-center">
                      <div
                         class="bg-surface-300 dark:bg-surface-500 rounded-border overflow-hidden w-40 lg:w-24"
                         style="height: 8px"
                      >
                         <div class="bg-cyan-500 h-full" style="width: 16%"></div>
                      </div>
-                     <span class="text-cyan-500 ml-4 font-medium">%16</span>
+                     <span class="text-cyan-500 ms-4 font-medium">%16</span>
                   </div>
                </li>
                <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
                   <div>
                      <span
-                        class="text-surface-900 dark:text-surface-0 font-medium mr-2 mb-1 md:mb-0"
+                        class="text-surface-900 dark:text-surface-0 font-medium me-2 mb-1 md:mb-0"
                         >Supernova Sticker</span
                      >
                      <div class="mt-1 text-muted-color">Accessories</div>
                   </div>
-                  <div class="mt-2 md:mt-0 ml-0 md:ml-20 flex items-center">
+                  <div class="mt-2 md:mt-0 ms-0 md:ms-20 flex items-center">
                      <div
                         class="bg-surface-300 dark:bg-surface-500 rounded-border overflow-hidden w-40 lg:w-24"
                         style="height: 8px"
                      >
                         <div class="bg-pink-500 h-full" style="width: 67%"></div>
                      </div>
-                     <span class="text-pink-500 ml-4 font-medium">%67</span>
+                     <span class="text-pink-500 ms-4 font-medium">%67</span>
                   </div>
                </li>
                <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
                   <div>
                      <span
-                        class="text-surface-900 dark:text-surface-0 font-medium mr-2 mb-1 md:mb-0"
+                        class="text-surface-900 dark:text-surface-0 font-medium me-2 mb-1 md:mb-0"
                         >Wonders Notebook</span
                      >
                      <div class="mt-1 text-muted-color">Office</div>
                   </div>
-                  <div class="mt-2 md:mt-0 ml-0 md:ml-20 flex items-center">
+                  <div class="mt-2 md:mt-0 ms-0 md:ms-20 flex items-center">
                      <div
                         class="bg-surface-300 dark:bg-surface-500 rounded-border overflow-hidden w-40 lg:w-24"
                         style="height: 8px"
                      >
                         <div class="bg-green-500 h-full" style="width: 35%"></div>
                      </div>
-                     <span class="text-primary ml-4 font-medium">%35</span>
+                     <span class="text-primary ms-4 font-medium">%35</span>
                   </div>
                </li>
                <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
                   <div>
                      <span
-                        class="text-surface-900 dark:text-surface-0 font-medium mr-2 mb-1 md:mb-0"
+                        class="text-surface-900 dark:text-surface-0 font-medium me-2 mb-1 md:mb-0"
                         >Mat Black Case</span
                      >
                      <div class="mt-1 text-muted-color">Accessories</div>
                   </div>
-                  <div class="mt-2 md:mt-0 ml-0 md:ml-20 flex items-center">
+                  <div class="mt-2 md:mt-0 ms-0 md:ms-20 flex items-center">
                      <div
                         class="bg-surface-300 dark:bg-surface-500 rounded-border overflow-hidden w-40 lg:w-24"
                         style="height: 8px"
                      >
                         <div class="bg-purple-500 h-full" style="width: 75%"></div>
                      </div>
-                     <span class="text-purple-500 ml-4 font-medium">%75</span>
+                     <span class="text-purple-500 ms-4 font-medium">%75</span>
                   </div>
                </li>
                <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
                   <div>
                      <span
-                        class="text-surface-900 dark:text-surface-0 font-medium mr-2 mb-1 md:mb-0"
+                        class="text-surface-900 dark:text-surface-0 font-medium me-2 mb-1 md:mb-0"
                         >Robots T-Shirt</span
                      >
                      <div class="mt-1 text-muted-color">Clothing</div>
                   </div>
-                  <div class="mt-2 md:mt-0 ml-0 md:ml-20 flex items-center">
+                  <div class="mt-2 md:mt-0 ms-0 md:ms-20 flex items-center">
                      <div
                         class="bg-surface-300 dark:bg-surface-500 rounded-border overflow-hidden w-40 lg:w-24"
                         style="height: 8px"
                      >
                         <div class="bg-teal-500 h-full" style="width: 40%"></div>
                      </div>
-                     <span class="text-teal-500 ml-4 font-medium">%40</span>
+                     <span class="text-teal-500 ms-4 font-medium">%40</span>
                   </div>
                </li>
             </ul>
@@ -345,7 +345,7 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
             <ul class="p-0 mx-0 mt-0 mb-6 list-none">
                <li class="flex items-center py-2 border-b border-surface">
                   <div
-                     class="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-full mr-4 shrink-0"
+                     class="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-full me-4 shrink-0"
                   >
                      <i class="pi pi-dollar !text-xl text-blue-500"></i>
                   </div>
@@ -359,7 +359,7 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
                </li>
                <li class="flex items-center py-2">
                   <div
-                     class="w-12 h-12 flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-full mr-4 shrink-0"
+                     class="w-12 h-12 flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-full me-4 shrink-0"
                   >
                      <i class="pi pi-download !text-xl text-orange-500"></i>
                   </div>
@@ -374,7 +374,7 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
             <ul class="p-0 m-0 list-none mb-6">
                <li class="flex items-center py-2 border-b border-surface">
                   <div
-                     class="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-full mr-4 shrink-0"
+                     class="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-full me-4 shrink-0"
                   >
                      <i class="pi pi-dollar !text-xl text-blue-500"></i>
                   </div>
@@ -388,7 +388,7 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
                </li>
                <li class="flex items-center py-2 border-b border-surface">
                   <div
-                     class="w-12 h-12 flex items-center justify-center bg-pink-100 dark:bg-pink-400/10 rounded-full mr-4 shrink-0"
+                     class="w-12 h-12 flex items-center justify-center bg-pink-100 dark:bg-pink-400/10 rounded-full me-4 shrink-0"
                   >
                      <i class="pi pi-question !text-xl text-pink-500"></i>
                   </div>
@@ -404,7 +404,7 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
             <ul class="p-0 m-0 list-none">
                <li class="flex items-center py-2 border-b border-surface">
                   <div
-                     class="w-12 h-12 flex items-center justify-center bg-green-100 dark:bg-green-400/10 rounded-full mr-4 shrink-0"
+                     class="w-12 h-12 flex items-center justify-center bg-green-100 dark:bg-green-400/10 rounded-full me-4 shrink-0"
                   >
                      <i class="pi pi-arrow-up !text-xl text-green-500"></i>
                   </div>
@@ -415,7 +415,7 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
                </li>
                <li class="flex items-center py-2 border-b border-surface">
                   <div
-                     class="w-12 h-12 flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-full mr-4 shrink-0"
+                     class="w-12 h-12 flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-full me-4 shrink-0"
                   >
                      <i class="pi pi-heart !text-xl text-purple-500"></i>
                   </div>
