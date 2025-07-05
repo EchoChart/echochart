@@ -25,14 +25,14 @@ const categories = Collection.create(data);
       <template #value="{ value }">
          <Tag
             v-for="category in value"
-            :value="$t(`fields.${category?.display_name || category || ''}`)"
+            :value="$t(`fields.${_snakeCase(category?.display_name) || category || ''}`)"
             :key="category"
             v-bind="PRODUCT_CATEGORY_PROPS[category?.display_name || category]"
          />
       </template>
       <template #option="{ option }">
          <Tag
-            :value="$t(`fields.${option?.display_name || option || ''}`)"
+            :value="$t(`fields.${_snakeCase(option?.display_name) || option || ''}`)"
             v-bind="PRODUCT_CATEGORY_PROPS[option?.display_name || option]"
          />
       </template>
