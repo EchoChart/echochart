@@ -756,22 +756,22 @@ export type Database = {
           created_at: string | null
           email: string
           id: string
-          metadata: Json | null
           phone: string | null
+          user_metadata: Json | null
         }
         Insert: {
           created_at?: string | null
           email: string
           id?: string
-          metadata?: Json | null
           phone?: string | null
+          user_metadata?: Json | null
         }
         Update: {
           created_at?: string | null
           email?: string
           id?: string
-          metadata?: Json | null
           phone?: string | null
+          user_metadata?: Json | null
         }
         Relationships: []
       }
