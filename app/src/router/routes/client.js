@@ -56,7 +56,7 @@ export default [
             name: 'client-manage',
             props: true,
             meta: {
-               label: i18n.t('route.label.manage'),
+               label: i18n.t('route.label.manage-client'),
                visible: false
             },
             components: {
@@ -107,7 +107,7 @@ export default [
                   if (ability.can('create', 'address') || ability.can('modify', 'address'))
                      return [
                         {
-                           label: i18n.t('router.action.manage_addresses'),
+                           label: i18n.t('router.action.manage-addresses'),
                            route: {
                               name: 'address-list',
                               query: { showDialog: DIALOG_POSITIONS.CENTER }
