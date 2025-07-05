@@ -96,7 +96,7 @@ const filterInput = computed({
    }
 });
 
-const selection = defineModel('selection');
+const selection = defineModel<CustomTableProps<T>['selection']>('selection');
 
 const values = defineModel<CustomTableProps<T>['value']>('value');
 
@@ -201,13 +201,6 @@ const tableValue = computed(() => {
          : new Array(props.totalRecords);
    return res;
 });
-
-// const columns = computed(() =>
-//    props.columns.map((column) => {
-//       column.field = column.field.toString().replace(/->>?/, '.');
-//       return column;
-//    })
-// );
 </script>
 
 <template>
@@ -247,7 +240,7 @@ const tableValue = computed(() => {
       >
          <slot v-bind="slotProps" :name="slot" :key="`slot_${slot}`" />
       </template>
-      <template #expansion="slotProps">
+      <template #expansion="slotProps" v-if="!loading">
          <span class="custom_table__expansion" v-if="$slots.expansion">
             <Suspense>
                <slot name="expansion" v-bind="slotProps" />
@@ -258,9 +251,10 @@ const tableValue = computed(() => {
          </span>
       </template>
       <Column
-         v-if="selectionMode && selection"
+         v-if="selectionMode || selection"
          :selectionMode="selectionMode"
          class="custom_table__column custom_table__column--header"
+         style="max-width: 4rem !important; width: 4rem !important"
       />
       <Column
          v-if="$slots.expansion && (frozenValue?.length || tableValue?.length)"
