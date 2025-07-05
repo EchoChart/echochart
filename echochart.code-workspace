@@ -18,6 +18,5 @@
         "app/": true,
         "supabase/": true
       },
-      "deno.enable": false
     }
   }
