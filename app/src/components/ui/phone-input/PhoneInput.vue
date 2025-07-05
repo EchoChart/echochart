@@ -114,7 +114,7 @@ const modelValue = defineModel('modelValue', {
 <style lang="scss">
 .phone_input {
    &__select {
-      @apply max-h-none !h-full !rounded-[inherit] -mr-[1px];
+      @apply max-h-none !h-full !rounded-[inherit] -me-[1px];
    }
 
    &__selected-value,
