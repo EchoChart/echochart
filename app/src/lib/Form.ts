@@ -7,11 +7,11 @@ import { Errors, Rules } from 'validatorjs';
 import ValidatorErrors from 'validatorjs/src/errors';
 import Collection from './Collection';
 
-export class Form<T = any> extends Collection<T> {
+export class Form<T extends object = any> extends Collection<T> {
    _rules = reactive({});
    _errors = reactive<Errors>(new ValidatorErrors());
-   _isValid = true;
-   _autoValidate = ref([]);
+   _isValid = ref(false) as unknown as boolean;
+   _autoValidate = ref(false);
    _useDialogForm = ref(false);
    _customAttributeNames = reactive<{ [key: PropertyName]: '' }>({});
 
@@ -20,8 +20,11 @@ export class Form<T = any> extends Collection<T> {
          (this._defaults as unknown as Ref<Partial<T & object>>).value,
          (this._data as Ref<T & object>).value
       )
+   ) as unknown as Partial<T>;
+
+   readonly _isChanged = computed(
+      () => _size((this._changedData as unknown as ComputedRef<T>).value) > 0
    );
-   readonly _isChanged = computed(() => _size(this._changedData.value) > 0);
    readonly _detailedChagedData = computed(() =>
       detailedDiff(
          (this._defaults as unknown as Ref<Partial<T & object>>).value,
@@ -37,36 +40,33 @@ export class Form<T = any> extends Collection<T> {
    }: {
       data?: T;
       rules?: Rules;
-      autoValidate?: string[];
+      autoValidate?: Array<keyof T> | boolean;
       useDialogForm?: boolean;
-   }) {
+   } = {}) {
       super(data);
 
       _set(this, '_autoValidate', autoValidate);
       _set(this, '_useDialogForm', useDialogForm);
 
-      this._setRules(rules).#_initWatcher();
+      this._setRules(rules);
 
-      if (this._useDialogForm) this.#_initDialogForm();
+      if (this._useDialogForm) this._initDialogForm();
 
       return this;
    }
 
-   #_initWatcher() {
+   _initWatcher() {
       watch(
          () => [this._autoValidate, this._data, this._rules],
          ([validateAttributes, changedData, changedRules]) => {
             if (validateAttributes === true) {
-               this._isValid = this._validate(
-                  updatedDiff(changedData as object, changedRules as object)
-               );
+               this._validate(_keys(updatedDiff(changedData, changedRules)) as (keyof T)[]);
                return;
             }
 
             if (_isArray(validateAttributes) && _size(validateAttributes) > 0) {
-               const data = _pick(changedData, validateAttributes);
                const rules = _pick(changedRules, validateAttributes) as Rules;
-               this._isValid = this._validate(data, rules);
+               this._validate(null, rules);
             }
          },
          { deep: true }
@@ -74,7 +74,7 @@ export class Form<T = any> extends Collection<T> {
       return this;
    }
 
-   #_initDialogForm() {
+   private _initDialogForm() {
       const dialogRef = inject<any>('dialogRef', false);
 
       if (dialogRef) {
@@ -91,14 +91,14 @@ export class Form<T = any> extends Collection<T> {
       return this;
    }
 
-   _validate(keys: Partial<T> | null = null, rules: Rules = this._rules): boolean {
+   _validate(keys: Array<keyof T> | null = null, rules: Rules = this._rules): boolean {
       Validator.useLang(locale.value);
 
       let values: Partial<T> = this._data;
 
       if (_isArray(keys)) {
-         rules = _pick(rules, keys);
          values = _pick(this._data, keys);
+         rules = _pick(rules, keys);
       }
       const validation = new Validator(values, rules);
 
@@ -109,6 +109,7 @@ export class Form<T = any> extends Collection<T> {
       const passed = validation.passes();
 
       _assign(this._errors, validation.errors);
+
       this._isValid = passed;
 
       return this._isValid;
@@ -131,8 +132,10 @@ export class Form<T = any> extends Collection<T> {
       _assign(this._customAttributeNames, names);
    }
 
-   static create<T>(...args: any[]) {
-      const proxy = super.create<T>(...args) as Form<T> & Form<T>['_data'];
-      return proxy;
+   static create<T extends object = any>(...args: ConstructorParameters<typeof Form<T>>) {
+      const proxy = super.create<T>(
+         ...(args as unknown as ConstructorParameters<typeof Collection<T>>)
+      ) as Form<T> & Form<T>['_data'];
+      return proxy._initWatcher();
    }
 }
