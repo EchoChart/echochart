@@ -10,13 +10,6 @@ const attrs = useAttrs();
 const router = useRouter();
 const { t } = useI18n();
 
-// console.log(
-//    await supabase.functions.invoke(`users/b89581f9-5ddf-414d-b768-143dcfaa6f5d`, {
-//       body: { user_metadata: { display_name: 'akifff' } },
-//       method: 'PUT'
-//    })
-// );
-
 // Define the columns
 /**@type {ComputedRef<ResourceTableProps['columns']>} */
 const columns = computed(() => [
