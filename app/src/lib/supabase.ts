@@ -1,23 +1,25 @@
+/// <reference types="vite/client" />
+
 // app/src/lib/supabase.ts
 
 import { CustomTableMetaEvent } from '@/components/ui/custom-table/CustomTable.vue';
 import { app } from '@/main';
-import { clientPersister, queryClient } from '@/plugins/tanstack-query';
+import { queryClient } from '@plugins/tanstack-query';
 import { FilterOperatorOptions } from '@primevue/core';
 import { createClient, SupabaseClientOptions } from '@supabase/supabase-js';
 import axios, { AxiosHeaders } from 'axios';
 
 // Define types
 type FilterMode = {
-   [key: string]: (value: any, field: string) => string | null;
+   [key: string]: (value: string | null, field: string) => string | null;
 };
 
 type FilterConfig = {
    operator: FilterOperatorOptions['AND'] | FilterOperatorOptions['OR'];
    dataType?: string;
    matchMode: string;
-   value: any;
-   constraints?: Array<{ matchMode: string; value: any }>;
+   value: string | number;
+   constraints?: Array<{ matchMode: string; value: string | number }>;
 };
 
 type Filters = Record<string, FilterConfig>;
@@ -38,7 +40,8 @@ const FilterModes: FilterModes = {
       [FilterMatchMode.ENDS_WITH]: (value, field) => `${field}.ilike.*${value}`,
       [FilterMatchMode.EQUALS]: (value, field) => `${field}.eq.${value}`,
       [FilterMatchMode.NOT_EQUALS]: (value, field) => `${field}.neq.${value}`,
-      [FilterMatchMode.IN]: (value, field) => `${field}.in.(${value.join(',')})`,
+      [FilterMatchMode.IN]: (value, field) =>
+         `${field}.in.(${(value as unknown as Array<unknown>).join(',')})`,
       [FilterMatchMode.LESS_THAN]: (value, field) => `${field}.lt.${value}`,
       [FilterMatchMode.LESS_THAN_OR_EQUAL_TO]: (value, field) => `${field}.lte.${value}`,
       [FilterMatchMode.GREATER_THAN]: (value, field) => `${field}.gt.${value}`,
@@ -68,7 +71,8 @@ const FilterModes: FilterModes = {
       [FilterMatchMode.ENDS_WITH]: (value, field) => `${field}=ilike.*${value}`,
       [FilterMatchMode.EQUALS]: (value, field) => `${field}=eq.${value}`,
       [FilterMatchMode.NOT_EQUALS]: (value, field) => `${field}=neq.${value}`,
-      [FilterMatchMode.IN]: (value, field) => `${field}=in.(${value.join(',')})`,
+      [FilterMatchMode.IN]: (value, field) =>
+         `${field}=in.(${(value as unknown as Array<unknown>).join(',')})`,
       [FilterMatchMode.LESS_THAN]: (value, field) => `${field}=lt.${value}`,
       [FilterMatchMode.LESS_THAN_OR_EQUAL_TO]: (value, field) => `${field}=lte.${value}`,
       [FilterMatchMode.GREATER_THAN]: (value, field) => `${field}=gt.${value}`,
@@ -93,7 +97,7 @@ const FilterModes: FilterModes = {
 const getFilterQuery = (filters: Filters): string => {
    // Check if the filters object is nil or has no properties
    if (_isNil(filters) || _size(filters) <= 0) return '';
-   const reducerFn = (filters: Filters): Array<any> => {
+   const reducerFn = (filters: Filters): Array<unknown> => {
       function getFilterParts({
          field,
          dataType = 'text',
@@ -105,7 +109,7 @@ const getFilterQuery = (filters: Filters): string => {
          dataType?: string;
          operator: FilterOperatorOptions['AND'] | FilterOperatorOptions['OR'];
          matchMode: string;
-         value: any;
+         value: string | number;
       }): string | null {
          // Get the filter mode based on operator and matchMode
          const filterMode = FilterModes[operator][matchMode];
@@ -126,17 +130,17 @@ const getFilterQuery = (filters: Filters): string => {
          }
          // Convert decimal values to floats and check for NaN
          if (dataType === 'decimal') {
-            value = parseFloat(value);
+            value = parseFloat(String(value));
             if (_isNaN(value)) return null;
          }
          // Check for invalid date formats
-         if (dataType === 'date' && _isNaN(Date.parse(value))) return null;
+         if (dataType === 'date' && _isNaN(Date.parse(String(value)))) return null;
 
          // Return null if the value is an empty array or string
          if ((_isArrayLikeObject(value) || _isString(value)) && _isEmpty(value)) return null;
 
          // Get the filter parts using the filter mode function
-         let filterParts = filterMode(value, field);
+         const filterParts = filterMode(value as string, field);
 
          // Return null if filter parts are invalid
          if (!filterParts || filterParts.includes(null)) {
@@ -148,7 +152,7 @@ const getFilterQuery = (filters: Filters): string => {
 
       // Process each key-value pair in the filters object
       return _toPairs(filters).reduce(
-         (acc: Array<any>, [field, { operator, dataType, matchMode, value, constraints }]) => {
+         (acc: Array<unknown>, [field, { operator, dataType, matchMode, value, constraints }]) => {
             // Replace commas with dots in string values
             if (!_isNil(value) && _isEmpty(value)) return acc;
 
@@ -206,7 +210,7 @@ const getFilterQuery = (filters: Filters): string => {
 
    // Process global filter if it exists
    if (filters.global) {
-      const { value, matchMode, constraints } = filters.global;
+      const { value, matchMode } = filters.global;
 
       // Remove the global filter from the main filters object
       delete filters.global;
@@ -214,7 +218,6 @@ const getFilterQuery = (filters: Filters): string => {
       // If the global filter has a non-nil and non-empty value, process it
       if (!_isNil(value) && !_isEmpty(value))
          _toPairs(filters).forEach(([field, { dataType }]) => {
-            const isNested = field?.split?.(/\.|->>/).length !== 1;
             const isJson = field.includes('->');
 
             let mode = matchMode;
@@ -335,6 +338,7 @@ const customFetch = async (
 
    if (currentTenant?.display_name) {
       options?.headers?.set?.('x-tenant', currentTenant?.display_name);
+      options?.headers?.set?.('x-tenant-id', currentTenant?.id);
    }
 
    if (
@@ -345,7 +349,7 @@ const customFetch = async (
       !_includes(url as string, 'rpc/')
    ) {
       _merge(body, { tenant_id: currentTenant?.id });
-      options.body = JSON.stringify(body) as any;
+      options.body = JSON.stringify(body) as BodyInit & ReadableStream<Uint8Array<ArrayBufferLike>>;
    }
 
    const queryFn = () =>
@@ -363,18 +367,16 @@ const customFetch = async (
       _includes(['POST', 'PATCH', 'DELETE', 'PUT'], method) && _startsWith(pathname, '/rest');
    const isDataFetcing = _includes(['GET', 'HEAD'], method) && _startsWith(pathname, '/rest');
    const queryFilters = _fromPairs(searchParams.entries().toArray());
-   const queryKey = [pathname, queryFilters, body];
-   const staleTime = isDataFetcing ? 1000 * 20 : 1000;
-   const gcTime = isDataFetcing ? 1000 * 60 * 60 * 24 : 1000;
-   const persister = !_isNil(window) && isDataFetcing ? clientPersister.persisterFn : undefined;
+   const queryKey = [pathname, { ...queryFilters, tenantID: currentTenant?.id }, body];
+   const staleTime = isDataFetcing ? 1000 * 30 : 200;
+   const gcTime = isDataFetcing ? 1000 * 60 * 60 * 24 : 200;
 
    const promise = queryClient
       .fetchQuery({
          queryKey,
          queryFn,
-         persister,
          gcTime,
-         staleTime
+         staleTime: staleTime
       })
       .then(async (response) => ({
          ...response,
@@ -396,21 +398,21 @@ const customFetch = async (
          if (!isDataUpdating) return;
          await queryClient.invalidateQueries({
             predicate: (query) => {
-               const [sourcePath, sourceFilters, sourceBody] = queryKey as any;
-               const targetBody = (query?.state?.data as any)?.data;
+               const [, sourceFilters, sourceBody] = queryKey;
+               const targetBody = (query?.state?.data as { data?: unknown })?.data;
 
                _toPairs(sourceFilters).forEach(([key, value]) => {
                   key = _toLower(key);
                   if (!_endsWith(key, 'id')) return;
                   if (_has(sourceBody, key)) return;
 
-                  const filter = _replace(value as any, /.+\./, '');
+                  const filter = _replace(value as string, /.+\./, '');
                   _set(sourceBody, key, filter);
                });
 
                const compareIdsDeep = (
-                  source: any,
-                  target: any,
+                  source: unknown,
+                  target: unknown,
                   sourceKey?: string,
                   targetKey?: string
                ): boolean => {
@@ -451,7 +453,7 @@ const supabaseOptions: SupabaseClientOptions<'public'> = {
    }
 };
 
-const env = (import.meta as any).env;
+const env = import.meta.env;
 
 export const supabase = createClient<Db>(
    env.VITE_SUPABASE_PROJECT_URL,
