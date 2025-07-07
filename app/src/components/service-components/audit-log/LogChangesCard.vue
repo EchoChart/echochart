@@ -125,7 +125,7 @@ if (props.id) {
 </script>
 
 <template>
-   <Panel class="audit_card__panel" :header="$t(log?.table_name || '')">
+   <Panel class="audit_card__panel" :header="$t('fields.' + log?.table_name || '')">
       <template #icons>
          <Tag v-bind="getLogTagProps(log?._data)" />
       </template>
