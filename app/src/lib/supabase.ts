@@ -4,6 +4,7 @@
 
 import { CustomTableMetaEvent } from '@/components/ui/custom-table/CustomTable.vue';
 import { app } from '@/main';
+import { isValidDate, localeDateString, parseDayjs } from '@lib/dayjs';
 import { queryClient } from '@plugins/tanstack-query';
 import { FilterOperatorOptions } from '@primevue/core';
 import { createClient, SupabaseClientOptions } from '@supabase/supabase-js';
@@ -49,17 +50,21 @@ const FilterModes: FilterModes = {
       [FilterMatchMode.BETWEEN]: (value, field) =>
          value.length === 2 ? `and(${field}.gte.${value[0]},${field}.lte.${value[1]})` : null,
       [FilterMatchMode.DATE_IS]: (value, field) => {
-         const date = useDateFormat(Date.parse(value), 'YYYY-MM-DD').value;
-         return `and(${field}.gte.${date}T00:00:00.000,${field}.lte.${date}T23:59:59.999)`;
+         const date = parseDayjs({ value });
+         const start = date.format('YYYY-MM-DDTHH:mm:ss');
+         const end = date.add(1, 'day').format('YYYY-MM-DDTHH:mm:ss');
+         return `and(${field}.gte.${start},${field}.lte.${end})`;
       },
       [FilterMatchMode.DATE_IS_NOT]: (value, field) => {
-         const date = useDateFormat(Date.parse(value), 'YYYY-MM-DD').value;
-         return `and(${field}.lte.${date}T00:00:00.000,${field}.gt.${date}T23:59:59.999)`;
+         const date = parseDayjs({ value });
+         const start = date.format('YYYY-MM-DDTHH:mm:ss');
+         const end = date.add(1, 'day').format('YYYY-MM-DDTHH:mm:ss');
+         return `${field}.lt.${start},${field}.gt.${end}`;
       },
       [FilterMatchMode.DATE_BEFORE]: (value, field) =>
-         `${field}.lt.${useDateFormat(Date.parse(value), 'YYYY-MM-DD').value}`,
+         `${field}.lt.${localeDateString({ value, returnFormat: 'YYYY-MM-DDTHH:mm:ss' })}`,
       [FilterMatchMode.DATE_AFTER]: (value, field) =>
-         `${field}.gt.${useDateFormat(Date.parse(value), 'YYYY-MM-DD').value}`
+         `${field}.gt.${localeDateString({ value, returnFormat: 'YYYY-MM-DDTHH:mm:ss' })}`
    },
    [FilterOperator.AND]: {
       ['websearch']: (value, field) => `${field}=wfts.${value}`,
@@ -80,17 +85,21 @@ const FilterModes: FilterModes = {
       [FilterMatchMode.BETWEEN]: (value, field) =>
          value.length === 2 ? `${field}=gte.${value[0]}&${field}=lte.${value[1]}` : null,
       [FilterMatchMode.DATE_IS]: (value, field) => {
-         const date = useDateFormat(Date.parse(value), 'YYYY-MM-DD').value;
-         return `${field}=gte.${date}T00:00:00.000&${field}=lte.${date}T23:59:59.999`;
+         const date = parseDayjs({ value });
+         const start = date.format('YYYY-MM-DDTHH:mm:ss');
+         const end = date.add(1, 'day').format('YYYY-MM-DDTHH:mm:ss');
+         return `${field}=gte.${start}&${field}=lte.${end}`;
       },
       [FilterMatchMode.DATE_IS_NOT]: (value, field) => {
-         const date = useDateFormat(Date.parse(value), 'YYYY-MM-DD').value;
-         return `${field}=lte.${date}T00:00:00.000&${field}=gt.${date}T23:59:59.999`;
+         const date = parseDayjs({ value });
+         const start = date.format('YYYY-MM-DDTHH:mm:ss');
+         const end = date.add(1, 'day').format('YYYY-MM-DDTHH:mm:ss');
+         return `or=(${field}.lt.${start},${field}.gt.${end})`;
       },
       [FilterMatchMode.DATE_BEFORE]: (value, field) =>
-         `${field}=lt.${useDateFormat(Date.parse(value), 'YYYY-MM-DD').value}`,
+         `${field}=lt.${localeDateString({ value, returnFormat: 'YYYY-MM-DDTHH:mm:ss' })}`,
       [FilterMatchMode.DATE_AFTER]: (value, field) =>
-         `${field}=gt.${useDateFormat(Date.parse(value), 'YYYY-MM-DD').value}`
+         `${field}=gt.${localeDateString({ value, returnFormat: 'YYYY-MM-DDTHH:mm:ss' })}`
    }
 };
 
@@ -134,7 +143,7 @@ const getFilterQuery = (filters: Filters): string => {
             if (_isNaN(value)) return null;
          }
          // Check for invalid date formats
-         if (dataType === 'date' && _isNaN(Date.parse(String(value)))) return null;
+         if (dataType === 'date' && !isValidDate({ value })) return null;
 
          // Return null if the value is an empty array or string
          if ((_isArrayLikeObject(value) || _isString(value)) && _isEmpty(value)) return null;
@@ -178,7 +187,7 @@ const getFilterQuery = (filters: Filters): string => {
             if (constraints?.length) {
                constraints?.forEach(({ matchMode, value }) => {
                   if (_isString(value)) {
-                     value = value.replace(/#/g, '');
+                     value = value.replace(/[#,]/g, '');
                   }
                   const filterParts = getFilterParts({
                      field,
@@ -218,8 +227,9 @@ const getFilterQuery = (filters: Filters): string => {
       // If the global filter has a non-nil and non-empty value, process it
       if (!_isNil(value) && !_isEmpty(value))
          _toPairs(filters).forEach(([field, { dataType }]) => {
-            const isJson = field.includes('->');
+            if (field.match(/\./g)?.length > 0) return;
 
+            const isJson = field.includes('->');
             let mode = matchMode;
 
             // Adjust the match mode for numeric and decimal data types
