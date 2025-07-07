@@ -1,75 +1,80 @@
 <script setup>
 import {
-   AsYouType,
    getCountries,
    getCountryCallingCode,
-   isSupportedCountry
+   isSupportedCountry,
+   parsePhoneNumberWithError
 } from 'libphonenumber-js';
 import { InputText } from 'primevue';
 
-defineOptions({
-   inheritAttrs: false
-});
+defineOptions({ inheritAttrs: false });
 
 defineProps({
    ...InputText.props,
-   readonly: {
-      type: Boolean,
-      default: false
-   },
-   loading: {
-      type: Boolean,
-      default: false
-   },
-   invalid: {
-      type: Boolean,
-      default: false
+   readonly: Boolean,
+   loading: Boolean,
+   invalid: Boolean
+});
+
+const modelValue = defineModel('modelValue', {
+   get: (value) => value || '',
+   set: (value) => value || ''
+});
+
+const parsedPhone = computed(() => {
+   try {
+      const value =
+         modelValue.value && !_startsWith(modelValue.value, '+')
+            ? '+' + modelValue.value
+            : modelValue.value;
+      return parsePhoneNumberWithError(value);
+   } catch {
+      return null;
    }
 });
 
 const countryPhoneCodes = computed(() =>
    getCountries()
-      .flatMap((countryCode) => ({
+      .map((countryCode) => ({
          countryCode,
-         countryCallingCode: _toNumber(getCountryCallingCode(countryCode))
+         countryCallingCode: Number(getCountryCallingCode(countryCode))
       }))
-      .filter((countryPhone) => isSupportedCountry(countryPhone?.countryCode))
-      .toSorted((a, b) => a?.countryCallingCode - b?.countryCallingCode)
+      .filter((c) => isSupportedCountry(c.countryCode))
+      .toSorted((a, b) => a.countryCallingCode - b.countryCallingCode)
 );
 
-const selectedCountry = computed({
-   get: () => {
-      return {
-         countryCode: modelValue.value?.getCountry?.(),
-         countryCallingCode: modelValue.value?.getCallingCode?.()
+const selectedCountry = ref(null);
+
+watchEffect(() => {
+   if (parsedPhone.value) {
+      selectedCountry.value = {
+         countryCode: parsedPhone.value.country,
+         countryCallingCode: parsedPhone.value.countryCallingCode
       };
-   },
-   set: (value) => {
-      if (isSupportedCountry(value?.countryCode)) {
-         const instance = new AsYouType({
-            defaultCountry: value.countryCode,
-            defaultCallingCode: value.countryCallingCode
-         });
-         const nationalNumber = modelValue.value.getNationalNumber();
-         const phoneNumber = '+' + value.countryCallingCode + nationalNumber;
-
-         instance.input(phoneNumber);
-
-         modelValue.value = instance.getNumberValue();
-      }
+      return;
    }
+
+   selectedCountry.value = {
+      countryCode: null,
+      countryCallingCode: null
+   };
 });
 
-const modelValue = defineModel('modelValue', {
-   get: (value) => {
-      const inputValue = new AsYouType();
-      inputValue.input(value || '');
-      return inputValue;
-   },
-   set: (value) => {
-      return value || null;
+function onCountryChange(value) {
+   if (!value) return;
+   const national = parsedPhone.value.nationalNumber || '';
+   modelValue.value = `${value.countryCallingCode}${national}`;
+}
+
+function onInputChange(val) {
+   const national = val?.replace(/\D/g, '') || '';
+   const callingCode = selectedCountry.value?.countryCallingCode;
+   if (callingCode) {
+      modelValue.value = `${callingCode}${national}`;
+   } else {
+      modelValue.value = `${national}`;
    }
-});
+}
 </script>
 
 <template>
@@ -78,34 +83,38 @@ const modelValue = defineModel('modelValue', {
          <Select
             v-model="selectedCountry"
             :options="countryPhoneCodes"
+            option-label="countryCode"
             filter
             :filter-fields="['countryCode', 'countryCallingCode']"
             class="phone_input__select"
             :disabled="readonly"
             :loading="loading"
             :invalid="invalid"
+            @update:model-value="onCountryChange"
          >
             <template #value="{ value }">
                <span class="phone_input__selected-value">
-                  {{ [value?.countryCode, value?.countryCallingCode].filter(Boolean).join` | ` }}
+                  {{ [value?.countryCode, value?.countryCallingCode].filter(Boolean).join(' | ') }}
                </span>
             </template>
             <template #option="{ option }">
                <span class="phone_input__option">
-                  {{ [option?.countryCode, option?.countryCallingCode].filter(Boolean).join` | ` }}
+                  {{
+                     [option?.countryCode, option?.countryCallingCode].filter(Boolean).join(' | ')
+                  }}
                </span>
             </template>
          </Select>
       </InputGroupAddon>
       <InputMask
-         v-bind="_omit({ ...$attrs, ...$props }, ['class'])"
+         v-bind="_omit({ ...$attrs, ...$props }, ['class', 'modelValue'])"
          class="phone_input__text"
-         :model-value="modelValue.getNationalNumber()"
-         @value-change="modelValue = '+' + selectedCountry.countryCallingCode + $event"
+         :model-value="parsedPhone?.nationalNumber"
+         @value-change="onInputChange"
          mask="(9?99) 999-9999"
          unmask
          :readonly="readonly"
-         :loading="loading"
+         :disabled="readonly"
          :invalid="invalid"
       />
    </InputGroup>
