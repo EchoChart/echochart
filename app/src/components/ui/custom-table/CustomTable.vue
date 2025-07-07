@@ -66,6 +66,7 @@ const props = withDefaults(defineProps<CustomTableProps<T>>(), {
    showGridlines: true,
    translateValue: true
 });
+
 const emit = defineEmits<CustomTableEmitOptions<T>>();
 const router = useRouter();
 const route = useRoute();
@@ -81,17 +82,14 @@ const filterInput = computed({
    set: (values) => {
       _toPairs(values).forEach(([field, filter]) => {
          if (!_has(meta.value.filters, field)) return;
-
          _merge(meta.value.filters[field], {
             ..._get(values as object, field),
             ..._pick(props.filters[field], ['dataType'])
          });
-
          if (meta.value.filters[field]?.constraints && _isArray(filter.constraints)) {
             _set(meta.value.filters[field], 'constraints', filter.constraints);
          }
       });
-
       emit('update:filters', meta.value.filters);
    }
 });
@@ -144,13 +142,7 @@ function useTableMeta({ useMeta, columns, filters, stateKey, rows }: UseTableMet
       if (stateStorage === 'local') {
          const metaData = {
             ...routeMeta.value,
-            [metaStateKey]: _pick(meta.value, [
-               'filters',
-               'first',
-               'rows',
-               'multiSortMeta',
-               'expandedRows'
-            ])
+            [metaStateKey]: _pick(meta.value, ['filters', 'first', 'rows', 'multiSortMeta'])
          };
          const json = JSON.stringify(metaData);
          const compressedMeta = compressToEncodedURIComponent(json);
@@ -351,13 +343,9 @@ const tableValue = computed(() => {
             </slot>
          </template>
          <template #body="body" v-if="!column.expander && column?.field.toString()">
-            <slot :name="`${_snakeCase(body?.field?.toString())}_body`" v-bind="body">
-               <Skeleton
-                  v-if="loading && !_has(body?.data, body?.field?.toString())"
-                  :height="'2rem'"
-               />
+            <Skeleton v-if="loading" :height="'2rem'" />
+            <slot v-else :name="`${_snakeCase(body?.field?.toString())}_body`" v-bind="body">
                <div
-                  v-else
                   class="custom_table__cell"
                   :title="getFieldValue(body)"
                   v-text="getFieldValue(body)"
