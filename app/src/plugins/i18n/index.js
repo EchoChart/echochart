@@ -1,11 +1,34 @@
 import { useNavigatorLanguage } from '@vueuse/core';
+import dayjs from 'dayjs';
 import { computed, watch } from 'vue';
 import { createI18n } from 'vue-i18n';
+
+export const dayjsLocales = {
+   en: () => import('dayjs/locale/en'),
+   tr: () => import('dayjs/locale/tr'),
+   fr: () => import('dayjs/locale/fr'),
+   de: () => import('dayjs/locale/de'),
+   pl: () => import('dayjs/locale/pl'),
+   ru: () => import('dayjs/locale/ru'),
+   zh: () => import('dayjs/locale/zh'),
+   ja: () => import('dayjs/locale/ja'),
+   ko: () => import('dayjs/locale/ko')
+};
 
 const { language: navigatorLanguage } = useNavigatorLanguage();
 
 export async function loadLocaleMessages(locale, i18n = i18NPlugin.global) {
    try {
+      // Dynamically load dayjs locale
+      const loadDayjsLocale = dayjsLocales[locale];
+      if (loadDayjsLocale) {
+         await loadDayjsLocale();
+         dayjs.locale(locale);
+      } else {
+         console.warn(`dayjs locale '${locale}' not found, falling back to 'en'`);
+         dayjs.locale('en');
+      }
+
       const messages = await import(`./locales/${locale}/index.json`);
 
       i18n.setLocaleMessage(locale, messages.default);
@@ -30,14 +53,14 @@ export const i18NPlugin = createI18n({
 });
 
 export const SUPPORTED_LOCALES = computed(() => [
-   { label: i18NPlugin.global.t('app_config.language.option.en'), value: 'en' },
    { label: i18NPlugin.global.t('app_config.language.option.tr'), value: 'tr' },
+   { label: i18NPlugin.global.t('app_config.language.option.en'), value: 'en' },
    { label: i18NPlugin.global.t('app_config.language.option.fr'), value: 'fr' },
    { label: i18NPlugin.global.t('app_config.language.option.de'), value: 'de' },
    { label: i18NPlugin.global.t('app_config.language.option.pl'), value: 'pl' },
    { label: i18NPlugin.global.t('app_config.language.option.ru'), value: 'ru' },
-   { label: i18NPlugin.global.t('app_config.language.option.cn'), value: 'cn' },
-   { label: i18NPlugin.global.t('app_config.language.option.jp'), value: 'jp' },
+   { label: i18NPlugin.global.t('app_config.language.option.zh'), value: 'zh' },
+   { label: i18NPlugin.global.t('app_config.language.option.ja'), value: 'ja' },
    { label: i18NPlugin.global.t('app_config.language.option.ko'), value: 'ko' }
 ]);
 
