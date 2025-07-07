@@ -52,7 +52,7 @@ const accountMenuItems = computed(() => {
                :model-value="currentTenant._data"
                @change="(e) => changeCurrentTenant(e.value)"
                optionLabel="display_name"
-               :options="branches._data"
+               :options="branches"
                class="account_popover__select"
             />
          </template>
@@ -128,7 +128,7 @@ const accountMenuItems = computed(() => {
          }
 
          &_label {
-            @apply ml-2;
+            @apply ms-2;
          }
       }
    }
@@ -138,7 +138,7 @@ const accountMenuItems = computed(() => {
    }
 
    &__submenu_icon {
-      @apply ml-auto;
+      @apply ms-auto;
    }
 }
 </style>
