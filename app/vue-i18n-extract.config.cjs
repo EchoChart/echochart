@@ -5,7 +5,7 @@ module.exports = {
    detect: ['missing', 'unused'],
    output: false,
    add: true,
-   remove: true,
+   remove: false,
    ci: false,
    separator: '.',
    noEmptyTranslation: ''
