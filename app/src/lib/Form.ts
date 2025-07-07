@@ -7,7 +7,7 @@ import { Errors, Rules } from 'validatorjs';
 import ValidatorErrors from 'validatorjs/src/errors';
 import Collection from './Collection';
 
-export class Form<T extends object = any> extends Collection<T> {
+export class Form<T = any> extends Collection<T> {
    _rules = reactive({});
    _errors = reactive<Errors>(new ValidatorErrors());
    _isValid = ref(false) as unknown as boolean;
@@ -23,7 +23,7 @@ export class Form<T extends object = any> extends Collection<T> {
    ) as unknown as Partial<T>;
 
    readonly _isChanged = computed(
-      () => _size((this._changedData as unknown as ComputedRef<T>).value) > 0
+      () => _size((this._changedData as unknown as ComputedRef<T & object>).value) > 0
    );
    readonly _detailedChagedData = computed(() =>
       detailedDiff(
@@ -132,7 +132,7 @@ export class Form<T extends object = any> extends Collection<T> {
       _assign(this._customAttributeNames, names);
    }
 
-   static create<T extends object = any>(...args: ConstructorParameters<typeof Form<T>>) {
+   static create<T = any>(...args: ConstructorParameters<typeof Form<T>>) {
       const proxy = super.create<T>(
          ...(args as unknown as ConstructorParameters<typeof Collection<T>>)
       ) as Form<T> & Form<T>['_data'];
