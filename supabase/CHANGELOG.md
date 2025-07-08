@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.11.0-alpha.1...echochart-supabase-v0.11.1-alpha.1) (2025-07-08)
+
+
+### Bug Fixes
+
+* update valid_stock_quantity domain to allow zero values ([5a0efba](https://github.com/EchoChart/echochart/commit/5a0efbafce6966da08ff6c3ae1d19851f4c9e8fb))
+
 ## [0.11.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.10.0-alpha.1...echochart-supabase-v0.11.0-alpha.1) (2025-05-22)
 
 

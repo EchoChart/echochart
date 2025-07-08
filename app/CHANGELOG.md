@@ -1,5 +1,45 @@
 # Changelog
 
+## [1.0.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.17.1-alpha.1...echochart-app-v1.0.0-alpha.1) (2025-07-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* js to ts big refactor
+
+### Features
+
+* add innerMoldModels and update moldSpeakerPowers for clarity ([f36cb46](https://github.com/EchoChart/echochart/commit/f36cb46075a929b61628d1b80f936957ee050dc0))
+* add PrintElementButton component for printing elements with dark mode support ([6cd26f9](https://github.com/EchoChart/echochart/commit/6cd26f9dcfa7a0760110fdfd60ac5c325cc2b312))
+* **dayjs:** Introduce date parsing and validation utilities ([fb11505](https://github.com/EchoChart/echochart/commit/fb1150592c687b6cc7216a7ea9dff3319ed8c26e))
+* define ResourceTableProps type and update props in ResourceTable component ([b3987bf](https://github.com/EchoChart/echochart/commit/b3987bffc0313f0f5f9bdac4426f5864b59994d5))
+* implement error tooltip component styles and integrate with ErrorBadge and FormField ([cf66188](https://github.com/EchoChart/echochart/commit/cf66188a80e1ca1d044ee6d3efbb6d45404a1c07))
+* Refactor Record and Stock forms to improve type safety and localization ([15b6ece](https://github.com/EchoChart/echochart/commit/15b6ece0e7303da5c0a0ca549ed781476dffd8be))
+
+
+### Bug Fixes
+
+* **account-popover:** adjust spacing and options in account popover component ([461bbc6](https://github.com/EchoChart/echochart/commit/461bbc6691d0472cfc6df3f9d12d630959655c86))
+* add JSDoc type annotation for fields in Index.vue ([be7d9b9](https://github.com/EchoChart/echochart/commit/be7d9b9da880794038ce6afe8fb89a72d08f6296))
+* add JSDoc types for columns and filters in various Index.vue files ([fd229b7](https://github.com/EchoChart/echochart/commit/fd229b74a07c3da9835f7224571114101f1a94a4))
+* add JSDoc types for fields in Upsert components ([29fbd35](https://github.com/EchoChart/echochart/commit/29fbd354473cf06bc1013a013f10453a2ebd172c))
+* adjust styling for actions bar and button container in FormBox component ([18a979b](https://github.com/EchoChart/echochart/commit/18a979bc2669e12df7adf556a6f473ec94054fb5))
+* correct import path for ResourceDataView component ([8c1b9a9](https://github.com/EchoChart/echochart/commit/8c1b9a9a4c00c07afe4c345848e65981a88cbe2c))
+* correct margin utility for phone input select component ([44f3b99](https://github.com/EchoChart/echochart/commit/44f3b99fc725a5212106c9c82320d5d1ee0c55ee))
+* improve delete confirmation dialog by ensuring headers are cleared properly ([c44e3c4](https://github.com/EchoChart/echochart/commit/c44e3c4717b9091cc20d5d395817e17bd12210ae))
+* optimize event listener management in PrintElementButton component ([8143dc9](https://github.com/EchoChart/echochart/commit/8143dc905d0f28e179d3b0117e7b66cc2ae7689b))
+* pass 'id' prop to Upsert component and simplify slot usage in form field ([af6908a](https://github.com/EchoChart/echochart/commit/af6908ae65da2fc50a4c42bf539d54558d7ef8be))
+* remove '_id' from attribute formatting in formAttributeFormatter ([4a3419c](https://github.com/EchoChart/echochart/commit/4a3419c338f2bde9779902240ea43069887850f9))
+* return value from toggleDarkMode function to ensure proper view transition handling ([12fb1fc](https://github.com/EchoChart/echochart/commit/12fb1fc7572919eca55d10f5113ab0d99229c9a1))
+* toggle remove unused translations functionality ([2b33e46](https://github.com/EchoChart/echochart/commit/2b33e46b5223fc58be0871d762ed93a8f5ae8457))
+* update initial form data and financial calculations for stock management ([18c8a53](https://github.com/EchoChart/echochart/commit/18c8a5320fb2c17381c65d9f7a694977c77d956e))
+* update JSDoc types for validation rules in Form class ([7b919a3](https://github.com/EchoChart/echochart/commit/7b919a340b7545aed9213b18720a648a23aec56c))
+
+
+### Code Refactoring
+
+* js to ts big refactor ([abc5f22](https://github.com/EchoChart/echochart/commit/abc5f22f3aefe2edc4292c5049d1b686bb8462c9))
+
 ## [0.17.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.17.0-alpha.1...echochart-app-v0.17.1-alpha.1) (2025-05-22)
 
 
