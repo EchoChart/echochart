@@ -1,5 +1,6 @@
 // app/src/store/auth/index.ts
 
+import { BaseModel } from '@/services/models/BaseModel';
 import { MongoAbility } from '@casl/ability';
 import { ABILITY_TOKEN } from '@casl/vue';
 import Collection from '@lib/Collection';
@@ -19,7 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
    const { t } = useI18n();
 
    const session = Collection.create<Session>();
-   const user = Collection.create<User>();
+   const user = BaseModel.create<Session['user']>();
 
    const jwt = computed(() => {
       return session?.access_token ? jwtDecode<JwtPayload>(session?.access_token) : null;
