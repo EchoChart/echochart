@@ -66,7 +66,7 @@ const save = async () => {
       >
          <PhoneInput
             v-bind="slotProps"
-            :model-value="'+' + form['phone']"
+            :model-value="form['phone']"
             @update:model-value="form['phone'] = $event"
          />
       </FormField>
