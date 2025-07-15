@@ -17,7 +17,7 @@ const persisterOptions: StoragePersisterOptions = {
    },
    filters: {
       predicate(query) {
-         return !query.isStale();
+         return !query.isStale() && query.gcTime > 1000;
       }
    },
    prefix: 'echochart'
