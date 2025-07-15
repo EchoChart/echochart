@@ -7,7 +7,7 @@ import Collection from '@/lib/Collection';
 import { DataTableStateEvent } from 'primevue';
 
 export declare type ResourceTableProps<T = any> = CustomTableProps<T> & {
-   from: (string & keyof Tables) | (string & keyof Views);
+   from: string & keyof Tables;
    select: string;
    count?: {
       head: boolean;
@@ -32,6 +32,7 @@ const props = withDefaults(defineProps<ResourceTableProps<T>>(), {
    showHeaders: true,
    useMeta: true,
    rows: 5,
+   lazy: true,
    dataKey: 'id' as keyof T,
    filterDisplay: 'menu',
    sortMode: 'multiple',
@@ -123,7 +124,6 @@ const tableProps = computed(() => _merge({}, _omit(props, ['stateKey']), attrs))
       :totalRecords
       :stateKey="props.stateKey || props.from"
       :loading="loading"
-      :lazy="true"
       :value="values._data"
       @meta="onMeta"
    >

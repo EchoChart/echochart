@@ -30,7 +30,7 @@
          "@composables/*": ["src/composables/*"],
          "@types": ["src/@types/*"]
       },
-      "allowSyntheticDefaultImports": false // Prevent synthetic default imports
+      "allowSyntheticDefaultImports": true // Prevent synthetic default imports
    },
    "include": [
       "src/**/*.*", // Include all files in the src directory

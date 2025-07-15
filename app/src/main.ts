@@ -25,8 +25,6 @@ import router from './router';
 
 export const app = createApp(App);
 
-// app.config.globalProperties.emitter = emitter;
-
 app.config.errorHandler = appErrorHandler;
 
 app.use(
