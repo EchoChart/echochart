@@ -34,11 +34,11 @@ export class BaseModel<T = any> extends Collection<T> {
       // Return Proxy with custom getter for date formatting
       return new Proxy(proxy, {
          get(target, key) {
-            const value = _get(target, key);
+            const value = _get(target, key, undefined);
 
             if (!value) return value;
 
-            if (_isString(value) && _endsWith(key.toString(), '_at')) {
+            if (_isString(value) && isValidDate({ value })) {
                if (target._dateProperties.get(key)) {
                   return localeDateString({ value: value, validate: false });
                }
