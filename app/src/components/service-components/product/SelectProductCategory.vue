@@ -1,6 +1,6 @@
 <script setup>
+import { PRODUCT_CATEGORY_PROPS } from '@/constants/form/product';
 import Collection from '@/lib/Collection';
-import { PRODUCT_CATEGORY_PROPS } from '@/services/models/ProductModel';
 
 const props = defineProps({
    select: {
