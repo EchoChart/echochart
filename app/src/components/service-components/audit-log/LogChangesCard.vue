@@ -17,6 +17,17 @@ const props = defineProps({
 });
 const { t, te } = useI18n();
 
+const auditItemRoutes = {
+   role_id: { name: 'branch-role-edit' },
+   role: { name: 'branch-role-edit' },
+   user_id: { name: 'branch-user-manage' },
+   user: { name: 'branch-user-manage' },
+   client_id: { name: 'client-manage' },
+   client: { name: 'client-manage' },
+   address_id: { name: 'address-edit' },
+   address: { name: 'address-edit' }
+};
+
 const getLogTagProps = (log) => {
    switch (_toLower(log?.operation)) {
       case 'update':
@@ -117,7 +128,7 @@ if (props.id) {
       .from('audit_log')
       .select('*')
       .or(`id.eq.${props.id},correlation_id.eq.${props.id}`)
-      .single()
+      .maybeSingle()
       .then((res) => {
          log._setDefaults(getChanges(res.data))._reset();
       });
@@ -125,7 +136,31 @@ if (props.id) {
 </script>
 
 <template>
-   <Panel class="audit_card__panel" :header="$t('fields.' + log?.table_name || '')">
+   <Panel class="audit_card__panel">
+      <template #header>
+         <div class="flex items-center gap-4">
+            <span v-text="$t('fields.' + log?.table_name || '')" />
+            <CustomLink
+               v-if="
+                  log.operation !== 'DELETE' && !!auditItemRoutes[log.table_name] && log.row_data.id
+               "
+               :to="{
+                  ...(auditItemRoutes[log.table_name] || auditItemRoutes[logentry.key]),
+                  params: { id: log.row_data?.id },
+                  query: { showDialog: 'center' }
+               }"
+               v-slot="{ navigate }"
+            >
+               <Button
+                  size="small"
+                  variant="outlined"
+                  severity="info"
+                  :icon="PrimeIcons.SEARCH"
+                  @click="navigate"
+               />
+            </CustomLink>
+         </div>
+      </template>
       <template #icons>
          <Tag v-bind="getLogTagProps(log?._data)" />
       </template>
@@ -144,6 +179,28 @@ if (props.id) {
                >
                   <pre v-text="_trim(formatValue(entry?.newValue))" />
                </Tag>
+               <CustomLink
+                  v-if="
+                     entry?.type !== 'delete' &&
+                     !!auditItemRoutes[entry.key] &&
+                     _endsWith(entry.key, '_id') &&
+                     entry?.newValue
+                  "
+                  :to="{
+                     ...auditItemRoutes[entry.key],
+                     params: { id: entry.newValue },
+                     query: { showDialog: 'center' }
+                  }"
+                  v-slot="{ navigate }"
+               >
+                  <Button
+                     size="small"
+                     variant="outlined"
+                     severity="info"
+                     :icon="PrimeIcons.SEARCH"
+                     @click="navigate"
+                  />
+               </CustomLink>
             </div>
          </div>
       </div>
@@ -166,7 +223,7 @@ if (props.id) {
    }
 
    &__value-container {
-      @apply flex items-center flex-wrap gap-2 text-sm;
+      @apply flex items-center flex-wrap gap-1 text-sm;
    }
 
    &__new-value {
