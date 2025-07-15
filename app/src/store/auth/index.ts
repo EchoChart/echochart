@@ -4,8 +4,10 @@ import { BaseModel } from '@/services/models/BaseModel';
 import { MongoAbility } from '@casl/ability';
 import { ABILITY_TOKEN } from '@casl/vue';
 import Collection from '@lib/Collection';
+import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 import { jwtDecode } from 'jwt-decode';
 import { defineStore } from 'pinia';
+import { ToastMessageOptions } from 'primevue';
 import { useToast } from 'primevue/usetoast';
 import { computed, inject, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -86,20 +88,28 @@ export const useAuthStore = defineStore('auth', () => {
    const { currentTenant, setCurrentTenant, changeCurrentTenant } = useCurrentTenant();
    const { ability } = useAbility();
 
-   async function handleAuthStateChange(event: string, newSession?: Session) {
-      const previousSignedIn = isSignedIn.value;
-
+   async function handleAuthStateChange(event: AuthChangeEvent, newSession?: Session) {
       session._reset(newSession);
       user._reset(newSession?.user);
 
-      if (['SIGNED_IN', 'SIGNED_OUT'].includes(event)) {
-         if (event === 'SIGNED_OUT' && !previousSignedIn) return;
+      const toastOptions: ToastMessageOptions = {
+         summary: '',
+         severity: 'success',
+         life: 3000
+      };
+      const previousSignedIn = isSignedIn.value;
 
-         const summary = event === 'SIGNED_IN' ? t('auth.toast.welcome') : t('auth.toast.goodby');
-         const severity = event === 'SIGNED_IN' ? ToastSeverity.SUCCESS : ToastSeverity.INFO;
-
-         toast.add({ summary, severity, life: 3000 });
-      }
+      setTimeout(() => {
+         if (event === 'SIGNED_IN') {
+            toastOptions.summary = t('auth.toast.welcome');
+            toastOptions.severity = ToastSeverity.SUCCESS;
+            toast.add(toastOptions);
+         } else if (event === 'SIGNED_OUT' && !previousSignedIn) {
+            toastOptions.summary = t('auth.toast.goodby');
+            toastOptions.severity = ToastSeverity.INFO;
+            toast.add(toastOptions);
+         }
+      }, 1000);
 
       return { event, newSession };
    }
@@ -165,15 +175,6 @@ export const useAuthStore = defineStore('auth', () => {
       initialized
    };
 });
-
-interface Session {
-   access_token: string;
-   user: User;
-}
-
-interface User {
-   id: string | null;
-}
 
 interface JwtPayload {
    app_metadata?: AppMetadata;
