@@ -17,14 +17,14 @@
     "language": {
       "select_language": "",
       "option": {
-        "en": "",
         "tr": "",
+        "en": "",
         "fr": "",
         "de": "",
         "pl": "",
         "ru": "",
-        "cn": "",
-        "jp": "",
+        "zh": "",
+        "ja": "",
         "ko": ""
       }
     },
@@ -41,9 +41,11 @@
   },
   "auth": {
     "branch": "",
-    "error": {
-      "insufficient_permission": ""
+    "welcome": {
+      "title": "",
+      "text": ""
     },
+    "please_dont_forget_to_update_your_password": "",
     "confirm": {
       "logout": {
         "question": "",
@@ -54,14 +56,35 @@
       "welcome": "",
       "goodby": ""
     },
-    "welcome": {
-      "title": "",
-      "text": ""
+    "forgot_password": {
+      "confirm": {
+        "header": ""
+      }
+    },
+    "otp": {
+      "forgot_password": {
+        "password_reset_email_sended_please_check_your_email": "",
+        "lets_get_your_account_back!💪": ""
+      },
+      "resend_code": {
+        "confirm": {
+          "title": ""
+        },
+        "toast": {
+          "code_sended": ""
+        },
+        "code_verified": ""
+      },
+      "invite_code": {
+        "so_you_are_invited!🎊": "",
+        "please_enter_the_code_in_email_to_login": ""
+      }
     },
     "login": {
       "welcome_back": "",
       "please_login_to_continue": "",
-      "forgot_password?": ""
+      "forgot_your_password?": "",
+      "do_you_have_invite_code?": ""
     },
     "logout": {
       "logged_out_successfully": ""
@@ -72,108 +95,6 @@
       "account_info": "",
       "company_info": ""
     }
-  },
-  "fields": {
-    "": "",
-    "device": "",
-    "battery": "",
-    "spare_part": "",
-    "service": "",
-    "trial": "",
-    "sale": "",
-    "assemble": "",
-    "repair": "",
-    "promotion": "",
-    "cash": "",
-    "credit_card": "",
-    "pending": "",
-    "pending_service": "",
-    "client holds service bid": "",
-    "client_approved_service_bid": "",
-    "client_rejected_service_bid": "",
-    "done": "",
-    "approved": "",
-    "rejected": "",
-    "pending_client": "",
-    "biopar": "",
-    "hard": "",
-    "micro": "",
-    "full": "",
-    "half": "",
-    "supported": "",
-    "prob": "",
-    "pcs": "",
-    "kg": "",
-    "gr": "",
-    "lbs": "",
-    "L": "",
-    "mL": "",
-    "m": "",
-    "m²": "",
-    "cm": "",
-    "in": "",
-    "password": "",
-    "password_confirmation": "",
-    "name": "",
-    "email": "",
-    "phone": "",
-    "country": "",
-    "city": "",
-    "district": "",
-    "details": "",
-    "remember_me": "",
-    "company": "",
-    "permission": "",
-    "client_id": "",
-    "nationality": "",
-    "national_id": "",
-    "birth_date": "",
-    "gender": "",
-    "behind_ear_molds": "",
-    "attributes": "",
-    "type": "",
-    "model": "",
-    "speaker_power": "",
-    "side": "",
-    "left": "",
-    "right": "",
-    "ventilation": "",
-    "speaker_size": "",
-    "inner_ear_molds": "",
-    "inner_ear_mold": "",
-    "has_bluetooth": "",
-    "has_button": "",
-    "record_type": "",
-    "stock_id": "",
-    "device_side": "",
-    "both": "",
-    "record_status": "",
-    "quantity": "",
-    "payment_type": "",
-    "currency_code": "",
-    "repair_fee": "",
-    "bid": "",
-    "bid_discount": "",
-    "tax": "",
-    "total_bid": "",
-    "insurance_type": "",
-    "retired": "",
-    "worker": "",
-    "insurance_contribution": "",
-    "client_insurance_contribution": "",
-    "brand": "",
-    "categories": "",
-    "product_id": "",
-    "vendor": "",
-    "stocked_at": "",
-    "barcode": "",
-    "serial_number": "",
-    "currency": "",
-    "unit_cost": "",
-    "unit_discount": "",
-    "unit_tax": "",
-    "total_cost": "",
-    "behind_ear_mold": ""
   },
   "audit_log": {
     "no_changes_detected": "",
@@ -276,12 +197,22 @@
   "common": {
     "select": ""
   },
+  "role": {
+    "select_role": "",
+    "table": {
+      "headers": {
+        "name": "",
+        "created_at": ""
+      }
+    }
+  },
   "router": {
     "action": {
       "open_in_window": "",
-      "manage_addresses": "",
+      "manage-addresses": "",
       "close": "",
       "go_to_dashboard": "",
+      "manage_addresses": "",
       "go_back": ""
     },
     "error_occured": "",
@@ -289,8 +220,8 @@
     "not_found": ""
   },
   "action": {
-    "save": "",
     "reset": "",
+    "save": "",
     "confirm": {
       "delete": {
         "question": "",
@@ -303,24 +234,135 @@
     "add": "",
     "delete": "",
     "edit": "",
+    "cancel": "",
+    "send": "",
     "submit": "",
-    "back": ""
+    "resend_code": "",
+    "back": "",
+    "invite": ""
   },
   "const": {
-    "earmold": {
-      "inner": {
-        "models": {
-          "ITE": "",
-          "ITC": "",
-          "CIC": ""
-        }
-      }
-    },
     "record": {
       "type": {
         "": ""
       }
+    },
+    "ear_device": {
+      "models": {
+        "in_ear_(ITE)": "",
+        "in_canal_(ITC)": "",
+        "completely_in_canal_(CIC)": ""
+      }
     }
+  },
+  "errors": {
+    "access_denied": "",
+    "confirmation_required": "",
+    "email_change_required": "",
+    "expired_code": "",
+    "identity_provider_error": "",
+    "invalid_code": "",
+    "invalid_email": "",
+    "invalid_email_link": "",
+    "invalid_credentials": "",
+    "invalid_phone": "",
+    "invalid_recovery_token": "",
+    "invalid_signup_data": "",
+    "invalid_token": "",
+    "invalid_verification_link": "",
+    "mfa_invalid_code": "",
+    "mfa_required": "",
+    "missing_code": "",
+    "missing_email": "",
+    "missing_phone": "",
+    "otp_expired": "",
+    "otp_failed": "",
+    "otp_max_attempts": "",
+    "password_length": "",
+    "phone_change_required": "",
+    "recovery_link_used": "",
+    "server_error": "",
+    "signup_disabled": "",
+    "token_expired": "",
+    "unauthorized_client": "",
+    "unexpected_error": "",
+    "unknown_provider": "",
+    "user_already_registered": "",
+    "user_not_found": "",
+    "user_update_failed": "",
+    "verification_link_used": "",
+    "weak_password": "",
+    "no_data": "",
+    "no_additional_dynamic_result_sets_returned": "",
+    "data_exception": "",
+    "string_data_right_truncation": "",
+    "numeric_value_out_of_range": "",
+    "invalid_datetime_format": "",
+    "datetime_field_overflow": "",
+    "division_by_zero": "",
+    "invalid_parameter_value": "",
+    "floating_point_exception": "",
+    "invalid_text_representation": "",
+    "invalid_binary_representation": "",
+    "bad_copy_file_format": "",
+    "untranslatable_character": "",
+    "integrity_constraint_violation": "",
+    "not_null_violation": "",
+    "foreign_key_violation": "",
+    "unique_violation": "",
+    "check_violation": "",
+    "exclusion_violation": "",
+    "invalid_cursor_state": "",
+    "invalid_transaction_state": "",
+    "in_failed_sql_transaction": "",
+    "invalid_sql_statement_name": "",
+    "invalid_authorization_specification": "",
+    "invalid_password": "",
+    "invalid_cursor_name": "",
+    "external_routine_exception": "",
+    "containing_sql_not_permitted": "",
+    "modifying_sql_data_not_permitted": "",
+    "prohibited_sql_statement_attempted": "",
+    "reading_sql_data_not_permitted": "",
+    "external_routine_invocation_exception": "",
+    "invalid_sqlstate_returned": "",
+    "null_value_not_allowed": "",
+    "serialization_failure": "",
+    "statement_completion_unknown": "",
+    "deadlock_detected": "",
+    "syntax_error": "",
+    "undefined_column": "",
+    "datatype_mismatch": "",
+    "invalid_foreign_key": "",
+    "undefined_function": "",
+    "undefined_table": "",
+    "undefined_parameter": "",
+    "indeterminate_datatype": "",
+    "with_check_option_violation": "",
+    "insufficient_privilege": "",
+    "insufficient_privilege_reserved": "",
+    "invalid_grant_operation": "",
+    "invalid_role_specification": "",
+    "too_many_connections": "",
+    "configuration_limit_exceeded": "",
+    "object_not_in_prerequisite_state": "",
+    "object_in_use": "",
+    "query_canceled": "",
+    "admin_shutdown": "",
+    "crash_shutdown": "",
+    "cannot_connect_now": "",
+    "system_error": "",
+    "io_error": "",
+    "config_file_error": "",
+    "raise_exception": "",
+    "no_data_found": "",
+    "too_many_rows": "",
+    "internal_error": "",
+    "data_corrupted": "",
+    "index_corrupted": "",
+    "sql_med_insufficient_privilege": "",
+    "insufficient_permission": "",
+    "AuthInvalidCredentialsError": ""
   },
   "route": {
     "label": {
@@ -339,13 +381,18 @@
       "add": "",
       "register": "",
       "login": "",
+      "enter-auth-otp-code": "",
       "access-denied": "",
       "branch": "",
+      "branch-user": "",
+      "manage-user": "",
+      "user-general-info": "",
       "branch-role": "",
       "audit-logs": "",
       "client": "",
-      "manage": "",
-      "general": "",
+      "manage-client": "",
+      "client-general-info": "",
+      "client-addresses": "",
       "record": "",
       "battery": "",
       "device": "",
@@ -355,7 +402,6 @@
       "spare-parts": ""
     }
   },
-  "list": "",
   "account": {
     "profile": {
       "user_info": "",
@@ -373,7 +419,8 @@
   "toast": {
     "updated": "",
     "success": "",
-    "saved": ""
+    "saved": "",
+    "sended": ""
   },
   "register": {
     "stepper": {
@@ -383,13 +430,21 @@
       }
     }
   },
-  "role": {
+  "user": {
     "table": {
       "headers": {
         "name": "",
+        "email": "",
         "created_at": ""
       }
-    }
+    },
+    "upsert": {
+      "tabs": {
+        "general_info": ""
+      }
+    },
+    "general_info": "",
+    "security": ""
   },
   "record": {
     "table": {
@@ -404,7 +459,7 @@
     },
     "tab": {
       "record": "",
-      "earmold": ""
+      "ear_device": ""
     },
     "information": "",
     "financial": ""
@@ -466,5 +521,109 @@
     },
     "information": "",
     "financial": ""
+  },
+  "fields": {
+    "": "",
+    "device": "",
+    "battery": "",
+    "spare_part": "",
+    "service": "",
+    "trial": "",
+    "sale": "",
+    "assemble": "",
+    "repair": "",
+    "promotion": "",
+    "cash": "",
+    "credit_card": "",
+    "pending": "",
+    "pending_service": "",
+    "client_holds_service_bid": "",
+    "client_approved_service_bid": "",
+    "client_rejected_service_bid": "",
+    "done": "",
+    "approved": "",
+    "rejected": "",
+    "pending_client": "",
+    "biopar": "",
+    "hard": "",
+    "micro": "",
+    "full": "",
+    "half": "",
+    "supported": "",
+    "prob": "",
+    "pcs": "",
+    "kg": "",
+    "gr": "",
+    "lbs": "",
+    "L": "",
+    "mL": "",
+    "m": "",
+    "m²": "",
+    "cm": "",
+    "in": "",
+    "password": "",
+    "password_confirmation": "",
+    "name": "",
+    "email": "",
+    "phone": "",
+    "country": "",
+    "city": "",
+    "district": "",
+    "details": "",
+    "remember_me": "",
+    "code": "",
+    "company": "",
+    "permission": "",
+    "role": "",
+    "client_id": "",
+    "nationality": "",
+    "national_id": "",
+    "birth_date": "",
+    "gender": "",
+    "rear_ear_devices": "",
+    "attributes": "",
+    "rear_ear_device": "",
+    "type": "",
+    "model": "",
+    "speaker_power": "",
+    "side": "",
+    "left": "",
+    "right": "",
+    "ventilation": "",
+    "speaker_size": "",
+    "inner_ear_devices": "",
+    "inner_ear_device": "",
+    "has_bluetooth": "",
+    "has_button": "",
+    "record_type": "",
+    "stock_id": "",
+    "device_side": "",
+    "both": "",
+    "record_status": "",
+    "quantity": "",
+    "payment_type": "",
+    "currency_code": "",
+    "repair_fee": "",
+    "bid": "",
+    "bid_discount": "",
+    "tax": "",
+    "total_bid": "",
+    "insurance_type": "",
+    "retired": "",
+    "worker": "",
+    "insurance_contribution": "",
+    "client_insurance_contribution": "",
+    "brand": "",
+    "categories": "",
+    "product_id": "",
+    "vendor": "",
+    "stocked_at": "",
+    "barcode": "",
+    "serial_number": "",
+    "currency": "",
+    "unit_cost": "",
+    "unit_discount": "",
+    "unit_tax": "",
+    "total_cost": ""
   }
 }

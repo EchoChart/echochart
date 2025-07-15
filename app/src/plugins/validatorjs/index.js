@@ -1,27 +1,6 @@
 import { isValidPhoneNumber } from 'libphonenumber-js';
 import Validator from 'validatorjs/dist/validator.js';
 
-import de from 'validatorjs/src/lang/de.js';
-import en from 'validatorjs/src/lang/en.js';
-import fr from 'validatorjs/src/lang/fr.js';
-import ja from 'validatorjs/src/lang/ja.js';
-import ko from 'validatorjs/src/lang/ko.js';
-import pl from 'validatorjs/src/lang/pl.js';
-import ru from 'validatorjs/src/lang/ru.js';
-import tr from 'validatorjs/src/lang/tr.js';
-import zh from 'validatorjs/src/lang/zh.js';
-
-Validator.setMessages('en', en);
-Validator.setMessages('tr', tr);
-Validator.setMessages('fr', fr);
-Validator.setMessages('de', de);
-Validator.setMessages('pl', pl);
-Validator.setMessages('ru', ru);
-Validator.setMessages('cn', zh);
-Validator.setMessages('jp', ja);
-Validator.setMessages('ko', ko);
-Validator.setMessages('tr', tr);
-
 export const formAttributeFormatter = (attr) => {
    const words = i18n
       .t(attr)

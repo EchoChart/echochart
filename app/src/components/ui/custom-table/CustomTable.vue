@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="T = any">
 import Collection from '@/lib/Collection';
+import { isValidDate, localeDateString } from '@/lib/dayjs';
 import { RemovableRef } from '@vueuse/core';
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
 import {
@@ -180,6 +181,10 @@ const { meta, stateStorage, metaStateKey, onMeta } = useTableMeta(props);
 
 const getFieldValue = (body: any) => {
    const value = _get(body?.data, body?.field?.toString(), '') || '';
+
+   if (_endsWith(body.field, '_at') && isValidDate({ value }))
+      return localeDateString({ value, validate: false });
+
    return te(value) ? t(value) : value;
 };
 

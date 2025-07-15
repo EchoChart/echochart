@@ -1,12 +1,12 @@
 import { spawn } from 'child_process';
 import fs from 'fs';
+import _ from 'lodash';
 import path from 'path';
 import { SUPPORTED_LOCALES } from '../plugins/i18n/index.js';
 
 const ollamaModel = 'qwen3:8b';
 const sourceLang = 'en';
 const localesDir = './src/plugins/i18n/locales';
-// const rawLangs = process.argv[2]; // e.g., 'tr,de,fr'
 
 const targetLangs =
    process.argv[2]?.split?.(',').filter?.(Boolean) ||
@@ -39,7 +39,7 @@ async function askOllama(prompt) {
          stream: false,
          think: false,
          options: {
-            temperature: 0.6
+            temperature: 0.1
          }
       })
    });
@@ -56,25 +56,57 @@ async function askOllama(prompt) {
 }
 
 async function translateFile(file, targetLang) {
-   // const srcPath = path.join(localesDir, sourceLang, file);
-   const srcPath =
-      targetLang !== 'en'
-         ? path.join(localesDir, sourceLang, file)
-         : path.join(localesDir, '', 'template.json');
+   const srcPath = path.join(localesDir, '', 'template.json');
    const destPath = path.join(localesDir, targetLang, file);
-   const rawJson = JSON.parse(fs.readFileSync(srcPath, 'utf8'));
 
-   const keys = Object.keys(rawJson);
-   const chunkSize = 2; // Adjust based on model limits
-   const chunks = [];
+   const rawSource = JSON.parse(fs.readFileSync(srcPath, 'utf8'));
+   const excludedSource = JSON.parse(
+      fs.readFileSync(path.join(localesDir, 'template.exclude.json'), 'utf8')
+   );
+   const rawTarget = fs.existsSync(destPath) ? JSON.parse(fs.readFileSync(destPath, 'utf8')) : {};
+
+   _.merge(rawSource, excludedSource);
+
+   const missingEntries = {};
+
+   function findMissing(sourceNode, targetNode, path = []) {
+      for (const key in sourceNode) {
+         const sourceVal = sourceNode[key];
+         const targetVal = targetNode?.[key];
+
+         if (_.isPlainObject(sourceVal)) {
+            findMissing(sourceVal, targetVal || {}, path.concat(key));
+         } else {
+            if (
+               targetVal === undefined ||
+               targetVal === '' ||
+               targetVal === sourceVal // simple heuristic for untranslated
+            ) {
+               _.set(missingEntries, path.concat(key), sourceVal);
+            }
+         }
+      }
+   }
+
+   findMissing(rawSource, rawTarget);
+
+   const keys = Object.keys(_.flattenDeep(Object.keys(missingEntries)));
+   if (keys.length === 0) {
+      console.log(`🟢 No missing translations for ${targetLang}/${file}`);
+      return;
+   }
 
    console.time(`✓ Translated ${destPath} to ${targetLang}`);
 
-   for (let i = 0; i < keys.length; i += chunkSize) {
-      const chunkKeys = keys.slice(i, i + chunkSize);
+   const missingKeys = _.keys(missingEntries);
+   const chunkSize = 2;
+   const chunks = [];
+
+   for (let i = 0; i < missingKeys.length; i += chunkSize) {
+      const chunkKeys = missingKeys.slice(i, i + chunkSize);
       const chunk = {};
       for (const key of chunkKeys) {
-         chunk[key] = rawJson[key];
+         chunk[key] = missingEntries[key];
       }
       chunks.push(chunk);
    }
@@ -85,24 +117,28 @@ async function translateFile(file, targetLang) {
       const chunkString = JSON.stringify(chunk, null, 2);
       const prompt = `
 Translate the following JSON object to **${targetLang}**.
-
 This JSON contains interface text for a Hearing Aid CRM application used by clinics, audiologists, and patients.
 
-\`\`\`json
-${chunkString}
-\`\`\`
-
 **Translation rules:**
-- Translate only the **values**, not the keys.
+- Use a **formal and professional tone** suitable for medical and clinical software interfaces.
 - Keep the **JSON structure** exactly the same.
+- Translate only the **values**, not the keys.
+- Translate all values.
+- If a value is empty, translate by **key** instead.
+- “Tenant” means a branch, so you can translate 'tenant' as 'branch'.
+- 'audit_log' simply means 'logs'
+- Avoid using informal words or casual expressions.
+- Use domain-specific medical terminology, especially for hearing aid terms.
 - If a key contains or ends with "id":
   - If "id" is part of a meaningful label (e.g. "national_id", "identity_id"), **translate the full value**.
   - If "id" is just a technical suffix (e.g. "product_id", "client_id"), **translate only the prefix** ("product", "client").
-- Translate all empty values.
 - Do **not** return explanations, comments, or Markdown formatting.
 - Return only **valid JSON** as output.
+The JSON:
+\`\`\`json
+${chunkString}
+\`\`\`
 `;
-
       let response = await askOllama(prompt);
       const content = response.message.content;
 
@@ -118,15 +154,16 @@ ${chunkString}
       }
    }
 
-   // Merge all translated chunks
-   const finalJson = Object.assign({}, ...translatedChunks);
+   const mergedTranslations = Object.assign({}, ...translatedChunks);
+   const updatedTarget = _.merge({}, rawTarget, mergedTranslations);
+
    fs.mkdirSync(path.dirname(destPath), { recursive: true });
-   fs.writeFileSync(destPath, JSON.stringify(finalJson, null, 3), 'utf8');
+   fs.writeFileSync(destPath, JSON.stringify(updatedTarget, null, 3), 'utf8');
    console.timeEnd(`✓ Translated ${destPath} to ${targetLang}`);
 }
 
 async function translateFiles() {
-   console.log('✍️ Translating ...\n');
+   console.log('✍️   Translating ...\n');
    const sourceDir = path.join(localesDir, sourceLang);
 
    const files = fs.readdirSync(sourceDir).filter((f) => f.endsWith('.json'));
@@ -153,7 +190,7 @@ function clearLocalesFolder() {
 }
 
 async function prepareFoldersAndFiles() {
-   clearLocalesFolder();
+   // clearLocalesFolder();
 
    const sourceDir = path.join(localesDir, sourceLang);
    const defaultFile = 'index.json';

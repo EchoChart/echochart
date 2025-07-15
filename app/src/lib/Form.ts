@@ -92,14 +92,13 @@ export class Form<T = any> extends Collection<T> {
    }
 
    _validate(keys: Array<keyof T> | null = null, rules: Rules = this._rules): boolean {
-      Validator.useLang(locale.value);
-
       let values: Partial<T> = this._data;
 
       if (_isArray(keys)) {
          values = _pick(this._data, keys);
          rules = _pick(rules, keys);
       }
+
       const validation = new Validator(values, rules);
 
       validation.setAttributeNames(this._customAttributeNames);

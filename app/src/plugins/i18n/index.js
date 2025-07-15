@@ -1,6 +1,7 @@
 import { useNavigatorLanguage } from '@vueuse/core';
 import dayjs from 'dayjs';
-import { computed, watch } from 'vue';
+import Validator from 'validatorjs';
+import { computed, nextTick, watch } from 'vue';
 import { createI18n } from 'vue-i18n';
 
 export const dayjsLocales = {
@@ -15,23 +16,49 @@ export const dayjsLocales = {
    ko: () => import('dayjs/locale/ko')
 };
 
+export const validatorLocales = {
+   de: () => import('validatorjs/src/lang/de.js'),
+   en: () => import('validatorjs/src/lang/en.js'),
+   fr: () => import('validatorjs/src/lang/fr.js'),
+   ja: () => import('validatorjs/src/lang/ja.js'),
+   ko: () => import('validatorjs/src/lang/ko.js'),
+   pl: () => import('validatorjs/src/lang/pl.js'),
+   ru: () => import('validatorjs/src/lang/ru.js'),
+   tr: () => import('validatorjs/src/lang/tr.js'),
+   zh: () => import('validatorjs/src/lang/zh.js')
+};
+
 const { language: navigatorLanguage } = useNavigatorLanguage();
 
 export async function loadLocaleMessages(locale, i18n = i18NPlugin.global) {
    try {
-      // Dynamically load dayjs locale
+      const messages = await import(`./locales/${locale}/index.json`);
+      i18n.setLocaleMessage(locale, messages.default);
+
+      // Dynamically load package locales
       const loadDayjsLocale = dayjsLocales[locale];
+      const loadValidatorLocales = validatorLocales[locale];
+
       if (loadDayjsLocale) {
          await loadDayjsLocale();
          dayjs.locale(locale);
       } else {
          console.warn(`dayjs locale '${locale}' not found, falling back to 'en'`);
-         dayjs.locale('en');
+         dayjs.locale(i18NPlugin.global.fallbackLocale.value);
       }
 
-      const messages = await import(`./locales/${locale}/index.json`);
+      if (loadValidatorLocales) {
+         Validator.setMessages(locale, await loadValidatorLocales());
+         Validator.useLang(locale.value);
+      } else {
+         console.warn(`validator locale '${locale}' not found, falling back to 'en'`);
+         Validator.setMessages(locale, await loadValidatorLocales['en']?.());
+         Validator.useLang('en');
+      }
 
-      i18n.setLocaleMessage(locale, messages.default);
+      return {
+         [locale]: messages
+      };
    } catch (error) {
       console.warn(error);
    }
@@ -67,24 +94,28 @@ export const SUPPORTED_LOCALES = computed(() => [
 export const locale = i18NPlugin.global.locale;
 
 if (typeof window !== 'undefined') {
-   watch(
-      locale,
-      async (newLocale, oldLocale) => {
-         if (oldLocale != newLocale) {
-            localStorage?.setItem?.('app_lang', newLocale);
-         }
-         document.querySelector('html').setAttribute('lang', newLocale);
-      },
-      { immediate: true }
-   );
+   nextTick(async () => {
+      await loadLocaleMessages(i18NPlugin?.global?.fallbackLocale?.value);
 
-   watch(
-      locale,
-      async (newLocale) => {
-         await loadLocaleMessages(newLocale);
-      },
-      { immediate: true, once: true }
-   );
+      watch(
+         locale,
+         async (newLocale, oldLocale) => {
+            if (oldLocale != newLocale) {
+               localStorage?.setItem?.('app_lang', newLocale);
+            }
+            document.querySelector('html').setAttribute('lang', newLocale);
+         },
+         { immediate: true }
+      );
+
+      watch(
+         locale,
+         async (newLocale) => {
+            await loadLocaleMessages(newLocale);
+         },
+         { immediate: true, once: true }
+      );
+   });
 }
 
 export default i18NPlugin.global;

@@ -1,11 +1,10 @@
 module.exports = {
    vueFiles: './src/**/*.?(ts|js|vue)',
-   languageFiles: './src/plugins/i18n/locales/**/*.?(json)',
-   exclude: [],
+   languageFiles: './src/plugins/i18n/locales/**/!(*.exclude).?(json)',
    detect: ['missing', 'unused'],
    output: false,
    add: true,
-   remove: false,
+   remove: true,
    ci: false,
    separator: '.',
    noEmptyTranslation: ''
