@@ -69,7 +69,7 @@ export default [
                   name: 'manage-client-general',
                   props: true,
                   meta: {
-                     label: i18n.t('route.label.general'),
+                     label: i18n.t('route.label.client-general-info'),
                      icon: PrimeIcons.USER,
                      visible: false
                   },
@@ -83,7 +83,7 @@ export default [
                   name: 'manage-client-address',
                   props: true,
                   meta: {
-                     label: i18n.t('route.label.address'),
+                     label: i18n.t('route.label.client-addresses'),
                      icon: 'pi pi-address-book',
                      visible: false
                   },
