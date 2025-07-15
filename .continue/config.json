@@ -1,0 +1,95 @@
+// continue dev extension config
+{
+  "experimental": {
+    "useChromiumForDocsCrawling": true,
+    "modelContextProtocolServers": [
+      {
+        "transport": {
+          "type": "stdio",
+          "command": "docker",
+          "args": [
+            "run",
+            "-i",
+            "--rm",
+            "mcp/postgres",
+            "postgresql://postgres:postgres@host.docker.internal:54322/postgres"
+          ]
+        }
+      }
+    ]
+  },
+  "docs": [
+    {
+      "title": "docs-primevue",
+      "startUrl": "https://primevue.org/introduction/"
+    },
+    {
+      "title": "docs-tailwind",
+      "startUrl": "https://tailwindcss.com/docs/"
+    },
+    {
+      "title": "docs-supabase",
+      "startUrl": "https://supabase.com/docs/reference/javascript/start"
+    },
+    {
+      "title": "docs-postgres",
+      "startUrl": "https://www.postgresql.org/docs/current/index.html"
+    },
+    {
+      "title": "docs-js",
+      "startUrl": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference"
+    },
+    {
+      "title": "docs-vue",
+      "startUrl": "https://vuejs.org/guide/introduction"
+    },
+    {
+      "title": "docs-css",
+      "startUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference"
+    },
+    {
+      "title": "docs-scss",
+      "startUrl": "https://sass-lang.com/documentation/"
+    },
+    {
+      "title": "docs-html",
+      "startUrl": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference"
+    },
+    {
+      "title": "docs-webapi",
+      "startUrl": "https://developer.mozilla.org/docs/Web/API"
+    },
+    {
+      "startUrl": "https://github.com/mikeerickson/validatorjs",
+      "title": "docs-validatorjs"
+    },
+    {
+      "startUrl": "https://lodash.com/docs",
+      "title": "docs-lodash"
+    },
+    {
+      "startUrl": "https://jsdoc.app/",
+      "title": "docs-jsdoc"
+    },
+    {
+      "startUrl": "https://vite.dev/guide/",
+      "title": "docs-vite"
+    },
+    {
+      "startUrl": "https://en.bem.info/methodology/quick-start/",
+      "title": "docs-BEM"
+    }
+  ],
+  "customCommands": [
+    {
+      "name": "convert-tailwind-styles",
+      "description": "Convert Tailwind Classes To Nested BEM SCSS",
+      "prompt": "You are refactoring a Vue Single File Component (SFC) that uses Tailwind CSS. Convert the following Vue SFC code by applying these steps strictly:\n\n1. Identify every usage of Tailwind utility classes:\n   - Inline `class=\"...\"` attributes in the `<template>`\n   - Tailwind classes inside computed properties or strings in `<script setup>`\n\n2. Replace all Tailwind utility classes with new BEM-style class names based on context. Use the `Block__Element--Modifier` convention. Example: `form_field__header`, `form_field__input--fluid`.\n\n3. Do **not** keep any Tailwind utility classes inline. All class attributes must contain **only BEM class names**.\n\n4. Create a single `<style lang='scss'>` block at the bottom of the file.\n   - Inside it, define one top-level block class (e.g. `.form_field`)\n   - Nest all `__elements` and `--modifiers` inside it using SCSS nesting\n   - Use `@apply` to apply Tailwind classes inside those nested selectors\n\n5. Do not generate any standalone classes outside the block. Do not repeat BEM block names at top level.\n\n6. Do not change any template structure, JavaScript logic, or component behavior.\n\n7. Do not invent any new styling. Only move existing Tailwind classes into the nested SCSS block.\n\n✅ Example:\n\n**Before:**\n```html\n<div class=\"flex items-center gap-4\">\n```\n\n**After:**\n```html\n<div class=\"form_field__header\">\n```\n\n```scss\n.form_field {\n  &__header {\n    @apply flex items-center gap-4;\n  }\n}\n```\n\nApply this consistently for every element — including inline elements like `<span>` and dynamic JS `computed()` styles."
+    },
+    {
+      "name": "commit-staged",
+      "description": "Commit changes with conventional commit rules using",
+      "prompt": "You are an expert software engineer that generates standardized conventional commit messages based on provided diffs.      Review the diffs carefully and generate a one-line commit message that follows the Conventional Commits specification.      The commit message should be structured as: <type>[optional scope]: <description>      For <type>, use one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revertYour commit message must:      - Use the appropriate type based on the nature of the change- Include a scope in parentheses where appropriate (e.g., feat(auth): ...)      - Be in the imperative mood (e.g., \"add feature\" not \"added feature\")      - Not capitalize the first letter of the description- Not end with a period- Not exceed 72 characters in total- Be clear and descriptive about what changed- Do not explain why this changes were madeFor breaking changes, add \"BREAKING CHANGE: \" in the footer (though this is rare for a one-line message).      Reply only with the conventional commit message, without any additional text or explanations.      Here is the git diff:      @diff"
+    }
+  ]
+}
