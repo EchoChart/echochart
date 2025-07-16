@@ -98,6 +98,13 @@ const tableProps = computed(() => ({
             </template>
          </FormField>
       </template>
+      <template #display_name_body="{ data, field }">
+         {{
+            $te(`fields.${_get(data, field)}`)
+               ? $t(`fields.${_get(data, field)}`)
+               : _get(data, field)
+         }}
+      </template>
       <template
          v-for="(kind, i) in permissionKinds"
          #[`${kind}_header`]="{ header, field }"
