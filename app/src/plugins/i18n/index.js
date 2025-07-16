@@ -1,6 +1,6 @@
 import { useNavigatorLanguage } from '@vueuse/core';
 import dayjs from 'dayjs';
-import Validator from 'validatorjs';
+import Validator from 'validatorjs/dist/validator';
 import { computed, nextTick, watch } from 'vue';
 import { createI18n } from 'vue-i18n';
 
@@ -49,10 +49,10 @@ export async function loadLocaleMessages(locale, i18n = i18NPlugin.global) {
 
       if (loadValidatorLocales) {
          Validator.setMessages(locale, await loadValidatorLocales());
-         Validator.useLang(locale.value);
+         Validator.useLang(locale);
       } else {
          console.warn(`validator locale '${locale}' not found, falling back to 'en'`);
-         Validator.setMessages(locale, await loadValidatorLocales['en']?.());
+         Validator.setMessages(locale, await validatorLocales['en']?.());
          Validator.useLang('en');
       }
 
