@@ -97,10 +97,10 @@ export default [
                      accept: resolve,
                      reject: async () => {
                         if (router.options.history.state.back) {
-                           return reject(false);
+                           return resolve(false);
                         }
                         await router.replace({ name: 'dashboard' });
-                        reject(false);
+                        resolve(false);
                      }
                   });
                });
