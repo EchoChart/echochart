@@ -43,7 +43,7 @@ export default [
             },
             meta: {
                visible: false,
-               label: i18n.t('list'),
+               label: i18n.t('route.label.list'),
                index: -1,
                icon: PrimeIcons.LIST,
                requiredPermissions: [
