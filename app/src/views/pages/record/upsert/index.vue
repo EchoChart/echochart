@@ -19,7 +19,7 @@ export type RecordUpsertFormData = Tables['record']['Row'] & {
       insurance_type?: number;
       insurance_contribution?: number;
       client_insurance_contribution?: number;
-      behind_ear_molds?: {
+      rear_ear_devices?: {
          side?: string;
          type?: string;
          model?: string;
@@ -27,7 +27,7 @@ export type RecordUpsertFormData = Tables['record']['Row'] & {
          speaker_power?: string;
          speaker_size?: number;
       }[];
-      inner_ear_molds?: {
+      inner_ear_devices?: {
          side?: string;
          model?: string;
          ventilation?: number;
@@ -101,7 +101,7 @@ form._setRules(
 
       const attributeRules = {
          attributes: {
-            behind_ear_molds: {
+            rear_ear_devices: {
                '*': {
                   type: `required`,
                   model: `required`,
@@ -111,7 +111,7 @@ form._setRules(
                   speaker_power: `required`
                }
             },
-            inner_ear_molds: {
+            inner_ear_devices: {
                '*': {
                   side: `required`,
                   model: `required`,
@@ -169,7 +169,7 @@ if (props.id) {
       .from('record')
       .select(props.select)
       .eq('id', props.id)
-      .single()
+      .maybeSingle()
       .throwOnError()
       .then(({ data }) =>
          form._setDefaults(_pick(data as Partial<RecordUpsertFormData>, fields))._reset()
@@ -193,7 +193,7 @@ const save = async () => {
       .upsert(payload)
       .eq('id', form.id)
       .select()
-      .single()
+      .maybeSingle()
       .throwOnError();
 
    if (form.id) form._setDefaults(_merge(data, form._data))._reset();
@@ -213,7 +213,7 @@ const save = async () => {
       <Tabs value="record" class="w-full">
          <TabList>
             <Tab value="record">{{ $t('record.tab.record') }}</Tab>
-            <Tab value="earmold">{{ $t('record.tab.earmold') }}</Tab>
+            <Tab value="earmold">{{ $t('record.tab.ear_device') }}</Tab>
          </TabList>
          <TabPanels>
             <TabPanel value="record">

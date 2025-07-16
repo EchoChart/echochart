@@ -46,8 +46,8 @@ export const RECORD_STATUSES = computed(
                   label: i18n.t('fields.pending_service')
                },
                {
-                  value: 'client holds service bid',
-                  label: i18n.t('fields.client holds service bid')
+                  value: 'client_holds_service_bid',
+                  label: i18n.t('fields.client_holds_service_bid')
                },
                {
                   value: 'client_approved_service_bid',
@@ -93,7 +93,7 @@ export const RECORD_STATUSES = computed(
       )
 );
 
-export const MOLD_TYPES = computed(() => [
+export const DEVICE_TYPES = computed(() => [
    {
       value: 'biopar',
       label: i18n.t('fields.biopar')
@@ -104,7 +104,7 @@ export const MOLD_TYPES = computed(() => [
    }
 ]);
 
-export const MOLD_MODELS = computed(() => [
+export const DEVICE_MODELS = computed(() => [
    {
       value: 'micro',
       label: i18n.t('fields.micro')
@@ -127,33 +127,33 @@ export const MOLD_MODELS = computed(() => [
    }
 ]);
 
-export const INNER_MOLD_MODELS = computed(() => [
+export const INNER_DEVICE_MODELS = computed(() => [
    {
       value: 'ITE',
-      label: i18n.t('const.earmold.inner.models.ITE')
+      label: i18n.t('const.ear_device.models.in_ear_(ITE)')
    },
    {
       value: 'ITC',
-      label: i18n.t('const.earmold.inner.models.ITC')
+      label: i18n.t('const.ear_device.models.in_canal_(ITC)')
    },
    {
       value: 'CIC',
-      label: i18n.t('const.earmold.inner.models.CIC')
+      label: i18n.t('const.ear_device.models.completely_in_canal_(CIC)')
    }
 ]);
 
-export const MOLD_VENTILATION = {
+export const DEVICE_VENTILATION = {
    min: 0,
    max: 3,
    step: 0.2
 };
 
-export const MOLD_SPEAKER_SIZE = {
+export const DEVICE_SPEAKER_SIZE = {
    min: 1,
    max: 5,
    step: 1
 };
 
-export const MOLD_SPEAKER_POWERS = ['s', 'm', 'p', 'hp', '85', '100', '105'];
+export const DEVICE_SPEAKER_POWERS = ['s', 'm', 'p', 'hp', '85', '100', '105'];
 
-export const INNER_MOLD_SPEAKER_POWERS = ['65', '80', '100'];
+export const INNER_DEVICE_SPEAKER_POWERS = ['65', '80', '100'];
