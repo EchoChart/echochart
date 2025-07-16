@@ -28,6 +28,7 @@ export declare type CustomTableProps<T = any> = DataTableProps<T> & {
             dataType?: 'text' | 'numeric' | 'decimal' | 'date';
          };
    };
+   dateFormat?: string;
 };
 export declare type CustomTableEmitOptions<T = any> = {
    meta: [value: CustomTableMetaEvent<T>];
@@ -65,7 +66,8 @@ defineOptions({
 const props = withDefaults(defineProps<CustomTableProps<T>>(), {
    showHeaders: true,
    showGridlines: true,
-   translateValue: true
+   translateValue: true,
+   dateFormat: 'LL'
 });
 
 const emit = defineEmits<CustomTableEmitOptions<T>>();
@@ -183,7 +185,7 @@ const getFieldValue = (body: any) => {
    const value = _get(body?.data, body?.field?.toString(), '') || '';
 
    if (_endsWith(body.field, '_at') && isValidDate({ value }))
-      return localeDateString({ value, validate: false });
+      return localeDateString({ value, validate: false, returnFormat: props.dateFormat });
 
    return te(value) ? t(value) : value;
 };
