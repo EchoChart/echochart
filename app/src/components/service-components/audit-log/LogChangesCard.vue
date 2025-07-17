@@ -25,7 +25,9 @@ const auditItemRoutes = {
    client_id: { name: 'client-manage' },
    client: { name: 'client-manage' },
    address_id: { name: 'address-edit' },
-   address: { name: 'address-edit' }
+   address: { name: 'address-edit' },
+   record_id: { name: 'record-edit' },
+   record: { name: 'record-edit' }
 };
 
 const getLogTagProps = (log) => {
@@ -97,9 +99,10 @@ const getChanges = (log) => {
    return log;
 };
 
-function formatValue(value, indentSize = 1) {
+function formatValue(value, indentSize = 0) {
    if (_isNil(value)) return '—';
 
+   // Turn object to yaml like format
    if (_isObject(value) && !_isNil(value)) {
       const indent = '\t'.repeat(indentSize);
       if (_isArray(value)) {
@@ -112,6 +115,10 @@ function formatValue(value, indentSize = 1) {
       const entries = _keys(value).map((key) => {
          const formattedValue = formatValue(value[key], indentSize + 1);
          const formattedKey = te('fields.' + key) ? t('fields.' + key) : key;
+         if (_isBoolean(value[key])) {
+            const booleanValue = value[key] ? '✔️' : '❌';
+            return `${indent}\n${indent}${formattedKey}: ${booleanValue}`;
+         }
          if (formattedValue !== '—')
             return `${indent}\n${indent}${formattedKey}: ${formattedValue}`;
       });
@@ -138,7 +145,7 @@ if (props.id) {
 <template>
    <Panel class="audit_card__panel">
       <template #header>
-         <div class="flex items-center gap-4">
+         <div class="audit_card__header">
             <span v-text="$t('fields.' + log?.table_name || '')" />
             <CustomLink
                v-if="
@@ -210,6 +217,10 @@ if (props.id) {
 
 <style lang="scss">
 .audit_card {
+   &__header {
+      @apply flex items-center gap-4;
+   }
+
    &__changes-container {
       @apply flex gap-x-8 gap-y-4 flex-wrap;
    }
