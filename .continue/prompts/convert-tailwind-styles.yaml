@@ -1,0 +1,49 @@
+name: convert-tailwind-styles
+version: 0.0.1
+schema: v1
+prompts:
+  - name: convert-tailwind-styles
+    description: Convert Tailwind Classes To Nested BEM SCSS
+    prompt: |
+      You are refactoring a Vue Single File Component (SFC) that uses Tailwind CSS. Convert the following Vue SFC code by applying these steps strictly:
+
+      1. Identify every usage of Tailwind utility classes:
+         - Inline `class="..."` attributes in the `<template>`
+         - Tailwind classes inside computed properties or strings in `<script setup>`
+
+      2. Replace all Tailwind utility classes with new BEM-style class names based on context. Use the `Block__Element--Modifier` convention. Example: `form_field__header`, `form_field__input--fluid`.
+
+      3. Do **not** keep any Tailwind utility classes inline. All class attributes must contain **only BEM class names**.
+
+      4. Create a single `<style lang='scss'>` block at the bottom of the file.
+         - Inside it, define one top-level block class (e.g. `.form_field`)
+         - Nest all `__elements` and `--modifiers` inside it using SCSS nesting
+         - Use `@apply` to apply Tailwind classes inside those nested selectors
+
+      5. Do not generate any standalone classes outside the block. Do not repeat BEM block names at top level.
+
+      6. Do not change any template structure, JavaScript logic, or component behavior.
+
+      7. Do not invent any new styling. Only move existing Tailwind classes into the nested SCSS block.
+
+      ✅ Example:
+
+      **Before:**
+      ```html
+      <div class="flex items-center gap-4">
+      ```
+
+      **After:**
+      ```html
+      <div class="form_field__header">
+      ```
+
+      ```scss
+      .form_field {
+        &__header {
+          @apply flex items-center gap-4;
+        }
+      }
+      ```
+
+      Apply this consistently for every element — including inline elements like `<span>` and dynamic JS `computed()` styles.

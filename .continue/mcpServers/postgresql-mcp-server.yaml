@@ -1,0 +1,13 @@
+name: Postgresql mcpServer
+version: 0.0.1
+schema: v1
+mcpServers:
+  - name: Postgresql mcpServer
+    type: stdio
+    command: docker
+    args:
+      - run
+      - -i
+      - --rm
+      - mcp/postgres
+      - postgresql://postgres:postgres@host.docker.internal:54322/postgres

@@ -1,0 +1,23 @@
+name: commit-staged
+version: 0.0.1
+schema: v1
+prompts:
+  - name: commit-staged
+    description: Commit changes with conventional commit rules using
+    prompt: |
+      You are an expert software engineer that generates standardized conventional commit messages based on provided diffs.
+      Review the diffs carefully and generate a one-line commit message that follows the Conventional Commits specification.
+      The commit message should be structured as: <type>[optional scope]: <description>
+      For <type>, use one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+      Your commit message must:
+        - Use the appropriate type based on the nature of the change
+        - Include a scope in parentheses where appropriate (e.g., feat(auth): ...)
+        - Be in the imperative mood (e.g., "add feature" not "added feature")
+        - Not capitalize the first letter of the description
+        - Not end with a period
+        - Not exceed 72 characters in total
+        - Be clear and descriptive about what changed
+        - Do not explain why this changes were made
+      For breaking changes, add "BREAKING CHANGE: " in the footer (though this is rare for a one-line message).
+      Reply only with the conventional commit message, without any additional text or explanations.
+      Here is the git diff: @diff
