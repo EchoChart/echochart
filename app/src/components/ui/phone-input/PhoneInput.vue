@@ -63,16 +63,16 @@ watchEffect(() => {
 function onCountryChange(value) {
    if (!value) return;
    const national = parsedPhone.value.nationalNumber || '';
-   modelValue.value = `${value.countryCallingCode}${national}`;
+   modelValue.value = `+${value.countryCallingCode}${national}`;
 }
 
 function onInputChange(val) {
    const national = val?.replace(/\D/g, '') || '';
    const callingCode = selectedCountry.value?.countryCallingCode;
    if (callingCode) {
-      modelValue.value = `${callingCode}${national}`;
+      modelValue.value = `+${callingCode}${national}`;
    } else {
-      modelValue.value = `${national}`;
+      modelValue.value = `+${national}`;
    }
 }
 </script>
