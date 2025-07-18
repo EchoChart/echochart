@@ -17,15 +17,15 @@
       "language": {
          "select_language": "언어 선택",
          "option": {
-            "en": "영어",
-            "tr": "터키어",
-            "fr": "프랑스어",
-            "de": "독일어",
-            "pl": "폴란드어",
-            "ru": "러시아어",
-            "cn": "중국어",
-            "jp": "일본어",
-            "ko": "한국어"
+            "tr": "트",
+            "en": "엔",
+            "fr": "프",
+            "de": "디",
+            "pl": "플",
+            "ru": "루",
+            "zh": "지",
+            "ja": "자",
+            "ko": "코"
          }
       },
       "sidebar": {
@@ -34,50 +34,73 @@
             "static": "정적",
             "auto": "자동",
             "mini": "미니",
-            "reveal": "노출",
+            "reveal": "표시",
             "overlay": "오버레이"
          }
       }
    },
    "auth": {
-      "branch": "브랜치",
-      "error": {
-         "insufficient_permission": "권한 부족"
+      "branch": "지점",
+      "welcome": {
+         "title": "환영합니다",
+         "text": "환영합니다. 여기에서 필요한 모든 기능을 사용할 수 있습니다."
       },
+      "please_dont_forget_to_update_your_password": "암호를 변경하지 않으셨다면, 잊지 마시기 바랍니다.",
       "confirm": {
          "logout": {
             "question": "로그아웃 하시겠습니까?",
-            "header": "로그아웃"
+            "header": "로그아웃 확인"
          }
       },
       "toast": {
          "welcome": "환영합니다",
          "goodby": "안녕히 가세요"
       },
-      "welcome": {
-         "title": "환영합니다",
-         "text": "청력보조기 CRM 애플리케이션에 오신 것을 환영합니다."
+      "forgot_password": {
+         "confirm": {
+            "header": "비밀번호를 잊으셨나요?"
+         }
+      },
+      "otp": {
+         "forgot_password": {
+            "password_reset_email_sended_please_check_your_email": "비밀번호 재설정 이메일이 발송되었습니다. 이메일을 확인해 주세요.",
+            "lets_get_your_account_back!💪": "계정을 되찾아 드리겠습니다! 💪"
+         },
+         "resend_code": {
+            "confirm": {
+               "title": "코드 재전송"
+            },
+            "toast": {
+               "code_sended": "코드가 성공적으로 전송되었습니다."
+            },
+            "code_verified": "코드가 확인되었습니다."
+         },
+         "invite_code": {
+            "so_you_are_invited!🎊": "당신이 초대되었습니다! 🎉",
+            "please_enter_the_code_in_email_to_login": "로그인하려면 이메일에 있는 코드를 입력해 주세요."
+         }
       },
       "login": {
-         "welcome_back": "안녕하세요 다시",
-         "please_login_to_continue": "계속하려면 로그인 해주세요.",
-         "forgot_password?": "비밀번호를 잊으셨나요?"
+         "welcome_back": "환영합니다",
+         "please_login_to_continue": "계속하려면 로그인해 주세요.",
+         "forgot_your_password?": "비밀번호를 잊으셨나요?",
+         "do_you_have_invite_code?": "초대 코드가 있으신가요?"
       },
       "logout": {
          "logged_out_successfully": "성공적으로 로그아웃되었습니다."
       },
       "register": {
          "create_account": "계정 생성",
-         "create_an_account_and_join_us": "계정을 생성하고 우리와 함께하세요.",
+         "create_an_account_and_join_us": "계정을 생성하고 우리와 함께 하세요.",
          "account_info": "계정 정보",
          "company_info": "회사 정보"
       }
    },
    "fields": {
-      "": "",
-      "device": "장치",
+      "": " ",
+      "device": "장비",
       "battery": "배터리",
-      "spare_part": "비품",
+      "spare_part": "부품",
       "service": "서비스",
       "trial": "시범",
       "sale": "판매",
@@ -87,20 +110,20 @@
       "cash": "현금",
       "credit_card": "신용카드",
       "pending": "대기 중",
-      "pending_service": "대기 중 서비스",
-      "client holds service bid": "클라이언트가 서비스 입찰을 보유 중",
-      "client_approved_service_bid": "클라이언트가 서비스 입찰을 승인",
-      "client_rejected_service_bid": "클라이언트가 서비스 입찰을 거부",
+      "pending_service": "서비스 대기 중",
+      "client_holds_service_bid": "클라이언트가 서비스 입찰을 보류 중",
+      "client_approved_service_bid": "클라이언트가 서비스 입찰을 승인함",
+      "client_rejected_service_bid": "클라이언트가 서비스 입찰을 거부함",
       "done": "완료",
-      "approved": "승인",
-      "rejected": "거부",
+      "approved": "승인됨",
+      "rejected": "거부됨",
       "pending_client": "클라이언트 대기 중",
-      "biopar": "바이오파",
-      "hard": "경직",
+      "biopar": "비오파",
+      "hard": "하드",
       "micro": "마이크로",
-      "full": "완전",
-      "half": "절반",
-      "supported": "지원",
+      "full": "풀",
+      "half": "하프",
+      "supported": "지원됨",
       "prob": "확률",
       "pcs": "개",
       "kg": "킬로그램",
@@ -116,21 +139,24 @@
       "password_confirmation": "비밀번호 확인",
       "name": "이름",
       "email": "이메일",
-      "phone": "전화",
+      "phone": "전화번호",
       "country": "국가",
       "city": "도시",
       "district": "구",
-      "details": "세부 정보",
-      "remember_me": "나를 기억해줘",
+      "details": "세부정보",
+      "remember_me": "나중에 다시 로그인",
+      "code": "코드",
       "company": "회사",
       "permission": "권한",
+      "role": "역할",
       "client_id": "클라이언트",
       "nationality": "국적",
-      "national_id": "국민 여권",
-      "birth_date": "생일",
+      "national_id": "국민등록번호",
+      "birth_date": "생년월일",
       "gender": "성별",
-      "behind_ear_molds": "귀 뒤 몰드",
+      "rear_ear_devices": "후방 귀 장비",
       "attributes": "속성",
+      "rear_ear_device": "후방 귀 장비",
       "type": "유형",
       "model": "모델",
       "speaker_power": "스피커 출력",
@@ -139,15 +165,15 @@
       "right": "오른쪽",
       "ventilation": "환기",
       "speaker_size": "스피커 크기",
-      "inner_ear_molds": "귀 안 몰드",
-      "inner_ear_mold": "귀 안 몰드",
+      "inner_ear_devices": "내이 장비",
+      "inner_ear_device": "내이 장비",
       "has_bluetooth": "블루투스 지원",
       "has_button": "버튼 지원",
-      "record_type": "레코드 유형",
+      "record_type": "기록 유형",
       "stock_id": "재고",
-      "device_side": "장치 측면",
+      "device_side": "장비 측면",
       "both": "양쪽",
-      "record_status": "레코드 상태",
+      "record_status": "기록 상태",
       "quantity": "수량",
       "payment_type": "결제 유형",
       "currency_code": "통화 코드",
@@ -155,7 +181,7 @@
       "bid": "입찰",
       "bid_discount": "입찰 할인",
       "tax": "세금",
-      "total_bid": "총 입찰",
+      "total_bid": "총 입찰 금액",
       "insurance_type": "보험 유형",
       "retired": "퇴직",
       "worker": "직원",
@@ -173,10 +199,49 @@
       "unit_discount": "단위 할인",
       "unit_tax": "단위 세금",
       "total_cost": "총 비용",
-      "behind_ear_mold": "귀 뒤 몰드"
+      "tenant": "임대인",
+      "branch": "지점",
+      "user": "사용자",
+      "tenant_user": "임대인 사용자",
+      "tenant_owner": "임대인 소유자",
+      "address": "주소",
+      "role_permission": "역할 권한",
+      "user_role": "사용자 역할",
+      "client": "고객",
+      "product": "제품",
+      "product_category": "제품 카테고리",
+      "product_categories": "제품 카테고리들",
+      "stock": "재고",
+      "record": "기록",
+      "client_address": "고객 주소",
+      "audit_config": "감사 설정",
+      "audit_log": "감사 로그",
+      "product_brands": "제품 브랜드",
+      "stock_view": "재고 보기",
+      "stock_vendor": "재고 공급업체",
+      "stock_vendor_stat": "재고 공급업체 통계",
+      "stock_product_stat": "재고 제품 통계",
+      "client_address_view": "고객 주소 보기",
+      "audit_log_group": "감사 로그 그룹",
+      "parent_id": "부모 ID",
+      "user_id": "사용자 ID",
+      "tenant_id": "임대인 ID",
+      "role_id": "역할 ID",
+      "permission_id": "권한 ID",
+      "unit_type": "단위 유형",
+      "category_id": "카테고리 ID",
+      "address_id": "주소 ID",
+      "address_tenant_id": "주소 임대인 ID",
+      "client_national_id": "고객 국가 ID",
+      "client_tenant_id": "고객 임대인 ID",
+      "correlation_id": "상관 ID",
+      "request_id": "요청 ID",
+      "display_name": "표시 이름",
+      "id": "ID",
+      "created_at": "생성일"
    },
    "audit_log": {
-      "no_changes_detected": "변경 사항 없음",
+      "no_changes_detected": "변경 사항이 감지되지 않았습니다.",
       "add": "추가",
       "update": "수정",
       "delete": "삭제",
@@ -186,13 +251,13 @@
          "headers": {
             "resource": "자원",
             "operation": "작업",
-            "done_by": "수행자",
-            "created_at": "생성 일자",
-            "reverted_by": "되돌리기 수행자",
-            "reverted_at": "되돌리기 일자"
+            "created_at": "생성일",
+            "reverted_at": "되돌리기 일자",
+            "user_who_performed": "실행한 사용자",
+            "user_who_reverted": "되돌린 사용자"
          }
       },
-      "already_reverted": "이미 되돌려짐",
+      "already_reverted": "이미 되돌린 작업입니다.",
       "attempt_to_revert": "되돌리기 시도",
       "added": "추가됨",
       "updated": "수정됨",
@@ -217,10 +282,10 @@
          "headers": {
             "client": "클라이언트",
             "nationality": "국적",
-            "national_id": "국민",
-            "birth_date": "생일",
+            "national_id": "국민등록번호",
+            "birth_date": "생년월일",
             "email": "이메일",
-            "phone": "전화",
+            "phone": "전화번호",
             "created_at": "생성일"
          }
       },
@@ -232,19 +297,19 @@
       }
    },
    "product": {
-      "select_product": "제품 선택",
+      "select_product": "청취도움제품 선택",
       "category": {
          "select_category": "카테고리 선택"
       }
    },
    "input": {
-      "select_or_write": "선택하거나 작성"
+      "select_or_write": "선택 또는 입력"
    },
    "address": {
       "select_country": "국가 선택",
       "table": {
          "headers": {
-            "address_name": "주소 이름",
+            "address_name": "주소명",
             "country": "국가",
             "city": "도시",
             "district": "구",
@@ -253,14 +318,14 @@
       }
    },
    "financial": {
-      "select_currency": "화폐 선택",
+      "select_currency": "통화 선택",
       "select_unit_type": "단위 유형 선택"
    },
    "component": {
       "select_permission": {
          "table": {
             "headers": {
-               "permission_name": "권한 이름",
+               "permission_name": "권한명",
                "read": "읽기",
                "create": "생성",
                "modify": "수정",
@@ -269,111 +334,194 @@
          }
       },
       "table": {
-         "no_data_found": "데이터가 없습니다",
+         "no_data_found": "데이터가 없습니다.",
          "keyword_search": "키워드 검색"
       }
    },
    "common": {
       "select": "선택"
    },
+   "role": {
+      "select_role": "역할 선택",
+      "table": {
+         "headers": {
+            "name": "이름",
+            "created_at": "생성일"
+         }
+      }
+   },
    "router": {
       "action": {
-         "open_in_window": "창에서 열기",
-         "manage_addresses": "주소 관리",
+         "open_in_window": "새 창에서 열기",
+         "manage-addresses": "주소 관리",
          "close": "닫기",
          "go_to_dashboard": "대시보드로 이동",
+         "manage_addresses": "주소 관리",
          "go_back": "뒤로 가기"
       },
-      "error_occured": "오류가 발생했습니다",
-      "requested_resource_is_not_available": "요청한 자원이 사용할 수 없습니다",
-      "not_found": "미발견"
+      "error_occured": "오류가 발생했습니다.",
+      "requested_resource_is_not_available": "요청한 자원이 사용할 수 없습니다.",
+      "not_found": "찾을 수 없습니다."
    },
    "action": {
-      "save": "저장",
       "reset": "초기화",
+      "save": "저장",
       "confirm": {
          "delete": {
-            "question": "이 항목을 삭제하시겠습니까?",
+            "question": "삭제하시겠습니까?",
             "title": "삭제 확인"
          }
       },
       "yes": "예",
-      "no": "아니요",
+      "no": "아니오",
       "cancelled": "취소됨",
       "add": "추가",
       "delete": "삭제",
-      "edit": "편집",
+      "edit": "수정",
+      "cancel": "취소",
+      "send": "전송",
       "submit": "제출",
-      "back": "뒤로"
+      "resend_code": "코드 재전송",
+      "back": "뒤로",
+      "invite": "초대"
    },
    "const": {
-      "earmold": {
-         "inner": {
-            "models": {
-               "ITE": "ITE",
-               "ITC": "ITC",
-               "CIC": "CIC"
-            }
-         }
-      },
-      "record": {
-         "type": {
-            "": "타입"
+      "ear_device": {
+         "models": {
+            "in_ear_(ITE)": "귀에 삽입형 (ITE)",
+            "in_canal_(ITC)": "귀관 내형 (ITC)",
+            "completely_in_canal_(CIC)": "귀관 완전 내형 (CIC)"
          }
       }
    },
-   "route": {
-      "label": {
-         "dashboard": "대시보드",
-         "error": "오류",
-         "notfound": "찾을 수 없음",
-         "account": "계정",
-         "profile": "프로필",
-         "settings": "설정",
-         "update-profile": "프로필 업데이트",
-         "update-password": "비밀번호 업데이트",
-         "logout": "로그아웃",
-         "address": "주소",
-         "list": "목록",
-         "edit": "편집",
-         "add": "추가",
-         "register": "등록",
-         "login": "로그인",
-         "access-denied": "접근 거부",
-         "branch": "지점",
-         "branch-role": "지점 역할",
-         "audit-logs": "감사 로그",
-         "client": "고객",
-         "manage": "관리",
-         "general": "일반",
-         "record": "기록",
-         "battery": "배터리",
-         "device": "장치",
-         "stock": "재고",
-         "product": "제품",
-         "service": "서비스",
-         "spare-parts": "부품"
-      }
+   "errors": {
+      "access_denied": "접근 거부",
+      "confirmation_required": "확인이 필요합니다",
+      "email_change_required": "이메일 변경이 필요합니다",
+      "expired_code": "만료된 코드입니다",
+      "identity_provider_error": "신뢰할 수 없는 인증 제공자입니다",
+      "invalid_code": "잘못된 코드입니다",
+      "invalid_email": "잘못된 이메일 주소입니다",
+      "invalid_email_link": "잘못된 이메일 확인 링크입니다",
+      "invalid_credentials": "잘못된 자격 증명입니다",
+      "invalid_phone": "잘못된 전화번호입니다",
+      "invalid_recovery_token": "잘못된 복구 토큰입니다",
+      "invalid_signup_data": "잘못된 가입 데이터입니다",
+      "invalid_token": "잘못된 토큰입니다",
+      "invalid_verification_link": "잘못된 확인 링크입니다",
+      "mfa_invalid_code": "MFA 코드가 잘못되었습니다",
+      "mfa_required": "MFA가 필요합니다",
+      "missing_code": "코드가 누락되었습니다",
+      "missing_email": "이메일이 누락되었습니다",
+      "missing_phone": "전화번호가 누락되었습니다",
+      "otp_expired": "OTP가 만료되었습니다",
+      "otp_failed": "OTP 실패",
+      "otp_max_attempts": "OTP 최대 시도 횟수 초과",
+      "password_length": "비밀번호 길이가 너무 짧습니다",
+      "phone_change_required": "전화번호 변경이 필요합니다",
+      "recovery_link_used": "복구 링크가 이미 사용되었습니다",
+      "server_error": "서버 오류",
+      "signup_disabled": "가입이 비활성화되었습니다",
+      "token_expired": "토큰이 만료되었습니다",
+      "unauthorized_client": "인증되지 않은 클라이언트입니다",
+      "unexpected_error": "예상치 못한 오류",
+      "unknown_provider": "알 수 없는 제공자입니다",
+      "user_already_registered": "이미 등록된 사용자입니다",
+      "user_not_found": "사용자를 찾을 수 없습니다",
+      "user_update_failed": "사용자 정보 업데이트 실패",
+      "verification_link_used": "확인 링크가 이미 사용되었습니다",
+      "weak_password": "비밀번호가 약합니다",
+      "no_data": "데이터가 없습니다",
+      "no_additional_dynamic_result_sets_returned": "추가적인 동적 결과 집합이 반환되지 않았습니다",
+      "data_exception": "데이터 예외",
+      "string_data_right_truncation": "문자열 데이터 오른쪽 자르기",
+      "numeric_value_out_of_range": "수치 값 범위 초과",
+      "invalid_datetime_format": "잘못된 날짜 및 시간 형식",
+      "datetime_field_overflow": "날짜 및 시간 필드 오버플로우",
+      "division_by_zero": "0으로 나누기",
+      "invalid_parameter_value": "잘못된 매개변수 값",
+      "floating_point_exception": "부동소수점 예외",
+      "invalid_text_representation": "잘못된 텍스트 표현",
+      "invalid_binary_representation": "잘못된 이진 표현",
+      "bad_copy_file_format": "잘못된 복사 파일 형식",
+      "untranslatable_character": "변환할 수 없는 문자",
+      "integrity_constraint_violation": "무결성 제약 위반",
+      "not_null_violation": "NOT NULL 제약 위반",
+      "foreign_key_violation": "외래 키 제약 위반",
+      "unique_violation": "UNIQUE 제약 위반",
+      "check_violation": "CHECK 제약 위반",
+      "exclusion_violation": "제외 제약 위반",
+      "invalid_cursor_state": "잘못된 커서 상태",
+      "invalid_transaction_state": "잘못된 트랜잭션 상태",
+      "in_failed_sql_transaction": "실패한 SQL 트랜잭션 중",
+      "invalid_sql_statement_name": "잘못된 SQL 문 이름",
+      "invalid_authorization_specification": "잘못된 권한 스펙",
+      "invalid_password": "잘못된 비밀번호",
+      "invalid_cursor_name": "잘못된 커서 이름",
+      "external_routine_exception": "외부 루틴 예외",
+      "containing_sql_not_permitted": "SQL 포함 허용되지 않음",
+      "modifying_sql_data_not_permitted": "SQL 데이터 수정 허용되지 않음",
+      "prohibited_sql_statement_attempted": "금지된 SQL 문 시도",
+      "reading_sql_data_not_permitted": "SQL 데이터 읽기 허용되지 않음",
+      "external_routine_invocation_exception": "외부 루틴 호출 예외",
+      "invalid_sqlstate_returned": "잘못된 SQLSTATE 반환",
+      "null_value_not_allowed": "NULL 값 허용되지 않음",
+      "serialization_failure": "직렬화 실패",
+      "statement_completion_unknown": "명령 완료 상태 불확실",
+      "deadlock_detected": "데드락 감지",
+      "syntax_error": "구문 오류",
+      "undefined_column": "정의되지 않은 컬럼",
+      "datatype_mismatch": "데이터타입 불일치",
+      "invalid_foreign_key": "잘못된 외래 키",
+      "undefined_function": "정의되지 않은 함수",
+      "undefined_table": "정의되지 않은 테이블",
+      "undefined_parameter": "정의되지 않은 매개변수",
+      "indeterminate_datatype": "결정 불가능한 데이터타입",
+      "with_check_option_violation": "WITH CHECK OPTION 위반",
+      "insufficient_privilege": "권한 부족",
+      "insufficient_privilege_reserved": "권한 부족(예약됨)",
+      "invalid_grant_operation": "잘못된 권한 부여 작업",
+      "invalid_role_specification": "잘못된 역할 스펙",
+      "too_many_connections": "많은 연결",
+      "configuration_limit_exceeded": "구성 제한 초과",
+      "object_not_in_prerequisite_state": "사전 조건 상태가 아님",
+      "object_in_use": "사용 중인 객체",
+      "query_canceled": "질의 취소",
+      "admin_shutdown": "관리자 종료",
+      "crash_shutdown": "시스템 충돌 종료",
+      "cannot_connect_now": "지금 연결할 수 없습니다",
+      "system_error": "시스템 오류",
+      "io_error": "I/O 오류",
+      "config_file_error": "구성 파일 오류",
+      "raise_exception": "예외 발생",
+      "no_data_found": "데이터 없음",
+      "too_many_rows": "행이 너무 많음",
+      "internal_error": "내부 오류",
+      "data_corrupted": "데이터 손상",
+      "index_corrupted": "인덱스 손상",
+      "sql_med_insufficient_privilege": "SQL 권한 부족",
+      "insufficient_permission": "권한 부족",
+      "AuthInvalidCredentialsError": "인증 실패"
    },
-   "list": "목록",
    "account": {
       "profile": {
          "user_info": "사용자 정보",
-         "name": "전체 이름",
-         "email": "이메일 주소",
+         "name": "이름",
+         "email": "이메일",
          "phone": "전화번호",
          "events": "이벤트",
          "logs": {
             "created_at": "생성일",
-            "email_confirmed_at": "이메일 확인일",
-            "last_sign_in_at": "마지막 로그인일"
+            "email_confirmed_at": "이메일 인증일",
+            "last_sign_in_at": "최근 로그인일"
          }
       }
    },
    "toast": {
-      "updated": "성공적으로 업데이트됨",
+      "updated": "수정됨",
       "success": "성공",
-      "saved": "성공적으로 저장됨"
+      "saved": "저장됨",
+      "sended": "전송됨"
    },
    "register": {
       "stepper": {
@@ -383,13 +531,21 @@
          }
       }
    },
-   "role": {
+   "user": {
       "table": {
          "headers": {
             "name": "이름",
+            "email": "이메일",
             "created_at": "생성일"
          }
-      }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "일반 정보"
+         }
+      },
+      "general_info": "일반 정보",
+      "security": "보안"
    },
    "record": {
       "table": {
@@ -404,17 +560,17 @@
       },
       "tab": {
          "record": "기록",
-         "earmold": "이어마우드"
+         "ear_device": "귀 장치"
       },
       "information": "정보",
-      "financial": "재정"
+      "financial": "재무"
    },
    "stock": {
       "battery": {
          "table": {
             "headers": {
                "product": "제품",
-               "unit_cost": "단가",
+               "unit_cost": "단위 비용",
                "quantity": "수량",
                "vendor": "공급업체",
                "stocked_at": "재고 위치"
@@ -426,9 +582,9 @@
             "headers": {
                "product": "제품",
                "serial_number": "시리얼 번호",
-               "unit_cost": "단가",
+               "unit_cost": "단위 비용",
                "vendor": "공급업체",
-               "stocked_at": "재고 위치"
+               "stocked_at": "재고 입고일"
             }
          }
       },
@@ -446,7 +602,7 @@
          "table": {
             "headers": {
                "product": "제품",
-               "unit_cost": "단가",
+               "unit_cost": "단위 비용",
                "quantity": "수량",
                "vendor": "공급업체",
                "stocked_at": "재고 위치"
@@ -457,7 +613,7 @@
          "table": {
             "headers": {
                "product": "제품",
-               "unit_cost": "단가",
+               "unit_cost": "단위 비용",
                "quantity": "수량",
                "vendor": "공급업체",
                "stocked_at": "재고 위치"
@@ -465,6 +621,44 @@
          }
       },
       "information": "정보",
-      "financial": "재정"
+      "financial": "재무"
+   },
+   "route": {
+      "label": {
+         "dashboard": "대시보드",
+         "error": "오류",
+         "notfound": "페이지를 찾을 수 없습니다",
+         "account": "계정",
+         "profile": "프로필",
+         "settings": "설정",
+         "update-profile": "프로필 업데이트",
+         "update-password": "비밀번호 변경",
+         "logout": "로그아웃",
+         "address": "주소",
+         "list": "목록",
+         "edit": "편집",
+         "add": "추가",
+         "register": "등록",
+         "login": "로그인",
+         "enter-auth-otp-code": "인증 OTP 코드 입력",
+         "access-denied": "접근 거부",
+         "branch": "지점",
+         "branch-user": "지점 사용자",
+         "manage-user": "사용자 관리",
+         "user-general-info": "사용자 일반 정보",
+         "branch-role": "지점 역할",
+         "audit-logs": "로그",
+         "client": "고객",
+         "manage-client": "고객 관리",
+         "client-general-info": "고객 일반 정보",
+         "client-addresses": "고객 주소",
+         "record": "기록",
+         "battery": "배터리",
+         "device": "장치",
+         "stock": "재고",
+         "product": "제품",
+         "service": "서비스",
+         "spare-parts": "부품"
+      }
    }
 }

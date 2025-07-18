@@ -1,8 +1,9 @@
 {
    "fields": {
       "tenant": "",
+      "branch": "Şube",
       "user": "",
-      "tenant_user": "",
+      "tenant_user": "Şube Kullanıcısı",
       "tenant_owner": "",
       "address": "",
       "role_permission": "",
@@ -30,6 +31,7 @@
       "permission_id": "",
       "national_id": "",
       "product_id": "",
+      "unit_type": "",
       "category_id": "",
       "client_id": "",
       "stock_id": "",
@@ -39,7 +41,7 @@
       "client_tenant_id": "",
       "correlation_id": "",
       "request_id": "",
-      "display_name": "name",
+      "display_name": "İsim",
       "id": "",
       "created_at": ""
    }

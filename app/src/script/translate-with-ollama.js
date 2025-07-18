@@ -122,11 +122,8 @@ This JSON contains interface text for a Hearing Aid CRM application used by clin
 **Translation rules:**
 - Use a **formal and professional tone** suitable for medical and clinical software interfaces.
 - Keep the **JSON structure** exactly the same.
-- Translate only the **values**, not the keys.
-- Translate all values.
+- Translate all values to **${targetLang}**.
 - If a value is empty, translate by **key** instead.
-- “Tenant” means a branch, so you can translate 'tenant' as 'branch'.
-- 'audit_log' simply means 'logs'
 - Avoid using informal words or casual expressions.
 - Use domain-specific medical terminology, especially for hearing aid terms.
 - If a key contains or ends with "id":

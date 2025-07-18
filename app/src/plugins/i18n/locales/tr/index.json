@@ -11,193 +11,114 @@
          "primary_color": "Ana Renk",
          "surface_color": "Yüzey Renk",
          "preset": {
-            "select_preset": "Şablon Seç"
+            "select_preset": "Ön Ayar Seç"
          }
       },
       "language": {
          "select_language": "Dil Seç",
          "option": {
-            "en": "İngilizce",
             "tr": "Türkçe",
+            "en": "İngilizce",
             "fr": "Fransızca",
             "de": "Almanca",
-            "pl": "Lehce",
+            "pl": "Lehçe",
             "ru": "Rusça",
-            "cn": "Çince",
-            "jp": "Japonca",
+            "zh": "Çince",
+            "ja": "Japonca",
             "ko": "Korece"
          }
       },
       "sidebar": {
-         "select_sidebar_mode": "Kenar Çubuğu Modunu Seç",
+         "select_sidebar_mode": "Menü Modu Seç",
          "modes": {
             "static": "Statik",
             "auto": "Otomatik",
             "mini": "Mini",
             "reveal": "Göster",
-            "overlay": "Yanıt"
+            "overlay": "Yatay"
          }
       }
    },
    "auth": {
       "branch": "Şube",
-      "error": {
-         "insufficient_permission": "Yetersiz Yetki"
+      "welcome": {
+         "title": "Hoş Geldiniz",
+         "text": "Hearing Aid CRM uygulamasına hoş geldiniz."
       },
+      "please_dont_forget_to_update_your_password": "Şifrenizi güncellemeyi unutmayınız.",
       "confirm": {
          "logout": {
             "question": "Çıkış yapmak istediğinizden emin misiniz?",
-            "header": "Çıkış"
+            "header": "Çıkış Onayı"
          }
       },
       "toast": {
-         "welcome": "Hoş geldiniz",
-         "goodby": "Görüşmek üzere"
+         "welcome": "Hoş geldiniz!",
+         "goodby": "Güle güle!"
       },
-      "welcome": {
-         "title": "Hoş geldiniz",
-         "text": "Kulağa Yardım CRM uygulamasına hoş geldiniz."
+      "forgot_password": {
+         "confirm": {
+            "header": "Şifremi Unuttum"
+         }
+      },
+      "otp": {
+         "forgot_password": {
+            "password_reset_email_sended_please_check_your_email": "Şifre sıfırlama e-postası gönderildi, lütfen e-postanızı kontrol edin.",
+            "lets_get_your_account_back!💪": "Hesabınıza geri dönmek istiyorsunuz!💪"
+         },
+         "resend_code": {
+            "confirm": {
+               "title": "Kodu Tekrar Gönder"
+            },
+            "toast": {
+               "code_sended": "Kod gönderildi."
+            },
+            "code_verified": "Kod doğrulandı."
+         },
+         "invite_code": {
+            "so_you_are_invited!🎊": "Davet edildiniz!🎊",
+            "please_enter_the_code_in_email_to_login": "Giriş yapmak için e-postadaki kodu girin."
+         }
       },
       "login": {
-         "welcome_back": "Yine Hoş geldiniz",
-         "please_login_to_continue": "Devam etmek için lütfen giriş yapın.",
-         "forgot_password?": "Şifremi unuttum?"
+         "welcome_back": "Hoş geldiniz tekrar!",
+         "please_login_to_continue": "Devam etmek için giriş yapın.",
+         "forgot_your_password?": "Şifrenizi unuttunuz mı?",
+         "do_you_have_invite_code?": "Davet kodunuz var mı?"
       },
       "logout": {
          "logged_out_successfully": "Başarıyla çıkış yapıldı."
       },
       "register": {
          "create_account": "Hesap Oluştur",
-         "create_an_account_and_join_us": "Hesap oluşturun ve bize katılarak birlikte çalışın.",
+         "create_an_account_and_join_us": "Hesap oluşturarak bize katılmaya devam edin.",
          "account_info": "Hesap Bilgileri",
          "company_info": "Şirket Bilgileri"
       }
    },
-   "fields": {
-      "": "",
-      "device": "cihaz",
-      "battery": "bateri",
-      "spare_part": "yedek parça",
-      "service": "hizmet",
-      "trial": "deneme",
-      "sale": "satış",
-      "assemble": "montaj",
-      "repair": "onarım",
-      "promotion": "promosyon",
-      "cash": "nakit",
-      "credit_card": "kredi kartı",
-      "pending": "beklemede",
-      "pending_service": "bekleyen hizmet",
-      "client holds service bid": "müşteri hizmet teklifini tutuyor",
-      "client_approved_service_bid": "müşteri hizmet teklifini onayladı",
-      "client_rejected_service_bid": "müşteri hizmet teklifini reddetti",
-      "done": "bitirildi",
-      "approved": "onaylandı",
-      "rejected": "reddedildi",
-      "pending_client": "bekleyen müşteri",
-      "biopar": "biopar",
-      "hard": "sert",
-      "micro": "mikro",
-      "full": "tam",
-      "half": "yarı",
-      "supported": "destekleniyor",
-      "prob": "prob",
-      "pcs": "adet",
-      "kg": "kg",
-      "gr": "gr",
-      "lbs": "lbs",
-      "L": "L",
-      "mL": "mL",
-      "m": "m",
-      "m²": "m²",
-      "cm": "cm",
-      "in": "in",
-      "password": "şifre",
-      "password_confirmation": "şifre teyidi",
-      "name": "ad",
-      "email": "e-posta",
-      "phone": "telefon",
-      "country": "ülke",
-      "city": "şehir",
-      "district": "ilçe",
-      "details": "detaylar",
-      "remember_me": "beni hatırla",
-      "company": "şirket",
-      "permission": "izin",
-      "client_id": "müşteri",
-      "nationality": "ulusluluk",
-      "national_id": "uluslararası kimlik",
-      "birth_date": "doğum tarihi",
-      "gender": "cinsiyet",
-      "behind_ear_molds": "kulak arkası mold",
-      "attributes": "özellikler",
-      "type": "tür",
-      "model": "model",
-      "speaker_power": "gönderici gücü",
-      "side": "yön",
-      "left": "sol",
-      "right": "sağ",
-      "ventilation": "hava alımı",
-      "speaker_size": "gönderici boyutu",
-      "inner_ear_molds": "kulak içi mold",
-      "inner_ear_mold": "kulak içi mold",
-      "has_bluetooth": "bluetooth var mı",
-      "has_button": "düğme var mı",
-      "record_type": "kayıt türü",
-      "stock_id": "stok",
-      "device_side": "cihaz yönü",
-      "both": "her iki",
-      "record_status": "kayıt durumu",
-      "quantity": "miktar",
-      "payment_type": "ödeme türü",
-      "currency_code": "para birimi kodu",
-      "repair_fee": "onarım ücreti",
-      "bid": "teklif",
-      "bid_discount": "teklif indirimi",
-      "tax": "kdv",
-      "total_bid": "toplam teklif",
-      "insurance_type": "sigorta türü",
-      "retired": "emekli",
-      "worker": "çalışan",
-      "insurance_contribution": "sigorta katkısı",
-      "client_insurance_contribution": "müşteri sigorta katkısı",
-      "brand": "marka",
-      "categories": "kategoriler",
-      "product_id": "ürün",
-      "vendor": "satıcı",
-      "stocked_at": "stokta",
-      "barcode": "barkod",
-      "serial_number": "seri numarası",
-      "currency": "para birimi",
-      "unit_cost": "birim maliyeti",
-      "unit_discount": "birim indirimi",
-      "unit_tax": "birim kdv",
-      "total_cost": "toplam maliyet",
-      "behind_ear_mold": "kulak arkası mold"
-   },
    "audit_log": {
-      "no_changes_detected": "değişiklik algılanmadı",
-      "add": "ekle",
-      "update": "güncelle",
-      "delete": "sil",
-      "read": "oku",
-      "select_operation": "işlem seç",
+      "no_changes_detected": "Değişiklik tespit edilmedi",
+      "add": "Ekleme",
+      "update": "Güncelleme",
+      "delete": "Silme",
+      "read": "Okuma",
+      "select_operation": "İşlem Seç",
       "table": {
          "headers": {
-            "resource": "kaynak",
-            "operation": "işlem",
-            "done_by": "yapılan kişi",
-            "created_at": "oluşturulma tarihi",
-            "reverted_by": "geri alındı",
-            "reverted_at": "geri alma tarihi"
+            "resource": "Kaynak",
+            "operation": "İşlem",
+            "created_at": "Oluşturulma Tarihi",
+            "reverted_at": "İptal Tarihi",
+            "user_who_performed": "Yapan Kullanıcı",
+            "user_who_reverted": "İptal Eden Kullanıcı"
          }
       },
-      "already_reverted": "zaten geri alındı",
-      "attempt_to_revert": "geri alma denemesi",
-      "added": "eklendi",
-      "updated": "güncellendi",
-      "deleted": "silindi",
-      "readed": "okundu"
+      "already_reverted": "Zaten İptal Edildi",
+      "attempt_to_revert": "İptal İşlemi",
+      "added": "Eklendi",
+      "updated": "Güncellendi",
+      "deleted": "Silindi",
+      "readed": "Okundu"
    },
    "client": {
       "select_client": "Müşteri Seç",
@@ -217,7 +138,7 @@
          "headers": {
             "client": "Müşteri",
             "nationality": "Uyruk",
-            "national_id": "Milli",
+            "national_id": "Milli Kimlik",
             "birth_date": "Doğum Tarihi",
             "email": "E-posta",
             "phone": "Telefon",
@@ -232,39 +153,39 @@
       }
    },
    "product": {
-      "select_product": "Ürün Seç",
+      "select_product": "İlaç Seçin",
       "category": {
-         "select_category": "Kategori Seç"
+         "select_category": "Kategori Seçin"
       }
    },
    "input": {
-      "select_or_write": "Seçin veya yazın"
+      "select_or_write": "Seçin veya Yazın"
    },
    "address": {
       "select_country": "Ülke seçin",
       "table": {
          "headers": {
-            "address_name": "Adres adı",
+            "address_name": "Adres Adı",
             "country": "Ülke",
             "city": "Şehir",
             "district": "İlçe",
-            "created_at": "Oluşturulma tarihi"
+            "created_at": "Oluşturulma Tarihi"
          }
       }
    },
    "financial": {
-      "select_currency": "Para birimi seçin",
-      "select_unit_type": "Birim türü seçin"
+      "select_currency": "Para Birimi Seçin",
+      "select_unit_type": "Birim Türünü Seçin"
    },
    "component": {
       "select_permission": {
          "table": {
             "headers": {
                "permission_name": "İzin Adı",
-               "read": "Oku",
-               "create": "Oluştur",
-               "modify": "Değiştir",
-               "all": "Hepsi"
+               "read": "Okuma",
+               "create": "Oluşturma",
+               "modify": "Değiştirme",
+               "all": "Tümü"
             }
          }
       },
@@ -276,24 +197,34 @@
    "common": {
       "select": "Seç"
    },
+   "role": {
+      "select_role": "Rola seçin",
+      "table": {
+         "headers": {
+            "name": "Adı",
+            "created_at": "Oluşturulma Tarihi"
+         }
+      }
+   },
    "router": {
       "action": {
-         "open_in_window": "Pencere içinde aç",
-         "manage_addresses": "Adresleri yönet",
+         "open_in_window": "Yeni Pencerede Aç",
+         "manage-addresses": "Adresleri Yönet",
          "close": "Kapat",
-         "go_to_dashboard": "Panel'e git",
-         "go_back": "Geri dön"
+         "go_to_dashboard": "Dashboard'a Git",
+         "manage_addresses": "Adresleri Yönet",
+         "go_back": "Geri Dön"
       },
-      "error_occured": "Bir hata oluştu",
-      "requested_resource_is_not_available": "İstenen kaynak bulunamadı",
+      "error_occured": "Hata Oluştu",
+      "requested_resource_is_not_available": "İstenen Kaynak Mevcut Değil",
       "not_found": "Bulunamadı"
    },
    "action": {
-      "save": "Kaydet",
       "reset": "Sıfırla",
+      "save": "Kaydet",
       "confirm": {
          "delete": {
-            "question": "Bu öğeyi silmek istediğinizden emin misiniz?",
+            "question": "Silme işlemi onaylıyor musunuz?",
             "title": "Silme Onayı"
          }
       },
@@ -303,24 +234,250 @@
       "add": "Ekle",
       "delete": "Sil",
       "edit": "Düzenle",
+      "cancel": "İptal",
+      "send": "Gönder",
       "submit": "Gönder",
-      "back": "Geri"
+      "resend_code": "Kodu Tekrar Gönder",
+      "back": "Geri",
+      "invite": "Davet Et"
    },
    "const": {
-      "earmold": {
-         "inner": {
-            "models": {
-               "ITE": "ITE",
-               "ITC": "ITC",
-               "CIC": "CIC"
+      "ear_device": {
+         "models": {
+            "in_ear_(ITE)": "Kulakta (ITE)",
+            "in_canal_(ITC)": "Kanal İçinde (ITC)",
+            "completely_in_canal_(CIC)": "Tamamen Kanal İçinde (CIC)"
+         }
+      }
+   },
+   "errors": {
+      "access_denied": "Erişim reddedildi",
+      "confirmation_required": "Onay gerekiyor",
+      "email_change_required": "E-posta değişikliği gerekiyor",
+      "expired_code": "Sonuçlar geçersiz",
+      "identity_provider_error": "Kimlik sağlayıcısı hatası",
+      "invalid_code": "Geçersiz kod",
+      "invalid_email": "Geçersiz e-posta",
+      "invalid_email_link": "Geçersiz e-posta bağlantısı",
+      "invalid_credentials": "Geçersiz kimlik bilgileri",
+      "invalid_phone": "Geçersiz telefon",
+      "invalid_recovery_token": "Geçersiz geri yükleme belirteci",
+      "invalid_signup_data": "Geçersiz kayıt verisi",
+      "invalid_token": "Geçersiz belirteç",
+      "invalid_verification_link": "Geçersiz doğrulama bağlantısı",
+      "mfa_invalid_code": "MFA geçersiz kod",
+      "mfa_required": "MFA gerekiyor",
+      "missing_code": "Kod eksik",
+      "missing_email": "E-posta eksik",
+      "missing_phone": "Telefon eksik",
+      "otp_expired": "OTP süresi doldu",
+      "otp_failed": "OTP başarısız",
+      "otp_max_attempts": "OTP maksimum deneme sayısı",
+      "password_length": "Şifre uzunluğu",
+      "phone_change_required": "Telefon değişikliği gerekiyor",
+      "recovery_link_used": "Geri yükleme bağlantısı kullanıldı",
+      "server_error": "Sunucu hatası",
+      "signup_disabled": "Kayıt devre dışı",
+      "token_expired": "Belirteç süresi doldu",
+      "unauthorized_client": "Yetkisiz istemci",
+      "unexpected_error": "Beklenmeyen hata",
+      "unknown_provider": "Bilinmeyen sağlayıcı",
+      "user_already_registered": "Kullanıcı zaten kayıtlı",
+      "user_not_found": "Kullanıcı bulunamadı",
+      "user_update_failed": "Kullanıcı güncelleme başarısız",
+      "verification_link_used": "Doğrulama bağlantısı kullanıldı",
+      "weak_password": "Zayıf şifre",
+      "no_data": "Veri yok",
+      "no_additional_dynamic_result_sets_returned": "Ekstra dinamik sonuç kümesi döndürülmedi",
+      "data_exception": "Veri istisnası",
+      "string_data_right_truncation": "Dize verisi sağa kırpıldı",
+      "numeric_value_out_of_range": "Sayısal değer aralığın dışına çıktı",
+      "invalid_datetime_format": "Geçersiz tarih saat biçimi",
+      "datetime_field_overflow": "Tarih saat alanı taşma",
+      "division_by_zero": "Sıfıra bölme",
+      "invalid_parameter_value": "Geçersiz parametre değeri",
+      "floating_point_exception": "Kayan nokta istisnası",
+      "invalid_text_representation": "Geçersiz metin temsili",
+      "invalid_binary_representation": "Geçersiz ikili temsili",
+      "bad_copy_file_format": "Kötü kopyalama dosya biçimi",
+      "untranslatable_character": "Çevrilemeyen karakter",
+      "integrity_constraint_violation": "İntegrité kısıtlaması ihlali",
+      "not_null_violation": "NOT NULL ihlali",
+      "foreign_key_violation": "Yabancı anahtar ihlali",
+      "unique_violation": "Benzersizlik ihlali",
+      "check_violation": "Denetim ihlali",
+      "exclusion_violation": "İzole ihlali",
+      "invalid_cursor_state": "Geçersiz imleç durumu",
+      "invalid_transaction_state": "Geçersiz işlem durumu",
+      "in_failed_sql_transaction": "Başarısız SQL işlemi içinde",
+      "invalid_sql_statement_name": "Geçersiz SQL ifadesi adı",
+      "invalid_authorization_specification": "Geçersiz yetkilendirme tanımı",
+      "invalid_password": "Geçersiz şifre",
+      "invalid_cursor_name": "Geçersiz imleç adı",
+      "external_routine_exception": "Dış rutin istisnası",
+      "containing_sql_not_permitted": "İçeren SQL izin verilmedi",
+      "modifying_sql_data_not_permitted": "SQL verisini değiştirme izin verilmedi",
+      "prohibited_sql_statement_attempted": "Yasaklanan SQL ifadesi denendi",
+      "reading_sql_data_not_permitted": "SQL verisini okuma izin verilmedi",
+      "external_routine_invocation_exception": "Dış rutin çağrısı istisnası",
+      "invalid_sqlstate_returned": "Geçersiz SQL durumu döndürüldü",
+      "null_value_not_allowed": "NULL değer izin verilmedi",
+      "serialization_failure": "Serileştirme başarısız",
+      "statement_completion_unknown": "İfade tamamlanması bilinmiyor",
+      "deadlock_detected": "Kilit çatışması tespit edildi",
+      "syntax_error": "Sözdizimi hatası",
+      "undefined_column": "Tanımsız sütun",
+      "datatype_mismatch": "Veri türü eşleşmiyor",
+      "invalid_foreign_key": "Geçersiz yabancı anahtar",
+      "undefined_function": "Tanımsız fonksiyon",
+      "undefined_table": "Tanımsız tablo",
+      "undefined_parameter": "Tanımsız parametre",
+      "indeterminate_datatype": "Belirsiz veri türü",
+      "with_check_option_violation": "WITH CHECK OPTION ihlali",
+      "insufficient_privilege": "Yetersiz yetki",
+      "insufficient_privilege_reserved": "Yetersiz yetki (rezervasyon)",
+      "invalid_grant_operation": "Geçersiz izin verme işlemi",
+      "invalid_role_specification": "Geçersiz rol tanımı",
+      "too_many_connections": "Çok fazla bağlantı",
+      "configuration_limit_exceeded": "Konfigürasyon sınırı aşıldı",
+      "object_not_in_prerequisite_state": "Nesne öncelikli durumda değil",
+      "object_in_use": "Nesne kullanımda",
+      "query_canceled": "Sorgu iptal edildi",
+      "admin_shutdown": "Yönetici kapatma",
+      "crash_shutdown": "Çökme kapatma",
+      "cannot_connect_now": "Şimdi bağlanamaz",
+      "system_error": "Sistem hatası",
+      "io_error": "Girdi/çıktı hatası",
+      "config_file_error": "Konfigürasyon dosyası hatası",
+      "raise_exception": "İstisna at",
+      "no_data_found": "Veri bulunamadı",
+      "too_many_rows": "Çok fazla satır",
+      "internal_error": "İç hatası",
+      "data_corrupted": "Veri bozuk",
+      "index_corrupted": "İndeks bozuk",
+      "sql_med_insufficient_privilege": "SQL_MED yetersiz yetki",
+      "insufficient_permission": "Yetersiz izin",
+      "AuthInvalidCredentialsError": "Yetkilendirme Geçersiz Kimlik Bilgileri Hatası"
+   },
+   "account": {
+      "profile": {
+         "user_info": "Kullanıcı Bilgisi",
+         "name": "Ad Soyad",
+         "email": "E-posta",
+         "phone": "Telefon",
+         "events": "Etkinlikler",
+         "logs": {
+            "created_at": "Oluşturulma Tarihi",
+            "email_confirmed_at": "E-posta Onay Tarihi",
+            "last_sign_in_at": "Son Giriş Tarihi"
+         }
+      }
+   },
+   "toast": {
+      "updated": "Güncellendi",
+      "success": "Başarılı",
+      "saved": "Kaydedildi",
+      "sended": "Gönderildi"
+   },
+   "register": {
+      "stepper": {
+         "label": {
+            "account": "Hesap",
+            "company": "Şirket"
+         }
+      }
+   },
+   "user": {
+      "table": {
+         "headers": {
+            "name": "Ad",
+            "email": "E-posta",
+            "created_at": "Oluşturulma Tarihi"
+         }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "Genel Bilgiler"
+         }
+      },
+      "general_info": "Genel Bilgiler",
+      "security": "Güvenlik"
+   },
+   "record": {
+      "table": {
+         "headers": {
+            "product": "Ürün",
+            "record_type": "Kayıt Türü",
+            "client": "Müşteri",
+            "quantity": "Miktar",
+            "bid": "Teklif",
+            "created_at": "Oluşturulma Tarihi"
+         }
+      },
+      "tab": {
+         "record": "Kayıt",
+         "ear_device": "Kulak Cihazı"
+      },
+      "information": "Bilgi",
+      "financial": "Finans"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "unit_cost": "Birim Fiyatı",
+               "quantity": "Miktar",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stok Tarihi"
             }
          }
       },
-      "record": {
-         "type": {
-            "": "Tip"
+      "device": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "serial_number": "Seri Numarası",
+               "unit_cost": "Birim Fiyatı",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stok Tarihi"
+            }
          }
-      }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "brand": "Marka",
+               "categories": "Kategoriler",
+               "created_at": "Oluşturulma Tarihi"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "unit_cost": "Birim Fiyatı",
+               "quantity": "Miktar",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stok Tarihi"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "unit_cost": "Birim Fiyatı",
+               "quantity": "Miktar",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stok Tarihi"
+            }
+         }
+      },
+      "information": "Bilgi",
+      "financial": "Finans"
    },
    "route": {
       "label": {
@@ -339,13 +496,18 @@
          "add": "Ekle",
          "register": "Kayıt Ol",
          "login": "Giriş Yap",
-         "access-denied": "Erişim Engellendi",
+         "enter-auth-otp-code": "Doğrulama OTP Kodu Gir",
+         "access-denied": "Erişim Reddedildi",
          "branch": "Şube",
+         "branch-user": "Şube Kullanıcısı",
+         "manage-user": "Kullanıcı Yönetimi",
+         "user-general-info": "Kullanıcı Genel Bilgileri",
          "branch-role": "Şube Rolü",
-         "audit-logs": "Audit Logları",
+         "audit-logs": "Günlükler",
          "client": "Müşteri",
-         "manage": "Yönet",
-         "general": "Genel",
+         "manage-client": "Müşteri Yönetimi",
+         "client-general-info": "Müşteri Genel Bilgileri",
+         "client-addresses": "Müşteri Adresleri",
          "record": "Kayıt",
          "battery": "Batarya",
          "device": "Cihaz",
@@ -355,116 +517,148 @@
          "spare-parts": "Yedek Parça"
       }
    },
-   "list": "Liste",
-   "account": {
-      "profile": {
-         "user_info": "Kullanıcı Bilgileri",
-         "name": "Ad Soyad",
-         "email": "E-posta Adresi",
-         "phone": "Telefon Numarası",
-         "events": "Etkinlikler",
-         "logs": {
-            "created_at": "Oluşturulma Tarihi",
-            "email_confirmed_at": "E-posta Onay Tarihi",
-            "last_sign_in_at": "Son Giriş Tarihi"
-         }
-      }
-   },
-   "toast": {
-      "updated": "Başarıyla Güncellendi",
-      "success": "Başarılı",
-      "saved": "Başarıyla Kaydedildi"
-   },
-   "register": {
-      "stepper": {
-         "label": {
-            "account": "Hesap",
-            "company": "Şirket"
-         }
-      }
-   },
-   "role": {
-      "table": {
-         "headers": {
-            "name": "Ad",
-            "created_at": "Oluşturulma Tarihi"
-         }
-      }
-   },
-   "record": {
-      "table": {
-         "headers": {
-            "product": "Ürün",
-            "record_type": "Kayıt Türü",
-            "client": "Müşteri",
-            "quantity": "Miktar",
-            "bid": "Teklif",
-            "created_at": "Oluşturulma Tarihi"
-         }
-      },
-      "tab": {
-         "record": "Kayıt",
-         "earmold": "Kulaklık"
-      },
-      "information": "Bilgi",
-      "financial": "Finans"
-   },
-   "stock": {
-      "battery": {
-         "table": {
-            "headers": {
-               "product": "Ürün",
-               "unit_cost": "Birim Fiyat",
-               "quantity": "Miktar",
-               "vendor": "Tedarikçi",
-               "stocked_at": "Stokta"
-            }
-         }
-      },
-      "device": {
-         "table": {
-            "headers": {
-               "product": "Ürün",
-               "serial_number": "Seri Numarası",
-               "unit_cost": "Birim Fiyat",
-               "vendor": "Tedarikçi",
-               "stocked_at": "Stokta"
-            }
-         }
-      },
-      "product": {
-         "table": {
-            "headers": {
-               "product": "Ürün",
-               "brand": "Marka",
-               "categories": "Kategoriler",
-               "created_at": "Oluşturulma Tarihi"
-            }
-         }
-      },
-      "service": {
-         "table": {
-            "headers": {
-               "product": "Ürün",
-               "unit_cost": "Birim Fiyat",
-               "quantity": "Miktar",
-               "vendor": "Tedarikçi",
-               "stocked_at": "Stokta"
-            }
-         }
-      },
-      "spare_part": {
-         "table": {
-            "headers": {
-               "product": "Ürün",
-               "unit_cost": "Birim Fiyat",
-               "quantity": "Miktar",
-               "vendor": "Tedarikçi",
-               "stocked_at": "Stokta"
-            }
-         }
-      },
-      "information": "Bilgi",
-      "financial": "Finans"
+   "fields": {
+      "": "Boş",
+      "device": "Cihaz",
+      "battery": "Batarya",
+      "spare_part": "Yedek Parça",
+      "service": "Servis",
+      "trial": "Deneme",
+      "sale": "Satış",
+      "assemble": "Montaj",
+      "repair": "Onarım",
+      "promotion": "Promosyon",
+      "cash": "Nakit",
+      "credit_card": "Kredi Kartı",
+      "pending": "Beklemede",
+      "pending_service": "Bekleyen Servis",
+      "client_holds_service_bid": "Müşteri Servis Teklifini Bekliyor",
+      "client_approved_service_bid": "Müşteri Servis Teklifini Onayladı",
+      "client_rejected_service_bid": "Müşteri Servis Teklifini Reddedi",
+      "done": "Tamamlandı",
+      "approved": "Onaylandı",
+      "rejected": "Reddedildi",
+      "pending_client": "Müşteriye Beklemede",
+      "biopar": "Biopar",
+      "hard": "Sert",
+      "micro": "Mikro",
+      "full": "Tam",
+      "half": "Yarı",
+      "supported": "Destekleniyor",
+      "prob": "Olabilir",
+      "pcs": "Adet",
+      "kg": "Kg",
+      "gr": "Gr",
+      "lbs": "Lb",
+      "L": "Litre",
+      "mL": "Mililitre",
+      "m": "Metre",
+      "m²": "Metrekare",
+      "cm": "Santimetre",
+      "in": "İnç",
+      "password": "Şifre",
+      "password_confirmation": "Şifre Onayı",
+      "name": "Ad",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "country": "Ülke",
+      "city": "Şehir",
+      "district": "İlçe",
+      "details": "Detaylar",
+      "remember_me": "Beni Hatırla",
+      "code": "Kod",
+      "company": "Şirket",
+      "permission": "İzin",
+      "role": "Rol",
+      "client_id": "Müşteri",
+      "nationality": "Uyruk",
+      "national_id": "Vatandaşlık Numarası",
+      "birth_date": "Doğum Tarihi",
+      "gender": "Cinsiyet",
+      "rear_ear_devices": "Arka Kulak Cihazları",
+      "attributes": "Özellikler",
+      "rear_ear_device": "Arka Kulak Cihazı",
+      "type": "Tip",
+      "model": "Model",
+      "speaker_power": "Hoparlör Gücü",
+      "side": "Yan",
+      "left": "Sol",
+      "right": "Sağ",
+      "ventilation": "Ventilasyon",
+      "speaker_size": "Hoparlör Boyutu",
+      "inner_ear_devices": "İç Kulak Cihazları",
+      "inner_ear_device": "İç Kulak Cihazı",
+      "has_bluetooth": "Bluetooth Var mı?",
+      "has_button": "Düğme Var mı?",
+      "record_type": "Kayıt Tipi",
+      "stock_id": "Stok",
+      "device_side": "Cihaz Yanı",
+      "both": "Her iki",
+      "record_status": "Kayıt Durumu",
+      "quantity": "Miktar",
+      "payment_type": "Ödeme Türü",
+      "currency_code": "Para Birimi Kodu",
+      "repair_fee": "Onarım Ücreti",
+      "bid": "Teklif",
+      "bid_discount": "Teklif İndirimi",
+      "tax": "KDV",
+      "total_bid": "Toplam Teklif",
+      "insurance_type": "Sigorta Türü",
+      "retired": "Emekli",
+      "worker": "Çalışan",
+      "insurance_contribution": "Sigorta Katkısı",
+      "client_insurance_contribution": "Müşteri Sigorta Katkısı",
+      "brand": "Marka",
+      "categories": "Kategoriler",
+      "product_id": "Ürün",
+      "vendor": "Tedarikçi",
+      "stocked_at": "Stok Tarihi",
+      "barcode": "Barkod",
+      "serial_number": "Seri Numarası",
+      "currency": "Para Birimi",
+      "unit_cost": "Birim Fiyatı",
+      "unit_discount": "Birim İndirimi",
+      "unit_tax": "Birim KDV",
+      "total_cost": "Toplam Fiyat",
+      "tenant": "Kiralama",
+      "branch": "Şube",
+      "user": "Kullanıcı",
+      "tenant_user": "Şube Kullanıcısı",
+      "tenant_owner": "Kiralama Sahibi",
+      "address": "Adres",
+      "role_permission": "Rol İzinleri",
+      "user_role": "Kullanıcı Rolü",
+      "client": "Müşteri",
+      "product": "Ürün",
+      "product_category": "Ürün Kategorisi",
+      "product_categories": "Ürün Kategorileri",
+      "stock": "Stok",
+      "record": "Kayıt",
+      "client_address": "Müşteri Adresi",
+      "audit_config": "Audit Ayarları",
+      "audit_log": "Audit Log",
+      "product_brands": "Ürün Markaları",
+      "stock_view": "Stok Görünümü",
+      "stock_vendor": "Stok Tedarikçi",
+      "stock_vendor_stat": "Stok Tedarikçi İstatistikleri",
+      "stock_product_stat": "Stok Ürün İstatistikleri",
+      "client_address_view": "Müşteri Adresi Görünümü",
+      "audit_log_group": "Audit Log Grubu",
+      "parent_id": "Ebeveyn ID",
+      "user_id": "Kullanıcı ID",
+      "tenant_id": "Kiralama ID",
+      "role_id": "Rol ID",
+      "permission_id": "İzin ID",
+      "unit_type": "Birim Türü",
+      "category_id": "Kategori ID",
+      "address_id": "Adres ID",
+      "address_tenant_id": "Adres Kiralama ID",
+      "client_national_id": "Müşteri Ulusal ID",
+      "client_tenant_id": "Müşteri Kiralama ID",
+      "correlation_id": "İlişki ID",
+      "request_id": "İstek ID",
+      "display_name": "İsim",
+      "id": "ID",
+      "created_at": "Oluşturulma Tarihi"
    }
 }
