@@ -6,7 +6,7 @@ DECLARE
 BEGIN
     error_message := 'access_denied';
     IF message IS NOT NULL THEN
-      error_message := error_message || ': ' || message;
+      error_message := message;
     END IF;
     RAISE EXCEPTION '%', error_message USING ERRCODE = '42501';
     RETURN false;
@@ -262,6 +262,18 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION auth.check_super_admin (user_id UUID DEFAULT NULL) RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
+BEGIN 
+    IF user_id IS NULL THEN
+        user_id := (SELECT auth.uid())::UUID;
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM auth.users WHERE id = user_id AND is_super_admin = TRUE) THEN
+        RETURN TRUE;
+    END IF;
+    RETURN FALSE;
+END;$$;
+
 CREATE OR REPLACE FUNCTION auth.check_permission (p_resource_name TEXT, p_command TEXT) RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER STABLE
 SET
     search_path = '' AS $$
@@ -269,6 +281,11 @@ DECLARE
    permission JSONB; -- Holds the user's permission
    jwt_claims JSONB; -- Holds the JWT claims
 BEGIN
+
+    IF (SELECT auth.check_super_admin()) THEN
+        RETURN TRUE;
+    END IF;
+
     -- Retrieve JWT claims
     BEGIN
         jwt_claims := COALESCE(
@@ -323,86 +340,130 @@ SET
     search_path = '' AS $$
 DECLARE
     u_id UUID;
-    t_id UUID;
     claims JSONB;
-    role TEXT[];
+    user_roles TEXT[];
     allowed_tenant JSONB;
     user_metadata JSONB;
     permission JSONB;
     current_tenant_id UUID;
 BEGIN
-    -- Extract 'user_id' from the input JSONB
     u_id := (e->>'user_id')::UUID;
+
+    -- Extract 'user_id' from the input JSONB
     claims := e->'claims';
 
     -- Ensure 'app_metadata' exists
     IF NOT claims ? 'app_metadata' THEN
         claims := jsonb_set(claims, '{app_metadata}', '{}'::JSONB);
     END IF;
+    
+    -- Ensure 'user_metadata' exists
+    IF NOT claims ? 'user_metadata' THEN
+        claims := jsonb_set(claims, '{user_metadata}', '{}'::JSONB);
+    END IF;
 
     -- Retrieve user_metadata from claims or auth.users if it's missing
     user_metadata := claims->'user_metadata';
+    
+    -- Retrieve tenant ID from auth.users.user_metadata or fallback to the first allowed tenant
+    SELECT user_metadata->>'current_tenant_id' INTO current_tenant_id;
 
-    -- Add user's tenant to the token
-   SELECT COALESCE(
-      jsonb_agg(jsonb_build_object('id', t.id, 'display_name', t.display_name))
-   , '[]'::jsonb
-   )
-   INTO allowed_tenant
-   FROM public.tenant_user tu
-   JOIN public.tenant t ON t.id = tu.tenant_id
-   WHERE user_id = u_id;
+    IF (SELECT auth.check_super_admin(u_id)) THEN
+        SELECT COALESCE(
+            jsonb_agg(jsonb_build_object('id', t.id, 'display_name', t.display_name))
+        , '[]'::jsonb
+        )
+        INTO allowed_tenant
+        FROM  public.tenant t;
+
+        user_roles := ARRAY['super_admin'];
+    ELSE
+        -- Add user's tenant to the token
+        SELECT COALESCE(
+            jsonb_agg(jsonb_build_object('id', t.id, 'display_name', t.display_name))
+        , '[]'::jsonb
+        )
+        INTO allowed_tenant
+        FROM public.tenant_user tu
+        JOIN public.tenant t ON t.id = tu.tenant_id
+        WHERE user_id = u_id;
+
+        -- Add user's role to the token
+        SELECT ARRAY_AGG(role.display_name)
+        INTO user_roles
+        FROM public.user_role ur
+        JOIN public.role role ON role.id = ur.role_id
+        WHERE ur.user_id = u_id;
+    END IF;
+
+    -- Check if current_tenant_id is not in allowed_tenant and set the first available one
+    IF current_tenant_id IS NULL OR current_tenant_id NOT IN (SELECT (value->>'id')::UUID FROM jsonb_array_elements(allowed_tenant)) THEN
+        SELECT (value->>'id')::UUID
+        INTO current_tenant_id
+        FROM jsonb_array_elements(allowed_tenant)
+        LIMIT 1;
+    END IF;
+
+    -- Set the 'current_tenant_id' in the 'user_metadata' field
+    IF current_tenant_id IS NOT NULL THEN
+        claims := jsonb_set(claims, '{user_metadata,current_tenant_id}', to_jsonb(current_tenant_id), true);
+    END IF;
+
+    -- Add user's permission to the token
+    IF (SELECT auth.check_super_admin(u_id)) THEN
+        SELECT JSONB_AGG(
+            JSONB_BUILD_OBJECT(
+                'resource_name', sub.resource_name,
+                'command', sub.command
+            )
+        )
+        INTO permission
+        FROM (
+            SELECT DISTINCT ON (p.resource_name, p.command)
+                p.resource_name,
+                p.command
+            FROM public.permission p
+        ) AS sub;
+    ELSE
+        SELECT JSONB_AGG(
+            JSONB_BUILD_OBJECT(
+                'resource_name', sub.resource_name,
+                'command', sub.command
+            )
+        )
+        INTO permission
+        FROM (
+            SELECT DISTINCT ON (p.resource_name, p.command)
+                p.resource_name,
+                p.command
+            FROM public.user_role ur
+            JOIN public.role r ON r.id = ur.role_id
+            JOIN public.role_permission rp ON rp.role_id = ur.role_id
+            JOIN public.permission p ON p.id = rp.permission_id
+            WHERE ur.user_id = u_id 
+                AND (
+                    r.tenant_id = current_tenant_id 
+                    OR (
+                        r.tenant_id IS NULL 
+                        AND EXISTS (
+                            SELECT 1
+                            FROM public.tenant_owner
+                            WHERE user_id = u_id
+                            AND tenant_id = current_tenant_id
+                        )
+                    )
+                )
+        ) AS sub;
+    END IF;
 
     IF allowed_tenant IS NOT NULL THEN
         -- Properly convert UUID[] to JSONB before using jsonb_set
         claims := jsonb_set(claims, '{app_metadata,allowed_tenant}', to_jsonb(allowed_tenant), true);
     END IF;
 
-   -- Retrieve tenant ID from auth.users.user_metadata or fallback to the first allowed tenant
-   SELECT user_metadata->>'current_tenant_id' INTO current_tenant_id;
-
-   -- Check if current_tenant_id is not in allowed_tenant and set the first available one
-   IF current_tenant_id IS NULL OR current_tenant_id NOT IN (SELECT (value->>'id')::UUID FROM jsonb_array_elements(allowed_tenant)) THEN
-      SELECT (value->>'id')::UUID
-      INTO current_tenant_id
-      FROM jsonb_array_elements(allowed_tenant)
-      LIMIT 1;
-   END IF;
-
-    -- Set the 'current_tenant_id' in the 'app_metadata' field
-    IF current_tenant_id IS NOT NULL THEN
-        claims := jsonb_set(claims, '{app_metadata,current_tenant_id}', to_jsonb(current_tenant_id), true);
+    IF user_roles IS NOT NULL THEN
+        claims := jsonb_set(claims, '{app_metadata,role}', to_jsonb(user_roles), true);
     END IF;
-
-    -- Add user's role to the token
-    SELECT ARRAY_AGG(role.display_name)
-    INTO role
-    FROM public.user_role ur
-    JOIN public.role role ON role.id = ur.role_id
-    WHERE ur.user_id = u_id;
-
-    IF role IS NOT NULL THEN
-        claims := jsonb_set(claims, '{app_metadata,role}', to_jsonb(role), true);
-    END IF;
-
-    -- Add user's permission to the token
-    SELECT JSONB_AGG(
-        JSONB_BUILD_OBJECT(
-            'resource_name', p.resource_name
-          , 'command', p.command
-        )
-    )
-    INTO permission
-    FROM public.user_role ur
-    JOIN public.role r ON r.id = ur.role_id
-    JOIN public.role_permission rp ON rp.role_id = ur.role_id
-    JOIN public.permission p ON p.id = rp.permission_id
-    WHERE ur.user_id = u_id 
-        AND ( r.tenant_id = current_tenant_id 
-            OR ( r.tenant_id IS NULL 
-                AND EXISTS( SELECT 1 from public.tenant_owner WHERE user_id = u_id AND tenant_id = current_tenant_id)
-            )
-        );
 
     IF permission IS NOT NULL THEN
         claims := jsonb_set(claims, '{app_metadata,permission}', permission, true);
@@ -410,7 +471,6 @@ BEGIN
 
     -- Update the 'claims' field in the token
     e := jsonb_set(e, '{claims}', claims, true);
-
     RETURN e;
 END;
 $$;
