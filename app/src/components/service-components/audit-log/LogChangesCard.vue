@@ -267,7 +267,7 @@ if (props.id) {
    }
 
    &__value-container {
-      @apply flex items-center flex-wrap gap-1 text-sm;
+      @apply flex items-center gap-1 text-sm;
    }
 
    &__old-value {
