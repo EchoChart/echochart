@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.1.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.0.0-alpha.1...echochart-app-v1.1.0-alpha.1) (2025-07-18)
+
+
+### Features
+
+* **BaseModel:** introduce BaseModel ([29650f3](https://github.com/EchoChart/echochart/commit/29650f3868d55480df98c446fe583223987df4ef))
+* **user:** add user management functionality ([df5187a](https://github.com/EchoChart/echochart/commit/df5187a477364616f9f3d0ef224b947284d83c84))
+
+
+### Bug Fixes
+
+* **Account Profile:** remove unnecessary '+' from phone value ([6f66092](https://github.com/EchoChart/echochart/commit/6f66092571be2fc035d19297aa7eac3fcd4d9efa))
+* **account/profile:** update phone input model value ([9a21141](https://github.com/EchoChart/echochart/commit/9a2114148b880d93151be1a6d0ecdf63e4048c20))
+* **appErrorHandler:** prioritize error.message over other fields ([ff1b9cb](https://github.com/EchoChart/echochart/commit/ff1b9cb00cfed259683f0e121d4da42dfa1c0f40))
+* **custom-table:** update date format to include time and change hour format ([a9a5b54](https://github.com/EchoChart/echochart/commit/a9a5b54032a58e43c961b8c752f52739b20ac151))
+* **database:** correct typo in record repair status enum ([a8b1f59](https://github.com/EchoChart/echochart/commit/a8b1f5993db142f6c94ca4c41f5b9ca080dac44e))
+* **i18n:** import validatorjs with correct extension ([6592c0c](https://github.com/EchoChart/echochart/commit/6592c0ceaeaef6c672a655f438b8fe96d8bfeaa4))
+* **i18n:** update locale fields for better clarity and translation ([d99eb5e](https://github.com/EchoChart/echochart/commit/d99eb5e2f58b4e975c4fcbd7e14927a9852ea2b2))
+* **PhoneInput.vue:** prepend '+' to phone number inputs ([657d061](https://github.com/EchoChart/echochart/commit/657d06148dbb06e79752f04a59d716073443a56a))
+* **ResourceTable.vue:** update prop definitions and remove redundant lazy attribute ([fd773bf](https://github.com/EchoChart/echochart/commit/fd773bf4bfd3d8559b54c3f56301f8a18ab00818))
+* **role/upsert:** handle undefined data gracefully and add router import ([311986b](https://github.com/EchoChart/echochart/commit/311986bf350a5bd940e84d3f6e3fc10b8b10c28c))
+* **router/account.js:** resolve and redirect issues on account route ([80fe5e7](https://github.com/EchoChart/echochart/commit/80fe5e79990e92ad5038c23c57c7c50c7c0bcb7e))
+* **routes/client.js:** update route labels for better clarity ([1ece162](https://github.com/EchoChart/echochart/commit/1ece162769575b1f32e8436bcf52f1de07ac856d))
+* **stock:** update device list label to use route-specific translation key ([33065f2](https://github.com/EchoChart/echochart/commit/33065f2b3608392be425efb1b5048ba4dcefd3bd))
+
 ## [1.0.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v0.18.0-alpha.1...echochart-app-v1.0.0-alpha.1) (2025-07-17)
 
 
