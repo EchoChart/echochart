@@ -26,14 +26,18 @@ const columns = computed(() => [
       showFilterOperator: false,
       showAddButton: false
    },
-   { field: 'user_id', header: t('audit_log.table.headers.done_by'), sortable: true },
+   { field: 'user_id', header: t('audit_log.table.headers.user_who_performed'), sortable: true },
    {
       field: 'created_at',
       header: t('audit_log.table.headers.created_at'),
       sortable: true,
       sortOrder: { value: -1 }
    },
-   { field: 'reverted_by', header: t('audit_log.table.headers.reverted_by'), sortable: true },
+   {
+      field: 'reverted_by',
+      header: t('audit_log.table.headers.user_who_reverted'),
+      sortable: true
+   },
    { field: 'reverted_at', header: t('audit_log.table.headers.reverted_at'), sortable: true }
 ]);
 
@@ -56,6 +60,16 @@ const filters = ref({
    reverted_at: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
+      dataType: 'date'
+   },
+   'old_data->>id': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+      dataType: 'date'
+   },
+   'row_data->>id': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
       dataType: 'date'
    },
    created_at: {
@@ -122,6 +136,9 @@ const tableProps = computed(() => ({
             </span>
          </Teleport>
       </template>
+      <template #table_name_body="{ data, field }">
+         {{ $t('fields.' + _get(data, field, '')) }}
+      </template>
       <template #operation_body="{ data }">
          <Tag v-if="data" v-bind="getOperationTag({ data })" />
       </template>
@@ -132,10 +149,58 @@ const tableProps = computed(() => ({
          <CorrelatedAuditLogs v-if="data" :id="data.correlation_id" layout="list" />
       </template>
       <template #user_id_body="{ data, field }">
-         {{ _get(data, `${field}.display_name`) || _get(data, `${field}.email`) }}
+         <div class="flex gap-4 items-center">
+            <CustomLink
+               v-if="_get(data, `${field}.id`) && $can('read', 'user')"
+               :to="{
+                  name: 'branch-manage-user-general',
+                  params: { id: _get(data, `${field}.id`) },
+                  query: { showDialog: 'center' }
+               }"
+               v-slot="{ navigate }"
+            >
+               <Button
+                  variant="link"
+                  :label="
+                     _get(data, `${field}.user_metadata.display_name`) ||
+                     _get(data, `${field}.email`)
+                  "
+                  @click="navigate"
+               />
+            </CustomLink>
+            <span v-else>
+               {{
+                  _get(data, `${field}.user_metadata.display_name`) || _get(data, `${field}.email`)
+               }}
+            </span>
+         </div>
       </template>
       <template #reverted_by_body="{ data, field }">
-         {{ _get(data, `${field}.display_name`) || _get(data, `${field}.email`) }}
+         <div class="flex gap-4 items-center">
+            <CustomLink
+               v-if="_get(data, `${field}.id`) && $can('read', 'user')"
+               :to="{
+                  name: 'branch-manage-user-general',
+                  params: { id: _get(data, `${field}.id`) },
+                  query: { showDialog: 'center' }
+               }"
+               v-slot="{ navigate }"
+            >
+               <Button
+                  variant="link"
+                  :label="
+                     _get(data, `${field}.user_metadata.display_name`) ||
+                     _get(data, `${field}.email`)
+                  "
+                  @click="navigate"
+               />
+            </CustomLink>
+            <span v-else>
+               {{
+                  _get(data, `${field}.user_metadata.display_name`) || _get(data, `${field}.email`)
+               }}
+            </span>
+         </div>
       </template>
    </ResourceTable>
 </template>
