@@ -16,7 +16,7 @@ CREATE INDEX IF NOT EXISTS idx_tenant_created_at ON public.tenant (created_at);
 -- Users
 CREATE TABLE IF NOT EXISTS public.user (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-   metadata JSONB DEFAULT '{}',
+   user_metadata JSONB DEFAULT '{}',
    email TEXT NOT NULL UNIQUE,
    phone TEXT UNIQUE,
    created_at TIMESTAMPTZ DEFAULT NOW()
