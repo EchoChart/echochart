@@ -203,7 +203,6 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
             v-for="(mold, i) in form?.attributes.inner_ear_devices"
             :key="'inner_ear_device' + i"
             :legend="$t('fields.inner_ear_device')"
-            class="min-w-fit max-w-max"
          >
             <template #actions>
                <Button
@@ -215,27 +214,49 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
                   @click="form.attributes.inner_ear_devices.splice?.(i, 1)"
                />
             </template>
-            <FormField
-               fluid
-               :label="$t('fields.side')"
-               :error="form?._errors?.first(`attributes.inner_ear_devices.${i}.side`)"
-               :readonly
-               v-slot="slotProps"
-            >
-               <SelectButton
-                  :options="[
-                     { value: 'left', label: $t('fields.left') },
-                     { value: 'right', label: $t('fields.right') }
-                  ]"
-                  :allow-empty="false"
-                  option-value="value"
-                  option-label="label"
-                  v-bind="slotProps"
-                  class="!min-w-fit w-fit"
-                  :model-value="mold?.side"
-                  @value-change="_set(mold, 'side', $event)"
-               />
-            </FormField>
+            <span class="flex w-min flex-wrap gap-[inherit]">
+               <FormField
+                  fluid
+                  :label="$t('fields.side')"
+                  :error="form?._errors?.first(`attributes.inner_ear_devices.${i}.side`)"
+                  :readonly
+                  v-slot="slotProps"
+               >
+                  <SelectButton
+                     :options="[
+                        { value: 'left', label: $t('fields.left') },
+                        { value: 'right', label: $t('fields.right') }
+                     ]"
+                     :allow-empty="false"
+                     option-value="value"
+                     option-label="label"
+                     v-bind="slotProps"
+                     class="!min-w-fit w-fit"
+                     :model-value="mold?.side"
+                     @value-change="_set(mold, 'side', $event)"
+                  />
+               </FormField>
+               <FormField
+                  fluid
+                  :error="form?._errors?.first(`attributes.inner_ear_devices.${i}.ventilation`)"
+                  :readonly
+                  class="w-full"
+               >
+                  <template #label="slotProps">
+                     <label
+                        v-bind="slotProps"
+                        v-text="`${$t('fields.ventilation')}: ${_get(mold, 'ventilation', '')}`"
+                     />
+                  </template>
+                  <template #default="slotProps">
+                     <Slider
+                        v-bind="_merge(slotProps, DEVICE_VENTILATION)"
+                        :model-value="mold?.ventilation"
+                        @value-change="_set(mold, 'ventilation', $event)"
+                     />
+                  </template>
+               </FormField>
+            </span>
             <FormField
                fluid
                :label="$t('fields.model')"
@@ -270,7 +291,7 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
                   @value-change="_set(mold, 'speaker_power', $event)"
                />
             </FormField>
-            <span class="flex flex-col items-start gap-[inherit]">
+            <span class="flex w-min flex-wrap gap-[inherit]">
                <FormField
                   :label="$t('fields.has_bluetooth')"
                   :error="form?._errors?.first(`attributes.inner_ear_devices.${i}.bluetooth`)"
@@ -288,27 +309,6 @@ const form = inject('recordForm', Form.create<RecordUpsertFormData>());
                   <Checkbox binary :readonly v-bind="slotProps" v-model="mold.has_button" />
                </FormField>
             </span>
-            <div class="w-full flex flex-col gap-[inherit]">
-               <FormField
-                  fluid
-                  :error="form?._errors?.first(`attributes.inner_ear_devices.${i}.ventilation`)"
-                  :readonly
-               >
-                  <template #label="slotProps">
-                     <label
-                        v-bind="slotProps"
-                        v-text="`${$t('fields.ventilation')}: ${_get(mold, 'ventilation', '')}`"
-                     />
-                  </template>
-                  <template #default="slotProps">
-                     <Slider
-                        v-bind="_merge(slotProps, DEVICE_VENTILATION)"
-                        :model-value="mold?.ventilation"
-                        @value-change="_set(mold, 'ventilation', $event)"
-                     />
-                  </template>
-               </FormField>
-            </div>
          </FormBox>
       </FormBox>
    </div>
