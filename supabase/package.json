@@ -2,9 +2,9 @@
    "name": "echochart-supabase",
    "version": "0.11.1-alpha.1",
    "scripts": {
-      "dev:supabase": "supabase start --ignore-health-check",
-      "dev:supabase-types": "supabase gen types typescript --local > @types/database.types.ts",
-      "dev:supabase-reset": "concurrently \"supabase db reset\" \"pnpm dev:supabase-types\"",
+      "dev:supabase": "supabase start",
+      "dev:supabase-types": "supabase gen types typescript --local > functions/_shared/database.types.ts",
+      "dev:supabase-reset": "supabase db reset && pnpm dev:supabase-types",
       "lint:eslint": "eslint --fix --ext .vue,.js,.jsx,.cjs,.mjs --ignore-path .gitignore",
       "lint": "pnpm lint:eslint && pnpm lint:prettier"
    },
@@ -14,5 +14,11 @@
       "eslint": "^8.57.1",
       "eslint-plugin-deno": "^0.0.1",
       "prettier": "^3.5.3"
+   },
+   "dependencies": {
+      "@casl/ability": "^6.7.3",
+      "@supabase/supabase-js": "^2.50.3",
+      "jwt-decode": "^4.0.0",
+      "lodash": "^4.17.21"
    }
 }

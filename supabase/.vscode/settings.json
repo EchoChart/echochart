@@ -6,16 +6,18 @@
    "eslint.workingDirectories": [{ "mode": "auto" }, { "directory": "." }],
    "editor.formatOnSave": true,
    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "always"
+      "source.fixAll.eslint": "always",
+      "source.organizeImports": "always"
    },
    "eslint.validate": ["javascript", "typescript"],
    "[javascript][json][typescript][yaml]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
+      "editor.defaultFormatter": "denoland.vscode-deno"
    },
    "[sql]": {
       "editor.defaultFormatter": "ReneSaarsoo.sql-formatter-vsc"
    },
-   "deno.enable": true,
+   "deno.enable": false,
+   "deno.lint": true,
    "deno.unstable": [
       "bare-node-builtins",
       "byonm",
@@ -32,5 +34,5 @@
       "net"
    ],
    "deno.enablePaths": ["./functions"],
-   "deno.importMap": "./import_map.json"
+   "deno.importMap": "./functions/import_map.json"
 }
