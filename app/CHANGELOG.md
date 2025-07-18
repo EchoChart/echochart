@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.1.0-alpha.1...echochart-app-v1.1.1-alpha.1) (2025-07-18)
+
+
+### Bug Fixes
+
+* **router:** update redirect routes to account profile ([31f6506](https://github.com/EchoChart/echochart/commit/31f650683afeefd61e0407ff627460429934db79))
+
 ## [1.1.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.0.0-alpha.1...echochart-app-v1.1.0-alpha.1) (2025-07-18)
 
 
