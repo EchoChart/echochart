@@ -37,19 +37,26 @@ const dialogRef = inject('dialogRef', null);
 const contextMenu = ref();
 
 const contextMenuItems = computed<MenuItem[]>(() => {
-   return [
-      {
-         label: t('router.action.open_in_window'),
-         route: {
-            ...route.value,
-            query: {
-               ...route.value?.query,
-               showDialog: DIALOG_POSITIONS.CENTER
+   const items = [...props.contextMenuItems];
+
+   if (!route?.value?.query?.showDialog) {
+      return _concat(
+         [
+            {
+               label: t('router.action.open_in_window'),
+               route: {
+                  ...route.value,
+                  query: {
+                     ...route.value?.query,
+                     showDialog: DIALOG_POSITIONS.CENTER
+                  }
+               }
             }
-         }
-      },
-      ...props.contextMenuItems
-   ];
+         ],
+         items
+      );
+   }
+   return items;
 });
 
 const itemClick = (item: RouteLocationNormalized) => {
@@ -94,7 +101,7 @@ const getItemLabel = (item: MenuItem) =>
                $router.push({ ...route, query: { showDialog: DIALOG_POSITIONS.CENTER } })
             "
             class="custom_link__internal"
-            :class="{ 'custom_link__internal--cursor-context': contextMenuItems.length > 0 }"
+            :class="{ 'custom_link__internal--cursor-context': contextMenuItems.length }"
          >
             <slot
                v-bind="{
@@ -110,7 +117,7 @@ const getItemLabel = (item: MenuItem) =>
       </router-link>
       <ContextMenu
          class="custom_link__context-menu"
-         v-if="!isExternalLink"
+         v-if="!isExternalLink && contextMenuItems?.length"
          ref="contextMenu"
          :model="contextMenuItems"
       >
