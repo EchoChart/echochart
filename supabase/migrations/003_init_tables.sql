@@ -426,8 +426,8 @@ CREATE TABLE IF NOT EXISTS private.audit_config (
 -- Main audit log table
 CREATE TABLE IF NOT EXISTS public.audit_log (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-   user_id UUID REFERENCES public.user (id),
-   reverted_by UUID REFERENCES public.user (id),
+   user_id UUID REFERENCES public.user (id) ON DELETE SET NULL,
+   reverted_by UUID REFERENCES public.user (id) ON DELETE SET NULL,
    tenant_id UUID REFERENCES public.tenant (id),
    correlation_id TEXT,
    request_id UUID,
@@ -505,6 +505,7 @@ SELECT DISTINCT
    END AS operation,
    table_schema,
    table_name,
+   old_data,
    row_data,
    created_at,
    reverted,
