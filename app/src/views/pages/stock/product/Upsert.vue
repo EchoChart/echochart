@@ -52,7 +52,7 @@ if (props.id) {
       .from('product')
       .select('*, categories:product_category!inner(*)')
       .eq('id', props.id)
-      .single()
+      .maybeSingle()
       .throwOnError();
    form._setDefaults(_pick(product, fields))._reset();
 } else if (props.category) {
@@ -85,7 +85,7 @@ const save = async () => {
       .upsert(payload)
       .eq('id', form.id)
       .select('*')
-      .single()
+      .maybeSingle()
       .throwOnError();
 
    form._merge(data);

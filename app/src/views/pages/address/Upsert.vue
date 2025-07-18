@@ -54,7 +54,7 @@ if (props.id) {
       .from('address')
       .select('*')
       .eq('id', props.id)
-      .single()
+      .maybeSingle()
       .throwOnError()
       .then(({ data }) => form._setDefaults(_pick(data, fields))._reset());
 }
@@ -67,7 +67,7 @@ const save = async () => {
       .upsert(form._data)
       .eq('id', form.id)
       .select()
-      .single()
+      .maybeSingle()
       .throwOnError()
       .then(({ data }) => form._merge(_pick(data, fields)));
 

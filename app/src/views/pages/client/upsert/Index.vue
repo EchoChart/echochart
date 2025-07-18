@@ -56,7 +56,7 @@ if (props.id) {
       .from('client')
       .select('*, address(*)')
       .eq('id', props.id)
-      .single()
+      .maybeSingle()
       .throwOnError()
       .then(({ data }) => form._setDefaults(_pick(data, fields))._reset());
 }
