@@ -23,7 +23,7 @@ DECLARE
 BEGIN
     BEGIN
         -- Insert into the user table
-        INSERT INTO public.user (id, metadata, email, phone)
+        INSERT INTO public.user (id, user_metadata, email, phone)
         VALUES (
             NEW.id
           , NEW.raw_user_meta_data
@@ -50,7 +50,7 @@ BEGIN
         -- Update the user table
         UPDATE public.user
         SET
-            metadata = NEW.raw_user_meta_data
+            user_metadata = NEW.raw_user_meta_data
           , email = NEW.email
           , phone = NEW.phone
         WHERE id = NEW.id
@@ -72,18 +72,17 @@ $$;
 -- Create or replace the handle_user_delete function
 CREATE OR REPLACE FUNCTION private.handle_user_delete () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
-    search_path = '' AS $$
-BEGIN
+    search_path = '' AS $$BEGIN
     BEGIN
-    -- Delete the profile from the user table
-    DELETE FROM public.user
-    WHERE id = OLD.id;
+        -- Delete the profile from the user table
+        DELETE FROM public.user
+        WHERE id = OLD.id;
 
     EXCEPTION WHEN others THEN
         RAISE EXCEPTION 'Failed to delete user: %', SQLERRM;
     END;
 
-  RETURN OLD;
+    RETURN NULL;
 END;
 $$;
 
@@ -461,7 +460,7 @@ BEGIN
     -- Attempt to get tenant_id from JWT claims
     BEGIN
         SELECT COALESCE(
-            (NULLIF(current_setting('request.jwt.claims', true), '')::jsonb->'app_metadata'->>'tenant_id')
+            (NULLIF(current_setting('request.jwt.claims', true), '')::jsonb->'user_metadata'->>'current_tenant_id')
           , NULL
         )::UUID
         INTO tenant_id;
