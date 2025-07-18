@@ -818,6 +818,7 @@ export type Database = {
           correlation_id: string | null
           created_at: string | null
           id: string | null
+          old_data: Json | null
           operation: string | null
           request_id: string | null
           reverted: boolean | null
