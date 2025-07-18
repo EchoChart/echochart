@@ -259,7 +259,7 @@ CREATE TABLE IF NOT EXISTS public.record (
          WHEN record_type = 'repair' THEN record_status IN (
             'pending',
             'pending_service',
-            'client holds service bid',
+            'client_holds_service_bid',
             'client_approved_service_bid',
             'client_rejected_service_bid',
             'done'
@@ -274,7 +274,7 @@ CREATE TABLE IF NOT EXISTS public.record (
       END
    ),
    payment_type valid_record_payment_type,
-   currency_code valid_currency_code NOT NULL DEFAULT 'TRY',
+   currency_code valid_currency_code DEFAULT 'TRY',
    bid NUMERIC(10, 2) DEFAULT 0.00,
    bid_discount NUMERIC(10, 2) DEFAULT 0.00,
    tax NUMERIC(10, 2) DEFAULT 0.00,
