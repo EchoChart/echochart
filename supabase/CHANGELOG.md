@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.12.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.11.1-alpha.1...echochart-supabase-v0.12.0-alpha.1) (2025-07-18)
+
+
+### Features
+
+* **user:** add user management functionality ([df5187a](https://github.com/EchoChart/echochart/commit/df5187a477364616f9f3d0ef224b947284d83c84))
+
+
+### Bug Fixes
+
+* **database:** correct typo in record repair status enum ([a8b1f59](https://github.com/EchoChart/echochart/commit/a8b1f5993db142f6c94ca4c41f5b9ca080dac44e))
+* **public.audit_log:** ensure user_id and reverted_by references can be null ([01d87ef](https://github.com/EchoChart/echochart/commit/01d87efca86d3183470e126df779d124165fc0bc))
+* **record:** correct spelling error in record status ([9982486](https://github.com/EchoChart/echochart/commit/998248695471d5cae4de9517e327e3b394584ad0))
+* **seed.sql:** enable insert/update/delete permissions for all tables ([4105d11](https://github.com/EchoChart/echochart/commit/4105d11b570cbb08158dacd36361d1e2f712dd07))
+* **supabase/config.toml:** enable SMTP/POP3 ports and update site URL ([0d89629](https://github.com/EchoChart/echochart/commit/0d89629cb30f77e038796ebfa03b884bba0e9369))
+* **tables:** remove unnecessary spaces and improve readability in SQL migrations ([8e182b3](https://github.com/EchoChart/echochart/commit/8e182b33e88f2ef9f8716ed109c7cf5d9990036b))
+* **user:** correct column names for metadata and tenant_id ([221b16e](https://github.com/EchoChart/echochart/commit/221b16ed4fa7089ca7930a0aab5799786ee92c80))
+
 ## [0.11.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.11.0-alpha.1...echochart-supabase-v0.11.1-alpha.1) (2025-07-08)
 
 
