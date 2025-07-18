@@ -1,7 +1,8 @@
 import { corsHeaders } from '../_shared/cors.ts';
-import { supabaseAdmin } from '../_shared/supabaseAdminClient.ts';
+import { supabaseAdmin } from '../_shared/supabaseClient.ts';
 
-const supabase = supabaseAdmin();
+const service = supabaseAdmin();
+
 Deno.serve(async (req) => {
    try {
       // This is needed if you're planning to invoke your function from a browser.
@@ -13,19 +14,19 @@ Deno.serve(async (req) => {
 
       const {
          data: [tenant]
-      } = await supabase.from('tenant').insert(company).select().throwOnError();
+      } = await service.from('tenant').insert(company).select().throwOnError();
 
-      const { data: userData, error: userError } = await supabase.auth.admin.createUser({
+      const { data: userData, error: userError } = await service.auth.admin.createUser({
          ...account,
          email_confirm: true
       });
       if (userError) {
-         await supabase.from('tenant').delete().eq('id', tenant.id);
+         await service.from('tenant').delete().eq('id', tenant.id);
          throw userError;
       }
       const { user } = userData;
 
-      await supabase
+      await service
          .from('tenant_owner')
          .insert({
             tenant_id: tenant.id,
@@ -33,7 +34,7 @@ Deno.serve(async (req) => {
          })
          .throwOnError();
 
-      await supabase
+      await service
          .from('tenant_user')
          .insert({
             tenant_id: tenant.id,
@@ -41,29 +42,13 @@ Deno.serve(async (req) => {
          })
          .throwOnError();
 
-      // const { data: role } = await supabase
-      //    .from('role')
-      //    .select()
-      //    .eq('display_name', 'owner')
-      //    .is('tenant_id', null)
-      //    .single()
-      //    .throwOnError();
-
-      // await supabase
-      //    .from('user_role')
-      //    .insert({
-      //       user_id: user.id,
-      //       role_id: role.id
-      //    })
-      //    .throwOnError();
-
       return new Response(JSON.stringify({ user, tenant }), {
          status: 200,
          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
    } catch (error) {
       return new Response(JSON.stringify(error), {
-         status: 400,
+         status: 500,
          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
    }
