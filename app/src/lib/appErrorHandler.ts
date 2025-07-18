@@ -19,7 +19,7 @@ export const appErrorHandler = async (error: any) => {
       const summaryText = i18n.te(summaryPath) ? i18n.t(summaryPath) : summaryKey || '';
 
       const detailKey =
-         error.code || error.details || error.message || error.description || error.hint;
+         error.message || error.details || error.code || error.description || error.hint;
       const detailPath = 'errors.' + detailKey;
       const detailText = i18n.te(detailPath) ? i18n.t(detailPath) : detailKey || '';
 
