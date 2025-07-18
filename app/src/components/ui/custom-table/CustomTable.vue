@@ -67,7 +67,7 @@ const props = withDefaults(defineProps<CustomTableProps<T>>(), {
    showHeaders: true,
    showGridlines: true,
    translateValue: true,
-   dateFormat: 'LL'
+   dateFormat: 'LL LTS'
 });
 
 const emit = defineEmits<CustomTableEmitOptions<T>>();
@@ -320,6 +320,8 @@ const tableValue = computed(() => {
                         :selectionMode="'single'"
                         v-bind="inputProps"
                         v-model="slotProps.filterModel.value"
+                        showTime
+                        hourFormat="24"
                         dateFormat="dd/mm/yy"
                         placeholder="dd/mm/yyyy"
                      />
