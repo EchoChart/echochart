@@ -99,7 +99,7 @@ export default [
                         if (router.options.history.state.back) {
                            return resolve(false);
                         }
-                        await router.replace({ name: 'dashboard' });
+                        await router.replace({ name: 'account-profile' });
                         resolve(false);
                      }
                   });

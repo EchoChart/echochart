@@ -357,7 +357,8 @@
          "close": "关闭",
          "go_to_dashboard": "返回仪表盘",
          "manage_addresses": "管理地址",
-         "go_back": "返回"
+         "go_back": "返回",
+         "go_to_profile": "前往個人資料"
       },
       "error_occured": "发生错误",
       "requested_resource_is_not_available": "请求的资源不可用",

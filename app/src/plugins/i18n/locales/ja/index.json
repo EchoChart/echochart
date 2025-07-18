@@ -357,7 +357,8 @@
          "close": "閉じる",
          "go_to_dashboard": "ダッシュボードへ移動",
          "manage_addresses": "住所を管理する",
-         "go_back": "戻る"
+         "go_back": "戻る",
+         "go_to_profile": "プロフィールへ移動"
       },
       "error_occured": "エラーが発生しました",
       "requested_resource_is_not_available": "要求されたリソースが利用できません",

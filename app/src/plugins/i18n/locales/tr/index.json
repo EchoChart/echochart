@@ -213,7 +213,8 @@
          "close": "Kapat",
          "go_to_dashboard": "Dashboard'a Git",
          "manage_addresses": "Adresleri Yönet",
-         "go_back": "Geri Dön"
+         "go_back": "Geri Dön",
+         "go_to_profile": "Profil'e Git"
       },
       "error_occured": "Hata Oluştu",
       "requested_resource_is_not_available": "İstenen Kaynak Mevcut Değil",
@@ -657,7 +658,7 @@
       "client_tenant_id": "Müşteri Kiralama ID",
       "correlation_id": "İlişki ID",
       "request_id": "İstek ID",
-      "display_name": "İsim",
+      "display_name": "Gösterim Adı",
       "id": "ID",
       "created_at": "Oluşturulma Tarihi"
    }

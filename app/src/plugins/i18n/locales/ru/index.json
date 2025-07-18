@@ -357,7 +357,8 @@
          "close": "Закрыть",
          "go_to_dashboard": "Перейти на панель управления",
          "manage_addresses": "Управление адресами",
-         "go_back": "Вернуться назад"
+         "go_back": "Вернуться назад",
+         "go_to_profile": "Перейти к профилю"
       },
       "error_occured": "Ошибка",
       "requested_resource_is_not_available": "Запрашиваемый ресурс недоступен",

@@ -357,7 +357,8 @@
          "close": "Fermer",
          "go_to_dashboard": "Accéder au tableau de bord",
          "manage_addresses": "Gérer les adresses",
-         "go_back": "Retour"
+         "go_back": "Retour",
+         "go_to_profile": "Accéder au profil"
       },
       "error_occured": "Une erreur s'est produite",
       "requested_resource_is_not_available": "Le ressource demandée n'est pas disponible",

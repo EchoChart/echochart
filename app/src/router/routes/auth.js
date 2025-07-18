@@ -10,7 +10,7 @@ const logoutBeforeEnter = async () => {
 
    if (isSignedIn.value) {
       await router.replace({ name: 'logout' }).catch(async () => {
-         await router.replace({ name: 'dashboard' });
+         await router.replace({ name: 'account-profile' });
       });
       return false;
    }

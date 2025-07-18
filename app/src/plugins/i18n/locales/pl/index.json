@@ -357,7 +357,8 @@
          "close": "Zamknij",
          "go_to_dashboard": "Przejdź do pulpitu",
          "manage_addresses": "Zarządzaj adresami",
-         "go_back": "Cofnij"
+         "go_back": "Cofnij",
+         "go_to_profile": "Przejdź do profilu"
       },
       "error_occured": "Wystąpił błąd",
       "requested_resource_is_not_available": "Żądany zasób nie jest dostępny",

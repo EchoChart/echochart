@@ -25,8 +25,8 @@
                         severity="danger"
                      />
                   </CustomLink>
-                  <CustomLink :to="{ name: 'dashboard' }" v-slot="{ navigate }">
-                     <Button :label="$t('router.action.go_to_dashboard')" @click="navigate" />
+                  <CustomLink :to="{ name: 'account-profile' }" v-slot="{ navigate }">
+                     <Button :label="$t('router.action.go_to_profile')" @click="navigate" />
                   </CustomLink>
                </div>
             </div>

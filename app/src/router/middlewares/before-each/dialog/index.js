@@ -120,7 +120,7 @@ export const dialogBeforeEach = async (to, from, next) => {
       const backRoute = to.matched
          .slice(0, -2)
          .reverse()
-         .find((route) => route.name) || { name: 'dashboard' };
+         .find((route) => route.name) || { name: 'account-profile' };
       next(backRoute);
    } else next(false);
 };

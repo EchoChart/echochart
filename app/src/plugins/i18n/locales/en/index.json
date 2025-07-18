@@ -357,7 +357,8 @@
          "close": "Close",
          "go_to_dashboard": "Go to Dashboard",
          "manage_addresses": "Manage Addresses",
-         "go_back": "Go Back"
+         "go_back": "Go Back",
+         "go_to_profile": "Go to Profile"
       },
       "error_occured": "An error occurred",
       "requested_resource_is_not_available": "The requested resource is not available",

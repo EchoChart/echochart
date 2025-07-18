@@ -10,9 +10,9 @@
                   v-text="$t('router.requested_resource_is_not_available')"
                />
                <img src="/images/error/asset-error.svg" alt="Access denied" width="80%" />
-               <CustomLink :to="{ name: 'dashboard' }" v-slot="{ navigate }">
+               <CustomLink :to="{ name: 'account-profile' }" v-slot="{ navigate }">
                   <Button
-                     :label="$t('router.action.go_to_dashboard')"
+                     :label="$t('router.action.go_to_profile')"
                      severity="danger"
                      @click="navigate"
                   />

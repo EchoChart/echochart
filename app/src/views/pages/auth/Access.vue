@@ -19,8 +19,8 @@ const dialogRef = inject('dialogRef', null);
                   :label="$t('router.action.close')"
                   @click="dialogRef?.close"
                />
-               <CustomLink v-else :to="{ name: 'dashboard' }" v-slot="{ navigate }">
-                  <Button :label="$t('router.action.go_to_dashboard')" @click="() => navigate()" />
+               <CustomLink v-else :to="{ name: 'account-profile' }" v-slot="{ navigate }">
+                  <Button :label="$t('router.action.go_to_profile')" @click="() => navigate()" />
                </CustomLink>
             </div>
          </div>
