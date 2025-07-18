@@ -12,37 +12,37 @@ INSERT INTO
 VALUES
     -- tenant
     ('public.tenant', 'branch', 'select', 'read', FALSE, FALSE, NULL),
-    --    ('public.tenant', 'branch', 'insert', 'create', FALSE, FALSE, NULL),
-    --    ('public.tenant', 'branch', 'update', 'modify', FALSE, FALSE, NULL),
-    --    ('public.tenant', 'branch', 'delete', 'modify', FALSE, FALSE, NULL),
+    --    ('public.tenant', 'branch', 'insert', 'create', FALSE, TRUE, NULL),
+    --    ('public.tenant', 'branch', 'update', 'modify', FALSE, TRUE, NULL),
+    --    ('public.tenant', 'branch', 'delete', 'modify', FALSE, TRUE, NULL),
     --
     --
     -- user   
     ('public.user', 'user', 'select', 'read', FALSE, FALSE, NULL),
-    ('public.user', 'user', 'insert', 'create', FALSE, FALSE, NULL),
-    ('public.user', 'user', 'update', 'modify', FALSE, FALSE, NULL),
-    ('public.user', 'user', 'delete', 'modify', FALSE, FALSE, NULL),
+    ('public.user', 'user', 'insert', 'create', FALSE, TRUE, NULL),
+    ('public.user', 'user', 'update', 'modify', FALSE, TRUE, NULL),
+    ('public.user', 'user', 'delete', 'modify', FALSE, TRUE, NULL),
     --
     --
     -- tenant_user   
     ('public.tenant_user', 'user', 'select', 'read', TRUE, FALSE, NULL),
-    ('public.tenant_user', 'user', 'insert', 'create', FALSE, FALSE, NULL),
-    ('public.tenant_user', 'user', 'update', 'modify', FALSE, FALSE, NULL),
-    ('public.tenant_user', 'user', 'delete', 'modify', FALSE, FALSE, NULL),
+    ('public.tenant_user', 'user', 'insert', 'create', FALSE, TRUE, NULL),
+    ('public.tenant_user', 'user', 'update', 'modify', FALSE, TRUE, NULL),
+    ('public.tenant_user', 'user', 'delete', 'modify', FALSE, TRUE, NULL),
     --
     --
     -- tenant_owner   
     ('public.tenant_owner', 'branch', 'select', 'read', TRUE, FALSE, NULL),
-    -- ('public.tenant_user', NULL, 'insert', 'create', FALSE, FALSE, NULL),
-    -- ('public.tenant_user', NULL, 'update', 'modify', FALSE, FALSE, NULL),
-    -- ('public.tenant_user', NULL, 'delete', 'modify', FALSE, FALSE, NULL),
+    -- ('public.tenant_user', NULL, 'insert', 'create', FALSE, TRUE, NULL),
+    -- ('public.tenant_user', NULL, 'update', 'modify', FALSE, TRUE, NULL),
+    -- ('public.tenant_user', NULL, 'delete', 'modify', FALSE, TRUE, NULL),
     --
     --
     -- role   
     ('public.role', 'role', 'select', 'read', FALSE, FALSE, NULL),
-    ('public.role', 'role', 'insert', 'create', FALSE, FALSE, NULL),
-    ('public.role', 'role', 'update', 'modify', FALSE, FALSE, NULL),
-    ('public.role', 'role', 'delete', 'modify', FALSE, FALSE, NULL),
+    ('public.role', 'role', 'insert', 'create', FALSE, TRUE, 'tenant_id IS NOT NULL'),
+    ('public.role', 'role', 'update', 'modify', FALSE, TRUE, 'tenant_id IS NOT NULL'),
+    ('public.role', 'role', 'delete', 'modify', FALSE, TRUE, 'tenant_id IS NOT NULL'),
     --
     --
     -- user_role 
@@ -53,7 +53,7 @@ VALUES
         'insert',
         'create',
         FALSE,
-        FALSE,
+        TRUE,
         'EXISTS (SELECT 1 FROM public.role r WHERE r.id = role_id AND r.tenant_id IS NOT NULL)'
     ),
     (
@@ -62,7 +62,7 @@ VALUES
         'update',
         'modify',
         FALSE,
-        FALSE,
+        TRUE,
         'EXISTS (SELECT 1 FROM public.role r WHERE r.id = role_id AND r.tenant_id IS NOT NULL)'
     ),
     (
@@ -71,7 +71,7 @@ VALUES
         'delete',
         'modify',
         FALSE,
-        FALSE,
+        TRUE,
         'EXISTS (SELECT 1 FROM public.role r WHERE r.id = role_id AND r.tenant_id IS NOT NULL)'
     ),
     --
@@ -84,7 +84,7 @@ VALUES
         'insert',
         'create',
         FALSE,
-        FALSE,
+        TRUE,
         'EXISTS (SELECT 1 FROM public.role r WHERE r.id = role_id AND r.tenant_id IS NOT NULL)'
     ),
     (
@@ -93,7 +93,7 @@ VALUES
         'update',
         'modify',
         FALSE,
-        FALSE,
+        TRUE,
         'EXISTS (SELECT 1 FROM public.role r WHERE r.id = role_id AND r.tenant_id IS NOT NULL)'
     ),
     (
@@ -102,65 +102,65 @@ VALUES
         'delete',
         'modify',
         FALSE,
-        FALSE,
+        TRUE,
         'EXISTS (SELECT 1 FROM public.role r WHERE r.id = role_id AND r.tenant_id IS NOT NULL)'
     ),
     --
     --
     -- product_category
     ('public.product_category', 'product', 'select', 'read', TRUE, FALSE, NULL),
-    -- ('public.product_category', 'product', 'insert', 'create', FALSE, FALSE, NULL),
-    -- ('public.product_category', 'product', 'update', 'modify', FALSE, FALSE, NULL),
-    -- ('public.product_category', 'product', 'delete', 'modify', FALSE, FALSE, NULL),
+    -- ('public.product_category', 'product', 'insert', 'create', FALSE, TRUE, NULL),
+    -- ('public.product_category', 'product', 'update', 'modify', FALSE, TRUE, NULL),
+    -- ('public.product_category', 'product', 'delete', 'modify', FALSE, TRUE, NULL),
     --
     --
     -- product
     ('public.product', 'product', 'select', 'read', TRUE, FALSE, NULL),
-    ('public.product', 'product', 'insert', 'create', FALSE, FALSE, NULL),
-    ('public.product', 'product', 'update', 'modify', FALSE, FALSE, NULL),
-    ('public.product', 'product', 'delete', 'modify', FALSE, FALSE, NULL),
+    ('public.product', 'product', 'insert', 'create', FALSE, TRUE, NULL),
+    ('public.product', 'product', 'update', 'modify', FALSE, TRUE, NULL),
+    ('public.product', 'product', 'delete', 'modify', FALSE, TRUE, NULL),
     --
     --
     -- product_categories
     ('public.product_categories', 'product', 'select', 'read', TRUE, FALSE, NULL),
-    ('public.product_categories', 'product', 'insert', 'create', FALSE, FALSE, NULL),
-    ('public.product_categories', 'product', 'update', 'modify', FALSE, FALSE, NULL),
-    ('public.product_categories', 'product', 'delete', 'modify', FALSE, FALSE, NULL),
+    ('public.product_categories', 'product', 'insert', 'create', FALSE, TRUE, NULL),
+    ('public.product_categories', 'product', 'update', 'modify', FALSE, TRUE, NULL),
+    ('public.product_categories', 'product', 'delete', 'modify', FALSE, TRUE, NULL),
     --
     --
     -- stock
     ('public.stock', 'stock', 'select', 'read', FALSE, FALSE, NULL),
-    ('public.stock', 'stock', 'insert', 'create', FALSE, FALSE, NULL),
-    ('public.stock', 'stock', 'update', 'modify', FALSE, FALSE, NULL),
-    ('public.stock', 'stock', 'delete', 'modify', FALSE, FALSE, NULL),
+    ('public.stock', 'stock', 'insert', 'create', FALSE, TRUE, NULL),
+    ('public.stock', 'stock', 'update', 'modify', FALSE, TRUE, NULL),
+    ('public.stock', 'stock', 'delete', 'modify', FALSE, TRUE, NULL),
     --
     --
     -- client
     ('public.client', 'client', 'select', 'read', FALSE, FALSE, NULL),
-    ('public.client', 'client', 'insert', 'create', FALSE, FALSE, NULL),
-    ('public.client', 'client', 'update', 'modify', FALSE, FALSE, NULL),
-    ('public.client', 'client', 'delete', 'modify', FALSE, FALSE, NULL),
+    ('public.client', 'client', 'insert', 'create', FALSE, TRUE, NULL),
+    ('public.client', 'client', 'update', 'modify', FALSE, TRUE, NULL),
+    ('public.client', 'client', 'delete', 'modify', FALSE, TRUE, NULL),
     --
     --
     -- address
     ('public.address', 'address', 'select', 'read', FALSE, FALSE, NULL),
-    ('public.address', 'address', 'insert', 'create', FALSE, FALSE, NULL),
-    ('public.address', 'address', 'update', 'modify', FALSE, FALSE, NULL),
-    ('public.address', 'address', 'delete', 'modify', FALSE, FALSE, NULL),
+    ('public.address', 'address', 'insert', 'create', FALSE, TRUE, NULL),
+    ('public.address', 'address', 'update', 'modify', FALSE, TRUE, NULL),
+    ('public.address', 'address', 'delete', 'modify', FALSE, TRUE, NULL),
     --
     --
     -- client_address
     ('public.client_address', 'client', 'select', 'read', FALSE, FALSE, NULL),
-    ('public.client_address', 'client', 'insert', 'create', FALSE, FALSE, NULL),
-    ('public.client_address', 'client', 'update', 'modify', FALSE, FALSE, NULL),
-    ('public.client_address', 'client', 'delete', 'modify', FALSE, FALSE, NULL),
+    ('public.client_address', 'client', 'insert', 'create', FALSE, TRUE, NULL),
+    ('public.client_address', 'client', 'update', 'modify', FALSE, TRUE, NULL),
+    ('public.client_address', 'client', 'delete', 'modify', FALSE, TRUE, NULL),
     --
     --
     -- record
     ('public.record', 'record', 'select', 'read', FALSE, FALSE, NULL),
-    ('public.record', 'record', 'insert', 'create', FALSE, FALSE, NULL),
-    ('public.record', 'record', 'update', 'modify', FALSE, FALSE, NULL),
-    ('public.record', 'record', 'delete', 'modify', FALSE, FALSE, NULL),
+    ('public.record', 'record', 'insert', 'create', FALSE, TRUE, NULL),
+    ('public.record', 'record', 'update', 'modify', FALSE, TRUE, NULL),
+    ('public.record', 'record', 'delete', 'modify', FALSE, TRUE, NULL),
     --
     --
     -- audit_log
@@ -170,6 +170,7 @@ INSERT INTO
     private.audit_config (table_name, audit_enabled)
 VALUES
     ('public.tenant', TRUE),
+    ('public.tenant_user', TRUE),
     ('public.user', TRUE),
     ('public.user_role', TRUE),
     ('public.role', TRUE),
@@ -371,7 +372,7 @@ SET
         ELSE 'cm'
       END::public.type_stock_unit_type AS unit_type
     FROM public.product p  
-    CROSS JOIN generate_series(1, 200) g;  
+    CROSS JOIN generate_series(1, 50) g;  
 END;$$;
 
 -- Seed record
