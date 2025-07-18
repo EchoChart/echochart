@@ -157,10 +157,5 @@ const tableProps = computed(() => ({
       <template #vendor_filter="{ filterModel }">
          <SelectStockVendor v-model="filterModel.value" />
       </template>
-      <template #display_name_body="{ data }">
-         <div class="flex flex-col gap-2">
-            <span v-text="data?.display_name" />
-         </div>
-      </template>
    </ResourceTable>
 </template>

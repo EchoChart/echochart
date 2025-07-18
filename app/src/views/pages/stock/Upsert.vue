@@ -77,7 +77,7 @@ if (props.id) {
       .from('stock_view')
       .select('*, product:product!inner(category:product_category!inner(id,display_name))')
       .eq('id', props.id)
-      .single()
+      .maybeSingle()
       .throwOnError()
       .then(({ data }) => form._setDefaults(_pick(data, fields))._reset());
 }
@@ -148,7 +148,7 @@ const save = async () => {
       .upsert(payload)
       .eq('id', form.id)
       .select()
-      .single()
+      .maybeSingle()
       .throwOnError();
 
    if (form.id) form._setDefaults(data)._reset();
@@ -204,6 +204,8 @@ const save = async () => {
                   :selectionMode="'single'"
                   v-bind="slotProps"
                   v-model="form.stocked_at"
+                  showTime
+                  hourFormat="24"
                   dateFormat="dd/mm/yy"
                   placeholder="dd/mm/yyyy"
                />
