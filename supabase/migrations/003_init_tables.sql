@@ -1,6 +1,6 @@
 -- Tenants
 CREATE TABLE IF NOT EXISTS public.tenant (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    display_name TEXT NOT NULL,
    phone TEXT UNIQUE,
    email TEXT UNIQUE,
@@ -15,7 +15,7 @@ CREATE INDEX IF NOT EXISTS idx_tenant_created_at ON public.tenant (created_at);
 
 -- Users
 CREATE TABLE IF NOT EXISTS public.user (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    metadata JSONB DEFAULT '{}',
    email TEXT NOT NULL UNIQUE,
    phone TEXT UNIQUE,
@@ -28,7 +28,7 @@ CREATE INDEX IF NOT EXISTS idx_user_created_at ON public.user (created_at);
 
 -- Tenant Users
 CREATE TABLE IF NOT EXISTS public.tenant_user (
-   id UUID UNIQUE DEFAULT gen_random_uuid (),
+   id UUID UNIQUE DEFAULT gen_random_uuid(),
    user_id UUID NOT NULL REFERENCES public.user (id) ON DELETE CASCADE,
    tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
    created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -41,7 +41,7 @@ CREATE INDEX IF NOT EXISTS idx_tenant_user_tenant_id ON public.tenant_user (tena
 
 -- Tenant Owners
 CREATE TABLE IF NOT EXISTS public.tenant_owner (
-   id UUID UNIQUE DEFAULT gen_random_uuid (),
+   id UUID UNIQUE DEFAULT gen_random_uuid(),
    user_id UUID NOT NULL REFERENCES public.user (id) ON DELETE CASCADE,
    tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
    created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -54,7 +54,7 @@ CREATE INDEX IF NOT EXISTS idx_tenant_owner_tenant_id ON public.tenant_owner (te
 
 -- Addresses
 CREATE TABLE IF NOT EXISTS public.address (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    display_name TEXT NOT NULL,
    country TEXT NOT NULL,
    city TEXT NOT NULL,
@@ -72,7 +72,7 @@ CREATE INDEX IF NOT EXISTS idx_address_created_at ON public.address (created_at)
 
 -- App Permissions
 CREATE TABLE IF NOT EXISTS public.permission (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    resource_name valid_permission_resource NOT NULL,
    group_name TEXT DEFAULT NULL,
    command type_permission_command NOT NULL,
@@ -92,7 +92,7 @@ CREATE INDEX IF NOT EXISTS idx_permission_created_at ON public.permission (creat
 
 -- Roles
 CREATE TABLE IF NOT EXISTS public.role (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    display_name TEXT NOT NULL,
    created_at TIMESTAMPTZ DEFAULT NOW(),
    tenant_id UUID REFERENCES public.tenant (id) ON DELETE CASCADE,
@@ -105,7 +105,7 @@ CREATE INDEX IF NOT EXISTS idx_role_created_at ON public.role (created_at);
 
 -- Role Permissions
 CREATE TABLE IF NOT EXISTS public.role_permission (
-   id UUID UNIQUE DEFAULT gen_random_uuid (),
+   id UUID UNIQUE DEFAULT gen_random_uuid(),
    role_id UUID NOT NULL REFERENCES public.role (id) ON DELETE CASCADE,
    permission_id UUID NOT NULL REFERENCES public.permission (id) ON DELETE CASCADE,
    created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -118,7 +118,7 @@ CREATE INDEX IF NOT EXISTS idx_role_permission_permission_id ON public.role_perm
 
 -- User Roles
 CREATE TABLE IF NOT EXISTS public.user_role (
-   id UUID UNIQUE DEFAULT gen_random_uuid (),
+   id UUID UNIQUE DEFAULT gen_random_uuid(),
    user_id UUID NOT NULL REFERENCES public.user (id) ON DELETE CASCADE,
    role_id UUID NOT NULL REFERENCES public.role (id) ON DELETE CASCADE,
    created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -131,7 +131,7 @@ CREATE INDEX IF NOT EXISTS idx_user_role_role_id ON public.user_role (role_id);
 
 -- Clients Table
 CREATE TABLE IF NOT EXISTS public.client (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
    national_id TEXT UNIQUE NOT NULL, -- client's national national_id number
    display_name TEXT NOT NULL,
@@ -155,7 +155,7 @@ CREATE INDEX IF NOT EXISTS idx_client_display_name ON public.client (display_nam
 
 -- Products Table
 CREATE TABLE IF NOT EXISTS public.product (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    tenant_id UUID REFERENCES public.tenant (id) ON DELETE CASCADE,
    display_name TEXT UNIQUE NOT NULL,
    brand TEXT,
@@ -182,7 +182,7 @@ FROM
 
 -- Product Categories Table
 CREATE TABLE IF NOT EXISTS public.product_category (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    display_name TEXT NOT NULL,
    details TEXT,
    created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -195,7 +195,7 @@ CREATE INDEX IF NOT EXISTS idx_product_category_created_at ON public.product_cat
 
 -- Product Category Table (relationship)
 CREATE TABLE IF NOT EXISTS public.product_categories (
-   id UUID UNIQUE DEFAULT gen_random_uuid (),
+   id UUID UNIQUE DEFAULT gen_random_uuid(),
    product_id UUID NOT NULL REFERENCES public.product (id) ON DELETE CASCADE,
    category_id UUID NOT NULL REFERENCES public.product_category (id) ON DELETE CASCADE,
    created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -208,7 +208,7 @@ CREATE INDEX IF NOT EXISTS idx_product_categories_category_id ON public.product_
 
 -- Tenant Stocks Table
 CREATE TABLE IF NOT EXISTS public.stock (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
    product_id UUID NOT NULL REFERENCES public.product (id) ON DELETE CASCADE,
    serial_number TEXT UNIQUE,
@@ -248,7 +248,7 @@ CREATE INDEX IF NOT EXISTS idx_stock_display_name ON public.stock (tenant_id, pr
 
 -- Record Table
 CREATE TABLE IF NOT EXISTS public.record (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    tenant_id UUID NOT NULL REFERENCES public.tenant (id) ON DELETE CASCADE,
    client_id UUID REFERENCES public.client (id) ON DELETE CASCADE,
    stock_id UUID REFERENCES public.stock (id) ON DELETE CASCADE,
@@ -375,7 +375,7 @@ GROUP BY
 
 -- Clients Addresses(address table relationship)
 CREATE TABLE IF NOT EXISTS public.client_address (
-   id UUID UNIQUE DEFAULT gen_random_uuid (),
+   id UUID UNIQUE DEFAULT gen_random_uuid(),
    client_id UUID NOT NULL REFERENCES public.client (id) ON DELETE CASCADE,
    address_id UUID NOT NULL REFERENCES public.address (id) ON DELETE CASCADE,
    PRIMARY KEY (client_id, address_id),
@@ -390,7 +390,7 @@ CREATE OR REPLACE VIEW public.client_address_view
 WITH
    (security_invoker = TRUE) AS
 SELECT
-   gen_random_uuid () AS id,
+   gen_random_uuid() AS id,
    -- Generate a unique ID for the view (optional)
    -- Address fields with prefix
    a.id AS address_id,
@@ -417,7 +417,7 @@ FROM
 
 -- Configuration table to track which tables have auditing enabled
 CREATE TABLE IF NOT EXISTS private.audit_config (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    table_name TEXT NOT NULL UNIQUE,
    audit_enabled BOOLEAN DEFAULT FALSE,
    created_at TIMESTAMPTZ DEFAULT NOW()
@@ -425,7 +425,7 @@ CREATE TABLE IF NOT EXISTS private.audit_config (
 
 -- Main audit log table
 CREATE TABLE IF NOT EXISTS public.audit_log (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    user_id UUID REFERENCES public.user (id),
    reverted_by UUID REFERENCES public.user (id),
    tenant_id UUID REFERENCES public.tenant (id),
