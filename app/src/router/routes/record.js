@@ -38,6 +38,7 @@ export default [
                default: () => import('@/views/pages/record/index.vue'),
                skeleton: () => import('@/views/pages/record/index.vue')
             },
+            props: true,
             meta: {
                label: i18n.t('route.label.list'),
                icon: PrimeIcons.LIST,

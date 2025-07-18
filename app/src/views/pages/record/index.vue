@@ -16,6 +16,15 @@ const route = useRoute();
 
 const { t } = useI18n();
 
+const props = withDefaults(
+   defineProps<{
+      record_type?: T['record_type'];
+   }>(),
+   {
+      record_type: null
+   }
+);
+
 const columns = computed<ResourceTableProps['columns']>(() => [
    {
       field: 'stock.display_name',
@@ -25,7 +34,7 @@ const columns = computed<ResourceTableProps['columns']>(() => [
    {
       field: 'record_type',
       sortable: true,
-      showFilterMenu: !route.params.record_type,
+      showFilterMenu: _isNil(props.record_type),
       header: t('record.table.headers.record_type')
    },
    {
@@ -59,13 +68,13 @@ const filters = ref<ResourceTableProps['filters']>({
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
    },
-   'client.record_type': {
+   'client.display_name': {
       operator: FilterOperator.AND,
-      constraints: [{ value: route.params?.record_type, matchMode: FilterMatchMode.STARTS_WITH }]
+      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
    },
    record_type: {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
+      constraints: [{ value: props.record_type, matchMode: FilterMatchMode.STARTS_WITH }]
    },
    quantity: {
       operator: FilterOperator.AND,
@@ -85,7 +94,7 @@ const filters = ref<ResourceTableProps['filters']>({
    ...(attrs.filters as ResourceTableProps['filters'])
 });
 
-const stateKey = 'record';
+const stateKey = props.record_type ? 'record-' + props.record_type : 'record';
 
 const rowActions = Collection.create<ResourceTableProps['rowActions']>([
    {
@@ -145,8 +154,7 @@ const dialogRef = inject('dialogRef', false);
       </template>
       <template #record_type_body="{ data, field }">
          {{
-            ($te('const.record.type.' + _get(data, field)) &&
-               $t('const.record.type.' + _get(data, field))) ||
+            ($te('fields.' + _get(data, field)) && $t('fields.' + _get(data, field))) ||
             _get(data, field)
          }}
       </template>
