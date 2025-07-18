@@ -1,6 +1,6 @@
 import { useNavigatorLanguage } from '@vueuse/core';
 import dayjs from 'dayjs';
-import Validator from 'validatorjs/dist/validator';
+import Validator from 'validatorjs/dist/validator.js';
 import { computed, nextTick, watch } from 'vue';
 import { createI18n } from 'vue-i18n';
 
