@@ -45,7 +45,7 @@ const accountMenuItems = computed(() => {
                <p v-if="user.email" v-text="user.email" class="account_popover__email" />
             </div>
             <Select
-               v-if="branches?.length > 0"
+               v-if="branches?.length > 1"
                fluid=""
                size="small"
                :label="$t('auth.branch')"
