@@ -16,7 +16,7 @@ CREATE TYPE type_record_repair_status AS ENUM(
    'rejected',
    'pending_client',
    'pending_service',
-   'client holds service bid',
+   'client_holds_service_bid',
    'client_approved_service_bid',
    'client_rejected_service_bid',
    'done'

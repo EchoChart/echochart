@@ -995,7 +995,7 @@ export type Database = {
         | "rejected"
         | "pending_client"
         | "pending_service"
-        | "client holds service bid"
+        | "client_holds_service_bid"
         | "client_approved_service_bid"
         | "client_rejected_service_bid"
         | "done"
