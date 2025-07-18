@@ -236,7 +236,7 @@
       "client_tenant_id": "ID арендодателя клиента",
       "correlation_id": "ID корреляции",
       "request_id": "ID запроса",
-      "display_name": "Название",
+      "display_name": "Отображаемое имя",
       "id": "ID",
       "created_at": "Дата создания"
    },
@@ -355,7 +355,6 @@
          "open_in_window": "Открыть в окне",
          "manage-addresses": "Управление адресами",
          "close": "Закрыть",
-         "go_to_dashboard": "Перейти на панель управления",
          "manage_addresses": "Управление адресами",
          "go_back": "Вернуться назад",
          "go_to_profile": "Перейти к профилю"
