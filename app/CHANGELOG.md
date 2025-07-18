@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.1.1-alpha.1...echochart-app-v1.1.2-alpha.1) (2025-07-18)
+
+
+### Bug Fixes
+
+* **LogChangesCard.vue:** remove unnecessary flex-wrap gap from value container ([b021f5b](https://github.com/EchoChart/echochart/commit/b021f5bc5d97fd61717f40181809a7268d770947))
+
 ## [1.1.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.1.0-alpha.1...echochart-app-v1.1.1-alpha.1) (2025-07-18)
 
 
