@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Form } from '@/lib/Form';
+import { VerifyOtpParams } from '@supabase/supabase-js';
 import { useConfirm, useToast } from 'primevue';
 
 const router = useRouter();
@@ -7,9 +8,10 @@ const route = useRoute();
 const toast = useToast();
 const confirm = useConfirm();
 
-const form = Form.create<{ invite_code: string }>({
+const form = Form.create<{ email: string; code: string }>({
    rules: {
-      invite_code: 'required|min:6'
+      email: 'required|email',
+      code: 'required|min:6'
    }
 });
 
@@ -62,47 +64,60 @@ const resendCode = async () => {
 const save = async () => {
    if (!form._validate()) return;
    try {
-      const { error } = await supabase.auth.verifyOtp({
-         email: 'akifaycicek@gmail.com',
-         token: form.invite_code,
+      const otpOptions: VerifyOtpParams = {
+         email: form.email,
+         token: form.code,
          type: route.path.endsWith('forgot-password') ? 'recovery' : 'invite'
-      });
+      };
+      const { error } = await supabase.auth.verifyOtp(otpOptions);
 
       if (error) throw error;
 
       await router.replace({ name: 'update-password' });
 
-      toast.add({
-         life: 0,
-         closable: true,
-         severity: ToastSeverity.INFO,
-         summary: i18n.t('auth.otp.resend_code.code_verified'),
-         detail: i18n.t('auth.please_dont_forget_to_update_your_password')
-      });
+      if (otpOptions.type === 'invite' || otpOptions.type === 'recovery')
+         toast.add({
+            life: 0,
+            closable: true,
+            severity: ToastSeverity.INFO,
+            summary: i18n.t('auth.otp.resend_code.code_verified'),
+            detail: i18n.t('auth.please_dont_forget_to_update_your_password')
+         });
    } catch (error) {
       throw error;
    }
 };
 </script>
 <template>
-   <FormBox :form :submit="save" :reset="() => form._reset()" class="justify-center">
-      <div class="flex-auto w-full text-center flex flex-col justify-center gap-8">
-         <div
-            class="text-3xl font-medium"
-            v-text="
-               route.path.endsWith('forgot-password')
-                  ? $t('auth.otp.forgot_password.lets_get_your_account_back!💪')
-                  : $t('auth.otp.invite_code.so_you_are_invited!🎊')
-            "
-         />
+   <div class="flex-auto w-full text-center flex flex-col justify-center gap-8 mb-8">
+      <div
+         class="text-3xl font-medium"
+         v-text="
+            route.path.endsWith('forgot-password')
+               ? $t('auth.otp.forgot_password.lets_get_your_account_back!💪')
+               : $t('auth.otp.invite_code.so_you_are_invited!🎊')
+         "
+      />
 
-         <span
-            class="text-muted-color font-medium"
-            v-text="$t('auth.otp.invite_code.please_enter_the_code_in_email_to_login')"
-         />
-      </div>
-      <FormField fluid v-slot="slotProps" :error="form?._errors?.first('invite_code')">
-         <InputOtp v-bind="slotProps" v-model="form.invite_code" :length="6" />
+      <span
+         class="text-muted-color font-medium"
+         v-text="$t('auth.otp.invite_code.please_enter_the_code_in_email_to_login')"
+      />
+   </div>
+   <FormBox :form :submit="save" :reset="() => form._reset()" class="justify-center">
+      <FormField
+         v-slot="slotProps"
+         :label="$t('fields.email')"
+         :error="form?._errors?.first('email')"
+      >
+         <InputText autofocus v-bind="slotProps" type="email" v-model="form['email']" />
+      </FormField>
+      <FormField
+         :label="$t('fields.code')"
+         v-slot="slotProps"
+         :error="form?._errors?.first('code')"
+      >
+         <InputOtp v-bind="slotProps" v-model="form.code" :length="6" />
       </FormField>
       <template #form-actions>
          <div class="form_box__actions-bar !justify-center">
