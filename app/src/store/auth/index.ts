@@ -4,7 +4,7 @@ import { BaseModel } from '@/services/models/BaseModel';
 import { MongoAbility } from '@casl/ability';
 import { ABILITY_TOKEN } from '@casl/vue';
 import Collection from '@lib/Collection';
-import { AuthChangeEvent, Session } from '@supabase/supabase-js';
+import { AuthChangeEvent, Session, UserMetadata } from '@supabase/supabase-js';
 import { jwtDecode } from 'jwt-decode';
 import { defineStore } from 'pinia';
 import { ToastMessageOptions } from 'primevue';
@@ -40,7 +40,7 @@ export const useAuthStore = defineStore('auth', () => {
       function setCurrentTenant(tenant?: Tenant) {
          currentTenant?._reset();
 
-         const current_tenant_id = jwt.value?.app_metadata?.current_tenant_id;
+         const current_tenant_id = jwt.value?.user_metadata?.current_tenant_id;
 
          if (branches.value.length <= 0) return;
 
@@ -51,11 +51,18 @@ export const useAuthStore = defineStore('auth', () => {
          currentTenant?._reset(tenant || branches.value[0]);
       }
 
-      async function changeCurrentTenant(tenant: Tenant) {
-         if (currentTenant.id === tenant.id) return;
+      async function changeCurrentTenant(tenant?: Tenant) {
+         const current_tenant_id = jwt.value?.user_metadata?.current_tenant_id;
+
+         tenant ??= branches.value.find(
+            ({ display_name, id }) =>
+               id == current_tenant_id || display_name === currentTenant?.display_name
+         );
+
+         if (currentTenant.id === tenant?.id) return;
 
          await supabase.auth.updateUser({
-            data: { current_tenant_id: tenant.id }
+            data: { current_tenant_id: tenant?.id }
          });
 
          await supabase.auth.refreshSession();
@@ -118,9 +125,8 @@ export const useAuthStore = defineStore('auth', () => {
       supabase.auth.onAuthStateChange(async (event, newSession) => {
          const result = await handleAuthStateChange(event, newSession);
 
-         if (newSession?.access_token) {
-            setCurrentTenant();
-         }
+         if (newSession?.access_token) setCurrentTenant();
+
          if (event === 'INITIAL_SESSION') {
             resolve(result);
          }
@@ -178,6 +184,7 @@ export const useAuthStore = defineStore('auth', () => {
 
 interface JwtPayload {
    app_metadata?: AppMetadata;
+   user_metadata?: UserMetadata;
 }
 
 interface AppMetadata {
