@@ -21,6 +21,83 @@ export default [
       },
       children: [
          {
+            path: 'user',
+            name: 'branch-user',
+            meta: {
+               label: i18n.t('route.label.branch-user'),
+               icon: PrimeIcons.USER,
+               requiredPermissions: [
+                  {
+                     action: 'select',
+                     subject: 'user'
+                  }
+               ],
+               contextMenuItems: [
+                  {
+                     label: i18n.t('action.add'),
+                     route: {
+                        name: 'branch-manage-user-general',
+                        query: { showDialog: DIALOG_POSITIONS.CENTER }
+                     }
+                  }
+               ]
+            },
+            component: CustomRouteView,
+            redirect: { name: 'branch-user-list' },
+            children: [
+               {
+                  path: 'list',
+                  name: 'branch-user-list',
+                  meta: {
+                     visible: false,
+                     label: i18n.t('route.label.list'),
+                     requiredPermissions: [
+                        {
+                           action: 'select',
+                           subject: 'user'
+                        }
+                     ],
+                     icon: PrimeIcons.LIST
+                  },
+                  components: {
+                     default: () => import('@/views/pages/branch/user/Index.vue'),
+                     skeleton: () => import('@/views/pages/branch/user/Index.vue')
+                  }
+               },
+               {
+                  path: ':id?/manage/:tab?',
+                  name: 'branch-user-manage',
+                  props: true,
+                  meta: {
+                     label: i18n.t('route.label.manage-user'),
+                     visible: false
+                  },
+                  components: {
+                     default: () => import('@/views/pages/branch/user/upsert/Index.vue'),
+                     skeleton: () => import('@/views/pages/branch/user/upsert/Index.vue')
+                  },
+                  children: [
+                     {
+                        path: 'general',
+                        name: 'branch-manage-user-general',
+                        props: true,
+                        meta: {
+                           label: i18n.t('route.label.user-general-info'),
+                           icon: PrimeIcons.USER,
+                           visible: false
+                        },
+                        components: {
+                           default: () =>
+                              import('@/views/pages/branch/user/upsert/tabs/General.vue'),
+                           skeleton: () =>
+                              import('@/views/pages/branch/user/upsert/tabs/General.vue')
+                        }
+                     }
+                  ]
+               }
+            ]
+         },
+         {
             path: 'role',
             name: 'branch-role',
             meta: {
