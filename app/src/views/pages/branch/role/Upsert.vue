@@ -4,6 +4,7 @@ import { useToast } from 'primevue';
 
 const toast = useToast();
 const { t } = useI18n();
+const router = useRouter();
 
 /**
  * @typedef {Tables['role']['Row']} Data
@@ -50,9 +51,10 @@ if (props.id) {
       .from('role')
       .select('*, permission(id, kind, group_name)')
       .eq('id', props.id)
-      .single()
+      .maybeSingle()
+      .throwOnError()
       .then(({ data }) => {
-         form._setDefaults(data)._reset();
+         form._setDefaults(data || {})._reset();
       });
 }
 
@@ -69,11 +71,12 @@ onMounted(() => emitter.on('role-update', updateCallback));
 onUnmounted(() => emitter.off('role-update', updateCallback));
 const save = async () => {
    if (!form._validate()) return;
+
    const { data } = await supabase
       .from('role')
       .upsert(_pick(form._data, fields))
       .select('*')
-      .single()
+      .maybeSingle()
       .throwOnError();
 
    if (form._changedData['permission']) {
@@ -107,7 +110,7 @@ const save = async () => {
 </script>
 
 <template>
-   <div class="card p-0">
+   <div class="card">
       <FormBox @submit="save" @reset="() => form?._reset()" v-focustrap :form :readonly>
          <FormField
             fluid
