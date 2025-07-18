@@ -172,7 +172,9 @@ CREATE INDEX IF NOT EXISTS idx_product_display_name_composite ON public.product 
 
 CREATE INDEX IF NOT EXISTS idx_product_created_at ON public.product (created_at);
 
-CREATE OR REPLACE VIEW public.product_brands AS
+CREATE OR REPLACE VIEW public.product_brands
+WITH
+   (security_invoker = TRUE) AS
 SELECT DISTINCT
    brand AS display_name
 FROM
@@ -329,13 +331,17 @@ FROM
    ) AS used ON s.tenant_id = used.tenant_id
    AND s.id = used.stock_id;
 
-CREATE OR REPLACE VIEW public.stock_vendor AS
+CREATE OR REPLACE VIEW public.stock_vendor
+WITH
+   (security_invoker = TRUE) AS
 SELECT DISTINCT
    vendor AS display_name
 FROM
    public.stock_view;
 
-CREATE OR REPLACE VIEW public.stock_vendor_stat AS
+CREATE OR REPLACE VIEW public.stock_vendor_stat
+WITH
+   (security_invoker = TRUE) AS
 SELECT
    vendor,
    p.id AS product_id,
@@ -351,7 +357,9 @@ GROUP BY
    vendor,
    p.id;
 
-CREATE OR REPLACE VIEW public.stock_product_stat AS
+CREATE OR REPLACE VIEW public.stock_product_stat
+WITH
+   (security_invoker = TRUE) AS
 SELECT
    p.display_name,
    p.brand,
@@ -378,7 +386,7 @@ CREATE INDEX IF NOT EXISTS idx_client_address_client_id ON public.client_address
 
 CREATE INDEX IF NOT EXISTS idx_client_address_address_id ON public.client_address (address_id);
 
-CREATE VIEW public.client_address_view
+CREATE OR REPLACE VIEW public.client_address_view
 WITH
    (security_invoker = TRUE) AS
 SELECT
