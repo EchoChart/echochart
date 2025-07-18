@@ -44,7 +44,7 @@ const form = Form.create({
    data: _defaults(props.data, initialFormData),
    rules: {
       id: 'required',
-      'address.*.id': 'required'
+      'address.*': 'required'
    },
    useDialogForm: false
 });
@@ -60,7 +60,7 @@ if (props.id) {
       .from(props.from)
       .select(props.select)
       .eq('id', props.id)
-      .single()
+      .maybeSingle()
       .throwOnError()
       .then(async ({ data }) => {
          form._setDefaults(_pick(data, fields))._reset();
@@ -70,7 +70,7 @@ if (props.id) {
 const save = async () => {
    if (!form._validate()) return;
 
-   if (form.id)
+   if (!!form._changedData['address'] && form.id) {
       await supabase
          .from('client_address')
          .delete()
@@ -78,15 +78,13 @@ const save = async () => {
          .setHeader('x-delete-confirmed', true)
          .throwOnError();
 
-   await supabase
-      .from('client_address')
-      .insert(
-         form.address.map(({ id }) => ({
-            client_id: form.id,
-            address_id: id
-         }))
-      )
-      .throwOnError();
+      const payload = form._data.address.map(({ id: address_id }) => ({
+         address_id,
+         client_id: form.id
+      }));
+
+      await supabase.from('client_address').insert(payload).throwOnError();
+   }
 
    emitter.emit('client_address-update', form._data);
    emitter.emit('client-update', form._data);
@@ -103,7 +101,7 @@ const save = async () => {
 
 if (props.id || props.data?.id) {
    const updateCallback = (data) => {
-      if (data?.id === form.id) form._setDefaults(_pick(data, fields))._reset();
+      if (data?.id === form.id) form._setDefaults(data)._reset();
    };
    onMounted(() => emitter.on('client_address-update', updateCallback));
    onUnmounted(() => emitter.off('client_address-update', updateCallback));

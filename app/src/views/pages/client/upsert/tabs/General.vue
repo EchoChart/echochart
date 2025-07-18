@@ -18,7 +18,7 @@ const props = defineProps({
    }
 });
 
-const { t, te } = useI18n();
+const { t } = useI18n();
 
 const toast = useToast();
 
@@ -58,7 +58,7 @@ if (props.id) {
       .from('client')
       .select('*')
       .eq('id', props.id)
-      .single()
+      .maybeSingle()
       .throwOnError()
       .then(({ data }) => form._setDefaults(_pick(data, fields))._reset());
 }
@@ -76,7 +76,7 @@ const save = async () => {
       .upsert(_pick(form._data, fields))
       .eq('id', form.id)
       .select()
-      .single()
+      .maybeSingle()
       .throwOnError()
       .then(({ data }) => form._merge(_pick(data, fields)));
 
