@@ -1,6 +1,16 @@
-<script setup>
+<script setup lang="ts" generic="T = Tables['audit_log']['Update']">
 import Collection from '@/lib/Collection';
+import { isValidDate, localeDateString } from '@/lib/dayjs';
 import { detailedDiff, diff } from 'deep-object-diff';
+
+type Log = Tables['audit_log']['Update'] & {
+   changes?: {
+      key?: string;
+      type?: string;
+      oldValue?: any;
+      newValue?: any;
+   }[];
+};
 
 /**
  * @typedef {Tables['audit_log']['Row']} Data
@@ -17,7 +27,13 @@ const props = defineProps({
 });
 const { t, te } = useI18n();
 
-const auditItemRoutes = {
+// Define a type for auditItemRoutes
+interface AuditItemRoutes {
+   [key: string]: { name: string };
+}
+
+// Initialize auditItemRoutes with the correct type
+const auditItemRoutes: AuditItemRoutes = {
    role_id: { name: 'branch-role-edit' },
    role: { name: 'branch-role-edit' },
    user_id: { name: 'branch-user-manage' },
@@ -27,10 +43,12 @@ const auditItemRoutes = {
    address_id: { name: 'address-edit' },
    address: { name: 'address-edit' },
    record_id: { name: 'record-edit' },
-   record: { name: 'record-edit' }
+   record: { name: 'record-edit' },
+   stock_id: { name: 'stock-edit' },
+   stock: { name: 'stock-edit' }
 };
 
-const getLogTagProps = (log) => {
+const getLogTagProps = (log: Log) => {
    switch (_toLower(log?.operation)) {
       case 'update':
          return { icon: PrimeIcons.SYNC, severity: 'info' };
@@ -43,16 +61,16 @@ const getLogTagProps = (log) => {
    }
 };
 
-const getChanges = (log) => {
+const getChanges = (log: Log) => {
    if (!_isObject(log)) return {};
 
-   const omitFn = (value, key) => {
+   const omitFn = (value: any, key: string) => {
       if (['id', 'created_at', 'tenant_id'].includes(key)) return true;
       return false;
    };
 
-   const rowData = _omitBy(_get(log, 'row_data', {}), omitFn);
-   const oldData = _omitBy(_get(log, 'old_data', {}), omitFn);
+   const rowData = _omitBy(_get(log, 'row_data', {}) as object, omitFn);
+   const oldData = _omitBy(_get(log, 'old_data', {}) as object, omitFn);
 
    const operation = _toLower(log?.operation);
 
@@ -74,7 +92,7 @@ const getChanges = (log) => {
       return log;
    }
 
-   const diffResult = operation === 'update' ? detailedDiff(oldData, rowData) : {};
+   const diffResult = detailedDiff(oldData, rowData);
    const changes = [];
 
    for (const [key, value] of _toPairs(diffResult?.added)) {
@@ -99,8 +117,12 @@ const getChanges = (log) => {
    return log;
 };
 
-function formatValue(value, indentSize = 0) {
+function formatValue(value: any, indentSize = 0): any {
    if (_isNil(value)) return '—';
+
+   if (_isString(value) && isValidDate({ value })) {
+      return localeDateString({ value });
+   }
 
    // Turn object to yaml like format
    if (_isObject(value) && !_isNil(value)) {
@@ -113,10 +135,16 @@ function formatValue(value, indentSize = 0) {
       }
 
       const entries = _keys(value).map((key) => {
-         const formattedValue = formatValue(value[key], indentSize + 1);
+         const currentValue = _get(value, key);
+         const formattedValue = formatValue(currentValue, indentSize + 1);
          const formattedKey = te('fields.' + key) ? t('fields.' + key) : key;
-         if (_isBoolean(value[key])) {
-            const booleanValue = value[key] ? '✔️' : '❌';
+
+         if (_isString(currentValue) && isValidDate({ value: currentValue })) {
+            return `${indent}\n${indent}${formattedKey}: ${localeDateString({ value: currentValue })}`;
+         }
+
+         if (_isBoolean(currentValue)) {
+            const booleanValue = currentValue ? '✅' : '⛔';
             return `${indent}\n${indent}${formattedKey}: ${booleanValue}`;
          }
          if (formattedValue !== '—')
@@ -125,6 +153,7 @@ function formatValue(value, indentSize = 0) {
 
       return entries.join('');
    }
+
    return te('fields.' + value) ? t('fields.' + value) : value;
 }
 
@@ -149,11 +178,14 @@ if (props.id) {
             <span v-text="$t('fields.' + log?.table_name || '')" />
             <CustomLink
                v-if="
-                  log.operation !== 'DELETE' && !!auditItemRoutes[log.table_name] && log.row_data.id
+                  !log.reverted_at &&
+                  log.operation !== 'DELETE' &&
+                  !!auditItemRoutes[log.table_name] &&
+                  !!(log.row_data as any)?.id
                "
                :to="{
-                  ...(auditItemRoutes[log.table_name] || auditItemRoutes[logentry.key]),
-                  params: { id: log.row_data?.id },
+                  ...auditItemRoutes[log.table_name],
+                  params: { id: (log.row_data as any)?.id },
                   query: { showDialog: 'center' }
                }"
                v-slot="{ navigate }"
@@ -176,22 +208,23 @@ if (props.id) {
             <span class="audit_card__key" v-text="$t('fields.' + entry?.key || '')" />
 
             <div class="audit_card__value-container">
-               <Tag severity="danger" v-if="entry?.type !== 'add'" class="audit_card__old-value">
+               <span v-if="entry?.type !== 'add'" class="audit_card__old-value">
                   <pre v-text="_trim(formatValue(entry?.oldValue))" />
-               </Tag>
-               <Tag
+               </span>
+               <span
                   v-if="entry?.type !== 'delete'"
                   severity="success"
                   class="audit_card__new-value"
                >
                   <pre v-text="_trim(formatValue(entry?.newValue))" />
-               </Tag>
+               </span>
                <CustomLink
                   v-if="
-                     entry?.type !== 'delete' &&
+                     !log.reverted_at &&
+                     (log.operation !== 'INSERT' || entry?.type !== 'delete') &&
                      !!auditItemRoutes[entry.key] &&
                      _endsWith(entry.key, '_id') &&
-                     entry?.newValue
+                     !!entry?.newValue
                   "
                   :to="{
                      ...auditItemRoutes[entry.key],
@@ -226,7 +259,7 @@ if (props.id) {
    }
 
    &__change-item {
-      @apply flex items-baseline gap-2 overflow-auto;
+      @apply flex items-center gap-2 overflow-auto;
    }
 
    &__key {
@@ -237,8 +270,12 @@ if (props.id) {
       @apply flex items-center flex-wrap gap-1 text-sm;
    }
 
+   &__old-value {
+      @apply text-red-500;
+   }
+
    &__new-value {
-      @apply font-semibold;
+      @apply font-semibold text-green-500;
    }
 }
 </style>
