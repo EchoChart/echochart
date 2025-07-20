@@ -39,62 +39,7 @@ BEGIN
         WHERE table_schema = 'public'
       )
   LOOP
-    -- Enable RLS
-    EXECUTE format(
-      $f$ALTER TABLE %I.%I ENABLE ROW LEVEL SECURITY$f$,
-      t_schema,
-      t_name
-    );
-
-    -- SELECT policy
-    EXECUTE format(
-      $f$DROP POLICY IF EXISTS restrict_selects_to_current_tenant ON %I.%I$f$,
-      t_schema,
-      t_name
-    );
-    EXECUTE format(
-      $f$CREATE POLICY restrict_selects_to_current_tenant ON %I.%I AS RESTRICTIVE FOR SELECT TO authenticated USING (tenant_id IS NULL OR tenant_id = (SELECT auth.tenant_id()))$f$,
-      t_schema,
-      t_name
-    );
-
-    -- INSERT policy
-    EXECUTE format(
-      $f$DROP POLICY IF EXISTS restrict_inserts_to_allowed_tenants ON %I.%I$f$,
-      t_schema,
-      t_name
-    );
-    EXECUTE format(
-      $f$CREATE POLICY restrict_inserts_to_allowed_tenants ON %I.%I AS RESTRICTIVE FOR INSERT TO authenticated WITH CHECK (tenant_id = ANY (auth.allowed_tenant()))$f$,
-      t_schema,
-      t_name
-    );
-
-    -- UPDATE policy
-    EXECUTE format(
-      $f$DROP POLICY IF EXISTS restrict_updates_to_current_tenant ON %I.%I$f$,
-      t_schema,
-      t_name
-    );
-    EXECUTE format(
-      $f$CREATE POLICY restrict_updates_to_current_tenant ON %I.%I AS RESTRICTIVE FOR UPDATE TO authenticated USING (tenant_id = (SELECT auth.tenant_id())) WITH CHECK (tenant_id = ANY (auth.allowed_tenant()))$f$,
-      t_schema,
-      t_name
-    );
-
-    -- DELETE policy
-    EXECUTE format(
-      $f$DROP POLICY IF EXISTS restrict_deletes_to_current_tenant ON %I.%I$f$,
-      t_schema,
-      t_name
-    );
-    EXECUTE format(
-      $f$CREATE POLICY restrict_deletes_to_current_tenant ON %I.%I AS RESTRICTIVE FOR DELETE TO authenticated USING (tenant_id = (SELECT auth.tenant_id()))$f$,
-      t_schema,
-      t_name
-    );
-
-    RAISE NOTICE $f$RLS enabled and policy applied for table: %$f$, t_name;
+    PERFORM private.enable_tenant_level_security(t_name);
   END LOOP;
 END;
 $$ LANGUAGE plpgsql;

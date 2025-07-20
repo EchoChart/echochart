@@ -841,3 +841,79 @@ BEGIN
    
     RETURN NEW;
 END;$$;
+
+CREATE OR REPLACE FUNCTION private.has_table_tenant_id (p_table_name TEXT) RETURNS BOOLEAN LANGUAGE sql SECURITY DEFINER
+SET
+    "search_path" = '' AS $$
+    SELECT EXISTS (
+    SELECT 1
+    FROM information_schema.columns
+    WHERE table_name = p_table_name
+        AND table_schema = 'public'
+        AND column_name = 'tenant_id'
+    );
+$$;
+
+CREATE OR REPLACE FUNCTION private.enable_tenant_level_security (p_table_name TEXT) RETURNS void LANGUAGE plpgsql SECURITY DEFINER
+SET
+    "search_path" = '' AS $$
+DECLARE
+  t_name text := p_table_name;
+  t_schema text := 'public';
+BEGIN
+  IF NOT private.has_table_tenant_id(t_name) THEN
+    RAISE NOTICE 'Table "%" does not have tenant_id column. Skipping.', t_name;
+    RETURN;
+  END IF;
+
+  EXECUTE format('ALTER TABLE %I.%I ENABLE ROW LEVEL SECURITY', t_schema, t_name);
+
+  -- SELECT
+  EXECUTE format(
+    $f$CREATE POLICY restrict_selects_to_current_tenant ON %I.%I AS RESTRICTIVE FOR SELECT TO authenticated USING (tenant_id IS NULL OR tenant_id = (SELECT auth.tenant_id()))$f$,
+    t_schema, t_name
+  );
+
+  -- INSERT
+  EXECUTE format(
+    $f$CREATE POLICY restrict_inserts_to_allowed_tenants ON %I.%I AS RESTRICTIVE FOR INSERT TO authenticated WITH CHECK (tenant_id = ANY (auth.allowed_tenant()))$f$,
+    t_schema, t_name
+  );
+
+  -- UPDATE
+  EXECUTE format(
+    $f$CREATE POLICY restrict_updates_to_current_tenant ON %I.%I AS RESTRICTIVE FOR UPDATE TO authenticated USING (tenant_id = (SELECT auth.tenant_id())) WITH CHECK (tenant_id = ANY (auth.allowed_tenant()))$f$,
+    t_schema, t_name
+  );
+
+  -- DELETE
+  EXECUTE format(
+    $f$CREATE POLICY restrict_deletes_to_current_tenant ON %I.%I AS RESTRICTIVE FOR DELETE TO authenticated USING (tenant_id = (SELECT auth.tenant_id()))$f$,
+    t_schema, t_name
+  );
+
+  RAISE NOTICE 'RLS enabled and policies created for table: %', t_name;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION private.disable_tenant_level_security (p_table_name TEXT) RETURNS void LANGUAGE plpgsql SECURITY DEFINER
+SET
+    "search_path" = '' AS $$
+DECLARE
+  t_name text := p_table_name;
+  t_schema text := 'public';
+BEGIN
+  IF NOT private.has_table_tenant_id(t_name) THEN
+    RAISE NOTICE 'Table "%" does not have tenant_id column. Skipping.', t_name;
+    RETURN;
+  END IF;
+
+  -- DROP policies (RLS stays enabled)
+  EXECUTE format('DROP POLICY IF EXISTS restrict_selects_to_current_tenant ON %I.%I', t_schema, t_name);
+  EXECUTE format('DROP POLICY IF EXISTS restrict_inserts_to_allowed_tenants ON %I.%I', t_schema, t_name);
+  EXECUTE format('DROP POLICY IF EXISTS restrict_updates_to_current_tenant ON %I.%I', t_schema, t_name);
+  EXECUTE format('DROP POLICY IF EXISTS restrict_deletes_to_current_tenant ON %I.%I', t_schema, t_name);
+
+  RAISE NOTICE 'Policies dropped (RLS still enabled) for table: %', t_name;
+END;
+$$;
