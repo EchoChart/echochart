@@ -42,7 +42,7 @@ export default [
                skeleton: () => import('@/views/pages/stock/spare-part/Index.vue')
             },
             meta: {
-               label: i18n.t('route.label.list'),
+               label: i18n.t('route.label.spare_part_list'),
                visible: false,
                index: -1,
                icon: PrimeIcons.LIST,

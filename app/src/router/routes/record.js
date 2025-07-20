@@ -17,6 +17,14 @@ export default [
             {
                action: 'read',
                subject: 'record'
+            },
+            {
+               action: 'read',
+               subject: 'stock'
+            },
+            {
+               action: 'read',
+               subject: 'product'
             }
          ],
          contextMenuItems: [
@@ -40,7 +48,7 @@ export default [
             },
             props: true,
             meta: {
-               label: i18n.t('route.label.list'),
+               label: i18n.t('route.label.record_list'),
                icon: PrimeIcons.LIST,
                visible: false
             }
@@ -50,7 +58,7 @@ export default [
             name: 'record-add',
             props: true,
             meta: {
-               label: i18n.t('route.label.add'),
+               label: i18n.t('route.label.record_add'),
                visible: false,
                icon: PrimeIcons.PLUS,
                requiredPermissions: [
@@ -70,7 +78,7 @@ export default [
             name: 'record-edit',
             props: true,
             meta: {
-               label: i18n.t('route.label.edit'),
+               label: i18n.t('route.label.record_edit'),
                visible: false,
                icon: PrimeIcons.PENCIL,
                requiredPermissions: [

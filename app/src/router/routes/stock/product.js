@@ -40,7 +40,7 @@ export default [
                skeleton: () => import('@/views/pages/stock/product/Index.vue')
             },
             meta: {
-               label: i18n.t('route.label.list'),
+               label: i18n.t('route.label.product_list'),
                visible: false,
                index: -1,
                icon: PrimeIcons.LIST,
@@ -57,7 +57,7 @@ export default [
             name: 'product-add',
             props: true,
             meta: {
-               label: i18n.t('route.label.add'),
+               label: i18n.t('route.label.product_add'),
                visible: false
             },
             components: {
@@ -70,7 +70,7 @@ export default [
             name: 'product-edit',
             props: true,
             meta: {
-               label: i18n.t('route.label.edit'),
+               label: i18n.t('route.label.product_edit'),
                visible: false
             },
             components: {

@@ -27,7 +27,7 @@ export default [
             path: 'list',
             name: 'client-list',
             meta: {
-               label: i18n.t('route.label.list'),
+               label: i18n.t('route.label.client_list'),
                icon: PrimeIcons.LIST,
                requiresAuth: true,
                requiredPermissions: [
@@ -66,7 +66,7 @@ export default [
             children: [
                {
                   path: 'general',
-                  name: 'manage-client-general',
+                  name: 'client-manage-general',
                   props: true,
                   meta: {
                      label: i18n.t('route.label.client-general-info'),
@@ -80,7 +80,7 @@ export default [
                },
                {
                   path: 'address',
-                  name: 'manage-client-address',
+                  name: 'client-manage-address',
                   props: true,
                   meta: {
                      label: i18n.t('route.label.client-addresses'),
@@ -104,7 +104,10 @@ export default [
                requiresAuth: true,
                contextMenuItems: computed(() => {
                   const { ability } = useAuthStore();
-                  if (ability.can('create', 'address') || ability.can('modify', 'address'))
+                  if (
+                     ability.can('create', 'address') &&
+                     (ability.can('create', 'address') || ability.can('modify', 'address'))
+                  )
                      return [
                         {
                            label: i18n.t('router.action.manage-addresses'),
@@ -123,7 +126,7 @@ export default [
                   path: 'list',
                   name: 'client-address-list',
                   meta: {
-                     label: i18n.t('route.label.list'),
+                     label: i18n.t('route.label.client_address_list'),
                      visible: false,
                      index: 2,
                      icon: PrimeIcons.LIST,

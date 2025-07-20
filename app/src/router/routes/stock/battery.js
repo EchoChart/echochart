@@ -44,7 +44,7 @@ export default [
             },
             meta: {
                visible: false,
-               label: i18n.t('route.label.list'),
+               label: i18n.t('route.label.battery_list'),
                index: -1,
                icon: PrimeIcons.LIST,
                requiredPermissions: [

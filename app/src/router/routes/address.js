@@ -37,7 +37,7 @@ export default [
             path: 'list',
             name: 'address-list',
             meta: {
-               label: i18n.t('route.label.list'),
+               label: i18n.t('route.label.address_list'),
                visible: false,
                index: 2,
                icon: PrimeIcons.LIST,
@@ -53,7 +53,7 @@ export default [
             name: 'address-edit',
             props: true,
             meta: {
-               label: i18n.t('route.label.edit'),
+               label: i18n.t('route.label.address_edit'),
                visible: false,
                requiredPermissions: [
                   {
@@ -76,7 +76,7 @@ export default [
             name: 'address-add',
             props: true,
             meta: {
-               label: i18n.t('route.label.add'),
+               label: i18n.t('route.label.address_add'),
                visible: false,
                requiredPermissions: [
                   {

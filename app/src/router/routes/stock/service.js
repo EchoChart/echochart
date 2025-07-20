@@ -43,7 +43,7 @@ export default [
                skeleton: () => import('@/views/pages/stock/service/Index.vue')
             },
             meta: {
-               label: i18n.t('route.label.list'),
+               label: i18n.t('route.label.service_list'),
                visible: false,
                index: -1,
                icon: PrimeIcons.LIST,

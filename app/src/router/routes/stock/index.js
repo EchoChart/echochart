@@ -28,7 +28,7 @@ export default [
             name: 'stock-add',
             props: true,
             meta: {
-               label: i18n.t('route.label.add'),
+               label: i18n.t('route.label.stock_add'),
                visible: false
             },
             components: {
@@ -41,7 +41,7 @@ export default [
             name: 'stock-edit',
             props: true,
             meta: {
-               label: i18n.t('route.label.edit'),
+               label: i18n.t('route.label.stock_edit'),
                visible: false
             },
             components: {
