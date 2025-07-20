@@ -23,7 +23,7 @@ export const appErrorHandler = async (error: any) => {
       const detailPath = 'errors.' + detailKey;
       const detailText = i18n.te(detailPath) ? i18n.t(detailPath) : detailKey || '';
 
-      const summary = `${summaryText}`;
+      const summary = summaryText;
       const detail = detailText;
 
       toast?.add?.({
