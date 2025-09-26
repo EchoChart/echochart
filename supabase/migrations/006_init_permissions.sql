@@ -47,9 +47,9 @@ $$ LANGUAGE plpgsql;
 -- Tenant-specific policy
 DROP POLICY IF EXISTS restrict_to_user_tenant ON public.tenant;
 
-CREATE POLICY restrict_to_user_tenant ON public.tenant AS RESTRICTIVE FOR ALL TO authenticated USING (id = ANY (auth.allowed_tenant ()))
+CREATE POLICY restrict_to_user_tenant ON public.tenant AS RESTRICTIVE FOR ALL TO authenticated USING (id = ANY (private.allowed_tenant ()))
 WITH
-  CHECK (id = ANY (auth.allowed_tenant ()));
+  CHECK (id = ANY (private.allowed_tenant ()));
 
 -- User-specific policy
 DROP POLICY IF EXISTS restrict_to_tenant_user ON public.user;
@@ -64,7 +64,7 @@ CREATE POLICY "restrict_to_tenant" ON public.user AS RESTRICTIVE TO authenticate
       tu.user_id = public.user.id
       AND tu.tenant_id = (
         SELECT
-          auth.tenant_id ()
+          private.tenant_id ()
       )
   )
 )
@@ -79,7 +79,7 @@ WITH
         tu.user_id = public.user.id
         AND tu.tenant_id = (
           SELECT
-            auth.tenant_id ()
+            private.tenant_id ()
         )
     )
   );
