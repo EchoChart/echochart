@@ -1,23 +1,28 @@
 export const RECORD_TYPES = computed(() => [
    {
-      value: 'trial',
-      label: i18n.t('fields.trial')
+      value: 'sale',
+      label: i18n.t('fields.sale'),
+      icon: PrimeIcons.MONEY_BILL
    },
    {
-      value: 'sale',
-      label: i18n.t('fields.sale')
+      value: 'trial',
+      label: i18n.t('fields.trial'),
+      icon: PrimeIcons.TICKET
    },
    {
       value: 'assemble',
-      label: i18n.t('fields.assemble')
+      label: i18n.t('fields.assemble'),
+      icon: PrimeIcons.COG
    },
    {
       value: 'repair',
-      label: i18n.t('fields.repair')
+      label: i18n.t('fields.repair'),
+      icon: PrimeIcons.WRENCH
    },
    {
       value: 'promotion',
-      label: i18n.t('fields.promotion')
+      label: i18n.t('fields.promotion'),
+      icon: PrimeIcons.GIFT
    }
 ]);
 
