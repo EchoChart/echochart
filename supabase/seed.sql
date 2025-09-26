@@ -208,9 +208,9 @@ FROM
 INSERT INTO
     public.product_category (display_name, details, parent_id, created_at)
 VALUES
-    ('device', 'Devices to assist hearing impairment', NULL, NOW() - (random() * INTERVAL '10 years')),
-    ('service', 'Services to assist hearing impairment', NULL, NOW() - (random() * INTERVAL '10 years')),
-    ('spare part', 'Components for hearing aids', NULL, NOW() - (random() * INTERVAL '10 years'));
+    ('device', 'Devices to assist hearing impairment', NULL, NOW() - (random() * INTERVAL '1 years')),
+    ('service', 'Services to assist hearing impairment', NULL, NOW() - (random() * INTERVAL '1 years')),
+    ('spare part', 'Components for hearing aids', NULL, NOW() - (random() * INTERVAL '1 years'));
 
 INSERT INTO
     public.product_category (display_name, details, parent_id, created_at)
@@ -228,7 +228,7 @@ VALUES
             LIMIT
                 1
         ),
-        NOW() - (random() * INTERVAL '10 years')
+        NOW() - (random() * INTERVAL '1 years')
     );
 
 -- Generate Random Products and Assign Categories
@@ -257,7 +257,7 @@ BEGIN
                 WHEN i <= prod_count * 1 THEN 'Battery ' || i
             END AS product_name,
             'Brand' || floor(random() * 10 + 1)::int AS brand_name,
-            NOW() - (random() * interval '10 years') AS created_at
+            NOW() - (random() * interval '1 years') AS created_at
         FROM generate_series(1, prod_count) i
     ),
     inserted_product AS (
@@ -280,17 +280,17 @@ SET
 BEGIN
     INSERT INTO public.client (national_id, display_name, birth_date, gender, email, phone, nationality, tenant_id, created_at)
     VALUES 
-        (gen_random_uuid(), 'John Doe', '1990-01-01', 'male', 'john.doe'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'United States', target_tenant_id, NOW() - (random() * interval '10 years')),
-        (gen_random_uuid(), 'Jane Smith', '1985-06-15', 'female', 'jane.smith'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'United Kingdom', target_tenant_id, NOW() - (random() * interval '10 years')),
-        (gen_random_uuid(), 'Robert Johnson', '1992-12-20', 'male', 'robert.johnson'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Australia', target_tenant_id, NOW() - (random() * interval '10 years')),
-        (gen_random_uuid(), 'Emily Davis', '1988-09-10', 'female', 'emily.davis'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Canada', target_tenant_id, NOW() - (random() * interval '10 years')),
-        (gen_random_uuid(), 'Michael Brown', '1995-03-25', 'male', 'michael.brown'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Germany', target_tenant_id, NOW() - (random() * interval '10 years')),
-        (gen_random_uuid(), 'Sarah Wilson', '1984-11-30', 'female', 'sarah.wilson'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Japan', target_tenant_id, NOW() - (random() * interval '10 years')),
-        (gen_random_uuid(), 'Olivia Brown', '1993-05-24', 'male', 'olivia.brown'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'United Kingdom', target_tenant_id, NOW() - (random() * interval '10 years')),
-        (gen_random_uuid(), 'William Miller', '1997-07-22', 'male', 'william.miller'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'France', target_tenant_id, NOW() - (random() * interval '10 years')),
-        (gen_random_uuid(), 'Jessica Taylor', '1987-04-17', 'female', 'jessica.taylor'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Italy', target_tenant_id, NOW() - (random() * interval '10 years')),
-        (gen_random_uuid(), 'David Anderson', '1993-10-14', 'male', 'david.anderson'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Spain', target_tenant_id, NOW() - (random() * interval '10 years')),
-        (gen_random_uuid(), 'Sophia Martinez', '1989-06-21', 'female', 'sophia.martinez'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Mexico', target_tenant_id, NOW() - (random() * interval '10 years'));
+        (gen_random_uuid(), 'John Doe', '1990-01-01', 'male', 'john.doe'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'United States', target_tenant_id, NOW() - (random() * interval '1 years')),
+        (gen_random_uuid(), 'Jane Smith', '1985-06-15', 'female', 'jane.smith'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'United Kingdom', target_tenant_id, NOW() - (random() * interval '1 years')),
+        (gen_random_uuid(), 'Robert Johnson', '1992-12-20', 'male', 'robert.johnson'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Australia', target_tenant_id, NOW() - (random() * interval '1 years')),
+        (gen_random_uuid(), 'Emily Davis', '1988-09-10', 'female', 'emily.davis'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Canada', target_tenant_id, NOW() - (random() * interval '1 years')),
+        (gen_random_uuid(), 'Michael Brown', '1995-03-25', 'male', 'michael.brown'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Germany', target_tenant_id, NOW() - (random() * interval '1 years')),
+        (gen_random_uuid(), 'Sarah Wilson', '1984-11-30', 'female', 'sarah.wilson'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Japan', target_tenant_id, NOW() - (random() * interval '1 years')),
+        (gen_random_uuid(), 'Olivia Brown', '1993-05-24', 'male', 'olivia.brown'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'United Kingdom', target_tenant_id, NOW() - (random() * interval '1 years')),
+        (gen_random_uuid(), 'William Miller', '1997-07-22', 'male', 'william.miller'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'France', target_tenant_id, NOW() - (random() * interval '1 years')),
+        (gen_random_uuid(), 'Jessica Taylor', '1987-04-17', 'female', 'jessica.taylor'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Italy', target_tenant_id, NOW() - (random() * interval '1 years')),
+        (gen_random_uuid(), 'David Anderson', '1993-10-14', 'male', 'david.anderson'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Spain', target_tenant_id, NOW() - (random() * interval '1 years')),
+        (gen_random_uuid(), 'Sophia Martinez', '1989-06-21', 'female', 'sophia.martinez'||random()::TEXT||'@example.com', (SELECT '+'|| RPAD(CAST(ROUND(RANDOM() * 9999999999) AS TEXT), 12, '0')), 'Mexico', target_tenant_id, NOW() - (random() * interval '1 years'));
 END; 
 $$;
 
@@ -360,7 +360,7 @@ SET
         'SN-' || gen_random_uuid(),  -- Unique serial number  
         'B-' || gen_random_uuid(),  -- Unique barcode per tenant and product  
         'Details for tenant product',  
-        NOW() - (random() * interval '10 years')  -- Random timestamp within the last 10 years  
+        NOW() - (random() * interval '1 years')  -- Random timestamp within the last 1 years  
     , CASE FLOOR(random() * 8 + 1)
         WHEN 1 THEN 'pcs'
         WHEN 2 THEN 'kg'
@@ -386,8 +386,11 @@ BEGIN
     FOR stock_rec IN 
         SELECT  
             s.id,
-            'sale'::TEXT AS record_type,
-            'pending'::TEXT AS record_status,
+            CASE 
+                WHEN random() < 0.5 THEN 'sale'::public.valid_record_type 
+                ELSE (ARRAY['trial', 'assemble', 'repair', 'promotion'])[floor(random()*4+1)]::public.valid_record_type
+            END AS record_type,
+            (ARRAY['done', 'pending'])[floor(random()*2+1)]::TEXT AS record_status,
             ROUND((LEAST(random() * (s.available_quantity - 1) + 1, s.available_quantity))::NUMERIC, 2) AS quantity,
             'credit_card'::TEXT AS payment_type,
             'TRY'::TEXT AS currency_code,
@@ -396,7 +399,7 @@ BEGIN
             ROUND((random() * (90 - 10) + 10)::NUMERIC, 2) AS tax,
             c.id AS client_id,
             'Details for tenant record'::TEXT AS details,  
-            NOW() - (random() * interval '10 days') AS created_at
+            NOW() - (random() * interval '1 years') AS created_at
         FROM public.stock_view s 
         JOIN public.product p ON s.product_id = p.id
         INNER JOIN public.client c ON c.tenant_id = target_tenant_id AND random() < 0.75
