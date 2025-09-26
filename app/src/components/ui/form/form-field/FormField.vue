@@ -31,7 +31,6 @@ const errorTextElement = ref(null);
 
 const errorElStyle = useElementSize(errorMessageElement);
 
-/**@type {String} */
 const id = props.id || useId() || _kebabCase(props.label);
 
 const containerClass = computed(() => [
@@ -80,7 +79,7 @@ onMounted(() => {
             class="form_field__header"
             :class="headerClass"
          >
-            <slot name="label" :for="id" :id="`label-${id}`" :title="props.label">
+            <slot name="label" v-bind="props" :for="id" :id="`label-${id}`" :title="props.label">
                <label
                   v-if="!!props.label"
                   :for="id"
@@ -94,9 +93,15 @@ onMounted(() => {
                />
             </slot>
 
-            <slot name="actions" />
+            <slot
+               name="actions"
+               v-bind="{ isLoading, reverse, error, id, errorClass, headerClass }"
+            />
 
-            <slot name="badges" />
+            <slot
+               name="badges"
+               v-bind="{ isLoading, reverse, error, id, errorClass, headerClass }"
+            />
 
             <ErrorBadge v-if="_size(error as string) >= 60" :error="error" />
          </div>
@@ -125,12 +130,14 @@ onMounted(() => {
                :class="inputClass"
             />
             <template #fallback>
-               <Skeleton
-                  height="2.5rem"
-                  class="!min-w-32"
-                  :class="inputClass"
-                  v-bind="_omit(attrs, ['class'])"
-               />
+               <slot name="fallback">
+                  <Skeleton
+                     height="2.5rem"
+                     class="!min-w-32"
+                     :class="inputClass"
+                     v-bind="_omit(attrs, ['class'])"
+                  />
+               </slot>
             </template>
          </Suspense>
       </BlockUI>
@@ -167,7 +174,7 @@ onMounted(() => {
 
 <style lang="scss">
 .form_field {
-   @apply flex gap-4 p-2 relative transition-[padding] duration-[var(--transition-duration)];
+   @apply flex gap-4 p-2 relative rounded-[var(--content-border-radius)] transition-[padding] duration-[var(--transition-duration)];
 
    &--fluid {
       @apply flex-col justify-center;
@@ -205,7 +212,7 @@ onMounted(() => {
    }
 
    &__skeleton {
-      @apply absolute rounded-[inherit] !h-[unset] !w-[unset] !min-w-32 !z-10 !left-0 !top-0 !right-0 !bottom-0 opacity-50;
+      @apply absolute rounded-[inherit] !h-[unset] !w-[unset] !z-10 !start-2 !top-2 !end-2 !bottom-2 opacity-35 !important;
    }
 }
 </style>
