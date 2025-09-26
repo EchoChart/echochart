@@ -175,14 +175,14 @@ BEGIN
                      $f$
                         CREATE POLICY %I ON %I.%I FOR %s TO authenticated USING (
                         CASE
-                            WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
+                            WHEN (%s AND (SELECT private.check_permission(%L, %L)))
                             THEN true
                             WHEN (%L = TRUE) THEN
                                 public.throw_rls_policy_error(%L)
                         END
                         ) WITH CHECK (
                         CASE
-                            WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
+                            WHEN (%s AND (SELECT private.check_permission(%L, %L)))
                             THEN true
                             WHEN (%L = TRUE) THEN
                                 public.throw_rls_policy_error(%L)
@@ -232,7 +232,7 @@ BEGIN
                     $f$
                         CREATE POLICY %I ON %I.%I FOR %s TO authenticated %s (
                         CASE
-                            WHEN (%s AND (SELECT auth.check_permission(%L, %L)))
+                            WHEN (%s AND (SELECT private.check_permission(%L, %L)))
                             THEN true
                             WHEN (%L = TRUE) THEN
                                 public.throw_rls_policy_error(%L)
@@ -262,7 +262,9 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION auth.check_super_admin (user_id UUID DEFAULT NULL) RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER AS $$
+CREATE OR REPLACE FUNCTION private.check_super_admin (user_id UUID DEFAULT NULL) RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER
+SET
+    search_path = '' AS $$
 BEGIN 
     IF user_id IS NULL THEN
         user_id := (SELECT auth.uid())::UUID;
@@ -274,7 +276,7 @@ BEGIN
     RETURN FALSE;
 END;$$;
 
-CREATE OR REPLACE FUNCTION auth.check_permission (p_resource_name TEXT, p_command TEXT) RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER STABLE
+CREATE OR REPLACE FUNCTION private.check_permission (p_resource_name TEXT, p_command TEXT) RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER STABLE
 SET
     search_path = '' AS $$
 DECLARE
@@ -282,7 +284,7 @@ DECLARE
    jwt_claims JSONB; -- Holds the JWT claims
 BEGIN
 
-    IF (SELECT auth.check_super_admin()) THEN
+    IF (SELECT private.check_super_admin()) THEN
         RETURN TRUE;
     END IF;
 
@@ -319,19 +321,19 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION auth.check_tenant_id (tenant_id UUID) RETURNS BOOLEAN STABLE LANGUAGE plpgsql SECURITY DEFINER
+CREATE OR REPLACE FUNCTION private.check_tenant_id (tenant_id UUID) RETURNS BOOLEAN STABLE LANGUAGE plpgsql SECURITY DEFINER
 SET
     search_path = '' AS $$
 BEGIN
-   RETURN tenant_id = (SELECT auth.tenant_id());
+   RETURN tenant_id = (SELECT private.tenant_id());
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION auth.check_allowed_tenant (tenant_id UUID) RETURNS BOOLEAN STABLE LANGUAGE plpgsql SECURITY DEFINER
+CREATE OR REPLACE FUNCTION private.check_allowed_tenant (tenant_id UUID) RETURNS BOOLEAN STABLE LANGUAGE plpgsql SECURITY DEFINER
 SET
     search_path = '' AS $$
 BEGIN
-   RETURN tenant_id = ANY (auth.allowed_tenant());
+   RETURN tenant_id = ANY (private.allowed_tenant());
 END;
 $$;
 
@@ -368,7 +370,7 @@ BEGIN
     -- Retrieve tenant ID from auth.users.user_metadata or fallback to the first allowed tenant
     SELECT user_metadata->>'current_tenant_id' INTO current_tenant_id;
 
-    IF (SELECT auth.check_super_admin(u_id)) THEN
+    IF (SELECT private.check_super_admin(u_id)) THEN
         SELECT COALESCE(
             jsonb_agg(jsonb_build_object('id', t.id, 'display_name', t.display_name))
         , '[]'::jsonb
@@ -410,7 +412,7 @@ BEGIN
     END IF;
 
     -- Add user's permission to the token
-    IF (SELECT auth.check_super_admin(u_id)) THEN
+    IF (SELECT private.check_super_admin(u_id)) THEN
         SELECT JSONB_AGG(
             JSONB_BUILD_OBJECT(
                 'resource_name', sub.resource_name,
@@ -476,7 +478,7 @@ END;
 $$;
 
 -- Create a helper function to use in RLS policies
-CREATE OR REPLACE FUNCTION auth.allowed_tenant () RETURNS UUID[] SECURITY DEFINER LANGUAGE plpgsql STABLE
+CREATE OR REPLACE FUNCTION private.allowed_tenant () RETURNS UUID[] SECURITY DEFINER LANGUAGE plpgsql STABLE
 SET
     search_path = '' AS $$
 DECLARE
@@ -511,7 +513,9 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION auth.tenant_id () RETURNS UUID SECURITY DEFINER AS $$
+CREATE OR REPLACE FUNCTION private.tenant_id () RETURNS UUID SECURITY DEFINER
+SET
+    "search_path" = '' AS $$
 DECLARE
    tenant_id UUID := NULL;
    header_tenant TEXT := NULL;
@@ -550,7 +554,7 @@ BEGIN
     END IF;
 
     -- Check if header_tenant_id is in allowed tenant
-    IF header_tenant_id IS NOT NULL AND header_tenant_id = ANY(auth.allowed_tenant()) THEN
+    IF header_tenant_id IS NOT NULL AND header_tenant_id = ANY(private.allowed_tenant()) THEN
         tenant_id := header_tenant_id;
     END IF;
 
@@ -623,7 +627,7 @@ BEGIN
     END;
 
     BEGIN
-    SELECT auth.tenant_id() INTO tenant_id;
+    SELECT private.tenant_id() INTO tenant_id;
     EXCEPTION
     WHEN OTHERS THEN
         tenant_id := NULL;
@@ -870,25 +874,25 @@ BEGIN
 
   -- SELECT
   EXECUTE format(
-    $f$CREATE POLICY restrict_selects_to_current_tenant ON %I.%I AS RESTRICTIVE FOR SELECT TO authenticated USING (tenant_id IS NULL OR tenant_id = (SELECT auth.tenant_id()))$f$,
+    $f$CREATE POLICY restrict_selects_to_current_tenant ON %I.%I AS RESTRICTIVE FOR SELECT TO authenticated USING (tenant_id IS NULL OR tenant_id = (SELECT private.tenant_id()))$f$,
     t_schema, t_name
   );
 
   -- INSERT
   EXECUTE format(
-    $f$CREATE POLICY restrict_inserts_to_allowed_tenants ON %I.%I AS RESTRICTIVE FOR INSERT TO authenticated WITH CHECK (tenant_id = ANY (auth.allowed_tenant()))$f$,
+    $f$CREATE POLICY restrict_inserts_to_allowed_tenants ON %I.%I AS RESTRICTIVE FOR INSERT TO authenticated WITH CHECK (tenant_id = ANY (private.allowed_tenant()))$f$,
     t_schema, t_name
   );
 
   -- UPDATE
   EXECUTE format(
-    $f$CREATE POLICY restrict_updates_to_current_tenant ON %I.%I AS RESTRICTIVE FOR UPDATE TO authenticated USING (tenant_id = (SELECT auth.tenant_id())) WITH CHECK (tenant_id = ANY (auth.allowed_tenant()))$f$,
+    $f$CREATE POLICY restrict_updates_to_current_tenant ON %I.%I AS RESTRICTIVE FOR UPDATE TO authenticated USING (tenant_id = (SELECT private.tenant_id())) WITH CHECK (tenant_id = ANY (private.allowed_tenant()))$f$,
     t_schema, t_name
   );
 
   -- DELETE
   EXECUTE format(
-    $f$CREATE POLICY restrict_deletes_to_current_tenant ON %I.%I AS RESTRICTIVE FOR DELETE TO authenticated USING (tenant_id = (SELECT auth.tenant_id()))$f$,
+    $f$CREATE POLICY restrict_deletes_to_current_tenant ON %I.%I AS RESTRICTIVE FOR DELETE TO authenticated USING (tenant_id = (SELECT private.tenant_id()))$f$,
     t_schema, t_name
   );
 
