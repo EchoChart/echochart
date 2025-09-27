@@ -25,8 +25,11 @@
             "ru": "Russian",
             "zh": "Chinese",
             "ja": "Japanese",
-            "ko": "Korean"
-         }
+            "ko": "Korean",
+            "es": "Spanish"
+         },
+         "translated_using_AI": "Translated Using AI",
+         "translated_using_artificial_intelligence": "Translated Using Artificial Intelligence"
       },
       "sidebar": {
          "select_sidebar_mode": "Select Sidebar Mode",
@@ -199,10 +202,11 @@
       "unit_discount": "Unit Discount",
       "unit_tax": "Unit Tax",
       "total_cost": "Total Cost",
+      "none": "",
       "tenant": "Tenant",
       "branch": "Branch",
       "user": "User",
-      "tenant_user": "Tenant User",
+      "tenant_user": "Branch User",
       "tenant_owner": "Tenant Owner",
       "address": "Address",
       "role_permission": "Role Permission",
@@ -224,98 +228,24 @@
       "client_address_view": "Client Address View",
       "audit_log_group": "Audit Log Group",
       "parent_id": "Parent ID",
-      "user_id": "User ID",
-      "tenant_id": "Tenant ID",
-      "role_id": "Role ID",
-      "permission_id": "Permission ID",
+      "user_id": "User",
+      "tenant_id": "Tenant",
+      "role_id": "Role",
+      "permission_id": "Permission",
       "unit_type": "Unit Type",
-      "category_id": "Category ID",
-      "address_id": "Address ID",
-      "address_tenant_id": "Address Tenant ID",
-      "client_national_id": "Client National ID",
-      "client_tenant_id": "Client Tenant ID",
-      "correlation_id": "Correlation ID",
-      "request_id": "Request ID",
-      "display_name": "Display Name",
+      "category_id": "Category",
+      "address_id": "Address",
+      "address_tenant_id": "Address Tenant",
+      "client_national_id": "National ID",
+      "client_tenant_id": "Client Tenant",
+      "correlation_id": "Correlation",
+      "request_id": "Request",
+      "display_name": "Name",
       "id": "ID",
       "created_at": "Created At"
    },
-   "audit_log": {
-      "no_changes_detected": "No changes detected",
-      "add": "Add",
-      "update": "Update",
-      "delete": "Delete",
-      "read": "Read",
-      "select_operation": "Select operation",
-      "table": {
-         "headers": {
-            "resource": "Resource",
-            "operation": "Operation",
-            "created_at": "Created at",
-            "reverted_at": "Reverted at",
-            "user_who_performed": "User Who Performed",
-            "user_who_reverted": "User Who Reverted"
-         }
-      },
-      "already_reverted": "Already reverted",
-      "attempt_to_revert": "Attempt to revert",
-      "added": "Added",
-      "updated": "Updated",
-      "deleted": "Deleted",
-      "readed": "Readed"
-   },
-   "client": {
-      "select_client": "Select client",
-      "address": {
-         "table": {
-            "headers": {
-               "client": "Client",
-               "address": "Address",
-               "country": "Country",
-               "city": "City",
-               "district": "District",
-               "created_at": "Created at"
-            }
-         }
-      },
-      "table": {
-         "headers": {
-            "client": "Client",
-            "nationality": "Nationality",
-            "national_id": "National ID",
-            "birth_date": "Birth Date",
-            "email": "Email",
-            "phone": "Phone",
-            "created_at": "Created at"
-         }
-      },
-      "general_info": "General Information",
-      "addresses": "Addresses",
-      "gender": {
-         "male": "Male",
-         "female": "Female"
-      }
-   },
-   "product": {
-      "select_product": "Select Product",
-      "category": {
-         "select_category": "Select Category"
-      }
-   },
    "input": {
       "select_or_write": "Select or Write"
-   },
-   "address": {
-      "select_country": "Select Country",
-      "table": {
-         "headers": {
-            "address_name": "Address Name",
-            "country": "Country",
-            "city": "City",
-            "district": "District",
-            "created_at": "Created At"
-         }
-      }
    },
    "financial": {
       "select_currency": "Select Currency",
@@ -531,6 +461,108 @@
          }
       }
    },
+   "route": {
+      "label": {
+         "dashboard": "Dashboard",
+         "error": "Error",
+         "notfound": "Not Found",
+         "account": "Account",
+         "profile": "Profile",
+         "settings": "Settings",
+         "update-profile": "Update Profile",
+         "update-password": "Update Password",
+         "logout": "Logout",
+         "address": "Address",
+         "list": "List",
+         "edit": "Edit",
+         "add": "Add",
+         "register": "Register",
+         "login": "Login",
+         "enter-auth-otp-code": "Enter Authentication OTP Code",
+         "access-denied": "Access Denied",
+         "branch": "Branch",
+         "branch-user": "Branch User",
+         "manage-user": "Manage User",
+         "user-general-info": "User General Information",
+         "branch-role": "Branch Role",
+         "audit-logs": "Logs",
+         "client": "Client",
+         "manage-client": "Manage Client",
+         "client-general-info": "Client General Information",
+         "client-addresses": "Client Addresses",
+         "record": "Record",
+         "battery": "Battery",
+         "device": "Device",
+         "stock": "Stock",
+         "product": "Product",
+         "service": "Service",
+         "spare-parts": "Spare Parts",
+         "address_list": "Address List",
+         "address_edit": "Edit Address",
+         "address_add": "Add Address",
+         "client_list": "Client List",
+         "client_address_list": "Client Addresses",
+         "record_list": "Record List",
+         "record_add": "Add Record",
+         "record_edit": "Edit Record",
+         "battery_list": "Battery List",
+         "device_list": "Device List",
+         "stock_add": "Add Stock",
+         "stock_edit": "Edit Stock",
+         "product_list": "Product List",
+         "product_add": "Add Product",
+         "product_edit": "Edit Product",
+         "service_list": "Service List",
+         "spare_part_list": "Spare Part List"
+      }
+   },
+   "dashboard": {
+      "statistics": {
+         "last_week": "Last Week",
+         "last_month": "Last Month",
+         "last_quarter": "Last Quarter",
+         "last_half": "Last Half",
+         "last_year": "Last Year",
+         "total": "Total",
+         "client": {
+            "clients": "Clients"
+         }
+      },
+      "best_selling_products": {
+         "sold_quantity": "Sold Quantity",
+         "total_gain": "Total Gain",
+         "total_discount": "Total Discount",
+         "total_tax": "Total Tax",
+         "title": "Best Selling Products",
+         "empty": "No products found"
+      },
+      "notifications": {
+         "today": "Today",
+         "yesterday": "Yesterday",
+         "last_week": "Last Week",
+         "older": "Older",
+         "title": "Notifications",
+         "activity": {
+            "created": "new {resource_name} created by {user_name}",
+            "updated": "a {resource_name} updated by {user_name}",
+            "deleted": "a {resource_name} deleted by {user_name}",
+            "unknown": "activity detected in {resource_name} by {user_name}"
+         }
+      },
+      "sales_by_category": {
+         "total_quantity_sold": "Total Quantity Sold",
+         "total_bid": "Total Bid",
+         "total_discount": "Total Discount",
+         "total_tax": "Total Tax",
+         "title": "Sales by Category"
+      },
+      "tables": {
+         "recent_sales": {
+            "title": "Recent Sales",
+            "see_all": "See All"
+         }
+      }
+   },
    "user": {
       "table": {
          "headers": {
@@ -547,15 +579,90 @@
       "general_info": "General Information",
       "security": "Security"
    },
+   "audit_log": {
+      "no_changes_detected": "No Changes Detected",
+      "add": "Add",
+      "update": "Update",
+      "delete": "Delete",
+      "read": "Read",
+      "select_operation": "Select Operation",
+      "table": {
+         "headers": {
+            "resource": "Resource",
+            "operation": "Operation",
+            "user_who_performed": "User Who Performed",
+            "created_at": "Created At",
+            "user_who_reverted": "User Who Reverted",
+            "reverted_at": "Reverted At"
+         }
+      },
+      "already_reverted": "Already Reverted",
+      "attempt_to_revert": "Attempt to Revert",
+      "added": "Added",
+      "updated": "Updated",
+      "deleted": "Deleted",
+      "readed": "Readed"
+   },
+   "client": {
+      "select_client": "Select Client",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "Client",
+               "address": "Address",
+               "country": "Country",
+               "city": "City",
+               "district": "District",
+               "created_at": "Created At"
+            }
+         }
+      },
+      "table": {
+         "headers": {
+            "client": "Client",
+            "nationality": "Nationality",
+            "national_id": "National ID",
+            "birth_date": "Birth Date",
+            "email": "Email",
+            "phone": "Phone",
+            "created_at": "Created At"
+         }
+      },
+      "general_info": "General Information",
+      "addresses": "Addresses",
+      "gender": {
+         "male": "Male",
+         "female": "Female"
+      }
+   },
+   "product": {
+      "select_product": "Select Product",
+      "category": {
+         "select_category": "Select Category"
+      }
+   },
+   "address": {
+      "select_country": "",
+      "table": {
+         "headers": {
+            "address_name": "",
+            "country": "",
+            "city": "",
+            "district": "",
+            "created_at": ""
+         }
+      }
+   },
    "record": {
       "table": {
          "headers": {
             "product": "Product",
-            "record_type": "Record Type",
             "client": "Client",
             "quantity": "Quantity",
             "bid": "Bid",
-            "created_at": "Created At"
+            "created_at": "Created At",
+            "record_type": "Record Type",
+            "record_status": "Record Status"
          }
       },
       "tab": {
@@ -622,43 +729,5 @@
       },
       "information": "Information",
       "financial": "Financial"
-   },
-   "route": {
-      "label": {
-         "dashboard": "Dashboard",
-         "error": "Error",
-         "notfound": "Not Found",
-         "account": "Account",
-         "profile": "Profile",
-         "settings": "Settings",
-         "update-profile": "Update Profile",
-         "update-password": "Update Password",
-         "logout": "Logout",
-         "address": "Address",
-         "list": "List",
-         "edit": "Edit",
-         "add": "Add",
-         "register": "Register",
-         "login": "Login",
-         "enter-auth-otp-code": "Enter Authentication OTP Code",
-         "access-denied": "Access Denied",
-         "branch": "Branch",
-         "branch-user": "Branch User",
-         "manage-user": "Manage User",
-         "user-general-info": "User General Information",
-         "branch-role": "Branch Role",
-         "audit-logs": "Logs",
-         "client": "Client",
-         "manage-client": "Manage Client",
-         "client-general-info": "Client General Information",
-         "client-addresses": "Client Addresses",
-         "record": "Record",
-         "battery": "Battery",
-         "device": "Device",
-         "stock": "Stock",
-         "product": "Product",
-         "service": "Service",
-         "spare-parts": "Spare Parts"
-      }
    }
 }

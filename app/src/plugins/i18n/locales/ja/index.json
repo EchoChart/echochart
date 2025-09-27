@@ -25,8 +25,11 @@
             "ru": "ロシア語",
             "zh": "中国語",
             "ja": "日本語",
-            "ko": "韓国語"
-         }
+            "ko": "韓国語",
+            "es": "スペイン語"
+         },
+         "translated_using_AI": "AIにより翻訳されました",
+         "translated_using_artificial_intelligence": "人工知能により翻訳されました"
       },
       "sidebar": {
          "select_sidebar_mode": "サイドバーのモードを選択",
@@ -199,6 +202,7 @@
       "unit_discount": "単価割引",
       "unit_tax": "単価税",
       "total_cost": "合計コスト",
+      "none": "なし",
       "tenant": "テナント",
       "branch": "支店",
       "user": "ユーザー",
@@ -217,11 +221,11 @@
       "audit_config": "監査設定",
       "audit_log": "監査ログ",
       "product_brands": "製品ブランド",
-      "stock_view": "在庫ビュー",
-      "stock_vendor": "在庫ベンダー",
-      "stock_vendor_stat": "在庫ベンダーステータス",
-      "stock_product_stat": "在庫製品ステータス",
-      "client_address_view": "クライアント住所ビュー",
+      "stock_view": "在庫表示",
+      "stock_vendor": "在庫販売元",
+      "stock_vendor_stat": "在庫販売元統計",
+      "stock_product_stat": "在庫製品統計",
+      "client_address_view": "クライアント住所表示",
       "audit_log_group": "監査ロググループ",
       "parent_id": "親ID",
       "user_id": "ユーザーID",
@@ -236,86 +240,12 @@
       "client_tenant_id": "クライアントテナントID",
       "correlation_id": "相関ID",
       "request_id": "リクエストID",
-      "display_name": "表示名",
+      "display_name": "名前",
       "id": "ID",
       "created_at": "作成日時"
    },
-   "audit_log": {
-      "no_changes_detected": "変更が検出されませんでした",
-      "add": "追加",
-      "update": "更新",
-      "delete": "削除",
-      "read": "読み込み",
-      "select_operation": "操作を選択",
-      "table": {
-         "headers": {
-            "resource": "リソース",
-            "operation": "操作",
-            "created_at": "作成日時",
-            "reverted_at": "元に戻す日時",
-            "user_who_performed": "実行ユーザー",
-            "user_who_reverted": "元に戻したユーザー"
-         }
-      },
-      "already_reverted": "すでに元に戻されています",
-      "attempt_to_revert": "元に戻す試み",
-      "added": "追加されました",
-      "updated": "更新されました",
-      "deleted": "削除されました",
-      "readed": "読み込まれました"
-   },
-   "client": {
-      "select_client": "クライアントを選択",
-      "address": {
-         "table": {
-            "headers": {
-               "client": "クライアント",
-               "address": "住所",
-               "country": "国",
-               "city": "市",
-               "district": "区",
-               "created_at": "作成日時"
-            }
-         }
-      },
-      "table": {
-         "headers": {
-            "client": "クライアント",
-            "nationality": "国籍",
-            "national_id": "国籍ID",
-            "birth_date": "生年月日",
-            "email": "メールアドレス",
-            "phone": "電話番号",
-            "created_at": "作成日時"
-         }
-      },
-      "general_info": "一般情報",
-      "addresses": "住所",
-      "gender": {
-         "male": "男性",
-         "female": "女性"
-      }
-   },
-   "product": {
-      "select_product": "補聴器を選択してください",
-      "category": {
-         "select_category": "カテゴリを選択してください"
-      }
-   },
    "input": {
       "select_or_write": "選択または入力してください"
-   },
-   "address": {
-      "select_country": "国を選択",
-      "table": {
-         "headers": {
-            "address_name": "住所名",
-            "country": "国",
-            "city": "市",
-            "district": "区",
-            "created_at": "作成日時"
-         }
-      }
    },
    "financial": {
       "select_currency": "通貨を選択",
@@ -531,98 +461,6 @@
          }
       }
    },
-   "user": {
-      "table": {
-         "headers": {
-            "name": "名前",
-            "email": "メールアドレス",
-            "created_at": "作成日時"
-         }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "一般情報"
-         }
-      },
-      "general_info": "一般情報",
-      "security": "セキュリティ"
-   },
-   "record": {
-      "table": {
-         "headers": {
-            "product": "製品",
-            "record_type": "記録タイプ",
-            "client": "顧客",
-            "quantity": "数量",
-            "bid": "入札",
-            "created_at": "作成日時"
-         }
-      },
-      "tab": {
-         "record": "記録",
-         "ear_device": "耳装置"
-      },
-      "information": "情報",
-      "financial": "財務"
-   },
-   "stock": {
-      "battery": {
-         "table": {
-            "headers": {
-               "product": "製品",
-               "unit_cost": "単価",
-               "quantity": "数量",
-               "vendor": "販売元",
-               "stocked_at": "在庫日時"
-            }
-         }
-      },
-      "device": {
-         "table": {
-            "headers": {
-               "product": "製品",
-               "serial_number": "シリアル番号",
-               "unit_cost": "単価",
-               "vendor": "販売元",
-               "stocked_at": "在庫日時"
-            }
-         }
-      },
-      "product": {
-         "table": {
-            "headers": {
-               "product": "製品",
-               "brand": "ブランド",
-               "categories": "カテゴリ",
-               "created_at": "作成日時"
-            }
-         }
-      },
-      "service": {
-         "table": {
-            "headers": {
-               "product": "製品",
-               "unit_cost": "単価",
-               "quantity": "数量",
-               "vendor": "販売元",
-               "stocked_at": "在庫日時"
-            }
-         }
-      },
-      "spare_part": {
-         "table": {
-            "headers": {
-               "product": "製品",
-               "unit_cost": "単価",
-               "quantity": "数量",
-               "vendor": "販売元",
-               "stocked_at": "在庫日時"
-            }
-         }
-      },
-      "information": "情報",
-      "financial": "財務"
-   },
    "route": {
       "label": {
          "dashboard": "ダッシュボード",
@@ -658,7 +496,238 @@
          "stock": "在庫",
          "product": "製品",
          "service": "サービス",
-         "spare-parts": "消耗品"
+         "spare-parts": "消耗品",
+         "address_list": "住所一覧",
+         "address_edit": "住所編集",
+         "address_add": "住所追加",
+         "client_list": "患者一覧",
+         "client_address_list": "患者住所一覧",
+         "record_list": "記録一覧",
+         "record_add": "記録追加",
+         "record_edit": "記録編集",
+         "battery_list": "バッテリー一覧",
+         "device_list": "機器一覧",
+         "stock_add": "在庫追加",
+         "stock_edit": "在庫編集",
+         "product_list": "製品一覧",
+         "product_add": "製品追加",
+         "product_edit": "製品編集",
+         "service_list": "サービス一覧",
+         "spare_part_list": "消耗品一覧"
       }
+   },
+   "dashboard": {
+      "statistics": {
+         "last_week": "先週",
+         "last_month": "先月",
+         "last_quarter": "四半期",
+         "last_half": "半期",
+         "last_year": "前年",
+         "total": "合計",
+         "client": {
+            "clients": "顧客"
+         }
+      },
+      "best_selling_products": {
+         "sold_quantity": "販売数量",
+         "total_gain": "総利益",
+         "total_discount": "総割引",
+         "total_tax": "総税額",
+         "title": "売上トップ製品",
+         "empty": "データがありません"
+      },
+      "notifications": {
+         "today": "今日",
+         "yesterday": "昨日",
+         "last_week": "先週",
+         "older": "以前",
+         "title": "通知",
+         "activity": {
+            "created": "新規 {resource_name} が {user_name} によって作成されました",
+            "updated": "{resource_name} が {user_name} によって更新されました",
+            "deleted": "{resource_name} が {user_name} によって削除されました",
+            "unknown": "{resource_name} において {user_name} によるアクティビティが検出されました"
+         }
+      },
+      "sales_by_category": {
+         "total_quantity_sold": "総販売数量",
+         "total_bid": "総取引額",
+         "total_discount": "総割引",
+         "total_tax": "総税額",
+         "title": "カテゴリ別売上"
+      },
+      "tables": {
+         "recent_sales": {
+            "title": "最近の売上",
+            "see_all": "すべて見る"
+         }
+      }
+   },
+   "user": {
+      "table": {
+         "headers": {
+            "name": "名前",
+            "email": "メールアドレス",
+            "created_at": "作成日時"
+         }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "一般情報"
+         }
+      },
+      "general_info": "一般情報",
+      "security": "セキュリティ"
+   },
+   "audit_log": {
+      "no_changes_detected": "変更が検出されませんでした",
+      "add": "追加",
+      "update": "更新",
+      "delete": "削除",
+      "read": "読み込み",
+      "select_operation": "操作を選択",
+      "table": {
+         "headers": {
+            "resource": "リソース",
+            "operation": "操作",
+            "user_who_performed": "実行ユーザー",
+            "created_at": "作成日時",
+            "user_who_reverted": "元に戻すユーザー",
+            "reverted_at": "元に戻す日時"
+         }
+      },
+      "already_reverted": "すでに元に戻されています",
+      "attempt_to_revert": "元に戻す試み",
+      "added": "追加されました",
+      "updated": "更新されました",
+      "deleted": "削除されました",
+      "readed": "読み込まれました"
+   },
+   "client": {
+      "select_client": "クライアントを選択",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "クライアント",
+               "address": "住所",
+               "country": "国",
+               "city": "市",
+               "district": "区",
+               "created_at": "作成日時"
+            }
+         }
+      },
+      "table": {
+         "headers": {
+            "client": "クライアント",
+            "nationality": "国籍",
+            "national_id": "国籍ID",
+            "birth_date": "生年月日",
+            "email": "メールアドレス",
+            "phone": "電話番号",
+            "created_at": "作成日時"
+         }
+      },
+      "general_info": "一般情報",
+      "addresses": "住所",
+      "gender": {
+         "male": "男性",
+         "female": "女性"
+      }
+   },
+   "product": {
+      "select_product": "製品を選択してください",
+      "category": {
+         "select_category": "カテゴリを選択してください"
+      }
+   },
+   "address": {
+      "select_country": "",
+      "table": {
+         "headers": {
+            "address_name": "",
+            "country": "",
+            "city": "",
+            "district": "",
+            "created_at": ""
+         }
+      }
+   },
+   "record": {
+      "table": {
+         "headers": {
+            "product": "製品",
+            "client": "顧客",
+            "quantity": "数量",
+            "bid": "入札ID",
+            "created_at": "作成日時",
+            "record_type": "記録タイプ",
+            "record_status": "記録ステータス"
+         }
+      },
+      "tab": {
+         "record": "記録",
+         "ear_device": "耳装置"
+      },
+      "information": "情報",
+      "financial": "財務"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "製品",
+               "unit_cost": "単価",
+               "quantity": "数量",
+               "vendor": "販売元",
+               "stocked_at": "在庫場所"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "製品",
+               "serial_number": "シリアル番号",
+               "unit_cost": "単価",
+               "vendor": "販売元",
+               "stocked_at": "在庫場所"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "製品",
+               "brand": "ブランド",
+               "categories": "カテゴリ",
+               "created_at": "作成日"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "製品",
+               "unit_cost": "単価",
+               "quantity": "数量",
+               "vendor": "販売元",
+               "stocked_at": "在庫場所"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "製品",
+               "unit_cost": "単価",
+               "quantity": "数量",
+               "vendor": "販売元",
+               "stocked_at": "在庫場所"
+            }
+         }
+      },
+      "information": "情報",
+      "financial": "財務"
    }
 }

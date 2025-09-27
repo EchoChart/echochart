@@ -25,8 +25,11 @@
             "ru": "Русский",
             "zh": "Китайский",
             "ja": "Японский",
-            "ko": "Корейский"
-         }
+            "ko": "Корейский",
+            "es": "Испанский"
+         },
+         "translated_using_AI": "Переведено с использованием ИИ",
+         "translated_using_artificial_intelligence": "Переведено с использованием искусственного интеллекта"
       },
       "sidebar": {
          "select_sidebar_mode": "Выберите режим боковой панели",
@@ -199,6 +202,7 @@
       "unit_discount": "скидка за единицу",
       "unit_tax": "налог за единицу",
       "total_cost": "итоговая стоимость",
+      "none": "Нет",
       "tenant": "Арендодатель",
       "branch": "Филиал",
       "user": "Пользователь",
@@ -236,86 +240,12 @@
       "client_tenant_id": "ID арендодателя клиента",
       "correlation_id": "ID корреляции",
       "request_id": "ID запроса",
-      "display_name": "Отображаемое имя",
+      "display_name": "Название",
       "id": "ID",
       "created_at": "Дата создания"
    },
-   "audit_log": {
-      "no_changes_detected": "Нет изменений для отслеживания",
-      "add": "Добавление",
-      "update": "Обновление",
-      "delete": "Удаление",
-      "read": "Чтение",
-      "select_operation": "Выберите операцию",
-      "table": {
-         "headers": {
-            "resource": "Ресурс",
-            "operation": "Операция",
-            "created_at": "Дата создания",
-            "reverted_at": "Дата отката",
-            "user_who_performed": "Пользователь, выполнивший действие",
-            "user_who_reverted": "Пользователь, откативший действие"
-         }
-      },
-      "already_reverted": "Действие уже откатлено",
-      "attempt_to_revert": "Попытка отката",
-      "added": "Добавлено",
-      "updated": "Обновлено",
-      "deleted": "Удалено",
-      "readed": "Прочитано"
-   },
-   "client": {
-      "select_client": "Выберите клиента",
-      "address": {
-         "table": {
-            "headers": {
-               "client": "Клиент",
-               "address": "Адрес",
-               "country": "Страна",
-               "city": "Город",
-               "district": "Район",
-               "created_at": "Дата создания"
-            }
-         }
-      },
-      "table": {
-         "headers": {
-            "client": "Клиент",
-            "nationality": "Гражданство",
-            "national_id": "Национальный идентификатор",
-            "birth_date": "Дата рождения",
-            "email": "Электронная почта",
-            "phone": "Телефон",
-            "created_at": "Дата создания"
-         }
-      },
-      "general_info": "Общая информация",
-      "addresses": "Адреса",
-      "gender": {
-         "male": "Мужской",
-         "female": "Женский"
-      }
-   },
-   "product": {
-      "select_product": "Выберите изделие",
-      "category": {
-         "select_category": "Выберите категорию"
-      }
-   },
    "input": {
       "select_or_write": "Выберите или введите"
-   },
-   "address": {
-      "select_country": "Выберите страну",
-      "table": {
-         "headers": {
-            "address_name": "Название адреса",
-            "country": "Страна",
-            "city": "Город",
-            "district": "Район",
-            "created_at": "Дата создания"
-         }
-      }
    },
    "financial": {
       "select_currency": "Выберите валюту",
@@ -531,98 +461,6 @@
          }
       }
    },
-   "user": {
-      "table": {
-         "headers": {
-            "name": "Имя",
-            "email": "Электронная почта",
-            "created_at": "Дата создания"
-         }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "Общая информация"
-         }
-      },
-      "general_info": "Общая информация",
-      "security": "Безопасность"
-   },
-   "record": {
-      "table": {
-         "headers": {
-            "product": "Продукт",
-            "record_type": "Тип записи",
-            "client": "Клиент",
-            "quantity": "Количество",
-            "bid": "Идентификатор",
-            "created_at": "Дата создания"
-         }
-      },
-      "tab": {
-         "record": "Запись",
-         "ear_device": "Ухоустройство"
-      },
-      "information": "Информация",
-      "financial": "Финансовая информация"
-   },
-   "stock": {
-      "battery": {
-         "table": {
-            "headers": {
-               "product": "Продукт",
-               "unit_cost": "Стоимость за единицу",
-               "quantity": "Количество",
-               "vendor": "Поставщик",
-               "stocked_at": "Дата поступления"
-            }
-         }
-      },
-      "device": {
-         "table": {
-            "headers": {
-               "product": "Продукт",
-               "serial_number": "Серийный номер",
-               "unit_cost": "Стоимость за единицу",
-               "vendor": "Поставщик",
-               "stocked_at": "Дата поступления"
-            }
-         }
-      },
-      "product": {
-         "table": {
-            "headers": {
-               "product": "Продукт",
-               "brand": "Бренд",
-               "categories": "Категории",
-               "created_at": "Дата создания"
-            }
-         }
-      },
-      "service": {
-         "table": {
-            "headers": {
-               "product": "Продукт",
-               "unit_cost": "Стоимость за единицу",
-               "quantity": "Количество",
-               "vendor": "Поставщик",
-               "stocked_at": "Дата поступления"
-            }
-         }
-      },
-      "spare_part": {
-         "table": {
-            "headers": {
-               "product": "Продукт",
-               "unit_cost": "Стоимость за единицу",
-               "quantity": "Количество",
-               "vendor": "Поставщик",
-               "stocked_at": "Дата поступления"
-            }
-         }
-      },
-      "information": "Информация",
-      "financial": "Финансовая информация"
-   },
    "route": {
       "label": {
          "dashboard": "Панель управления",
@@ -658,7 +496,238 @@
          "stock": "Запасы",
          "product": "Товар",
          "service": "Услуга",
-         "spare-parts": "Ремкомплект"
+         "spare-parts": "Ремкомплект",
+         "address_list": "Список адресов",
+         "address_edit": "Редактировать адрес",
+         "address_add": "Добавить адрес",
+         "client_list": "Список клиентов",
+         "client_address_list": "Адреса клиента",
+         "record_list": "Список записей",
+         "record_add": "Добавить запись",
+         "record_edit": "Редактировать запись",
+         "battery_list": "Список аккумуляторов",
+         "device_list": "Список устройств",
+         "stock_add": "Добавить запас",
+         "stock_edit": "Редактировать запас",
+         "product_list": "Список продуктов",
+         "product_add": "Добавить продукт",
+         "product_edit": "Редактировать продукт",
+         "service_list": "Список услуг",
+         "spare_part_list": "Список запчастей"
       }
+   },
+   "dashboard": {
+      "statistics": {
+         "last_week": "За последнюю неделю",
+         "last_month": "За последний месяц",
+         "last_quarter": "За последний квартал",
+         "last_half": "За последнюю половину",
+         "last_year": "За последний год",
+         "total": "Всего",
+         "client": {
+            "clients": "Клиенты"
+         }
+      },
+      "best_selling_products": {
+         "sold_quantity": "Количество проданных единиц",
+         "total_gain": "Общий доход",
+         "total_discount": "Общая скидка",
+         "total_tax": "Общая налоговая ставка",
+         "title": "Топ-продукты",
+         "empty": "Нет данных"
+      },
+      "notifications": {
+         "today": "Сегодня",
+         "yesterday": "Вчера",
+         "last_week": "За последнюю неделю",
+         "older": "Старше",
+         "title": "Уведомления",
+         "activity": {
+            "created": "новый {resource_name} создан пользователем {user_name}",
+            "updated": "обновлен {resource_name} пользователем {user_name}",
+            "deleted": "удален {resource_name} пользователем {user_name}",
+            "unknown": "обнаружена активность в {resource_name} пользователем {user_name}"
+         }
+      },
+      "sales_by_category": {
+         "total_quantity_sold": "Общее количество проданных единиц",
+         "total_bid": "Общая ставка",
+         "total_discount": "Общая скидка",
+         "total_tax": "Общая налоговая ставка",
+         "title": "Продажи по категориям"
+      },
+      "tables": {
+         "recent_sales": {
+            "title": "Недавние продажи",
+            "see_all": "Посмотреть все"
+         }
+      }
+   },
+   "user": {
+      "table": {
+         "headers": {
+            "name": "Имя",
+            "email": "Электронная почта",
+            "created_at": "Дата создания"
+         }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "Общая информация"
+         }
+      },
+      "general_info": "Общая информация",
+      "security": "Безопасность"
+   },
+   "audit_log": {
+      "no_changes_detected": "Нет изменений для регистрации",
+      "add": "Добавить",
+      "update": "Обновить",
+      "delete": "Удалить",
+      "read": "Просмотреть",
+      "select_operation": "Выберите операцию",
+      "table": {
+         "headers": {
+            "resource": "Ресурс",
+            "operation": "Операция",
+            "user_who_performed": "Пользователь, выполнивший операцию",
+            "created_at": "Дата и время создания",
+            "user_who_reverted": "Пользователь, отменяющий операцию",
+            "reverted_at": "Дата и время отмены"
+         }
+      },
+      "already_reverted": "Операция уже отменена",
+      "attempt_to_revert": "Попытка отменить операцию",
+      "added": "Добавлено",
+      "updated": "Обновлено",
+      "deleted": "Удалено",
+      "readed": "Просмотрено"
+   },
+   "client": {
+      "select_client": "Выберите клиента",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "Клиент",
+               "address": "Адрес",
+               "country": "Страна",
+               "city": "Город",
+               "district": "Район",
+               "created_at": "Дата создания"
+            }
+         }
+      },
+      "table": {
+         "headers": {
+            "client": "Клиент",
+            "nationality": "Гражданство",
+            "national_id": "Национальный ID",
+            "birth_date": "Дата рождения",
+            "email": "Электронная почта",
+            "phone": "Телефон",
+            "created_at": "Дата создания"
+         }
+      },
+      "general_info": "Общая информация",
+      "addresses": "Адреса",
+      "gender": {
+         "male": "Мужской",
+         "female": "Женский"
+      }
+   },
+   "product": {
+      "select_product": "Выберите изделие",
+      "category": {
+         "select_category": "Выберите категорию"
+      }
+   },
+   "address": {
+      "select_country": "",
+      "table": {
+         "headers": {
+            "address_name": "",
+            "country": "",
+            "city": "",
+            "district": "",
+            "created_at": ""
+         }
+      }
+   },
+   "record": {
+      "table": {
+         "headers": {
+            "product": "Продукт",
+            "client": "Клиент",
+            "quantity": "Количество",
+            "bid": "Идентификатор заказа",
+            "created_at": "Дата создания",
+            "record_type": "Тип записи",
+            "record_status": "Статус записи"
+         }
+      },
+      "tab": {
+         "record": "Запись",
+         "ear_device": "Устройство для слуха"
+      },
+      "information": "Информация",
+      "financial": "Финансовая информация"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "Продукт",
+               "unit_cost": "Стоимость за единицу",
+               "quantity": "Количество",
+               "vendor": "Поставщик",
+               "stocked_at": "На складе с"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "Продукт",
+               "serial_number": "Серийный номер",
+               "unit_cost": "Стоимость за единицу",
+               "vendor": "Поставщик",
+               "stocked_at": "На складе с"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "Продукт",
+               "brand": "Бренд",
+               "categories": "Категории",
+               "created_at": "Создано"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "Продукт",
+               "unit_cost": "Стоимость за единицу",
+               "quantity": "Количество",
+               "vendor": "Поставщик",
+               "stocked_at": "На складе с"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "Продукт",
+               "unit_cost": "Стоимость за единицу",
+               "quantity": "Количество",
+               "vendor": "Поставщик",
+               "stocked_at": "На складе с"
+            }
+         }
+      },
+      "information": "Информация",
+      "financial": "Финансовая информация"
    }
 }

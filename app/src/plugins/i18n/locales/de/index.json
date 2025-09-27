@@ -25,8 +25,11 @@
             "ru": "Russisch",
             "zh": "Chinesisch",
             "ja": "Japanisch",
-            "ko": "Koreanisch"
-         }
+            "ko": "Koreanisch",
+            "es": "Spanisch"
+         },
+         "translated_using_AI": "Übersetzt mit KI",
+         "translated_using_artificial_intelligence": "Übersetzt mit Künstlicher Intelligenz"
       },
       "sidebar": {
          "select_sidebar_mode": "Seitenleiste-Modus auswählen",
@@ -199,11 +202,12 @@
       "unit_discount": "Einheitsrabatt",
       "unit_tax": "Einheitssteuer",
       "total_cost": "Gesamtkosten",
+      "none": "",
       "tenant": "Mandant",
       "branch": "Filiale",
       "user": "Benutzer",
       "tenant_user": "Mandant-Benutzer",
-      "tenant_owner": "Mandant-Eigner",
+      "tenant_owner": "Mandanteneigner",
       "address": "Adresse",
       "role_permission": "Rolle-Berechtigung",
       "user_role": "Benutzer-Rolle",
@@ -219,11 +223,11 @@
       "product_brands": "Produktmarken",
       "stock_view": "Lageransicht",
       "stock_vendor": "Lagerlieferant",
-      "stock_vendor_stat": "Lagerlieferant-Statistik",
-      "stock_product_stat": "Lagerprodukt-Statistik",
+      "stock_vendor_stat": "Lagerlieferant Statistik",
+      "stock_product_stat": "Lagerprodukt Statistik",
       "client_address_view": "Kundenadresse-Ansicht",
-      "audit_log_group": "Audit-Protokoll-Gruppe",
-      "parent_id": "Vater-ID",
+      "audit_log_group": "Audit-Protokollgruppe",
+      "parent_id": "Übergeordneter ID",
       "user_id": "Benutzer-ID",
       "tenant_id": "Mandant-ID",
       "role_id": "Rolle-ID",
@@ -236,86 +240,12 @@
       "client_tenant_id": "Kunde-Mandant-ID",
       "correlation_id": "Korrelation-ID",
       "request_id": "Anfrage-ID",
-      "display_name": "Anzeigename",
+      "display_name": "Name",
       "id": "ID",
       "created_at": "Erstellt am"
    },
-   "audit_log": {
-      "no_changes_detected": "Keine Änderungen erkannt",
-      "add": "Hinzufügen",
-      "update": "Aktualisieren",
-      "delete": "Löschen",
-      "read": "Lesen",
-      "select_operation": "Operation auswählen",
-      "table": {
-         "headers": {
-            "resource": "Ressource",
-            "operation": "Operation",
-            "created_at": "Erstellt am",
-            "reverted_at": "Wiederhergestellt am",
-            "user_who_performed": "Benutzer, der die Aktion durchgeführt hat",
-            "user_who_reverted": "Benutzer, der die Aktion rückgängig gemacht hat"
-         }
-      },
-      "already_reverted": "Bereits wiederhergestellt",
-      "attempt_to_revert": "Versuch zur Wiederherstellung",
-      "added": "Hinzugefügt",
-      "updated": "Aktualisiert",
-      "deleted": "Gelöscht",
-      "readed": "Gelesen"
-   },
-   "client": {
-      "select_client": "Kunde auswählen",
-      "address": {
-         "table": {
-            "headers": {
-               "client": "Kunde",
-               "address": "Adresse",
-               "country": "Land",
-               "city": "Stadt",
-               "district": "Bezirk",
-               "created_at": "Erstellt am"
-            }
-         }
-      },
-      "table": {
-         "headers": {
-            "client": "Kunde",
-            "nationality": "Nationalität",
-            "national_id": "Nationaler ID",
-            "birth_date": "Geburtsdatum",
-            "email": "E-Mail",
-            "phone": "Telefon",
-            "created_at": "Erstellt am"
-         }
-      },
-      "general_info": "Allgemeine Informationen",
-      "addresses": "Adressen",
-      "gender": {
-         "male": "Männlich",
-         "female": "Weiblich"
-      }
-   },
-   "product": {
-      "select_product": "Produkt auswählen",
-      "category": {
-         "select_category": "Kategorie auswählen"
-      }
-   },
    "input": {
       "select_or_write": "Auswählen oder eingeben"
-   },
-   "address": {
-      "select_country": "Land auswählen",
-      "table": {
-         "headers": {
-            "address_name": "Adresse",
-            "country": "Land",
-            "city": "Stadt",
-            "district": "Bezirk",
-            "created_at": "Erstellt am"
-         }
-      }
    },
    "financial": {
       "select_currency": "Währung auswählen",
@@ -531,98 +461,6 @@
          }
       }
    },
-   "user": {
-      "table": {
-         "headers": {
-            "name": "Name",
-            "email": "E-Mail-Adresse",
-            "created_at": "Erstellt am"
-         }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "Allgemeine Informationen"
-         }
-      },
-      "general_info": "Allgemeine Informationen",
-      "security": "Sicherheit"
-   },
-   "record": {
-      "table": {
-         "headers": {
-            "product": "Produkt",
-            "record_type": "Aufzeichnungstyp",
-            "client": "Kunde",
-            "quantity": "Menge",
-            "bid": "Bieten",
-            "created_at": "Erstellt am"
-         }
-      },
-      "tab": {
-         "record": "Aufzeichnung",
-         "ear_device": "Ohrentropfen"
-      },
-      "information": "Information",
-      "financial": "Finanzen"
-   },
-   "stock": {
-      "battery": {
-         "table": {
-            "headers": {
-               "product": "Produkt",
-               "unit_cost": "Einheitskosten",
-               "quantity": "Menge",
-               "vendor": "Lieferant",
-               "stocked_at": "Lagerort"
-            }
-         }
-      },
-      "device": {
-         "table": {
-            "headers": {
-               "product": "Produkt",
-               "serial_number": "Seriennummer",
-               "unit_cost": "Einheitskosten",
-               "vendor": "Lieferant",
-               "stocked_at": "Lagerort"
-            }
-         }
-      },
-      "product": {
-         "table": {
-            "headers": {
-               "product": "Produkt",
-               "brand": "Markenname",
-               "categories": "Kategorien",
-               "created_at": "Erstellt am"
-            }
-         }
-      },
-      "service": {
-         "table": {
-            "headers": {
-               "product": "Produkt",
-               "unit_cost": "Einheitskosten",
-               "quantity": "Menge",
-               "vendor": "Lieferant",
-               "stocked_at": "Lagerort"
-            }
-         }
-      },
-      "spare_part": {
-         "table": {
-            "headers": {
-               "product": "Produkt",
-               "unit_cost": "Einheitskosten",
-               "quantity": "Menge",
-               "vendor": "Lieferant",
-               "stocked_at": "Lagerort"
-            }
-         }
-      },
-      "information": "Information",
-      "financial": "Finanzen"
-   },
    "route": {
       "label": {
          "dashboard": "Dashboard",
@@ -658,7 +496,238 @@
          "stock": "Lager",
          "product": "Produkt",
          "service": "Service",
-         "spare-parts": "Ersatzteile"
+         "spare-parts": "Ersatzteile",
+         "address_list": "Adresse Liste",
+         "address_edit": "Adresse Bearbeiten",
+         "address_add": "Adresse Hinzufügen",
+         "client_list": "Kunde Liste",
+         "client_address_list": "Kunde Adresse Liste",
+         "record_list": "Aufzeichnung Liste",
+         "record_add": "Aufzeichnung Hinzufügen",
+         "record_edit": "Aufzeichnung Bearbeiten",
+         "battery_list": "Akku Liste",
+         "device_list": "Gerät Liste",
+         "stock_add": "Bestand Hinzufügen",
+         "stock_edit": "Bestand Bearbeiten",
+         "product_list": "Produkt Liste",
+         "product_add": "Produkt Hinzufügen",
+         "product_edit": "Produkt Bearbeiten",
+         "service_list": "Service Liste",
+         "spare_part_list": "Ersatzteil Liste"
       }
+   },
+   "dashboard": {
+      "statistics": {
+         "last_week": "Letzte Woche",
+         "last_month": "Letzter Monat",
+         "last_quarter": "Letztes Quartal",
+         "last_half": "Letzte Hälfte",
+         "last_year": "Letztes Jahr",
+         "total": "Gesamt",
+         "client": {
+            "clients": "Kunden"
+         }
+      },
+      "best_selling_products": {
+         "sold_quantity": "Verkaufte Menge",
+         "total_gain": "Gesamtgewinn",
+         "total_discount": "Gesamterlass",
+         "total_tax": "Gesamtsteuer",
+         "title": "Top Verkäufe",
+         "empty": "Keine Produkte"
+      },
+      "notifications": {
+         "today": "Heute",
+         "yesterday": "Gestern",
+         "last_week": "Letzte Woche",
+         "older": "Älter",
+         "title": "Benachrichtigungen",
+         "activity": {
+            "created": "neues {resource_name} von {user_name} erstellt",
+            "updated": "ein {resource_name} von {user_name} aktualisiert",
+            "deleted": "ein {resource_name} von {user_name} gelöscht",
+            "unknown": "Aktivität erkannt in {resource_name} von {user_name}"
+         }
+      },
+      "sales_by_category": {
+         "total_quantity_sold": "Gesamtverkäufe",
+         "total_bid": "Gesamtgebote",
+         "total_discount": "Gesamterlass",
+         "total_tax": "Gesamtsteuer",
+         "title": "Verkäufe nach Kategorie"
+      },
+      "tables": {
+         "recent_sales": {
+            "title": "Letzte Verkäufe",
+            "see_all": "Alle ansehen"
+         }
+      }
+   },
+   "user": {
+      "table": {
+         "headers": {
+            "name": "Name",
+            "email": "E-Mail",
+            "created_at": "Erstellt am"
+         }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "Allgemeine Informationen"
+         }
+      },
+      "general_info": "Allgemeine Informationen",
+      "security": "Sicherheit"
+   },
+   "audit_log": {
+      "no_changes_detected": "Keine Änderungen erkannt",
+      "add": "Hinzufügen",
+      "update": "Aktualisieren",
+      "delete": "Löschen",
+      "read": "Lesen",
+      "select_operation": "Operation auswählen",
+      "table": {
+         "headers": {
+            "resource": "Ressource",
+            "operation": "Operation",
+            "user_who_performed": "Benutzer, der die Aktion durchgeführt hat",
+            "created_at": "Erstellt am",
+            "user_who_reverted": "Benutzer, der die Aktion rückgängig gemacht hat",
+            "reverted_at": "Rückgängig gemacht am"
+         }
+      },
+      "already_reverted": "Die Aktion wurde bereits rückgängig gemacht",
+      "attempt_to_revert": "Versuch, die Aktion rückgängig zu machen",
+      "added": "Hinzugefügt",
+      "updated": "Aktualisiert",
+      "deleted": "Gelöscht",
+      "readed": "Gelesen"
+   },
+   "client": {
+      "select_client": "Kunde auswählen",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "Kunde",
+               "address": "Adresse",
+               "country": "Land",
+               "city": "Stadt",
+               "district": "Bezirk",
+               "created_at": "Erstellt am"
+            }
+         }
+      },
+      "table": {
+         "headers": {
+            "client": "Kunde",
+            "nationality": "Nationalität",
+            "national_id": "National ID",
+            "birth_date": "Geburtsdatum",
+            "email": "E-Mail",
+            "phone": "Telefon",
+            "created_at": "Erstellt am"
+         }
+      },
+      "general_info": "Allgemeine Informationen",
+      "addresses": "Adressen",
+      "gender": {
+         "male": "Männlich",
+         "female": "Weiblich"
+      }
+   },
+   "product": {
+      "select_product": "Produkt auswählen",
+      "category": {
+         "select_category": "Kategorie auswählen"
+      }
+   },
+   "address": {
+      "select_country": "",
+      "table": {
+         "headers": {
+            "address_name": "",
+            "country": "",
+            "city": "",
+            "district": "",
+            "created_at": ""
+         }
+      }
+   },
+   "record": {
+      "table": {
+         "headers": {
+            "product": "Produkt",
+            "client": "Kunde",
+            "quantity": "Menge",
+            "bid": "Botschaft",
+            "created_at": "Erstellt am",
+            "record_type": "Aufzeichnungstyp",
+            "record_status": "Aufzeichnungsstatus"
+         }
+      },
+      "tab": {
+         "record": "Aufzeichnung",
+         "ear_device": "Ohrentspiegelgerät"
+      },
+      "information": "Information",
+      "financial": "Finanzen"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "Produkt",
+               "unit_cost": "Einzelkosten",
+               "quantity": "Menge",
+               "vendor": "Lieferant",
+               "stocked_at": "Lagerort"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "Produkt",
+               "serial_number": "Seriennummer",
+               "unit_cost": "Einzelkosten",
+               "vendor": "Lieferant",
+               "stocked_at": "Lagerort"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "Produkt",
+               "brand": "Markenname",
+               "categories": "Kategorien",
+               "created_at": "Erstellt am"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "Produkt",
+               "unit_cost": "Einzelkosten",
+               "quantity": "Menge",
+               "vendor": "Lieferant",
+               "stocked_at": "Lagerort"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "Produkt",
+               "unit_cost": "Einzelkosten",
+               "quantity": "Menge",
+               "vendor": "Lieferant",
+               "stocked_at": "Lagerort"
+            }
+         }
+      },
+      "information": "Information",
+      "financial": "Finanzen"
    }
 }

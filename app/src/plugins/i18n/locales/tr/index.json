@@ -25,8 +25,11 @@
             "ru": "Rusça",
             "zh": "Çince",
             "ja": "Japonca",
-            "ko": "Korece"
-         }
+            "ko": "Korece",
+            "es": "İspanyolca"
+         },
+         "translated_using_AI": "AI Tarafından Çevrildi",
+         "translated_using_artificial_intelligence": "Bu dil ayarı yapay zekâ ile çevrildi"
       },
       "sidebar": {
          "select_sidebar_mode": "Menü Modu Seç",
@@ -96,82 +99,8 @@
          "company_info": "Şirket Bilgileri"
       }
    },
-   "audit_log": {
-      "no_changes_detected": "Değişiklik tespit edilmedi",
-      "add": "Ekleme",
-      "update": "Güncelleme",
-      "delete": "Silme",
-      "read": "Okuma",
-      "select_operation": "İşlem Seç",
-      "table": {
-         "headers": {
-            "resource": "Kaynak",
-            "operation": "İşlem",
-            "created_at": "Oluşturulma Tarihi",
-            "reverted_at": "İptal Tarihi",
-            "user_who_performed": "Yapan Kullanıcı",
-            "user_who_reverted": "İptal Eden Kullanıcı"
-         }
-      },
-      "already_reverted": "Zaten İptal Edildi",
-      "attempt_to_revert": "İptal İşlemi",
-      "added": "Eklendi",
-      "updated": "Güncellendi",
-      "deleted": "Silindi",
-      "readed": "Okundu"
-   },
-   "client": {
-      "select_client": "Müşteri Seç",
-      "address": {
-         "table": {
-            "headers": {
-               "client": "Müşteri",
-               "address": "Adres",
-               "country": "Ülke",
-               "city": "Şehir",
-               "district": "İlçe",
-               "created_at": "Oluşturulma Tarihi"
-            }
-         }
-      },
-      "table": {
-         "headers": {
-            "client": "Müşteri",
-            "nationality": "Uyruk",
-            "national_id": "Milli Kimlik",
-            "birth_date": "Doğum Tarihi",
-            "email": "E-posta",
-            "phone": "Telefon",
-            "created_at": "Oluşturulma Tarihi"
-         }
-      },
-      "general_info": "Genel Bilgiler",
-      "addresses": "Adresler",
-      "gender": {
-         "male": "Erkek",
-         "female": "Kadın"
-      }
-   },
-   "product": {
-      "select_product": "İlaç Seçin",
-      "category": {
-         "select_category": "Kategori Seçin"
-      }
-   },
    "input": {
       "select_or_write": "Seçin veya Yazın"
-   },
-   "address": {
-      "select_country": "Ülke seçin",
-      "table": {
-         "headers": {
-            "address_name": "Adres Adı",
-            "country": "Ülke",
-            "city": "Şehir",
-            "district": "İlçe",
-            "created_at": "Oluşturulma Tarihi"
-         }
-      }
    },
    "financial": {
       "select_currency": "Para Birimi Seçin",
@@ -387,98 +316,6 @@
          }
       }
    },
-   "user": {
-      "table": {
-         "headers": {
-            "name": "Ad",
-            "email": "E-posta",
-            "created_at": "Oluşturulma Tarihi"
-         }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "Genel Bilgiler"
-         }
-      },
-      "general_info": "Genel Bilgiler",
-      "security": "Güvenlik"
-   },
-   "record": {
-      "table": {
-         "headers": {
-            "product": "Ürün",
-            "record_type": "Kayıt Türü",
-            "client": "Müşteri",
-            "quantity": "Miktar",
-            "bid": "Teklif",
-            "created_at": "Oluşturulma Tarihi"
-         }
-      },
-      "tab": {
-         "record": "Kayıt",
-         "ear_device": "Kulak Cihazı"
-      },
-      "information": "Bilgi",
-      "financial": "Finans"
-   },
-   "stock": {
-      "battery": {
-         "table": {
-            "headers": {
-               "product": "Ürün",
-               "unit_cost": "Birim Fiyatı",
-               "quantity": "Miktar",
-               "vendor": "Tedarikçi",
-               "stocked_at": "Stok Tarihi"
-            }
-         }
-      },
-      "device": {
-         "table": {
-            "headers": {
-               "product": "Ürün",
-               "serial_number": "Seri Numarası",
-               "unit_cost": "Birim Fiyatı",
-               "vendor": "Tedarikçi",
-               "stocked_at": "Stok Tarihi"
-            }
-         }
-      },
-      "product": {
-         "table": {
-            "headers": {
-               "product": "Ürün",
-               "brand": "Marka",
-               "categories": "Kategoriler",
-               "created_at": "Oluşturulma Tarihi"
-            }
-         }
-      },
-      "service": {
-         "table": {
-            "headers": {
-               "product": "Ürün",
-               "unit_cost": "Birim Fiyatı",
-               "quantity": "Miktar",
-               "vendor": "Tedarikçi",
-               "stocked_at": "Stok Tarihi"
-            }
-         }
-      },
-      "spare_part": {
-         "table": {
-            "headers": {
-               "product": "Ürün",
-               "unit_cost": "Birim Fiyatı",
-               "quantity": "Miktar",
-               "vendor": "Tedarikçi",
-               "stocked_at": "Stok Tarihi"
-            }
-         }
-      },
-      "information": "Bilgi",
-      "financial": "Finans"
-   },
    "route": {
       "label": {
          "dashboard": "Konsol",
@@ -514,7 +351,24 @@
          "stock": "Stok",
          "product": "Ürün",
          "service": "Hizmet",
-         "spare-parts": "Yedek Parça"
+         "spare-parts": "Yedek Parça",
+         "address_list": "Adres Listesi",
+         "address_edit": "Adres Düzenle",
+         "address_add": "Adres Ekle",
+         "client_list": "Müşteri Listesi",
+         "client_address_list": "Müşteri Adres Listesi",
+         "record_list": "Kayıt Listesi",
+         "record_add": "Kayıt Ekle",
+         "record_edit": "Kayıt Düzenle",
+         "battery_list": "Batarya Listesi",
+         "device_list": "Cihaz Listesi",
+         "stock_add": "Stok Ekle",
+         "stock_edit": "Stok Düzenle",
+         "product_list": "Ürün Listesi",
+         "product_add": "Ürün Ekle",
+         "product_edit": "Ürün Düzenle",
+         "service_list": "Hizmet Listesi",
+         "spare_part_list": "Yedek Parça Listesi"
       }
    },
    "fields": {
@@ -620,11 +474,12 @@
       "unit_discount": "Birim İndirimi",
       "unit_tax": "Birim KDV",
       "total_cost": "Toplam Fiyat",
-      "tenant": "Kiralama",
+      "none": "Hiçbiri",
+      "tenant": "Kiralık Alan",
       "branch": "Şube",
       "user": "Kullanıcı",
-      "tenant_user": "Şube Kullanıcısı",
-      "tenant_owner": "Kiralama Sahibi",
+      "tenant_user": "Kiralık Alan Kullanıcısı",
+      "tenant_owner": "Kiralık Alan Sahibi",
       "address": "Adres",
       "role_permission": "Rol İzinleri",
       "user_role": "Kullanıcı Rolü",
@@ -639,26 +494,263 @@
       "audit_log": "Audit Log",
       "product_brands": "Ürün Markaları",
       "stock_view": "Stok Görünümü",
-      "stock_vendor": "Stok Tedarikçi",
+      "stock_vendor": "Stok Tedarikçisi",
       "stock_vendor_stat": "Tedarikçi İstatistikleri",
       "stock_product_stat": "Ürün İstatistikleri",
-      "client_address_view": "Müşteri Adres Görünümü",
+      "client_address_view": "Müşteri Adresi Görünümü",
       "audit_log_group": "Audit Log Grubu",
       "parent_id": "Ebeveyn ID",
-      "user_id": "Kullanıcı ID",
-      "tenant_id": "Kiralama ID",
-      "role_id": "Rol ID",
-      "permission_id": "İzin ID",
+      "user_id": "Kullanıcı",
+      "tenant_id": "Kiralık Alan",
+      "role_id": "Rol",
+      "permission_id": "İzin",
       "unit_type": "Birim Türü",
-      "category_id": "Kategori ID",
-      "address_id": "Adres ID",
-      "address_tenant_id": "Adres Kiralama ID",
-      "client_national_id": "Müşteri Vatandaşlık ID",
-      "client_tenant_id": "Müşteri Kiralama ID",
+      "category_id": "Kategori",
+      "address_id": "Adres",
+      "address_tenant_id": "Adres Kiralık Alanı",
+      "client_national_id": "Müşteri Ulusal Kimlik",
+      "client_tenant_id": "Müşteri Kiralık Alanı",
       "correlation_id": "İlişki ID",
       "request_id": "İstek ID",
-      "display_name": "İsim",
+      "display_name": "Ad",
       "id": "ID",
       "created_at": "Oluşturulma Tarihi"
+   },
+   "dashboard": {
+      "statistics": {
+         "last_week": "Geçen Hafta",
+         "last_month": "Geçen Ay",
+         "last_quarter": "Geçen Üç Ay",
+         "last_half": "Geçen Yarı Yıl",
+         "last_year": "Geçen Yıl",
+         "total": "Toplam",
+         "client": {
+            "clients": "Müşteriler"
+         }
+      },
+      "best_selling_products": {
+         "sold_quantity": "Satılan Miktar",
+         "total_gain": "Toplam Kazanç",
+         "total_discount": "Toplam İndirim",
+         "total_tax": "Toplam KDV",
+         "title": "En Çok Satılan Ürünler",
+         "empty": "Veri Yok"
+      },
+      "notifications": {
+         "today": "Bugün",
+         "yesterday": "Dün",
+         "last_week": "Geçen Hafta",
+         "older": "Daha Eski",
+         "title": "Bildirimler",
+         "activity": {
+            "created": "yeni {resource_name} {user_name} tarafından oluşturuldu",
+            "updated": "{resource_name} {user_name} tarafından güncellendi",
+            "deleted": "{resource_name} {user_name} tarafından silindi",
+            "unknown": "{resource_name} tarafından {user_name} tarafından etkinlik tespit edildi"
+         }
+      },
+      "sales_by_category": {
+         "total_quantity_sold": "Toplam Satılan Miktar",
+         "total_bid": "Toplam Tutar",
+         "total_discount": "Toplam İndirim",
+         "total_tax": "Toplam KDV",
+         "title": "Kategoriye Göre Satışlar"
+      },
+      "tables": {
+         "recent_sales": {
+            "title": "Son Satışlar",
+            "see_all": "Tümünü Gör"
+         }
+      }
+   },
+   "audit_log": {
+      "no_changes_detected": "Değişiklik tespit edilmedi",
+      "add": "Ekle",
+      "update": "Güncelle",
+      "delete": "Sil",
+      "read": "Oku",
+      "select_operation": "İşlem Seç",
+      "table": {
+         "headers": {
+            "resource": "Kaynak",
+            "operation": "İşlem",
+            "user_who_performed": "Yapılan Kullanıcı",
+            "created_at": "Oluşturulma Tarihi",
+            "user_who_reverted": "İptal Eden Kullanıcı",
+            "reverted_at": "İptal Tarihi"
+         }
+      },
+      "already_reverted": "Zaten iptal edildi",
+      "attempt_to_revert": "İptal işlemi denendi",
+      "added": "Eklendi",
+      "updated": "Güncellendi",
+      "deleted": "Silindi",
+      "readed": "Okundu"
+   },
+   "client": {
+      "select_client": "Müşteri Seç",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "Müşteri",
+               "address": "Adres",
+               "country": "Ülke",
+               "city": "Şehir",
+               "district": "İlçe",
+               "created_at": "Oluşturulma Tarihi"
+            }
+         }
+      },
+      "table": {
+         "headers": {
+            "client": "Müşteri",
+            "nationality": "Uyruk",
+            "national_id": "Milli Kimlik",
+            "birth_date": "Doğum Tarihi",
+            "email": "E-posta",
+            "phone": "Telefon",
+            "created_at": "Oluşturulma Tarihi"
+         }
+      },
+      "general_info": "Genel Bilgiler",
+      "addresses": "Adresler",
+      "gender": {
+         "male": "Erkek",
+         "female": "Kadın"
+      }
+   },
+   "product": {
+      "select_product": "Cihaz Seçin",
+      "category": {
+         "select_category": "Kategori Seçin"
+      }
+   },
+   "address": {
+      "select_country": "",
+      "table": {
+         "headers": {
+            "address_name": "",
+            "country": "",
+            "city": "",
+            "district": "",
+            "created_at": ""
+         }
+      }
+   },
+   "kullanici": {
+      "tablo": {
+         "basliklar": {
+            "adi": "",
+            "eposta": "",
+            "olusturulma_tarihi": "",
+            "isim": "",
+            "email": ""
+         }
+      },
+      "ekle_veya_guncelle": {
+         "sekme": {
+            "genel_bilgiler": ""
+         }
+      },
+      "genel_bilgiler": "",
+      "guclendirme": "",
+      "ekle_guncelle": {
+         "sekme": {
+            "genel_bilgiler": ""
+         }
+      }
+   },
+   "record": {
+      "table": {
+         "headers": {
+            "product": "Ürün",
+            "client": "Müşteri",
+            "quantity": "Adet",
+            "bid": "Teklif",
+            "created_at": "Oluşturulma Tarihi",
+            "record_type": "Kayıt Türü",
+            "record_status": "Kayıt Durumu"
+         }
+      },
+      "tab": {
+         "record": "Kayıt",
+         "ear_device": "Kulağa Takılan Cihaz"
+      },
+      "information": "Bilgi",
+      "financial": "Finansal"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "unit_cost": "Birim Fiyatı",
+               "quantity": "Miktar",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stokta Olan Tarih"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "serial_number": "Seri Numarası",
+               "unit_cost": "Birim Fiyatı",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stokta Olan Tarih"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "brand": "Marka",
+               "categories": "Kategoriler",
+               "created_at": "Oluşturulma Tarihi"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "unit_cost": "Birim Fiyatı",
+               "quantity": "Miktar",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stokta Olan Tarih"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "unit_cost": "Birim Fiyatı",
+               "quantity": "Miktar",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stokta Olan Tarih"
+            }
+         }
+      },
+      "information": "Bilgi",
+      "financial": "Finansal"
+   },
+   "user": {
+      "table": {
+         "headers": {
+            "name": "",
+            "email": "",
+            "created_at": ""
+         }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": ""
+         }
+      },
+      "general_info": "",
+      "security": ""
    }
 }

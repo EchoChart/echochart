@@ -25,8 +25,11 @@
             "ru": "俄语",
             "zh": "中文",
             "ja": "日语",
-            "ko": "韩语"
-         }
+            "ko": "韩语",
+            "es": "西班牙语"
+         },
+         "translated_using_AI": "使用AI进行翻译",
+         "translated_using_artificial_intelligence": "使用人工智能进行翻译"
       },
       "sidebar": {
          "select_sidebar_mode": "选择侧边栏模式",
@@ -199,6 +202,7 @@
       "unit_discount": "单位折扣",
       "unit_tax": "单位税",
       "total_cost": "总成本",
+      "none": "无",
       "tenant": "租户",
       "branch": "分部",
       "user": "用户",
@@ -218,104 +222,30 @@
       "audit_log": "审计日志",
       "product_brands": "产品品牌",
       "stock_view": "库存视图",
-      "stock_vendor": "库存供应商",
-      "stock_vendor_stat": "库存供应商统计",
-      "stock_product_stat": "库存产品统计",
+      "stock_vendor": "供应商库存",
+      "stock_vendor_stat": "供应商库存统计",
+      "stock_product_stat": "产品库存统计",
       "client_address_view": "客户地址视图",
       "audit_log_group": "审计日志组",
       "parent_id": "父ID",
-      "user_id": "用户ID",
-      "tenant_id": "租户ID",
-      "role_id": "角色ID",
-      "permission_id": "权限ID",
+      "user_id": "用户",
+      "tenant_id": "租户",
+      "role_id": "角色",
+      "permission_id": "权限",
       "unit_type": "单位类型",
-      "category_id": "类别ID",
-      "address_id": "地址ID",
-      "address_tenant_id": "地址租户ID",
+      "category_id": "类别",
+      "address_id": "地址",
+      "address_tenant_id": "地址租户",
       "client_national_id": "客户身份证号",
-      "client_tenant_id": "客户租户ID",
+      "client_tenant_id": "客户租户",
       "correlation_id": "关联ID",
       "request_id": "请求ID",
-      "display_name": "显示名称",
+      "display_name": "名称",
       "id": "ID",
       "created_at": "创建时间"
    },
-   "audit_log": {
-      "no_changes_detected": "未检测到更改",
-      "add": "新增",
-      "update": "更新",
-      "delete": "删除",
-      "read": "查看",
-      "select_operation": "选择操作",
-      "table": {
-         "headers": {
-            "resource": "资源",
-            "operation": "操作",
-            "created_at": "创建时间",
-            "reverted_at": "回滚时间",
-            "user_who_performed": "执行用户",
-            "user_who_reverted": "撤销用户"
-         }
-      },
-      "already_reverted": "已回滚",
-      "attempt_to_revert": "尝试回滚",
-      "added": "已新增",
-      "updated": "已更新",
-      "deleted": "已删除",
-      "readed": "已查看"
-   },
-   "client": {
-      "select_client": "选择客户",
-      "address": {
-         "table": {
-            "headers": {
-               "client": "客户",
-               "address": "地址",
-               "country": "国家",
-               "city": "城市",
-               "district": "区",
-               "created_at": "创建时间"
-            }
-         }
-      },
-      "table": {
-         "headers": {
-            "client": "客户",
-            "nationality": "国籍",
-            "national_id": "身份证号",
-            "birth_date": "出生日期",
-            "email": "电子邮件",
-            "phone": "电话",
-            "created_at": "创建时间"
-         }
-      },
-      "general_info": "基本信息",
-      "addresses": "地址信息",
-      "gender": {
-         "male": "男性",
-         "female": "女性"
-      }
-   },
-   "product": {
-      "select_product": "请选择产品",
-      "category": {
-         "select_category": "请选择类别"
-      }
-   },
    "input": {
       "select_or_write": "请选择或填写"
-   },
-   "address": {
-      "select_country": "请选择国家",
-      "table": {
-         "headers": {
-            "address_name": "地址名称",
-            "country": "国家",
-            "city": "城市",
-            "district": "区",
-            "created_at": "创建时间"
-         }
-      }
    },
    "financial": {
       "select_currency": "请选择货币",
@@ -531,98 +461,6 @@
          }
       }
    },
-   "user": {
-      "table": {
-         "headers": {
-            "name": "姓名",
-            "email": "电子邮件",
-            "created_at": "创建时间"
-         }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "基本信息"
-         }
-      },
-      "general_info": "基本信息",
-      "security": "安全设置"
-   },
-   "record": {
-      "table": {
-         "headers": {
-            "product": "产品",
-            "record_type": "记录类型",
-            "client": "客户",
-            "quantity": "数量",
-            "bid": "报价",
-            "created_at": "创建时间"
-         }
-      },
-      "tab": {
-         "record": "记录",
-         "ear_device": "耳部设备"
-      },
-      "information": "信息",
-      "financial": "财务"
-   },
-   "stock": {
-      "battery": {
-         "table": {
-            "headers": {
-               "product": "产品",
-               "unit_cost": "单位成本",
-               "quantity": "数量",
-               "vendor": "供应商",
-               "stocked_at": "库存时间"
-            }
-         }
-      },
-      "device": {
-         "table": {
-            "headers": {
-               "product": "产品",
-               "serial_number": "序列号",
-               "unit_cost": "单位成本",
-               "vendor": "供应商",
-               "stocked_at": "库存时间"
-            }
-         }
-      },
-      "product": {
-         "table": {
-            "headers": {
-               "product": "产品",
-               "brand": "品牌",
-               "categories": "分类",
-               "created_at": "创建时间"
-            }
-         }
-      },
-      "service": {
-         "table": {
-            "headers": {
-               "product": "产品",
-               "unit_cost": "单位成本",
-               "quantity": "数量",
-               "vendor": "供应商",
-               "stocked_at": "库存时间"
-            }
-         }
-      },
-      "spare_part": {
-         "table": {
-            "headers": {
-               "product": "产品",
-               "unit_cost": "单位成本",
-               "quantity": "数量",
-               "vendor": "供应商",
-               "stocked_at": "库存时间"
-            }
-         }
-      },
-      "information": "信息",
-      "financial": "财务"
-   },
    "route": {
       "label": {
          "dashboard": "仪表盘",
@@ -658,7 +496,238 @@
          "stock": "库存",
          "product": "产品",
          "service": "服务",
-         "spare-parts": "备用零件"
+         "spare-parts": "备用零件",
+         "address_list": "地址列表",
+         "address_edit": "编辑地址",
+         "address_add": "新增地址",
+         "client_list": "客户列表",
+         "client_address_list": "客户地址列表",
+         "record_list": "记录列表",
+         "record_add": "新增记录",
+         "record_edit": "编辑记录",
+         "battery_list": "电池列表",
+         "device_list": "设备列表",
+         "stock_add": "新增库存",
+         "stock_edit": "编辑库存",
+         "product_list": "产品列表",
+         "product_add": "新增产品",
+         "product_edit": "编辑产品",
+         "service_list": "服务列表",
+         "spare_part_list": "备件列表"
       }
+   },
+   "dashboard": {
+      "statistics": {
+         "last_week": "上周",
+         "last_month": "上月",
+         "last_quarter": "上季度",
+         "last_half": "上半年度",
+         "last_year": "上年度",
+         "total": "总计",
+         "client": {
+            "clients": "客户"
+         }
+      },
+      "best_selling_products": {
+         "sold_quantity": "销售数量",
+         "total_gain": "总收益",
+         "total_discount": "总折扣",
+         "total_tax": "总税额",
+         "title": "畅销产品",
+         "empty": "暂无数据"
+      },
+      "notifications": {
+         "today": "今日",
+         "yesterday": "昨日",
+         "last_week": "上周",
+         "older": "更早",
+         "title": "通知",
+         "activity": {
+            "created": "新 {resource_name} 由 {user_name} 创建",
+            "updated": "{resource_name} 由 {user_name} 更新",
+            "deleted": "{resource_name} 由 {user_name} 删除",
+            "unknown": "{resource_name} 中检测到活动由 {user_name} 操作"
+         }
+      },
+      "sales_by_category": {
+         "total_quantity_sold": "总销售数量",
+         "total_bid": "总报价",
+         "total_discount": "总折扣",
+         "total_tax": "总税额",
+         "title": "按类别销售"
+      },
+      "tables": {
+         "recent_sales": {
+            "title": "最近销售",
+            "see_all": "查看全部"
+         }
+      }
+   },
+   "user": {
+      "table": {
+         "headers": {
+            "name": "姓名",
+            "email": "电子邮件",
+            "created_at": "创建时间"
+         }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "基本信息"
+         }
+      },
+      "general_info": "基本信息",
+      "security": "安全设置"
+   },
+   "audit_log": {
+      "no_changes_detected": "未检测到更改",
+      "add": "新增",
+      "update": "更新",
+      "delete": "删除",
+      "read": "查看",
+      "select_operation": "选择操作",
+      "table": {
+         "headers": {
+            "resource": "资源",
+            "operation": "操作",
+            "user_who_performed": "执行用户",
+            "created_at": "创建时间",
+            "user_who_reverted": "回滚用户",
+            "reverted_at": "回滚时间"
+         }
+      },
+      "already_reverted": "已回滚",
+      "attempt_to_revert": "尝试回滚",
+      "added": "已新增",
+      "updated": "已更新",
+      "deleted": "已删除",
+      "readed": "已查看"
+   },
+   "client": {
+      "select_client": "请选择客户",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "客户",
+               "address": "地址",
+               "country": "国家",
+               "city": "城市",
+               "district": "区",
+               "created_at": "创建时间"
+            }
+         }
+      },
+      "table": {
+         "headers": {
+            "client": "客户",
+            "nationality": "国籍",
+            "national_id": "国家ID",
+            "birth_date": "出生日期",
+            "email": "电子邮件",
+            "phone": "电话",
+            "created_at": "创建时间"
+         }
+      },
+      "general_info": "基本信息",
+      "addresses": "地址信息",
+      "gender": {
+         "male": "男性",
+         "female": "女性"
+      }
+   },
+   "product": {
+      "select_product": "请选择产品",
+      "category": {
+         "select_category": "请选择类别"
+      }
+   },
+   "address": {
+      "select_country": "",
+      "table": {
+         "headers": {
+            "address_name": "",
+            "country": "",
+            "city": "",
+            "district": "",
+            "created_at": ""
+         }
+      }
+   },
+   "record": {
+      "table": {
+         "headers": {
+            "product": "产品",
+            "client": "客户",
+            "quantity": "数量",
+            "bid": "报价编号",
+            "created_at": "创建时间",
+            "record_type": "记录类型",
+            "record_status": "记录状态"
+         }
+      },
+      "tab": {
+         "record": "记录",
+         "ear_device": "耳部设备"
+      },
+      "information": "信息",
+      "financial": "财务"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "产品",
+               "unit_cost": "单位成本",
+               "quantity": "数量",
+               "vendor": "供应商",
+               "stocked_at": "库存位置"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "产品",
+               "serial_number": "序列号",
+               "unit_cost": "单位成本",
+               "vendor": "供应商",
+               "stocked_at": "库存位置"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "产品",
+               "brand": "品牌",
+               "categories": "类别",
+               "created_at": "创建时间"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "产品",
+               "unit_cost": "单位成本",
+               "quantity": "数量",
+               "vendor": "供应商",
+               "stocked_at": "库存位置"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "产品",
+               "unit_cost": "单位成本",
+               "quantity": "数量",
+               "vendor": "供应商",
+               "stocked_at": "库存位置"
+            }
+         }
+      },
+      "information": "信息",
+      "financial": "财务"
    }
 }

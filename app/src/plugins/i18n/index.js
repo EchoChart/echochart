@@ -1,12 +1,37 @@
 import { useNavigatorLanguage } from '@vueuse/core';
 import dayjs from 'dayjs';
-import Validator from 'validatorjs/dist/validator.js';
+import Validator from 'validatorjs';
 import { computed, nextTick, watch } from 'vue';
 import { createI18n } from 'vue-i18n';
+
+import de from 'validatorjs/src/lang/de.js';
+import en from 'validatorjs/src/lang/en.js';
+import es from 'validatorjs/src/lang/es.js';
+import fr from 'validatorjs/src/lang/fr.js';
+import ja from 'validatorjs/src/lang/ja.js';
+import ko from 'validatorjs/src/lang/ko.js';
+import pl from 'validatorjs/src/lang/pl.js';
+import ru from 'validatorjs/src/lang/ru.js';
+import tr from 'validatorjs/src/lang/tr.js';
+import zh from 'validatorjs/src/lang/zh.js';
+
+const validatorLocales = {
+   de,
+   en,
+   fr,
+   ja,
+   ko,
+   pl,
+   ru,
+   tr,
+   es,
+   zh
+};
 
 export const dayjsLocales = {
    en: () => import('dayjs/locale/en'),
    tr: () => import('dayjs/locale/tr'),
+   es: () => import('dayjs/locale/es'),
    fr: () => import('dayjs/locale/fr'),
    de: () => import('dayjs/locale/de'),
    pl: () => import('dayjs/locale/pl'),
@@ -14,18 +39,6 @@ export const dayjsLocales = {
    zh: () => import('dayjs/locale/zh'),
    ja: () => import('dayjs/locale/ja'),
    ko: () => import('dayjs/locale/ko')
-};
-
-export const validatorLocales = {
-   de: () => import('validatorjs/src/lang/de.js'),
-   en: () => import('validatorjs/src/lang/en.js'),
-   fr: () => import('validatorjs/src/lang/fr.js'),
-   ja: () => import('validatorjs/src/lang/ja.js'),
-   ko: () => import('validatorjs/src/lang/ko.js'),
-   pl: () => import('validatorjs/src/lang/pl.js'),
-   ru: () => import('validatorjs/src/lang/ru.js'),
-   tr: () => import('validatorjs/src/lang/tr.js'),
-   zh: () => import('validatorjs/src/lang/zh.js')
 };
 
 const { language: navigatorLanguage } = useNavigatorLanguage();
@@ -48,7 +61,7 @@ export async function loadLocaleMessages(locale, i18n = i18NPlugin.global) {
       }
 
       if (loadValidatorLocales) {
-         Validator.setMessages(locale, await loadValidatorLocales());
+         Validator.setMessages(locale, loadValidatorLocales);
          Validator.useLang(locale);
       } else {
          console.warn(`validator locale '${locale}' not found, falling back to 'en'`);
@@ -82,6 +95,7 @@ export const i18NPlugin = createI18n({
 export const SUPPORTED_LOCALES = computed(() => [
    { label: i18NPlugin.global.t('app_config.language.option.tr'), value: 'tr' },
    { label: i18NPlugin.global.t('app_config.language.option.en'), value: 'en' },
+   { label: i18NPlugin.global.t('app_config.language.option.es'), value: 'es' },
    { label: i18NPlugin.global.t('app_config.language.option.fr'), value: 'fr' },
    { label: i18NPlugin.global.t('app_config.language.option.de'), value: 'de' },
    { label: i18NPlugin.global.t('app_config.language.option.pl'), value: 'pl' },
