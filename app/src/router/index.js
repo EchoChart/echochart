@@ -31,7 +31,7 @@ const router = createRouter({
                            return isSignedIn?.value;
                         })
                      },
-                     redirect: { name: 'account-profile' },
+                     redirect: { name: 'dashboard' },
                      components: {
                         default: CustomRouteView,
                         'layout-topbar': () => import('@/layouts/dashboard/Topbar.vue'),
@@ -40,20 +40,21 @@ const router = createRouter({
                         'page-header': () => import('@/components/layout/AppBreadcrumb.vue')
                      },
                      children: [
-                        // {
-                        //    path: 'dashboard',
-                        //    name: 'dashboard',
-                        //    meta: {
-                        //       label: i18n.t('route.label.dashboard'),
-                        //       icon: PrimeIcons.CHART_LINE,
-                        //       index: -999,
-                        //       visible: computed(() => {
-                        //          const { isSignedIn } = storeToRefs(useAuthStore());
-                        //          return isSignedIn?.value;
-                        //       })
-                        //    },
-                        //    component: () => import('@/views/pages/dashboard/Index.vue')
-                        // },
+                        {
+                           path: 'dashboard',
+                           name: 'dashboard',
+                           meta: {
+                              label: i18n.t('route.label.dashboard'),
+                              icon: PrimeIcons.CHART_LINE,
+                              index: -999,
+                              visible: computed(() => {
+                                 const { isSignedIn } = storeToRefs(useAuthStore());
+                                 return isSignedIn?.value;
+                              })
+                           },
+                           component: () => import('@/views/pages/dashboard/Index.vue'),
+                           skeleton: () => import('@/views/pages/dashboard/Index.vue')
+                        },
                         ...branchRoutes,
                         ...addressRoutes,
                         ...clientRoutes,
