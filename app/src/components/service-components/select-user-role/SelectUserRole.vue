@@ -37,28 +37,23 @@ const roles = Collection.create<T[]>(data ? (data as T[]) : []);
          :option-disabled="(data) => !data?.tenant_id"
       >
          <template #option="{ option }">
-            <InputGroup>
-               <span v-text="option?.display_name" class="align-middle m-2 me-auto" />
-               <InputGroupAddon
-                  v-if="showEdit && $can('read', 'role') && (!!option?.id || !!option)"
-               >
-                  <RouterLink
-                     :to="{
-                        name: 'branch-role-edit',
-                        params: { id: option?.id || option },
-                        query: { showDialog: 'center' }
-                     }"
-                     v-slot="{ navigate }"
-                  >
-                     <Button
-                        size="small"
-                        severity="info"
-                        :icon="PrimeIcons.PENCIL"
-                        @click.capture.stop="navigate"
-                     />
-                  </RouterLink>
-               </InputGroupAddon>
-            </InputGroup>
+            <span v-text="option?.display_name" class="align-middle m-2 me-auto" />
+            <RouterLink
+               v-if="showEdit && $can('read', 'role') && (!!option?.id || !!option)"
+               :to="{
+                  name: 'branch-role-edit',
+                  params: { id: option?.id || option },
+                  query: { showDialog: 'center' }
+               }"
+               v-slot="{ navigate }"
+            >
+               <Button
+                  size="small"
+                  severity="info"
+                  :icon="PrimeIcons.PENCIL"
+                  @click.capture.stop="navigate"
+               />
+            </RouterLink>
          </template>
       </MultiSelect>
       <InputGroupAddon v-if="showAdd && $can('create', 'role')">
