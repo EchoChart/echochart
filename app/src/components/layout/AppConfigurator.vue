@@ -37,33 +37,47 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                />
             </FormField>
 
-            <FormField fluid v-slot="slotProps" :label="$t('app_config.language.select_language')">
-               <Select
-                  v-bind="slotProps"
-                  :modelValue="$i18n.locale"
-                  :options="SUPPORTED_LOCALES"
-                  option-label="label"
-                  option-value="value"
-                  @change="$router.replace({ params: { locale: $event.value } })"
-               >
-                  <template #option="{ option }">
-                     <div class="flex gap-2 items-center">
-                        <span
-                           class="flag !aspect-[44/30] !w-8 !h-[unset]"
-                           :class="`flag-${option.value}`"
-                        />
-                        <span v-text="option.label" />
-                     </div>
-                  </template>
-                  <template #value="{ value }">
-                     <div class="flex gap-2 items-center">
-                        <span
-                           class="flag !aspect-[44/30] !w-8 !h-[unset]"
-                           :class="`flag-${value}`"
-                        />
-                     </div>
-                  </template>
-               </Select>
+            <FormField fluid :label="$t('app_config.language.select_language')">
+               <template #badges>
+                  <Badge
+                     severity="info"
+                     size="small"
+                     class="!p-1"
+                     v-tooltip.left="{
+                        value: $t('app_config.language.translated_using_artificial_intelligence')
+                     }"
+                  >
+                     <i :class="PrimeIcons.EXCLAMATION_CIRCLE" class="!text-sm" />
+                  </Badge>
+               </template>
+               <template #default="slotProps">
+                  <Select
+                     v-bind="slotProps"
+                     :modelValue="$i18n.locale"
+                     :options="SUPPORTED_LOCALES"
+                     option-label="label"
+                     option-value="value"
+                     @change="$router.replace({ params: { locale: $event.value } })"
+                  >
+                     <template #option="{ option }">
+                        <div class="flex gap-2 items-center">
+                           <span
+                              class="flag !aspect-[44/30] !w-8 !h-[unset]"
+                              :class="`flag-${option.value}`"
+                           />
+                           <span v-text="option.label" />
+                        </div>
+                     </template>
+                     <template #value="{ value }">
+                        <div class="flex gap-2 items-center">
+                           <span
+                              class="flag !aspect-[44/30] !w-8 !h-[unset]"
+                              :class="`flag-${value}`"
+                           />
+                        </div>
+                     </template>
+                  </Select>
+               </template>
             </FormField>
          </div>
 
