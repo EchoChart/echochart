@@ -107,17 +107,16 @@ This JSON contains interface text for a Hearing Aid CRM application used by clin
 
 **Translation rules:**
 - Use a **formal and professional tone** suitable for medical and clinical software interfaces.
-- Keep the **JSON structure** exactly the same.
-- Use appropriate **medical terminology**, especially for hearing aid related concepts.
+- Keep the **JSON structure** exactly the same. 
+- Translate all values to **${targetLang}**.
+- If a value is empty, translate by **key** instead.
 - If a key contains or ends with "id":
   - If "id" is part of a meaningful label (e.g., "national_id", "identity_id"), **translate the full value**.
   - If "id" is a technical suffix (e.g., "product_id", "client_id"), **only translate the prefix** (e.g., "Product", "Client").
 - Preserve all **placeholders wrapped in curly braces** (e.g., {user_name}, {table_name}) **without translating** them. Keep them exactly as they appear and place them correctly in the translated sentence.
 - Use **title casing** for labels and messages when appropriate.
-- If a **value is empty** in given JSON, translate by looking **key path** instead.
 - Do **not** include explanations, comments, or Markdown formatting.
-- Return only valid translated **JSON**.
-- DO NOT RETURN EMPTY VALUES.
+- translate only values and please do **not** return empty values.
 
 The JSON to translate:
 ${JSON.stringify({ [key]: _.get(untranslated, key) }, null, 2)}
