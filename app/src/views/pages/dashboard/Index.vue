@@ -1,430 +1,669 @@
-<script setup>
-const { getPrimary, getSurface, isDarkTheme } = useLayout();
+<script setup lang="ts">
+import { fieldRoutes } from '@/constants/form/field';
+import { PRODUCT_CATEGORY_PROPS } from '@/constants/form/product';
+import { RECORD_TYPES } from '@/constants/form/record';
+import { appErrorHandler } from '@/lib/appErrorHandler';
+import Collection from '@/lib/Collection';
+import { ChartOptions } from 'chart.js';
 
-const product = ref(null);
-const chartData = ref(null);
-const chartOptions = ref(null);
+const { getPrimary, getSurface, isDarkTheme, primaryColors } = useLayout();
 
-const items = ref([
-   { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-   { label: 'Remove', icon: 'pi pi-fw pi-trash' }
-]);
+const dialogRef = inject('dialogRef', null);
 
-onMounted(() => {
-   chartData.value = setChartData();
-   chartOptions.value = setChartOptions();
-});
+const useBestSellingProducts = () => {
+   const rows = computed(() => [
+      {
+         label: i18n.t('dashboard.best_selling_products.sold_quantity'),
+         icon: PrimeIcons.BOX,
+         severity: 'info',
+         getValue: (item: any) => _get(item, 'sum_quantity', '').toLocaleString()
+      },
+      {
+         label: i18n.t('dashboard.best_selling_products.total_gain'),
+         icon: PrimeIcons.DOLLAR,
+         severity: 'success',
+         getValue: (item: any) =>
+            _get(item, 'sum_bid', '').toLocaleString(undefined, {
+               style: 'currency',
+               currency: item.currency_code
+            })
+      },
+      {
+         label: i18n.t('dashboard.best_selling_products.total_discount'),
+         icon: PrimeIcons.PERCENTAGE,
+         severity: 'danger',
+         getValue: (item: any) =>
+            _get(item, 'sum_discount', '').toLocaleString(undefined, {
+               style: 'currency',
+               currency: item.currency_code
+            })
+      },
+      {
+         label: i18n.t('dashboard.best_selling_products.total_tax'),
+         icon: PrimeIcons.BRIEFCASE,
+         severity: 'warn',
+         getValue: (item: any) =>
+            _get(item, 'sum_tax', '').toLocaleString(undefined, {
+               style: 'currency',
+               currency: item.currency_code
+            })
+      }
+   ]);
 
-function setChartData() {
-   const documentStyle = getComputedStyle(document.documentElement);
-
-   return {
-      labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-      datasets: [
-         {
-            type: 'bar',
-            label: 'Subscriptions',
-            backgroundColor: documentStyle.getPropertyValue('--p-primary-400'),
-            data: [4000, 10000, 15000, 4000],
-            barThickness: 32
-         },
-         {
-            type: 'bar',
-            label: 'Advertising',
-            backgroundColor: documentStyle.getPropertyValue('--p-primary-300'),
-            data: [2100, 8400, 2400, 7500],
-            barThickness: 32
-         },
-         {
-            type: 'bar',
-            label: 'Affiliate',
-            backgroundColor: documentStyle.getPropertyValue('--p-primary-200'),
-            data: [4100, 5200, 3400, 7400],
-            borderRadius: {
-               topLeft: 8,
-               topRight: 8
-            },
-            borderSkipped: true,
-            barThickness: 32
-         }
-      ]
-   };
-}
-
-function setChartOptions() {
-   const documentStyle = getComputedStyle(document.documentElement);
-   const borderColor = documentStyle.getPropertyValue('--surface-border');
-   const textMutedColor = documentStyle.getPropertyValue('--text-color-secondary');
-
-   return {
-      maintainAspectRatio: false,
-      aspectRatio: 0.8,
-      scales: {
-         x: {
-            stacked: true,
-            ticks: {
-               color: textMutedColor
-            },
-            grid: {
-               color: 'transparent',
-               borderColor: 'transparent'
-            }
-         },
-         y: {
-            stacked: true,
-            ticks: {
-               color: textMutedColor
-            },
-            grid: {
-               color: borderColor,
-               borderColor: 'transparent',
-               drawTicks: false
-            }
-         }
+   const data = ref<Partial<Views['dashboard_best_selling_products']['Row']>[]>(null);
+   const loading = ref(null);
+   const load = async () => {
+      try {
+         loading.value = true;
+         await supabase
+            .from('dashboard_best_selling_products')
+            .select(
+               'record_type, record_status, record_count, currency_code, sum_quantity, sum_bid, sum_discount, sum_tax, stock:stock_view!inner(id,product!inner(display_name, categories:product_category!inner(display_name)))'
+            )
+            .order('sum_quantity', { ascending: true })
+            .eq('record_type', 'sale')
+            .eq('record_status', 'done')
+            .limit(4)
+            .limit(1, { foreignTable: 'stock_view' })
+            .then((res) => {
+               data.value = res.data;
+            });
+         return data.value;
+      } catch (error) {
+         console.error('Error fetching best selling products:', error);
+         appErrorHandler(error);
+      } finally {
+         loading.value = false;
       }
    };
-}
 
-const formatCurrency = (value) => {
-   return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+   return {
+      load,
+      data,
+      loading,
+      rows
+   };
 };
 
-watch([getPrimary, getSurface, isDarkTheme], () => {
-   chartData.value = setChartData();
-   chartOptions.value = setChartOptions();
+const useDashboardNotifications = () => {
+   const getTagProps = (item: Views['dashboard_notification_feed']['Row']) => {
+      switch (_toLower(item?.activity)) {
+         case 'updated':
+            return { icon: PrimeIcons.SYNC, severity: 'info' };
+         case 'deleted':
+            return { icon: PrimeIcons.MINUS, severity: 'danger' };
+         case 'created':
+            return { icon: PrimeIcons.PLUS, severity: 'success' };
+         case 'unknown':
+            return { icon: PrimeIcons.PLUS, severity: 'warn' };
+      }
+   };
+
+   const title = computed(() => ({
+      today: i18n.t('dashboard.notifications.today'),
+      yesterday: i18n.t('dashboard.notifications.yesterday'),
+      last_week: i18n.t('dashboard.notifications.last_week'),
+      older: i18n.t('dashboard.notifications.older')
+   }));
+
+   const data = Collection.create<Views['dashboard_notification_feed']['Row'][]>([] as any);
+   const loading = ref(null);
+   const load = async () => {
+      try {
+         await supabase
+            .from('dashboard_notification_feed')
+            .select('*')
+            .limit(3)
+            .order('created_at', {
+               ascending: false
+            })
+            .eq('since', 'today')
+            .then((res) => data._merge(res.data));
+         await supabase
+            .from('dashboard_notification_feed')
+            .select('*')
+            .limit(3)
+            .order('created_at', {
+               ascending: false
+            })
+            .eq('since', 'yesterday')
+            .then((res) => data._merge(res.data));
+         await supabase
+            .from('dashboard_notification_feed')
+            .select('*')
+            .limit(3)
+            .order('created_at', {
+               ascending: false
+            })
+            .eq('since', 'last_week')
+            .then((res) => data._merge(res.data));
+      } catch (error) {
+         console.error('Error fetching dashboard notifications:', error);
+         appErrorHandler(error);
+      } finally {
+         loading.value = false;
+      }
+   };
+   return {
+      load,
+      getTagProps,
+      data,
+      loading,
+      title
+   };
+};
+
+const useCategorySales = () => {
+   const data = ref<Views['dashboard_product_category_sales_summary']['Row'][]>([]);
+   const loading = ref(null);
+
+   const load = async () => {
+      try {
+         await supabase
+            .from('dashboard_product_category_sales_summary')
+            .select('*')
+            .then((res) => (data.value = res.data));
+         return data.value;
+      } catch (error) {
+         console.error('Error fetching sales by product category:', error);
+         appErrorHandler(error);
+      } finally {
+         loading.value = false;
+      }
+   };
+
+   const chartData = ref(null);
+   const setChartData = () => {
+      if (!data.value) return;
+
+      const labels = data.value.map((item) => i18n.t(`fields.${_snakeCase(item.category_name)}`));
+      const documentStyle = getComputedStyle(document.documentElement);
+
+      const quantity = documentStyle.getPropertyValue('--p-primary-700');
+      const bid = documentStyle.getPropertyValue('--p-primary-600');
+      const discount = documentStyle.getPropertyValue('--p-primary-500');
+      const tax = documentStyle.getPropertyValue('--p-primary-400');
+
+      chartData.value = {
+         labels,
+         datasets: [
+            {
+               label: i18n.t('dashboard.sales_by_category.total_quantity_sold'),
+               data: data.value.map((item) => item.total_quantity),
+               backgroundColor: quantity,
+               borderSkipped: true,
+               barThickness: 24
+            },
+            {
+               label: i18n.t('dashboard.sales_by_category.total_bid'),
+               data: data.value.map((item) => item.total_bid),
+               backgroundColor: bid,
+               borderSkipped: true,
+               barThickness: 24
+            },
+            {
+               label: i18n.t('dashboard.sales_by_category.total_discount'),
+               data: data.value.map((item) => item.total_discount),
+               backgroundColor: discount,
+               borderSkipped: true,
+               barThickness: 24
+            },
+            {
+               label: i18n.t('dashboard.sales_by_category.total_tax'),
+               data: data.value.map((item) => item.total_tax),
+               backgroundColor: tax,
+               borderSkipped: true,
+               barThickness: 24
+            }
+         ]
+      };
+   };
+
+   const chartOptions = ref<ChartOptions>(null);
+   const setChartOptions = () => {
+      const documentStyle = getComputedStyle(document.documentElement);
+      const borderColor = documentStyle.getPropertyValue('--surface-border');
+      const textColor = documentStyle.getPropertyValue('--text-color');
+
+      chartOptions.value = {
+         responsive: true,
+         maintainAspectRatio: false,
+         aspectRatio: 1,
+         plugins: {
+            legend: {
+               title: {
+                  color: textColor
+               }
+            }
+         },
+         scales: {
+            x: {
+               stacked: true,
+               ticks: {
+                  color: textColor
+               },
+               grid: {
+                  color: 'transparent',
+                  borderColor: 'transparent'
+               }
+            },
+            y: {
+               stacked: true,
+               ticks: {
+                  color: textColor
+               },
+               grid: {
+                  color: borderColor,
+                  borderColor: 'transparent',
+                  drawTicks: false
+               }
+            }
+         }
+      };
+   };
+
+   watch([getPrimary, getSurface, isDarkTheme, locale], () => {
+      setChartData();
+      setChartOptions();
+   });
+
+   return {
+      load,
+      setChartData,
+      setChartOptions,
+      data,
+      chartData,
+      chartOptions,
+      loading
+   };
+};
+
+const bestSellingProducts = useBestSellingProducts();
+const dashboardNotifications = useDashboardNotifications();
+const categorySales = useCategorySales();
+
+bestSellingProducts.load();
+dashboardNotifications.load();
+
+onMounted(() => {
+   categorySales.load().then(() => {
+      categorySales.setChartData();
+      categorySales.setChartOptions();
+   });
 });
 </script>
 
 <template>
-   <div class="grid grid-cols-12 gap-4">
-      <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-         <div class="card mb-0">
-            <div class="flex justify-between mb-4">
-               <div>
-                  <span class="block text-muted-color font-medium mb-4">Orders</span>
-                  <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">152</div>
-               </div>
-               <div
-                  class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border"
-                  style="width: 2.5rem; height: 2.5rem"
-               >
-                  <i class="pi pi-shopping-cart text-blue-500 !text-xl"></i>
-               </div>
-            </div>
-            <span class="text-primary font-medium">24 new </span>
-            <span class="text-muted-color">since last visit</span>
-         </div>
+   <div
+      class="bg-[var(--surface-ground)] flex flex-col gap-4"
+      :class="{
+         'p-4': !!dialogRef
+      }"
+   >
+      <div class="w-full flex flex-wrap gap-[inherit]">
+         <template v-if="$can('read', 'client')">
+            <TotalRowCountCard
+               class="flex-[1_20%] lg:flex-[1_15%]"
+               :title="$t('dashboard.statistics.client.clients')"
+               from="client"
+               :icon="PrimeIcons.USERS"
+            />
+         </template>
+         <template v-if="$can('read', 'record')">
+            <TotalRowCountCard
+               class="flex-[1_20%] lg:flex-[1_15%]"
+               v-for="recordType in RECORD_TYPES"
+               :key="recordType.value"
+               from="record"
+               :title="`${$t('fields.record_type')}: ${recordType.label}`"
+               :icon="recordType.icon"
+               :iconColor="_get(_shuffle(primaryColors).shift(), `palette.500`)"
+               :filters="{
+                  record_type: {
+                     operator: FilterOperator.AND,
+                     constraints: [{ value: recordType.value, matchMode: FilterMatchMode.EQUALS }]
+                  }
+               }"
+            />
+         </template>
       </div>
-      <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-         <div class="card mb-0">
-            <div class="flex justify-between mb-4">
-               <div>
-                  <span class="block text-muted-color font-medium mb-4">Revenue</span>
-                  <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">$2.100</div>
-               </div>
-               <div
-                  class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border"
-                  style="width: 2.5rem; height: 2.5rem"
-               >
-                  <i class="pi pi-dollar text-orange-500 !text-xl"></i>
-               </div>
-            </div>
-            <span class="text-primary font-medium">%52+ </span>
-            <span class="text-muted-color">since last week</span>
-         </div>
-      </div>
-      <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-         <div class="card mb-0">
-            <div class="flex justify-between mb-4">
-               <div>
-                  <span class="block text-muted-color font-medium mb-4">Customers</span>
-                  <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">28441</div>
-               </div>
-               <div
-                  class="flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border"
-                  style="width: 2.5rem; height: 2.5rem"
-               >
-                  <i class="pi pi-user text-cyan-500 !text-xl"></i>
-               </div>
-            </div>
-            <span class="text-primary font-medium">520 </span>
-            <span class="text-muted-color">newly registered</span>
-         </div>
-      </div>
-      <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-         <div class="card mb-0">
-            <div class="flex justify-between mb-4">
-               <div>
-                  <span class="block text-muted-color font-medium mb-4">Comments</span>
-                  <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">
-                     152 Unread
+      <div class="flex-1 flex flex-wrap gap-[inherit] items-start">
+         <div class="flex-[1_49%] flex flex-col gap-[inherit] justify-start overflow-auto">
+            <Card v-if="$can('read', 'record') && $can('read', 'stock') && $can('read', 'product')">
+               <template #title>
+                  <div class="flex items-center justify-between gap-4 mb-4">
+                     {{ $t('dashboard.tables.recent_sales.title') }}
+                     <div class="flex items-center justify-between gap-4">
+                        <CustomLink
+                           :to="{
+                              name: 'record-list',
+                              params: {
+                                 record_type: 'sale',
+                                 record_status: 'done'
+                              }
+                           }"
+                           v-slot="{ navigate }"
+                        >
+                           <Button
+                              variant="link"
+                              size="small"
+                              raised
+                              :label="$t('dashboard.tables.recent_sales.see_all')"
+                              @click="navigate"
+                           />
+                        </CustomLink>
+                     </div>
                   </div>
-               </div>
-               <div
-                  class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border"
-                  style="width: 2.5rem; height: 2.5rem"
-               >
-                  <i class="pi pi-comment text-purple-500 !text-xl"></i>
-               </div>
-            </div>
-            <span class="text-primary font-medium">85 </span>
-            <span class="text-muted-color">responded</span>
+               </template>
+               <template #content>
+                  <ResourceTable
+                     :from="'record'"
+                     stateStorage="session"
+                     :select="'bid,quantity,bid_discount,currency_code,created_at,stock:stock_view!inner(id,display_name,unit_type), client!inner(id,display_name,email)'"
+                     :rows="5"
+                     :paginator="false"
+                     :showGridlines="false"
+                     :filters="{
+                        record_type: {
+                           operator: FilterOperator.AND,
+                           constraints: [{ value: 'sale', matchMode: FilterMatchMode.EQUALS }]
+                        },
+                        record_status: {
+                           operator: FilterOperator.AND,
+                           constraints: [{ value: 'done', matchMode: FilterMatchMode.EQUALS }]
+                        }
+                     }"
+                     :columns="[
+                        {
+                           field: 'stock.display_name',
+                           header: $t('record.table.headers.product')
+                        },
+                        {
+                           field: 'client.display_name',
+                           header: $t('record.table.headers.client')
+                        },
+                        {
+                           field: 'quantity',
+                           header: $t('record.table.headers.quantity')
+                        },
+                        {
+                           field: 'bid',
+                           header: $t('record.table.headers.bid')
+                        },
+                        {
+                           field: 'created_at',
+                           header: $t('record.table.headers.created_at'),
+                           sortOrder: { value: -1 }
+                        }
+                     ]"
+                  >
+                     <template
+                        v-if="$can('read', 'client')"
+                        #client_display_name_body="{ data, field }"
+                     >
+                        <CustomLink
+                           v-if="_get(data, `client.id`)"
+                           :to="{
+                              name: 'client-manage',
+                              params: { id: _get(data, `client.id`) },
+                              query: { showDialog: 'center' }
+                           }"
+                           v-slot="{ navigate }"
+                        >
+                           <Button
+                              variant="link"
+                              size="small"
+                              raised
+                              :label="
+                                 _get(data, `client.display_name`) || _get(data, `client.email`)
+                              "
+                              @click="navigate"
+                           />
+                        </CustomLink>
+                     </template>
+                     <template
+                        v-if="$can('read', 'stock')"
+                        #stock_display_name_body="{ data, field }"
+                     >
+                        <CustomLink
+                           v-if="_get(data, `stock.id`)"
+                           :to="{
+                              name: 'stock-edit',
+                              params: { id: _get(data, `stock.id`) },
+                              query: { showDialog: 'center' }
+                           }"
+                           v-slot="{ navigate }"
+                        >
+                           <Button
+                              variant="link"
+                              size="small"
+                              class="!text-left"
+                              raised
+                              :label="_get(data, `stock.display_name`)"
+                              @click="navigate"
+                           />
+                        </CustomLink>
+                     </template>
+                     <template #quantity_body="{ data, field }">
+                        <span
+                           v-text="
+                              `${_get(data, field)} ${$t('fields.' + _get(data, 'stock.unit_type'))}`
+                           "
+                        />
+                     </template>
+                     <template #bid_body="{ data, field }">
+                        <span
+                           v-text="
+                              `${_get(data, field)?.toLocaleString?.(undefined, { style: 'currency', currency: _get(data, 'currency_code') })}`
+                           "
+                        />
+                     </template>
+                  </ResourceTable>
+               </template>
+            </Card>
+            <Card
+               v-if="$can('read', 'record') && $can('read', 'stock') && $can('read', 'product')"
+               class="flex-1"
+            >
+               <template #title>
+                  <div class="flex items-center justify-between gap-4 mb-4">
+                     {{ $t('dashboard.sales_by_category.title') }}
+                  </div>
+               </template>
+               <template #content>
+                  <Chart
+                     type="bar"
+                     :data="categorySales.chartData.value"
+                     :options="categorySales.chartOptions.value"
+                     class="w-full h-[50vh]"
+                  />
+               </template>
+            </Card>
          </div>
-      </div>
-
-      <div class="col-span-12 xl:col-span-6">
-         <div class="card">
-            <div class="font-semibold text-xl mb-4">Recent Sales</div>
-            <DataTable :value="product" :rows="5" :paginator="true" responsiveLayout="scroll">
-               <Column style="width: 15%" header="Image">
-                  <template #body="slotProps">
-                     <img
-                        :src="`https://primefaces.org/cdn/primevue/images/product/${slotProps.data.image}`"
-                        :alt="slotProps.data.image"
-                        width="50"
-                        class="shadow"
+         <div class="flex-[1_49%] flex flex-wrap gap-[inherit] items-start">
+            <Card
+               v-if="$can('read', 'record') && $can('read', 'stock') && $can('read', 'product')"
+               class="flex-[1_49%]"
+            >
+               <template #title>
+                  <div class="flex items-center justify-between gap-4 mb-4">
+                     {{ $t('dashboard.best_selling_products.title') }}
+                  </div>
+               </template>
+               <template #content>
+                  <DataView
+                     :value="bestSellingProducts.data.value"
+                     :pt="{
+                        root: {
+                           class: '!border-spacing-0'
+                        },
+                        content: {
+                           class: 'flex flex-col gap-8'
+                        }
+                     }"
+                  >
+                     <template #empty>
+                        <div v-if="bestSellingProducts.loading.value" class="flex flex-col gap-4">
+                           <div class="flex flex-col gap-4" v-for="item in 5">
+                              <Skeleton class="!h-8 !w-1/4" />
+                              <Skeleton class="!h-8 !w-full" />
+                           </div>
+                        </div>
+                        <span v-else v-text="$t('dashboard.best_selling_products.empty')" />
+                     </template>
+                     <template #list="slotProps">
+                        <li
+                           class="flex flex-wrap gap-2 justify-between"
+                           v-for="item in slotProps.items"
+                        >
+                           <div class="flex-1 flex gap-2 items-center justify-between">
+                              <CustomLink
+                                 v-if="
+                                    _get(item, `stock.0.id`) &&
+                                    $can('read', 'stock') &&
+                                    $can('modify', 'stock')
+                                 "
+                                 :to="{
+                                    name: 'stock-edit',
+                                    params: { id: _get(item, `stock.0.id`) },
+                                    query: { showDialog: 'center' }
+                                 }"
+                                 v-slot="{ navigate }"
+                              >
+                                 <Button
+                                    variant="link"
+                                    size="small"
+                                    class="!text-left"
+                                    raised
+                                    :label="_get(item, `stock.0.product.display_name`)"
+                                    @click="navigate"
+                                 />
+                              </CustomLink>
+                              <span
+                                 v-else
+                                 class="text-lg me-2"
+                                 v-text="item?.stock[0]?.product.display_name"
+                              />
+                              <div class="flex gap-2">
+                                 <Tag
+                                    v-for="category in _get(item, `stock.0.product.categories`)"
+                                    v-bind="_get(PRODUCT_CATEGORY_PROPS, category.display_name)"
+                                 />
+                              </div>
+                           </div>
+                           <div class="w-full flex flex-col gap-4 items-start">
+                              <div
+                                 class="w-full flex items-center justify-between gap-4"
+                                 v-for="row in bestSellingProducts.rows.value"
+                              >
+                                 <span v-text="row.label" />
+                                 <Tag
+                                    v-bind="row"
+                                    :value="row.getValue(item)"
+                                    class="!text-base !gap-2 !text-nowrap"
+                                 />
+                              </div>
+                           </div>
+                        </li>
+                     </template>
+                  </DataView>
+               </template>
+            </Card>
+            <Card
+               v-if="
+                  $can('read', 'record') &&
+                  $can('read', 'stock') &&
+                  $can('read', 'product') &&
+                  !_isEmpty(dashboardNotifications.data)
+               "
+               class="flex-[1_49%]"
+            >
+               <template #title>
+                  <div class="flex items-center justify-between gap-4 mb-4">
+                     {{ $t('dashboard.notifications.title') }}
+                  </div>
+               </template>
+               <template #content>
+                  <template
+                     v-for="(notifications, since) in _groupBy(
+                        dashboardNotifications.data,
+                        (n) => n.since
+                     )"
+                  >
+                     <span
+                        class="block text-muted-color font-medium my-2"
+                        v-text="_get(dashboardNotifications.title.value, since)"
                      />
+                     <div class="flex flex-col gap-4" v-for="notification in notifications">
+                        <ul class="p-0 mx-0 mt-0 mb-6 list-none">
+                           <li class="flex items-center gap-4 py-2">
+                              <Tag
+                                 class="w-12 aspect-square !rounded-full"
+                                 v-bind="dashboardNotifications.getTagProps(notification)"
+                                 :pt="{
+                                    icon: {
+                                       class: '!text-2xl !w-[unset] !h-[unset]'
+                                    }
+                                 }"
+                              />
+                              <i18n-t
+                                 :keypath="`dashboard.notifications.activity.${notification.activity as unknown as any}`"
+                                 tag="span"
+                                 class="lowercase first-letter:!capitalize [&>a]:inline-flex"
+                              >
+                                 <template
+                                    #resource_name
+                                    v-if="
+                                       $can('read', notification.table_name) &&
+                                       !!_get(notification, 'resource_id') &&
+                                       !!_get(fieldRoutes, notification.table_name)
+                                    "
+                                 >
+                                    <CustomLink
+                                       :to="{
+                                          name: fieldRoutes[notification.table_name].name,
+                                          params: { id: _get(notification, `resource_id`) },
+                                          query: { showDialog: 'center' }
+                                       }"
+                                       v-slot="{ navigate }"
+                                    >
+                                       <Button
+                                          variant="link"
+                                          size="small"
+                                          fluid
+                                          class="!px-0"
+                                          :label="$t(`fields.${notification.table_name}`)"
+                                          @click="navigate"
+                                       />
+                                    </CustomLink>
+                                 </template>
+                                 <template #user_name v-if="$can('read', `user`)">
+                                    <CustomLink
+                                       v-if="_get(notification, `user_name`)"
+                                       :to="{
+                                          name: 'branch-user-manage',
+                                          params: { id: _get(notification, `user_id`) },
+                                          query: { showDialog: 'center' }
+                                       }"
+                                       v-slot="{ navigate }"
+                                    >
+                                       <Button
+                                          variant="link"
+                                          size="small"
+                                          fluid
+                                          class="!px-0"
+                                          :label="_get(notification, `user_name`)"
+                                          @click="navigate"
+                                       />
+                                    </CustomLink>
+                                 </template>
+                              </i18n-t>
+                           </li>
+                        </ul>
+                     </div>
                   </template>
-               </Column>
-               <Column field="name" header="Name" :sortable="true" style="width: 35%"></Column>
-               <Column field="price" header="Price" :sortable="true" style="width: 35%">
-                  <template #body="slotProps">
-                     {{ formatCurrency(slotProps.data.price) }}
-                  </template>
-               </Column>
-               <Column style="width: 15%" header="View">
-                  <template #body>
-                     <Button icon="pi pi-search" type="button" class="p-button-text"></Button>
-                  </template>
-               </Column>
-            </DataTable>
-         </div>
-         <div class="card">
-            <div class="flex justify-between items-center mb-6">
-               <div class="font-semibold text-xl">Best Selling Products</div>
-               <div>
-                  <Button
-                     icon="pi pi-ellipsis-v"
-                     class="p-button-text p-button-plain p-button-rounded"
-                     @click="$refs.menu2.toggle($event)"
-                  ></Button>
-                  <Menu ref="menu2" :popup="true" :model="items" class="!min-w-40"></Menu>
-               </div>
-            </div>
-            <ul class="list-none p-0 m-0">
-               <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                  <div>
-                     <span
-                        class="text-surface-900 dark:text-surface-0 font-medium me-2 mb-1 md:mb-0"
-                        >Space T-Shirt</span
-                     >
-                     <div class="mt-1 text-muted-color">Clothing</div>
-                  </div>
-                  <div class="mt-2 md:mt-0 flex items-center">
-                     <div
-                        class="bg-surface-300 dark:bg-surface-500 rounded-border overflow-hidden w-40 lg:w-24"
-                        style="height: 8px"
-                     >
-                        <div class="bg-orange-500 h-full" style="width: 50%"></div>
-                     </div>
-                     <span class="text-orange-500 ms-4 font-medium">%50</span>
-                  </div>
-               </li>
-               <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                  <div>
-                     <span
-                        class="text-surface-900 dark:text-surface-0 font-medium me-2 mb-1 md:mb-0"
-                        >Portal Sticker</span
-                     >
-                     <div class="mt-1 text-muted-color">Accessories</div>
-                  </div>
-                  <div class="mt-2 md:mt-0 ms-0 md:ms-20 flex items-center">
-                     <div
-                        class="bg-surface-300 dark:bg-surface-500 rounded-border overflow-hidden w-40 lg:w-24"
-                        style="height: 8px"
-                     >
-                        <div class="bg-cyan-500 h-full" style="width: 16%"></div>
-                     </div>
-                     <span class="text-cyan-500 ms-4 font-medium">%16</span>
-                  </div>
-               </li>
-               <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                  <div>
-                     <span
-                        class="text-surface-900 dark:text-surface-0 font-medium me-2 mb-1 md:mb-0"
-                        >Supernova Sticker</span
-                     >
-                     <div class="mt-1 text-muted-color">Accessories</div>
-                  </div>
-                  <div class="mt-2 md:mt-0 ms-0 md:ms-20 flex items-center">
-                     <div
-                        class="bg-surface-300 dark:bg-surface-500 rounded-border overflow-hidden w-40 lg:w-24"
-                        style="height: 8px"
-                     >
-                        <div class="bg-pink-500 h-full" style="width: 67%"></div>
-                     </div>
-                     <span class="text-pink-500 ms-4 font-medium">%67</span>
-                  </div>
-               </li>
-               <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                  <div>
-                     <span
-                        class="text-surface-900 dark:text-surface-0 font-medium me-2 mb-1 md:mb-0"
-                        >Wonders Notebook</span
-                     >
-                     <div class="mt-1 text-muted-color">Office</div>
-                  </div>
-                  <div class="mt-2 md:mt-0 ms-0 md:ms-20 flex items-center">
-                     <div
-                        class="bg-surface-300 dark:bg-surface-500 rounded-border overflow-hidden w-40 lg:w-24"
-                        style="height: 8px"
-                     >
-                        <div class="bg-green-500 h-full" style="width: 35%"></div>
-                     </div>
-                     <span class="text-primary ms-4 font-medium">%35</span>
-                  </div>
-               </li>
-               <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                  <div>
-                     <span
-                        class="text-surface-900 dark:text-surface-0 font-medium me-2 mb-1 md:mb-0"
-                        >Mat Black Case</span
-                     >
-                     <div class="mt-1 text-muted-color">Accessories</div>
-                  </div>
-                  <div class="mt-2 md:mt-0 ms-0 md:ms-20 flex items-center">
-                     <div
-                        class="bg-surface-300 dark:bg-surface-500 rounded-border overflow-hidden w-40 lg:w-24"
-                        style="height: 8px"
-                     >
-                        <div class="bg-purple-500 h-full" style="width: 75%"></div>
-                     </div>
-                     <span class="text-purple-500 ms-4 font-medium">%75</span>
-                  </div>
-               </li>
-               <li class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                  <div>
-                     <span
-                        class="text-surface-900 dark:text-surface-0 font-medium me-2 mb-1 md:mb-0"
-                        >Robots T-Shirt</span
-                     >
-                     <div class="mt-1 text-muted-color">Clothing</div>
-                  </div>
-                  <div class="mt-2 md:mt-0 ms-0 md:ms-20 flex items-center">
-                     <div
-                        class="bg-surface-300 dark:bg-surface-500 rounded-border overflow-hidden w-40 lg:w-24"
-                        style="height: 8px"
-                     >
-                        <div class="bg-teal-500 h-full" style="width: 40%"></div>
-                     </div>
-                     <span class="text-teal-500 ms-4 font-medium">%40</span>
-                  </div>
-               </li>
-            </ul>
-         </div>
-      </div>
-      <div class="col-span-12 xl:col-span-6">
-         <div class="card">
-            <div class="font-semibold text-xl mb-4">Revenue Stream</div>
-            <Chart type="bar" :data="chartData" :options="chartOptions" class="h-80" />
-         </div>
-         <div class="card">
-            <div class="flex items-center justify-between mb-6">
-               <div class="font-semibold text-xl">Notifications</div>
-               <div>
-                  <Button
-                     icon="pi pi-ellipsis-v"
-                     class="p-button-text p-button-plain p-button-rounded"
-                     @click="$refs.menu1.toggle($event)"
-                  ></Button>
-                  <Menu ref="menu1" :popup="true" :model="items" class="!min-w-40"></Menu>
-               </div>
-            </div>
-
-            <span class="block text-muted-color font-medium mb-4">TODAY</span>
-            <ul class="p-0 mx-0 mt-0 mb-6 list-none">
-               <li class="flex items-center py-2 border-b border-surface">
-                  <div
-                     class="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-full me-4 shrink-0"
-                  >
-                     <i class="pi pi-dollar !text-xl text-blue-500"></i>
-                  </div>
-                  <span class="text-surface-900 dark:text-surface-0 leading-normal"
-                     >Richard Jones
-                     <span class="text-surface-700 dark:text-surface-100"
-                        >has purchased a blue t-shirt for
-                        <span class="text-primary font-bold">$79.00</span></span
-                     >
-                  </span>
-               </li>
-               <li class="flex items-center py-2">
-                  <div
-                     class="w-12 h-12 flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-full me-4 shrink-0"
-                  >
-                     <i class="pi pi-download !text-xl text-orange-500"></i>
-                  </div>
-                  <span class="text-surface-700 dark:text-surface-100 leading-normal"
-                     >Your request for withdrawal of
-                     <span class="text-primary font-bold">$2500.00</span> has been initiated.</span
-                  >
-               </li>
-            </ul>
-
-            <span class="block text-muted-color font-medium mb-4">YESTERDAY</span>
-            <ul class="p-0 m-0 list-none mb-6">
-               <li class="flex items-center py-2 border-b border-surface">
-                  <div
-                     class="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-full me-4 shrink-0"
-                  >
-                     <i class="pi pi-dollar !text-xl text-blue-500"></i>
-                  </div>
-                  <span class="text-surface-900 dark:text-surface-0 leading-normal"
-                     >Keyser Wick
-                     <span class="text-surface-700 dark:text-surface-100"
-                        >has purchased a black jacket for
-                        <span class="text-primary font-bold">$59.00</span></span
-                     >
-                  </span>
-               </li>
-               <li class="flex items-center py-2 border-b border-surface">
-                  <div
-                     class="w-12 h-12 flex items-center justify-center bg-pink-100 dark:bg-pink-400/10 rounded-full me-4 shrink-0"
-                  >
-                     <i class="pi pi-question !text-xl text-pink-500"></i>
-                  </div>
-                  <span class="text-surface-900 dark:text-surface-0 leading-normal"
-                     >Jane Davis
-                     <span class="text-surface-700 dark:text-surface-100"
-                        >has posted a new questions about your product.</span
-                     >
-                  </span>
-               </li>
-            </ul>
-            <span class="block text-muted-color font-medium mb-4">LAST WEEK</span>
-            <ul class="p-0 m-0 list-none">
-               <li class="flex items-center py-2 border-b border-surface">
-                  <div
-                     class="w-12 h-12 flex items-center justify-center bg-green-100 dark:bg-green-400/10 rounded-full me-4 shrink-0"
-                  >
-                     <i class="pi pi-arrow-up !text-xl text-green-500"></i>
-                  </div>
-                  <span class="text-surface-900 dark:text-surface-0 leading-normal"
-                     >Your revenue has increased by
-                     <span class="text-primary font-bold">%25</span>.</span
-                  >
-               </li>
-               <li class="flex items-center py-2 border-b border-surface">
-                  <div
-                     class="w-12 h-12 flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-full me-4 shrink-0"
-                  >
-                     <i class="pi pi-heart !text-xl text-purple-500"></i>
-                  </div>
-                  <span class="text-surface-900 dark:text-surface-0 leading-normal"
-                     ><span class="text-primary font-bold">12</span> user have added your product to
-                     their wishlist.</span
-                  >
-               </li>
-            </ul>
+               </template>
+            </Card>
          </div>
       </div>
    </div>
