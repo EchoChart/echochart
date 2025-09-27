@@ -349,8 +349,22 @@ export type Database = {
             foreignKeyName: "product_categories_category_id_fkey"
             columns: ["category_id"]
             isOneToOne: false
+            referencedRelation: "dashboard_product_category_sales_summary"
+            referencedColumns: ["category_id"]
+          },
+          {
+            foreignKeyName: "product_categories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
             referencedRelation: "product_category"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_categories_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "dashboard_best_selling_products"
+            referencedColumns: ["product_id"]
           },
           {
             foreignKeyName: "product_categories_product_id_fkey"
@@ -395,6 +409,13 @@ export type Database = {
             foreignKeyName: "product_category_parent_id_fkey"
             columns: ["parent_id"]
             isOneToOne: false
+            referencedRelation: "dashboard_product_category_sales_summary"
+            referencedColumns: ["category_id"]
+          },
+          {
+            foreignKeyName: "product_category_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
             referencedRelation: "product_category"
             referencedColumns: ["id"]
           },
@@ -407,7 +428,7 @@ export type Database = {
           bid_discount: number | null
           client_id: string | null
           created_at: string | null
-          currency_code: string
+          currency_code: string | null
           details: string | null
           id: string
           payment_type: string | null
@@ -425,7 +446,7 @@ export type Database = {
           bid_discount?: number | null
           client_id?: string | null
           created_at?: string | null
-          currency_code?: string
+          currency_code?: string | null
           details?: string | null
           id?: string
           payment_type?: string | null
@@ -443,7 +464,7 @@ export type Database = {
           bid_discount?: number | null
           client_id?: string | null
           created_at?: string | null
-          currency_code?: string
+          currency_code?: string | null
           details?: string | null
           id?: string
           payment_type?: string | null
@@ -621,6 +642,13 @@ export type Database = {
           vendor?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "stock_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "dashboard_best_selling_products"
+            referencedColumns: ["product_id"]
+          },
           {
             foreignKeyName: "stock_product_id_fkey"
             columns: ["product_id"]
@@ -891,6 +919,84 @@ export type Database = {
           },
         ]
       }
+      dashboard_best_selling_products: {
+        Row: {
+          avg_bid: number | null
+          avg_discount: number | null
+          avg_quantity: number | null
+          avg_tax: number | null
+          currency_code: string | null
+          product_id: string | null
+          record_count: number | null
+          record_status: string | null
+          record_type: string | null
+          sum_bid: number | null
+          sum_discount: number | null
+          sum_quantity: number | null
+          sum_tax: number | null
+        }
+        Relationships: []
+      }
+      dashboard_notification_feed: {
+        Row: {
+          activity: string | null
+          created_at: string | null
+          id: string | null
+          operation: string | null
+          resource_id: string | null
+          since: string | null
+          table_name: string | null
+          tenant_id: string | null
+          user_email: string | null
+          user_id: string | null
+          user_name: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_log_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenant"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "audit_log_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dashboard_product_category_sales_summary: {
+        Row: {
+          avg_bid: number | null
+          avg_discount: number | null
+          avg_quantity: number | null
+          avg_tax: number | null
+          category_id: string | null
+          category_name: string | null
+          discount_rate_pct: number | null
+          done_count: number | null
+          fulfillment_rate_pct: number | null
+          record_count: number | null
+          tax_rate_pct: number | null
+          tenant_id: string | null
+          total_bid: number | null
+          total_discount: number | null
+          total_quantity: number | null
+          total_tax: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "record_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenant"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_brands: {
         Row: {
           display_name: string | null
@@ -949,6 +1055,13 @@ export type Database = {
           vendor: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "stock_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "dashboard_best_selling_products"
+            referencedColumns: ["product_id"]
+          },
           {
             foreignKeyName: "stock_product_id_fkey"
             columns: ["product_id"]
