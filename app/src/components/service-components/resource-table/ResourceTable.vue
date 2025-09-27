@@ -31,6 +31,7 @@ const props = withDefaults(defineProps<ResourceTableProps<T>>(), {
    alwaysShowPaginator: true,
    showHeaders: true,
    useMeta: true,
+   stateStorage: undefined,
    rows: 5,
    lazy: true,
    dataKey: 'id' as keyof T,
@@ -43,7 +44,8 @@ const props = withDefaults(defineProps<ResourceTableProps<T>>(), {
    paginatorTemplate:
       'FirstPageLink PrevPageLink PageLinks NextPageLink RowsPerPageDropdown CurrentPageReport',
    resizableColumns: true,
-   showGridlines: true
+   showGridlines: true,
+   enableExpansion: true
 });
 const attrs = useAttrs();
 
@@ -79,7 +81,7 @@ async function getValues(metaObj: Partial<DataTableStateEvent>) {
          .from(props.from)
          .select(props.select)
          .abortSignal(ac.signal)
-         .returns<T[]>();
+         .overrideTypes<T[], { merge: false }>();
 
       !_isEmpty(meta._data) && req.setHeader('meta', encodeURI(JSON.stringify(meta._data)));
 
@@ -97,7 +99,7 @@ async function getValues(metaObj: Partial<DataTableStateEvent>) {
             countReq.setHeader('meta', encodedMeta);
          }
 
-         await countReq.then(({ count }) => {
+         countReq.then(({ count }) => {
             totalRecords.value = count;
          });
       }
