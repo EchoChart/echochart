@@ -133,7 +133,7 @@ const tableProps = computed(() => ({
                <RouterLink
                   v-if="$can('create', 'client-address') || $can('modify', 'address')"
                   :to="{
-                     name: 'manage-client-address',
+                     name: 'client-manage-address',
                      query: { showDialog: DIALOG_POSITIONS.CENTER }
                   }"
                   v-slot="{ navigate }"
