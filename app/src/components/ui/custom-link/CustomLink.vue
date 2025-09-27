@@ -101,7 +101,10 @@ const getItemLabel = (item: MenuItem) =>
                $router.push({ ...route, query: { showDialog: DIALOG_POSITIONS.CENTER } })
             "
             class="custom_link__internal"
-            :class="{ 'custom_link__internal--cursor-context': contextMenuItems.length }"
+            :class="{
+               'custom_link__internal--cursor-context': contextMenuItems.length,
+               ..._get($attrs, 'class', null)
+            }"
          >
             <slot
                v-bind="{
@@ -129,6 +132,9 @@ const getItemLabel = (item: MenuItem) =>
                   v-bind="props.action"
                   @click.prevent="() => itemClick(route)"
                   class="custom_link__context-menu-item"
+                  :class="{
+                     'custom_link__internal--cursor-context': contextMenuItems.length
+                  }"
                >
                   <span v-if="item.icon" :class="item.icon" class="custom_link__icon" />
                   <span class="custom_link__label" v-text="getItemLabel(item)" />
