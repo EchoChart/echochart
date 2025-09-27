@@ -1,7 +1,7 @@
 import { isValidPhoneNumber } from 'libphonenumber-js';
-import Validator from 'validatorjs/dist/validator.js';
+import Validator from 'validatorjs';
 
-export const formAttributeFormatter = (attr) => {
+export const formAttributeFormatter = (attr: string) => {
    const words = i18n
       .t(attr)
       .split?.(/[\.\s]/g)
@@ -19,7 +19,7 @@ Validator.setAttributeFormatter(formAttributeFormatter);
 
 Validator.register('phone', (value) => {
    if (_isString(value) && !_startsWith(value, '+')) value = '+' + value;
-   return isValidPhoneNumber(value);
+   return isValidPhoneNumber(value as string);
 });
 
 Validator.register(
