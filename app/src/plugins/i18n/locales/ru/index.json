@@ -28,7 +28,6 @@
             "ko": "Корейский",
             "es": "Испанский"
          },
-         "translated_using_AI": "Переведено с использованием ИИ",
          "translated_using_artificial_intelligence": "Переведено с использованием искусственного интеллекта"
       },
       "sidebar": {
@@ -543,10 +542,10 @@
          "older": "Старше",
          "title": "Уведомления",
          "activity": {
-            "created": "новый {resource_name} создан пользователем {user_name}",
-            "updated": "обновлен {resource_name} пользователем {user_name}",
-            "deleted": "удален {resource_name} пользователем {user_name}",
-            "unknown": "обнаружена активность в {resource_name} пользователем {user_name}"
+            "created": "новый {resource_name} создан {user_name}",
+            "updated": "{resource_name} обновлен {user_name}",
+            "deleted": "{resource_name} удален {user_name}",
+            "unknown": "деятельность обнаружена в {resource_name} {user_name}"
          }
       },
       "sales_by_category": {
@@ -563,45 +562,41 @@
          }
       }
    },
-   "user": {
+   "address": {
+      "select_country": "{select_country}",
       "table": {
          "headers": {
-            "name": "Имя",
-            "email": "Электронная почта",
-            "created_at": "Дата создания"
+            "address_name": "{address_name}",
+            "country": "{country}",
+            "city": "{city}",
+            "district": "{district}",
+            "created_at": "{created_at}"
          }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "Общая информация"
-         }
-      },
-      "general_info": "Общая информация",
-      "security": "Безопасность"
+      }
    },
    "audit_log": {
-      "no_changes_detected": "Нет изменений для регистрации",
+      "no_changes_detected": "Нет изменений для отслеживания",
       "add": "Добавить",
       "update": "Обновить",
       "delete": "Удалить",
-      "read": "Просмотреть",
+      "read": "Читать",
       "select_operation": "Выберите операцию",
       "table": {
          "headers": {
             "resource": "Ресурс",
             "operation": "Операция",
             "user_who_performed": "Пользователь, выполнивший операцию",
-            "created_at": "Дата и время создания",
-            "user_who_reverted": "Пользователь, отменяющий операцию",
-            "reverted_at": "Дата и время отмены"
+            "created_at": "Дата создания",
+            "user_who_reverted": "Пользователь, откативший операцию",
+            "reverted_at": "Дата отката"
          }
       },
-      "already_reverted": "Операция уже отменена",
-      "attempt_to_revert": "Попытка отменить операцию",
+      "already_reverted": "Операция уже отката",
+      "attempt_to_revert": "Попытка откатить",
       "added": "Добавлено",
       "updated": "Обновлено",
       "deleted": "Удалено",
-      "readed": "Просмотрено"
+      "readed": "Прочитано"
    },
    "client": {
       "select_client": "Выберите клиента",
@@ -636,22 +631,26 @@
       }
    },
    "product": {
-      "select_product": "Выберите изделие",
+      "select_product": "{product_name}",
       "category": {
-         "select_category": "Выберите категорию"
+         "select_category": "{category_name}"
       }
    },
-   "address": {
-      "select_country": "",
+   "user": {
       "table": {
          "headers": {
-            "address_name": "",
-            "country": "",
-            "city": "",
-            "district": "",
-            "created_at": ""
+            "name": "Имя",
+            "email": "Электронная почта",
+            "created_at": "Дата создания"
          }
-      }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "Общая информация"
+         }
+      },
+      "general_info": "Общая информация",
+      "security": "Безопасность"
    },
    "record": {
       "table": {
@@ -659,7 +658,7 @@
             "product": "Продукт",
             "client": "Клиент",
             "quantity": "Количество",
-            "bid": "Идентификатор заказа",
+            "bid": "Идентификатор",
             "created_at": "Дата создания",
             "record_type": "Тип записи",
             "record_status": "Статус записи"
@@ -728,6 +727,6 @@
          }
       },
       "information": "Информация",
-      "financial": "Финансовая информация"
+      "financial": "Финансовый"
    }
 }

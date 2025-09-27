@@ -28,7 +28,6 @@
             "ko": "코",
             "es": "스페인어"
          },
-         "translated_using_AI": "AI를 사용한 번역",
          "translated_using_artificial_intelligence": "인공지능을 사용하여 번역됨"
       },
       "sidebar": {
@@ -207,14 +206,14 @@
       "branch": "지점",
       "user": "사용자",
       "tenant_user": "지점 사용자",
-      "tenant_owner": "임대인",
+      "tenant_owner": "임대인 소유자",
       "address": "주소",
       "role_permission": "역할 권한",
       "user_role": "사용자 역할",
       "client": "고객",
       "product": "제품",
       "product_category": "제품 카테고리",
-      "product_categories": "제품 카테고리",
+      "product_categories": "제품 카테고리들",
       "stock": "재고",
       "record": "기록",
       "client_address": "고객 주소",
@@ -543,10 +542,10 @@
          "older": "기타",
          "title": "알림",
          "activity": {
-            "created": "새로운 {resource_name}이 {user_name}에 의해 생성됨",
-            "updated": "{resource_name}이 {user_name}에 의해 수정됨",
-            "deleted": "{resource_name}이 {user_name}에 의해 삭제됨",
-            "unknown": "{resource_name}에서 활동이 감지됨 ({user_name})"
+            "created": "새로운 {resource_name}이 {user_name}에 의해 생성되었습니다",
+            "updated": "{resource_name}이 {user_name}에 의해 수정되었습니다",
+            "deleted": "{resource_name}이 {user_name}에 의해 삭제되었습니다",
+            "unknown": "{resource_name}에서 활동이 감지되었습니다 ({user_name})"
          }
       },
       "sales_by_category": {
@@ -563,21 +562,17 @@
          }
       }
    },
-   "user": {
+   "address": {
+      "select_country": "국가 선택",
       "table": {
          "headers": {
-            "name": "이름",
-            "email": "이메일",
+            "address_name": "주소명",
+            "country": "국가",
+            "city": "도시",
+            "district": "구",
             "created_at": "생성일"
          }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "일반 정보"
-         }
-      },
-      "general_info": "일반 정보",
-      "security": "보안"
+      }
    },
    "audit_log": {
       "no_changes_detected": "변경 사항이 감지되지 않았습니다.",
@@ -593,7 +588,7 @@
             "user_who_performed": "작업자",
             "created_at": "생성일",
             "user_who_reverted": "되돌리기 사용자",
-            "reverted_at": "되돌리기 일자"
+            "reverted_at": "되돌리기 일시"
          }
       },
       "already_reverted": "이미 되돌린 작업입니다.",
@@ -629,29 +624,33 @@
          }
       },
       "general_info": "일반 정보",
-      "addresses": "주소 목록",
+      "addresses": "주소",
       "gender": {
          "male": "남성",
          "female": "여성"
       }
    },
    "product": {
-      "select_product": "청취도움제품 선택",
+      "select_product": "{product_name}",
       "category": {
-         "select_category": "카테고리 선택"
+         "select_category": "{category_name}"
       }
    },
-   "address": {
-      "select_country": "",
+   "user": {
       "table": {
          "headers": {
-            "address_name": "",
-            "country": "",
-            "city": "",
-            "district": "",
-            "created_at": ""
+            "name": "이름",
+            "email": "이메일",
+            "created_at": "생성일"
          }
-      }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "일반 정보"
+         }
+      },
+      "general_info": "일반 정보",
+      "security": "보안"
    },
    "record": {
       "table": {
@@ -659,7 +658,7 @@
             "product": "제품",
             "client": "고객",
             "quantity": "수량",
-            "bid": "입찰번호",
+            "bid": "입찰",
             "created_at": "생성일",
             "record_type": "기록 유형",
             "record_status": "기록 상태"
@@ -667,7 +666,7 @@
       },
       "tab": {
          "record": "기록",
-         "ear_device": "귀 장치"
+         "ear_device": "귀 기기"
       },
       "information": "정보",
       "financial": "재정"
@@ -691,8 +690,8 @@
                "serial_number": "시리얼 번호",
                "unit_cost": "단가",
                "vendor": "공급업체",
-               "stock,ed_at": "입고일",
-               "stocked_at": "재고입고일"
+               "stocked_at": "",
+               "stock,ed_at": "입고일"
             }
          }
       },
@@ -702,7 +701,7 @@
                "product": "제품",
                "brand": "브랜드",
                "categories": "카테고리",
-               "created_at": "등록일"
+               "created_at": "생성일"
             }
          }
       },

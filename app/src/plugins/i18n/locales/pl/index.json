@@ -28,7 +28,6 @@
             "ko": "한국어",
             "es": "Hiszpański"
          },
-         "translated_using_AI": "Tłumaczenie wykonane za pomocą AI",
          "translated_using_artificial_intelligence": "Tłumaczenie wykonane za pomocą sztucznej inteligencji"
       },
       "sidebar": {
@@ -236,7 +235,7 @@
       "category_id": "ID Kategorii",
       "address_id": "ID Adresu",
       "address_tenant_id": "ID Klienta Adresu",
-      "client_national_id": "Numer NIP Klienta",
+      "client_national_id": "Numer PESEL Klienta",
       "client_tenant_id": "ID Klienta",
       "correlation_id": "ID Korelacji",
       "request_id": "ID Żądania",
@@ -563,21 +562,17 @@
          }
       }
    },
-   "user": {
+   "address": {
+      "select_country": "Wybierz kraj",
       "table": {
          "headers": {
-            "name": "Imię",
-            "email": "E-mail",
+            "address_name": "Nazwa adresu",
+            "country": "Kraj",
+            "city": "Miasto",
+            "district": "Dzielnica",
             "created_at": "Utworzono"
          }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "Informacje ogólne"
-         }
-      },
-      "general_info": "Informacje ogólne",
-      "security": "Bezpieczeństwo"
+      }
    },
    "audit_log": {
       "no_changes_detected": "Nie wykryto zmian",
@@ -621,7 +616,7 @@
          "headers": {
             "client": "Pacjent",
             "nationality": "Nationalność",
-            "national_id": "Numer PESEL",
+            "national_id": "Numer dowodu",
             "birth_date": "Data urodzenia",
             "email": "E-mail",
             "phone": "Numer telefonu",
@@ -641,17 +636,21 @@
          "select_category": "Wybierz kategorię"
       }
    },
-   "address": {
-      "select_country": "",
+   "user": {
       "table": {
          "headers": {
-            "address_name": "",
-            "country": "",
-            "city": "",
-            "district": "",
-            "created_at": ""
+            "name": "Imię",
+            "email": "E-mail",
+            "created_at": "Utworzono"
          }
-      }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "Informacje ogólne"
+         }
+      },
+      "general_info": "Informacje ogólne",
+      "security": "Bezpieczeństwo"
    },
    "record": {
       "table": {
@@ -670,7 +669,7 @@
          "ear_device": "Urządzenie słuchowe"
       },
       "information": "Informacje",
-      "financial": "Finansowe"
+      "financial": "Finanse"
    },
    "stock": {
       "battery": {

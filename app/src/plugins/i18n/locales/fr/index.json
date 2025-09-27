@@ -28,7 +28,6 @@
             "ko": "Coréen",
             "es": "Espagnol"
          },
-         "translated_using_AI": "Traduit à l'aide d'une IA",
          "translated_using_artificial_intelligence": "Traduit à l'aide de l'intelligence artificielle"
       },
       "sidebar": {
@@ -207,7 +206,7 @@
       "branch": "Filiale",
       "user": "Utilisateur",
       "tenant_user": "Utilisateur de la filiale",
-      "tenant_owner": "Propriétaire de la filiale",
+      "tenant_owner": "Propriétaire du locataire",
       "address": "Adresse",
       "role_permission": "Permission de rôle",
       "user_role": "Rôle utilisateur",
@@ -220,7 +219,7 @@
       "client_address": "Adresse client",
       "audit_config": "Configuration d'audit",
       "audit_log": "Journal d'audit",
-      "product_brands": "Marques de produits",
+      "product_brands": "Marques de produit",
       "stock_view": "Vue du stock",
       "stock_vendor": "Fournisseur de stock",
       "stock_vendor_stat": "Statistiques fournisseur de stock",
@@ -563,21 +562,17 @@
          }
       }
    },
-   "user": {
+   "address": {
+      "select_country": "Sélectionnez le pays",
       "table": {
          "headers": {
-            "name": "Nom",
-            "email": "Courriel",
+            "address_name": "Nom de l'adresse",
+            "country": "Pays",
+            "city": "Ville",
+            "district": "District",
             "created_at": "Créé le"
          }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "Informations générales"
-         }
-      },
-      "general_info": "Informations générales",
-      "security": "Sécurité"
+      }
    },
    "audit_log": {
       "no_changes_detected": "Aucun changement détecté",
@@ -604,7 +599,7 @@
       "readed": "Lu"
    },
    "client": {
-      "select_client": "Sélectionner un client",
+      "select_client": "Sélectionnez un client",
       "address": {
          "table": {
             "headers": {
@@ -641,17 +636,21 @@
          "select_category": "Sélectionnez une catégorie"
       }
    },
-   "address": {
-      "select_country": "",
+   "user": {
       "table": {
          "headers": {
-            "address_name": "",
-            "country": "",
-            "city": "",
-            "district": "",
-            "created_at": ""
+            "name": "Nom",
+            "email": "Courriel",
+            "created_at": "Créé le"
          }
-      }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "Informations générales"
+         }
+      },
+      "general_info": "Informations générales",
+      "security": "Sécurité"
    },
    "record": {
       "table": {
@@ -670,7 +669,7 @@
          "ear_device": "Appareil auditif"
       },
       "information": "Informations",
-      "financial": "Finances"
+      "financial": "Financier"
    },
    "stock": {
       "battery": {
@@ -728,6 +727,6 @@
          }
       },
       "information": "Informations",
-      "financial": "Finances"
+      "financial": "Financier"
    }
 }

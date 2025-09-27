@@ -28,7 +28,6 @@
             "ko": "韩语",
             "es": "西班牙语"
          },
-         "translated_using_AI": "使用AI进行翻译",
          "translated_using_artificial_intelligence": "使用人工智能进行翻译"
       },
       "sidebar": {
@@ -222,9 +221,9 @@
       "audit_log": "审计日志",
       "product_brands": "产品品牌",
       "stock_view": "库存视图",
-      "stock_vendor": "供应商库存",
-      "stock_vendor_stat": "供应商库存统计",
-      "stock_product_stat": "产品库存统计",
+      "stock_vendor": "库存供应商",
+      "stock_vendor_stat": "库存供应商统计",
+      "stock_product_stat": "库存产品统计",
       "client_address_view": "客户地址视图",
       "audit_log_group": "审计日志组",
       "parent_id": "父ID",
@@ -236,7 +235,7 @@
       "category_id": "类别",
       "address_id": "地址",
       "address_tenant_id": "地址租户",
-      "client_national_id": "客户身份证号",
+      "client_national_id": "客户身份证",
       "client_tenant_id": "客户租户",
       "correlation_id": "关联ID",
       "request_id": "请求ID",
@@ -563,25 +562,21 @@
          }
       }
    },
-   "user": {
+   "address": {
+      "select_country": "请选择国家",
       "table": {
          "headers": {
-            "name": "姓名",
-            "email": "电子邮件",
+            "address_name": "地址名称",
+            "country": "国家",
+            "city": "城市",
+            "district": "区",
             "created_at": "创建时间"
          }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "基本信息"
-         }
-      },
-      "general_info": "基本信息",
-      "security": "安全设置"
+      }
    },
    "audit_log": {
       "no_changes_detected": "未检测到更改",
-      "add": "新增",
+      "add": "添加",
       "update": "更新",
       "delete": "删除",
       "read": "查看",
@@ -598,13 +593,13 @@
       },
       "already_reverted": "已回滚",
       "attempt_to_revert": "尝试回滚",
-      "added": "已新增",
+      "added": "已添加",
       "updated": "已更新",
       "deleted": "已删除",
       "readed": "已查看"
    },
    "client": {
-      "select_client": "请选择客户",
+      "select_client": "选择客户",
       "address": {
          "table": {
             "headers": {
@@ -629,29 +624,33 @@
          }
       },
       "general_info": "基本信息",
-      "addresses": "地址信息",
+      "addresses": "地址",
       "gender": {
          "male": "男性",
          "female": "女性"
       }
    },
    "product": {
-      "select_product": "请选择产品",
+      "select_product": "{product_name}",
       "category": {
-         "select_category": "请选择类别"
+         "select_category": "{category_name}"
       }
    },
-   "address": {
-      "select_country": "",
+   "user": {
       "table": {
          "headers": {
-            "address_name": "",
-            "country": "",
-            "city": "",
-            "district": "",
-            "created_at": ""
+            "name": "姓名",
+            "email": "电子邮件",
+            "created_at": "创建时间"
          }
-      }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "基本信息"
+         }
+      },
+      "general_info": "基本信息",
+      "security": "安全设置"
    },
    "record": {
       "table": {

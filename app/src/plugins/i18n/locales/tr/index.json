@@ -28,7 +28,6 @@
             "ko": "Korece",
             "es": "İspanyolca"
          },
-         "translated_using_AI": "AI Tarafından Çevrildi",
          "translated_using_artificial_intelligence": "Bu dil ayarı yapay zekâ ile çevrildi"
       },
       "sidebar": {
@@ -40,63 +39,6 @@
             "reveal": "Göster",
             "overlay": "Yatay"
          }
-      }
-   },
-   "auth": {
-      "branch": "Şube",
-      "welcome": {
-         "title": "Hoş Geldiniz",
-         "text": "Hearing Aid CRM uygulamasına hoş geldiniz."
-      },
-      "please_dont_forget_to_update_your_password": "Şifrenizi güncellemeyi unutmayınız.",
-      "confirm": {
-         "logout": {
-            "question": "Çıkış yapmak istediğinizden emin misiniz?",
-            "header": "Çıkış Onayı"
-         }
-      },
-      "toast": {
-         "welcome": "Hoş geldiniz!",
-         "goodby": "Güle güle!"
-      },
-      "forgot_password": {
-         "confirm": {
-            "header": "Şifremi Unuttum"
-         }
-      },
-      "otp": {
-         "forgot_password": {
-            "password_reset_email_sended_please_check_your_email": "Şifre sıfırlama e-postası gönderildi, lütfen e-postanızı kontrol edin.",
-            "lets_get_your_account_back!💪": "Hesabınıza geri dönmek istiyorsunuz!💪"
-         },
-         "resend_code": {
-            "confirm": {
-               "title": "Kodu Tekrar Gönder"
-            },
-            "toast": {
-               "code_sended": "Kod gönderildi."
-            },
-            "code_verified": "Kod doğrulandı."
-         },
-         "invite_code": {
-            "so_you_are_invited!🎊": "Davet edildiniz!🎊",
-            "please_enter_the_code_in_email_to_login": "Giriş yapmak için e-postadaki kodu girin."
-         }
-      },
-      "login": {
-         "welcome_back": "Hoş geldiniz tekrar!",
-         "please_login_to_continue": "Devam etmek için giriş yapın.",
-         "forgot_your_password?": "Şifrenizi unuttunuz mı?",
-         "do_you_have_invite_code?": "Davet kodunuz var mı?"
-      },
-      "logout": {
-         "logged_out_successfully": "Başarıyla çıkış yapıldı."
-      },
-      "register": {
-         "create_account": "Hesap Oluştur",
-         "create_an_account_and_join_us": "Hesap oluşturarak bize katılmaya devam edin.",
-         "account_info": "Hesap Bilgileri",
-         "company_info": "Şirket Bilgileri"
       }
    },
    "input": {
@@ -475,11 +417,11 @@
       "unit_tax": "Birim KDV",
       "total_cost": "Toplam Fiyat",
       "none": "Hiçbiri",
-      "tenant": "Kiralık Alan",
+      "tenant": "Kiralık",
       "branch": "Şube",
       "user": "Kullanıcı",
-      "tenant_user": "Kiralık Alan Kullanıcısı",
-      "tenant_owner": "Kiralık Alan Sahibi",
+      "tenant_user": "Kiralık Kullanıcı",
+      "tenant_owner": "Kiralık Sahibi",
       "address": "Adres",
       "role_permission": "Rol İzinleri",
       "user_role": "Kullanıcı Rolü",
@@ -494,24 +436,24 @@
       "audit_log": "Audit Log",
       "product_brands": "Ürün Markaları",
       "stock_view": "Stok Görünümü",
-      "stock_vendor": "Stok Tedarikçisi",
+      "stock_vendor": "Stok Tedarikçi",
       "stock_vendor_stat": "Tedarikçi İstatistikleri",
       "stock_product_stat": "Ürün İstatistikleri",
       "client_address_view": "Müşteri Adresi Görünümü",
       "audit_log_group": "Audit Log Grubu",
       "parent_id": "Ebeveyn ID",
       "user_id": "Kullanıcı",
-      "tenant_id": "Kiralık Alan",
+      "tenant_id": "Kiralık",
       "role_id": "Rol",
       "permission_id": "İzin",
       "unit_type": "Birim Türü",
       "category_id": "Kategori",
       "address_id": "Adres",
-      "address_tenant_id": "Adres Kiralık Alanı",
-      "client_national_id": "Müşteri Ulusal Kimlik",
-      "client_tenant_id": "Müşteri Kiralık Alanı",
-      "correlation_id": "İlişki ID",
-      "request_id": "İstek ID",
+      "address_tenant_id": "Adres Kiralığı",
+      "client_national_id": "Müşteri Kimlik Numarası",
+      "client_tenant_id": "Müşteri Kiralığı",
+      "correlation_id": "İlişki",
+      "request_id": "İstek",
       "display_name": "Ad",
       "id": "ID",
       "created_at": "Oluşturulma Tarihi"
@@ -546,7 +488,7 @@
             "created": "yeni {resource_name} {user_name} tarafından oluşturuldu",
             "updated": "{resource_name} {user_name} tarafından güncellendi",
             "deleted": "{resource_name} {user_name} tarafından silindi",
-            "unknown": "{resource_name} tarafından {user_name} tarafından etkinlik tespit edildi"
+            "unknown": "{resource_name} tarafından {user_name} tarafından etkinlik algılandı"
          }
       },
       "sales_by_category": {
@@ -563,6 +505,18 @@
          }
       }
    },
+   "address": {
+      "select_country": "Ülke Seçin",
+      "table": {
+         "headers": {
+            "address_name": "Adres Adı",
+            "country": "Ülke",
+            "city": "Şehir",
+            "district": "İlçe",
+            "created_at": "Oluşturulma Tarihi"
+         }
+      }
+   },
    "audit_log": {
       "no_changes_detected": "Değişiklik tespit edilmedi",
       "add": "Ekle",
@@ -574,7 +528,7 @@
          "headers": {
             "resource": "Kaynak",
             "operation": "İşlem",
-            "user_who_performed": "Yapılan Kullanıcı",
+            "user_who_performed": "Yapan Kullanıcı",
             "created_at": "Oluşturulma Tarihi",
             "user_who_reverted": "İptal Eden Kullanıcı",
             "reverted_at": "İptal Tarihi"
@@ -612,7 +566,7 @@
             "created_at": "Oluşturulma Tarihi"
          }
       },
-      "general_info": "Genel Bilgiler",
+      "general_info": "Genel Bilgi",
       "addresses": "Adresler",
       "gender": {
          "male": "Erkek",
@@ -625,40 +579,21 @@
          "select_category": "Kategori Seçin"
       }
    },
-   "address": {
-      "select_country": "",
+   "user": {
       "table": {
          "headers": {
-            "address_name": "",
-            "country": "",
-            "city": "",
-            "district": "",
-            "created_at": ""
-         }
-      }
-   },
-   "kullanici": {
-      "tablo": {
-         "basliklar": {
-            "adi": "",
-            "eposta": "",
-            "olusturulma_tarihi": "",
-            "isim": "",
-            "email": ""
+            "name": "Ad",
+            "email": "E-posta",
+            "created_at": "Oluşturulma Tarihi"
          }
       },
-      "ekle_veya_guncelle": {
-         "sekme": {
-            "genel_bilgiler": ""
+      "upsert": {
+         "tabs": {
+            "general_info": "Genel Bilgiler"
          }
       },
-      "genel_bilgiler": "",
-      "guclendirme": "",
-      "ekle_guncelle": {
-         "sekme": {
-            "genel_bilgiler": ""
-         }
-      }
+      "general_info": "Genel Bilgiler",
+      "security": "Güvenlik"
    },
    "record": {
       "table": {
@@ -687,7 +622,7 @@
                "unit_cost": "Birim Fiyatı",
                "quantity": "Miktar",
                "vendor": "Tedarikçi",
-               "stocked_at": "Stokta Olan Tarih"
+               "stocked_at": "Stokta"
             }
          }
       },
@@ -698,7 +633,7 @@
                "serial_number": "Seri Numarası",
                "unit_cost": "Birim Fiyatı",
                "vendor": "Tedarikçi",
-               "stocked_at": "Stokta Olan Tarih"
+               "stocked_at": "Stokta"
             }
          }
       },
@@ -719,7 +654,7 @@
                "unit_cost": "Birim Fiyatı",
                "quantity": "Miktar",
                "vendor": "Tedarikçi",
-               "stocked_at": "Stokta Olan Tarih"
+               "stocked_at": "Stokta"
             }
          }
       },
@@ -730,27 +665,68 @@
                "unit_cost": "Birim Fiyatı",
                "quantity": "Miktar",
                "vendor": "Tedarikçi",
-               "stocked_at": "Stokta Olan Tarih"
+               "stocked_at": "Stokta"
             }
          }
       },
       "information": "Bilgi",
-      "financial": "Finansal"
+      "financial": "Finans"
    },
-   "user": {
-      "table": {
-         "headers": {
-            "name": "",
-            "email": "",
-            "created_at": ""
+   "auth": {
+      "branch": "Şube",
+      "welcome": {
+         "title": "Hoş geldiniz",
+         "text": "Kulaklık CRM Uygulamasına Hoş Geldiniz"
+      },
+      "please_dont_forget_to_update_your_password": "Lütfen şifrenizi güncellemeyi unutmayınız",
+      "confirm": {
+         "logout": {
+            "question": "Çıkış yapmak istediğinize emin misiniz?",
+            "header": "Çıkış"
          }
       },
-      "upsert": {
-         "tabs": {
-            "general_info": ""
+      "toast": {
+         "welcome": "Hoş geldiniz",
+         "goodby": "Görüşmek üzere"
+      },
+      "forgot_password": {
+         "confirm": {
+            "header": "Şifremi Unuttum"
          }
       },
-      "general_info": "",
-      "security": ""
+      "otp": {
+         "forgot_password": {
+            "password_reset_email_sended_please_check_your_email": "Şifre sıfırlama e-postası gönderildi, lütfen e-postanızı kontrol ediniz",
+            "lets_get_your_account_back!💪": "Hesabınıza tekrar erişelim!💪"
+         },
+         "resend_code": {
+            "confirm": {
+               "title": "Kodu Tekrar Gönder"
+            },
+            "toast": {
+               "code_sended": "Kod gönderildi"
+            },
+            "code_verified": "Kod doğrulandı"
+         },
+         "invite_code": {
+            "so_you_are_invited!🎊": "Sizi davet ettiler!🎊",
+            "please_enter_the_code_in_email_to_login": "Giriş yapmak için e-postadaki kodu giriniz"
+         }
+      },
+      "login": {
+         "welcome_back": "Hoş geldiniz",
+         "please_login_to_continue": "Devam etmek için lütfen giriş yapınız",
+         "forgot_your_password?": "Şifrenizi unuttunuz mı?",
+         "do_you_have_invite_code?": "Davet kodunuz var mı?"
+      },
+      "logout": {
+         "logged_out_successfully": "Başarıyla çıkış yapıldı"
+      },
+      "register": {
+         "create_account": "Hesap Oluştur",
+         "create_an_account_and_join_us": "Bize katılmak için bir hesap oluşturun",
+         "account_info": "Hesap Bilgileri",
+         "company_info": "Şirket Bilgileri"
+      }
    }
 }

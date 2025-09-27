@@ -61,7 +61,6 @@
             "ko": "Coreano"
          },
          "select_language": "Seleccionar idioma",
-         "translated_using_AI": "Traducido usando IA",
          "translated_using_artificial_intelligence": "Traducido utilizando inteligencia artificial"
       },
       "app_settings": "Configuración de la aplicación",
@@ -418,22 +417,6 @@
          }
       }
    },
-   "user": {
-      "table": {
-         "headers": {
-            "name": "Nombre",
-            "email": "Correo electrónico",
-            "created_at": "Fecha de creación"
-         }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "Información general"
-         }
-      },
-      "general_info": "Información general",
-      "security": "Seguridad"
-   },
    "fields": {
       "": "",
       "device": "Dispositivo",
@@ -538,46 +521,58 @@
       "unit_discount": "Descuento unitario",
       "unit_tax": "Impuesto unitario",
       "total_cost": "Costo total",
-      "tenant": "Inquilino",
+      "tenant": "",
       "branch": "Sucursal",
-      "user": "Usuario",
-      "tenant_user": "Usuario de la sucursal",
-      "tenant_owner": "Propietario del inquilino",
-      "address": "Dirección",
-      "role_permission": "Permiso del rol",
-      "user_role": "Rol del usuario",
-      "client": "Cliente",
-      "product": "Producto",
-      "product_category": "Categoría de producto",
-      "product_categories": "Categorías de producto",
-      "stock": "Stock",
-      "record": "Registro",
-      "client_address": "Dirección del cliente",
-      "audit_config": "Configuración de auditoría",
-      "audit_log": "Registro de auditoría",
-      "product_brands": "Marcas de producto",
-      "stock_view": "Vista del stock",
-      "stock_vendor": "Proveedor del stock",
-      "stock_vendor_stat": "Estadísticas del proveedor del stock",
-      "stock_product_stat": "Estadísticas del producto del stock",
-      "client_address_view": "Vista de la dirección del cliente",
-      "audit_log_group": "Grupo de registro de auditoría",
-      "parent_id": "ID del padre",
-      "user_id": "ID del usuario",
-      "tenant_id": "ID del inquilino",
-      "role_id": "ID del rol",
-      "permission_id": "ID del permiso",
-      "unit_type": "Tipo de unidad",
-      "category_id": "ID de la categoría",
-      "address_id": "ID de la dirección",
-      "address_tenant_id": "ID del inquilino de la dirección",
-      "client_national_id": "Identificación nacional del cliente",
-      "client_tenant_id": "ID del inquilino del cliente",
-      "correlation_id": "ID de correlación",
-      "request_id": "ID de la solicitud",
+      "user": "",
+      "tenant_user": "Usuario de Sucursal",
+      "tenant_owner": "",
+      "address": "",
+      "role_permission": "",
+      "user_role": "",
+      "client": "",
+      "product": "",
+      "product_category": "",
+      "product_categories": "",
+      "stock": "",
+      "record": "",
+      "client_address": "",
+      "audit_config": "",
+      "audit_log": "",
+      "product_brands": "",
+      "stock_view": "",
+      "stock_vendor": "",
+      "stock_vendor_stat": "",
+      "stock_product_stat": "",
+      "client_address_view": "",
+      "audit_log_group": "",
+      "parent_id": "",
+      "user_id": "",
+      "tenant_id": "",
+      "role_id": "",
+      "permission_id": "",
+      "unit_type": "",
+      "category_id": "",
+      "address_id": "",
+      "address_tenant_id": "",
+      "client_national_id": "",
+      "client_tenant_id": "",
+      "correlation_id": "",
+      "request_id": "",
       "display_name": "Nombre",
-      "id": "ID",
-      "created_at": "Creado en"
+      "id": "",
+      "created_at": ""
+   },
+   "address": {
+      "select_country": "Seleccionar país",
+      "table": {
+         "headers": {
+            "address_name": "Nombre del domicilio",
+            "country": "País",
+            "city": "Ciudad",
+            "district": "Distrito",
+            "created_at": "Creado en"
+         }
+      }
    },
    "audit_log": {
       "no_changes_detected": "No se detectaron cambios",
@@ -590,14 +585,14 @@
          "headers": {
             "resource": "Recursos",
             "operation": "Operación",
-            "user_who_performed": "Usuario que realizó la acción",
+            "user_who_performed": "Usuario que realizó",
             "created_at": "Creado en",
-            "user_who_reverted": "Usuario que deshizo la acción",
-            "reverted_at": "Deshizo en"
+            "user_who_reverted": "Usuario que reversionó",
+            "reverted_at": "Reversionado en"
          }
       },
-      "already_reverted": "Ya se ha deshecho",
-      "attempt_to_revert": "Intentar deshacer",
+      "already_reverted": "Ya se ha revertido",
+      "attempt_to_revert": "Intentar revertir",
       "added": "Añadido",
       "updated": "Actualizado",
       "deleted": "Eliminado",
@@ -641,17 +636,21 @@
          "select_category": "Seleccionar categoría"
       }
    },
-   "address": {
-      "select_country": "",
+   "user": {
       "table": {
          "headers": {
-            "address_name": "",
-            "country": "",
-            "city": "",
-            "district": "",
-            "created_at": ""
+            "name": "Nombre",
+            "email": "Correo electrónico",
+            "created_at": "Creado en"
          }
-      }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "Información general"
+         }
+      },
+      "general_info": "Información general",
+      "security": "Seguridad"
    },
    "record": {
       "table": {
@@ -659,15 +658,15 @@
             "product": "Producto",
             "client": "Cliente",
             "quantity": "Cantidad",
-            "bid": "ID de Registro",
-            "created_at": "Fecha de Creación",
-            "record_type": "Tipo de Registro",
-            "record_status": "Estado del Registro"
+            "bid": "ID de oferta",
+            "created_at": "Creado en",
+            "record_type": "Tipo de registro",
+            "record_status": "Estado del registro"
          }
       },
       "tab": {
          "record": "Registro",
-         "ear_device": "Dispositivo Auditivo"
+         "ear_device": "Dispositivo auditivo"
       },
       "information": "Información",
       "financial": "Financiero"

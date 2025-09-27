@@ -28,7 +28,6 @@
             "ko": "Korean",
             "es": "Spanish"
          },
-         "translated_using_AI": "Translated Using AI",
          "translated_using_artificial_intelligence": "Translated Using Artificial Intelligence"
       },
       "sidebar": {
@@ -202,7 +201,7 @@
       "unit_discount": "Unit Discount",
       "unit_tax": "Unit Tax",
       "total_cost": "Total Cost",
-      "none": "",
+      "none": "None",
       "tenant": "Tenant",
       "branch": "Branch",
       "user": "User",
@@ -235,9 +234,9 @@
       "unit_type": "Unit Type",
       "category_id": "Category",
       "address_id": "Address",
-      "address_tenant_id": "Address Tenant",
+      "address_tenant_id": "Tenant",
       "client_national_id": "National ID",
-      "client_tenant_id": "Client Tenant",
+      "client_tenant_id": "Tenant",
       "correlation_id": "Correlation",
       "request_id": "Request",
       "display_name": "Name",
@@ -563,24 +562,20 @@
          }
       }
    },
-   "user": {
+   "address": {
+      "select_country": "Select Country",
       "table": {
          "headers": {
-            "name": "Name",
-            "email": "Email",
+            "address_name": "Address Name",
+            "country": "Country",
+            "city": "City",
+            "district": "District",
             "created_at": "Created At"
          }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "General Information"
-         }
-      },
-      "general_info": "General Information",
-      "security": "Security"
+      }
    },
    "audit_log": {
-      "no_changes_detected": "No Changes Detected",
+      "no_changes_detected": "No changes detected",
       "add": "Add",
       "update": "Update",
       "delete": "Delete",
@@ -641,17 +636,21 @@
          "select_category": "Select Category"
       }
    },
-   "address": {
-      "select_country": "",
+   "user": {
       "table": {
          "headers": {
-            "address_name": "",
-            "country": "",
-            "city": "",
-            "district": "",
-            "created_at": ""
+            "name": "Name",
+            "email": "Email",
+            "created_at": "Created At"
          }
-      }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "General Information"
+         }
+      },
+      "general_info": "General Information",
+      "security": "Security"
    },
    "record": {
       "table": {

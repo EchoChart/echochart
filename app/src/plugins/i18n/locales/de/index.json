@@ -28,7 +28,6 @@
             "ko": "Koreanisch",
             "es": "Spanisch"
          },
-         "translated_using_AI": "Übersetzt mit KI",
          "translated_using_artificial_intelligence": "Übersetzt mit Künstlicher Intelligenz"
       },
       "sidebar": {
@@ -202,7 +201,7 @@
       "unit_discount": "Einheitsrabatt",
       "unit_tax": "Einheitssteuer",
       "total_cost": "Gesamtkosten",
-      "none": "",
+      "none": "Keine",
       "tenant": "Mandant",
       "branch": "Filiale",
       "user": "Benutzer",
@@ -219,14 +218,14 @@
       "record": "Aufzeichnung",
       "client_address": "Kundenadresse",
       "audit_config": "Audit-Konfiguration",
-      "audit_log": "Audit-Protokoll",
+      "audit_log": "Audit-Log",
       "product_brands": "Produktmarken",
       "stock_view": "Lageransicht",
       "stock_vendor": "Lagerlieferant",
       "stock_vendor_stat": "Lagerlieferant Statistik",
       "stock_product_stat": "Lagerprodukt Statistik",
       "client_address_view": "Kundenadresse-Ansicht",
-      "audit_log_group": "Audit-Protokollgruppe",
+      "audit_log_group": "Audit-Log-Gruppe",
       "parent_id": "Übergeordneter ID",
       "user_id": "Benutzer-ID",
       "tenant_id": "Mandant-ID",
@@ -543,7 +542,7 @@
          "older": "Älter",
          "title": "Benachrichtigungen",
          "activity": {
-            "created": "neues {resource_name} von {user_name} erstellt",
+            "created": "neuer {resource_name} von {user_name} erstellt",
             "updated": "ein {resource_name} von {user_name} aktualisiert",
             "deleted": "ein {resource_name} von {user_name} gelöscht",
             "unknown": "Aktivität erkannt in {resource_name} von {user_name}"
@@ -563,28 +562,24 @@
          }
       }
    },
-   "user": {
+   "address": {
+      "select_country": "Land auswählen",
       "table": {
          "headers": {
-            "name": "Name",
-            "email": "E-Mail",
+            "address_name": "Adresse",
+            "country": "Land",
+            "city": "Stadt",
+            "district": "Bezirk",
             "created_at": "Erstellt am"
          }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "Allgemeine Informationen"
-         }
-      },
-      "general_info": "Allgemeine Informationen",
-      "security": "Sicherheit"
+      }
    },
    "audit_log": {
       "no_changes_detected": "Keine Änderungen erkannt",
       "add": "Hinzufügen",
       "update": "Aktualisieren",
       "delete": "Löschen",
-      "read": "Lesen",
+      "read": "Einsehen",
       "select_operation": "Operation auswählen",
       "table": {
          "headers": {
@@ -601,10 +596,10 @@
       "added": "Hinzugefügt",
       "updated": "Aktualisiert",
       "deleted": "Gelöscht",
-      "readed": "Gelesen"
+      "readed": "Eingeschaut"
    },
    "client": {
-      "select_client": "Kunde auswählen",
+      "select_client": "Kunden auswählen",
       "address": {
          "table": {
             "headers": {
@@ -641,17 +636,21 @@
          "select_category": "Kategorie auswählen"
       }
    },
-   "address": {
-      "select_country": "",
+   "user": {
       "table": {
          "headers": {
-            "address_name": "",
-            "country": "",
-            "city": "",
-            "district": "",
-            "created_at": ""
+            "name": "Name",
+            "email": "E-Mail",
+            "created_at": "Erstellt am"
          }
-      }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "Allgemeine Informationen"
+         }
+      },
+      "general_info": "Allgemeine Informationen",
+      "security": "Sicherheit"
    },
    "record": {
       "table": {
@@ -659,7 +658,7 @@
             "product": "Produkt",
             "client": "Kunde",
             "quantity": "Menge",
-            "bid": "Botschaft",
+            "bid": "BID",
             "created_at": "Erstellt am",
             "record_type": "Aufzeichnungstyp",
             "record_status": "Aufzeichnungsstatus"
@@ -667,7 +666,7 @@
       },
       "tab": {
          "record": "Aufzeichnung",
-         "ear_device": "Ohrentspiegelgerät"
+         "ear_device": "Ohrendevice"
       },
       "information": "Information",
       "financial": "Finanzen"
@@ -691,7 +690,7 @@
                "serial_number": "Seriennummer",
                "unit_cost": "Einzelkosten",
                "vendor": "Lieferant",
-               "stocked_at": "Lagerort"
+               "stocked_at": "Lagerdatum"
             }
          }
       },

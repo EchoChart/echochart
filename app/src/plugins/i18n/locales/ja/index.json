@@ -28,7 +28,6 @@
             "ko": "韓国語",
             "es": "スペイン語"
          },
-         "translated_using_AI": "AIにより翻訳されました",
          "translated_using_artificial_intelligence": "人工知能により翻訳されました"
       },
       "sidebar": {
@@ -222,8 +221,8 @@
       "audit_log": "監査ログ",
       "product_brands": "製品ブランド",
       "stock_view": "在庫表示",
-      "stock_vendor": "在庫販売元",
-      "stock_vendor_stat": "在庫販売元統計",
+      "stock_vendor": "在庫業者",
+      "stock_vendor_stat": "在庫業者統計",
       "stock_product_stat": "在庫製品統計",
       "client_address_view": "クライアント住所表示",
       "audit_log_group": "監査ロググループ",
@@ -543,10 +542,10 @@
          "older": "以前",
          "title": "通知",
          "activity": {
-            "created": "新規 {resource_name} が {user_name} によって作成されました",
-            "updated": "{resource_name} が {user_name} によって更新されました",
-            "deleted": "{resource_name} が {user_name} によって削除されました",
-            "unknown": "{resource_name} において {user_name} によるアクティビティが検出されました"
+            "created": "new {resource_name} created by {user_name}",
+            "updated": "a {resource_name} updated by {user_name}",
+            "deleted": "a {resource_name} deleted by {user_name}",
+            "unknown": "activity detected in {resource_name} by {user_name}"
          }
       },
       "sales_by_category": {
@@ -563,21 +562,17 @@
          }
       }
    },
-   "user": {
+   "address": {
+      "select_country": "国を選択",
       "table": {
          "headers": {
-            "name": "名前",
-            "email": "メールアドレス",
+            "address_name": "住所名",
+            "country": "国",
+            "city": "市",
+            "district": "区",
             "created_at": "作成日時"
          }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "一般情報"
-         }
-      },
-      "general_info": "一般情報",
-      "security": "セキュリティ"
+      }
    },
    "audit_log": {
       "no_changes_detected": "変更が検出されませんでした",
@@ -621,7 +616,7 @@
          "headers": {
             "client": "クライアント",
             "nationality": "国籍",
-            "national_id": "国籍ID",
+            "national_id": "国番号",
             "birth_date": "生年月日",
             "email": "メールアドレス",
             "phone": "電話番号",
@@ -636,22 +631,26 @@
       }
    },
    "product": {
-      "select_product": "製品を選択してください",
+      "select_product": "{product_name}",
       "category": {
-         "select_category": "カテゴリを選択してください"
+         "select_category": "{category_name}"
       }
    },
-   "address": {
-      "select_country": "",
+   "user": {
       "table": {
          "headers": {
-            "address_name": "",
-            "country": "",
-            "city": "",
-            "district": "",
-            "created_at": ""
+            "name": "名前",
+            "email": "メールアドレス",
+            "created_at": "作成日時"
          }
-      }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "一般情報"
+         }
+      },
+      "general_info": "一般情報",
+      "security": "セキュリティ"
    },
    "record": {
       "table": {
@@ -691,7 +690,8 @@
                "serial_number": "シリアル番号",
                "unit_cost": "単価",
                "vendor": "販売元",
-               "stocked_at": "在庫場所"
+               "stocked_at": "",
+               "stock,ed_at": "在庫場所"
             }
          }
       },
