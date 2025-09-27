@@ -2,6 +2,7 @@
 import ResourceTable, {
    ResourceTableProps
 } from '@/components/service-components/resource-table/ResourceTable.vue';
+import { RECORD_STATUSES, RECORD_TYPES } from '@/constants/form/record';
 import Collection from '@/lib/Collection';
 import Upsert from '@/views/pages/record/upsert/index.vue';
 import { useI18n } from 'vue-i18n';
@@ -12,30 +13,37 @@ defineOptions({
 
 const attrs = useAttrs();
 const router = useRouter();
-const route = useRoute();
 
 const { t } = useI18n();
 
 const props = withDefaults(
    defineProps<{
       record_type?: T['record_type'];
+      record_status?: T['record_status'];
    }>(),
    {
-      record_type: null
+      record_type: null,
+      record_status: null
    }
 );
 
 const columns = computed<ResourceTableProps['columns']>(() => [
    {
-      field: 'stock.display_name',
-      sortable: true,
-      header: t('record.table.headers.product')
-   },
-   {
       field: 'record_type',
       sortable: true,
       showFilterMenu: _isNil(props.record_type),
       header: t('record.table.headers.record_type')
+   },
+   {
+      field: 'record_status',
+      sortable: true,
+      showFilterMenu: _isNil(props.record_status),
+      header: t('record.table.headers.record_status')
+   },
+   {
+      field: 'stock.display_name',
+      sortable: true,
+      header: t('record.table.headers.product')
    },
    {
       field: 'client.display_name',
@@ -55,7 +63,8 @@ const columns = computed<ResourceTableProps['columns']>(() => [
    {
       field: 'created_at',
       sortable: true,
-      header: t('record.table.headers.created_at')
+      header: t('record.table.headers.created_at'),
+      sortOrder: { value: -1 }
    }
 ]);
 
@@ -74,7 +83,11 @@ const filters = ref<ResourceTableProps['filters']>({
    },
    record_type: {
       operator: FilterOperator.AND,
-      constraints: [{ value: props.record_type, matchMode: FilterMatchMode.STARTS_WITH }]
+      constraints: [{ value: props.record_type, matchMode: FilterMatchMode.EQUALS }]
+   },
+   record_status: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: props.record_status, matchMode: FilterMatchMode.EQUALS }]
    },
    quantity: {
       operator: FilterOperator.AND,
@@ -132,10 +145,12 @@ const dialogRef = inject('dialogRef', false);
       :is="ResourceTable<T>"
       :stateKey
       :from="'record'"
-      :select="'*,stock:stock_view!inner(display_name), client!inner(display_name)'"
+      :useMeta="!(record_type || record_status)"
+      :select="'*,stock:stock_view!inner(id,display_name,unit_type), client!inner(id,display_name,email)'"
       :columns="columns"
       :rowActions="rowActions._data"
       v-model:filters="filters"
+      v-bind="$attrs"
    >
       <template #header>
          <Teleport to="#page-toolbar" :disabled="dialogRef">
@@ -157,6 +172,76 @@ const dialogRef = inject('dialogRef', false);
             ($te('fields.' + _get(data, field)) && $t('fields.' + _get(data, field))) ||
             _get(data, field)
          }}
+      </template>
+      <template #record_type_filter="{ filterModel }">
+         <Select
+            :options="RECORD_TYPES"
+            :option-label="'label'"
+            :option-value="'value'"
+            v-model="filterModel.value"
+         />
+      </template>
+      <template #record_status_filter="{ filterModel }" v-if="record_type">
+         <Select
+            :options="_get(RECORD_STATUSES, record_type as string, _get(RECORD_STATUSES, 'common'))"
+            :option-label="'label'"
+            :option-value="'value'"
+            v-model="filterModel.value"
+         />
+      </template>
+
+      <template v-if="$can('read', 'client')" #client_display_name_body="{ data, field }">
+         <CustomLink
+            v-if="_get(data, `client.id`)"
+            :to="{
+               name: 'client-manage',
+               params: { id: _get(data, `client.id`) },
+               query: { showDialog: 'center' }
+            }"
+            v-slot="{ navigate }"
+         >
+            <Button
+               variant="link"
+               size="small"
+               class="!text-left"
+               raised
+               :label="_get(data, `client.display_name`) || _get(data, `client.email`)"
+               @click="navigate"
+            />
+         </CustomLink>
+      </template>
+      <template v-if="$can('read', 'stock')" #stock_display_name_body="{ data, field }">
+         <CustomLink
+            v-if="_get(data, `stock.id`)"
+            :to="{
+               name: 'stock-edit',
+               params: { id: _get(data, `stock.id`) },
+               query: { showDialog: 'center' }
+            }"
+            v-slot="{ navigate }"
+         >
+            <Button
+               variant="link"
+               size="small"
+               class="!text-left"
+               raised
+               :label="_get(data, `stock.display_name`)"
+               @click="navigate"
+            />
+         </CustomLink>
+      </template>
+      <template #quantity_body="{ data, field }">
+         <span v-text="`${_get(data, field)} ${$t('fields.' + _get(data, 'stock.unit_type'))}`" />
+      </template>
+      <template #bid_body="{ data, field }">
+         <span
+            v-text="
+               _get(data, field)?.toLocaleString?.(undefined, {
+                  style: 'currency',
+                  currency: _get(data, 'currency_code')
+               })
+            "
+         />
       </template>
    </component>
 </template>
