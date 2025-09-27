@@ -122,8 +122,8 @@ form._setRules(
             device_side: isDeviceSideRequired ? 'required' : '',
             repair_fee: 'required_if:record_type,repair',
             insurance_type: 'required_if:record_type,sale',
-            insurance_contribution: 'required_if:record_type,sale',
-            client_insurance_contribution: 'required_if:record_type,sale'
+            insurance_contribution: 'required_with:insurance_type',
+            client_insurance_contribution: 'required_with:insurance_type'
          }
       };
 

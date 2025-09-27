@@ -121,9 +121,9 @@ const calcFinancials = (total: number, discountPercentage: number, taxPercentage
    const new_tax = (new_bid - new_bid_discount) * t;
 
    form._merge({
-      bid: new_bid || 0,
-      bid_discount: new_bid_discount || 0,
-      tax: new_tax || 0
+      bid: _toNumber(new_bid?.toFixed?.(2)) || 0,
+      bid_discount: _toNumber(new_bid_discount?.toFixed?.(2)) || 0,
+      tax: _toNumber(new_tax?.toFixed?.(2)) || 0
    });
 };
 
@@ -253,7 +253,8 @@ const tax = computed({
          >
             <InputNumber
                v-bind="slotProps"
-               v-model="form.quantity"
+               :model-value="form.quantity"
+               @value-change="form._set(`quantity`, $event?.toFixed?.(2))"
                :max-fraction-digits="form.stock?.unit_type === 'pcs' ? 0 : 2"
                :min="0"
                :max="availableQuantity"
@@ -312,106 +313,122 @@ const tax = computed({
                fluid
                :error="form?._errors?.first('bid')"
                :label="$t('fields.bid')"
-               v-slot="slotProps"
             >
-               <InputNumber
-                  v-bind="slotProps"
-                  v-model="form.bid"
-                  :mode="form.currency_code ? 'currency' : 'decimal'"
-                  :currency="form.currency_code || undefined"
-                  :max-fraction-digits="2"
-                  :min="0"
-                  :step="0.01"
-                  showButtons
-               />
+               <template #label="slotProps">
+                  <label v-bind="slotProps" v-text="`➕ ${slotProps.label}`" />
+               </template>
+               <template #default="slotProps">
+                  <InputNumber
+                     v-bind="slotProps"
+                     v-model="form.bid"
+                     :mode="form.currency_code ? 'currency' : 'decimal'"
+                     :currency="form.currency_code || undefined"
+                     :max-fraction-digits="2"
+                     :min="0"
+                     :step="0.01"
+                     showButtons
+                  />
+               </template>
             </FormField>
             <FormField
                :readonly
                fluid
                :error="form?._errors?.first('bid_discount')"
                :label="$t('fields.bid_discount')"
-               v-slot="slotProps"
             >
-               <InputGroup>
-                  <InputNumber
-                     v-bind="slotProps"
-                     :model-value="form.bid_discount"
-                     @value-change="calcFinancials(total_bid, ($event / form.bid) * 100, tax)"
-                     :max-fraction-digits="2"
-                     :min="0"
-                     :max="form.bid"
-                     :step="0.01"
-                     showButtons
-                  />
-                  <InputGroupAddon class="!p-0">
+               <template #label="slotProps">
+                  <label v-bind="slotProps" v-text="`➖ ${slotProps.label}`" />
+               </template>
+               <template #default="slotProps">
+                  <InputGroup>
                      <InputNumber
-                        v-model="discount"
-                        class="!w-28"
+                        v-bind="slotProps"
+                        :model-value="form.bid_discount"
+                        @value-change="calcFinancials(total_bid, ($event / form.bid) * 100, tax)"
                         :max-fraction-digits="2"
                         :min="0"
-                        :max="100"
-                        :suffix="'%'"
-                        :step="1"
+                        :max="form.bid"
+                        :step="0.01"
                         showButtons
                      />
-                  </InputGroupAddon>
-               </InputGroup>
+                     <InputGroupAddon class="!p-0">
+                        <InputNumber
+                           v-model="discount"
+                           class="!w-28"
+                           :max-fraction-digits="2"
+                           :min="0"
+                           :max="100"
+                           :suffix="'%'"
+                           :step="1"
+                           showButtons
+                        />
+                     </InputGroupAddon>
+                  </InputGroup>
+               </template>
             </FormField>
             <FormField
                :readonly
                fluid
                :error="form?._errors?.first('tax')"
                :label="$t('fields.tax')"
-               v-slot="slotProps"
             >
-               <InputGroup>
-                  <InputNumber
-                     v-bind="slotProps"
-                     :model-value="form.tax"
-                     @value-change="
-                        calcFinancials(
-                           total_bid,
-                           discount,
-                           ($event / (form.bid - form.bid_discount)) * 100
-                        )
-                     "
-                     :max-fraction-digits="2"
-                     :min="0"
-                     :max="form.bid"
-                     :step="0.01"
-                     showButtons
-                  />
-                  <InputGroupAddon class="!p-0">
+               <template #label="slotProps">
+                  <label v-bind="slotProps" v-text="`➕ ${slotProps.label}`" />
+               </template>
+               <template #default="slotProps">
+                  <InputGroup>
                      <InputNumber
-                        class="!w-28"
-                        v-model="tax"
+                        v-bind="slotProps"
+                        :model-value="form.tax"
+                        @value-change="
+                           calcFinancials(
+                              total_bid,
+                              discount,
+                              ($event / (form.bid - form.bid_discount)) * 100
+                           )
+                        "
                         :max-fraction-digits="2"
                         :min="0"
-                        :max="100"
-                        :suffix="'%'"
-                        :step="1"
+                        :max="form.bid"
+                        :step="0.01"
                         showButtons
                      />
-                  </InputGroupAddon>
-               </InputGroup>
+                     <InputGroupAddon class="!p-0">
+                        <InputNumber
+                           class="!w-28"
+                           v-model="tax"
+                           :max-fraction-digits="2"
+                           :min="0"
+                           :max="100"
+                           :suffix="'%'"
+                           :step="1"
+                           showButtons
+                        />
+                     </InputGroupAddon>
+                  </InputGroup>
+               </template>
             </FormField>
             <FormField
                :readonly
                fluid
                :error="form?._errors?.first('total_bid')"
                :label="$t('fields.total_bid')"
-               v-slot="slotProps"
             >
-               <InputNumber
-                  v-bind="slotProps"
-                  v-model="total_bid"
-                  :max-fraction-digits="2"
-                  :mode="form.currency_code ? 'currency' : 'decimal'"
-                  :currency="form.currency_code || undefined"
-                  :min="0"
-                  :step="0.01"
-                  showButtons
-               />
+               <template #label="slotProps">
+                  <label v-bind="slotProps" v-text="`🟰  ${slotProps.label}`" />
+               </template>
+               <template #default="slotProps">
+                  <InputNumber
+                     v-bind="slotProps"
+                     v-model="total_bid"
+                     :max-fraction-digits="2"
+                     :mode="form.currency_code ? 'currency' : 'decimal'"
+                     :currency="form.currency_code || undefined"
+                     :min="0"
+                     :step="0.01"
+                     showButtons
+                  />
+               </template>
             </FormField>
          </span>
 
@@ -429,7 +446,8 @@ const tax = computed({
                   option-value="value"
                   :options="[
                      { label: $t('fields.retired'), value: 'retired' },
-                     { label: $t('fields.worker'), value: 'worker' }
+                     { label: $t('fields.worker'), value: 'worker' },
+                     { label: $t('fields.none'), value: null }
                   ]"
                   v-model="form.attributes.insurance_type"
                />
