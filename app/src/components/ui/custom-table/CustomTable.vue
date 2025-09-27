@@ -29,6 +29,7 @@ export declare type CustomTableProps<T = any> = DataTableProps<T> & {
          };
    };
    dateFormat?: string;
+   enableExpansion?: boolean;
 };
 export declare type CustomTableEmitOptions<T = any> = {
    meta: [value: CustomTableMetaEvent<T>];
@@ -43,7 +44,10 @@ export declare type CustomTableMetaEvent<T = any> = Partial<
 >;
 
 export declare type UseTableMetaOptions<T = any> = Required<
-   Pick<CustomTableProps<T>, 'useMeta' | 'columns' | 'filters' | 'stateKey' | 'rows'>
+   Pick<
+      CustomTableProps<T>,
+      'stateStorage' | 'useMeta' | 'columns' | 'filters' | 'stateKey' | 'rows'
+   >
 >;
 
 export declare type CustomTableSlots<T = any> = DataTableSlots<T> & {
@@ -66,8 +70,10 @@ defineOptions({
 const props = withDefaults(defineProps<CustomTableProps<T>>(), {
    showHeaders: true,
    showGridlines: true,
+   stateStorage: undefined,
    translateValue: true,
-   dateFormat: 'LL LTS'
+   dateFormat: 'LL LTS',
+   enableExpansion: true
 });
 
 const emit = defineEmits<CustomTableEmitOptions<T>>();
@@ -98,13 +104,22 @@ const filterInput = computed({
 });
 
 const selection = defineModel<CustomTableProps<T>['selection']>('selection');
+const rows = defineModel<CustomTableProps<T>['rows']>('rows');
 
 const values = defineModel<CustomTableProps<T>['value']>('value');
 
 const dialogRef = inject('dialogRef', null as any);
 
-function useTableMeta({ useMeta, columns, filters, stateKey, rows }: UseTableMetaOptions<T>) {
-   const stateStorage = !dialogRef?.value && useMeta ? 'local' : 'session';
+function useTableMeta({
+   stateStorage,
+   useMeta,
+   columns,
+   filters,
+   stateKey,
+   ...rest
+}: UseTableMetaOptions<T>) {
+   stateStorage ??= props.stateStorage || (!dialogRef?.value && useMeta) ? 'local' : 'session';
+
    const metaStateKey = 'dt-' + (stateStorage === 'local' ? stateKey : _uniqueId());
    const routeMeta = computed<CustomTableMetaEvent<T>>(() => {
       const json = (route.query?.meta as string) || compressToEncodedURIComponent('{}');
@@ -115,7 +130,7 @@ function useTableMeta({ useMeta, columns, filters, stateKey, rows }: UseTableMet
    const initialValue: Partial<DataTableStateEvent> = {
       expandedRows: {},
       expandedRowGroups: [],
-      rows: rows,
+      rows: rest.rows,
       multiSortMeta: _chain(columns)
          .filter(({ sortField, field, sortOrder }) => (!!sortField || !!field) && !!sortOrder)
          .sortBy(({ sortOrder }) => sortOrder?.value || 0)
@@ -126,6 +141,8 @@ function useTableMeta({ useMeta, columns, filters, stateKey, rows }: UseTableMet
          .value() as DataTableSortMeta[]
    };
    const storageOptions = { mergeDefaults: true, writeDefaults: true };
+
+   if (stateStorage === 'session') sessionStorage?.clear(metaStateKey);
 
    const meta = <RemovableRef<CustomTableMetaEvent<T>>>(
       (stateStorage === 'local' ? useLocalStorage : useSessionStorage)?.(
@@ -157,13 +174,21 @@ function useTableMeta({ useMeta, columns, filters, stateKey, rows }: UseTableMet
             }
          });
       }
-      emit('meta', meta.value);
    };
+
+   const emitMeta = (meta: CustomTableMetaEvent) => emit('meta', meta);
 
    watch(
       () => _pick(meta.value, ['filters', 'rows', 'first', 'multiSortMeta']),
-      _throttle(onMeta, 500),
-      { deep: true }
+      _throttle(emitMeta, 500),
+      {
+         deep: true
+      }
+   );
+
+   watch(
+      () => rows.value,
+      (r) => _set(meta.value, 'rows', r)
    );
 
    if (stateStorage == 'session') sessionStorage.removeItem(metaStateKey);
@@ -187,18 +212,18 @@ const getFieldValue = (body: any) => {
    if (_endsWith(body.field, '_at') && isValidDate({ value }))
       return localeDateString({ value, validate: false, returnFormat: props.dateFormat });
 
-   return te(value) ? t(value) : value;
+   return te('fields.' + value) ? t('fields.' + value) : value;
 };
 
 const tableValue = computed(() => {
    const dataKey = props.dataKey as string;
-   const res =
-      values.value?.length > 0
-         ? values.value?.filter?.(
-              (v) => !props.frozenValue?.some((f) => _get(f, dataKey) === _get(v, dataKey))
-           )
-         : new Array(props.totalRecords);
-   return res;
+   if (_isNil(values.value) || loading.value) return new Array(meta.value.rows);
+
+   if (values.value?.length)
+      return values.value?.filter?.(
+         (v) => !props.frozenValue?.some((f) => _get(f, dataKey) === _get(v, dataKey))
+      );
+   return [];
 });
 </script>
 
@@ -213,11 +238,11 @@ const tableValue = computed(() => {
             class: 'custom_table__footer'
          }
       }"
+      :stateStorage="stateStorage"
       class="custom_table"
       :rows="meta.rows"
-      :loading="loading"
+      :loading
       selection-mode="radiobutton"
-      :stateStorage
       :state-key="metaStateKey"
       :groupRowsBy="meta.multiSortMeta?.map(({ field }) => field)"
       v-model:filters="filterInput"
@@ -239,7 +264,7 @@ const tableValue = computed(() => {
       >
          <slot v-bind="slotProps" :name="slot" :key="`slot_${slot}`" />
       </template>
-      <template #expansion="slotProps" v-if="!loading">
+      <template #expansion="slotProps" v-if="!loading && enableExpansion">
          <span class="custom_table__expansion" v-if="$slots.expansion">
             <Suspense>
                <slot name="expansion" v-bind="slotProps" />
@@ -256,7 +281,7 @@ const tableValue = computed(() => {
          style="max-width: 4rem !important; width: 4rem !important"
       />
       <Column
-         v-if="$slots.expansion && (frozenValue?.length || tableValue?.length)"
+         v-if="$slots.expansion && enableExpansion && (frozenValue?.length || tableValue?.length)"
          field="_expansion"
          expander
          class="custom_table__column custom_table__column--expander"
@@ -307,7 +332,8 @@ const tableValue = computed(() => {
             <slot :name="`${_snakeCase(slotProps?.field)}_filter`" v-bind="slotProps">
                <FormField fluid v-if="slotProps?.filterModel">
                   <template v-slot="inputProps">
-                     <DatePicker
+                     <div
+                        class="flex flex-col gap-2 items-start"
                         v-if="
                            meta?.filters?.[column?.field.toString()]?.dataType === 'date' ||
                            [
@@ -317,14 +343,25 @@ const tableValue = computed(() => {
                               FilterMatchMode.DATE_AFTER
                            ].includes(slotProps.filterModel.matchMode)
                         "
-                        :selectionMode="'single'"
-                        v-bind="inputProps"
-                        v-model="slotProps.filterModel.value"
-                        showTime
-                        hourFormat="24"
-                        dateFormat="dd/mm/yy"
-                        placeholder="dd/mm/yyyy"
-                     />
+                     >
+                        <DatePicker
+                           :selectionMode="'single'"
+                           v-bind="inputProps"
+                           v-model="slotProps.filterModel.value"
+                           dateFormat="dd/mm/yy"
+                           showButtonBar
+                           placeholder="dd/mm/yyyy"
+                        />
+                        <DatePicker
+                           :selectionMode="'single'"
+                           v-bind="inputProps"
+                           v-model="slotProps.filterModel.value"
+                           timeOnly
+                           showButtonBar
+                           dateFormat="hh:mm"
+                           placeholder="00:00"
+                        />
+                     </div>
                      <InputNumber
                         v-else-if="
                            ['numeric', 'decimal'].includes(
@@ -352,7 +389,7 @@ const tableValue = computed(() => {
             </slot>
          </template>
          <template #body="body" v-if="!column.expander && column?.field.toString()">
-            <Skeleton v-if="loading" :height="'2rem'" />
+            <Skeleton v-if="loading" class="absolute left-0 top-0 right-0 bottom-0 min-h-8" />
             <slot v-else :name="`${_snakeCase(body?.field?.toString())}_body`" v-bind="body">
                <div
                   class="custom_table__cell"
@@ -404,7 +441,7 @@ const tableValue = computed(() => {
    }
 
    &__column {
-      @apply min-w-32;
+      @apply relative min-w-32;
       &--header {
          @apply min-w-[3rem] max-w-[3rem] w-[3rem] !important;
       }
