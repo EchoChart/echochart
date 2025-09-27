@@ -1,11 +1,18 @@
 {
+   "auth": {
+      "welcome": {
+         "title": "Welcome",
+         "text": "Welcome to the Hearing Aid CRM Application"
+      }
+   },
    "fields": {
       "tenant": "",
-      "branch": "Şube",
+      "branch": "Branch",
       "user": "",
-      "tenant_user": "Şube Kullanıcısı",
+      "tenant_user": "Branch User",
       "tenant_owner": "",
       "address": "",
+      "role": "",
       "role_permission": "",
       "user_role": "",
       "client": "",
@@ -41,8 +48,18 @@
       "client_tenant_id": "",
       "correlation_id": "",
       "request_id": "",
-      "display_name": "İsim",
+      "display_name": "Name",
       "id": "",
       "created_at": ""
+   },
+   "dashboard": {
+      "notifications": {
+         "activity": {
+            "created": "new {resource_name} created by {user_name}",
+            "updated": "a {resource_name} updated by {user_name}",
+            "deleted": "a {resource_name} deleted by {user_name}",
+            "unknown": "activity detected in {resource_name} by {user_name}"
+         }
+      }
    }
 }
