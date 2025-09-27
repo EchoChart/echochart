@@ -50,16 +50,33 @@ const FilterModes: FilterModes = {
       [FilterMatchMode.BETWEEN]: (value, field) =>
          value.length === 2 ? `and(${field}.gte.${value[0]},${field}.lte.${value[1]})` : null,
       [FilterMatchMode.DATE_IS]: (value, field) => {
+         const format = 'YYYY-MM-DDTHH:mm:ss';
          const date = parseDayjs({ value });
-         const start = date.format('YYYY-MM-DDTHH:mm:ss');
-         const end = date.add(1, 'day').format('YYYY-MM-DDTHH:mm:ss');
-         return `and(${field}.gte.${start},${field}.lte.${end})`;
+
+         const filter = {
+            start: date.clone(),
+            end: date.clone()
+         };
+
+         if (date.hour() === 0 && date.minute() === 0) {
+            filter.end = date.add(1, 'day');
+         } else filter.start = date.subtract(1, 'minute');
+         return `and(${field}.gte.${filter.start.format(format)},${field}.lte.${filter.end.format(format)})`;
       },
       [FilterMatchMode.DATE_IS_NOT]: (value, field) => {
+         const format = 'YYYY-MM-DDTHH:mm:ss';
          const date = parseDayjs({ value });
-         const start = date.format('YYYY-MM-DDTHH:mm:ss');
-         const end = date.add(1, 'day').format('YYYY-MM-DDTHH:mm:ss');
-         return `${field}.lt.${start},${field}.gt.${end}`;
+
+         const filter = {
+            start: date.clone(),
+            end: date.clone()
+         };
+
+         if (date.hour() === 0 && date.minute() === 0) {
+            filter.end = date.add(1, 'day');
+         } else filter.start = date.subtract(1, 'minute');
+
+         return `${field}.lt.${filter.start.format(format)},${field}.gt.${filter.end.format(format)}`;
       },
       [FilterMatchMode.DATE_BEFORE]: (value, field) =>
          `${field}.lt.${localeDateString({ value, returnFormat: 'YYYY-MM-DDTHH:mm:ss' })}`,
@@ -85,16 +102,34 @@ const FilterModes: FilterModes = {
       [FilterMatchMode.BETWEEN]: (value, field) =>
          value.length === 2 ? `${field}=gte.${value[0]}&${field}=lte.${value[1]}` : null,
       [FilterMatchMode.DATE_IS]: (value, field) => {
+         const format = 'YYYY-MM-DDTHH:mm:ss';
          const date = parseDayjs({ value });
-         const start = date.format('YYYY-MM-DDTHH:mm:ss');
-         const end = date.add(1, 'day').format('YYYY-MM-DDTHH:mm:ss');
-         return `${field}=gte.${start}&${field}=lte.${end}`;
+
+         const filter = {
+            start: date.clone(),
+            end: date.clone()
+         };
+
+         if (date.hour() === 0 && date.minute() === 0) {
+            filter.end = date.add(1, 'day');
+         } else filter.start = date.subtract(1, 'minute');
+
+         return `${field}=gte.${filter.start.format(format)}&${field}=lte.${filter.end.format(format)}`;
       },
       [FilterMatchMode.DATE_IS_NOT]: (value, field) => {
+         const format = 'YYYY-MM-DDTHH:mm:ss';
          const date = parseDayjs({ value });
-         const start = date.format('YYYY-MM-DDTHH:mm:ss');
-         const end = date.add(1, 'day').format('YYYY-MM-DDTHH:mm:ss');
-         return `or=(${field}.lt.${start},${field}.gt.${end})`;
+
+         const filter = {
+            start: date.clone(),
+            end: date.clone()
+         };
+
+         if (date.hour() === 0 && date.minute() === 0) {
+            filter.end = date.add(1, 'day');
+         } else filter.start = date.subtract(1, 'minute');
+
+         return `or=(${field}.lt.${filter.start.format(format)},${field}.gt.${filter.end.format(format)})`;
       },
       [FilterMatchMode.DATE_BEFORE]: (value, field) =>
          `${field}=lt.${localeDateString({ value, returnFormat: 'YYYY-MM-DDTHH:mm:ss' })}`,
