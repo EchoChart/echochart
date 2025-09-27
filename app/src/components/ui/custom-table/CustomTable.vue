@@ -142,7 +142,7 @@ function useTableMeta({
    };
    const storageOptions = { mergeDefaults: true, writeDefaults: true };
 
-   if (stateStorage === 'session') sessionStorage?.clear(metaStateKey);
+   if (stateStorage === 'session') sessionStorage?.clear();
 
    const meta = <RemovableRef<CustomTableMetaEvent<T>>>(
       (stateStorage === 'local' ? useLocalStorage : useSessionStorage)?.(
