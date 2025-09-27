@@ -188,7 +188,7 @@ export default class Collection<T = any> implements ICollection<T> {
     * @param attributes - Attributes to merge into the collection.
     * @returns {Collection<T>} - The updated instance of Collection.
     */
-   _merge(attributes: Partial<T>): this {
+   _merge(attributes: Partial<T> | Partial<T>[]): this {
       _merge(this._state, attributes);
 
       return this;
