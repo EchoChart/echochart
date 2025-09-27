@@ -89,7 +89,7 @@ const tabModel = computed({
                v-slot="slotProps"
                :disabled="!$can('create', 'client') || !$can('modify', 'client')"
             >
-               <CustomLink :to="{ name: 'manage-client-general', params: { id: form.id } }">
+               <CustomLink :to="{ name: 'client-manage-general', params: { id: form.id } }">
                   <button v-bind="slotProps" v-text="$t('client.general_info')" />
                </CustomLink>
             </Tab>
@@ -99,7 +99,7 @@ const tabModel = computed({
                as-child
                v-slot="slotProps"
             >
-               <CustomLink :to="{ name: 'manage-client-address', params: { id: form.id } }">
+               <CustomLink :to="{ name: 'client-manage-address', params: { id: form.id } }">
                   <button v-bind="slotProps" v-text="$t('client.addresses')" />
                </CustomLink>
             </Tab>
