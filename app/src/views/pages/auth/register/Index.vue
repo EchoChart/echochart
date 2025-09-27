@@ -133,7 +133,6 @@ const submit = async () => {
                   >
                      <Password
                         v-bind="slotProps"
-                        :invalid="true"
                         v-model="form['account.password']"
                         :toggleMask="true"
                         :feedback="false"
