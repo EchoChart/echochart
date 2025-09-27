@@ -40,7 +40,7 @@ export default [
       redirect: { name: 'record-list' },
       children: [
          {
-            path: ':record_type?',
+            path: ':record_type?/:record_status?',
             name: 'record-list',
             components: {
                default: () => import('@/views/pages/record/index.vue'),
