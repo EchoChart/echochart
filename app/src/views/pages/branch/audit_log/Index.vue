@@ -64,13 +64,11 @@ const filters = ref({
    },
    'old_data->>id': {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-      dataType: 'date'
+      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
    },
    'row_data->>id': {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-      dataType: 'date'
+      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }]
    },
    created_at: {
       operator: FilterOperator.AND,
@@ -161,6 +159,8 @@ const tableProps = computed(() => ({
             >
                <Button
                   variant="link"
+                  size="small"
+                  raised
                   :label="
                      _get(data, `${field}.user_metadata.display_name`) ||
                      _get(data, `${field}.email`)
@@ -188,6 +188,8 @@ const tableProps = computed(() => ({
             >
                <Button
                   variant="link"
+                  size="small"
+                  raised
                   :label="
                      _get(data, `${field}.user_metadata.display_name`) ||
                      _get(data, `${field}.email`)
