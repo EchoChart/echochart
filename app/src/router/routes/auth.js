@@ -30,6 +30,7 @@ export default [
       },
       components: {
          default: () => import('@/views/pages/auth/Index.vue'),
+         'layout-sidebar': () => import('@/layouts/dashboard/Sidebar.vue'),
          'layout-topbar': () => import('@/layouts/dashboard/Topbar.vue')
       },
       children: [
