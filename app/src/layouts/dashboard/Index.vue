@@ -1,6 +1,6 @@
 <script setup>
 const { layoutState } = useLayout();
-const { currentTenant } = storeToRefs(useAuthStore());
+const { currentTenant, isSignedIn } = storeToRefs(useAuthStore());
 import { useIsFetching } from '@tanstack/vue-query';
 
 const isFetching = useIsFetching();
@@ -8,7 +8,7 @@ const isFetching = useIsFetching();
 const containerClass = computed(() => {
    return {
       [`layout-${layoutState.sidebarMode}`]: layoutState.sidebarMode,
-      'layout-sidebar-inactive': !layoutState.sidebarActive
+      'layout-sidebar-inactive': !layoutState.sidebarActive || !isSignedIn.value
    };
 });
 </script>
