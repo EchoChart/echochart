@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.12.0-alpha.1...echochart-supabase-v0.13.0-alpha.1) (2025-09-27)
+
+
+### Features
+
+* add dashboard views for sales analytics and notifications ([b61b17a](https://github.com/EchoChart/echochart/commit/b61b17a69ce65eaefca464c6b5f7a6d569ceafbe))
+
 ## [0.12.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-supabase-v0.11.1-alpha.1...echochart-supabase-v0.12.0-alpha.1) (2025-07-18)
 
 

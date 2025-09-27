@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.2.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.1.2-alpha.1...echochart-app-v1.2.0-alpha.1) (2025-09-27)
+
+
+### Features
+
+* **form:** add field routes for form handling ([de4bf3b](https://github.com/EchoChart/echochart/commit/de4bf3b8b263f83166ae42358b146a15294736e6))
+* **service-components/resource-table:** add new props and enable expansion ([f90c7e9](https://github.com/EchoChart/echochart/commit/f90c7e9bff365e275c9d13e7eea23c2e67e32e51))
+* **StatisticCard:** Adds new StatisticCard component for displaying statistical data ([203804d](https://github.com/EchoChart/echochart/commit/203804d34361ad5d8fc60e16eaa6e2f8b4f944be))
+* **TotalRowCountCard:** Adds TotalRowCountCard component to display total row count with date filters. ([a3a3316](https://github.com/EchoChart/echochart/commit/a3a33167059780b54352a3229c5960dae4c3e9ed))
+
+
+### Bug Fixes
+
+* **appErrorHandler:** remove unnecessary string interpolation ([cd4e3dd](https://github.com/EchoChart/echochart/commit/cd4e3dd64e472ce4b69c0750e2af25d9cac4bff1))
+* **auth/register:** remove invalid prop from Password component ([53468ac](https://github.com/EchoChart/echochart/commit/53468ac738f53600dcae697fdb49a53c9fb81723))
+* change event listener from click to mouseup in Sidebar.vue ([1f1e4a5](https://github.com/EchoChart/echochart/commit/1f1e4a5c3758b10067a010e15b52b6e67a73a250))
+* **client-address:** correct router link name for manage address feature ([a1ebb1f](https://github.com/EchoChart/echochart/commit/a1ebb1f62dfeba528aa7a2969dddf5e99f443535))
+* **client/upsert/Index.vue:** correct router names for client management tabs ([c2c3d98](https://github.com/EchoChart/echochart/commit/c2c3d9838627aaa9d67df458f3720fadbe91464d))
+* **Collection:** update merge method to accept array of attributes ([a1da302](https://github.com/EchoChart/echochart/commit/a1da302ad32352f33b88dde04e2885b932bbe009))
+* **dashboard:** include sign-in status in sidebar inactive logic ([67cdbac](https://github.com/EchoChart/echochart/commit/67cdbac2321a9f0624e79cde5ab1fb4bb7da60b2))
+* **i18n:** correct route label translations for better readability ([c65537e](https://github.com/EchoChart/echochart/commit/c65537e546b990bfd3a44eeff2b7eebc15232a36))
+
 ## [1.1.2-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.1.1-alpha.1...echochart-app-v1.1.2-alpha.1) (2025-07-18)
 
 
