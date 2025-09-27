@@ -46,8 +46,6 @@ async function askOllama(prompt) {
 
    const data = await response.json();
 
-   const match = data.message?.content?.match(/<think>([\s\S]*?)<\/think>/i);
-   const thought = match?.[1]?.trim();
    const answer = data.message.content.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
 
    data.message.content = answer;
@@ -59,7 +57,7 @@ async function translateFile(file, targetLang) {
    const srcPath = path.join(localesDir, '', 'template.json');
    const destPath = path.join(localesDir, targetLang, file);
 
-   const rawSource = JSON.parse(fs.readFileSync(srcPath, 'utf8'));
+   const rawSource = fs.existsSync(srcPath) ? JSON.parse(fs.readFileSync(srcPath, 'utf8')) : {};
    const excludedSource = JSON.parse(
       fs.readFileSync(path.join(localesDir, 'template.exclude.json'), 'utf8')
    );
@@ -69,20 +67,20 @@ async function translateFile(file, targetLang) {
 
    const missingEntries = {};
 
-   function findMissing(sourceNode, targetNode, path = []) {
+   function findMissing(sourceNode, targetNode, path = null) {
       for (const key in sourceNode) {
          const sourceVal = sourceNode[key];
          const targetVal = targetNode?.[key];
 
          if (_.isPlainObject(sourceVal)) {
-            findMissing(sourceVal, targetVal || {}, path.concat(key));
+            findMissing(sourceVal, targetVal || {}, `${path ? path + '.' : ''}${key}`);
          } else {
             if (
-               targetVal === undefined ||
-               targetVal === '' ||
-               targetVal === sourceVal // simple heuristic for untranslated
+               _.isNil(targetVal) ||
+               _.isEmpty(targetVal) ||
+               _.isEqual(targetVal, sourceVal) // simple heuristic for untranslated
             ) {
-               _.set(missingEntries, path.concat(key), sourceVal);
+               _.set(missingEntries, `${path ? path + '.' : ''}${key}`, sourceVal);
             }
          }
       }
@@ -98,44 +96,33 @@ async function translateFile(file, targetLang) {
 
    console.time(`✓ Translated ${destPath} to ${targetLang}`);
 
-   const missingKeys = _.keys(missingEntries);
-   const chunkSize = 2;
-   const chunks = [];
+   const untranslated = _.merge({}, missingEntries);
+   const translated = {};
 
-   for (let i = 0; i < missingKeys.length; i += chunkSize) {
-      const chunkKeys = missingKeys.slice(i, i + chunkSize);
-      const chunk = {};
-      for (const key of chunkKeys) {
-         chunk[key] = missingEntries[key];
-      }
-      chunks.push(chunk);
-   }
-
-   const translatedChunks = [];
-
-   for (const chunk of chunks) {
-      const chunkString = JSON.stringify(chunk, null, 2);
+   for (const key of _.keys(untranslated)) {
       const prompt = `
-Translate the following JSON object to **${targetLang}**.
+Translate the following JSON object to **${targetLang}** language.
+
 This JSON contains interface text for a Hearing Aid CRM application used by clinics, audiologists, and patients.
 
 **Translation rules:**
 - Use a **formal and professional tone** suitable for medical and clinical software interfaces.
 - Keep the **JSON structure** exactly the same.
-- Translate all values to **${targetLang}**.
-- If a value is empty, translate by **key** instead.
-- Avoid using informal words or casual expressions.
-- Use domain-specific medical terminology, especially for hearing aid terms.
+- Use appropriate **medical terminology**, especially for hearing aid related concepts.
 - If a key contains or ends with "id":
-  - If "id" is part of a meaningful label (e.g. "national_id", "identity_id"), **translate the full value**.
-  - If "id" is just a technical suffix (e.g. "product_id", "client_id"), **translate only the prefix** ("product", "client").
-- Do **not** return explanations, comments, or Markdown formatting.
-- Return only **valid JSON** as output.
-The JSON:
-\`\`\`json
-${chunkString}
-\`\`\`
+  - If "id" is part of a meaningful label (e.g., "national_id", "identity_id"), **translate the full value**.
+  - If "id" is a technical suffix (e.g., "product_id", "client_id"), **only translate the prefix** (e.g., "Product", "Client").
+- Preserve all **placeholders wrapped in curly braces** (e.g., {user_name}, {table_name}) **without translating** them. Keep them exactly as they appear and place them correctly in the translated sentence.
+- Use **title casing** for labels and messages when appropriate.
+- If a **value is empty** in given JSON, translate by looking **key path** instead.
+- Do **not** include explanations, comments, or Markdown formatting.
+- Return only valid translated **JSON**.
+- DO NOT RETURN EMPTY VALUES.
+
+The JSON to translate:
+${JSON.stringify({ [key]: _.get(untranslated, key) }, null, 2)}
 `;
+
       let response = await askOllama(prompt);
       const content = response.message.content;
 
@@ -143,7 +130,8 @@ ${chunkString}
          const jsonMatch = content.match(/```json\s*([\s\S]*?)```/i);
          const jsonText = jsonMatch ? jsonMatch[1] : content;
          const translatedChunk = JSON.parse(jsonText);
-         translatedChunks.push(translatedChunk);
+         console.log(translatedChunk, '\n');
+         _.merge(translated, translatedChunk);
       } catch (err) {
          console.error(`❌ Failed to parse translated chunk for ${targetLang}/${file}:`, err);
          console.log('Raw output:', content);
@@ -151,7 +139,7 @@ ${chunkString}
       }
    }
 
-   const mergedTranslations = Object.assign({}, ...translatedChunks);
+   const mergedTranslations = _.merge({}, translated);
    const updatedTarget = _.merge({}, rawTarget, mergedTranslations);
 
    fs.mkdirSync(path.dirname(destPath), { recursive: true });
