@@ -26,13 +26,13 @@ function bindOutsideClickListener() {
             resetSidebar();
          }
       };
-      document.addEventListener('click', outsideClickListener.value);
+      document.addEventListener('mouseup', outsideClickListener.value);
    }
 }
 
 function unbindOutsideClickListener() {
    if (outsideClickListener.value) {
-      document.removeEventListener('click', outsideClickListener.value);
+      document.removeEventListener('mouseup', outsideClickListener.value);
       outsideClickListener.value = null;
    }
 }
