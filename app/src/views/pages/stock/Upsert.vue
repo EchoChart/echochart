@@ -108,9 +108,9 @@ const calcFinancials = (total, quantity, discountPercentage, taxPercentage) => {
    const new_tax = (new_cost - new_discount) * t;
 
    form._merge({
-      unit_cost: new_cost || 0,
-      unit_discount: new_discount || 0,
-      unit_tax: new_tax || 0
+      unit_cost: _toNumber(new_cost?.toFixed?.(2) || 0),
+      unit_discount: _toNumber(new_discount?.toFixed?.(2) || 0),
+      unit_tax: _toNumber(new_tax?.toFixed?.(2) || 0)
    });
 };
 
@@ -237,136 +237,155 @@ const save = async () => {
                <FormField
                   :readonly
                   fluid
-                  :error="form?._errors?.first('quantity')"
-                  :label="$t('fields.quantity')"
-                  v-slot="slotProps"
-               >
-                  <InputGroup>
-                     <InputNumber
-                        v-model="form.quantity"
-                        showButtons
-                        :min="0"
-                        :step="form.unit_type === 'pcs' ? 1 : 0.1"
-                        v-bind="slotProps"
-                        input-class="!rounded-none"
-                     />
-                     <InputGroupAddon class="!p-0 !min-w-fit">
-                        <SelectStockUnitType class="!border-0" v-model="form.unit_type" />
-                     </InputGroupAddon>
-                  </InputGroup>
-               </FormField>
-               <FormField
-                  :readonly
-                  fluid
                   :error="form?._errors?.first('currency_code')"
                   :label="$t('fields.currency')"
                   v-slot="slotProps"
                >
                   <SelectCurrency v-bind="slotProps" v-model="form.currency_code" />
                </FormField>
-            </span>
-            <span class="form_box !flex-auto place-content-start">
                <FormField
                   :readonly
                   fluid
                   :error="form?._errors?.first('unit_cost')"
                   :label="$t('fields.unit_cost')"
-                  v-slot="slotProps"
                >
-                  <InputNumber
-                     v-bind="slotProps"
-                     v-model="form.unit_cost"
-                     :max-fraction-digits="2"
-                     :mode="form.currency_code ? 'currency' : 'decimal'"
-                     :currency="form.currency_code || undefined"
-                     :min="form.unit_discount"
-                     :step="0.01"
-                     showButtons
-                  />
+                  <template #label="slotProps">
+                     <label v-bind="slotProps" v-text="`➕ ${slotProps.label}`" />
+                  </template>
+                  <template #default="slotProps">
+                     <InputNumber
+                        v-bind="slotProps"
+                        v-model="form.unit_cost"
+                        :max-fraction-digits="2"
+                        :mode="form.currency_code ? 'currency' : 'decimal'"
+                        :currency="form.currency_code || undefined"
+                        :min="form.unit_discount"
+                        :step="0.01"
+                        showButtons
+                     />
+                  </template>
                </FormField>
                <FormField
                   :readonly
                   fluid
                   :error="form?._errors?.first('unit_discount')"
                   :label="$t('fields.unit_discount')"
-                  v-slot="slotProps"
                >
-                  <InputGroup>
-                     <InputNumber
-                        v-bind="slotProps"
-                        v-model="form.unit_discount"
-                        :max-fraction-digits="2"
-                        :mode="form.currency_code ? 'currency' : 'decimal'"
-                        :currency="form.currency_code || undefined"
-                        :min="0"
-                        :max="form.unit_cost"
-                        :step="0.01"
-                        showButtons
-                     />
-                     <InputGroupAddon class="!p-0">
+                  <template #label="slotProps">
+                     <label v-bind="slotProps" v-text="`➖ ${slotProps.label}`" />
+                  </template>
+                  <template #default="slotProps">
+                     <InputGroup>
                         <InputNumber
-                           class="!w-28"
-                           v-model="discount"
+                           v-bind="slotProps"
+                           v-model="form.unit_discount"
                            :max-fraction-digits="2"
+                           :mode="form.currency_code ? 'currency' : 'decimal'"
+                           :currency="form.currency_code || undefined"
                            :min="0"
-                           :max="100"
-                           :suffix="'%'"
-                           :step="1"
+                           :max="form.unit_cost"
+                           :step="0.01"
                            showButtons
                         />
-                     </InputGroupAddon>
-                  </InputGroup>
+                        <InputGroupAddon class="!p-0">
+                           <InputNumber
+                              class="!w-28"
+                              v-model="discount"
+                              :max-fraction-digits="2"
+                              :min="0"
+                              :max="100"
+                              :suffix="'%'"
+                              :step="1"
+                              showButtons
+                           />
+                        </InputGroupAddon>
+                     </InputGroup>
+                  </template>
                </FormField>
                <FormField
                   :readonly
                   fluid
                   :error="form?._errors?.first('unit_tax')"
                   :label="$t('fields.unit_tax')"
-                  v-slot="slotProps"
                >
-                  <InputGroup>
-                     <InputNumber
-                        v-bind="slotProps"
-                        v-model="form.unit_tax"
-                        :max-fraction-digits="2"
-                        :mode="form.currency_code ? 'currency' : 'decimal'"
-                        :currency="form.currency_code || undefined"
-                        :min="0"
-                        :max="form.unit_cost"
-                        :step="0.01"
-                        showButtons
-                     />
-                     <InputGroupAddon class="!p-0">
+                  <template #label="slotProps">
+                     <label v-bind="slotProps" v-text="`➕ ${slotProps.label}`" />
+                  </template>
+                  <template #default="slotProps">
+                     <InputGroup>
                         <InputNumber
-                           class="!w-28"
-                           v-model="tax"
+                           v-bind="slotProps"
+                           v-model="form.unit_tax"
                            :max-fraction-digits="2"
+                           :mode="form.currency_code ? 'currency' : 'decimal'"
+                           :currency="form.currency_code || undefined"
                            :min="0"
-                           :max="100"
-                           :suffix="'%'"
-                           :step="1"
+                           :max="form.unit_cost"
+                           :step="0.01"
                            showButtons
                         />
-                     </InputGroupAddon>
-                  </InputGroup>
+                        <InputGroupAddon class="!p-0">
+                           <InputNumber
+                              class="!w-28"
+                              v-model="tax"
+                              :max-fraction-digits="2"
+                              :min="0"
+                              :max="100"
+                              :suffix="'%'"
+                              :step="1"
+                              showButtons
+                           />
+                        </InputGroupAddon>
+                     </InputGroup>
+                  </template>
+               </FormField>
+               <FormField
+                  :readonly
+                  fluid
+                  :error="form?._errors?.first('quantity')"
+                  :label="$t('fields.quantity')"
+               >
+                  <template #label="slotProps">
+                     <label v-bind="slotProps" v-text="`✖️ ${form.quantity} ${slotProps.label}`" />
+                  </template>
+                  <template #default="slotProps">
+                     <InputGroup>
+                        <InputNumber
+                           :model-value="form.quantity"
+                           @value-change="form._set(`quantity`, $event?.toFixed?.(2))"
+                           showButtons
+                           :min="0"
+                           :step="form.unit_type === 'pcs' ? 1 : 0.1"
+                           v-bind="slotProps"
+                           input-class="!rounded-none"
+                        />
+                        <InputGroupAddon class="!p-0 !min-w-fit">
+                           <SelectStockUnitType class="!border-0" v-model="form.unit_type" />
+                        </InputGroupAddon>
+                     </InputGroup>
+                  </template>
                </FormField>
                <FormField
                   :readonly
                   fluid
                   :error="form?._errors?.first('total_cost')"
                   :label="$t('fields.total_cost')"
-                  v-slot="slotProps"
                >
-                  <InputNumber
-                     v-bind="slotProps"
-                     v-model="total_cost"
-                     :max-fraction-digits="2"
-                     :mode="form.currency_code ? 'currency' : 'decimal'"
-                     :currency="form.currency_code || undefined"
-                     :min="0"
-                     :step="0.01"
-                     showButtons
-                  />
+                  <template #label="slotProps">
+                     <label v-bind="slotProps" v-text="`🟰  ${slotProps.label}`" />
+                  </template>
+                  <template #default="slotProps">
+                     <InputNumber
+                        v-bind="slotProps"
+                        v-model="total_cost"
+                        :max-fraction-digits="2"
+                        :mode="form.currency_code ? 'currency' : 'decimal'"
+                        :currency="form.currency_code || undefined"
+                        :min="0"
+                        :step="0.01"
+                        showButtons
+                     />
+                  </template>
                </FormField>
             </span>
          </FormBox>
