@@ -1,4 +1,5 @@
 <script setup lang="ts" generic="T = Tables['audit_log']['Update']">
+import { fieldRoutes } from '@/constants/form/field';
 import Collection from '@/lib/Collection';
 import { isValidDate, localeDateString } from '@/lib/dayjs';
 import { detailedDiff, diff } from 'deep-object-diff';
@@ -12,41 +13,11 @@ type Log = Tables['audit_log']['Update'] & {
    }[];
 };
 
-/**
- * @typedef {Tables['audit_log']['Row']} Data
- * @type {{ id: Data['id'], data: Data }} */
-const props = defineProps({
-   id: {
-      type: String,
-      default: null
-   },
-   data: {
-      type: Object,
-      default: null
-   }
-});
+const props = defineProps<{
+   id?: Tables['audit_log']['Row']['id'];
+   data?: Tables['audit_log']['Row'];
+}>();
 const { t, te } = useI18n();
-
-// Define a type for auditItemRoutes
-interface AuditItemRoutes {
-   [key: string]: { name: string };
-}
-
-// Initialize auditItemRoutes with the correct type
-const auditItemRoutes: AuditItemRoutes = {
-   role_id: { name: 'branch-role-edit' },
-   role: { name: 'branch-role-edit' },
-   user_id: { name: 'branch-user-manage' },
-   user: { name: 'branch-user-manage' },
-   client_id: { name: 'client-manage' },
-   client: { name: 'client-manage' },
-   address_id: { name: 'address-edit' },
-   address: { name: 'address-edit' },
-   record_id: { name: 'record-edit' },
-   record: { name: 'record-edit' },
-   stock_id: { name: 'stock-edit' },
-   stock: { name: 'stock-edit' }
-};
 
 const getLogTagProps = (log: Log) => {
    switch (_toLower(log?.operation)) {
@@ -180,11 +151,11 @@ if (props.id) {
                v-if="
                   !log.reverted_at &&
                   log.operation !== 'DELETE' &&
-                  !!auditItemRoutes[log.table_name] &&
+                  !!fieldRoutes[log.table_name] &&
                   !!(log.row_data as any)?.id
                "
                :to="{
-                  ...auditItemRoutes[log.table_name],
+                  ...fieldRoutes[log.table_name],
                   params: { id: (log.row_data as any)?.id },
                   query: { showDialog: 'center' }
                }"
@@ -222,12 +193,12 @@ if (props.id) {
                   v-if="
                      !log.reverted_at &&
                      (log.operation !== 'INSERT' || entry?.type !== 'delete') &&
-                     !!auditItemRoutes[entry.key] &&
+                     !!fieldRoutes[entry.key] &&
                      _endsWith(entry.key, '_id') &&
                      !!entry?.newValue
                   "
                   :to="{
-                     ...auditItemRoutes[entry.key],
+                     ...fieldRoutes[entry.key],
                      params: { id: entry.newValue },
                      query: { showDialog: 'center' }
                   }"
