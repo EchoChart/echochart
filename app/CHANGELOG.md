@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.4-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.3.3-alpha.1...echochart-app-v1.3.4-alpha.1) (2025-09-28)
+
+
+### Bug Fixes
+
+* **deploy:** update configuration for related projects ([c085f00](https://github.com/EchoChart/echochart/commit/c085f0095279bdf669bf426058766c6b16e0c43b))
+
 ## [1.3.3-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.3.2-alpha.1...echochart-app-v1.3.3-alpha.1) (2025-09-28)
 
 
