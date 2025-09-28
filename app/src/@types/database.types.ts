@@ -942,8 +942,10 @@ export type Database = {
           activity: string | null
           created_at: string | null
           id: string | null
+          old_data: Json | null
           operation: string | null
           resource_id: string | null
+          row_data: Json | null
           since: string | null
           table_name: string | null
           tenant_id: string | null
