@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.2.0-alpha.1...echochart-app-v1.2.1-alpha.1) (2025-09-28)
+
+
+### Bug Fixes
+
+* update font size and dark mode selector ([1a18853](https://github.com/EchoChart/echochart/commit/1a18853a6415432485c260ef9603ab7aaaaf3787))
+
 ## [1.2.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.1.2-alpha.1...echochart-app-v1.2.0-alpha.1) (2025-09-27)
 
 
