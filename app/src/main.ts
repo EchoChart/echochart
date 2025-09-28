@@ -41,7 +41,7 @@ app.use(PrimeVue, {
    theme: {
       preset: Aura,
       options: {
-         darkModeSelector: ':root[color-scheme*="dark"]',
+         darkModeSelector: '.dark',
          order: 'tailwind-base, primevue, tailwind-utilities'
       }
    }

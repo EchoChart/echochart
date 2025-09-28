@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import primeUIPlugin from 'tailwindcss-primeui';
 export default {
-   darkMode: ['selector', '[color-scheme*="dark"]'],
+   darkMode: ['selector', '.dark'],
    content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
    plugins: [
       '@tailwindcss/postcss',

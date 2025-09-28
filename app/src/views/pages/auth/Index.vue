@@ -101,7 +101,7 @@ const onMouseMove = _throttle((e) => {
       top: 0;
    }
 
-   &:where([color-scheme*='dark'], [color-scheme*='dark'] *) {
+   &:where(.dark, .dark *) {
       --bg-color-1: var(--p-primary-300);
       --bg-color-2: var(--p-primary-900);
 

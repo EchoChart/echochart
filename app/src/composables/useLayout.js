@@ -72,9 +72,8 @@ const setSidebarMode = (mode) => {
 const toggleDark = useToggle(
    useDark({
       selector: ':root',
-      attribute: 'color-scheme',
       valueDark: 'dark',
-      valueLight: 'light',
+      valueLight: '',
       storageKey: 'color-scheme',
       onChanged: (isDark, defaultHandler, mode) => {
          _set(layoutState, 'isDark', isDark);
