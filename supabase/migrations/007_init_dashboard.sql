@@ -131,6 +131,8 @@ WITH
          since,
          table_name,
          resource_id,
+         old_data,
+         row_data,
          user_name,
          user_email,
          operation,
