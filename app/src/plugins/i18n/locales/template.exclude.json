@@ -6,10 +6,10 @@
       }
    },
    "fields": {
-      "tenant": "",
-      "branch": "Branch",
+      "tenant": "Şube",
+      "branch": "Şube",
       "user": "",
-      "tenant_user": "Branch User",
+      "tenant_user": "Şube kullanıcısı",
       "tenant_owner": "",
       "address": "",
       "role": "",
@@ -33,7 +33,7 @@
       "audit_log_group": "",
       "parent_id": "",
       "user_id": "",
-      "tenant_id": "",
+      "tenant_id": "Şube",
       "role_id": "",
       "permission_id": "",
       "national_id": "",
@@ -48,7 +48,7 @@
       "client_tenant_id": "",
       "correlation_id": "",
       "request_id": "",
-      "display_name": "Name",
+      "display_name": "İsim",
       "id": "",
       "created_at": ""
    },

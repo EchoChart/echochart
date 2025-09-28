@@ -202,11 +202,11 @@
       "unit_tax": "налог за единицу",
       "total_cost": "итоговая стоимость",
       "none": "Нет",
-      "tenant": "Арендодатель",
+      "tenant": "Филиал",
       "branch": "Филиал",
       "user": "Пользователь",
       "tenant_user": "Пользователь филиала",
-      "tenant_owner": "Владелец арендодателя",
+      "tenant_owner": "Владелец филиала",
       "address": "Адрес",
       "role_permission": "Роль и разрешение",
       "user_role": "Роль пользователя",
@@ -228,18 +228,18 @@
       "audit_log_group": "Группа журналов аудита",
       "parent_id": "ID родителя",
       "user_id": "ID пользователя",
-      "tenant_id": "ID арендодателя",
+      "tenant_id": "Филиал",
       "role_id": "ID роли",
       "permission_id": "ID разрешения",
       "unit_type": "Тип единицы",
       "category_id": "ID категории",
       "address_id": "ID адреса",
-      "address_tenant_id": "ID арендодателя адреса",
+      "address_tenant_id": "ID филиала адреса",
       "client_national_id": "Национальный ID клиента",
-      "client_tenant_id": "ID арендодателя клиента",
+      "client_tenant_id": "ID филиала клиента",
       "correlation_id": "ID корреляции",
       "request_id": "ID запроса",
-      "display_name": "Название",
+      "display_name": "Имя",
       "id": "ID",
       "created_at": "Дата создания"
    },
@@ -543,8 +543,8 @@
          "title": "Уведомления",
          "activity": {
             "created": "новый {resource_name} создан {user_name}",
-            "updated": "{resource_name} обновлен {user_name}",
-            "deleted": "{resource_name} удален {user_name}",
+            "updated": "обновлен {resource_name} {user_name}",
+            "deleted": "удален {resource_name} {user_name}",
             "unknown": "деятельность обнаружена в {resource_name} {user_name}"
          }
       },
@@ -559,18 +559,6 @@
          "recent_sales": {
             "title": "Недавние продажи",
             "see_all": "Посмотреть все"
-         }
-      }
-   },
-   "address": {
-      "select_country": "{select_country}",
-      "table": {
-         "headers": {
-            "address_name": "{address_name}",
-            "country": "{country}",
-            "city": "{city}",
-            "district": "{district}",
-            "created_at": "{created_at}"
          }
       }
    },
@@ -631,9 +619,9 @@
       }
    },
    "product": {
-      "select_product": "{product_name}",
+      "select_product": "Выберите продукт",
       "category": {
-         "select_category": "{category_name}"
+         "select_category": "Выберите категорию"
       }
    },
    "user": {
@@ -728,5 +716,17 @@
       },
       "information": "Информация",
       "financial": "Финансовый"
+   },
+   "address": {
+      "select_country": "Выберите страну",
+      "table": {
+         "headers": {
+            "address_name": "Название адреса",
+            "country": "Страна",
+            "city": "Город",
+            "district": "Район",
+            "created_at": "Дата создания"
+         }
+      }
    }
 }

@@ -202,18 +202,18 @@
       "unit_tax": "단위 세금",
       "total_cost": "총 비용",
       "none": "선택할 항목이 없습니다.",
-      "tenant": "임대인",
-      "branch": "지점",
+      "tenant": "점포",
+      "branch": "점포",
       "user": "사용자",
-      "tenant_user": "지점 사용자",
-      "tenant_owner": "임대인 소유자",
+      "tenant_user": "점포 사용자",
+      "tenant_owner": "점포 소유자",
       "address": "주소",
       "role_permission": "역할 권한",
       "user_role": "사용자 역할",
       "client": "고객",
       "product": "제품",
       "product_category": "제품 카테고리",
-      "product_categories": "제품 카테고리들",
+      "product_categories": "제품 카테고리",
       "stock": "재고",
       "record": "기록",
       "client_address": "고객 주소",
@@ -228,15 +228,15 @@
       "audit_log_group": "감사 로그 그룹",
       "parent_id": "부모 ID",
       "user_id": "사용자",
-      "tenant_id": "임대인",
+      "tenant_id": "점포",
       "role_id": "역할",
       "permission_id": "권한",
       "unit_type": "단위 유형",
       "category_id": "카테고리",
       "address_id": "주소",
-      "address_tenant_id": "주소 임대인",
+      "address_tenant_id": "주소 점포",
       "client_national_id": "국민 ID",
-      "client_tenant_id": "고객 임대인",
+      "client_tenant_id": "고객 점포",
       "correlation_id": "상관 ID",
       "request_id": "요청 ID",
       "display_name": "이름",
@@ -631,9 +631,9 @@
       }
    },
    "product": {
-      "select_product": "{product_name}",
+      "select_product": "제품 선택",
       "category": {
-         "select_category": "{category_name}"
+         "select_category": "카테고리 선택"
       }
    },
    "user": {
@@ -690,8 +690,7 @@
                "serial_number": "시리얼 번호",
                "unit_cost": "단가",
                "vendor": "공급업체",
-               "stocked_at": "",
-               "stock,ed_at": "입고일"
+               "stocked_at": "재고입고일"
             }
          }
       },

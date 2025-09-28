@@ -203,7 +203,7 @@
       "total_cost": "总成本",
       "none": "无",
       "tenant": "租户",
-      "branch": "分部",
+      "branch": "租户",
       "user": "用户",
       "tenant_user": "租户用户",
       "tenant_owner": "租户所有者",
@@ -239,7 +239,7 @@
       "client_tenant_id": "客户租户",
       "correlation_id": "关联ID",
       "request_id": "请求ID",
-      "display_name": "名称",
+      "display_name": "显示名称",
       "id": "ID",
       "created_at": "创建时间"
    },
@@ -631,9 +631,9 @@
       }
    },
    "product": {
-      "select_product": "{product_name}",
+      "select_product": "请选择产品",
       "category": {
-         "select_category": "{category_name}"
+         "select_category": "请选择类别"
       }
    },
    "user": {
