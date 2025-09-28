@@ -28,7 +28,8 @@
             "ko": "코",
             "es": "스페인어"
          },
-         "translated_using_artificial_intelligence": "인공지능을 사용하여 번역됨"
+         "translated_using_artificial_intelligence": "인공지능을 사용하여 번역됨",
+         "you_can_configure_different_options_for_each_light_modes": "각 라이트 모드별로 다른 옵션을 구성할 수 있습니다."
       },
       "sidebar": {
          "select_sidebar_mode": "사이드바 모드 선택",

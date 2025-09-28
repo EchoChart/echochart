@@ -28,7 +28,8 @@
             "ko": "韓国語",
             "es": "スペイン語"
          },
-         "translated_using_artificial_intelligence": "人工知能により翻訳されました"
+         "translated_using_artificial_intelligence": "人工知能により翻訳されました",
+         "you_can_configure_different_options_for_each_light_modes": "各ライトモードごとに異なるオプションを設定できます"
       },
       "sidebar": {
          "select_sidebar_mode": "サイドバーのモードを選択",

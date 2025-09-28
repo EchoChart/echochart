@@ -61,7 +61,8 @@
             "ko": "Coreano"
          },
          "select_language": "Seleccionar idioma",
-         "translated_using_artificial_intelligence": "Traducido utilizando inteligencia artificial"
+         "translated_using_artificial_intelligence": "Traducido utilizando inteligencia artificial",
+         "you_can_configure_different_options_for_each_light_modes": "Puede configurar diferentes opciones para cada modo de luz"
       },
       "app_settings": "Configuración de la aplicación",
       "theme": {
@@ -546,7 +547,7 @@
       "client_address_view": "Vista de dirección del cliente",
       "audit_log_group": "Grupo de registro de auditoría",
       "parent_id": "ID del padre",
-      "user_id": "ID de usuario",
+      "user_id": "ID del usuario",
       "tenant_id": "Sucursal",
       "role_id": "ID de rol",
       "permission_id": "ID de permiso",

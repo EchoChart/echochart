@@ -28,7 +28,8 @@
             "ko": "Korece",
             "es": "İspanyolca"
          },
-         "translated_using_artificial_intelligence": "Bu dil ayarı yapay zekâ ile çevrildi"
+         "translated_using_artificial_intelligence": "Bu dil ayarı yapay zekâ ile çevrildi",
+         "you_can_configure_different_options_for_each_light_modes": "Her ışık modu için farklı seçenekler ayarlayabilirsiniz"
       },
       "sidebar": {
          "select_sidebar_mode": "Menü Modu Seç",
@@ -432,15 +433,15 @@
       "stock": "Stok",
       "record": "Kayıt",
       "client_address": "Müşteri adresi",
-      "audit_config": "Audit yapılandırması",
-      "audit_log": "Audit log",
+      "audit_config": "AudiT yapılandırması",
+      "audit_log": "AudiT logu",
       "product_brands": "Ürün markaları",
       "stock_view": "Stok görünümü",
       "stock_vendor": "Stok satıcısı",
       "stock_vendor_stat": "Stok satıcısı istatistiği",
       "stock_product_stat": "Stok ürün istatistiği",
       "client_address_view": "Müşteri adresi görünümü",
-      "audit_log_group": "Audit log grubu",
+      "audit_log_group": "AudiT logu grubu",
       "parent_id": "Ebeveyn ID",
       "user_id": "Kullanıcı",
       "tenant_id": "Şube",

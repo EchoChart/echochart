@@ -28,7 +28,8 @@
             "ko": "Korean",
             "es": "Spanish"
          },
-         "translated_using_artificial_intelligence": "Translated Using Artificial Intelligence"
+         "translated_using_artificial_intelligence": "Translated Using Artificial Intelligence",
+         "you_can_configure_different_options_for_each_light_modes": "You Can Configure Different Options For Each Light Modes"
       },
       "sidebar": {
          "select_sidebar_mode": "Select Sidebar Mode",

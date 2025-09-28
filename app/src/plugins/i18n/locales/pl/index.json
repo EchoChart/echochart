@@ -28,7 +28,8 @@
             "ko": "한국어",
             "es": "Hiszpański"
          },
-         "translated_using_artificial_intelligence": "Tłumaczenie wykonane za pomocą sztucznej inteligencji"
+         "translated_using_artificial_intelligence": "Tłumaczenie wykonane za pomocą sztucznej inteligencji",
+         "you_can_configure_different_options_for_each_light_modes": "Możesz skonfigurować różne opcje dla każdego trybu jasnego"
       },
       "sidebar": {
          "select_sidebar_mode": "Wybierz tryb paska bocznego",
@@ -235,7 +236,7 @@
       "category_id": "ID kategorii",
       "address_id": "ID adresu",
       "address_tenant_id": "ID filialy adresu",
-      "client_national_id": "Nacionalny numer identyfikacyjny klienta",
+      "client_national_id": "Numer PESEL klienta",
       "client_tenant_id": "ID filialy klienta",
       "correlation_id": "ID korelacji",
       "request_id": "ID żądania",

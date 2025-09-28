@@ -28,7 +28,8 @@
             "ko": "韩语",
             "es": "西班牙语"
          },
-         "translated_using_artificial_intelligence": "使用人工智能进行翻译"
+         "translated_using_artificial_intelligence": "使用人工智能进行翻译",
+         "you_can_configure_different_options_for_each_light_modes": "您可以為每種燈光模式配置不同的選項"
       },
       "sidebar": {
          "select_sidebar_mode": "选择侧边栏模式",

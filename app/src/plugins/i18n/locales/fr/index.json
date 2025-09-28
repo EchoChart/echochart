@@ -28,7 +28,8 @@
             "ko": "Coréen",
             "es": "Espagnol"
          },
-         "translated_using_artificial_intelligence": "Traduit à l'aide de l'intelligence artificielle"
+         "translated_using_artificial_intelligence": "Traduit à l'aide de l'intelligence artificielle",
+         "you_can_configure_different_options_for_each_light_modes": "Vous pouvez configurer différentes options pour chaque mode clair"
       },
       "sidebar": {
          "select_sidebar_mode": "Sélectionner le mode de barre latérale",
@@ -219,7 +220,7 @@
       "client_address": "Adresse client",
       "audit_config": "Configuration d'audit",
       "audit_log": "Journal d'audit",
-      "product_brands": "Marques de produit",
+      "product_brands": "Marques de produits",
       "stock_view": "Vue du stock",
       "stock_vendor": "Fournisseur de stock",
       "stock_vendor_stat": "Statistiques fournisseur de stock",

@@ -28,7 +28,8 @@
             "ko": "Корейский",
             "es": "Испанский"
          },
-         "translated_using_artificial_intelligence": "Переведено с использованием искусственного интеллекта"
+         "translated_using_artificial_intelligence": "Переведено с использованием искусственного интеллекта",
+         "you_can_configure_different_options_for_each_light_modes": "Вы можете настроить различные параметры для каждого режима света"
       },
       "sidebar": {
          "select_sidebar_mode": "Выберите режим боковой панели",
@@ -214,16 +215,16 @@
       "product": "Продукт",
       "product_category": "Категория продукта",
       "product_categories": "Категории продуктов",
-      "stock": "Запас",
+      "stock": "Склад",
       "record": "Запись",
       "client_address": "Адрес клиента",
       "audit_config": "Конфигурация аудита",
       "audit_log": "Журнал аудита",
       "product_brands": "Бренды продуктов",
-      "stock_view": "Просмотр запаса",
-      "stock_vendor": "Поставщик запаса",
-      "stock_vendor_stat": "Статистика поставщика запаса",
-      "stock_product_stat": "Статистика продукта запаса",
+      "stock_view": "Просмотр склада",
+      "stock_vendor": "Поставщик склада",
+      "stock_vendor_stat": "Статистика поставщика",
+      "stock_product_stat": "Статистика продукта",
       "client_address_view": "Просмотр адреса клиента",
       "audit_log_group": "Группа журналов аудита",
       "parent_id": "ID родителя",
