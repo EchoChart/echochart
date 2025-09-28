@@ -99,6 +99,23 @@ const useDashboardNotifications = () => {
       }
    };
 
+   const getNotificationResourceRoute = (
+      notification: Views['dashboard_notification_feed']['Row']
+   ) => {
+      const { old_data, row_data, resource_id, table_name } = notification;
+      const name = fieldRoutes[table_name]?.name;
+      const field = fieldRoutes[table_name]?.field;
+      const id = field ? _get(row_data, field, _get(old_data, field, resource_id)) : resource_id;
+      const params = {
+         id
+      };
+      return {
+         name,
+         params,
+         query: { showDialog: 'center' }
+      };
+   };
+
    const title = computed(() => ({
       today: i18n.t('dashboard.notifications.today'),
       yesterday: i18n.t('dashboard.notifications.yesterday'),
@@ -113,30 +130,30 @@ const useDashboardNotifications = () => {
          await supabase
             .from('dashboard_notification_feed')
             .select('*')
-            .limit(3)
+            .limit(5)
             .order('created_at', {
                ascending: false
             })
             .eq('since', 'today')
-            .then((res) => data._merge(res.data));
+            .then((res) => data.push(...res.data));
          await supabase
             .from('dashboard_notification_feed')
             .select('*')
-            .limit(3)
+            .limit(5)
             .order('created_at', {
                ascending: false
             })
             .eq('since', 'yesterday')
-            .then((res) => data._merge(res.data));
+            .then((res) => data.push(...res.data));
          await supabase
             .from('dashboard_notification_feed')
             .select('*')
-            .limit(3)
+            .limit(5)
             .order('created_at', {
                ascending: false
             })
             .eq('since', 'last_week')
-            .then((res) => data._merge(res.data));
+            .then((res) => data.push(...res.data));
       } catch (error) {
          console.error('Error fetching dashboard notifications:', error);
          appErrorHandler(error);
@@ -147,6 +164,7 @@ const useDashboardNotifications = () => {
    return {
       load,
       getTagProps,
+      getNotificationResourceRoute,
       data,
       loading,
       title
@@ -611,20 +629,19 @@ onMounted(() => {
                                  tag="span"
                                  class="lowercase first-letter:!capitalize [&>a]:inline-flex"
                               >
-                                 <template
-                                    #resource_name
-                                    v-if="
-                                       $can('read', notification.table_name) &&
-                                       !!_get(notification, 'resource_id') &&
-                                       !!_get(fieldRoutes, notification.table_name)
-                                    "
-                                 >
+                                 <template #resource_name>
                                     <CustomLink
-                                       :to="{
-                                          name: fieldRoutes[notification.table_name].name,
-                                          params: { id: _get(notification, `resource_id`) },
-                                          query: { showDialog: 'center' }
-                                       }"
+                                       v-if="
+                                          $can('read', notification.table_name) &&
+                                          !_isEqual(notification.operation, 'DELETE') &&
+                                          !!_get(notification, 'resource_id') &&
+                                          !!_get(fieldRoutes, notification.table_name)
+                                       "
+                                       :to="
+                                          dashboardNotifications.getNotificationResourceRoute(
+                                             notification
+                                          )
+                                       "
                                        v-slot="{ navigate }"
                                     >
                                        <Button
@@ -636,6 +653,9 @@ onMounted(() => {
                                           @click="navigate"
                                        />
                                     </CustomLink>
+                                    <span v-else>
+                                       {{ $t(`fields.${notification.table_name}`) }}</span
+                                    >
                                  </template>
                                  <template #user_name v-if="$can('read', `user`)">
                                     <CustomLink
