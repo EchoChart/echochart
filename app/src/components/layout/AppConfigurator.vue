@@ -6,6 +6,10 @@ const {
    presets,
    sidebarModeOptions,
    isDarkTheme,
+   surface,
+   primary,
+   UIScale,
+   preset,
    setSidebarMode,
    setPreset,
    updateColors,
@@ -19,6 +23,20 @@ const { isSignedIn } = storeToRefs(useAuthStore());
 <template>
    <div class="app-configurator">
       <FormBox :legend="$t('app_config.app_settings')">
+         <template #actions>
+            <Badge
+               severity="primary"
+               size="small"
+               class="!p-1"
+               v-tooltip.left="{
+                  value: $t(
+                     'app_config.language.you_can_configure_different_options_for_each_light_modes'
+                  )
+               }"
+            >
+               <i :class="PrimeIcons.EXCLAMATION_CIRCLE" class="!text-sm" />
+            </Badge>
+         </template>
          <div class="flex gap-[inherit]">
             <FormField
                fluid
@@ -40,7 +58,7 @@ const { isSignedIn } = storeToRefs(useAuthStore());
             <FormField fluid :label="$t('app_config.language.select_language')">
                <template #badges>
                   <Badge
-                     severity="info"
+                     severity="primary"
                      size="small"
                      class="!p-1"
                      v-tooltip.left="{
@@ -85,7 +103,7 @@ const { isSignedIn } = storeToRefs(useAuthStore());
             <Slider
                v-bind="slotProps"
                class="!min-w-32"
-               v-model:modelValue="layoutState.UIScale"
+               v-model:modelValue="UIScale"
                :step="0.05"
                :min="0.75"
                :max="1.1"
@@ -102,10 +120,9 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                   :title="primaryColor.name"
                   class="app-configurator__color-button"
                   :class="{
-                     'app-configurator__color-button--active':
-                        layoutState.primary === primaryColor.name
+                     'app-configurator__color-button--active': primary === primaryColor.name
                   }"
-                  :raised="layoutState.primary === primaryColor.name"
+                  :raised="primary === primaryColor.name"
                   @click="updateColors('primary', primaryColor)"
                   :style="{
                      backgroundColor: `${primaryColor.name === 'noir' ? (isDarkTheme ? 'var(--text-color)' : 'var(--p-slate-900)') : primaryColor.palette['500']}`
@@ -117,19 +134,19 @@ const { isSignedIn } = storeToRefs(useAuthStore());
          <FormField fluid v-slot="slotProps" :label="$t('app_config.theme.surface_color')">
             <div class="app-configurator__color-buttons">
                <Button
-                  v-for="surface of surfaces"
-                  :key="surface.name"
-                  :title="surface.name"
+                  v-for="s of surfaces"
+                  v-bind="slotProps"
+                  :key="s.name"
+                  :title="s.name"
                   class="app-configurator__color-button"
                   :class="{
-                     'app-configurator__color-button--active': layoutState.surface === surface.name
+                     'app-configurator__color-button--active': surface === s.name
                   }"
-                  :raised="layoutState.surface === surface.name"
-                  @click="updateColors('surface', surface)"
+                  :raised="surface === s.name"
+                  @click="updateColors('surface', s)"
                   :style="{
-                     outlineColor:
-                        layoutState.surface === surface.name ? `var(--p-${surface.name}-500)` : '',
-                     backgroundColor: `${surface.name === 'noir' ? (isDarkTheme ? 'var(--text-color)' : 'var(--p-slate-900)') : surface.palette['500']}`
+                     outlineColor: surface === s.name ? `var(--p-${s.name}-500)` : '',
+                     backgroundColor: `${s.name === 'noir' ? (isDarkTheme ? 'var(--text-color)' : 'var(--p-slate-900)') : s.palette['500']}`
                   }"
                />
             </div>
@@ -138,7 +155,7 @@ const { isSignedIn } = storeToRefs(useAuthStore());
          <FormField fluid v-slot="slotProps" :label="$t('app_config.theme.preset.select_preset')">
             <SelectButton
                v-bind="slotProps"
-               :modelValue="layoutState.preset"
+               :modelValue="preset"
                @change="({ value }) => setPreset(value)"
                :options="presetOptions"
                :allowEmpty="false"

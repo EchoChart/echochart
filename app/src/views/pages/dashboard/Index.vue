@@ -6,7 +6,7 @@ import { appErrorHandler } from '@/lib/appErrorHandler';
 import Collection from '@/lib/Collection';
 import { ChartOptions } from 'chart.js';
 
-const { getPrimary, getSurface, isDarkTheme, primaryColors } = useLayout();
+const { primary, surface, isDarkTheme, primaryColors } = useLayout();
 
 const dialogRef = inject('dialogRef', null);
 
@@ -280,7 +280,7 @@ const useCategorySales = () => {
       };
    };
 
-   watch([getPrimary, getSurface, isDarkTheme, locale], () => {
+   watch([primary, surface, isDarkTheme, locale], () => {
       setChartData();
       setChartOptions();
    });

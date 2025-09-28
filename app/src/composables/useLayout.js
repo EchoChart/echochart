@@ -24,6 +24,12 @@ const layoutState = Collection.create(
          preset: 'aura',
          primary: 'orange',
          surface: 'viva',
+         darkModeOptions: {
+            preset: 'aura',
+            primary: 'orange',
+            surface: 'viva',
+            UIScale: 1
+         },
          sidebarMode: 'static',
          sidebarModeDesktop: 'static',
          sidebarActive: false,
@@ -36,16 +42,54 @@ const layoutState = Collection.create(
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
 
+const isDarkTheme = computed(() => layoutState.isDark);
+
+const primary = computed({
+   get: () => (isDarkTheme.value ? layoutState.darkModeOptions.primary : layoutState.primary),
+   set: (value) => {
+      if (isDarkTheme.value) return _set(layoutState, 'darkModeOptions.primary', value);
+      return _set(layoutState, 'primary', value);
+   }
+});
+
+const surface = computed({
+   get: () => (isDarkTheme.value ? layoutState.darkModeOptions.surface : layoutState.surface),
+   set: (value) => {
+      if (isDarkTheme.value) return _set(layoutState, 'darkModeOptions.surface', value);
+      return _set(layoutState, 'surface', value);
+   }
+});
+
+const UIScale = computed({
+   get: () => (isDarkTheme.value ? layoutState.darkModeOptions.UIScale : layoutState.UIScale),
+   set: (value) => {
+      if (isDarkTheme.value) return _set(layoutState, 'darkModeOptions.UIScale', value);
+      return _set(layoutState, 'UIScale', value);
+   }
+});
+
+const preset = computed({
+   get: () => (isDarkTheme.value ? layoutState.darkModeOptions.preset : layoutState.preset),
+   set: (value) => {
+      if (isDarkTheme.value) return _set(layoutState, 'darkModeOptions.preset', value);
+      return _set(layoutState, 'preset', value);
+   }
+});
+
+const getPrimaryColor = computed(() => colors[primary.value]);
+
+const getSurfaceColor = computed(() => colors[surface.value]);
+
 const setPrimary = (value) => {
-   layoutState.primary = value;
+   primary.value = value;
 };
 
 const setSurface = (value) => {
-   layoutState.surface = value;
+   surface.value = value;
 };
 
 const setPreset = (value) => {
-   layoutState.preset = value;
+   preset.value = value;
 };
 
 const setActiveMenuItem = (item) => {
@@ -81,7 +125,7 @@ const toggleDark = useToggle(
       }
    })
 );
-const toggleDarkMode = (e, value = !layoutState.isDark) => {
+const toggleDarkMode = (e, value = !isDarkTheme.value) => {
    if (!document.startViewTransition) {
       toggleDark(value);
 
@@ -119,7 +163,7 @@ const presets = {
 };
 
 const getPresetExt = () => {
-   const color = primaryColors.value.find((c) => c.name === layoutState.primary);
+   const color = primaryColors.value.find((c) => c.name === primary.value);
 
    if (color.name === 'noir') {
       return {
@@ -225,28 +269,21 @@ function applyTheme(type, color) {
       updateSurfacePalette(color.palette);
    }
 }
-watch(
-   () => layoutState._toJson,
-   (newlayoutState) => {
-      localStorage.setItem('app-state', newlayoutState);
-   },
-   { immediate: true }
-);
 
 nextTick(() => {
    watch(
-      () => layoutState.UIScale,
-      (newScale) => {
-         if (newScale > 0) document.documentElement.style.setProperty('--ui-scale', newScale);
+      () => layoutState._toJson,
+      (newlayoutState) => {
+         localStorage.setItem('app-state', newlayoutState);
       },
       { immediate: true }
    );
 
    watch(
-      () => layoutState.preset,
-      () => {
-         const presetValue = presets[layoutState.preset];
-         const surfacePalette = surfaces.value.find((s) => s.name === layoutState.surface)?.palette;
+      () => preset.value,
+      (value) => {
+         const presetValue = presets[value];
+         const surfacePalette = surfaces.value.find((s) => s.name === surface.value)?.palette;
 
          $t()
             .preset(presetValue)
@@ -256,19 +293,37 @@ nextTick(() => {
       },
       { immediate: true }
    );
+
+   watch(
+      () => primary.value,
+      (value) =>
+         applyTheme(
+            'primary',
+            primaryColors.value.find(({ name }) => name === value)
+         ),
+      { immediate: true }
+   );
+
+   watch(
+      () => surface.value,
+      (value) =>
+         applyTheme(
+            'surface',
+            surfaces.value.find(({ name }) => name === value)
+         ),
+      { immediate: true }
+   );
+
+   watch(
+      () => UIScale.value,
+      (newScale) => {
+         if (newScale > 0) document.documentElement.style.setProperty('--ui-scale', newScale);
+      },
+      { immediate: true }
+   );
 });
 
 export default () => {
-   const isDarkTheme = computed(() => layoutState.isDark);
-
-   const getPrimary = computed(() => layoutState.primary);
-
-   const getPrimaryColor = computed(() => colors[layoutState.primary]);
-
-   const getSurface = computed(() => layoutState.surface);
-
-   const getSurfaceColor = computed(() => colors[layoutState.surface]);
-
    const {
       ability: { can }
    } = useAuthStore();
@@ -352,11 +407,13 @@ export default () => {
 
    return {
       layoutState: layoutState,
+      primary,
+      surface,
+      UIScale,
+      preset,
       surfaces: readonly(surfaces),
       primaryColors: readonly(primaryColors),
       isDarkTheme: readonly(isDarkTheme),
-      getPrimary: readonly(getPrimary),
-      getSurface: readonly(getSurface),
       getPrimaryColor: readonly(getPrimaryColor),
       getSurfaceColor: readonly(getSurfaceColor),
       presets: readonly(presets),
