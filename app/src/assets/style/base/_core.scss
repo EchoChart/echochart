@@ -1,6 +1,6 @@
 :root {
    height: 100%;
-   font-size: clamp(calc(0.625rem * var(--ui-scale)), 3vw, calc(1rem * var(--ui-scale)));
+   font-size: clamp(calc(0.625rem * var(--ui-scale)), 2vw, calc(1rem * var(--ui-scale)));
 }
 
 body {
@@ -9,10 +9,6 @@ body {
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
 }
-
-// a {
-//    @apply no-underline;
-// }
 
 * {
    scroll-behavior: smooth;

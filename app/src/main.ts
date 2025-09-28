@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 
-import { i18NPlugin } from '@plugins/i18n';
+import { i18NPlugin } from '@/plugins/i18n';
 import Aura from '@primeuix/themes/aura';
 import { createPinia } from 'pinia';
 import PrimeVue from 'primevue/config';
@@ -41,7 +41,8 @@ app.use(PrimeVue, {
    theme: {
       preset: Aura,
       options: {
-         darkModeSelector: '[color-scheme*="dark"]'
+         darkModeSelector: ':root[color-scheme*="dark"]',
+         order: 'tailwind-base, primevue, tailwind-utilities'
       }
    }
 });

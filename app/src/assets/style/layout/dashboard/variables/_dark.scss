@@ -1,3 +1,5 @@
 :root[color-scheme*='dark'] {
    --surface-ground: var(--p-surface-950);
 }
+
+@custom-variant dark (&:where(:root[color-scheme*='dark'], :root[color-scheme*='dark'] *));
