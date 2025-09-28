@@ -1,4 +1,4 @@
 {
    "rewrites": [{ "source": "/(.*)", "destination": "/" }],
-   "ignoreCommand": "case \"$VERCEL_GIT_TAG\" in echochart-app-*) exit 1 ;; *) exit 0 ;; esac"
+   "relatedProjects": ["prj_V7LZK4x1cSWzoD09exOzufxnbDO7"]
 }
