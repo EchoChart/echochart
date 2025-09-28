@@ -88,6 +88,34 @@ const getChanges = (log: Log) => {
    return log;
 };
 
+function getLogResourceRoute(log: Log) {
+   const { table_name, row_data, old_data } = log;
+   const { name, field } = fieldRoutes[table_name];
+   const id = field ? _get(row_data, field, _get(old_data, field)) : _get(row_data, 'id');
+   const params = {
+      id
+   };
+   return {
+      name,
+      params,
+      query: { showDialog: 'center' }
+   };
+}
+
+function getLogEntryRoute(entry: Log['changes'][0]) {
+   const { key, newValue } = entry;
+   const { name } = fieldRoutes[key];
+   const id = newValue;
+   const params = {
+      id
+   };
+   return {
+      name,
+      params,
+      query: { showDialog: 'center' }
+   };
+}
+
 function formatValue(value: any, indentSize = 0): any {
    if (_isNil(value)) return '—';
 
@@ -154,11 +182,7 @@ if (props.id) {
                   !!fieldRoutes[log.table_name] &&
                   !!(log.row_data as any)?.id
                "
-               :to="{
-                  ...fieldRoutes[log.table_name],
-                  params: { id: (log.row_data as any)?.id },
-                  query: { showDialog: 'center' }
-               }"
+               :to="getLogResourceRoute(log)"
                v-slot="{ navigate }"
             >
                <Button
@@ -197,11 +221,7 @@ if (props.id) {
                      _endsWith(entry.key, '_id') &&
                      !!entry?.newValue
                   "
-                  :to="{
-                     ...fieldRoutes[entry.key],
-                     params: { id: entry.newValue },
-                     query: { showDialog: 'center' }
-                  }"
+                  :to="getLogEntryRoute(entry)"
                   v-slot="{ navigate }"
                >
                   <Button
