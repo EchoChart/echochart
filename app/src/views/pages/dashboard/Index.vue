@@ -671,7 +671,7 @@ onMounted(() => {
                                           variant="link"
                                           size="small"
                                           fluid
-                                          class="!px-0"
+                                          class="!px-0 !text-primary-emphasis-alt"
                                           :label="_get(notification, `user_name`)"
                                           @click="navigate"
                                        />
