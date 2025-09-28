@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.2.1-alpha.1...echochart-app-v1.3.0-alpha.1) (2025-09-28)
+
+
+### Features
+
+* **layout:** consolidate theme options and improve UI components ([d8cbea7](https://github.com/EchoChart/echochart/commit/d8cbea7b1c04ed81338aa958bee299b54d8bb15b))
+
 ## [1.2.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.2.0-alpha.1...echochart-app-v1.2.1-alpha.1) (2025-09-28)
 
 
