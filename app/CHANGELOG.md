@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.3.0-alpha.1...echochart-app-v1.3.1-alpha.1) (2025-09-28)
+
+
+### Bug Fixes
+
+* **production:** update git ignore command for Vercel deployment ([7f906c1](https://github.com/EchoChart/echochart/commit/7f906c16ab5b18b5a22197d31b4f0e76c416ca74))
+
 ## [1.3.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.2.1-alpha.1...echochart-app-v1.3.0-alpha.1) (2025-09-28)
 
 
