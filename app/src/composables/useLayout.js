@@ -142,7 +142,6 @@ const presets = {
 };
 
 const getPresetExt = () => {
-   console.log(layoutState);
    const color = primaryColors.find((c) => c.name === layoutState.primary);
 
    if (color.name === 'noir') {

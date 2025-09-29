@@ -23,7 +23,6 @@ const { isSignedIn } = storeToRefs(useAuthStore());
             <div class="app-configurator__header">
                <span v-text="legend" />
                <ToggleButton
-                  v-bind="slotProps"
                   @change="toggleDarkMode"
                   :modelValue="isDarkTheme"
                   :onIcon="PrimeIcons.MOON"

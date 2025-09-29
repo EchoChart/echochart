@@ -15,7 +15,11 @@ import ru from 'validatorjs/src/lang/ru.js';
 import tr from 'validatorjs/src/lang/tr.js';
 import zh from 'validatorjs/src/lang/zh.js';
 
-const validatorLocales = {
+// import { all as primeLocales } from 'primelocale';
+
+import { app } from '@/main';
+
+export const validatorLocales = {
    de,
    en,
    fr,
@@ -41,6 +45,19 @@ export const dayjsLocales = {
    ko: () => import('dayjs/locale/ko')
 };
 
+export const primeLocales = {
+   en: () => import('primelocale/en.json'),
+   tr: () => import('primelocale/tr.json'),
+   es: () => import('primelocale/es.json'),
+   fr: () => import('primelocale/fr.json'),
+   de: () => import('primelocale/de.json'),
+   pl: () => import('primelocale/pl.json'),
+   ru: () => import('primelocale/ru.json'),
+   zh: () => import('primelocale/zh-CN.json'),
+   ja: () => import('primelocale/ja.json'),
+   ko: () => import('primelocale/ko.json')
+};
+
 const { language: navigatorLanguage } = useNavigatorLanguage();
 
 export async function loadLocaleMessages(locale, i18n = i18NPlugin.global) {
@@ -51,22 +68,43 @@ export async function loadLocaleMessages(locale, i18n = i18NPlugin.global) {
       // Dynamically load package locales
       const loadDayjsLocale = dayjsLocales[locale];
       const loadValidatorLocales = validatorLocales[locale];
+      const loadPrimeLocales = primeLocales[locale];
 
-      if (loadDayjsLocale) {
-         await loadDayjsLocale();
-         dayjs.locale(locale);
-      } else {
-         console.warn(`dayjs locale '${locale}' not found, falling back to 'en'`);
-         dayjs.locale(i18NPlugin.global.fallbackLocale.value);
+      try {
+         if (loadDayjsLocale) {
+            await loadDayjsLocale();
+            dayjs.locale(locale);
+         } else {
+            console.warn(`dayjs locale '${locale}' not found, falling back to 'en'`);
+            dayjs.locale(i18NPlugin.global.fallbackLocale.value);
+         }
+      } catch (error) {
+         console.warn(`Failed to load dayjs locale '${locale}':`, error);
       }
 
-      if (loadValidatorLocales) {
-         Validator.setMessages(locale, loadValidatorLocales);
-         Validator.useLang(locale);
-      } else {
-         console.warn(`validator locale '${locale}' not found, falling back to 'en'`);
-         Validator.setMessages(locale, await validatorLocales['en']?.());
-         Validator.useLang('en');
+      try {
+         if (loadValidatorLocales) {
+            Validator.setMessages(locale, loadValidatorLocales);
+            Validator.useLang(locale);
+         } else {
+            console.warn(`validator locale '${locale}' not found, falling back to 'en'`);
+            Validator.setMessages(locale, await validatorLocales['en']?.());
+            Validator.useLang('en');
+         }
+      } catch (error) {
+         console.warn(`Failed to load validator locale '${locale}':`, error);
+      }
+
+      try {
+         if (loadPrimeLocales) {
+            const primevue = app.config.globalProperties.$primevue;
+            const primeLocale = (await loadPrimeLocales())?.default;
+            _merge(primevue.config.locale, primeLocale[locale]);
+         } else {
+            console.warn(`primevue locale '${locale}' not found, falling back to 'en'`);
+         }
+      } catch (error) {
+         console.warn(`Failed to load primevue locale '${locale}':`, error);
       }
 
       return {
