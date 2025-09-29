@@ -20,7 +20,7 @@ const { isSignedIn } = storeToRefs(useAuthStore());
    <div class="app-configurator">
       <FormBox :legend="$t('app_config.app_settings')">
          <template #legend="{ legend }">
-            <div class="flex gap-2 items-center">
+            <div class="app-configurator__header">
                <span v-text="legend" />
                <ToggleButton
                   v-bind="slotProps"
@@ -56,18 +56,21 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                />
             </div>
          </template>
-         <div class="flex gap-[inherit]">
+         <div class="app-configurator__language-section">
             <FormField :label="$t('app_config.language.select_language')">
                <template #badges>
                   <Badge
                      severity="primary"
                      size="small"
-                     class="!p-1"
+                     class="app-configurator__language-badge"
                      v-tooltip.left="{
                         value: $t('app_config.language.translated_using_artificial_intelligence')
                      }"
                   >
-                     <i :class="PrimeIcons.EXCLAMATION_CIRCLE" class="!text-sm" />
+                     <i
+                        :class="PrimeIcons.EXCLAMATION_CIRCLE"
+                        class="app-configurator__language-badge-icon"
+                     />
                   </Badge>
                </template>
                <template #default="slotProps">
@@ -80,18 +83,18 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                      @change="$router.replace({ params: { locale: $event.value } })"
                   >
                      <template #option="{ option }">
-                        <div class="flex gap-2 items-center">
+                        <div class="app-configurator__language-option">
                            <span
-                              class="flag !aspect-[44/30] !w-8 !h-[unset]"
-                              :class="`flag-${option.value}`"
+                              class="app-configurator__language-flag"
+                              :class="`flag flag-${option.value}`"
                            />
                            <span v-text="option.label" />
                         </div>
                      </template>
                      <template #value="{ value }">
-                        <div class="flex gap-2 items-center">
+                        <div class="app-configurator__language-value">
                            <span
-                              class="flag !aspect-[44/30] !w-8 !h-[unset]"
+                              class="app-configurator__language-flag flag"
                               :class="`flag-${value}`"
                            />
                         </div>
@@ -101,10 +104,14 @@ const { isSignedIn } = storeToRefs(useAuthStore());
             </FormField>
          </div>
 
-         <FormField v-slot="slotProps" :label="$t('app_config.theme.ui_scale')" class="w-full">
+         <FormField
+            v-slot="slotProps"
+            :label="$t('app_config.theme.ui_scale')"
+            class="app-configurator__scale-field"
+         >
             <Slider
                v-bind="slotProps"
-               class="!min-w-32"
+               class="app-configurator__scale-slider"
                v-model:modelValue="layoutState.UIScale"
                :step="0.05"
                :min="0.75"
@@ -189,6 +196,42 @@ const { isSignedIn } = storeToRefs(useAuthStore());
 
 <style lang="scss">
 .app-configurator {
+   &__header {
+      @apply flex gap-2 items-center;
+   }
+
+   &__language-section {
+      @apply flex gap-[inherit];
+   }
+
+   &__language-badge {
+      @apply p-1 !important;
+   }
+
+   &__language-badge-icon {
+      @apply text-sm !important;
+   }
+
+   &__language-option {
+      @apply flex gap-2 items-center;
+   }
+
+   &__language-value {
+      @apply flex gap-2 items-center;
+   }
+
+   &__language-flag {
+      @apply aspect-[44/30] !w-8 !h-[unset] !important;
+   }
+
+   &__scale-field {
+      @apply w-full;
+   }
+
+   &__scale-slider {
+      @apply min-w-32 !important;
+   }
+
    &__color-buttons {
       @apply flex gap-3 flex-wrap justify-center items-center;
    }
