@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.5-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.3.4-alpha.1...echochart-app-v1.3.5-alpha.1) (2025-09-29)
+
+
+### Bug Fixes
+
+* **dashboard:** update notification button styling ([53799a5](https://github.com/EchoChart/echochart/commit/53799a5fbac5765428335bc3a1158da7b8b1e566))
+
 ## [1.3.4-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.3.3-alpha.1...echochart-app-v1.3.4-alpha.1) (2025-09-28)
 
 
