@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.3.5-alpha.1...echochart-app-v1.4.0-alpha.1) (2025-09-29)
+
+
+### Features
+
+* **app:** add `primelocale` for  primevue internationalization support ([24c6042](https://github.com/EchoChart/echochart/commit/24c60424e90ef812e271086873507006f9ae470c))
+
 ## [1.3.5-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.3.4-alpha.1...echochart-app-v1.3.5-alpha.1) (2025-09-29)
 
 
