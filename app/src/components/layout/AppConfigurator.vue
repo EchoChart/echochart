@@ -6,10 +6,6 @@ const {
    presets,
    sidebarModeOptions,
    isDarkTheme,
-   surface,
-   primary,
-   UIScale,
-   preset,
    setSidebarMode,
    setPreset,
    updateColors,
@@ -23,39 +19,45 @@ const { isSignedIn } = storeToRefs(useAuthStore());
 <template>
    <div class="app-configurator">
       <FormBox :legend="$t('app_config.app_settings')">
-         <template #actions>
-            <Badge
-               severity="primary"
-               size="small"
-               class="!p-1"
-               v-tooltip.left="{
-                  value: $t(
-                     'app_config.language.you_can_configure_different_options_for_each_light_modes'
-                  )
-               }"
-            >
-               <i :class="PrimeIcons.EXCLAMATION_CIRCLE" class="!text-sm" />
-            </Badge>
-         </template>
-         <div class="flex gap-[inherit]">
-            <FormField
-               fluid
-               v-slot="slotProps"
-               :label="$t('app_config.theme.dark_mode.toggle_dark_mode')"
-            >
+         <template #legend="{ legend }">
+            <div class="flex gap-2 items-center">
+               <span v-text="legend" />
                <ToggleButton
                   v-bind="slotProps"
                   @change="toggleDarkMode"
                   :modelValue="isDarkTheme"
-                  onIcon="pi pi-moon"
-                  offIcon="pi pi-sun"
-                  :onLabel="$t('app_config.theme.dark_mode.dark')"
-                  :offLabel="$t('app_config.theme.dark_mode.light')"
+                  :onIcon="PrimeIcons.MOON"
+                  :offIcon="PrimeIcons.SUN"
+                  onLabel=""
+                  offLabel=""
+                  :pt="{
+                     label: {
+                        class: 'hidden'
+                     }
+                  }"
                   :aria-label="$t('app_config.theme.dark_mode.toggle_dark_mode')"
                />
-            </FormField>
-
-            <FormField fluid :label="$t('app_config.language.select_language')">
+               <ToggleButton
+                  v-model="layoutState.isLinked"
+                  :on-icon="PrimeIcons.LOCK"
+                  :off-icon="PrimeIcons.LOCK_OPEN"
+                  onLabel=""
+                  offLabel=""
+                  :pt="{
+                     label: {
+                        class: 'hidden'
+                     }
+                  }"
+                  v-tooltip.left="{
+                     value: $t(
+                        'app_config.language.you_can_configure_different_options_for_each_light_modes'
+                     )
+                  }"
+               />
+            </div>
+         </template>
+         <div class="flex gap-[inherit]">
+            <FormField :label="$t('app_config.language.select_language')">
                <template #badges>
                   <Badge
                      severity="primary"
@@ -99,11 +101,11 @@ const { isSignedIn } = storeToRefs(useAuthStore());
             </FormField>
          </div>
 
-         <FormField fluid v-slot="slotProps" :label="$t('app_config.theme.ui_scale')">
+         <FormField v-slot="slotProps" :label="$t('app_config.theme.ui_scale')" class="w-full">
             <Slider
                v-bind="slotProps"
                class="!min-w-32"
-               v-model:modelValue="UIScale"
+               v-model:modelValue="layoutState.UIScale"
                :step="0.05"
                :min="0.75"
                :max="1.1"
@@ -120,9 +122,10 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                   :title="primaryColor.name"
                   class="app-configurator__color-button"
                   :class="{
-                     'app-configurator__color-button--active': primary === primaryColor.name
+                     'app-configurator__color-button--active':
+                        layoutState.primary === primaryColor.name
                   }"
-                  :raised="primary === primaryColor.name"
+                  :raised="layoutState.primary === primaryColor.name"
                   @click="updateColors('primary', primaryColor)"
                   :style="{
                      backgroundColor: `${primaryColor.name === 'noir' ? (isDarkTheme ? 'var(--text-color)' : 'var(--p-slate-900)') : primaryColor.palette['500']}`
@@ -140,12 +143,12 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                   :title="s.name"
                   class="app-configurator__color-button"
                   :class="{
-                     'app-configurator__color-button--active': surface === s.name
+                     'app-configurator__color-button--active': layoutState.surface === s.name
                   }"
-                  :raised="surface === s.name"
+                  :raised="layoutState.surface === s.name"
                   @click="updateColors('surface', s)"
                   :style="{
-                     outlineColor: surface === s.name ? `var(--p-${s.name}-500)` : '',
+                     outlineColor: layoutState.surface === s.name ? `var(--p-${s.name}-500)` : '',
                      backgroundColor: `${s.name === 'noir' ? (isDarkTheme ? 'var(--text-color)' : 'var(--p-slate-900)') : s.palette['500']}`
                   }"
                />
@@ -155,7 +158,7 @@ const { isSignedIn } = storeToRefs(useAuthStore());
          <FormField fluid v-slot="slotProps" :label="$t('app_config.theme.preset.select_preset')">
             <SelectButton
                v-bind="slotProps"
-               :modelValue="preset"
+               :modelValue="layoutState.preset"
                @change="({ value }) => setPreset(value)"
                :options="presetOptions"
                :allowEmpty="false"

@@ -115,10 +115,10 @@ const boxElement = ref<HTMLElement | null>(null);
 
    &__header {
       &-container {
-         @apply flex items-center gap-4;
+         @apply flex items-center gap-2;
       }
       &-actions {
-         @apply print:!hidden;
+         @apply print:!hidden empty:hidden;
       }
    }
    &__legend {

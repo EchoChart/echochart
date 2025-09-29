@@ -1,5 +1,4 @@
 import tailwindConfig from '@/../tailwind.config.js';
-import Collection from '@/lib/Collection';
 import router from '@/router';
 import { $t, updatePreset, updateSurfacePalette } from '@primeuix/themes';
 import aura from '@primeuix/themes/aura';
@@ -17,79 +16,59 @@ delete tailwindColors.blueGray;
 
 const colors = _merge(tailwindConfig.theme?.extend?.colors, tailwindColors);
 
-const layoutState = Collection.create(
-   _merge(
-      {
-         isDark: usePreferredDark(),
+const layoutStorage = useLocalStorage(
+   'app-state',
+   {
+      isDark: usePreferredDark(),
+      isLinked: true,
+      sidebarActive: false,
+      activeMenuItem: {},
+      sidebarMode: 'static',
+      sidebarModeDesktop: 'static',
+      preset: 'aura',
+      primary: 'orange',
+      surface: 'viva',
+      UIScale: 1,
+      dark: {
          preset: 'aura',
          primary: 'orange',
          surface: 'viva',
-         darkModeOptions: {
-            preset: 'aura',
-            primary: 'orange',
-            surface: 'viva',
-            UIScale: 1
-         },
-         sidebarMode: 'static',
-         sidebarModeDesktop: 'static',
-         sidebarActive: false,
-         activeMenuItem: {},
          UIScale: 1
-      },
-      JSON.parse(localStorage.getItem('app-state'))
-   )
+      }
+   },
+   { writeDefaults: true, mergeDefaults: true }
 );
+const layoutState = new Proxy(layoutStorage.value, {
+   get(target, prop) {
+      if (!target.isLinked && target.isDark && _has(target.dark, prop))
+         return _get(target, `dark.${prop}`, _get(target, prop));
+      return _get(target, prop);
+   },
+   set(target, prop, newValue) {
+      if (!target.isLinked && target.isDark && _has(target.dark, prop))
+         return _set(target, `dark.${prop}`, newValue);
+      return _set(target, prop, newValue);
+   }
+});
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
 
 const isDarkTheme = computed(() => layoutState.isDark);
 
-const primary = computed({
-   get: () => (isDarkTheme.value ? layoutState.darkModeOptions.primary : layoutState.primary),
-   set: (value) => {
-      if (isDarkTheme.value) return _set(layoutState, 'darkModeOptions.primary', value);
-      return _set(layoutState, 'primary', value);
-   }
-});
+const getPrimaryColor = computed(() => colors[layoutState.primary]);
 
-const surface = computed({
-   get: () => (isDarkTheme.value ? layoutState.darkModeOptions.surface : layoutState.surface),
-   set: (value) => {
-      if (isDarkTheme.value) return _set(layoutState, 'darkModeOptions.surface', value);
-      return _set(layoutState, 'surface', value);
-   }
-});
-
-const UIScale = computed({
-   get: () => (isDarkTheme.value ? layoutState.darkModeOptions.UIScale : layoutState.UIScale),
-   set: (value) => {
-      if (isDarkTheme.value) return _set(layoutState, 'darkModeOptions.UIScale', value);
-      return _set(layoutState, 'UIScale', value);
-   }
-});
-
-const preset = computed({
-   get: () => (isDarkTheme.value ? layoutState.darkModeOptions.preset : layoutState.preset),
-   set: (value) => {
-      if (isDarkTheme.value) return _set(layoutState, 'darkModeOptions.preset', value);
-      return _set(layoutState, 'preset', value);
-   }
-});
-
-const getPrimaryColor = computed(() => colors[primary.value]);
-
-const getSurfaceColor = computed(() => colors[surface.value]);
+const getSurfaceColor = computed(() => colors[layoutState.surface]);
 
 const setPrimary = (value) => {
-   primary.value = value;
+   layoutState.primary = value;
 };
 
 const setSurface = (value) => {
-   surface.value = value;
+   layoutState.surface = value;
 };
 
 const setPreset = (value) => {
-   preset.value = value;
+   layoutState.preset = value;
 };
 
 const setActiveMenuItem = (item) => {
@@ -143,17 +122,17 @@ const resetSidebar = () => {
    layoutState.sidebarActive = false;
 };
 
-const primaryColors = ref(
-   _toPairs(_omit(colors, ['white', 'black', 'transparent', 'current', 'inherit'])).reduce(
-      (acc, [name, palette]) => {
-         acc.push({ name, palette: { 0: '#ffffff', ...palette } });
-         return acc;
-      },
-      [{ name: 'noir', palette: {} }]
-   )
+const primaryColors = _toPairs(
+   _omit(colors, ['white', 'black', 'transparent', 'current', 'inherit'])
+).reduce(
+   (acc, [name, palette]) => {
+      acc.push({ name, palette: { 0: '#ffffff', ...palette } });
+      return acc;
+   },
+   [{ name: 'noir', palette: {} }]
 );
 
-const surfaces = ref(primaryColors.value.filter(({ name }) => name !== 'noir'));
+const surfaces = ref(primaryColors.filter(({ name }) => name !== 'noir'));
 
 const presets = {
    aura,
@@ -163,7 +142,8 @@ const presets = {
 };
 
 const getPresetExt = () => {
-   const color = primaryColors.value.find((c) => c.name === primary.value);
+   console.log(layoutState);
+   const color = primaryColors.find((c) => c.name === layoutState.primary);
 
    if (color.name === 'noir') {
       return {
@@ -272,18 +252,18 @@ function applyTheme(type, color) {
 
 nextTick(() => {
    watch(
-      () => layoutState._toJson,
+      () => layoutState,
       (newlayoutState) => {
-         localStorage.setItem('app-state', newlayoutState);
+         localStorage.setItem('app-state', JSON.stringify(newlayoutState));
       },
       { immediate: true }
    );
 
    watch(
-      () => preset.value,
+      () => layoutState.preset,
       (value) => {
          const presetValue = presets[value];
-         const surfacePalette = surfaces.value.find((s) => s.name === surface.value)?.palette;
+         const surfacePalette = surfaces.value.find((s) => s.name === layoutState.surface)?.palette;
 
          $t()
             .preset(presetValue)
@@ -295,17 +275,17 @@ nextTick(() => {
    );
 
    watch(
-      () => primary.value,
+      () => layoutState.primary,
       (value) =>
          applyTheme(
             'primary',
-            primaryColors.value.find(({ name }) => name === value)
+            primaryColors.find(({ name }) => name === value)
          ),
       { immediate: true }
    );
 
    watch(
-      () => surface.value,
+      () => layoutState.surface,
       (value) =>
          applyTheme(
             'surface',
@@ -315,7 +295,7 @@ nextTick(() => {
    );
 
    watch(
-      () => UIScale.value,
+      () => layoutState.UIScale,
       (newScale) => {
          if (newScale > 0) document.documentElement.style.setProperty('--ui-scale', newScale);
       },
@@ -407,10 +387,6 @@ export default () => {
 
    return {
       layoutState: layoutState,
-      primary,
-      surface,
-      UIScale,
-      preset,
       surfaces: readonly(surfaces),
       primaryColors: readonly(primaryColors),
       isDarkTheme: readonly(isDarkTheme),

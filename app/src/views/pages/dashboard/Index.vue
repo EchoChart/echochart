@@ -5,8 +5,9 @@ import { RECORD_TYPES } from '@/constants/form/record';
 import { appErrorHandler } from '@/lib/appErrorHandler';
 import Collection from '@/lib/Collection';
 import { ChartOptions } from 'chart.js';
+import { RouteLocationAsRelativeGeneric } from 'vue-router';
 
-const { primary, surface, isDarkTheme, primaryColors } = useLayout();
+const { layoutState, isDarkTheme, primaryColors } = useLayout();
 
 const dialogRef = inject('dialogRef', null);
 
@@ -282,10 +283,13 @@ const useCategorySales = () => {
       };
    };
 
-   watch([primary, surface, isDarkTheme, locale], () => {
-      setChartData();
-      setChartOptions();
-   });
+   watch(
+      () => [layoutState.primary, layoutState.surface, isDarkTheme, locale],
+      () => {
+         setChartData();
+         setChartOptions();
+      }
+   );
 
    return {
       load,
