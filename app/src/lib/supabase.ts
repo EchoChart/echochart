@@ -394,7 +394,7 @@ const customFetch = async (
       !_includes(url as string, 'rpc/')
    ) {
       _merge(body, { tenant_id: currentTenant?.id });
-      options.body = JSON.stringify(body) as BodyInit & ReadableStream<Uint8Array<ArrayBufferLike>>;
+      options.body = JSON.stringify(body) as BodyInit & ReadableStream<Uint8Array<ArrayBuffer>>;
    }
 
    const queryFn = () =>
