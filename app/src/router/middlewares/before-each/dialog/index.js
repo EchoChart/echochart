@@ -67,7 +67,7 @@ export const dialogBeforeEach = async (to, from, next) => {
       data: { to, from },
       props: {
          maximizable: false,
-         header: i18n.t(lastMatchedRoute.meta.label) || '',
+         header: computed(() => i18n.t(lastMatchedRoute.meta.label)),
          pt: {
             header: {
                class: 'first-letter:uppercase'
