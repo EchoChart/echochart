@@ -50,7 +50,7 @@ export default [
                   name: 'branch-user-list',
                   meta: {
                      visible: false,
-                     label: i18n.t('route.label.list'),
+                     label: i18n.t('route.label.branch_user_list'),
                      requiredPermissions: [
                         {
                            action: 'select',
@@ -215,7 +215,7 @@ export default [
                   path: 'list',
                   name: 'branch-audit-log-list',
                   meta: {
-                     label: i18n.t('route.label.list'),
+                     label: i18n.t('route.label.audit_log_list'),
                      visible: false,
                      index: -1,
                      requiredPermissions: [
