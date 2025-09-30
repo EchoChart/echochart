@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.4.1-alpha.1...echochart-app-v1.4.2-alpha.1) (2025-09-30)
+
+
+### Bug Fixes
+
+* **route:** update labels for branch-related routes ([46e32c2](https://github.com/EchoChart/echochart/commit/46e32c2af4e1d9fdeeaf356117a426bef02299b1))
+
 ## [1.4.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.4.0-alpha.1...echochart-app-v1.4.1-alpha.1) (2025-09-30)
 
 
