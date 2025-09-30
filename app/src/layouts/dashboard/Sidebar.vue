@@ -1,21 +1,5 @@
 <script setup>
-const { layoutState, routes, breakpoints, resetSidebar } = useLayout();
-
-const mobileSidebarListener = _debounce(() => {
-   if (breakpoints.isSmaller('sm')) {
-      if (layoutState.sidebarMode !== 'overlay') {
-         layoutState.sidebarModeDesktop = layoutState.sidebarMode;
-         layoutState.sidebarMode = 'overlay';
-      }
-      return;
-   }
-   if (!breakpoints.current().value.includes('sm')) {
-      return;
-   }
-   if (layoutState.sidebarModeDesktop) {
-      layoutState.sidebarMode = layoutState.sidebarModeDesktop;
-   }
-}, 250);
+const { layoutState, routes, resetSidebar } = useLayout();
 
 const outsideClickListener = ref(null);
 
@@ -48,8 +32,6 @@ function isOutsideClicked(event) {
       topbarEl?.contains(event.target)
    );
 }
-
-useResizeObserver(document.body, mobileSidebarListener);
 
 watch(
    () => [layoutState.sidebarActive, layoutState.sidebarMode],

@@ -33,11 +33,14 @@ const layoutStorage = useLocalStorage(
          preset: 'aura',
          primary: 'orange',
          surface: 'viva',
-         UIScale: 1
+         UIScale: 1,
+         sidebarMode: 'static',
+         sidebarModeDesktop: 'static'
       }
    },
    { writeDefaults: true, mergeDefaults: true }
 );
+
 const layoutState = new Proxy(layoutStorage.value, {
    get(target, prop) {
       if (!target.isLinked && target.isDark && _has(target.dark, prop))
@@ -299,6 +302,28 @@ nextTick(() => {
          if (newScale > 0) document.documentElement.style.setProperty('--ui-scale', newScale);
       },
       { immediate: true }
+   );
+
+   watch(
+      () => [breakpoints.sm.value === false, layoutState.isDark],
+      ([isMobileView]) => {
+         if (isMobileView) {
+            if (layoutState.sidebarMode !== 'overlay') {
+               layoutState.sidebarModeDesktop = layoutState.sidebarMode;
+               layoutState.sidebarMode = 'overlay';
+            }
+            return;
+         }
+         if (!breakpoints.current().value.includes('sm')) {
+            return;
+         }
+         if (layoutState.sidebarModeDesktop) {
+            layoutState.sidebarMode = layoutState.sidebarModeDesktop;
+         }
+      },
+      {
+         immediate: true
+      }
    );
 });
 
