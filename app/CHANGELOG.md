@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.4.0-alpha.1...echochart-app-v1.4.1-alpha.1) (2025-09-30)
+
+
+### Bug Fixes
+
+* correct type for options.body in customFetch function ([a60bedf](https://github.com/EchoChart/echochart/commit/a60bedf3ee8c1909088b236bbf9b2c3efeb77bcf))
+* **router:** update dialog header to use computed property ([297ee36](https://github.com/EchoChart/echochart/commit/297ee361e97ea0d342d617c253461100ee66617b))
+
 ## [1.4.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.3.5-alpha.1...echochart-app-v1.4.0-alpha.1) (2025-09-29)
 
 
