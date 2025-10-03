@@ -27,7 +27,9 @@
             "chinese": "중국어",
             "japanese": "일본어",
             "korean": "한국어",
-            "italian": "이탈리아어"
+            "italian": "이탈리아어",
+            "arabic": "아라비아어",
+            "arabic(ae)": "아랍어(아일랜드)"
          }
       },
       "sidebar": {

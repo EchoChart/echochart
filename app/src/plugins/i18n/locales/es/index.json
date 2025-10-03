@@ -1,734 +1,736 @@
 {
-  "dashboard": {
-    "statistics": {
-      "last_week": "Última semana",
-      "last_month": "Último mes",
-      "last_quarter": "Último trimestre",
-      "last_half": "Última mitad",
-      "last_year": "Último año",
-      "total": "Total",
-      "client": {
-        "clients": "Clientes"
-      }
-    },
-    "best_selling_products": {
-      "sold_quantity": "Cantidad vendida",
-      "total_gain": "Ganancia total",
-      "total_discount": "Descuento total",
-      "total_tax": "Impuesto total",
-      "title": "Productos más vendidos",
-      "empty": "No hay productos"
-    },
-    "notifications": {
-      "today": "Hoy",
-      "yesterday": "Ayer",
-      "last_week": "Última semana",
-      "older": "Anteriores",
-      "title": "Notificaciones",
-      "activity": {
-        "created": "nuevo {resource_name} creado por {user_name}",
-        "updated": "actualización de {resource_name} realizada por {user_name}",
-        "deleted": "eliminación de {resource_name} realizada por {user_name}",
-        "unknown": "actividad detectada en {resource_name} por {user_name}"
-      }
-    },
-    "sales_by_category": {
-      "total_quantity_sold": "Cantidad total vendida",
-      "total_bid": "Oferta total",
-      "total_discount": "Descuento total",
-      "total_tax": "Impuesto total",
-      "title": "Ventas por categoría"
-    },
-    "tables": {
-      "recent_sales": {
-        "title": "Ventas recientes",
-        "see_all": "Ver todas"
-      }
-    }
-  },
-  "app_config": {
-    "language": {
-      "select_language": "Seleccionar idioma",
-      "translated_using_artificial_intelligence": "Traducido utilizando inteligencia artificial",
-      "you_can_configure_different_options_for_each_light_modes": "Puede configurar diferentes opciones para cada modo de luz",
-      "option": {
-        "turkish": "Turco",
-        "english": "Inglés",
-        "spanish": "Español",
-        "french": "Francés",
-        "german": "Alemán",
-        "polish": "Polaco",
-        "russian": "Ruso",
-        "chinese": "Chino",
-        "japanese": "Japonés",
-        "korean": "Coreano",
-        "italian": "Italiano"
-      }
-    },
-    "app_settings": "Configuración de la aplicación",
-    "theme": {
-      "dark_mode": {
-        "toggle_dark_mode": "Alternar modo oscuro"
+   "dashboard": {
+      "statistics": {
+         "last_week": "Última semana",
+         "last_month": "Último mes",
+         "last_quarter": "Último trimestre",
+         "last_half": "Última mitad",
+         "last_year": "Último año",
+         "total": "Total",
+         "client": {
+            "clients": "Clientes"
+         }
       },
-      "ui_scale": "Escala de la interfaz",
-      "primary_color": "Color primario",
-      "surface_color": "Color de la superficie",
-      "preset": {
-        "select_preset": "Seleccionar preajuste"
+      "best_selling_products": {
+         "sold_quantity": "Cantidad vendida",
+         "total_gain": "Ganancia total",
+         "total_discount": "Descuento total",
+         "total_tax": "Impuesto total",
+         "title": "Productos más vendidos",
+         "empty": "No hay productos"
+      },
+      "notifications": {
+         "today": "Hoy",
+         "yesterday": "Ayer",
+         "last_week": "Última semana",
+         "older": "Anteriores",
+         "title": "Notificaciones",
+         "activity": {
+            "created": "nuevo {resource_name} creado por {user_name}",
+            "updated": "actualización de {resource_name} realizada por {user_name}",
+            "deleted": "eliminación de {resource_name} realizada por {user_name}",
+            "unknown": "actividad detectada en {resource_name} por {user_name}"
+         }
+      },
+      "sales_by_category": {
+         "total_quantity_sold": "Cantidad total vendida",
+         "total_bid": "Oferta total",
+         "total_discount": "Descuento total",
+         "total_tax": "Impuesto total",
+         "title": "Ventas por categoría"
+      },
+      "tables": {
+         "recent_sales": {
+            "title": "Ventas recientes",
+            "see_all": "Ver todas"
+         }
       }
-    },
-    "sidebar": {
-      "select_sidebar_mode": "Seleccionar modo de barra lateral",
-      "modes": {
-        "static": "Estático",
-        "auto": "Automático",
-        "mini": "Mini",
-        "reveal": "Revelar",
-        "overlay": "Superposición"
+   },
+   "app_config": {
+      "language": {
+         "select_language": "Seleccionar idioma",
+         "translated_using_artificial_intelligence": "Traducido utilizando inteligencia artificial",
+         "you_can_configure_different_options_for_each_light_modes": "Puede configurar diferentes opciones para cada modo de luz",
+         "option": {
+            "turkish": "Turco",
+            "english": "Inglés",
+            "spanish": "Español",
+            "french": "Francés",
+            "german": "Alemán",
+            "polish": "Polaco",
+            "russian": "Ruso",
+            "chinese": "Chino",
+            "japanese": "Japonés",
+            "korean": "Coreano",
+            "italian": "Italiano",
+            "arabic": "Árabe",
+            "arabic(ae)": "Árabe (AE)"
+         }
+      },
+      "app_settings": "Configuración de la aplicación",
+      "theme": {
+         "dark_mode": {
+            "toggle_dark_mode": "Alternar modo oscuro"
+         },
+         "ui_scale": "Escala de la interfaz",
+         "primary_color": "Color primario",
+         "surface_color": "Color de la superficie",
+         "preset": {
+            "select_preset": "Seleccionar preajuste"
+         }
+      },
+      "sidebar": {
+         "select_sidebar_mode": "Seleccionar modo de barra lateral",
+         "modes": {
+            "static": "Estático",
+            "auto": "Automático",
+            "mini": "Mini",
+            "reveal": "Revelar",
+            "overlay": "Superposición"
+         }
       }
-    }
-  },
-  "route": {
-    "label": {
-      "address_list": "Lista de direcciones",
-      "address_edit": "Editar dirección",
-      "address_add": "Agregar dirección",
-      "client_list": "Lista de clientes",
-      "client_address_list": "Lista de direcciones del cliente",
-      "record_list": "Lista de registros",
-      "record_add": "Agregar registro",
-      "record_edit": "Editar registro",
-      "battery_list": "Lista de baterías",
-      "device_list": "Lista de dispositivos",
-      "stock_add": "Agregar stock",
-      "stock_edit": "Editar stock",
-      "product_list": "Lista de productos",
-      "product_add": "Agregar producto",
-      "product_edit": "Editar producto",
-      "service_list": "Lista de servicios",
-      "spare_part_list": "Lista de piezas de repuesto",
-      "dashboard": "Tablero",
-      "error": "Error",
-      "notfound": "No encontrado",
-      "account": "Cuenta",
-      "profile": "Perfil",
-      "settings": "Ajustes",
-      "update-profile": "Actualizar perfil",
-      "update-password": "Actualizar contraseña",
-      "logout": "Cerrar sesión",
-      "address": "Dirección",
-      "register": "Registrarse",
-      "login": "Iniciar sesión",
-      "enter-auth-otp-code": "Ingrese el código OTP de autenticación",
-      "access-denied": "Acceso denegado",
+   },
+   "route": {
+      "label": {
+         "address_list": "Lista de direcciones",
+         "address_edit": "Editar dirección",
+         "address_add": "Agregar dirección",
+         "client_list": "Lista de clientes",
+         "client_address_list": "Lista de direcciones del cliente",
+         "record_list": "Lista de registros",
+         "record_add": "Agregar registro",
+         "record_edit": "Editar registro",
+         "battery_list": "Lista de baterías",
+         "device_list": "Lista de dispositivos",
+         "stock_add": "Agregar stock",
+         "stock_edit": "Editar stock",
+         "product_list": "Lista de productos",
+         "product_add": "Agregar producto",
+         "product_edit": "Editar producto",
+         "service_list": "Lista de servicios",
+         "spare_part_list": "Lista de piezas de repuesto",
+         "dashboard": "Tablero",
+         "error": "Error",
+         "notfound": "No encontrado",
+         "account": "Cuenta",
+         "profile": "Perfil",
+         "settings": "Ajustes",
+         "update-profile": "Actualizar perfil",
+         "update-password": "Actualizar contraseña",
+         "logout": "Cerrar sesión",
+         "address": "Dirección",
+         "register": "Registrarse",
+         "login": "Iniciar sesión",
+         "enter-auth-otp-code": "Ingrese el código OTP de autenticación",
+         "access-denied": "Acceso denegado",
+         "branch": "Sucursal",
+         "branch-user": "Usuario de sucursal",
+         "manage-user": "Gestionar usuario",
+         "user-general-info": "Información general del usuario",
+         "branch-role": "Rol de sucursal",
+         "add": "Agregar",
+         "edit": "Editar",
+         "audit-logs": "Registros de auditoría",
+         "client": "Cliente",
+         "manage-client": "Gestionar cliente",
+         "client-general-info": "Información general del cliente",
+         "client-addresses": "Direcciones del cliente",
+         "record": "Registro",
+         "battery": "Batería",
+         "device": "Dispositivo",
+         "stock": "Stock",
+         "product": "Producto",
+         "service": "Servicio",
+         "spare-parts": "Piezas de repuesto",
+         "branch_user_list": "Lista de usuarios de la sucursal",
+         "audit_log_list": "Lista de registros de auditoría",
+         "branch_role_list": "Lista de roles de sucursal"
+      }
+   },
+   "auth": {
       "branch": "Sucursal",
-      "branch-user": "Usuario de sucursal",
-      "manage-user": "Gestionar usuario",
-      "user-general-info": "Información general del usuario",
-      "branch-role": "Rol de sucursal",
-      "add": "Agregar",
-      "edit": "Editar",
-      "audit-logs": "Registros de auditoría",
-      "client": "Cliente",
-      "manage-client": "Gestionar cliente",
-      "client-general-info": "Información general del cliente",
-      "client-addresses": "Direcciones del cliente",
-      "record": "Registro",
-      "battery": "Batería",
-      "device": "Dispositivo",
-      "stock": "Stock",
-      "product": "Producto",
-      "service": "Servicio",
-      "spare-parts": "Piezas de repuesto",
-      "branch_user_list": "Lista de usuarios de la sucursal",
-      "audit_log_list": "Lista de registros de auditoría",
-      "branch_role_list": "Lista de roles de sucursal"
-    }
-  },
-  "auth": {
-    "branch": "Sucursal",
-    "welcome": {
-      "title": "Bienvenido",
-      "text": "Bienvenido a la aplicación CRM de Ayudas Auditivas"
-    },
-    "please_dont_forget_to_update_your_password": "Por favor, no olvide actualizar su contraseña",
-    "confirm": {
-      "logout": {
-        "question": "¿Está seguro de que quiere cerrar sesión?",
-        "header": "Cerrar sesión"
-      }
-    },
-    "toast": {
-      "welcome": "Bienvenido",
-      "goodby": "Hasta luego"
-    },
-    "forgot_password": {
+      "welcome": {
+         "title": "Bienvenido",
+         "text": "Bienvenido a la aplicación CRM de Ayudas Auditivas"
+      },
+      "please_dont_forget_to_update_your_password": "Por favor, no olvide actualizar su contraseña",
       "confirm": {
-        "header": "Recuperar contraseña"
-      }
-    },
-    "otp": {
+         "logout": {
+            "question": "¿Está seguro de que quiere cerrar sesión?",
+            "header": "Cerrar sesión"
+         }
+      },
+      "toast": {
+         "welcome": "Bienvenido",
+         "goodby": "Hasta luego"
+      },
       "forgot_password": {
-        "password_reset_email_sended_please_check_your_email": "¡El correo para restablecer la contraseña se envió, por favor revise su bandeja de entrada!",
-        "lets_get_your_account_back!💪": "¡Vamos a recuperar su cuenta!💪"
+         "confirm": {
+            "header": "Recuperar contraseña"
+         }
       },
-      "resend_code": {
-        "confirm": {
-          "title": "¿Desea reenviar el código?"
-        },
-        "toast": {
-          "code_sended": "¡Código enviado!"
-        },
-        "code_verified": "Código verificado"
+      "otp": {
+         "forgot_password": {
+            "password_reset_email_sended_please_check_your_email": "¡El correo para restablecer la contraseña se envió, por favor revise su bandeja de entrada!",
+            "lets_get_your_account_back!💪": "¡Vamos a recuperar su cuenta!💪"
+         },
+         "resend_code": {
+            "confirm": {
+               "title": "¿Desea reenviar el código?"
+            },
+            "toast": {
+               "code_sended": "¡Código enviado!"
+            },
+            "code_verified": "Código verificado"
+         },
+         "invite_code": {
+            "so_you_are_invited!🎊": "¡Usted ha sido invitado!🎊",
+            "please_enter_the_code_in_email_to_login": "Por favor, ingrese el código del correo electrónico para iniciar sesión"
+         }
       },
-      "invite_code": {
-        "so_you_are_invited!🎊": "¡Usted ha sido invitado!🎊",
-        "please_enter_the_code_in_email_to_login": "Por favor, ingrese el código del correo electrónico para iniciar sesión"
+      "login": {
+         "welcome_back": "Bienvenido de nuevo",
+         "please_login_to_continue": "Por favor, inicie sesión para continuar",
+         "forgot_your_password?": "¿Olvidó su contraseña?",
+         "do_you_have_invite_code?": "¿Tiene un código de invitación?"
+      },
+      "logout": {
+         "logged_out_successfully": "¡Se ha cerrado sesión correctamente!"
+      },
+      "register": {
+         "create_account": "Crear cuenta",
+         "create_an_account_and_join_us": "Cree una cuenta y úntese con nosotros",
+         "account_info": "Información de la cuenta",
+         "company_info": "Información de la empresa"
       }
-    },
-    "login": {
-      "welcome_back": "Bienvenido de nuevo",
-      "please_login_to_continue": "Por favor, inicie sesión para continuar",
-      "forgot_your_password?": "¿Olvidó su contraseña?",
-      "do_you_have_invite_code?": "¿Tiene un código de invitación?"
-    },
-    "logout": {
-      "logged_out_successfully": "¡Se ha cerrado sesión correctamente!"
-    },
-    "register": {
-      "create_account": "Crear cuenta",
-      "create_an_account_and_join_us": "Cree una cuenta y úntese con nosotros",
-      "account_info": "Información de la cuenta",
-      "company_info": "Información de la empresa"
-    }
-  },
-  "input": {
-    "select_or_write": "Seleccionar o Escribir"
-  },
-  "financial": {
-    "select_currency": "Seleccionar moneda",
-    "select_unit_type": "Seleccionar tipo de unidad"
-  },
-  "component": {
-    "select_permission": {
+   },
+   "input": {
+      "select_or_write": "Seleccionar o Escribir"
+   },
+   "financial": {
+      "select_currency": "Seleccionar moneda",
+      "select_unit_type": "Seleccionar tipo de unidad"
+   },
+   "component": {
+      "select_permission": {
+         "table": {
+            "headers": {
+               "permission_name": "Nombre de permiso",
+               "read": "Leer",
+               "create": "Crear",
+               "modify": "Modificar",
+               "all": "Todo"
+            }
+         }
+      },
       "table": {
-        "headers": {
-          "permission_name": "Nombre de permiso",
-          "read": "Leer",
-          "create": "Crear",
-          "modify": "Modificar",
-          "all": "Todo"
-        }
+         "no_data_found": "No se encontraron datos",
+         "keyword_search": "Búsqueda por palabra clave"
       }
-    },
-    "table": {
+   },
+   "common": {
+      "select": "Seleccionar"
+   },
+   "role": {
+      "select_role": "Seleccionar rol",
+      "table": {
+         "headers": {
+            "name": "Nombre",
+            "created_at": "Creado en"
+         }
+      }
+   },
+   "router": {
+      "action": {
+         "open_in_window": "Abrir en ventana",
+         "manage-addresses": "Gestionar direcciones",
+         "close": "Cerrar",
+         "go_to_profile": "Ir al perfil",
+         "manage_addresses": "Gestionar direcciones",
+         "go_back": "Volver"
+      },
+      "error_occured": "Se produjo un error",
+      "requested_resource_is_not_available": "El recurso solicitado no está disponible",
+      "not_found": "No encontrado"
+   },
+   "action": {
+      "reset": "Restablecer",
+      "save": "Guardar",
+      "confirm": {
+         "delete": {
+            "question": "¿Desea eliminar este registro?",
+            "title": "Confirmar eliminación"
+         }
+      },
+      "yes": "Sí",
+      "no": "No",
+      "cancelled": "Cancelado",
+      "add": "Agregar",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "cancel": "Cancelar",
+      "send": "Enviar",
+      "submit": "Enviar",
+      "resend_code": "Reenviar código",
+      "back": "Atrás",
+      "invite": "Invitar"
+   },
+   "const": {
+      "ear_device": {
+         "models": {
+            "in_ear_(ITE)": "Auriculare en el oído (ITE)",
+            "in_canal_(ITC)": "Auriculare en el conducto (ITC)",
+            "completely_in_canal_(CIC)": "Auriculare completamente en el conducto (CIC)"
+         }
+      }
+   },
+   "errors": {
+      "access_denied": "Acceso denegado",
+      "confirmation_required": "Confirmación requerida",
+      "email_change_required": "Cambio de correo electrónico requerido",
+      "expired_code": "Código expirado",
+      "identity_provider_error": "Error del proveedor de identidad",
+      "invalid_code": "Código inválido",
+      "invalid_email": "Correo electrónico inválido",
+      "invalid_email_link": "Enlace de correo electrónico inválido",
+      "invalid_credentials": "Credenciales inválidas",
+      "invalid_phone": "Número de teléfono inválido",
+      "invalid_recovery_token": "Token de recuperación inválido",
+      "invalid_signup_data": "Datos de registro inválidos",
+      "invalid_token": "Token inválido",
+      "invalid_verification_link": "Enlace de verificación inválido",
+      "mfa_invalid_code": "Código MFA inválido",
+      "mfa_required": "MFA requerido",
+      "missing_code": "Código faltante",
+      "missing_email": "Correo electrónico faltante",
+      "missing_phone": "Número de teléfono faltante",
+      "otp_expired": "OTP expirado",
+      "otp_failed": "OTP fallido",
+      "otp_max_attempts": "Máximo de intentos de OTP alcanzado",
+      "password_length": "Longitud de contraseña insuficiente",
+      "phone_change_required": "Cambio de número de teléfono requerido",
+      "recovery_link_used": "Enlace de recuperación ya utilizado",
+      "server_error": "Error del servidor",
+      "signup_disabled": "Registro desactivado",
+      "token_expired": "Token expirado",
+      "unauthorized_client": "Cliente no autorizado",
+      "unexpected_error": "Error inesperado",
+      "unknown_provider": "Proveedor desconocido",
+      "user_already_registered": "Usuario ya registrado",
+      "user_not_found": "Usuario no encontrado",
+      "user_update_failed": "Actualización del usuario fallida",
+      "verification_link_used": "Enlace de verificación ya utilizado",
+      "weak_password": "Contraseña débil",
+      "no_data": "No se encontraron datos",
+      "no_additional_dynamic_result_sets_returned": "No se devolvieron conjuntos de resultados dinámicos adicionales",
+      "data_exception": "Excepción de datos",
+      "string_data_right_truncation": "Truncamiento de datos de cadena a la derecha",
+      "numeric_value_out_of_range": "Valor numérico fuera del rango",
+      "invalid_datetime_format": "Formato de fecha y hora inválido",
+      "datetime_field_overflow": "Desbordamiento del campo de fecha y hora",
+      "division_by_zero": "División por cero",
+      "invalid_parameter_value": "Valor de parámetro inválido",
+      "floating_point_exception": "Excepción de punto flotante",
+      "invalid_text_representation": "Representación de texto inválida",
+      "invalid_binary_representation": "Representación binaria inválida",
+      "bad_copy_file_format": "Formato de archivo de copia incorrecto",
+      "untranslatable_character": "Carácter no traducible",
+      "integrity_constraint_violation": "Violación de la restricción de integridad",
+      "not_null_violation": "Violación de not null",
+      "foreign_key_violation": "Violación de clave foránea",
+      "unique_violation": "Violación de unicidad",
+      "check_violation": "Violación de comprobación",
+      "exclusion_violation": "Violación de exclusión",
+      "invalid_cursor_state": "Estado de cursor inválido",
+      "invalid_transaction_state": "Estado de transacción inválido",
+      "in_failed_sql_transaction": "En transacción SQL fallida",
+      "invalid_sql_statement_name": "Nombre de la instrucción SQL inválido",
+      "invalid_authorization_specification": "Especificación de autorización inválida",
+      "invalid_password": "Contraseña inválida",
+      "invalid_cursor_name": "Nombre de cursor inválido",
+      "external_routine_exception": "Excepción de rutina externa",
+      "containing_sql_not_permitted": "SQL contenedor no permitido",
+      "modifying_sql_data_not_permitted": "Modificación de datos SQL no permitida",
+      "prohibited_sql_statement_attempted": "Sentencia SQL prohibida intentada",
+      "reading_sql_data_not_permitted": "Lectura de datos SQL no permitida",
+      "external_routine_invocation_exception": "Excepción de invocación de rutina externa",
+      "invalid_sqlstate_returned": "Estado SQL devuelto inválido",
+      "null_value_not_allowed": "Valor nulo no permitido",
+      "serialization_failure": "Error de serialización",
+      "statement_completion_unknown": "Finalización de la sentencia desconocida",
+      "deadlock_detected": "Llave muerta detectada",
+      "syntax_error": "Error de sintaxis",
+      "undefined_column": "Columna no definida",
+      "datatype_mismatch": "Coincidencia de tipo de datos incorrecta",
+      "invalid_foreign_key": "Clave foránea inválida",
+      "undefined_function": "Función no definida",
+      "undefined_table": "Tabla no definida",
+      "undefined_parameter": "Parámetro no definido",
+      "indeterminate_datatype": "Tipo de datos indeterminado",
+      "with_check_option_violation": "Violación de la opción de comprobación WITH",
+      "insufficient_privilege": "Privilegio insuficiente",
+      "insufficient_privilege_reserved": "Privilegio insuficiente (reservado)",
+      "invalid_grant_operation": "Operación de concesión inválida",
+      "invalid_role_specification": "Especificación de rol inválida",
+      "too_many_connections": "Demasiadas conexiones",
+      "configuration_limit_exceeded": "Límite de configuración excedido",
+      "object_not_in_prerequisite_state": "Objeto no en estado previo",
+      "object_in_use": "Objeto en uso",
+      "query_canceled": "Consulta cancelada",
+      "admin_shutdown": "Apagado por administrador",
+      "crash_shutdown": "Apagado por fallo",
+      "cannot_connect_now": "No se puede conectar ahora",
+      "system_error": "Error del sistema",
+      "io_error": "Error de entrada/salida",
+      "config_file_error": "Error del archivo de configuración",
+      "raise_exception": "Lanzar excepción",
       "no_data_found": "No se encontraron datos",
-      "keyword_search": "Búsqueda por palabra clave"
-    }
-  },
-  "common": {
-    "select": "Seleccionar"
-  },
-  "role": {
-    "select_role": "Seleccionar rol",
-    "table": {
-      "headers": {
-        "name": "Nombre",
-        "created_at": "Creado en"
+      "too_many_rows": "Demasiadas filas",
+      "internal_error": "Error interno",
+      "data_corrupted": "Datos corruptos",
+      "index_corrupted": "Índice corrupto",
+      "sql_med_insufficient_privilege": "Privilegio insuficiente (SQL_MED)",
+      "insufficient_permission": "Permiso insuficiente",
+      "AuthInvalidCredentialsError": "Error de credenciales inválidas"
+   },
+   "account": {
+      "profile": {
+         "user_info": "Información del usuario",
+         "name": "Nombre",
+         "email": "Correo electrónico",
+         "phone": "Teléfono",
+         "events": "Eventos",
+         "logs": {
+            "created_at": "Creado en",
+            "email_confirmed_at": "Correo electrónico confirmado en",
+            "last_sign_in_at": "Último inicio de sesión"
+         }
       }
-    }
-  },
-  "router": {
-    "action": {
-      "open_in_window": "Abrir en ventana",
-      "manage-addresses": "Gestionar direcciones",
-      "close": "Cerrar",
-      "go_to_profile": "Ir al perfil",
-      "manage_addresses": "Gestionar direcciones",
-      "go_back": "Volver"
-    },
-    "error_occured": "Se produjo un error",
-    "requested_resource_is_not_available": "El recurso solicitado no está disponible",
-    "not_found": "No encontrado"
-  },
-  "action": {
-    "reset": "Restablecer",
-    "save": "Guardar",
-    "confirm": {
-      "delete": {
-        "question": "¿Desea eliminar este registro?",
-        "title": "Confirmar eliminación"
+   },
+   "toast": {
+      "updated": "Actualizado",
+      "success": "Éxito",
+      "saved": "Guardado",
+      "sended": "Enviado"
+   },
+   "register": {
+      "stepper": {
+         "label": {
+            "account": "Cuenta",
+            "company": "Empresa"
+         }
       }
-    },
-    "yes": "Sí",
-    "no": "No",
-    "cancelled": "Cancelado",
-    "add": "Agregar",
-    "delete": "Eliminar",
-    "edit": "Editar",
-    "cancel": "Cancelar",
-    "send": "Enviar",
-    "submit": "Enviar",
-    "resend_code": "Reenviar código",
-    "back": "Atrás",
-    "invite": "Invitar"
-  },
-  "const": {
-    "ear_device": {
-      "models": {
-        "in_ear_(ITE)": "Auriculare en el oído (ITE)",
-        "in_canal_(ITC)": "Auriculare en el conducto (ITC)",
-        "completely_in_canal_(CIC)": "Auriculare completamente en el conducto (CIC)"
-      }
-    }
-  },
-  "errors": {
-    "access_denied": "Acceso denegado",
-    "confirmation_required": "Confirmación requerida",
-    "email_change_required": "Cambio de correo electrónico requerido",
-    "expired_code": "Código expirado",
-    "identity_provider_error": "Error del proveedor de identidad",
-    "invalid_code": "Código inválido",
-    "invalid_email": "Correo electrónico inválido",
-    "invalid_email_link": "Enlace de correo electrónico inválido",
-    "invalid_credentials": "Credenciales inválidas",
-    "invalid_phone": "Número de teléfono inválido",
-    "invalid_recovery_token": "Token de recuperación inválido",
-    "invalid_signup_data": "Datos de registro inválidos",
-    "invalid_token": "Token inválido",
-    "invalid_verification_link": "Enlace de verificación inválido",
-    "mfa_invalid_code": "Código MFA inválido",
-    "mfa_required": "MFA requerido",
-    "missing_code": "Código faltante",
-    "missing_email": "Correo electrónico faltante",
-    "missing_phone": "Número de teléfono faltante",
-    "otp_expired": "OTP expirado",
-    "otp_failed": "OTP fallido",
-    "otp_max_attempts": "Máximo de intentos de OTP alcanzado",
-    "password_length": "Longitud de contraseña insuficiente",
-    "phone_change_required": "Cambio de número de teléfono requerido",
-    "recovery_link_used": "Enlace de recuperación ya utilizado",
-    "server_error": "Error del servidor",
-    "signup_disabled": "Registro desactivado",
-    "token_expired": "Token expirado",
-    "unauthorized_client": "Cliente no autorizado",
-    "unexpected_error": "Error inesperado",
-    "unknown_provider": "Proveedor desconocido",
-    "user_already_registered": "Usuario ya registrado",
-    "user_not_found": "Usuario no encontrado",
-    "user_update_failed": "Actualización del usuario fallida",
-    "verification_link_used": "Enlace de verificación ya utilizado",
-    "weak_password": "Contraseña débil",
-    "no_data": "No se encontraron datos",
-    "no_additional_dynamic_result_sets_returned": "No se devolvieron conjuntos de resultados dinámicos adicionales",
-    "data_exception": "Excepción de datos",
-    "string_data_right_truncation": "Truncamiento de datos de cadena a la derecha",
-    "numeric_value_out_of_range": "Valor numérico fuera del rango",
-    "invalid_datetime_format": "Formato de fecha y hora inválido",
-    "datetime_field_overflow": "Desbordamiento del campo de fecha y hora",
-    "division_by_zero": "División por cero",
-    "invalid_parameter_value": "Valor de parámetro inválido",
-    "floating_point_exception": "Excepción de punto flotante",
-    "invalid_text_representation": "Representación de texto inválida",
-    "invalid_binary_representation": "Representación binaria inválida",
-    "bad_copy_file_format": "Formato de archivo de copia incorrecto",
-    "untranslatable_character": "Carácter no traducible",
-    "integrity_constraint_violation": "Violación de la restricción de integridad",
-    "not_null_violation": "Violación de not null",
-    "foreign_key_violation": "Violación de clave foránea",
-    "unique_violation": "Violación de unicidad",
-    "check_violation": "Violación de comprobación",
-    "exclusion_violation": "Violación de exclusión",
-    "invalid_cursor_state": "Estado de cursor inválido",
-    "invalid_transaction_state": "Estado de transacción inválido",
-    "in_failed_sql_transaction": "En transacción SQL fallida",
-    "invalid_sql_statement_name": "Nombre de la instrucción SQL inválido",
-    "invalid_authorization_specification": "Especificación de autorización inválida",
-    "invalid_password": "Contraseña inválida",
-    "invalid_cursor_name": "Nombre de cursor inválido",
-    "external_routine_exception": "Excepción de rutina externa",
-    "containing_sql_not_permitted": "SQL contenedor no permitido",
-    "modifying_sql_data_not_permitted": "Modificación de datos SQL no permitida",
-    "prohibited_sql_statement_attempted": "Sentencia SQL prohibida intentada",
-    "reading_sql_data_not_permitted": "Lectura de datos SQL no permitida",
-    "external_routine_invocation_exception": "Excepción de invocación de rutina externa",
-    "invalid_sqlstate_returned": "Estado SQL devuelto inválido",
-    "null_value_not_allowed": "Valor nulo no permitido",
-    "serialization_failure": "Error de serialización",
-    "statement_completion_unknown": "Finalización de la sentencia desconocida",
-    "deadlock_detected": "Llave muerta detectada",
-    "syntax_error": "Error de sintaxis",
-    "undefined_column": "Columna no definida",
-    "datatype_mismatch": "Coincidencia de tipo de datos incorrecta",
-    "invalid_foreign_key": "Clave foránea inválida",
-    "undefined_function": "Función no definida",
-    "undefined_table": "Tabla no definida",
-    "undefined_parameter": "Parámetro no definido",
-    "indeterminate_datatype": "Tipo de datos indeterminado",
-    "with_check_option_violation": "Violación de la opción de comprobación WITH",
-    "insufficient_privilege": "Privilegio insuficiente",
-    "insufficient_privilege_reserved": "Privilegio insuficiente (reservado)",
-    "invalid_grant_operation": "Operación de concesión inválida",
-    "invalid_role_specification": "Especificación de rol inválida",
-    "too_many_connections": "Demasiadas conexiones",
-    "configuration_limit_exceeded": "Límite de configuración excedido",
-    "object_not_in_prerequisite_state": "Objeto no en estado previo",
-    "object_in_use": "Objeto en uso",
-    "query_canceled": "Consulta cancelada",
-    "admin_shutdown": "Apagado por administrador",
-    "crash_shutdown": "Apagado por fallo",
-    "cannot_connect_now": "No se puede conectar ahora",
-    "system_error": "Error del sistema",
-    "io_error": "Error de entrada/salida",
-    "config_file_error": "Error del archivo de configuración",
-    "raise_exception": "Lanzar excepción",
-    "no_data_found": "No se encontraron datos",
-    "too_many_rows": "Demasiadas filas",
-    "internal_error": "Error interno",
-    "data_corrupted": "Datos corruptos",
-    "index_corrupted": "Índice corrupto",
-    "sql_med_insufficient_privilege": "Privilegio insuficiente (SQL_MED)",
-    "insufficient_permission": "Permiso insuficiente",
-    "AuthInvalidCredentialsError": "Error de credenciales inválidas"
-  },
-  "account": {
-    "profile": {
-      "user_info": "Información del usuario",
+   },
+   "fields": {
+      "": "Campo",
+      "device": "Dispositivo",
+      "battery": "Batería",
+      "spare_part": "Pieza de repuesto",
+      "service": "Servicio",
+      "sale": "Venta",
+      "trial": "Prueba",
+      "assemble": "Montaje",
+      "repair": "Reparación",
+      "promotion": "Promoción",
+      "cash": "Efectivo",
+      "credit_card": "Tarjeta de crédito",
+      "pending": "Pendiente",
+      "pending_service": "Servicio pendiente",
+      "client_holds_service_bid": "Cliente retiene oferta de servicio",
+      "client_approved_service_bid": "Cliente aprobó la oferta de servicio",
+      "client_rejected_service_bid": "Cliente rechazó la oferta de servicio",
+      "done": "Hecho",
+      "approved": "Aprobado",
+      "rejected": "Rechazado",
+      "pending_client": "Pendiente del cliente",
+      "biopar": "Biopar",
+      "hard": "Duro",
+      "micro": "Micro",
+      "full": "Completo",
+      "half": "Medio",
+      "supported": "Soportado",
+      "prob": "Prob",
+      "pcs": "Pzas",
+      "kg": "Kg",
+      "gr": "Gr",
+      "lbs": "Lbs",
+      "L": "Litro",
+      "mL": "mL",
+      "m": "Metro",
+      "m²": "m²",
+      "cm": "Centímetro",
+      "in": "Pulgada",
+      "password": "Contraseña",
+      "password_confirmation": "Confirmación de contraseña",
       "name": "Nombre",
       "email": "Correo electrónico",
       "phone": "Teléfono",
-      "events": "Eventos",
-      "logs": {
-        "created_at": "Creado en",
-        "email_confirmed_at": "Correo electrónico confirmado en",
-        "last_sign_in_at": "Último inicio de sesión"
-      }
-    }
-  },
-  "toast": {
-    "updated": "Actualizado",
-    "success": "Éxito",
-    "saved": "Guardado",
-    "sended": "Enviado"
-  },
-  "register": {
-    "stepper": {
-      "label": {
-        "account": "Cuenta",
-        "company": "Empresa"
-      }
-    }
-  },
-  "fields": {
-    "": "Campo",
-    "device": "Dispositivo",
-    "battery": "Batería",
-    "spare_part": "Pieza de repuesto",
-    "service": "Servicio",
-    "sale": "Venta",
-    "trial": "Prueba",
-    "assemble": "Montaje",
-    "repair": "Reparación",
-    "promotion": "Promoción",
-    "cash": "Efectivo",
-    "credit_card": "Tarjeta de crédito",
-    "pending": "Pendiente",
-    "pending_service": "Servicio pendiente",
-    "client_holds_service_bid": "Cliente retiene oferta de servicio",
-    "client_approved_service_bid": "Cliente aprobó la oferta de servicio",
-    "client_rejected_service_bid": "Cliente rechazó la oferta de servicio",
-    "done": "Hecho",
-    "approved": "Aprobado",
-    "rejected": "Rechazado",
-    "pending_client": "Pendiente del cliente",
-    "biopar": "Biopar",
-    "hard": "Duro",
-    "micro": "Micro",
-    "full": "Completo",
-    "half": "Medio",
-    "supported": "Soportado",
-    "prob": "Prob",
-    "pcs": "Pzas",
-    "kg": "Kg",
-    "gr": "Gr",
-    "lbs": "Lbs",
-    "L": "Litro",
-    "mL": "mL",
-    "m": "Metro",
-    "m²": "m²",
-    "cm": "Centímetro",
-    "in": "Pulgada",
-    "password": "Contraseña",
-    "password_confirmation": "Confirmación de contraseña",
-    "name": "Nombre",
-    "email": "Correo electrónico",
-    "phone": "Teléfono",
-    "country": "País",
-    "city": "Ciudad",
-    "district": "Distrito",
-    "details": "Detalles",
-    "remember_me": "Recuérdame",
-    "code": "Código",
-    "company": "Compañía",
-    "permission": "Permiso",
-    "role": "Rol",
-    "client_id": "Cliente",
-    "nationality": "Nacionalidad",
-    "national_id": "Identificación nacional",
-    "birth_date": "Fecha de nacimiento",
-    "gender": "Género",
-    "record_type": "Tipo de registro",
-    "rear_ear_devices": "Dispositivos en el oído posterior",
-    "attributes": "Atributos",
-    "rear_ear_device": "Dispositivo en el oído posterior",
-    "type": "Tipo",
-    "model": "Modelo",
-    "speaker_power": "Potencia del altavoz",
-    "side": "Lado",
-    "left": "Izquierdo",
-    "right": "Derecho",
-    "ventilation": "Ventilación",
-    "speaker_size": "Tamaño del altavoz",
-    "inner_ear_devices": "Dispositivos en el oído interno",
-    "inner_ear_device": "Dispositivo en el oído interno",
-    "has_bluetooth": "Tiene Bluetooth",
-    "has_button": "Tiene botón",
-    "stock_id": "Stock",
-    "device_side": "Lado del dispositivo",
-    "both": "Ambos",
-    "record_status": "Estado del registro",
-    "quantity": "Cantidad",
-    "payment_type": "Tipo de pago",
-    "currency_code": "Código de moneda",
-    "repair_fee": "Tarifa de reparación",
-    "bid": "Oferta",
-    "bid_discount": "Descuento de oferta",
-    "tax": "Impuesto",
-    "total_bid": "Total de la oferta",
-    "insurance_type": "Tipo de seguro",
-    "retired": "Retirado",
-    "worker": "Trabajador",
-    "none": "Ninguno",
-    "insurance_contribution": "Contribución al seguro",
-    "client_insurance_contribution": "Contribución del cliente al seguro",
-    "brand": "Marca",
-    "categories": "Categorías",
-    "product_id": "Producto",
-    "vendor": "Proveedor",
-    "stocked_at": "Almacenado en",
-    "barcode": "Código de barras",
-    "serial_number": "Número de serie",
-    "currency": "Moneda",
-    "unit_cost": "Costo unitario",
-    "unit_discount": "Descuento unitario",
-    "unit_tax": "Impuesto unitario",
-    "total_cost": "Costo total",
-    "tenant": "Sucursal",
-    "branch": "Sucursal",
-    "user": "Usuario",
-    "tenant_user": "Usuario de sucursal",
-    "tenant_owner": "Propietario de sucursal",
-    "address": "Dirección",
-    "role_permission": "Permiso de rol",
-    "user_role": "Rol de usuario",
-    "client": "Cliente",
-    "product": "Producto",
-    "product_category": "Categoría de producto",
-    "product_categories": "Categorías de producto",
-    "stock": "Stock",
-    "record": "Registro",
-    "client_address": "Dirección del cliente",
-    "audit_config": "Configuración de auditoría",
-    "audit_log": "Log",
-    "product_brands": "Marcas de producto",
-    "stock_view": "Vista de stock",
-    "stock_vendor": "Proveedor de stock",
-    "stock_vendor_stat": "Estadísticas del proveedor de stock",
-    "stock_product_stat": "Estadísticas del producto en stock",
-    "client_address_view": "Vista de dirección del cliente",
-    "audit_log_group": "Grupo de log de auditoría",
-    "parent_id": "Padre",
-    "user_id": "Usuario",
-    "tenant_id": "Sucursal",
-    "role_id": "Rol",
-    "permission_id": "Permiso",
-    "unit_type": "Tipo de unidad",
-    "category_id": "Categoría",
-    "address_id": "Dirección",
-    "address_tenant_id": "Dirección de sucursal",
-    "client_national_id": "Identificación nacional del cliente",
-    "client_tenant_id": "Sucursal del cliente",
-    "correlation_id": "Correlación",
-    "request_id": "Solicitud",
-    "display_name": "Nombre",
-    "id": "ID",
-    "created_at": "Creado en"
-  },
-  "address": {
-    "select_country": "Seleccionar país",
-    "table": {
-      "headers": {
-        "address_name": "Nombre del domicilio",
-        "country": "País",
-        "city": "Ciudad",
-        "district": "Distrito",
-        "created_at": "Creado en"
-      }
-    }
-  },
-  "audit_log": {
-    "no_changes_detected": "No se detectaron cambios",
-    "add": "Añadir",
-    "update": "Actualizar",
-    "delete": "Eliminar",
-    "read": "Leer",
-    "select_operation": "Seleccionar operación",
-    "table": {
-      "headers": {
-        "resource": "Recursos",
-        "operation": "Operación",
-        "user_who_performed": "Usuario que realizó",
-        "created_at": "Creado en",
-        "user_who_reverted": "Usuario que reversionó",
-        "reverted_at": "Reversionado en"
-      }
-    },
-    "already_reverted": "Ya se ha revertido",
-    "attempt_to_revert": "Intentar revertir",
-    "added": "Añadido",
-    "updated": "Actualizado",
-    "deleted": "Eliminado",
-    "readed": "Leído"
-  },
-  "client": {
-    "select_client": "Seleccionar cliente",
-    "address": {
-      "table": {
-        "headers": {
-          "client": "Cliente",
-          "address": "Dirección",
-          "country": "País",
-          "city": "Ciudad",
-          "district": "Distrito",
-          "created_at": "Creado en"
-        }
-      }
-    },
-    "table": {
-      "headers": {
-        "client": "Cliente",
-        "nationality": "Nacionalidad",
-        "national_id": "Identificación",
-        "birth_date": "Fecha de nacimiento",
-        "email": "Correo electrónico",
-        "phone": "Teléfono",
-        "created_at": "Creado en"
-      }
-    },
-    "general_info": "Información general",
-    "addresses": "Direcciones",
-    "gender": {
-      "male": "Masculino",
-      "female": "Femenino"
-    }
-  },
-  "product": {
-    "select_product": "Seleccionar producto",
-    "category": {
-      "select_category": "Seleccionar categoría"
-    }
-  },
-  "user": {
-    "table": {
-      "headers": {
-        "name": "Nombre",
-        "email": "Correo electrónico",
-        "created_at": "Creado en"
-      }
-    },
-    "upsert": {
-      "tabs": {
-        "general_info": "Información general"
-      }
-    },
-    "general_info": "Información general",
-    "security": "Seguridad"
-  },
-  "record": {
-    "table": {
-      "headers": {
-        "product": "Producto",
-        "client": "Cliente",
-        "quantity": "Cantidad",
-        "bid": "ID de oferta",
-        "created_at": "Creado en",
-        "record_type": "Tipo de registro",
-        "record_status": "Estado del registro"
-      }
-    },
-    "tab": {
+      "country": "País",
+      "city": "Ciudad",
+      "district": "Distrito",
+      "details": "Detalles",
+      "remember_me": "Recuérdame",
+      "code": "Código",
+      "company": "Compañía",
+      "permission": "Permiso",
+      "role": "Rol",
+      "client_id": "Cliente",
+      "nationality": "Nacionalidad",
+      "national_id": "Identificación nacional",
+      "birth_date": "Fecha de nacimiento",
+      "gender": "Género",
+      "record_type": "Tipo de registro",
+      "rear_ear_devices": "Dispositivos en el oído posterior",
+      "attributes": "Atributos",
+      "rear_ear_device": "Dispositivo en el oído posterior",
+      "type": "Tipo",
+      "model": "Modelo",
+      "speaker_power": "Potencia del altavoz",
+      "side": "Lado",
+      "left": "Izquierdo",
+      "right": "Derecho",
+      "ventilation": "Ventilación",
+      "speaker_size": "Tamaño del altavoz",
+      "inner_ear_devices": "Dispositivos en el oído interno",
+      "inner_ear_device": "Dispositivo en el oído interno",
+      "has_bluetooth": "Tiene Bluetooth",
+      "has_button": "Tiene botón",
+      "stock_id": "Stock",
+      "device_side": "Lado del dispositivo",
+      "both": "Ambos",
+      "record_status": "Estado del registro",
+      "quantity": "Cantidad",
+      "payment_type": "Tipo de pago",
+      "currency_code": "Código de moneda",
+      "repair_fee": "Tarifa de reparación",
+      "bid": "Oferta",
+      "bid_discount": "Descuento de oferta",
+      "tax": "Impuesto",
+      "total_bid": "Total de la oferta",
+      "insurance_type": "Tipo de seguro",
+      "retired": "Retirado",
+      "worker": "Trabajador",
+      "none": "Ninguno",
+      "insurance_contribution": "Contribución al seguro",
+      "client_insurance_contribution": "Contribución del cliente al seguro",
+      "brand": "Marca",
+      "categories": "Categorías",
+      "product_id": "Producto",
+      "vendor": "Proveedor",
+      "stocked_at": "Almacenado en",
+      "barcode": "Código de barras",
+      "serial_number": "Número de serie",
+      "currency": "Moneda",
+      "unit_cost": "Costo unitario",
+      "unit_discount": "Descuento unitario",
+      "unit_tax": "Impuesto unitario",
+      "total_cost": "Costo total",
+      "tenant": "Sucursal",
+      "branch": "Sucursal",
+      "user": "Usuario",
+      "tenant_user": "Usuario de sucursal",
+      "tenant_owner": "Propietario de sucursal",
+      "address": "Dirección",
+      "role_permission": "Permiso de rol",
+      "user_role": "Rol de usuario",
+      "client": "Cliente",
+      "product": "Producto",
+      "product_category": "Categoría de producto",
+      "product_categories": "Categorías de producto",
+      "stock": "Stock",
       "record": "Registro",
-      "ear_device": "Dispositivo auditivo"
-    },
-    "information": "Información",
-    "financial": "Financiero"
-  },
-  "stock": {
-    "battery": {
+      "client_address": "Dirección del cliente",
+      "audit_config": "Configuración de auditoría",
+      "audit_log": "Log",
+      "product_brands": "Marcas de producto",
+      "stock_view": "Vista de stock",
+      "stock_vendor": "Proveedor de stock",
+      "stock_vendor_stat": "Estadísticas del proveedor de stock",
+      "stock_product_stat": "Estadísticas del producto en stock",
+      "client_address_view": "Vista de dirección del cliente",
+      "audit_log_group": "Grupo de log de auditoría",
+      "parent_id": "Padre",
+      "user_id": "Usuario",
+      "tenant_id": "Sucursal",
+      "role_id": "Rol",
+      "permission_id": "Permiso",
+      "unit_type": "Tipo de unidad",
+      "category_id": "Categoría",
+      "address_id": "Dirección",
+      "address_tenant_id": "Dirección de sucursal",
+      "client_national_id": "Identificación nacional del cliente",
+      "client_tenant_id": "Sucursal del cliente",
+      "correlation_id": "Correlación",
+      "request_id": "Solicitud",
+      "display_name": "Nombre",
+      "id": "ID",
+      "created_at": "Creado en"
+   },
+   "address": {
+      "select_country": "Seleccionar país",
       "table": {
-        "headers": {
-          "product": "Producto",
-          "unit_cost": "Costo unitario",
-          "quantity": "Cantidad",
-          "vendor": "Proveedor",
-          "stocked_at": "Almacenado en"
-        }
+         "headers": {
+            "address_name": "Nombre del domicilio",
+            "country": "País",
+            "city": "Ciudad",
+            "district": "Distrito",
+            "created_at": "Creado en"
+         }
       }
-    },
-    "device": {
+   },
+   "audit_log": {
+      "no_changes_detected": "No se detectaron cambios",
+      "add": "Añadir",
+      "update": "Actualizar",
+      "delete": "Eliminar",
+      "read": "Leer",
+      "select_operation": "Seleccionar operación",
       "table": {
-        "headers": {
-          "product": "Producto",
-          "serial_number": "Número de serie",
-          "unit_cost": "Costo unitario",
-          "vendor": "Proveedor",
-          "stocked_at": "Almacenado en"
-        }
-      }
-    },
-    "product": {
+         "headers": {
+            "resource": "Recursos",
+            "operation": "Operación",
+            "user_who_performed": "Usuario que realizó",
+            "created_at": "Creado en",
+            "user_who_reverted": "Usuario que reversionó",
+            "reverted_at": "Reversionado en"
+         }
+      },
+      "already_reverted": "Ya se ha revertido",
+      "attempt_to_revert": "Intentar revertir",
+      "added": "Añadido",
+      "updated": "Actualizado",
+      "deleted": "Eliminado",
+      "readed": "Leído"
+   },
+   "client": {
+      "select_client": "Seleccionar cliente",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "Cliente",
+               "address": "Dirección",
+               "country": "País",
+               "city": "Ciudad",
+               "district": "Distrito",
+               "created_at": "Creado en"
+            }
+         }
+      },
       "table": {
-        "headers": {
-          "product": "Producto",
-          "brand": "Marca",
-          "categories": "Categorías",
-          "created_at": "Creado en"
-        }
+         "headers": {
+            "client": "Cliente",
+            "nationality": "Nacionalidad",
+            "national_id": "Identificación",
+            "birth_date": "Fecha de nacimiento",
+            "email": "Correo electrónico",
+            "phone": "Teléfono",
+            "created_at": "Creado en"
+         }
+      },
+      "general_info": "Información general",
+      "addresses": "Direcciones",
+      "gender": {
+         "male": "Masculino",
+         "female": "Femenino"
       }
-    },
-    "service": {
+   },
+   "product": {
+      "select_product": "Seleccionar producto",
+      "category": {
+         "select_category": "Seleccionar categoría"
+      }
+   },
+   "user": {
       "table": {
-        "headers": {
-          "product": "Producto",
-          "unit_cost": "Costo unitario",
-          "quantity": "Cantidad",
-          "vendor": "Proveedor",
-          "stocked_at": "Almacenado en"
-        }
-      }
-    },
-    "spare_part": {
+         "headers": {
+            "name": "Nombre",
+            "email": "Correo electrónico",
+            "created_at": "Creado en"
+         }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "Información general"
+         }
+      },
+      "general_info": "Información general",
+      "security": "Seguridad"
+   },
+   "record": {
       "table": {
-        "headers": {
-          "product": "Producto",
-          "unit_cost": "Costo unitario",
-          "quantity": "Cantidad",
-          "vendor": "Proveedor",
-          "stocked_at": "Almacenado en"
-        }
-      }
-    },
-    "information": "Información",
-    "financial": "Financiero"
-  }
+         "headers": {
+            "product": "Producto",
+            "client": "Cliente",
+            "quantity": "Cantidad",
+            "bid": "ID de oferta",
+            "created_at": "Creado en",
+            "record_type": "Tipo de registro",
+            "record_status": "Estado del registro"
+         }
+      },
+      "tab": {
+         "record": "Registro",
+         "ear_device": "Dispositivo auditivo"
+      },
+      "information": "Información",
+      "financial": "Financiero"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "Producto",
+               "unit_cost": "Costo unitario",
+               "quantity": "Cantidad",
+               "vendor": "Proveedor",
+               "stocked_at": "Almacenado en"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "Producto",
+               "serial_number": "Número de serie",
+               "unit_cost": "Costo unitario",
+               "vendor": "Proveedor",
+               "stocked_at": "Almacenado en"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "Producto",
+               "brand": "Marca",
+               "categories": "Categorías",
+               "created_at": "Creado en"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "Producto",
+               "unit_cost": "Costo unitario",
+               "quantity": "Cantidad",
+               "vendor": "Proveedor",
+               "stocked_at": "Almacenado en"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "Producto",
+               "unit_cost": "Costo unitario",
+               "quantity": "Cantidad",
+               "vendor": "Proveedor",
+               "stocked_at": "Almacenado en"
+            }
+         }
+      },
+      "information": "Información",
+      "financial": "Financiero"
+   }
 }

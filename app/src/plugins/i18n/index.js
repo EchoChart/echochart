@@ -4,6 +4,7 @@ import Validator from 'validatorjs';
 import { computed, nextTick, watch } from 'vue';
 import { createI18n } from 'vue-i18n';
 
+import ar from 'validatorjs/src/lang/ar.js';
 import de from 'validatorjs/src/lang/de.js';
 import en from 'validatorjs/src/lang/en.js';
 import es from 'validatorjs/src/lang/es.js';
@@ -27,7 +28,8 @@ export const validatorLocales = {
    tr,
    es,
    zh,
-   it
+   it,
+   'ar-ae': ar
 };
 
 export const dayjsLocales = {
@@ -41,7 +43,8 @@ export const dayjsLocales = {
    zh: () => import('dayjs/locale/zh'),
    it: () => import('dayjs/locale/it'),
    ja: () => import('dayjs/locale/ja'),
-   ko: () => import('dayjs/locale/ko')
+   ko: () => import('dayjs/locale/ko'),
+   'ar-ae': () => import('dayjs/locale/ar')
 };
 
 export const primeLocales = {
@@ -55,7 +58,8 @@ export const primeLocales = {
    zh: () => import('primelocale/zh-CN.json'),
    it: () => import('primelocale/it.json'),
    ja: () => import('primelocale/ja.json'),
-   ko: () => import('primelocale/ko.json')
+   ko: () => import('primelocale/ko.json'),
+   'ar-ae': () => import('primelocale/ar.json')
 };
 
 const { language: navigatorLanguage } = useNavigatorLanguage();
@@ -141,7 +145,8 @@ export const SUPPORTED_LOCALES = computed(() => [
    { label: i18NPlugin.global.t('app_config.language.option.russian'), value: 'ru' },
    { label: i18NPlugin.global.t('app_config.language.option.chinese'), value: 'zh' },
    { label: i18NPlugin.global.t('app_config.language.option.japanese'), value: 'ja' },
-   { label: i18NPlugin.global.t('app_config.language.option.korean'), value: 'ko' }
+   { label: i18NPlugin.global.t('app_config.language.option.korean'), value: 'ko' },
+   { label: i18NPlugin.global.t('app_config.language.option.arabic(ae)'), value: 'ar-ae' }
 ]);
 
 export const locale = i18NPlugin.global.locale;

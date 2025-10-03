@@ -325,6 +325,16 @@ nextTick(() => {
          immediate: true
       }
    );
+
+   watch(
+      () => locale.value,
+      (newLocale) => {
+         if (newLocale.startsWith('ar-'))
+            return document.documentElement.setAttribute('dir', 'rtl');
+         return document.documentElement.setAttribute('dir', 'ltr');
+      },
+      { immediate: true }
+   );
 });
 
 export default () => {

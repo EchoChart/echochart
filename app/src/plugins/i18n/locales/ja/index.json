@@ -1,734 +1,736 @@
 {
-  "app_config": {
-    "app_settings": "アプリ設定",
-    "theme": {
-      "dark_mode": {
-        "toggle_dark_mode": "ダークモードの切り替え"
+   "app_config": {
+      "app_settings": "アプリ設定",
+      "theme": {
+         "dark_mode": {
+            "toggle_dark_mode": "ダークモードの切り替え"
+         },
+         "ui_scale": "UIスケール",
+         "primary_color": "プライマリカラー",
+         "surface_color": "サーフェースカラー",
+         "preset": {
+            "select_preset": "プリセットを選択"
+         }
       },
-      "ui_scale": "UIスケール",
-      "primary_color": "プライマリカラー",
-      "surface_color": "サーフェースカラー",
-      "preset": {
-        "select_preset": "プリセットを選択"
-      }
-    },
-    "language": {
-      "select_language": "言語を選択",
-      "translated_using_artificial_intelligence": "人工知能により翻訳されました",
-      "you_can_configure_different_options_for_each_light_modes": "各ライトモードごとに異なるオプションを設定できます",
-      "option": {
-        "turkish": "トルコ語",
-        "english": "英語",
-        "spanish": "スペイン語",
-        "french": "フランス語",
-        "german": "ドイツ語",
-        "polish": "ポーランド語",
-        "russian": "ロシア語",
-        "chinese": "中国語",
-        "japanese": "日本語",
-        "korean": "韓国語",
-        "italian": "イタリア語"
-      }
-    },
-    "sidebar": {
-      "select_sidebar_mode": "サイドバーのモードを選択",
-      "modes": {
-        "static": "スタティック",
-        "auto": "オート",
-        "mini": "ミニ",
-        "reveal": "リーブル",
-        "overlay": "オーバーレイ"
-      }
-    }
-  },
-  "auth": {
-    "branch": "支店",
-    "welcome": {
-      "title": "ようこそ",
-      "text": "ご来院ありがとうございます。"
-    },
-    "please_dont_forget_to_update_your_password": "パスワードを更新することを忘れないでください。",
-    "confirm": {
-      "logout": {
-        "question": "ログアウトしますか？",
-        "header": "ログアウト確認"
-      }
-    },
-    "toast": {
-      "welcome": "ようこそ",
-      "goodby": "さようなら"
-    },
-    "forgot_password": {
-      "confirm": {
-        "header": "パスワードを忘れた場合"
-      }
-    },
-    "otp": {
-      "forgot_password": {
-        "password_reset_email_sended_please_check_your_email": "パスワードリセットメールを送信しました。メールを確認してください。",
-        "lets_get_your_account_back!💪": "アカウントを取り戻しましょう！💪"
+      "language": {
+         "select_language": "言語を選択",
+         "translated_using_artificial_intelligence": "人工知能により翻訳されました",
+         "you_can_configure_different_options_for_each_light_modes": "各ライトモードごとに異なるオプションを設定できます",
+         "option": {
+            "turkish": "トルコ語",
+            "english": "英語",
+            "spanish": "スペイン語",
+            "french": "フランス語",
+            "german": "ドイツ語",
+            "polish": "ポーランド語",
+            "russian": "ロシア語",
+            "chinese": "中国語",
+            "japanese": "日本語",
+            "korean": "韓国語",
+            "italian": "イタリア語",
+            "arabic": "アラビア語",
+            "arabic(ae)": "アラビア語（アラブ聯合酋長国）"
+         }
       },
-      "resend_code": {
-        "confirm": {
-          "title": "コードを再送信"
-        },
-        "toast": {
-          "code_sended": "コードを送信しました"
-        },
-        "code_verified": "コードが確認されました"
-      },
-      "invite_code": {
-        "so_you_are_invited!🎊": "招待されました！🎊",
-        "please_enter_the_code_in_email_to_login": "メール内のコードを入力してログインしてください"
+      "sidebar": {
+         "select_sidebar_mode": "サイドバーのモードを選択",
+         "modes": {
+            "static": "スタティック",
+            "auto": "オート",
+            "mini": "ミニ",
+            "reveal": "リーブル",
+            "overlay": "オーバーレイ"
+         }
       }
-    },
-    "login": {
-      "welcome_back": "ようこそ戻りました",
-      "please_login_to_continue": "続行するにはログインしてください",
-      "forgot_your_password?": "パスワードを忘れた場合",
-      "do_you_have_invite_code?": "招待コードをお持ちですか？"
-    },
-    "logout": {
-      "logged_out_successfully": "ログアウトしました"
-    },
-    "register": {
-      "create_account": "アカウントを作成",
-      "create_an_account_and_join_us": "アカウントを作成して、私たちに参加してください",
-      "account_info": "アカウント情報",
-      "company_info": "会社情報"
-    }
-  },
-  "fields": {
-    "": " ",
-    "device": "機器",
-    "battery": "バッテリー",
-    "spare_part": "部品",
-    "service": "サービス",
-    "trial": "試用",
-    "sale": "販売",
-    "assemble": "組立",
-    "repair": "修理",
-    "promotion": "プロモーション",
-    "cash": "現金",
-    "credit_card": "クレジットカード",
-    "pending": "保留中",
-    "pending_service": "サービス保留中",
-    "client_holds_service_bid": "顧客がサービス入札を保留中",
-    "client_approved_service_bid": "顧客がサービス入札を承認しました",
-    "client_rejected_service_bid": "顧客がサービス入札を拒否しました",
-    "done": "完了",
-    "approved": "承認",
-    "rejected": "拒否",
-    "pending_client": "顧客待機中",
-    "biopar": "バイオパル",
-    "hard": "ハード",
-    "micro": "マイクロ",
-    "full": "フル",
-    "half": "ハーフ",
-    "supported": "サポート",
-    "prob": "確率",
-    "pcs": "個",
-    "kg": "キログラム",
-    "gr": "グラム",
-    "lbs": "ポンド",
-    "L": "リットル",
-    "mL": "ミリリットル",
-    "m": "メートル",
-    "m²": "平方メートル",
-    "cm": "センチメートル",
-    "in": "インチ",
-    "password": "パスワード",
-    "password_confirmation": "パスワードの確認",
-    "name": "名前",
-    "email": "メールアドレス",
-    "phone": "電話番号",
-    "country": "国",
-    "city": "市",
-    "district": "区",
-    "details": "詳細",
-    "remember_me": "ログイン情報を保存",
-    "code": "コード",
-    "company": "会社",
-    "permission": "権限",
-    "role": "ロール",
-    "client_id": "クライアント",
-    "nationality": "国籍",
-    "national_id": "国籍ID",
-    "birth_date": "生年月日",
-    "gender": "性別",
-    "rear_ear_devices": "後耳機器",
-    "attributes": "属性",
-    "rear_ear_device": "後耳機器",
-    "type": "タイプ",
-    "model": "モデル",
-    "speaker_power": "スピーカー出力",
-    "side": "側",
-    "left": "左",
-    "right": "右",
-    "ventilation": "通気",
-    "speaker_size": "スピーカー寸法",
-    "inner_ear_devices": "内耳機器",
-    "inner_ear_device": "内耳機器",
-    "has_bluetooth": "Bluetoothを搭載",
-    "has_button": "ボタンを搭載",
-    "record_type": "記録タイプ",
-    "stock_id": "在庫ID",
-    "device_side": "機器側",
-    "both": "両方",
-    "record_status": "記録状態",
-    "quantity": "数量",
-    "payment_type": "支払いタイプ",
-    "currency_code": "通貨コード",
-    "repair_fee": "修理料金",
-    "bid": "入札",
-    "bid_discount": "入札割引",
-    "tax": "税",
-    "total_bid": "合計入札",
-    "insurance_type": "保険タイプ",
-    "retired": "退職",
-    "worker": "従業員",
-    "insurance_contribution": "保険料",
-    "client_insurance_contribution": "クライアント保険料",
-    "brand": "ブランド",
-    "categories": "カテゴリ",
-    "product_id": "製品",
-    "vendor": "ベンダー",
-    "stocked_at": "在庫日",
-    "barcode": "バーコード",
-    "serial_number": "シリアル番号",
-    "currency": "通貨",
-    "unit_cost": "単価",
-    "unit_discount": "単価割引",
-    "unit_tax": "単価税",
-    "total_cost": "合計コスト",
-    "none": "なし",
-    "tenant": "テナント",
-    "branch": "支店",
-    "user": "ユーザー",
-    "tenant_user": "テナントユーザー",
-    "tenant_owner": "テナント所有者",
-    "address": "住所",
-    "role_permission": "ロール・パーミッション",
-    "user_role": "ユーザー・ロール",
-    "client": "クライアント",
-    "product": "製品",
-    "product_category": "製品カテゴリ",
-    "product_categories": "製品カテゴリ",
-    "stock": "在庫",
-    "record": "記録",
-    "client_address": "クライアント住所",
-    "audit_config": "監査設定",
-    "audit_log": "ログ",
-    "product_brands": "製品ブランド",
-    "stock_view": "在庫ビュー",
-    "stock_vendor": "在庫ベンダー",
-    "stock_vendor_stat": "在庫ベンダー統計",
-    "stock_product_stat": "在庫製品統計",
-    "client_address_view": "クライアント住所ビュー",
-    "audit_log_group": "ロググループ",
-    "parent_id": "親",
-    "user_id": "ユーザー",
-    "tenant_id": "テナント",
-    "role_id": "ロール",
-    "permission_id": "パーミッション",
-    "unit_type": "単位タイプ",
-    "category_id": "カテゴリ",
-    "address_id": "住所",
-    "address_tenant_id": "住所テナント",
-    "client_national_id": "クライアント国家",
-    "client_tenant_id": "クライアントテナント",
-    "correlation_id": "相関",
-    "request_id": "リクエスト",
-    "display_name": "表示名",
-    "id": "ID",
-    "created_at": "作成日時"
-  },
-  "input": {
-    "select_or_write": "選択または入力してください"
-  },
-  "financial": {
-    "select_currency": "通貨を選択",
-    "select_unit_type": "単位タイプを選択"
-  },
-  "component": {
-    "select_permission": {
-      "table": {
-        "headers": {
-          "permission_name": "権限名",
-          "read": "読み取り",
-          "create": "作成",
-          "modify": "編集",
-          "all": "すべて"
-        }
-      }
-    },
-    "table": {
-      "no_data_found": "データが見つかりません",
-      "keyword_search": "キーワード検索"
-    }
-  },
-  "common": {
-    "select": "選択"
-  },
-  "role": {
-    "select_role": "役割を選択してください",
-    "table": {
-      "headers": {
-        "name": "名称",
-        "created_at": "作成日時"
-      }
-    }
-  },
-  "router": {
-    "action": {
-      "open_in_window": "新しいウィンドウで開く",
-      "manage-addresses": "住所を管理する",
-      "close": "閉じる",
-      "manage_addresses": "住所を管理する",
-      "go_back": "戻る",
-      "go_to_profile": "プロフィールへ移動"
-    },
-    "error_occured": "エラーが発生しました",
-    "requested_resource_is_not_available": "要求されたリソースが利用できません",
-    "not_found": "見つかりません"
-  },
-  "action": {
-    "reset": "リセット",
-    "save": "保存",
-    "confirm": {
-      "delete": {
-        "question": "削除しますか？",
-        "title": "削除確認"
-      }
-    },
-    "yes": "はい",
-    "no": "いいえ",
-    "cancelled": "キャンセル",
-    "add": "追加",
-    "delete": "削除",
-    "edit": "編集",
-    "cancel": "キャンセル",
-    "send": "送信",
-    "submit": "送信",
-    "resend_code": "コードを再送信",
-    "back": "戻る",
-    "invite": "招待"
-  },
-  "const": {
-    "ear_device": {
-      "models": {
-        "in_ear_(ITE)": "耳内型（ITE）",
-        "in_canal_(ITC)": "耳道内型（ITC）",
-        "completely_in_canal_(CIC)": "完全耳道内型（CIC）"
-      }
-    }
-  },
-  "errors": {
-    "access_denied": "アクセスが拒否されました",
-    "confirmation_required": "確認が必要です",
-    "email_change_required": "メールアドレスの変更が必要です",
-    "expired_code": "期限切れのコードです",
-    "identity_provider_error": "アイデンティティプロバイダーのエラー",
-    "invalid_code": "無効なコードです",
-    "invalid_email": "無効なメールアドレスです",
-    "invalid_email_link": "無効なメールアドレスリンクです",
-    "invalid_credentials": "無効な認証情報です",
-    "invalid_phone": "無効な電話番号です",
-    "invalid_recovery_token": "無効な復元トークンです",
-    "invalid_signup_data": "無効なサインアップデータです",
-    "invalid_token": "無効なトークンです",
-    "invalid_verification_link": "無効な検証リンクです",
-    "mfa_invalid_code": "MFA無効なコードです",
-    "mfa_required": "MFAが必要です",
-    "missing_code": "コードが不足しています",
-    "missing_email": "メールアドレスが不足しています",
-    "missing_phone": "電話番号が不足しています",
-    "otp_expired": "OTPが期限切れです",
-    "otp_failed": "OTP失敗です",
-    "otp_max_attempts": "OTP最大試行回数です",
-    "password_length": "パスワードの長さが不十分です",
-    "phone_change_required": "電話番号の変更が必要です",
-    "recovery_link_used": "復元リンクが使用されました",
-    "server_error": "サーバーエラーです",
-    "signup_disabled": "サインアップが無効です",
-    "token_expired": "トークンが期限切れです",
-    "unauthorized_client": "クライアントが認証されていません",
-    "unexpected_error": "予期せぬエラーです",
-    "unknown_provider": "未知のプロバイダーです",
-    "user_already_registered": "ユーザーがすでに登録されています",
-    "user_not_found": "ユーザーが見つかりません",
-    "user_update_failed": "ユーザーの更新に失敗しました",
-    "verification_link_used": "検証リンクが使用されました",
-    "weak_password": "パスワードが弱すぎます",
-    "no_data": "データがありません",
-    "no_additional_dynamic_result_sets_returned": "追加の動的結果セットが返されません",
-    "data_exception": "データ例外です",
-    "string_data_right_truncation": "文字列データの右切り捨てです",
-    "numeric_value_out_of_range": "数値が範囲外です",
-    "invalid_datetime_format": "無効な日時形式です",
-    "datetime_field_overflow": "日時フィールドのオーバーフローです",
-    "division_by_zero": "ゼロによる除算です",
-    "invalid_parameter_value": "無効なパラメータ値です",
-    "floating_point_exception": "浮動小数点例外です",
-    "invalid_text_representation": "無効なテキスト表現です",
-    "invalid_binary_representation": "無効なバイナリ表現です",
-    "bad_copy_file_format": "不良なコピーファイル形式です",
-    "untranslatable_character": "変換できない文字です",
-    "integrity_constraint_violation": "整合性制約違反です",
-    "not_null_violation": "NOT NULL違反です",
-    "foreign_key_violation": "外部キー違反です",
-    "unique_violation": "一意性違反です",
-    "check_violation": "チェック違反です",
-    "exclusion_violation": "除外違反です",
-    "invalid_cursor_state": "無効なカーソル状態です",
-    "invalid_transaction_state": "無効なトランザクション状態です",
-    "in_failed_sql_transaction": "失敗したSQLトランザクション内です",
-    "invalid_sql_statement_name": "無効なSQLステートメント名です",
-    "invalid_authorization_specification": "無効な認証指定です",
-    "invalid_password": "無効なパスワードです",
-    "invalid_cursor_name": "無効なカーソル名です",
-    "external_routine_exception": "外部ルーチン例外です",
-    "containing_sql_not_permitted": "含むSQLが許可されていません",
-    "modifying_sql_data_not_permitted": "SQLデータの変更が許可されていません",
-    "prohibited_sql_statement_attempted": "禁止されたSQLステートメントが試行されました",
-    "reading_sql_data_not_permitted": "SQLデータの読み取りが許可されていません",
-    "external_routine_invocation_exception": "外部ルーチン呼び出し例外です",
-    "invalid_sqlstate_returned": "無効なSQLSTATEが返されました",
-    "null_value_not_allowed": "NULL値が許可されていません",
-    "serialization_failure": "シリアル化失敗です",
-    "statement_completion_unknown": "ステートメント完了が不明です",
-    "deadlock_detected": "デッドロックが検出されました",
-    "syntax_error": "構文エラーです",
-    "undefined_column": "未定義のカラムです",
-    "datatype_mismatch": "データ型不一致です",
-    "invalid_foreign_key": "無効な外部キーです",
-    "undefined_function": "未定義の関数です",
-    "undefined_table": "未定義のテーブルです",
-    "undefined_parameter": "未定義のパラメータです",
-    "indeterminate_datatype": "不定データ型です",
-    "with_check_option_violation": "WITH CHECK OPTION違反です",
-    "insufficient_privilege": "権限が不足しています",
-    "insufficient_privilege_reserved": "権限が不足しています（予約）",
-    "invalid_grant_operation": "無効な許可操作です",
-    "invalid_role_specification": "無効なロール指定です",
-    "too_many_connections": "接続が多すぎます",
-    "configuration_limit_exceeded": "構成制限を超えています",
-    "object_not_in_prerequisite_state": "オブジェクトが前提条件の状態ではありません",
-    "object_in_use": "オブジェクトが使用中です",
-    "query_canceled": "クエリがキャンセルされました",
-    "admin_shutdown": "管理者シャットダウンです",
-    "crash_shutdown": "クラッシュシャットダウンです",
-    "cannot_connect_now": "現在接続できません",
-    "system_error": "システムエラーです",
-    "io_error": "I/Oエラーです",
-    "config_file_error": "構成ファイルエラーです",
-    "raise_exception": "例外を発生させます",
-    "no_data_found": "データが見つかりません",
-    "too_many_rows": "行が多すぎます",
-    "internal_error": "内部エラーです",
-    "data_corrupted": "データが破損しています",
-    "index_corrupted": "インデックスが破損しています",
-    "sql_med_insufficient_privilege": "SQL_MED権限が不足しています",
-    "insufficient_permission": "権限が不足しています",
-    "AuthInvalidCredentialsError": "認証情報が無効です"
-  },
-  "account": {
-    "profile": {
-      "user_info": "ユーザー情報",
-      "name": "氏名",
-      "email": "電子メール",
-      "phone": "電話番号",
-      "events": "イベント",
-      "logs": {
-        "created_at": "作成日時",
-        "email_confirmed_at": "電子メール確認日時",
-        "last_sign_in_at": "最後のログイン日時"
-      }
-    }
-  },
-  "toast": {
-    "updated": "更新されました",
-    "success": "成功しました",
-    "saved": "保存されました",
-    "sended": "送信されました"
-  },
-  "register": {
-    "stepper": {
-      "label": {
-        "account": "アカウント",
-        "company": "会社"
-      }
-    }
-  },
-  "route": {
-    "label": {
-      "dashboard": "ダッシュボード",
-      "error": "エラー",
-      "notfound": "見つからない",
-      "account": "アカウント",
-      "profile": "プロフィール",
-      "settings": "設定",
-      "update-profile": "プロフィールの更新",
-      "update-password": "パスワードの更新",
-      "logout": "ログアウト",
-      "address": "住所",
-      "edit": "編集",
-      "add": "追加",
-      "register": "登録",
-      "login": "ログイン",
-      "enter-auth-otp-code": "認証OTPコードを入力",
-      "access-denied": "アクセス拒否",
+   },
+   "auth": {
       "branch": "支店",
-      "branch-user": "支店ユーザー",
-      "manage-user": "ユーザー管理",
-      "user-general-info": "ユーザーの一般情報",
-      "branch-role": "支店ロール",
-      "audit-logs": "ログ",
-      "client": "クライアント",
-      "manage-client": "クライアント管理",
-      "client-general-info": "クライアントの一般情報",
-      "client-addresses": "クライアントの住所",
-      "record": "記録",
+      "welcome": {
+         "title": "ようこそ",
+         "text": "ご来院ありがとうございます。"
+      },
+      "please_dont_forget_to_update_your_password": "パスワードを更新することを忘れないでください。",
+      "confirm": {
+         "logout": {
+            "question": "ログアウトしますか？",
+            "header": "ログアウト確認"
+         }
+      },
+      "toast": {
+         "welcome": "ようこそ",
+         "goodby": "さようなら"
+      },
+      "forgot_password": {
+         "confirm": {
+            "header": "パスワードを忘れた場合"
+         }
+      },
+      "otp": {
+         "forgot_password": {
+            "password_reset_email_sended_please_check_your_email": "パスワードリセットメールを送信しました。メールを確認してください。",
+            "lets_get_your_account_back!💪": "アカウントを取り戻しましょう！💪"
+         },
+         "resend_code": {
+            "confirm": {
+               "title": "コードを再送信"
+            },
+            "toast": {
+               "code_sended": "コードを送信しました"
+            },
+            "code_verified": "コードが確認されました"
+         },
+         "invite_code": {
+            "so_you_are_invited!🎊": "招待されました！🎊",
+            "please_enter_the_code_in_email_to_login": "メール内のコードを入力してログインしてください"
+         }
+      },
+      "login": {
+         "welcome_back": "ようこそ戻りました",
+         "please_login_to_continue": "続行するにはログインしてください",
+         "forgot_your_password?": "パスワードを忘れた場合",
+         "do_you_have_invite_code?": "招待コードをお持ちですか？"
+      },
+      "logout": {
+         "logged_out_successfully": "ログアウトしました"
+      },
+      "register": {
+         "create_account": "アカウントを作成",
+         "create_an_account_and_join_us": "アカウントを作成して、私たちに参加してください",
+         "account_info": "アカウント情報",
+         "company_info": "会社情報"
+      }
+   },
+   "fields": {
+      "": " ",
+      "device": "機器",
       "battery": "バッテリー",
-      "device": "デバイス",
-      "stock": "在庫",
-      "product": "製品",
+      "spare_part": "部品",
       "service": "サービス",
-      "spare-parts": "消耗品",
-      "address_list": "住所一覧",
-      "address_edit": "住所編集",
-      "address_add": "住所追加",
-      "client_list": "患者一覧",
-      "client_address_list": "患者住所一覧",
-      "record_list": "記録一覧",
-      "record_add": "記録追加",
-      "record_edit": "記録編集",
-      "battery_list": "バッテリー一覧",
-      "device_list": "機器一覧",
-      "stock_add": "在庫追加",
-      "stock_edit": "在庫編集",
-      "product_list": "製品一覧",
-      "product_add": "製品追加",
-      "product_edit": "製品編集",
-      "service_list": "サービス一覧",
-      "spare_part_list": "消耗品一覧",
-      "branch_user_list": "支店ユーザー一覧",
-      "audit_log_list": "監査ログ一覧",
-      "branch_role_list": "支店ロール一覧"
-    }
-  },
-  "dashboard": {
-    "statistics": {
-      "last_week": "先週",
-      "last_month": "先月",
-      "last_quarter": "四半期",
-      "last_half": "半期",
-      "last_year": "前年",
-      "total": "合計",
-      "client": {
-        "clients": "顧客"
-      }
-    },
-    "best_selling_products": {
-      "sold_quantity": "販売数量",
-      "total_gain": "総利益",
-      "total_discount": "総割引",
-      "total_tax": "総税額",
-      "title": "売上トップ製品",
-      "empty": "データがありません"
-    },
-    "notifications": {
-      "today": "今日",
-      "yesterday": "昨日",
-      "last_week": "先週",
-      "older": "以前",
-      "title": "通知",
-      "activity": {
-        "created": "new {resource_name} created by {user_name}",
-        "updated": "a {resource_name} updated by {user_name}",
-        "deleted": "a {resource_name} deleted by {user_name}",
-        "unknown": "activity detected in {resource_name} by {user_name}"
-      }
-    },
-    "sales_by_category": {
-      "total_quantity_sold": "総販売数量",
-      "total_bid": "総取引額",
-      "total_discount": "総割引",
-      "total_tax": "総税額",
-      "title": "カテゴリ別売上"
-    },
-    "tables": {
-      "recent_sales": {
-        "title": "最近の売上",
-        "see_all": "すべて見る"
-      }
-    }
-  },
-  "address": {
-    "select_country": "国を選択",
-    "table": {
-      "headers": {
-        "address_name": "住所名",
-        "country": "国",
-        "city": "市",
-        "district": "区",
-        "created_at": "作成日時"
-      }
-    }
-  },
-  "audit_log": {
-    "no_changes_detected": "変更が検出されませんでした",
-    "add": "追加",
-    "update": "更新",
-    "delete": "削除",
-    "read": "読み込み",
-    "select_operation": "操作を選択",
-    "table": {
-      "headers": {
-        "resource": "リソース",
-        "operation": "操作",
-        "user_who_performed": "実行ユーザー",
-        "created_at": "作成日時",
-        "user_who_reverted": "元に戻すユーザー",
-        "reverted_at": "元に戻す日時"
-      }
-    },
-    "already_reverted": "すでに元に戻されています",
-    "attempt_to_revert": "元に戻す試み",
-    "added": "追加されました",
-    "updated": "更新されました",
-    "deleted": "削除されました",
-    "readed": "読み込まれました"
-  },
-  "client": {
-    "select_client": "クライアントを選択",
-    "address": {
-      "table": {
-        "headers": {
-          "client": "クライアント",
-          "address": "住所",
-          "country": "国",
-          "city": "市",
-          "district": "区",
-          "created_at": "作成日時"
-        }
-      }
-    },
-    "table": {
-      "headers": {
-        "client": "クライアント",
-        "nationality": "国籍",
-        "national_id": "国番号",
-        "birth_date": "生年月日",
-        "email": "メールアドレス",
-        "phone": "電話番号",
-        "created_at": "作成日時"
-      }
-    },
-    "general_info": "一般情報",
-    "addresses": "住所",
-    "gender": {
-      "male": "男性",
-      "female": "女性"
-    }
-  },
-  "product": {
-    "select_product": "製品を選択してください",
-    "category": {
-      "select_category": "カテゴリを選択してください"
-    }
-  },
-  "user": {
-    "table": {
-      "headers": {
-        "name": "名前",
-        "email": "メールアドレス",
-        "created_at": "作成日時"
-      }
-    },
-    "upsert": {
-      "tabs": {
-        "general_info": "一般情報"
-      }
-    },
-    "general_info": "一般情報",
-    "security": "セキュリティ"
-  },
-  "record": {
-    "table": {
-      "headers": {
-        "product": "製品",
-        "client": "顧客",
-        "quantity": "数量",
-        "bid": "入札ID",
-        "created_at": "作成日時",
-        "record_type": "記録タイプ",
-        "record_status": "記録ステータス"
-      }
-    },
-    "tab": {
+      "trial": "試用",
+      "sale": "販売",
+      "assemble": "組立",
+      "repair": "修理",
+      "promotion": "プロモーション",
+      "cash": "現金",
+      "credit_card": "クレジットカード",
+      "pending": "保留中",
+      "pending_service": "サービス保留中",
+      "client_holds_service_bid": "顧客がサービス入札を保留中",
+      "client_approved_service_bid": "顧客がサービス入札を承認しました",
+      "client_rejected_service_bid": "顧客がサービス入札を拒否しました",
+      "done": "完了",
+      "approved": "承認",
+      "rejected": "拒否",
+      "pending_client": "顧客待機中",
+      "biopar": "バイオパル",
+      "hard": "ハード",
+      "micro": "マイクロ",
+      "full": "フル",
+      "half": "ハーフ",
+      "supported": "サポート",
+      "prob": "確率",
+      "pcs": "個",
+      "kg": "キログラム",
+      "gr": "グラム",
+      "lbs": "ポンド",
+      "L": "リットル",
+      "mL": "ミリリットル",
+      "m": "メートル",
+      "m²": "平方メートル",
+      "cm": "センチメートル",
+      "in": "インチ",
+      "password": "パスワード",
+      "password_confirmation": "パスワードの確認",
+      "name": "名前",
+      "email": "メールアドレス",
+      "phone": "電話番号",
+      "country": "国",
+      "city": "市",
+      "district": "区",
+      "details": "詳細",
+      "remember_me": "ログイン情報を保存",
+      "code": "コード",
+      "company": "会社",
+      "permission": "権限",
+      "role": "ロール",
+      "client_id": "クライアント",
+      "nationality": "国籍",
+      "national_id": "国籍ID",
+      "birth_date": "生年月日",
+      "gender": "性別",
+      "rear_ear_devices": "後耳機器",
+      "attributes": "属性",
+      "rear_ear_device": "後耳機器",
+      "type": "タイプ",
+      "model": "モデル",
+      "speaker_power": "スピーカー出力",
+      "side": "側",
+      "left": "左",
+      "right": "右",
+      "ventilation": "通気",
+      "speaker_size": "スピーカー寸法",
+      "inner_ear_devices": "内耳機器",
+      "inner_ear_device": "内耳機器",
+      "has_bluetooth": "Bluetoothを搭載",
+      "has_button": "ボタンを搭載",
+      "record_type": "記録タイプ",
+      "stock_id": "在庫ID",
+      "device_side": "機器側",
+      "both": "両方",
+      "record_status": "記録状態",
+      "quantity": "数量",
+      "payment_type": "支払いタイプ",
+      "currency_code": "通貨コード",
+      "repair_fee": "修理料金",
+      "bid": "入札",
+      "bid_discount": "入札割引",
+      "tax": "税",
+      "total_bid": "合計入札",
+      "insurance_type": "保険タイプ",
+      "retired": "退職",
+      "worker": "従業員",
+      "insurance_contribution": "保険料",
+      "client_insurance_contribution": "クライアント保険料",
+      "brand": "ブランド",
+      "categories": "カテゴリ",
+      "product_id": "製品",
+      "vendor": "ベンダー",
+      "stocked_at": "在庫日",
+      "barcode": "バーコード",
+      "serial_number": "シリアル番号",
+      "currency": "通貨",
+      "unit_cost": "単価",
+      "unit_discount": "単価割引",
+      "unit_tax": "単価税",
+      "total_cost": "合計コスト",
+      "none": "なし",
+      "tenant": "テナント",
+      "branch": "支店",
+      "user": "ユーザー",
+      "tenant_user": "テナントユーザー",
+      "tenant_owner": "テナント所有者",
+      "address": "住所",
+      "role_permission": "ロール・パーミッション",
+      "user_role": "ユーザー・ロール",
+      "client": "クライアント",
+      "product": "製品",
+      "product_category": "製品カテゴリ",
+      "product_categories": "製品カテゴリ",
+      "stock": "在庫",
       "record": "記録",
-      "ear_device": "耳装置"
-    },
-    "information": "情報",
-    "financial": "財務"
-  },
-  "stock": {
-    "battery": {
+      "client_address": "クライアント住所",
+      "audit_config": "監査設定",
+      "audit_log": "ログ",
+      "product_brands": "製品ブランド",
+      "stock_view": "在庫ビュー",
+      "stock_vendor": "在庫ベンダー",
+      "stock_vendor_stat": "在庫ベンダー統計",
+      "stock_product_stat": "在庫製品統計",
+      "client_address_view": "クライアント住所ビュー",
+      "audit_log_group": "ロググループ",
+      "parent_id": "親",
+      "user_id": "ユーザー",
+      "tenant_id": "テナント",
+      "role_id": "ロール",
+      "permission_id": "パーミッション",
+      "unit_type": "単位タイプ",
+      "category_id": "カテゴリ",
+      "address_id": "住所",
+      "address_tenant_id": "住所テナント",
+      "client_national_id": "クライアント国家",
+      "client_tenant_id": "クライアントテナント",
+      "correlation_id": "相関",
+      "request_id": "リクエスト",
+      "display_name": "表示名",
+      "id": "ID",
+      "created_at": "作成日時"
+   },
+   "input": {
+      "select_or_write": "選択または入力してください"
+   },
+   "financial": {
+      "select_currency": "通貨を選択",
+      "select_unit_type": "単位タイプを選択"
+   },
+   "component": {
+      "select_permission": {
+         "table": {
+            "headers": {
+               "permission_name": "権限名",
+               "read": "読み取り",
+               "create": "作成",
+               "modify": "編集",
+               "all": "すべて"
+            }
+         }
+      },
       "table": {
-        "headers": {
-          "product": "製品",
-          "unit_cost": "単価",
-          "quantity": "数量",
-          "vendor": "販売元",
-          "stocked_at": "在庫場所"
-        }
+         "no_data_found": "データが見つかりません",
+         "keyword_search": "キーワード検索"
       }
-    },
-    "device": {
+   },
+   "common": {
+      "select": "選択"
+   },
+   "role": {
+      "select_role": "役割を選択してください",
       "table": {
-        "headers": {
-          "product": "製品",
-          "serial_number": "シリアル番号",
-          "unit_cost": "単価",
-          "vendor": "販売元",
-          "stocked_at": "在庫日"
-        }
+         "headers": {
+            "name": "名称",
+            "created_at": "作成日時"
+         }
       }
-    },
-    "product": {
+   },
+   "router": {
+      "action": {
+         "open_in_window": "新しいウィンドウで開く",
+         "manage-addresses": "住所を管理する",
+         "close": "閉じる",
+         "manage_addresses": "住所を管理する",
+         "go_back": "戻る",
+         "go_to_profile": "プロフィールへ移動"
+      },
+      "error_occured": "エラーが発生しました",
+      "requested_resource_is_not_available": "要求されたリソースが利用できません",
+      "not_found": "見つかりません"
+   },
+   "action": {
+      "reset": "リセット",
+      "save": "保存",
+      "confirm": {
+         "delete": {
+            "question": "削除しますか？",
+            "title": "削除確認"
+         }
+      },
+      "yes": "はい",
+      "no": "いいえ",
+      "cancelled": "キャンセル",
+      "add": "追加",
+      "delete": "削除",
+      "edit": "編集",
+      "cancel": "キャンセル",
+      "send": "送信",
+      "submit": "送信",
+      "resend_code": "コードを再送信",
+      "back": "戻る",
+      "invite": "招待"
+   },
+   "const": {
+      "ear_device": {
+         "models": {
+            "in_ear_(ITE)": "耳内型（ITE）",
+            "in_canal_(ITC)": "耳道内型（ITC）",
+            "completely_in_canal_(CIC)": "完全耳道内型（CIC）"
+         }
+      }
+   },
+   "errors": {
+      "access_denied": "アクセスが拒否されました",
+      "confirmation_required": "確認が必要です",
+      "email_change_required": "メールアドレスの変更が必要です",
+      "expired_code": "期限切れのコードです",
+      "identity_provider_error": "アイデンティティプロバイダーのエラー",
+      "invalid_code": "無効なコードです",
+      "invalid_email": "無効なメールアドレスです",
+      "invalid_email_link": "無効なメールアドレスリンクです",
+      "invalid_credentials": "無効な認証情報です",
+      "invalid_phone": "無効な電話番号です",
+      "invalid_recovery_token": "無効な復元トークンです",
+      "invalid_signup_data": "無効なサインアップデータです",
+      "invalid_token": "無効なトークンです",
+      "invalid_verification_link": "無効な検証リンクです",
+      "mfa_invalid_code": "MFA無効なコードです",
+      "mfa_required": "MFAが必要です",
+      "missing_code": "コードが不足しています",
+      "missing_email": "メールアドレスが不足しています",
+      "missing_phone": "電話番号が不足しています",
+      "otp_expired": "OTPが期限切れです",
+      "otp_failed": "OTP失敗です",
+      "otp_max_attempts": "OTP最大試行回数です",
+      "password_length": "パスワードの長さが不十分です",
+      "phone_change_required": "電話番号の変更が必要です",
+      "recovery_link_used": "復元リンクが使用されました",
+      "server_error": "サーバーエラーです",
+      "signup_disabled": "サインアップが無効です",
+      "token_expired": "トークンが期限切れです",
+      "unauthorized_client": "クライアントが認証されていません",
+      "unexpected_error": "予期せぬエラーです",
+      "unknown_provider": "未知のプロバイダーです",
+      "user_already_registered": "ユーザーがすでに登録されています",
+      "user_not_found": "ユーザーが見つかりません",
+      "user_update_failed": "ユーザーの更新に失敗しました",
+      "verification_link_used": "検証リンクが使用されました",
+      "weak_password": "パスワードが弱すぎます",
+      "no_data": "データがありません",
+      "no_additional_dynamic_result_sets_returned": "追加の動的結果セットが返されません",
+      "data_exception": "データ例外です",
+      "string_data_right_truncation": "文字列データの右切り捨てです",
+      "numeric_value_out_of_range": "数値が範囲外です",
+      "invalid_datetime_format": "無効な日時形式です",
+      "datetime_field_overflow": "日時フィールドのオーバーフローです",
+      "division_by_zero": "ゼロによる除算です",
+      "invalid_parameter_value": "無効なパラメータ値です",
+      "floating_point_exception": "浮動小数点例外です",
+      "invalid_text_representation": "無効なテキスト表現です",
+      "invalid_binary_representation": "無効なバイナリ表現です",
+      "bad_copy_file_format": "不良なコピーファイル形式です",
+      "untranslatable_character": "変換できない文字です",
+      "integrity_constraint_violation": "整合性制約違反です",
+      "not_null_violation": "NOT NULL違反です",
+      "foreign_key_violation": "外部キー違反です",
+      "unique_violation": "一意性違反です",
+      "check_violation": "チェック違反です",
+      "exclusion_violation": "除外違反です",
+      "invalid_cursor_state": "無効なカーソル状態です",
+      "invalid_transaction_state": "無効なトランザクション状態です",
+      "in_failed_sql_transaction": "失敗したSQLトランザクション内です",
+      "invalid_sql_statement_name": "無効なSQLステートメント名です",
+      "invalid_authorization_specification": "無効な認証指定です",
+      "invalid_password": "無効なパスワードです",
+      "invalid_cursor_name": "無効なカーソル名です",
+      "external_routine_exception": "外部ルーチン例外です",
+      "containing_sql_not_permitted": "含むSQLが許可されていません",
+      "modifying_sql_data_not_permitted": "SQLデータの変更が許可されていません",
+      "prohibited_sql_statement_attempted": "禁止されたSQLステートメントが試行されました",
+      "reading_sql_data_not_permitted": "SQLデータの読み取りが許可されていません",
+      "external_routine_invocation_exception": "外部ルーチン呼び出し例外です",
+      "invalid_sqlstate_returned": "無効なSQLSTATEが返されました",
+      "null_value_not_allowed": "NULL値が許可されていません",
+      "serialization_failure": "シリアル化失敗です",
+      "statement_completion_unknown": "ステートメント完了が不明です",
+      "deadlock_detected": "デッドロックが検出されました",
+      "syntax_error": "構文エラーです",
+      "undefined_column": "未定義のカラムです",
+      "datatype_mismatch": "データ型不一致です",
+      "invalid_foreign_key": "無効な外部キーです",
+      "undefined_function": "未定義の関数です",
+      "undefined_table": "未定義のテーブルです",
+      "undefined_parameter": "未定義のパラメータです",
+      "indeterminate_datatype": "不定データ型です",
+      "with_check_option_violation": "WITH CHECK OPTION違反です",
+      "insufficient_privilege": "権限が不足しています",
+      "insufficient_privilege_reserved": "権限が不足しています（予約）",
+      "invalid_grant_operation": "無効な許可操作です",
+      "invalid_role_specification": "無効なロール指定です",
+      "too_many_connections": "接続が多すぎます",
+      "configuration_limit_exceeded": "構成制限を超えています",
+      "object_not_in_prerequisite_state": "オブジェクトが前提条件の状態ではありません",
+      "object_in_use": "オブジェクトが使用中です",
+      "query_canceled": "クエリがキャンセルされました",
+      "admin_shutdown": "管理者シャットダウンです",
+      "crash_shutdown": "クラッシュシャットダウンです",
+      "cannot_connect_now": "現在接続できません",
+      "system_error": "システムエラーです",
+      "io_error": "I/Oエラーです",
+      "config_file_error": "構成ファイルエラーです",
+      "raise_exception": "例外を発生させます",
+      "no_data_found": "データが見つかりません",
+      "too_many_rows": "行が多すぎます",
+      "internal_error": "内部エラーです",
+      "data_corrupted": "データが破損しています",
+      "index_corrupted": "インデックスが破損しています",
+      "sql_med_insufficient_privilege": "SQL_MED権限が不足しています",
+      "insufficient_permission": "権限が不足しています",
+      "AuthInvalidCredentialsError": "認証情報が無効です"
+   },
+   "account": {
+      "profile": {
+         "user_info": "ユーザー情報",
+         "name": "氏名",
+         "email": "電子メール",
+         "phone": "電話番号",
+         "events": "イベント",
+         "logs": {
+            "created_at": "作成日時",
+            "email_confirmed_at": "電子メール確認日時",
+            "last_sign_in_at": "最後のログイン日時"
+         }
+      }
+   },
+   "toast": {
+      "updated": "更新されました",
+      "success": "成功しました",
+      "saved": "保存されました",
+      "sended": "送信されました"
+   },
+   "register": {
+      "stepper": {
+         "label": {
+            "account": "アカウント",
+            "company": "会社"
+         }
+      }
+   },
+   "route": {
+      "label": {
+         "dashboard": "ダッシュボード",
+         "error": "エラー",
+         "notfound": "見つからない",
+         "account": "アカウント",
+         "profile": "プロフィール",
+         "settings": "設定",
+         "update-profile": "プロフィールの更新",
+         "update-password": "パスワードの更新",
+         "logout": "ログアウト",
+         "address": "住所",
+         "edit": "編集",
+         "add": "追加",
+         "register": "登録",
+         "login": "ログイン",
+         "enter-auth-otp-code": "認証OTPコードを入力",
+         "access-denied": "アクセス拒否",
+         "branch": "支店",
+         "branch-user": "支店ユーザー",
+         "manage-user": "ユーザー管理",
+         "user-general-info": "ユーザーの一般情報",
+         "branch-role": "支店ロール",
+         "audit-logs": "ログ",
+         "client": "クライアント",
+         "manage-client": "クライアント管理",
+         "client-general-info": "クライアントの一般情報",
+         "client-addresses": "クライアントの住所",
+         "record": "記録",
+         "battery": "バッテリー",
+         "device": "デバイス",
+         "stock": "在庫",
+         "product": "製品",
+         "service": "サービス",
+         "spare-parts": "消耗品",
+         "address_list": "住所一覧",
+         "address_edit": "住所編集",
+         "address_add": "住所追加",
+         "client_list": "患者一覧",
+         "client_address_list": "患者住所一覧",
+         "record_list": "記録一覧",
+         "record_add": "記録追加",
+         "record_edit": "記録編集",
+         "battery_list": "バッテリー一覧",
+         "device_list": "機器一覧",
+         "stock_add": "在庫追加",
+         "stock_edit": "在庫編集",
+         "product_list": "製品一覧",
+         "product_add": "製品追加",
+         "product_edit": "製品編集",
+         "service_list": "サービス一覧",
+         "spare_part_list": "消耗品一覧",
+         "branch_user_list": "支店ユーザー一覧",
+         "audit_log_list": "監査ログ一覧",
+         "branch_role_list": "支店ロール一覧"
+      }
+   },
+   "dashboard": {
+      "statistics": {
+         "last_week": "先週",
+         "last_month": "先月",
+         "last_quarter": "四半期",
+         "last_half": "半期",
+         "last_year": "前年",
+         "total": "合計",
+         "client": {
+            "clients": "顧客"
+         }
+      },
+      "best_selling_products": {
+         "sold_quantity": "販売数量",
+         "total_gain": "総利益",
+         "total_discount": "総割引",
+         "total_tax": "総税額",
+         "title": "売上トップ製品",
+         "empty": "データがありません"
+      },
+      "notifications": {
+         "today": "今日",
+         "yesterday": "昨日",
+         "last_week": "先週",
+         "older": "以前",
+         "title": "通知",
+         "activity": {
+            "created": "new {resource_name} created by {user_name}",
+            "updated": "a {resource_name} updated by {user_name}",
+            "deleted": "a {resource_name} deleted by {user_name}",
+            "unknown": "activity detected in {resource_name} by {user_name}"
+         }
+      },
+      "sales_by_category": {
+         "total_quantity_sold": "総販売数量",
+         "total_bid": "総取引額",
+         "total_discount": "総割引",
+         "total_tax": "総税額",
+         "title": "カテゴリ別売上"
+      },
+      "tables": {
+         "recent_sales": {
+            "title": "最近の売上",
+            "see_all": "すべて見る"
+         }
+      }
+   },
+   "address": {
+      "select_country": "国を選択",
       "table": {
-        "headers": {
-          "product": "製品",
-          "brand": "ブランド",
-          "categories": "カテゴリ",
-          "created_at": "作成日"
-        }
+         "headers": {
+            "address_name": "住所名",
+            "country": "国",
+            "city": "市",
+            "district": "区",
+            "created_at": "作成日時"
+         }
       }
-    },
-    "service": {
+   },
+   "audit_log": {
+      "no_changes_detected": "変更が検出されませんでした",
+      "add": "追加",
+      "update": "更新",
+      "delete": "削除",
+      "read": "読み込み",
+      "select_operation": "操作を選択",
       "table": {
-        "headers": {
-          "product": "製品",
-          "unit_cost": "単価",
-          "quantity": "数量",
-          "vendor": "販売元",
-          "stocked_at": "在庫場所"
-        }
-      }
-    },
-    "spare_part": {
+         "headers": {
+            "resource": "リソース",
+            "operation": "操作",
+            "user_who_performed": "実行ユーザー",
+            "created_at": "作成日時",
+            "user_who_reverted": "元に戻すユーザー",
+            "reverted_at": "元に戻す日時"
+         }
+      },
+      "already_reverted": "すでに元に戻されています",
+      "attempt_to_revert": "元に戻す試み",
+      "added": "追加されました",
+      "updated": "更新されました",
+      "deleted": "削除されました",
+      "readed": "読み込まれました"
+   },
+   "client": {
+      "select_client": "クライアントを選択",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "クライアント",
+               "address": "住所",
+               "country": "国",
+               "city": "市",
+               "district": "区",
+               "created_at": "作成日時"
+            }
+         }
+      },
       "table": {
-        "headers": {
-          "product": "製品",
-          "unit_cost": "単価",
-          "quantity": "数量",
-          "vendor": "販売元",
-          "stocked_at": "在庫場所"
-        }
+         "headers": {
+            "client": "クライアント",
+            "nationality": "国籍",
+            "national_id": "国番号",
+            "birth_date": "生年月日",
+            "email": "メールアドレス",
+            "phone": "電話番号",
+            "created_at": "作成日時"
+         }
+      },
+      "general_info": "一般情報",
+      "addresses": "住所",
+      "gender": {
+         "male": "男性",
+         "female": "女性"
       }
-    },
-    "information": "情報",
-    "financial": "財務"
-  }
+   },
+   "product": {
+      "select_product": "製品を選択してください",
+      "category": {
+         "select_category": "カテゴリを選択してください"
+      }
+   },
+   "user": {
+      "table": {
+         "headers": {
+            "name": "名前",
+            "email": "メールアドレス",
+            "created_at": "作成日時"
+         }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "一般情報"
+         }
+      },
+      "general_info": "一般情報",
+      "security": "セキュリティ"
+   },
+   "record": {
+      "table": {
+         "headers": {
+            "product": "製品",
+            "client": "顧客",
+            "quantity": "数量",
+            "bid": "入札ID",
+            "created_at": "作成日時",
+            "record_type": "記録タイプ",
+            "record_status": "記録ステータス"
+         }
+      },
+      "tab": {
+         "record": "記録",
+         "ear_device": "耳装置"
+      },
+      "information": "情報",
+      "financial": "財務"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "製品",
+               "unit_cost": "単価",
+               "quantity": "数量",
+               "vendor": "販売元",
+               "stocked_at": "在庫場所"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "製品",
+               "serial_number": "シリアル番号",
+               "unit_cost": "単価",
+               "vendor": "販売元",
+               "stocked_at": "在庫日"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "製品",
+               "brand": "ブランド",
+               "categories": "カテゴリ",
+               "created_at": "作成日"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "製品",
+               "unit_cost": "単価",
+               "quantity": "数量",
+               "vendor": "販売元",
+               "stocked_at": "在庫場所"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "製品",
+               "unit_cost": "単価",
+               "quantity": "数量",
+               "vendor": "販売元",
+               "stocked_at": "在庫場所"
+            }
+         }
+      },
+      "information": "情報",
+      "financial": "財務"
+   }
 }

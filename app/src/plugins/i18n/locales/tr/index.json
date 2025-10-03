@@ -1,734 +1,736 @@
 {
-  "app_config": {
-    "app_settings": "Uygulama Ayarları",
-    "theme": {
-      "dark_mode": {
-        "toggle_dark_mode": "Karanlık Modu Aç/Kapat"
+   "app_config": {
+      "app_settings": "Uygulama Ayarları",
+      "theme": {
+         "dark_mode": {
+            "toggle_dark_mode": "Karanlık Modu Aç/Kapat"
+         },
+         "ui_scale": "Arayüz Ölçütü",
+         "primary_color": "Ana Renk",
+         "surface_color": "Yüzey Renk",
+         "preset": {
+            "select_preset": "Ön Ayar Seç"
+         }
       },
-      "ui_scale": "Arayüz Ölçütü",
-      "primary_color": "Ana Renk",
-      "surface_color": "Yüzey Renk",
-      "preset": {
-        "select_preset": "Ön Ayar Seç"
+      "language": {
+         "select_language": "Dil Seç",
+         "translated_using_artificial_intelligence": "Bu dil ayarı yapay zekâ ile çevrildi",
+         "you_can_configure_different_options_for_each_light_modes": "Her ışık modu için farklı seçenekler ayarlayabilirsiniz",
+         "option": {
+            "turkish": "Türkçe",
+            "english": "İngilizce",
+            "spanish": "İspanyolca",
+            "french": "Fransızca",
+            "german": "Almanca",
+            "polish": "Lehce",
+            "russian": "Rusça",
+            "chinese": "Çince",
+            "japanese": "Japonca",
+            "korean": "Korece",
+            "italian": "İtalyanca",
+            "arabic": "Arabça",
+            "arabic(ae)": "Arabça(AE)"
+         }
+      },
+      "sidebar": {
+         "select_sidebar_mode": "Menü Modu Seç",
+         "modes": {
+            "static": "Statik",
+            "auto": "Otomatik",
+            "mini": "Mini",
+            "reveal": "Göster",
+            "overlay": "Yatay"
+         }
       }
-    },
-    "language": {
-      "select_language": "Dil Seç",
-      "translated_using_artificial_intelligence": "Bu dil ayarı yapay zekâ ile çevrildi",
-      "you_can_configure_different_options_for_each_light_modes": "Her ışık modu için farklı seçenekler ayarlayabilirsiniz",
-      "option": {
-        "turkish": "Türkçe",
-        "english": "İngilizce",
-        "spanish": "İspanyolca",
-        "french": "Fransızca",
-        "german": "Almanca",
-        "polish": "Lehce",
-        "russian": "Rusça",
-        "chinese": "Çince",
-        "japanese": "Japonca",
-        "korean": "Korece",
-        "italian": "İtalyanca"
-      }
-    },
-    "sidebar": {
-      "select_sidebar_mode": "Menü Modu Seç",
-      "modes": {
-        "static": "Statik",
-        "auto": "Otomatik",
-        "mini": "Mini",
-        "reveal": "Göster",
-        "overlay": "Yatay"
-      }
-    }
-  },
-  "input": {
-    "select_or_write": "Seçin veya Yazın"
-  },
-  "financial": {
-    "select_currency": "Para Birimi Seçin",
-    "select_unit_type": "Birim Türünü Seçin"
-  },
-  "component": {
-    "select_permission": {
+   },
+   "input": {
+      "select_or_write": "Seçin veya Yazın"
+   },
+   "financial": {
+      "select_currency": "Para Birimi Seçin",
+      "select_unit_type": "Birim Türünü Seçin"
+   },
+   "component": {
+      "select_permission": {
+         "table": {
+            "headers": {
+               "permission_name": "İzin Adı",
+               "read": "Okuma",
+               "create": "Oluşturma",
+               "modify": "Değiştirme",
+               "all": "Tümü"
+            }
+         }
+      },
       "table": {
-        "headers": {
-          "permission_name": "İzin Adı",
-          "read": "Okuma",
-          "create": "Oluşturma",
-          "modify": "Değiştirme",
-          "all": "Tümü"
-        }
+         "no_data_found": "Veri bulunamadı",
+         "keyword_search": "Anahtar kelime araması"
       }
-    },
-    "table": {
+   },
+   "common": {
+      "select": "Seç"
+   },
+   "role": {
+      "select_role": "Rola seçin",
+      "table": {
+         "headers": {
+            "name": "Adı",
+            "created_at": "Oluşturulma Tarihi"
+         }
+      }
+   },
+   "router": {
+      "action": {
+         "open_in_window": "Yeni Pencerede Aç",
+         "manage-addresses": "Adresleri Yönet",
+         "close": "Kapat",
+         "manage_addresses": "Adresleri Yönet",
+         "go_back": "Geri Dön",
+         "go_to_profile": "Profil'e Git"
+      },
+      "error_occured": "Hata Oluştu",
+      "requested_resource_is_not_available": "İstenen Kaynak Mevcut Değil",
+      "not_found": "Bulunamadı"
+   },
+   "action": {
+      "reset": "Sıfırla",
+      "save": "Kaydet",
+      "confirm": {
+         "delete": {
+            "question": "Silme işlemi onaylıyor musunuz?",
+            "title": "Silme Onayı"
+         }
+      },
+      "yes": "Evet",
+      "no": "Hayır",
+      "cancelled": "İptal edildi",
+      "add": "Ekle",
+      "delete": "Sil",
+      "edit": "Düzenle",
+      "cancel": "İptal",
+      "send": "Gönder",
+      "submit": "Gönder",
+      "resend_code": "Kodu Tekrar Gönder",
+      "back": "Geri",
+      "invite": "Davet Et"
+   },
+   "const": {
+      "ear_device": {
+         "models": {
+            "in_ear_(ITE)": "Kulakta (ITE)",
+            "in_canal_(ITC)": "Kanal İçinde (ITC)",
+            "completely_in_canal_(CIC)": "Tamamen Kanal İçinde (CIC)"
+         }
+      }
+   },
+   "errors": {
+      "access_denied": "Erişim reddedildi",
+      "confirmation_required": "Onay gerekiyor",
+      "email_change_required": "E-posta değişikliği gerekiyor",
+      "expired_code": "Sonuçlar geçersiz",
+      "identity_provider_error": "Kimlik sağlayıcısı hatası",
+      "invalid_code": "Geçersiz kod",
+      "invalid_email": "Geçersiz e-posta",
+      "invalid_email_link": "Geçersiz e-posta bağlantısı",
+      "invalid_credentials": "Geçersiz kimlik bilgileri",
+      "invalid_phone": "Geçersiz telefon",
+      "invalid_recovery_token": "Geçersiz geri yükleme belirteci",
+      "invalid_signup_data": "Geçersiz kayıt verisi",
+      "invalid_token": "Geçersiz belirteç",
+      "invalid_verification_link": "Geçersiz doğrulama bağlantısı",
+      "mfa_invalid_code": "MFA geçersiz kod",
+      "mfa_required": "MFA gerekiyor",
+      "missing_code": "Kod eksik",
+      "missing_email": "E-posta eksik",
+      "missing_phone": "Telefon eksik",
+      "otp_expired": "OTP süresi doldu",
+      "otp_failed": "OTP başarısız",
+      "otp_max_attempts": "OTP maksimum deneme sayısı",
+      "password_length": "Şifre uzunluğu",
+      "phone_change_required": "Telefon değişikliği gerekiyor",
+      "recovery_link_used": "Geri yükleme bağlantısı kullanıldı",
+      "server_error": "Sunucu hatası",
+      "signup_disabled": "Kayıt devre dışı",
+      "token_expired": "Belirteç süresi doldu",
+      "unauthorized_client": "Yetkisiz istemci",
+      "unexpected_error": "Beklenmeyen hata",
+      "unknown_provider": "Bilinmeyen sağlayıcı",
+      "user_already_registered": "Kullanıcı zaten kayıtlı",
+      "user_not_found": "Kullanıcı bulunamadı",
+      "user_update_failed": "Kullanıcı güncelleme başarısız",
+      "verification_link_used": "Doğrulama bağlantısı kullanıldı",
+      "weak_password": "Zayıf şifre",
+      "no_data": "Veri yok",
+      "no_additional_dynamic_result_sets_returned": "Ekstra dinamik sonuç kümesi döndürülmedi",
+      "data_exception": "Veri istisnası",
+      "string_data_right_truncation": "Dize verisi sağa kırpıldı",
+      "numeric_value_out_of_range": "Sayısal değer aralığın dışına çıktı",
+      "invalid_datetime_format": "Geçersiz tarih saat biçimi",
+      "datetime_field_overflow": "Tarih saat alanı taşma",
+      "division_by_zero": "Sıfıra bölme",
+      "invalid_parameter_value": "Geçersiz parametre değeri",
+      "floating_point_exception": "Kayan nokta istisnası",
+      "invalid_text_representation": "Geçersiz metin temsili",
+      "invalid_binary_representation": "Geçersiz ikili temsili",
+      "bad_copy_file_format": "Kötü kopyalama dosya biçimi",
+      "untranslatable_character": "Çevrilemeyen karakter",
+      "integrity_constraint_violation": "İntegrité kısıtlaması ihlali",
+      "not_null_violation": "NOT NULL ihlali",
+      "foreign_key_violation": "Yabancı anahtar ihlali",
+      "unique_violation": "Benzersizlik ihlali",
+      "check_violation": "Denetim ihlali",
+      "exclusion_violation": "İzole ihlali",
+      "invalid_cursor_state": "Geçersiz imleç durumu",
+      "invalid_transaction_state": "Geçersiz işlem durumu",
+      "in_failed_sql_transaction": "Başarısız SQL işlemi içinde",
+      "invalid_sql_statement_name": "Geçersiz SQL ifadesi adı",
+      "invalid_authorization_specification": "Geçersiz yetkilendirme tanımı",
+      "invalid_password": "Geçersiz şifre",
+      "invalid_cursor_name": "Geçersiz imleç adı",
+      "external_routine_exception": "Dış rutin istisnası",
+      "containing_sql_not_permitted": "İçeren SQL izin verilmedi",
+      "modifying_sql_data_not_permitted": "SQL verisini değiştirme izin verilmedi",
+      "prohibited_sql_statement_attempted": "Yasaklanan SQL ifadesi denendi",
+      "reading_sql_data_not_permitted": "SQL verisini okuma izin verilmedi",
+      "external_routine_invocation_exception": "Dış rutin çağrısı istisnası",
+      "invalid_sqlstate_returned": "Geçersiz SQL durumu döndürüldü",
+      "null_value_not_allowed": "NULL değer izin verilmedi",
+      "serialization_failure": "Serileştirme başarısız",
+      "statement_completion_unknown": "İfade tamamlanması bilinmiyor",
+      "deadlock_detected": "Kilit çatışması tespit edildi",
+      "syntax_error": "Sözdizimi hatası",
+      "undefined_column": "Tanımsız sütun",
+      "datatype_mismatch": "Veri türü eşleşmiyor",
+      "invalid_foreign_key": "Geçersiz yabancı anahtar",
+      "undefined_function": "Tanımsız fonksiyon",
+      "undefined_table": "Tanımsız tablo",
+      "undefined_parameter": "Tanımsız parametre",
+      "indeterminate_datatype": "Belirsiz veri türü",
+      "with_check_option_violation": "WITH CHECK OPTION ihlali",
+      "insufficient_privilege": "Yetersiz yetki",
+      "insufficient_privilege_reserved": "Yetersiz yetki (rezervasyon)",
+      "invalid_grant_operation": "Geçersiz izin verme işlemi",
+      "invalid_role_specification": "Geçersiz rol tanımı",
+      "too_many_connections": "Çok fazla bağlantı",
+      "configuration_limit_exceeded": "Konfigürasyon sınırı aşıldı",
+      "object_not_in_prerequisite_state": "Nesne öncelikli durumda değil",
+      "object_in_use": "Nesne kullanımda",
+      "query_canceled": "Sorgu iptal edildi",
+      "admin_shutdown": "Yönetici kapatma",
+      "crash_shutdown": "Çökme kapatma",
+      "cannot_connect_now": "Şimdi bağlanamaz",
+      "system_error": "Sistem hatası",
+      "io_error": "Girdi/çıktı hatası",
+      "config_file_error": "Konfigürasyon dosyası hatası",
+      "raise_exception": "İstisna at",
       "no_data_found": "Veri bulunamadı",
-      "keyword_search": "Anahtar kelime araması"
-    }
-  },
-  "common": {
-    "select": "Seç"
-  },
-  "role": {
-    "select_role": "Rola seçin",
-    "table": {
-      "headers": {
-        "name": "Adı",
-        "created_at": "Oluşturulma Tarihi"
+      "too_many_rows": "Çok fazla satır",
+      "internal_error": "İç hatası",
+      "data_corrupted": "Veri bozuk",
+      "index_corrupted": "İndeks bozuk",
+      "sql_med_insufficient_privilege": "SQL_MED yetersiz yetki",
+      "insufficient_permission": "Yetersiz izin",
+      "AuthInvalidCredentialsError": "Yetkilendirme Geçersiz Kimlik Bilgileri Hatası"
+   },
+   "account": {
+      "profile": {
+         "user_info": "Kullanıcı Bilgisi",
+         "name": "Ad Soyad",
+         "email": "E-posta",
+         "phone": "Telefon",
+         "events": "Etkinlikler",
+         "logs": {
+            "created_at": "Oluşturulma Tarihi",
+            "email_confirmed_at": "E-posta Onay Tarihi",
+            "last_sign_in_at": "Son Giriş Tarihi"
+         }
       }
-    }
-  },
-  "router": {
-    "action": {
-      "open_in_window": "Yeni Pencerede Aç",
-      "manage-addresses": "Adresleri Yönet",
-      "close": "Kapat",
-      "manage_addresses": "Adresleri Yönet",
-      "go_back": "Geri Dön",
-      "go_to_profile": "Profil'e Git"
-    },
-    "error_occured": "Hata Oluştu",
-    "requested_resource_is_not_available": "İstenen Kaynak Mevcut Değil",
-    "not_found": "Bulunamadı"
-  },
-  "action": {
-    "reset": "Sıfırla",
-    "save": "Kaydet",
-    "confirm": {
-      "delete": {
-        "question": "Silme işlemi onaylıyor musunuz?",
-        "title": "Silme Onayı"
+   },
+   "toast": {
+      "updated": "Güncellendi",
+      "success": "Başarılı",
+      "saved": "Kaydedildi",
+      "sended": "Gönderildi"
+   },
+   "register": {
+      "stepper": {
+         "label": {
+            "account": "Hesap",
+            "company": "Şirket"
+         }
       }
-    },
-    "yes": "Evet",
-    "no": "Hayır",
-    "cancelled": "İptal edildi",
-    "add": "Ekle",
-    "delete": "Sil",
-    "edit": "Düzenle",
-    "cancel": "İptal",
-    "send": "Gönder",
-    "submit": "Gönder",
-    "resend_code": "Kodu Tekrar Gönder",
-    "back": "Geri",
-    "invite": "Davet Et"
-  },
-  "const": {
-    "ear_device": {
-      "models": {
-        "in_ear_(ITE)": "Kulakta (ITE)",
-        "in_canal_(ITC)": "Kanal İçinde (ITC)",
-        "completely_in_canal_(CIC)": "Tamamen Kanal İçinde (CIC)"
+   },
+   "route": {
+      "label": {
+         "dashboard": "Konsol",
+         "error": "Hata",
+         "notfound": "Bulunamadı",
+         "account": "Hesap",
+         "profile": "Profil",
+         "settings": "Ayarlar",
+         "update-profile": "Profil Güncelle",
+         "update-password": "Şifre Güncelle",
+         "logout": "Çıkış Yap",
+         "address": "Adres",
+         "edit": "Düzenle",
+         "add": "Ekle",
+         "register": "Kayıt Ol",
+         "login": "Giriş Yap",
+         "enter-auth-otp-code": "Doğrulama OTP Kodu Gir",
+         "access-denied": "Erişim Reddedildi",
+         "branch": "Şube",
+         "branch-user": "Şube Kullanıcısı",
+         "manage-user": "Kullanıcı Yönetimi",
+         "user-general-info": "Kullanıcı Genel Bilgileri",
+         "branch-role": "Şube Rolü",
+         "audit-logs": "Günlükler",
+         "client": "Müşteri",
+         "manage-client": "Müşteri Yönetimi",
+         "client-general-info": "Müşteri Genel Bilgileri",
+         "client-addresses": "Müşteri Adresleri",
+         "record": "Kayıt",
+         "battery": "Batarya",
+         "device": "Cihaz",
+         "stock": "Stok",
+         "product": "Ürün",
+         "service": "Hizmet",
+         "spare-parts": "Yedek Parça",
+         "address_list": "Adres Listesi",
+         "address_edit": "Adres Düzenle",
+         "address_add": "Adres Ekle",
+         "client_list": "Müşteri Listesi",
+         "client_address_list": "Müşteri Adres Listesi",
+         "record_list": "Kayıt Listesi",
+         "record_add": "Kayıt Ekle",
+         "record_edit": "Kayıt Düzenle",
+         "battery_list": "Batarya Listesi",
+         "device_list": "Cihaz Listesi",
+         "stock_add": "Stok Ekle",
+         "stock_edit": "Stok Düzenle",
+         "product_list": "Ürün Listesi",
+         "product_add": "Ürün Ekle",
+         "product_edit": "Ürün Düzenle",
+         "service_list": "Hizmet Listesi",
+         "spare_part_list": "Yedek Parça Listesi",
+         "branch_user_list": "Şube Kullanıcı Listesi",
+         "audit_log_list": "Denetim Günlüğü Listesi",
+         "branch_role_list": "Şube Rol Listesi"
       }
-    }
-  },
-  "errors": {
-    "access_denied": "Erişim reddedildi",
-    "confirmation_required": "Onay gerekiyor",
-    "email_change_required": "E-posta değişikliği gerekiyor",
-    "expired_code": "Sonuçlar geçersiz",
-    "identity_provider_error": "Kimlik sağlayıcısı hatası",
-    "invalid_code": "Geçersiz kod",
-    "invalid_email": "Geçersiz e-posta",
-    "invalid_email_link": "Geçersiz e-posta bağlantısı",
-    "invalid_credentials": "Geçersiz kimlik bilgileri",
-    "invalid_phone": "Geçersiz telefon",
-    "invalid_recovery_token": "Geçersiz geri yükleme belirteci",
-    "invalid_signup_data": "Geçersiz kayıt verisi",
-    "invalid_token": "Geçersiz belirteç",
-    "invalid_verification_link": "Geçersiz doğrulama bağlantısı",
-    "mfa_invalid_code": "MFA geçersiz kod",
-    "mfa_required": "MFA gerekiyor",
-    "missing_code": "Kod eksik",
-    "missing_email": "E-posta eksik",
-    "missing_phone": "Telefon eksik",
-    "otp_expired": "OTP süresi doldu",
-    "otp_failed": "OTP başarısız",
-    "otp_max_attempts": "OTP maksimum deneme sayısı",
-    "password_length": "Şifre uzunluğu",
-    "phone_change_required": "Telefon değişikliği gerekiyor",
-    "recovery_link_used": "Geri yükleme bağlantısı kullanıldı",
-    "server_error": "Sunucu hatası",
-    "signup_disabled": "Kayıt devre dışı",
-    "token_expired": "Belirteç süresi doldu",
-    "unauthorized_client": "Yetkisiz istemci",
-    "unexpected_error": "Beklenmeyen hata",
-    "unknown_provider": "Bilinmeyen sağlayıcı",
-    "user_already_registered": "Kullanıcı zaten kayıtlı",
-    "user_not_found": "Kullanıcı bulunamadı",
-    "user_update_failed": "Kullanıcı güncelleme başarısız",
-    "verification_link_used": "Doğrulama bağlantısı kullanıldı",
-    "weak_password": "Zayıf şifre",
-    "no_data": "Veri yok",
-    "no_additional_dynamic_result_sets_returned": "Ekstra dinamik sonuç kümesi döndürülmedi",
-    "data_exception": "Veri istisnası",
-    "string_data_right_truncation": "Dize verisi sağa kırpıldı",
-    "numeric_value_out_of_range": "Sayısal değer aralığın dışına çıktı",
-    "invalid_datetime_format": "Geçersiz tarih saat biçimi",
-    "datetime_field_overflow": "Tarih saat alanı taşma",
-    "division_by_zero": "Sıfıra bölme",
-    "invalid_parameter_value": "Geçersiz parametre değeri",
-    "floating_point_exception": "Kayan nokta istisnası",
-    "invalid_text_representation": "Geçersiz metin temsili",
-    "invalid_binary_representation": "Geçersiz ikili temsili",
-    "bad_copy_file_format": "Kötü kopyalama dosya biçimi",
-    "untranslatable_character": "Çevrilemeyen karakter",
-    "integrity_constraint_violation": "İntegrité kısıtlaması ihlali",
-    "not_null_violation": "NOT NULL ihlali",
-    "foreign_key_violation": "Yabancı anahtar ihlali",
-    "unique_violation": "Benzersizlik ihlali",
-    "check_violation": "Denetim ihlali",
-    "exclusion_violation": "İzole ihlali",
-    "invalid_cursor_state": "Geçersiz imleç durumu",
-    "invalid_transaction_state": "Geçersiz işlem durumu",
-    "in_failed_sql_transaction": "Başarısız SQL işlemi içinde",
-    "invalid_sql_statement_name": "Geçersiz SQL ifadesi adı",
-    "invalid_authorization_specification": "Geçersiz yetkilendirme tanımı",
-    "invalid_password": "Geçersiz şifre",
-    "invalid_cursor_name": "Geçersiz imleç adı",
-    "external_routine_exception": "Dış rutin istisnası",
-    "containing_sql_not_permitted": "İçeren SQL izin verilmedi",
-    "modifying_sql_data_not_permitted": "SQL verisini değiştirme izin verilmedi",
-    "prohibited_sql_statement_attempted": "Yasaklanan SQL ifadesi denendi",
-    "reading_sql_data_not_permitted": "SQL verisini okuma izin verilmedi",
-    "external_routine_invocation_exception": "Dış rutin çağrısı istisnası",
-    "invalid_sqlstate_returned": "Geçersiz SQL durumu döndürüldü",
-    "null_value_not_allowed": "NULL değer izin verilmedi",
-    "serialization_failure": "Serileştirme başarısız",
-    "statement_completion_unknown": "İfade tamamlanması bilinmiyor",
-    "deadlock_detected": "Kilit çatışması tespit edildi",
-    "syntax_error": "Sözdizimi hatası",
-    "undefined_column": "Tanımsız sütun",
-    "datatype_mismatch": "Veri türü eşleşmiyor",
-    "invalid_foreign_key": "Geçersiz yabancı anahtar",
-    "undefined_function": "Tanımsız fonksiyon",
-    "undefined_table": "Tanımsız tablo",
-    "undefined_parameter": "Tanımsız parametre",
-    "indeterminate_datatype": "Belirsiz veri türü",
-    "with_check_option_violation": "WITH CHECK OPTION ihlali",
-    "insufficient_privilege": "Yetersiz yetki",
-    "insufficient_privilege_reserved": "Yetersiz yetki (rezervasyon)",
-    "invalid_grant_operation": "Geçersiz izin verme işlemi",
-    "invalid_role_specification": "Geçersiz rol tanımı",
-    "too_many_connections": "Çok fazla bağlantı",
-    "configuration_limit_exceeded": "Konfigürasyon sınırı aşıldı",
-    "object_not_in_prerequisite_state": "Nesne öncelikli durumda değil",
-    "object_in_use": "Nesne kullanımda",
-    "query_canceled": "Sorgu iptal edildi",
-    "admin_shutdown": "Yönetici kapatma",
-    "crash_shutdown": "Çökme kapatma",
-    "cannot_connect_now": "Şimdi bağlanamaz",
-    "system_error": "Sistem hatası",
-    "io_error": "Girdi/çıktı hatası",
-    "config_file_error": "Konfigürasyon dosyası hatası",
-    "raise_exception": "İstisna at",
-    "no_data_found": "Veri bulunamadı",
-    "too_many_rows": "Çok fazla satır",
-    "internal_error": "İç hatası",
-    "data_corrupted": "Veri bozuk",
-    "index_corrupted": "İndeks bozuk",
-    "sql_med_insufficient_privilege": "SQL_MED yetersiz yetki",
-    "insufficient_permission": "Yetersiz izin",
-    "AuthInvalidCredentialsError": "Yetkilendirme Geçersiz Kimlik Bilgileri Hatası"
-  },
-  "account": {
-    "profile": {
-      "user_info": "Kullanıcı Bilgisi",
-      "name": "Ad Soyad",
+   },
+   "fields": {
+      "": "Boş",
+      "device": "Cihaz",
+      "battery": "Batarya",
+      "spare_part": "Yedek Parça",
+      "service": "Servis",
+      "trial": "Deneme",
+      "sale": "Satış",
+      "assemble": "Montaj",
+      "repair": "Onarım",
+      "promotion": "Promosyon",
+      "cash": "Nakit",
+      "credit_card": "Kredi Kartı",
+      "pending": "Beklemede",
+      "pending_service": "Bekleyen Servis",
+      "client_holds_service_bid": "Müşteri Servis Teklifini Bekliyor",
+      "client_approved_service_bid": "Müşteri Servis Teklifini Onayladı",
+      "client_rejected_service_bid": "Müşteri Servis Teklifini Reddedi",
+      "done": "Tamamlandı",
+      "approved": "Onaylandı",
+      "rejected": "Reddedildi",
+      "pending_client": "Müşteriye Beklemede",
+      "biopar": "Biopar",
+      "hard": "Sert",
+      "micro": "Mikro",
+      "full": "Tam",
+      "half": "Yarı",
+      "supported": "Destekleniyor",
+      "prob": "Olabilir",
+      "pcs": "Adet",
+      "kg": "Kg",
+      "gr": "Gr",
+      "lbs": "Lb",
+      "L": "Litre",
+      "mL": "Mililitre",
+      "m": "Metre",
+      "m²": "Metrekare",
+      "cm": "Santimetre",
+      "in": "İnç",
+      "password": "Şifre",
+      "password_confirmation": "Şifre Onayı",
+      "name": "Ad",
       "email": "E-posta",
       "phone": "Telefon",
-      "events": "Etkinlikler",
-      "logs": {
-        "created_at": "Oluşturulma Tarihi",
-        "email_confirmed_at": "E-posta Onay Tarihi",
-        "last_sign_in_at": "Son Giriş Tarihi"
-      }
-    }
-  },
-  "toast": {
-    "updated": "Güncellendi",
-    "success": "Başarılı",
-    "saved": "Kaydedildi",
-    "sended": "Gönderildi"
-  },
-  "register": {
-    "stepper": {
-      "label": {
-        "account": "Hesap",
-        "company": "Şirket"
-      }
-    }
-  },
-  "route": {
-    "label": {
-      "dashboard": "Konsol",
-      "error": "Hata",
-      "notfound": "Bulunamadı",
-      "account": "Hesap",
-      "profile": "Profil",
-      "settings": "Ayarlar",
-      "update-profile": "Profil Güncelle",
-      "update-password": "Şifre Güncelle",
-      "logout": "Çıkış Yap",
-      "address": "Adres",
-      "edit": "Düzenle",
-      "add": "Ekle",
-      "register": "Kayıt Ol",
-      "login": "Giriş Yap",
-      "enter-auth-otp-code": "Doğrulama OTP Kodu Gir",
-      "access-denied": "Erişim Reddedildi",
+      "country": "Ülke",
+      "city": "Şehir",
+      "district": "İlçe",
+      "details": "Detaylar",
+      "remember_me": "Beni Hatırla",
+      "code": "Kod",
+      "company": "Şirket",
+      "permission": "İzin",
+      "role": "Rol",
+      "client_id": "Müşteri",
+      "nationality": "Uyruk",
+      "national_id": "Vatandaşlık Numarası",
+      "birth_date": "Doğum Tarihi",
+      "gender": "Cinsiyet",
+      "rear_ear_devices": "Arka Kulak Cihazları",
+      "attributes": "Özellikler",
+      "rear_ear_device": "Arka Kulak Cihazı",
+      "type": "Tip",
+      "model": "Model",
+      "speaker_power": "Hoparlör Gücü",
+      "side": "Yan",
+      "left": "Sol",
+      "right": "Sağ",
+      "ventilation": "Ventilasyon",
+      "speaker_size": "Hoparlör Boyutu",
+      "inner_ear_devices": "İç Kulak Cihazları",
+      "inner_ear_device": "İç Kulak Cihazı",
+      "has_bluetooth": "Bluetooth Var mı?",
+      "has_button": "Düğme Var mı?",
+      "record_type": "Kayıt Tipi",
+      "stock_id": "Stok",
+      "device_side": "Cihaz Yanı",
+      "both": "Her iki",
+      "record_status": "Kayıt Durumu",
+      "quantity": "Miktar",
+      "payment_type": "Ödeme Türü",
+      "currency_code": "Para Birimi Kodu",
+      "repair_fee": "Onarım Ücreti",
+      "bid": "Teklif",
+      "bid_discount": "Teklif İndirimi",
+      "tax": "KDV",
+      "total_bid": "Toplam Teklif",
+      "insurance_type": "Sigorta Türü",
+      "retired": "Emekli",
+      "worker": "Çalışan",
+      "insurance_contribution": "Sigorta Katkısı",
+      "client_insurance_contribution": "Müşteri Sigorta Katkısı",
+      "brand": "Marka",
+      "categories": "Kategoriler",
+      "product_id": "Ürün",
+      "vendor": "Tedarikçi",
+      "stocked_at": "Stok Tarihi",
+      "barcode": "Barkod",
+      "serial_number": "Seri Numarası",
+      "currency": "Para Birimi",
+      "unit_cost": "Birim Fiyatı",
+      "unit_discount": "Birim İndirimi",
+      "unit_tax": "Birim KDV",
+      "total_cost": "Toplam Fiyat",
+      "none": "Hiçbiri",
+      "tenant": "Şube",
       "branch": "Şube",
-      "branch-user": "Şube Kullanıcısı",
-      "manage-user": "Kullanıcı Yönetimi",
-      "user-general-info": "Kullanıcı Genel Bilgileri",
-      "branch-role": "Şube Rolü",
-      "audit-logs": "Günlükler",
+      "user": "Kullanıcı",
+      "tenant_user": "Şube kullanıcısı",
+      "tenant_owner": "Şube sahibi",
+      "address": "Adres",
+      "role_permission": "Rol izni",
+      "user_role": "Kullanıcı rolü",
       "client": "Müşteri",
-      "manage-client": "Müşteri Yönetimi",
-      "client-general-info": "Müşteri Genel Bilgileri",
-      "client-addresses": "Müşteri Adresleri",
-      "record": "Kayıt",
-      "battery": "Batarya",
-      "device": "Cihaz",
-      "stock": "Stok",
       "product": "Ürün",
-      "service": "Hizmet",
-      "spare-parts": "Yedek Parça",
-      "address_list": "Adres Listesi",
-      "address_edit": "Adres Düzenle",
-      "address_add": "Adres Ekle",
-      "client_list": "Müşteri Listesi",
-      "client_address_list": "Müşteri Adres Listesi",
-      "record_list": "Kayıt Listesi",
-      "record_add": "Kayıt Ekle",
-      "record_edit": "Kayıt Düzenle",
-      "battery_list": "Batarya Listesi",
-      "device_list": "Cihaz Listesi",
-      "stock_add": "Stok Ekle",
-      "stock_edit": "Stok Düzenle",
-      "product_list": "Ürün Listesi",
-      "product_add": "Ürün Ekle",
-      "product_edit": "Ürün Düzenle",
-      "service_list": "Hizmet Listesi",
-      "spare_part_list": "Yedek Parça Listesi",
-      "branch_user_list": "Şube Kullanıcı Listesi",
-      "audit_log_list": "Denetim Günlüğü Listesi",
-      "branch_role_list": "Şube Rol Listesi"
-    }
-  },
-  "fields": {
-    "": "Boş",
-    "device": "Cihaz",
-    "battery": "Batarya",
-    "spare_part": "Yedek Parça",
-    "service": "Servis",
-    "trial": "Deneme",
-    "sale": "Satış",
-    "assemble": "Montaj",
-    "repair": "Onarım",
-    "promotion": "Promosyon",
-    "cash": "Nakit",
-    "credit_card": "Kredi Kartı",
-    "pending": "Beklemede",
-    "pending_service": "Bekleyen Servis",
-    "client_holds_service_bid": "Müşteri Servis Teklifini Bekliyor",
-    "client_approved_service_bid": "Müşteri Servis Teklifini Onayladı",
-    "client_rejected_service_bid": "Müşteri Servis Teklifini Reddedi",
-    "done": "Tamamlandı",
-    "approved": "Onaylandı",
-    "rejected": "Reddedildi",
-    "pending_client": "Müşteriye Beklemede",
-    "biopar": "Biopar",
-    "hard": "Sert",
-    "micro": "Mikro",
-    "full": "Tam",
-    "half": "Yarı",
-    "supported": "Destekleniyor",
-    "prob": "Olabilir",
-    "pcs": "Adet",
-    "kg": "Kg",
-    "gr": "Gr",
-    "lbs": "Lb",
-    "L": "Litre",
-    "mL": "Mililitre",
-    "m": "Metre",
-    "m²": "Metrekare",
-    "cm": "Santimetre",
-    "in": "İnç",
-    "password": "Şifre",
-    "password_confirmation": "Şifre Onayı",
-    "name": "Ad",
-    "email": "E-posta",
-    "phone": "Telefon",
-    "country": "Ülke",
-    "city": "Şehir",
-    "district": "İlçe",
-    "details": "Detaylar",
-    "remember_me": "Beni Hatırla",
-    "code": "Kod",
-    "company": "Şirket",
-    "permission": "İzin",
-    "role": "Rol",
-    "client_id": "Müşteri",
-    "nationality": "Uyruk",
-    "national_id": "Vatandaşlık Numarası",
-    "birth_date": "Doğum Tarihi",
-    "gender": "Cinsiyet",
-    "rear_ear_devices": "Arka Kulak Cihazları",
-    "attributes": "Özellikler",
-    "rear_ear_device": "Arka Kulak Cihazı",
-    "type": "Tip",
-    "model": "Model",
-    "speaker_power": "Hoparlör Gücü",
-    "side": "Yan",
-    "left": "Sol",
-    "right": "Sağ",
-    "ventilation": "Ventilasyon",
-    "speaker_size": "Hoparlör Boyutu",
-    "inner_ear_devices": "İç Kulak Cihazları",
-    "inner_ear_device": "İç Kulak Cihazı",
-    "has_bluetooth": "Bluetooth Var mı?",
-    "has_button": "Düğme Var mı?",
-    "record_type": "Kayıt Tipi",
-    "stock_id": "Stok",
-    "device_side": "Cihaz Yanı",
-    "both": "Her iki",
-    "record_status": "Kayıt Durumu",
-    "quantity": "Miktar",
-    "payment_type": "Ödeme Türü",
-    "currency_code": "Para Birimi Kodu",
-    "repair_fee": "Onarım Ücreti",
-    "bid": "Teklif",
-    "bid_discount": "Teklif İndirimi",
-    "tax": "KDV",
-    "total_bid": "Toplam Teklif",
-    "insurance_type": "Sigorta Türü",
-    "retired": "Emekli",
-    "worker": "Çalışan",
-    "insurance_contribution": "Sigorta Katkısı",
-    "client_insurance_contribution": "Müşteri Sigorta Katkısı",
-    "brand": "Marka",
-    "categories": "Kategoriler",
-    "product_id": "Ürün",
-    "vendor": "Tedarikçi",
-    "stocked_at": "Stok Tarihi",
-    "barcode": "Barkod",
-    "serial_number": "Seri Numarası",
-    "currency": "Para Birimi",
-    "unit_cost": "Birim Fiyatı",
-    "unit_discount": "Birim İndirimi",
-    "unit_tax": "Birim KDV",
-    "total_cost": "Toplam Fiyat",
-    "none": "Hiçbiri",
-    "tenant": "Şube",
-    "branch": "Şube",
-    "user": "Kullanıcı",
-    "tenant_user": "Şube kullanıcısı",
-    "tenant_owner": "Şube sahibi",
-    "address": "Adres",
-    "role_permission": "Rol izni",
-    "user_role": "Kullanıcı rolü",
-    "client": "Müşteri",
-    "product": "Ürün",
-    "product_category": "Ürün kategorisi",
-    "product_categories": "Ürün kategorileri",
-    "stock": "Stok",
-    "record": "Kayıt",
-    "client_address": "Müşteri adresi",
-    "audit_config": "Audit yapılandırması",
-    "audit_log": "Log",
-    "product_brands": "Ürün markaları",
-    "stock_view": "Stok görünümü",
-    "stock_vendor": "Stok satıcısı",
-    "stock_vendor_stat": "Stok satıcısı istatistiği",
-    "stock_product_stat": "Stok ürün istatistiği",
-    "client_address_view": "Müşteri adresi görünümü",
-    "audit_log_group": "Audit log grubu",
-    "parent_id": "Parent",
-    "user_id": "Kullanıcı",
-    "tenant_id": "Şube",
-    "role_id": "Rol",
-    "permission_id": "İzni",
-    "unit_type": "Birim türü",
-    "category_id": "Kategori",
-    "address_id": "Adres",
-    "address_tenant_id": "Adres şubesine ait",
-    "client_national_id": "Müşteri kimlik numarası",
-    "client_tenant_id": "Müşteri şubesine ait",
-    "correlation_id": "Correlation",
-    "request_id": "Request",
-    "display_name": "İsim",
-    "id": "ID",
-    "created_at": "Oluşturulma tarihi"
-  },
-  "dashboard": {
-    "statistics": {
-      "last_week": "Geçen Hafta",
-      "last_month": "Geçen Ay",
-      "last_quarter": "Geçen Üç Ay",
-      "last_half": "Geçen Yarı Yıl",
-      "last_year": "Geçen Yıl",
-      "total": "Toplam",
-      "client": {
-        "clients": "Müşteriler"
-      }
-    },
-    "best_selling_products": {
-      "sold_quantity": "Satılan Miktar",
-      "total_gain": "Toplam Kazanç",
-      "total_discount": "Toplam İndirim",
-      "total_tax": "Toplam KDV",
-      "title": "En Çok Satılan Ürünler",
-      "empty": "Veri Yok"
-    },
-    "notifications": {
-      "today": "Bugün",
-      "yesterday": "Dün",
-      "last_week": "Geçen Hafta",
-      "older": "Daha Eski",
-      "title": "Bildirimler",
-      "activity": {
-        "created": "yeni {resource_name} {user_name} tarafından oluşturuldu",
-        "updated": "{resource_name} {user_name} tarafından güncellendi",
-        "deleted": "{resource_name} {user_name} tarafından silindi",
-        "unknown": "{resource_name} tarafından {user_name} tarafından etkinlik algılandı"
-      }
-    },
-    "sales_by_category": {
-      "total_quantity_sold": "Toplam Satılan Miktar",
-      "total_bid": "Toplam Tutar",
-      "total_discount": "Toplam İndirim",
-      "total_tax": "Toplam KDV",
-      "title": "Kategoriye Göre Satışlar"
-    },
-    "tables": {
-      "recent_sales": {
-        "title": "Son Satışlar",
-        "see_all": "Tümünü Gör"
-      }
-    }
-  },
-  "address": {
-    "select_country": "Ülke Seçin",
-    "table": {
-      "headers": {
-        "address_name": "Adres Adı",
-        "country": "Ülke",
-        "city": "Şehir",
-        "district": "İlçe",
-        "created_at": "Oluşturulma Tarihi"
-      }
-    }
-  },
-  "audit_log": {
-    "no_changes_detected": "Değişiklik tespit edilmedi",
-    "add": "Ekle",
-    "update": "Güncelle",
-    "delete": "Sil",
-    "read": "Oku",
-    "select_operation": "İşlem Seç",
-    "table": {
-      "headers": {
-        "resource": "Kaynak",
-        "operation": "İşlem",
-        "user_who_performed": "Yapan Kullanıcı",
-        "created_at": "Oluşturulma Tarihi",
-        "user_who_reverted": "İptal Eden Kullanıcı",
-        "reverted_at": "İptal Tarihi"
-      }
-    },
-    "already_reverted": "Zaten iptal edildi",
-    "attempt_to_revert": "İptal işlemi denendi",
-    "added": "Eklendi",
-    "updated": "Güncellendi",
-    "deleted": "Silindi",
-    "readed": "Okundu"
-  },
-  "client": {
-    "select_client": "Müşteri Seç",
-    "address": {
-      "table": {
-        "headers": {
-          "client": "Müşteri",
-          "address": "Adres",
-          "country": "Ülke",
-          "city": "Şehir",
-          "district": "İlçe",
-          "created_at": "Oluşturulma Tarihi"
-        }
-      }
-    },
-    "table": {
-      "headers": {
-        "client": "Müşteri",
-        "nationality": "Uyruk",
-        "national_id": "Milli Kimlik",
-        "birth_date": "Doğum Tarihi",
-        "email": "E-posta",
-        "phone": "Telefon",
-        "created_at": "Oluşturulma Tarihi"
-      }
-    },
-    "general_info": "Genel Bilgi",
-    "addresses": "Adresler",
-    "gender": {
-      "male": "Erkek",
-      "female": "Kadın"
-    }
-  },
-  "product": {
-    "select_product": "Cihaz Seçin",
-    "category": {
-      "select_category": "Kategori Seçin"
-    }
-  },
-  "user": {
-    "table": {
-      "headers": {
-        "name": "Ad",
-        "email": "E-posta",
-        "created_at": "Oluşturulma Tarihi"
-      }
-    },
-    "upsert": {
-      "tabs": {
-        "general_info": "Genel Bilgiler"
-      }
-    },
-    "general_info": "Genel Bilgiler",
-    "security": "Güvenlik"
-  },
-  "record": {
-    "table": {
-      "headers": {
-        "product": "Ürün",
-        "client": "Müşteri",
-        "quantity": "Adet",
-        "bid": "Teklif",
-        "created_at": "Oluşturulma Tarihi",
-        "record_type": "Kayıt Türü",
-        "record_status": "Kayıt Durumu"
-      }
-    },
-    "tab": {
+      "product_category": "Ürün kategorisi",
+      "product_categories": "Ürün kategorileri",
+      "stock": "Stok",
       "record": "Kayıt",
-      "ear_device": "Kulağa Takılan Cihaz"
-    },
-    "information": "Bilgi",
-    "financial": "Finansal"
-  },
-  "stock": {
-    "battery": {
+      "client_address": "Müşteri adresi",
+      "audit_config": "Audit yapılandırması",
+      "audit_log": "Log",
+      "product_brands": "Ürün markaları",
+      "stock_view": "Stok görünümü",
+      "stock_vendor": "Stok satıcısı",
+      "stock_vendor_stat": "Stok satıcısı istatistiği",
+      "stock_product_stat": "Stok ürün istatistiği",
+      "client_address_view": "Müşteri adresi görünümü",
+      "audit_log_group": "Audit log grubu",
+      "parent_id": "Parent",
+      "user_id": "Kullanıcı",
+      "tenant_id": "Şube",
+      "role_id": "Rol",
+      "permission_id": "İzni",
+      "unit_type": "Birim türü",
+      "category_id": "Kategori",
+      "address_id": "Adres",
+      "address_tenant_id": "Adres şubesine ait",
+      "client_national_id": "Müşteri kimlik numarası",
+      "client_tenant_id": "Müşteri şubesine ait",
+      "correlation_id": "Correlation",
+      "request_id": "Request",
+      "display_name": "İsim",
+      "id": "ID",
+      "created_at": "Oluşturulma tarihi"
+   },
+   "dashboard": {
+      "statistics": {
+         "last_week": "Geçen Hafta",
+         "last_month": "Geçen Ay",
+         "last_quarter": "Geçen Üç Ay",
+         "last_half": "Geçen Yarı Yıl",
+         "last_year": "Geçen Yıl",
+         "total": "Toplam",
+         "client": {
+            "clients": "Müşteriler"
+         }
+      },
+      "best_selling_products": {
+         "sold_quantity": "Satılan Miktar",
+         "total_gain": "Toplam Kazanç",
+         "total_discount": "Toplam İndirim",
+         "total_tax": "Toplam KDV",
+         "title": "En Çok Satılan Ürünler",
+         "empty": "Veri Yok"
+      },
+      "notifications": {
+         "today": "Bugün",
+         "yesterday": "Dün",
+         "last_week": "Geçen Hafta",
+         "older": "Daha Eski",
+         "title": "Bildirimler",
+         "activity": {
+            "created": "yeni {resource_name} {user_name} tarafından oluşturuldu",
+            "updated": "{resource_name} {user_name} tarafından güncellendi",
+            "deleted": "{resource_name} {user_name} tarafından silindi",
+            "unknown": "{resource_name} tarafından {user_name} tarafından etkinlik algılandı"
+         }
+      },
+      "sales_by_category": {
+         "total_quantity_sold": "Toplam Satılan Miktar",
+         "total_bid": "Toplam Tutar",
+         "total_discount": "Toplam İndirim",
+         "total_tax": "Toplam KDV",
+         "title": "Kategoriye Göre Satışlar"
+      },
+      "tables": {
+         "recent_sales": {
+            "title": "Son Satışlar",
+            "see_all": "Tümünü Gör"
+         }
+      }
+   },
+   "address": {
+      "select_country": "Ülke Seçin",
       "table": {
-        "headers": {
-          "product": "Ürün",
-          "unit_cost": "Birim Fiyatı",
-          "quantity": "Miktar",
-          "vendor": "Tedarikçi",
-          "stocked_at": "Stokta"
-        }
+         "headers": {
+            "address_name": "Adres Adı",
+            "country": "Ülke",
+            "city": "Şehir",
+            "district": "İlçe",
+            "created_at": "Oluşturulma Tarihi"
+         }
       }
-    },
-    "device": {
+   },
+   "audit_log": {
+      "no_changes_detected": "Değişiklik tespit edilmedi",
+      "add": "Ekle",
+      "update": "Güncelle",
+      "delete": "Sil",
+      "read": "Oku",
+      "select_operation": "İşlem Seç",
       "table": {
-        "headers": {
-          "product": "Ürün",
-          "serial_number": "Seri Numarası",
-          "unit_cost": "Birim Fiyatı",
-          "vendor": "Tedarikçi",
-          "stocked_at": "Stokta"
-        }
-      }
-    },
-    "product": {
+         "headers": {
+            "resource": "Kaynak",
+            "operation": "İşlem",
+            "user_who_performed": "Yapan Kullanıcı",
+            "created_at": "Oluşturulma Tarihi",
+            "user_who_reverted": "İptal Eden Kullanıcı",
+            "reverted_at": "İptal Tarihi"
+         }
+      },
+      "already_reverted": "Zaten iptal edildi",
+      "attempt_to_revert": "İptal işlemi denendi",
+      "added": "Eklendi",
+      "updated": "Güncellendi",
+      "deleted": "Silindi",
+      "readed": "Okundu"
+   },
+   "client": {
+      "select_client": "Müşteri Seç",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "Müşteri",
+               "address": "Adres",
+               "country": "Ülke",
+               "city": "Şehir",
+               "district": "İlçe",
+               "created_at": "Oluşturulma Tarihi"
+            }
+         }
+      },
       "table": {
-        "headers": {
-          "product": "Ürün",
-          "brand": "Marka",
-          "categories": "Kategoriler",
-          "created_at": "Oluşturulma Tarihi"
-        }
+         "headers": {
+            "client": "Müşteri",
+            "nationality": "Uyruk",
+            "national_id": "Milli Kimlik",
+            "birth_date": "Doğum Tarihi",
+            "email": "E-posta",
+            "phone": "Telefon",
+            "created_at": "Oluşturulma Tarihi"
+         }
+      },
+      "general_info": "Genel Bilgi",
+      "addresses": "Adresler",
+      "gender": {
+         "male": "Erkek",
+         "female": "Kadın"
       }
-    },
-    "service": {
+   },
+   "product": {
+      "select_product": "Cihaz Seçin",
+      "category": {
+         "select_category": "Kategori Seçin"
+      }
+   },
+   "user": {
       "table": {
-        "headers": {
-          "product": "Ürün",
-          "unit_cost": "Birim Fiyatı",
-          "quantity": "Miktar",
-          "vendor": "Tedarikçi",
-          "stocked_at": "Stokta"
-        }
-      }
-    },
-    "spare_part": {
+         "headers": {
+            "name": "Ad",
+            "email": "E-posta",
+            "created_at": "Oluşturulma Tarihi"
+         }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "Genel Bilgiler"
+         }
+      },
+      "general_info": "Genel Bilgiler",
+      "security": "Güvenlik"
+   },
+   "record": {
       "table": {
-        "headers": {
-          "product": "Ürün",
-          "unit_cost": "Birim Fiyatı",
-          "quantity": "Miktar",
-          "vendor": "Tedarikçi",
-          "stocked_at": "Stokta"
-        }
-      }
-    },
-    "information": "Bilgi",
-    "financial": "Finans"
-  },
-  "auth": {
-    "branch": "Şube",
-    "welcome": {
-      "title": "Hoş geldiniz",
-      "text": "Kulaklık CRM Uygulamasına Hoş Geldiniz"
-    },
-    "please_dont_forget_to_update_your_password": "Lütfen şifrenizi güncellemeyi unutmayınız",
-    "confirm": {
-      "logout": {
-        "question": "Çıkış yapmak istediğinize emin misiniz?",
-        "header": "Çıkış"
-      }
-    },
-    "toast": {
-      "welcome": "Hoş geldiniz",
-      "goodby": "Görüşmek üzere"
-    },
-    "forgot_password": {
+         "headers": {
+            "product": "Ürün",
+            "client": "Müşteri",
+            "quantity": "Adet",
+            "bid": "Teklif",
+            "created_at": "Oluşturulma Tarihi",
+            "record_type": "Kayıt Türü",
+            "record_status": "Kayıt Durumu"
+         }
+      },
+      "tab": {
+         "record": "Kayıt",
+         "ear_device": "Kulağa Takılan Cihaz"
+      },
+      "information": "Bilgi",
+      "financial": "Finansal"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "unit_cost": "Birim Fiyatı",
+               "quantity": "Miktar",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stokta"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "serial_number": "Seri Numarası",
+               "unit_cost": "Birim Fiyatı",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stokta"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "brand": "Marka",
+               "categories": "Kategoriler",
+               "created_at": "Oluşturulma Tarihi"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "unit_cost": "Birim Fiyatı",
+               "quantity": "Miktar",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stokta"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "Ürün",
+               "unit_cost": "Birim Fiyatı",
+               "quantity": "Miktar",
+               "vendor": "Tedarikçi",
+               "stocked_at": "Stokta"
+            }
+         }
+      },
+      "information": "Bilgi",
+      "financial": "Finans"
+   },
+   "auth": {
+      "branch": "Şube",
+      "welcome": {
+         "title": "Hoş geldiniz",
+         "text": "Kulaklık CRM Uygulamasına Hoş Geldiniz"
+      },
+      "please_dont_forget_to_update_your_password": "Lütfen şifrenizi güncellemeyi unutmayınız",
       "confirm": {
-        "header": "Şifremi Unuttum"
-      }
-    },
-    "otp": {
+         "logout": {
+            "question": "Çıkış yapmak istediğinize emin misiniz?",
+            "header": "Çıkış"
+         }
+      },
+      "toast": {
+         "welcome": "Hoş geldiniz",
+         "goodby": "Görüşmek üzere"
+      },
       "forgot_password": {
-        "password_reset_email_sended_please_check_your_email": "Şifre sıfırlama e-postası gönderildi, lütfen e-postanızı kontrol ediniz",
-        "lets_get_your_account_back!💪": "Hesabınıza tekrar erişelim!💪"
+         "confirm": {
+            "header": "Şifremi Unuttum"
+         }
       },
-      "resend_code": {
-        "confirm": {
-          "title": "Kodu Tekrar Gönder"
-        },
-        "toast": {
-          "code_sended": "Kod gönderildi"
-        },
-        "code_verified": "Kod doğrulandı"
+      "otp": {
+         "forgot_password": {
+            "password_reset_email_sended_please_check_your_email": "Şifre sıfırlama e-postası gönderildi, lütfen e-postanızı kontrol ediniz",
+            "lets_get_your_account_back!💪": "Hesabınıza tekrar erişelim!💪"
+         },
+         "resend_code": {
+            "confirm": {
+               "title": "Kodu Tekrar Gönder"
+            },
+            "toast": {
+               "code_sended": "Kod gönderildi"
+            },
+            "code_verified": "Kod doğrulandı"
+         },
+         "invite_code": {
+            "so_you_are_invited!🎊": "Sizi davet ettiler!🎊",
+            "please_enter_the_code_in_email_to_login": "Giriş yapmak için e-postadaki kodu giriniz"
+         }
       },
-      "invite_code": {
-        "so_you_are_invited!🎊": "Sizi davet ettiler!🎊",
-        "please_enter_the_code_in_email_to_login": "Giriş yapmak için e-postadaki kodu giriniz"
+      "login": {
+         "welcome_back": "Hoş geldiniz",
+         "please_login_to_continue": "Devam etmek için lütfen giriş yapınız",
+         "forgot_your_password?": "Şifrenizi unuttunuz mı?",
+         "do_you_have_invite_code?": "Davet kodunuz var mı?"
+      },
+      "logout": {
+         "logged_out_successfully": "Başarıyla çıkış yapıldı"
+      },
+      "register": {
+         "create_account": "Hesap Oluştur",
+         "create_an_account_and_join_us": "Bize katılmak için bir hesap oluşturun",
+         "account_info": "Hesap Bilgileri",
+         "company_info": "Şirket Bilgileri"
       }
-    },
-    "login": {
-      "welcome_back": "Hoş geldiniz",
-      "please_login_to_continue": "Devam etmek için lütfen giriş yapınız",
-      "forgot_your_password?": "Şifrenizi unuttunuz mı?",
-      "do_you_have_invite_code?": "Davet kodunuz var mı?"
-    },
-    "logout": {
-      "logged_out_successfully": "Başarıyla çıkış yapıldı"
-    },
-    "register": {
-      "create_account": "Hesap Oluştur",
-      "create_an_account_and_join_us": "Bize katılmak için bir hesap oluşturun",
-      "account_info": "Hesap Bilgileri",
-      "company_info": "Şirket Bilgileri"
-    }
-  }
+   }
 }

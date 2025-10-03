@@ -1,0 +1,736 @@
+{
+   "app_config": {
+      "app_settings": "إعدادات التطبيق",
+      "theme": {
+         "dark_mode": {
+            "toggle_dark_mode": "تبديل وضع الظلام"
+         },
+         "ui_scale": "حجم واجهة المستخدم",
+         "primary_color": "لون الرئيسي",
+         "surface_color": "لون السطح",
+         "preset": {
+            "select_preset": "اختر الإعداد المسبق"
+         }
+      },
+      "language": {
+         "select_language": "اختر اللغة",
+         "option": {
+            "turkish": "التركية",
+            "english": "الإنجليزية",
+            "spanish": "الإسبانية",
+            "french": "الفرنسية",
+            "german": "الألمانية",
+            "polish": "البولندية",
+            "russian": "الروسية",
+            "chinese": "الصينية",
+            "japanese": "اليابانية",
+            "korean": "الكورية",
+            "italian": "الإيطالية",
+            "arabic": "العربية",
+            "arabic(ae)": "العربية (AE)"
+         },
+         "translated_using_artificial_intelligence": "تم الترجمة باستخدام الذكاء الاصطناعي",
+         "you_can_configure_different_options_for_each_light_modes": "يمكنك تكوين خيارات مختلفة لكل وضع الإضاءة"
+      },
+      "sidebar": {
+         "select_sidebar_mode": "اختر وضع الشريط الجانبي",
+         "modes": {
+            "static": "ثابت",
+            "auto": "تلقائي",
+            "mini": "صغير",
+            "reveal": "كشف",
+            "overlay": "تراكيب"
+         }
+      }
+   },
+   "auth": {
+      "branch": "فرع",
+      "welcome": {
+         "title": "مرحبا",
+         "text": "مرحبا بكم في تطبيق CRM لمساعدي السمع"
+      },
+      "please_dont_forget_to_update_your_password": "الرجاء عدم نسيان تحديث كلمة المرور الخاصة بك",
+      "confirm": {
+         "logout": {
+            "question": "هل أنت متأكد من تسجيل الخروج؟",
+            "header": "تسجيل الخروج"
+         }
+      },
+      "toast": {
+         "welcome": "مرحبا بكم",
+         "goodby": "مع السلامة"
+      },
+      "forgot_password": {
+         "confirm": {
+            "header": "هل ترغب في إعادة تعيين كلمة المرور؟"
+         }
+      },
+      "otp": {
+         "forgot_password": {
+            "password_reset_email_sended_please_check_your_email": "تم إرسال بريد إلكتروني لإعادة تعيين كلمة المرور، الرجاء التحقق من البريد الإلكتروني",
+            "lets_get_your_account_back!💪": "لنعيد لك حسابك! 💪"
+         },
+         "resend_code": {
+            "confirm": {
+               "title": "هل ترغب في إعادة إرسال الشفرة؟"
+            },
+            "toast": {
+               "code_sended": "تم إرسال الشفرة"
+            },
+            "code_verified": "تم التحقق من الشفرة"
+         },
+         "invite_code": {
+            "so_you_are_invited!🎊": "تم دعوتك! 🎉",
+            "please_enter_the_code_in_email_to_login": "الرجاء إدخال الشفرة في البريد الإلكتروني للتسجيل"
+         }
+      },
+      "login": {
+         "welcome_back": "مرحبا بعودتك",
+         "please_login_to_continue": "الرجاء تسجيل الدخول لاستمرار العملية",
+         "forgot_your_password?": "نسيت كلمة المرور؟",
+         "do_you_have_invite_code?": "هل لديك شفرة دعوة؟"
+      },
+      "logout": {
+         "logged_out_successfully": "تم تسجيل الخروج بنجاح"
+      },
+      "register": {
+         "create_account": "إنشاء حساب",
+         "create_an_account_and_join_us": "أنشئ حسابًا وانضم إلينا",
+         "account_info": "معلومات الحساب",
+         "company_info": "معلومات الشركة"
+      }
+   },
+   "fields": {
+      "": "",
+      "device": "",
+      "battery": "",
+      "spare_part": "",
+      "service": "",
+      "sale": "",
+      "trial": "",
+      "assemble": "",
+      "repair": "",
+      "promotion": "",
+      "cash": "",
+      "credit_card": "",
+      "pending": "",
+      "pending_service": "",
+      "client_holds_service_bid": "",
+      "client_approved_service_bid": "",
+      "client_rejected_service_bid": "",
+      "done": "",
+      "approved": "",
+      "rejected": "",
+      "pending_client": "",
+      "biopar": "",
+      "hard": "",
+      "micro": "",
+      "full": "",
+      "half": "",
+      "supported": "",
+      "prob": "",
+      "pcs": "",
+      "kg": "",
+      "gr": "",
+      "lbs": "",
+      "L": "",
+      "mL": "",
+      "m": "",
+      "m²": "",
+      "cm": "",
+      "in": "",
+      "password": "",
+      "password_confirmation": "",
+      "name": "",
+      "email": "",
+      "phone": "",
+      "country": "",
+      "city": "",
+      "district": "",
+      "details": "",
+      "remember_me": "",
+      "code": "",
+      "company": "",
+      "permission": "",
+      "role": "",
+      "client_id": "العميل",
+      "nationality": "",
+      "national_id": "",
+      "birth_date": "",
+      "gender": "",
+      "record_type": "",
+      "rear_ear_devices": "",
+      "attributes": "",
+      "rear_ear_device": "",
+      "type": "",
+      "model": "",
+      "speaker_power": "",
+      "side": "",
+      "left": "",
+      "right": "",
+      "ventilation": "",
+      "speaker_size": "",
+      "inner_ear_devices": "",
+      "inner_ear_device": "",
+      "has_bluetooth": "",
+      "has_button": "",
+      "stock_id": "المخزون",
+      "device_side": "",
+      "both": "",
+      "record_status": "",
+      "quantity": "",
+      "payment_type": "",
+      "currency_code": "",
+      "repair_fee": "",
+      "bid": "",
+      "bid_discount": "",
+      "tax": "",
+      "total_bid": "",
+      "insurance_type": "",
+      "retired": "",
+      "worker": "",
+      "none": "",
+      "insurance_contribution": "",
+      "client_insurance_contribution": "",
+      "brand": "",
+      "categories": "",
+      "product_id": "المنتج",
+      "vendor": "",
+      "stocked_at": "",
+      "barcode": "",
+      "serial_number": "",
+      "currency": "",
+      "unit_cost": "",
+      "unit_discount": "",
+      "unit_tax": "",
+      "total_cost": "",
+      "user": "",
+      "tenant": "الفرع",
+      "branch": "الفرع",
+      "tenant_user": "مستخدم الفرع",
+      "tenant_owner": "",
+      "address": "",
+      "role_permission": "",
+      "user_role": "",
+      "client": "",
+      "product": "",
+      "product_category": "",
+      "product_categories": "",
+      "stock": "",
+      "record": "",
+      "client_address": "",
+      "audit_config": "",
+      "audit_log": "السجل",
+      "product_brands": "",
+      "stock_view": "",
+      "stock_vendor": "",
+      "stock_vendor_stat": "",
+      "stock_product_stat": "",
+      "client_address_view": "",
+      "audit_log_group": "",
+      "parent_id": "الوالد",
+      "user_id": "المستخدم",
+      "tenant_id": "الفرع",
+      "role_id": "الدور",
+      "permission_id": "الإذن",
+      "unit_type": "",
+      "category_id": "التصنيف",
+      "address_id": "العنوان",
+      "address_tenant_id": "عنوان الفرع",
+      "client_national_id": "رقم هوية العميل",
+      "client_tenant_id": "رقم فرع العميل",
+      "correlation_id": "الارتباط",
+      "request_id": "الطلب",
+      "display_name": "الاسم",
+      "id": "",
+      "created_at": ""
+   },
+   "audit_log": {
+      "no_changes_detected": "لم يتم اكتشاف أي تغييرات",
+      "add": "إضافة",
+      "update": "تحديث",
+      "delete": "حذف",
+      "read": "قراءة",
+      "select_operation": "اختيار العملية",
+      "table": {
+         "headers": {
+            "resource": "المصدر",
+            "operation": "العملية",
+            "user_who_performed": "المستخدم الذي قام بالعملية",
+            "created_at": "تم الإنشاء في",
+            "user_who_reverted": "المستخدم الذي أعاد التغيير",
+            "reverted_at": "تم الإرجاع في"
+         }
+      },
+      "already_reverted": "تم الإرجاع بالفعل",
+      "attempt_to_revert": "محاولة لإرجاع التغيير",
+      "added": "تم الإضافة",
+      "updated": "تم التحديث",
+      "deleted": "تم الحذف",
+      "readed": "تم القراءة"
+   },
+   "dashboard": {
+      "statistics": {
+         "last_week": "الأسبوع الماضي",
+         "last_month": "الشهر الماضي",
+         "last_quarter": "الربع الماضي",
+         "last_half": "النصف الماضي",
+         "last_year": "السنة الماضية",
+         "total": "الإجمالي",
+         "client": {
+            "clients": "العملاء"
+         }
+      },
+      "best_selling_products": {
+         "sold_quantity": "كمية المبيعات",
+         "total_gain": "الإجمالي الربح",
+         "total_discount": "الخصم الإجمالي",
+         "total_tax": "الضريبة الإجمالية",
+         "title": "المنتجات الأكثر مبيعًا",
+         "empty": "لا توجد منتجات"
+      },
+      "notifications": {
+         "today": "اليوم",
+         "yesterday": "أمس",
+         "last_week": "الأسبوع الماضي",
+         "older": "الأكثر من أسبوع",
+         "title": "الإشعارات",
+         "activity": {
+            "created": "تم إنشاء {resource_name} بواسطة {user_name}",
+            "updated": "تم تحديث {resource_name} بواسطة {user_name}",
+            "deleted": "تم حذف {resource_name} بواسطة {user_name}",
+            "unknown": "تم اكتشاف نشاط في {resource_name} بواسطة {user_name}"
+         }
+      },
+      "sales_by_category": {
+         "total_quantity_sold": "الكمية الإجمالية المباعة",
+         "total_bid": "العرض الإجمالي",
+         "total_discount": "الخصم الإجمالي",
+         "total_tax": "الضريبة الإجمالية",
+         "title": "مبيعات حسب الفئة"
+      },
+      "tables": {
+         "recent_sales": {
+            "title": "المبيعات الأخيرة",
+            "see_all": "عرض الكل"
+         }
+      }
+   },
+   "client": {
+      "select_client": "اختر العميل",
+      "address": {
+         "table": {
+            "headers": {
+               "client": "العميل",
+               "address": "العنوان",
+               "country": "الدولة",
+               "city": "المدينة",
+               "district": "المنطقة",
+               "created_at": "تم الإنشاء في"
+            }
+         }
+      },
+      "table": {
+         "headers": {
+            "client": "العميل",
+            "nationality": "الجنسية",
+            "national_id": "رقم الهوية",
+            "birth_date": "تاريخ الميلاد",
+            "email": "البريد الإلكتروني",
+            "phone": "رقم الهاتف",
+            "created_at": "تم الإنشاء في"
+         }
+      },
+      "general_info": "معلومات عامة",
+      "addresses": "العناوين",
+      "gender": {
+         "male": "ذكر",
+         "female": "أنثى"
+      }
+   },
+   "product": {
+      "select_product": "اختر المنتج",
+      "category": {
+         "select_category": "اختر الفئة"
+      }
+   },
+   "input": {
+      "select_or_write": "اختر أو اكتب"
+   },
+   "address": {
+      "select_country": "اختر الدولة",
+      "table": {
+         "headers": {
+            "address_name": "اسم العنوان",
+            "country": "الدولة",
+            "city": "المدينة",
+            "district": "المنطقة",
+            "created_at": "تم الإنشاء في"
+         }
+      }
+   },
+   "financial": {
+      "select_currency": "اختر العملة",
+      "select_unit_type": "اختر نوع الوحدة"
+   },
+   "component": {
+      "select_permission": {
+         "table": {
+            "headers": {
+               "permission_name": "اسم الصلاحية",
+               "read": "القراءة",
+               "create": "الإنشاء",
+               "modify": "التعديل",
+               "all": "الكل"
+            }
+         }
+      },
+      "table": {
+         "no_data_found": "لم يتم العثور على بيانات",
+         "keyword_search": "بحث بالكلمة المفتاحية"
+      }
+   },
+   "common": {
+      "select": "اختر"
+   },
+   "role": {
+      "select_role": "اختر الدور",
+      "table": {
+         "headers": {
+            "name": "الاسم",
+            "created_at": "تاريخ الإنشاء"
+         }
+      }
+   },
+   "router": {
+      "action": {
+         "open_in_window": "فتح في نافذة",
+         "manage-addresses": "إدارة العناوين",
+         "close": "إغلاق",
+         "go_to_profile": "الانتقال إلى الملف الشخصي",
+         "manage_addresses": "إدارة العناوين",
+         "go_back": "العودة"
+      },
+      "error_occured": "حدث خطأ",
+      "requested_resource_is_not_available": "الموارد المطلوبة غير متاحة",
+      "not_found": "غير موجود"
+   },
+   "action": {
+      "reset": "إعادة الضبط",
+      "save": "حفظ",
+      "confirm": {
+         "delete": {
+            "question": "هل أنت متأكد من حذف هذا العنصر؟",
+            "title": "تأكيد الحذف"
+         }
+      },
+      "yes": "نعم",
+      "no": "لا",
+      "cancelled": "تم إلغاء العملية",
+      "add": "إضافة",
+      "delete": "حذف",
+      "edit": "تعديل",
+      "cancel": "إلغاء",
+      "send": "إرسال",
+      "submit": "إرسال",
+      "resend_code": "إعادة إرسال الشفرة",
+      "back": "العودة",
+      "invite": "دعوة"
+   },
+   "const": {
+      "ear_device": {
+         "models": {
+            "in_ear_(ITE)": "النموذج (ITE)",
+            "in_canal_(ITC)": "النموذج (ITC)",
+            "completely_in_canal_(CIC)": "النموذج (CIC)"
+         }
+      }
+   },
+   "errors": {
+      "access_denied": "الوصول محظور",
+      "confirmation_required": "التأكيد مطلوب",
+      "email_change_required": "تغيير البريد الإلكتروني مطلوب",
+      "expired_code": "الرمز منتهي الصلاحية",
+      "identity_provider_error": "خطأ في مزود الهوية",
+      "invalid_code": "الرمز غير صحيح",
+      "invalid_email": "البريد الإلكتروني غير صحيح",
+      "invalid_email_link": "الرابط البريدي غير صحيح",
+      "invalid_credentials": "المصادقة غير صحيحة",
+      "invalid_phone": "رقم الهاتف غير صحيح",
+      "invalid_recovery_token": "رمز الاسترداد غير صحيح",
+      "invalid_signup_data": "بيانات التسجيل غير صحيحة",
+      "invalid_token": "الرمز غير صحيح",
+      "invalid_verification_link": "الرابط التحقق منه غير صحيح",
+      "mfa_invalid_code": "رمز المصادقة متعددة العوامل غير صحيح",
+      "mfa_required": "المصادقة متعددة العوامل مطلوبة",
+      "missing_code": "الرمز مفقود",
+      "missing_email": "البريد الإلكتروني مفقود",
+      "missing_phone": "رقم الهاتف مفقود",
+      "otp_expired": "رمز OTP منتهي الصلاحية",
+      "otp_failed": "رمز OTP فاشل",
+      "otp_max_attempts": "تم الوصول إلى الحد الأقصى لعدد المحاولات",
+      "password_length": "طول كلمة المرور غير كافٍ",
+      "phone_change_required": "تغيير رقم الهاتف مطلوب",
+      "recovery_link_used": "تم استخدام رابط الاسترداد",
+      "server_error": "خطأ في الخادم",
+      "signup_disabled": "التسجيل معطل",
+      "token_expired": "الرمز منتهي الصلاحية",
+      "unauthorized_client": "العميل غير المصرح له",
+      "unexpected_error": "خطأ غير متوقع",
+      "unknown_provider": "مزود غير معروف",
+      "user_already_registered": "العميل مسجل بالفعل",
+      "user_not_found": "العميل غير موجود",
+      "user_update_failed": "فشل تحديث العميل",
+      "verification_link_used": "تم استخدام رابط التحقق",
+      "weak_password": "كلمة المرور ضعيفة",
+      "no_data": "لا توجد بيانات",
+      "no_additional_dynamic_result_sets_returned": "لم تُعاد مجموعات نتائج ديناميكية إضافية",
+      "data_exception": "استثناء البيانات",
+      "string_data_right_truncation": "البيانات النصية تم قطعها من الطرف الأيمن",
+      "numeric_value_out_of_range": "قيمة عددية خارج النطاق",
+      "invalid_datetime_format": "تنسيق التاريخ والوقت غير صحيح",
+      "datetime_field_overflow": "الحقل التاريخي تجاوز",
+      "division_by_zero": "القسمة على الصفر",
+      "invalid_parameter_value": "قيمة المعلمة غير صحيحة",
+      "floating_point_exception": "استثناء العدد الفاصل",
+      "invalid_text_representation": "تمثيل النص غير صحيح",
+      "invalid_binary_representation": "تمثيل ثنائي غير صحيح",
+      "bad_copy_file_format": "تنسيق ملف نسخة غير صحيح",
+      "untranslatable_character": "حرف غير قابل للتحويل",
+      "integrity_constraint_violation": "مخالفة قيود الأمان",
+      "not_null_violation": "مخالفة عدم السماح بالقيمة الصفرية",
+      "foreign_key_violation": "مخالفة مفتاح خارجي",
+      "unique_violation": "مخالفة الفريدة",
+      "check_violation": "مخالفة التحقق",
+      "exclusion_violation": "مخالفة الاستبعاد",
+      "invalid_cursor_state": "حالة المؤشر غير صحيحة",
+      "invalid_transaction_state": "حالة المعاملة غير صحيحة",
+      "in_failed_sql_transaction": "في معاملة SQL فاشلة",
+      "invalid_sql_statement_name": "اسم إعلان SQL غير صحيح",
+      "invalid_authorization_specification": "تحديد التصريح غير صحيح",
+      "invalid_password": "كلمة المرور غير صحيحة",
+      "invalid_cursor_name": "اسم المؤشر غير صحيح",
+      "external_routine_exception": "استثناء الروتين الخارجي",
+      "containing_sql_not_permitted": "SQL المحتوي غير مسموح به",
+      "modifying_sql_data_not_permitted": "تعديل بيانات SQL غير مسموح به",
+      "prohibited_sql_statement_attempted": "محاولة إعلان SQL ممنوع",
+      "reading_sql_data_not_permitted": "قراءة بيانات SQL غير مسموح بها",
+      "external_routine_invocation_exception": "استثناء استدعاء الروتين الخارجي",
+      "invalid_sqlstate_returned": "حالة SQL غير صحيحة",
+      "null_value_not_allowed": "القيمة الصفرية غير مسموح بها",
+      "serialization_failure": "فشل التسلسل",
+      "statement_completion_unknown": "الإكمال غير معروف",
+      "deadlock_detected": "تم اكتشاف تعطيل",
+      "syntax_error": "خطأ في الصياغة",
+      "undefined_column": "العمود غير معرف",
+      "datatype_mismatch": "عدم تطابق نوع البيانات",
+      "invalid_foreign_key": "مفتاح خارجي غير صحيح",
+      "undefined_function": "الوظيفة غير معرفة",
+      "undefined_table": "الجدول غير معرف",
+      "undefined_parameter": "المعلمة غير معرفة",
+      "indeterminate_datatype": "نوع البيانات غير محدد",
+      "with_check_option_violation": "مخالفة خيار التحقق",
+      "insufficient_privilege": "عدم وجود صلاحيات كافية",
+      "insufficient_privilege_reserved": "عدم وجود صلاحيات كافية (محجوز)",
+      "invalid_grant_operation": "عملية منح غير صحيحة",
+      "invalid_role_specification": "تحديد الدور غير صحيح",
+      "too_many_connections": "عدد الاتصالات كبير جداً",
+      "configuration_limit_exceeded": "تم تجاوز حد التكوين",
+      "object_not_in_prerequisite_state": "العنصر ليس في حالة المسبقة",
+      "object_in_use": "العنصر في الاستخدام",
+      "query_canceled": "تم إلغاء الاستعلام",
+      "admin_shutdown": "إيقاف تشغيل المسؤول",
+      "crash_shutdown": "إيقاف تشغيل بسبب تعطل",
+      "cannot_connect_now": "لا يمكن الاتصال الآن",
+      "system_error": "خطأ في النظام",
+      "io_error": "خطأ في الإدخال/الإخراج",
+      "config_file_error": "خطأ في ملف التكوين",
+      "raise_exception": "رفع استثناء",
+      "no_data_found": "لم يتم العثور على بيانات",
+      "too_many_rows": "عدد الصفوف كبير جداً",
+      "internal_error": "خطأ داخلي",
+      "data_corrupted": "بيانات مُتَغَيّرة",
+      "index_corrupted": "فهرس مُتَغَيّر",
+      "sql_med_insufficient_privilege": "عدم وجود صلاحيات كافية (SQL)",
+      "insufficient_permission": "عدم وجود صلاحيات كافية",
+      "AuthInvalidCredentialsError": "خطأ في مصادقة المستخدم"
+   },
+   "route": {
+      "label": {
+         "dashboard": "لوحة التحكم",
+         "error": "خطأ",
+         "notfound": "لم يتم العثور على الصفحة",
+         "account": "الحساب",
+         "profile": "الملف الشخصي",
+         "settings": "الإعدادات",
+         "update-profile": "تحديث الملف الشخصي",
+         "update-password": "تحديث كلمة المرور",
+         "logout": "تسجيل الخروج",
+         "address": "العنوان",
+         "address_list": "قائمة العناوين",
+         "address_edit": "تعديل العنوان",
+         "address_add": "إضافة عنوان",
+         "register": "التسجيل",
+         "login": "تسجيل الدخول",
+         "enter-auth-otp-code": "أدخل رمز التحقق OTP",
+         "access-denied": "الوصول ممنوع",
+         "branch": "الفرع",
+         "branch-user": "مستخدم الفرع",
+         "manage-user": "إدارة المستخدمين",
+         "user-general-info": "معلومات المستخدم العامة",
+         "branch-role": "دور الفرع",
+         "add": "إضافة",
+         "edit": "تعديل",
+         "audit-logs": "سجلات المراجعة",
+         "client": "العميل",
+         "client_list": "قائمة العملاء",
+         "manage-client": "إدارة العميل",
+         "client-general-info": "معلومات العميل العامة",
+         "client-addresses": "عناوين العميل",
+         "client_address_list": "قائمة عناوين العميل",
+         "record": "السجل",
+         "record_list": "قائمة السجلات",
+         "record_add": "إضافة سجل",
+         "record_edit": "تعديل السجل",
+         "battery": "البطارية",
+         "battery_list": "قائمة البطاريات",
+         "device": "الجهاز",
+         "device_list": "قائمة الأجهزة",
+         "stock": "المخزون",
+         "stock_add": "إضافة مخزون",
+         "stock_edit": "تعديل المخزون",
+         "product": "المنتج",
+         "product_list": "قائمة المنتجات",
+         "product_add": "إضافة منتج",
+         "product_edit": "تعديل المنتج",
+         "service": "الخدمة",
+         "service_list": "قائمة الخدمات",
+         "spare-parts": "القطع الغيار",
+         "spare_part_list": "قائمة قطع الغيار",
+         "branch_user_list": "قائمة مستخدمي الفرع",
+         "audit_log_list": "قائمة سجلات المراجعة",
+         "branch_role_list": "قائمة أدوار الفرع"
+      }
+   },
+   "account": {
+      "profile": {
+         "user_info": "معلومات المستخدم",
+         "name": "الاسم",
+         "email": "البريد الإلكتروني",
+         "phone": "رقم الهاتف",
+         "events": "الفعاليات",
+         "logs": {
+            "created_at": "تم الإنشاء في",
+            "email_confirmed_at": "تم تأكيد البريد الإلكتروني في",
+            "last_sign_in_at": "آخر تسجيل دخول في"
+         }
+      }
+   },
+   "toast": {
+      "updated": "تم التحديث",
+      "success": "النجاح",
+      "saved": "تم الحفظ",
+      "sended": "تم الإرسال"
+   },
+   "register": {
+      "stepper": {
+         "label": {
+            "account": "الحساب",
+            "company": "الشركة"
+         }
+      }
+   },
+   "user": {
+      "table": {
+         "headers": {
+            "name": "الاسم",
+            "email": "البريد الإلكتروني",
+            "created_at": "تم الإنشاء في"
+         }
+      },
+      "upsert": {
+         "tabs": {
+            "general_info": "معلومات عامة"
+         }
+      },
+      "general_info": "معلومات عامة",
+      "security": "الأمان"
+   },
+   "record": {
+      "table": {
+         "headers": {
+            "product": "المنتج",
+            "client": "العميل",
+            "quantity": "الكمية",
+            "bid": "العرض",
+            "created_at": "تم الإنشاء في",
+            "record_type": "نوع السجل",
+            "record_status": "حالة السجل"
+         }
+      },
+      "tab": {
+         "record": "السجل",
+         "ear_device": "جهاز الأذن"
+      },
+      "information": "المعلومات",
+      "financial": "المالية"
+   },
+   "stock": {
+      "battery": {
+         "table": {
+            "headers": {
+               "product": "المنتج",
+               "unit_cost": "تكلفة الوحدة",
+               "quantity": "الكمية",
+               "vendor": "المورِّد",
+               "stocked_at": "مستودع في"
+            }
+         }
+      },
+      "device": {
+         "table": {
+            "headers": {
+               "product": "المنتج",
+               "serial_number": "رقم السريال",
+               "unit_cost": "تكلفة الوحدة",
+               "vendor": "المورِّد",
+               "stocked_at": "مستودع في"
+            }
+         }
+      },
+      "product": {
+         "table": {
+            "headers": {
+               "product": "المنتج",
+               "brand": "العلامة التجارية",
+               "categories": "التصنيفات",
+               "created_at": "تم الإنشاء في"
+            }
+         }
+      },
+      "service": {
+         "table": {
+            "headers": {
+               "product": "المنتج",
+               "unit_cost": "تكلفة الوحدة",
+               "quantity": "الكمية",
+               "vendor": "المورِّد",
+               "stocked_at": "مستودع في"
+            }
+         }
+      },
+      "spare_part": {
+         "table": {
+            "headers": {
+               "product": "المنتج",
+               "unit_cost": "تكلفة الوحدة",
+               "quantity": "الكمية",
+               "vendor": "المورِّد",
+               "stocked_at": "مستودع في"
+            }
+         }
+      },
+      "information": "معلومات",
+      "financial": "مالية"
+   }
+}
