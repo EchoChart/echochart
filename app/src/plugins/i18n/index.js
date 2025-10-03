@@ -8,16 +8,13 @@ import de from 'validatorjs/src/lang/de.js';
 import en from 'validatorjs/src/lang/en.js';
 import es from 'validatorjs/src/lang/es.js';
 import fr from 'validatorjs/src/lang/fr.js';
+import it from 'validatorjs/src/lang/it.js';
 import ja from 'validatorjs/src/lang/ja.js';
 import ko from 'validatorjs/src/lang/ko.js';
 import pl from 'validatorjs/src/lang/pl.js';
 import ru from 'validatorjs/src/lang/ru.js';
 import tr from 'validatorjs/src/lang/tr.js';
 import zh from 'validatorjs/src/lang/zh.js';
-
-// import { all as primeLocales } from 'primelocale';
-
-import { app } from '@/main';
 
 export const validatorLocales = {
    de,
@@ -29,7 +26,8 @@ export const validatorLocales = {
    ru,
    tr,
    es,
-   zh
+   zh,
+   it
 };
 
 export const dayjsLocales = {
@@ -41,6 +39,7 @@ export const dayjsLocales = {
    pl: () => import('dayjs/locale/pl'),
    ru: () => import('dayjs/locale/ru'),
    zh: () => import('dayjs/locale/zh'),
+   it: () => import('dayjs/locale/it'),
    ja: () => import('dayjs/locale/ja'),
    ko: () => import('dayjs/locale/ko')
 };
@@ -54,6 +53,7 @@ export const primeLocales = {
    pl: () => import('primelocale/pl.json'),
    ru: () => import('primelocale/ru.json'),
    zh: () => import('primelocale/zh-CN.json'),
+   it: () => import('primelocale/it.json'),
    ja: () => import('primelocale/ja.json'),
    ko: () => import('primelocale/ko.json')
 };
@@ -97,9 +97,9 @@ export async function loadLocaleMessages(locale, i18n = i18NPlugin.global) {
 
       try {
          if (loadPrimeLocales) {
-            const primevue = app.config.globalProperties.$primevue;
+            const primevue = (await import('@/main'))?.app?.config?.globalProperties?.$primevue;
             const primeLocale = (await loadPrimeLocales())?.default;
-            _merge(primevue.config.locale, primeLocale[locale]);
+            _merge(primevue?.config?.locale, primeLocale?.[locale]);
          } else {
             console.warn(`primevue locale '${locale}' not found, falling back to 'en'`);
          }
@@ -131,16 +131,17 @@ export const i18NPlugin = createI18n({
 });
 
 export const SUPPORTED_LOCALES = computed(() => [
-   { label: i18NPlugin.global.t('app_config.language.option.tr'), value: 'tr' },
-   { label: i18NPlugin.global.t('app_config.language.option.en'), value: 'en' },
-   { label: i18NPlugin.global.t('app_config.language.option.es'), value: 'es' },
-   { label: i18NPlugin.global.t('app_config.language.option.fr'), value: 'fr' },
-   { label: i18NPlugin.global.t('app_config.language.option.de'), value: 'de' },
-   { label: i18NPlugin.global.t('app_config.language.option.pl'), value: 'pl' },
-   { label: i18NPlugin.global.t('app_config.language.option.ru'), value: 'ru' },
-   { label: i18NPlugin.global.t('app_config.language.option.zh'), value: 'zh' },
-   { label: i18NPlugin.global.t('app_config.language.option.ja'), value: 'ja' },
-   { label: i18NPlugin.global.t('app_config.language.option.ko'), value: 'ko' }
+   { label: i18NPlugin.global.t('app_config.language.option.turkish'), value: 'tr' },
+   { label: i18NPlugin.global.t('app_config.language.option.english'), value: 'en' },
+   { label: i18NPlugin.global.t('app_config.language.option.spanish'), value: 'es' },
+   { label: i18NPlugin.global.t('app_config.language.option.french'), value: 'fr' },
+   { label: i18NPlugin.global.t('app_config.language.option.german'), value: 'de' },
+   { label: i18NPlugin.global.t('app_config.language.option.italian'), value: 'it' },
+   { label: i18NPlugin.global.t('app_config.language.option.polish'), value: 'pl' },
+   { label: i18NPlugin.global.t('app_config.language.option.russian'), value: 'ru' },
+   { label: i18NPlugin.global.t('app_config.language.option.chinese'), value: 'zh' },
+   { label: i18NPlugin.global.t('app_config.language.option.japanese'), value: 'ja' },
+   { label: i18NPlugin.global.t('app_config.language.option.korean'), value: 'ko' }
 ]);
 
 export const locale = i18NPlugin.global.locale;

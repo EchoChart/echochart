@@ -3,9 +3,7 @@
       "app_settings": "앱 설정",
       "theme": {
          "dark_mode": {
-            "toggle_dark_mode": "다크 모드 전환",
-            "dark": "다크",
-            "light": "라이트"
+            "toggle_dark_mode": "다크 모드 전환"
          },
          "ui_scale": "UI 크기 조절",
          "primary_color": "주 색상",
@@ -16,20 +14,21 @@
       },
       "language": {
          "select_language": "언어 선택",
-         "option": {
-            "tr": "트",
-            "en": "엔",
-            "fr": "프",
-            "de": "디",
-            "pl": "플",
-            "ru": "루",
-            "zh": "지",
-            "ja": "자",
-            "ko": "코",
-            "es": "스페인어"
-         },
          "translated_using_artificial_intelligence": "인공지능을 사용하여 번역됨",
-         "you_can_configure_different_options_for_each_light_modes": "각 라이트 모드별로 다른 옵션을 구성할 수 있습니다."
+         "you_can_configure_different_options_for_each_light_modes": "각 라이트 모드별로 다른 옵션을 구성할 수 있습니다.",
+         "option": {
+            "turkish": "터키어",
+            "english": "영어",
+            "spanish": "스페인어",
+            "french": "프랑스어",
+            "german": "독일어",
+            "polish": "폴란드어",
+            "russian": "러시아어",
+            "chinese": "중국어",
+            "japanese": "일본어",
+            "korean": "한국어",
+            "italian": "이탈리아어"
+         }
       },
       "sidebar": {
          "select_sidebar_mode": "사이드바 모드 선택",
@@ -203,11 +202,11 @@
       "unit_tax": "단위 세금",
       "total_cost": "총 비용",
       "none": "선택할 항목이 없습니다.",
-      "tenant": "점포",
-      "branch": "점포",
+      "tenant": "브랜치",
+      "branch": "브랜치",
       "user": "사용자",
-      "tenant_user": "점포 사용자",
-      "tenant_owner": "점포 소유자",
+      "tenant_user": "브랜치 사용자",
+      "tenant_owner": "브랜치 소유자",
       "address": "주소",
       "role_permission": "역할 권한",
       "user_role": "사용자 역할",
@@ -219,29 +218,29 @@
       "record": "기록",
       "client_address": "고객 주소",
       "audit_config": "감사 설정",
-      "audit_log": "감사 로그",
+      "audit_log": "로그",
       "product_brands": "제품 브랜드",
       "stock_view": "재고 보기",
       "stock_vendor": "재고 공급업체",
       "stock_vendor_stat": "재고 공급업체 통계",
       "stock_product_stat": "재고 제품 통계",
       "client_address_view": "고객 주소 보기",
-      "audit_log_group": "감사 로그 그룹",
-      "parent_id": "부모 ID",
+      "audit_log_group": "로그 그룹",
+      "parent_id": "부모",
       "user_id": "사용자",
-      "tenant_id": "점포",
+      "tenant_id": "브랜치",
       "role_id": "역할",
       "permission_id": "권한",
       "unit_type": "단위 유형",
       "category_id": "카테고리",
       "address_id": "주소",
-      "address_tenant_id": "주소 점포",
-      "client_national_id": "국민 ID",
-      "client_tenant_id": "고객 점포",
-      "correlation_id": "상관 ID",
-      "request_id": "요청 ID",
+      "address_tenant_id": "주소 브랜치",
+      "client_national_id": "고객 국가",
+      "client_tenant_id": "고객 브랜치",
+      "correlation_id": "상관",
+      "request_id": "요청",
       "display_name": "이름",
-      "id": "ID",
+      "id": "아이디",
       "created_at": "생성일"
    },
    "input": {
@@ -473,7 +472,6 @@
          "update-password": "비밀번호 변경",
          "logout": "로그아웃",
          "address": "주소",
-         "list": "목록",
          "edit": "편집",
          "add": "추가",
          "register": "등록",
@@ -513,7 +511,10 @@
          "product_add": "제품 추가",
          "product_edit": "제품 수정",
          "service_list": "서비스 목록",
-         "spare_part_list": "부품 목록"
+         "spare_part_list": "부품 목록",
+         "branch_user_list": "지점 사용자 목록",
+         "audit_log_list": "감사 로그 목록",
+         "branch_role_list": "지점 역할 목록"
       }
    },
    "dashboard": {

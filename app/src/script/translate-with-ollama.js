@@ -210,10 +210,13 @@ async function prepareFoldersAndFiles() {
 function runVueI18nExtract() {
    return new Promise((resolve, reject) => {
       console.log('🔍 Running vue-i18n-extract report...\n');
-      const extract = spawn('npx vue-i18n-extract report', {
-         shell: true,
-         stdio: 'inherit'
-      });
+      const extract = spawn(
+         'npx vue-i18n-extract report --vueFiles "./src/**/*.?(ts|js|vue)" --languageFiles "./src/plugins/i18n/locales/**/!(*.exclude).?(json)" --add',
+         {
+            shell: true,
+            stdio: 'inherit'
+         }
+      );
 
       extract.on('close', (code) => {
          if (code !== 0) {

@@ -56,50 +56,36 @@ const { isSignedIn } = storeToRefs(useAuthStore());
             </div>
          </template>
          <div class="app-configurator__language-section">
-            <FormField :label="$t('app_config.language.select_language')">
-               <template #badges>
-                  <Badge
-                     severity="primary"
-                     size="small"
-                     class="app-configurator__language-badge"
-                     v-tooltip.left="{
-                        value: $t('app_config.language.translated_using_artificial_intelligence')
-                     }"
-                  >
-                     <i
-                        :class="PrimeIcons.EXCLAMATION_CIRCLE"
-                        class="app-configurator__language-badge-icon"
-                     />
-                  </Badge>
-               </template>
-               <template #default="slotProps">
-                  <Select
-                     v-bind="slotProps"
-                     :modelValue="$i18n.locale"
-                     :options="SUPPORTED_LOCALES"
-                     option-label="label"
-                     option-value="value"
-                     @change="$router.replace({ params: { locale: $event.value } })"
-                  >
-                     <template #option="{ option }">
-                        <div class="app-configurator__language-option">
-                           <span
-                              class="app-configurator__language-flag"
-                              :class="`flag flag-${option.value}`"
-                           />
-                           <span v-text="option.label" />
-                        </div>
-                     </template>
-                     <template #value="{ value }">
-                        <div class="app-configurator__language-value">
-                           <span
-                              class="app-configurator__language-flag flag"
-                              :class="`flag-${value}`"
-                           />
-                        </div>
-                     </template>
-                  </Select>
-               </template>
+            <FormField :label="$t('app_config.language.select_language')" v-slot="slotProps">
+               <Select
+                  v-bind="slotProps"
+                  :modelValue="$i18n.locale"
+                  :options="SUPPORTED_LOCALES"
+                  option-label="label"
+                  option-value="value"
+                  @change="$router.replace({ params: { locale: $event.value } })"
+                  v-tooltip.left="{
+                     value: $t('app_config.language.translated_using_artificial_intelligence')
+                  }"
+               >
+                  <template #option="{ option }">
+                     <div class="app-configurator__language-option">
+                        <span
+                           class="app-configurator__language-flag"
+                           :class="`flag flag-${option.value}`"
+                        />
+                        <span v-text="option.label" />
+                     </div>
+                  </template>
+                  <template #value="{ value }">
+                     <div class="app-configurator__language-value">
+                        <span
+                           class="app-configurator__language-flag flag"
+                           :class="`flag-${value}`"
+                        />
+                     </div>
+                  </template>
+               </Select>
             </FormField>
          </div>
 

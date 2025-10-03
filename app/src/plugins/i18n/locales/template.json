@@ -3,9 +3,7 @@
     "app_settings": "",
     "theme": {
       "dark_mode": {
-        "toggle_dark_mode": "",
-        "dark": "",
-        "light": ""
+        "toggle_dark_mode": ""
       },
       "ui_scale": "",
       "primary_color": "",
@@ -17,16 +15,17 @@
     "language": {
       "select_language": "",
       "option": {
-        "tr": "",
-        "en": "",
-        "es": "",
-        "fr": "",
-        "de": "",
-        "pl": "",
-        "ru": "",
-        "zh": "",
-        "ja": "",
-        "ko": ""
+        "turkish": "",
+        "english": "",
+        "spanish": "",
+        "french": "",
+        "german": "",
+        "polish": "",
+        "russian": "",
+        "chinese": "",
+        "japanese": "",
+        "korean": "",
+        "italian": ""
       },
       "translated_using_artificial_intelligence": "",
       "you_can_configure_different_options_for_each_light_modes": ""
@@ -202,7 +201,8 @@
     "unit_cost": "",
     "unit_discount": "",
     "unit_tax": "",
-    "total_cost": ""
+    "total_cost": "",
+    "user": ""
   },
   "audit_log": {
     "no_changes_detected": "",
@@ -529,7 +529,6 @@
       "access-denied": "",
       "branch": "",
       "branch-user": "",
-      "list": "",
       "manage-user": "",
       "user-general-info": "",
       "branch-role": "",
@@ -560,7 +559,10 @@
       "service": "",
       "service_list": "",
       "spare-parts": "",
-      "spare_part_list": ""
+      "spare_part_list": "",
+      "branch_user_list": "",
+      "audit_log_list": "",
+      "branch_role_list": ""
     }
   },
   "account": {

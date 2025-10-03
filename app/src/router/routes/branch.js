@@ -126,7 +126,7 @@ export default [
                   path: 'list',
                   name: 'branch-role-list',
                   meta: {
-                     label: i18n.t('route.label.list'),
+                     label: i18n.t('route.label.branch_role_list'),
                      visible: false,
                      index: -1,
                      requiredPermissions: [

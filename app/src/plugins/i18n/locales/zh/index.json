@@ -1,733 +1,734 @@
 {
-   "app_config": {
-      "app_settings": "应用设置",
-      "theme": {
-         "dark_mode": {
-            "toggle_dark_mode": "切换深色模式",
-            "dark": "深色",
-            "light": "浅色"
-         },
-         "ui_scale": "界面缩放",
-         "primary_color": "主色调",
-         "surface_color": "表面色调",
-         "preset": {
-            "select_preset": "选择预设"
-         }
+  "app_config": {
+    "app_settings": "应用设置",
+    "theme": {
+      "dark_mode": {
+        "toggle_dark_mode": "切换深色模式"
       },
-      "language": {
-         "select_language": "选择语言",
-         "option": {
-            "tr": "土耳其语",
-            "en": "英语",
-            "fr": "法语",
-            "de": "德语",
-            "pl": "波兰语",
-            "ru": "俄语",
-            "zh": "中文",
-            "ja": "日语",
-            "ko": "韩语",
-            "es": "西班牙语"
-         },
-         "translated_using_artificial_intelligence": "使用人工智能进行翻译",
-         "you_can_configure_different_options_for_each_light_modes": "您可以為每種燈光模式配置不同的選項"
-      },
-      "sidebar": {
-         "select_sidebar_mode": "选择侧边栏模式",
-         "modes": {
-            "static": "静态",
-            "auto": "自动",
-            "mini": "迷你",
-            "reveal": "显示",
-            "overlay": "覆盖"
-         }
+      "ui_scale": "界面缩放",
+      "primary_color": "主色调",
+      "surface_color": "表面色调",
+      "preset": {
+        "select_preset": "选择预设"
       }
-   },
-   "auth": {
-      "branch": "分部",
-      "welcome": {
-         "title": "欢迎",
-         "text": "欢迎使用听力辅助设备CRM应用"
-      },
-      "please_dont_forget_to_update_your_password": "请勿忘记更新您的密码",
-      "confirm": {
-         "logout": {
-            "question": "您确定要退出吗？",
-            "header": "退出登录"
-         }
-      },
-      "toast": {
-         "welcome": "欢迎回来",
-         "goodby": "再见"
-      },
-      "forgot_password": {
-         "confirm": {
-            "header": "忘记密码"
-         }
-      },
-      "otp": {
-         "forgot_password": {
-            "password_reset_email_sended_please_check_your_email": "密码重置邮件已发送，请检查您的邮箱",
-            "lets_get_your_account_back!💪": "让我们帮助您恢复账户！💪"
-         },
-         "resend_code": {
-            "confirm": {
-               "title": "重新发送验证码"
-            },
-            "toast": {
-               "code_sended": "验证码已发送"
-            },
-            "code_verified": "验证码已验证"
-         },
-         "invite_code": {
-            "so_you_are_invited!🎊": "您已被邀请！🎊",
-            "please_enter_the_code_in_email_to_login": "请输入邮箱中的验证码以登录"
-         }
-      },
-      "login": {
-         "welcome_back": "欢迎回来",
-         "please_login_to_continue": "请登录以继续",
-         "forgot_your_password?": "忘记密码？",
-         "do_you_have_invite_code?": "您有邀请码吗？"
-      },
+    },
+    "language": {
+      "select_language": "选择语言",
+      "translated_using_artificial_intelligence": "使用人工智能进行翻译",
+      "you_can_configure_different_options_for_each_light_modes": "您可以為每種燈光模式配置不同的選項",
+      "option": {
+        "turkish": "土耳其语",
+        "english": "英语",
+        "spanish": "西班牙语",
+        "french": "法语",
+        "german": "德语",
+        "polish": "波兰语",
+        "russian": "俄语",
+        "chinese": "中文",
+        "japanese": "日语",
+        "korean": "韩语",
+        "italian": "意大利语"
+      }
+    },
+    "sidebar": {
+      "select_sidebar_mode": "选择侧边栏模式",
+      "modes": {
+        "static": "静态",
+        "auto": "自动",
+        "mini": "迷你",
+        "reveal": "显示",
+        "overlay": "覆盖"
+      }
+    }
+  },
+  "auth": {
+    "branch": "分部",
+    "welcome": {
+      "title": "欢迎",
+      "text": "欢迎使用听力辅助设备CRM应用"
+    },
+    "please_dont_forget_to_update_your_password": "请勿忘记更新您的密码",
+    "confirm": {
       "logout": {
-         "logged_out_successfully": "已成功退出登录"
-      },
-      "register": {
-         "create_account": "创建账户",
-         "create_an_account_and_join_us": "创建账户并加入我们",
-         "account_info": "账户信息",
-         "company_info": "公司信息"
+        "question": "您确定要退出吗？",
+        "header": "退出登录"
       }
-   },
-   "fields": {
-      "": " ",
-      "device": "设备",
-      "battery": "电池",
-      "spare_part": "备件",
-      "service": "服务",
-      "trial": "试用",
-      "sale": "销售",
-      "assemble": "组装",
-      "repair": "维修",
-      "promotion": "促销",
-      "cash": "现金",
-      "credit_card": "信用卡",
-      "pending": "待处理",
-      "pending_service": "待处理服务",
-      "client_holds_service_bid": "客户保留服务报价",
-      "client_approved_service_bid": "客户批准服务报价",
-      "client_rejected_service_bid": "客户拒绝服务报价",
-      "done": "完成",
-      "approved": "批准",
-      "rejected": "拒绝",
-      "pending_client": "待客户处理",
-      "biopar": "生物",
-      "hard": "硬质",
-      "micro": "微型",
-      "full": "全",
-      "half": "半",
-      "supported": "支持",
-      "prob": "概率",
-      "pcs": "件",
-      "kg": "千克",
-      "gr": "克",
-      "lbs": "磅",
-      "L": "升",
-      "mL": "毫升",
-      "m": "米",
-      "m²": "平方米",
-      "cm": "厘米",
-      "in": "英寸",
-      "password": "密码",
-      "password_confirmation": "密码确认",
+    },
+    "toast": {
+      "welcome": "欢迎回来",
+      "goodby": "再见"
+    },
+    "forgot_password": {
+      "confirm": {
+        "header": "忘记密码"
+      }
+    },
+    "otp": {
+      "forgot_password": {
+        "password_reset_email_sended_please_check_your_email": "密码重置邮件已发送，请检查您的邮箱",
+        "lets_get_your_account_back!💪": "让我们帮助您恢复账户！💪"
+      },
+      "resend_code": {
+        "confirm": {
+          "title": "重新发送验证码"
+        },
+        "toast": {
+          "code_sended": "验证码已发送"
+        },
+        "code_verified": "验证码已验证"
+      },
+      "invite_code": {
+        "so_you_are_invited!🎊": "您已被邀请！🎊",
+        "please_enter_the_code_in_email_to_login": "请输入邮箱中的验证码以登录"
+      }
+    },
+    "login": {
+      "welcome_back": "欢迎回来",
+      "please_login_to_continue": "请登录以继续",
+      "forgot_your_password?": "忘记密码？",
+      "do_you_have_invite_code?": "您有邀请码吗？"
+    },
+    "logout": {
+      "logged_out_successfully": "已成功退出登录"
+    },
+    "register": {
+      "create_account": "创建账户",
+      "create_an_account_and_join_us": "创建账户并加入我们",
+      "account_info": "账户信息",
+      "company_info": "公司信息"
+    }
+  },
+  "fields": {
+    "": " ",
+    "device": "设备",
+    "battery": "电池",
+    "spare_part": "备件",
+    "service": "服务",
+    "trial": "试用",
+    "sale": "销售",
+    "assemble": "组装",
+    "repair": "维修",
+    "promotion": "促销",
+    "cash": "现金",
+    "credit_card": "信用卡",
+    "pending": "待处理",
+    "pending_service": "待处理服务",
+    "client_holds_service_bid": "客户保留服务报价",
+    "client_approved_service_bid": "客户批准服务报价",
+    "client_rejected_service_bid": "客户拒绝服务报价",
+    "done": "完成",
+    "approved": "批准",
+    "rejected": "拒绝",
+    "pending_client": "待客户处理",
+    "biopar": "生物",
+    "hard": "硬质",
+    "micro": "微型",
+    "full": "全",
+    "half": "半",
+    "supported": "支持",
+    "prob": "概率",
+    "pcs": "件",
+    "kg": "千克",
+    "gr": "克",
+    "lbs": "磅",
+    "L": "升",
+    "mL": "毫升",
+    "m": "米",
+    "m²": "平方米",
+    "cm": "厘米",
+    "in": "英寸",
+    "password": "密码",
+    "password_confirmation": "密码确认",
+    "name": "姓名",
+    "email": "电子邮件",
+    "phone": "电话",
+    "country": "国家",
+    "city": "城市",
+    "district": "区",
+    "details": "详情",
+    "remember_me": "记住我",
+    "code": "代码",
+    "company": "公司",
+    "permission": "权限",
+    "role": "角色",
+    "client_id": "客户",
+    "nationality": "国籍",
+    "national_id": "身份证",
+    "birth_date": "出生日期",
+    "gender": "性别",
+    "rear_ear_devices": "后耳设备",
+    "attributes": "属性",
+    "rear_ear_device": "后耳设备",
+    "type": "类型",
+    "model": "型号",
+    "speaker_power": "扬声器功率",
+    "side": "侧",
+    "left": "左",
+    "right": "右",
+    "ventilation": "通气",
+    "speaker_size": "扬声器尺寸",
+    "inner_ear_devices": "耳内设备",
+    "inner_ear_device": "耳内设备",
+    "has_bluetooth": "支持蓝牙",
+    "has_button": "有按钮",
+    "record_type": "记录类型",
+    "stock_id": "库存",
+    "device_side": "设备侧",
+    "both": "双",
+    "record_status": "记录状态",
+    "quantity": "数量",
+    "payment_type": "支付类型",
+    "currency_code": "货币代码",
+    "repair_fee": "维修费用",
+    "bid": "报价",
+    "bid_discount": "报价折扣",
+    "tax": "税",
+    "total_bid": "总报价",
+    "insurance_type": "保险类型",
+    "retired": "退休",
+    "worker": "员工",
+    "insurance_contribution": "保险费用",
+    "client_insurance_contribution": "客户保险费用",
+    "brand": "品牌",
+    "categories": "类别",
+    "product_id": "产品",
+    "vendor": "供应商",
+    "stocked_at": "库存位置",
+    "barcode": "条形码",
+    "serial_number": "序列号",
+    "currency": "货币",
+    "unit_cost": "单位成本",
+    "unit_discount": "单位折扣",
+    "unit_tax": "单位税",
+    "total_cost": "总成本",
+    "none": "无",
+    "tenant": "租户",
+    "branch": "租户",
+    "user": "用户",
+    "tenant_user": "租户用户",
+    "tenant_owner": "租户所有者",
+    "address": "地址",
+    "role_permission": "角色权限",
+    "user_role": "用户角色",
+    "client": "客户",
+    "product": "产品",
+    "product_category": "产品类别",
+    "product_categories": "产品类别",
+    "stock": "库存",
+    "record": "记录",
+    "client_address": "客户地址",
+    "audit_config": "审计配置",
+    "audit_log": "日志",
+    "product_brands": "产品品牌",
+    "stock_view": "库存视图",
+    "stock_vendor": "库存供应商",
+    "stock_vendor_stat": "库存供应商统计",
+    "stock_product_stat": "库存产品统计",
+    "client_address_view": "客户地址视图",
+    "audit_log_group": "日志组",
+    "parent_id": "父级",
+    "user_id": "用户",
+    "tenant_id": "租户",
+    "role_id": "角色",
+    "permission_id": "权限",
+    "unit_type": "单位类型",
+    "category_id": "类别",
+    "address_id": "地址",
+    "address_tenant_id": "地址租户",
+    "client_national_id": "客户身份证",
+    "client_tenant_id": "客户租户",
+    "correlation_id": "关联",
+    "request_id": "请求",
+    "display_name": "显示名称",
+    "id": "ID",
+    "created_at": "创建时间"
+  },
+  "input": {
+    "select_or_write": "请选择或填写"
+  },
+  "financial": {
+    "select_currency": "请选择货币",
+    "select_unit_type": "请选择单位类型"
+  },
+  "component": {
+    "select_permission": {
+      "table": {
+        "headers": {
+          "permission_name": "权限名称",
+          "read": "读取",
+          "create": "创建",
+          "modify": "修改",
+          "all": "全部"
+        }
+      }
+    },
+    "table": {
+      "no_data_found": "未找到数据",
+      "keyword_search": "关键字搜索"
+    }
+  },
+  "common": {
+    "select": "选择"
+  },
+  "role": {
+    "select_role": "请选择角色",
+    "table": {
+      "headers": {
+        "name": "名称",
+        "created_at": "创建时间"
+      }
+    }
+  },
+  "router": {
+    "action": {
+      "open_in_window": "在新窗口中打开",
+      "manage-addresses": "管理地址",
+      "close": "关闭",
+      "manage_addresses": "管理地址",
+      "go_back": "返回",
+      "go_to_profile": "前往個人資料"
+    },
+    "error_occured": "发生错误",
+    "requested_resource_is_not_available": "请求的资源不可用",
+    "not_found": "未找到"
+  },
+  "action": {
+    "reset": "重置",
+    "save": "保存",
+    "confirm": {
+      "delete": {
+        "question": "您確定要刪除此項目嗎？",
+        "title": "確認刪除"
+      }
+    },
+    "yes": "是",
+    "no": "否",
+    "cancelled": "已取消",
+    "add": "新增",
+    "delete": "刪除",
+    "edit": "編輯",
+    "cancel": "取消",
+    "send": "發送",
+    "submit": "提交",
+    "resend_code": "重新發送驗證碼",
+    "back": "返回",
+    "invite": "邀請"
+  },
+  "const": {
+    "ear_device": {
+      "models": {
+        "in_ear_(ITE)": "耳內式（ITE）",
+        "in_canal_(ITC)": "耳道式（ITC）",
+        "completely_in_canal_(CIC)": "完全耳道式（CIC）"
+      }
+    }
+  },
+  "errors": {
+    "access_denied": "访问被拒绝",
+    "confirmation_required": "需要确认",
+    "email_change_required": "需要更改电子邮件",
+    "expired_code": "代码已过期",
+    "identity_provider_error": "身份提供商错误",
+    "invalid_code": "无效代码",
+    "invalid_email": "无效电子邮件",
+    "invalid_email_link": "无效电子邮件链接",
+    "invalid_credentials": "无效凭据",
+    "invalid_phone": "无效电话",
+    "invalid_recovery_token": "无效恢复令牌",
+    "invalid_signup_data": "无效注册数据",
+    "invalid_token": "无效令牌",
+    "invalid_verification_link": "无效验证链接",
+    "mfa_invalid_code": "MFA 无效代码",
+    "mfa_required": "需要 MFA",
+    "missing_code": "缺少代码",
+    "missing_email": "缺少电子邮件",
+    "missing_phone": "缺少电话",
+    "otp_expired": "OTP 已过期",
+    "otp_failed": "OTP 失败",
+    "otp_max_attempts": "OTP 最大尝试次数",
+    "password_length": "密码长度不足",
+    "phone_change_required": "需要更改电话",
+    "recovery_link_used": "恢复链接已使用",
+    "server_error": "服务器错误",
+    "signup_disabled": "注册已禁用",
+    "token_expired": "令牌已过期",
+    "unauthorized_client": "未授权的客户端",
+    "unexpected_error": "意外错误",
+    "unknown_provider": "未知提供商",
+    "user_already_registered": "用户已注册",
+    "user_not_found": "用户未找到",
+    "user_update_failed": "用户更新失败",
+    "verification_link_used": "验证链接已使用",
+    "weak_password": "密码强度不足",
+    "no_data": "无数据",
+    "no_additional_dynamic_result_sets_returned": "未返回额外的动态结果集",
+    "data_exception": "数据异常",
+    "string_data_right_truncation": "字符串数据右截断",
+    "numeric_value_out_of_range": "数值超出范围",
+    "invalid_datetime_format": "无效的日期时间格式",
+    "datetime_field_overflow": "日期时间字段溢出",
+    "division_by_zero": "除以零",
+    "invalid_parameter_value": "无效参数值",
+    "floating_point_exception": "浮点异常",
+    "invalid_text_representation": "无效文本表示",
+    "invalid_binary_representation": "无效二进制表示",
+    "bad_copy_file_format": "复制文件格式错误",
+    "untranslatable_character": "不可翻译字符",
+    "integrity_constraint_violation": "完整性约束违反",
+    "not_null_violation": "非空约束违反",
+    "foreign_key_violation": "外键约束违反",
+    "unique_violation": "唯一性约束违反",
+    "check_violation": "检查约束违反",
+    "exclusion_violation": "排除约束违反",
+    "invalid_cursor_state": "无效游标状态",
+    "invalid_transaction_state": "无效事务状态",
+    "in_failed_sql_transaction": "在失败的 SQL 事务中",
+    "invalid_sql_statement_name": "无效 SQL 语句名称",
+    "invalid_authorization_specification": "无效授权规范",
+    "invalid_password": "无效密码",
+    "invalid_cursor_name": "无效游标名称",
+    "external_routine_exception": "外部例程异常",
+    "containing_sql_not_permitted": "包含的 SQL 不允许",
+    "modifying_sql_data_not_permitted": "修改 SQL 数据不允许",
+    "prohibited_sql_statement_attempted": "禁止的 SQL 语句尝试",
+    "reading_sql_data_not_permitted": "读取 SQL 数据不允许",
+    "external_routine_invocation_exception": "外部例程调用异常",
+    "invalid_sqlstate_returned": "返回的 SQLSTATE 无效",
+    "null_value_not_allowed": "不允许空值",
+    "serialization_failure": "序列化失败",
+    "statement_completion_unknown": "语句完成未知",
+    "deadlock_detected": "检测到死锁",
+    "syntax_error": "语法错误",
+    "undefined_column": "未定义的列",
+    "datatype_mismatch": "数据类型不匹配",
+    "invalid_foreign_key": "无效外键",
+    "undefined_function": "未定义的函数",
+    "undefined_table": "未定义的表",
+    "undefined_parameter": "未定义的参数",
+    "indeterminate_datatype": "不确定的数据类型",
+    "with_check_option_violation": "WITH CHECK OPTION 违反",
+    "insufficient_privilege": "权限不足",
+    "insufficient_privilege_reserved": "保留权限不足",
+    "invalid_grant_operation": "无效授权操作",
+    "invalid_role_specification": "无效角色规范",
+    "too_many_connections": "连接过多",
+    "configuration_limit_exceeded": "配置限制超出",
+    "object_not_in_prerequisite_state": "对象不在前提状态",
+    "object_in_use": "对象正在使用中",
+    "query_canceled": "查询已取消",
+    "admin_shutdown": "管理员关闭",
+    "crash_shutdown": "崩溃关闭",
+    "cannot_connect_now": "现在无法连接",
+    "system_error": "系统错误",
+    "io_error": "I/O 错误",
+    "config_file_error": "配置文件错误",
+    "raise_exception": "引发异常",
+    "no_data_found": "未找到数据",
+    "too_many_rows": "太多行",
+    "internal_error": "内部错误",
+    "data_corrupted": "数据损坏",
+    "index_corrupted": "索引损坏",
+    "sql_med_insufficient_privilege": "SQL 医疗权限不足",
+    "insufficient_permission": "权限不足",
+    "AuthInvalidCredentialsError": "认证凭据无效"
+  },
+  "account": {
+    "profile": {
+      "user_info": "用户信息",
       "name": "姓名",
       "email": "电子邮件",
       "phone": "电话",
-      "country": "国家",
-      "city": "城市",
-      "district": "区",
-      "details": "详情",
-      "remember_me": "记住我",
-      "code": "代码",
-      "company": "公司",
-      "permission": "权限",
-      "role": "角色",
-      "client_id": "客户",
-      "nationality": "国籍",
-      "national_id": "身份证",
-      "birth_date": "出生日期",
-      "gender": "性别",
-      "rear_ear_devices": "后耳设备",
-      "attributes": "属性",
-      "rear_ear_device": "后耳设备",
-      "type": "类型",
-      "model": "型号",
-      "speaker_power": "扬声器功率",
-      "side": "侧",
-      "left": "左",
-      "right": "右",
-      "ventilation": "通气",
-      "speaker_size": "扬声器尺寸",
-      "inner_ear_devices": "耳内设备",
-      "inner_ear_device": "耳内设备",
-      "has_bluetooth": "支持蓝牙",
-      "has_button": "有按钮",
-      "record_type": "记录类型",
-      "stock_id": "库存",
-      "device_side": "设备侧",
-      "both": "双",
-      "record_status": "记录状态",
-      "quantity": "数量",
-      "payment_type": "支付类型",
-      "currency_code": "货币代码",
-      "repair_fee": "维修费用",
-      "bid": "报价",
-      "bid_discount": "报价折扣",
-      "tax": "税",
-      "total_bid": "总报价",
-      "insurance_type": "保险类型",
-      "retired": "退休",
-      "worker": "员工",
-      "insurance_contribution": "保险费用",
-      "client_insurance_contribution": "客户保险费用",
-      "brand": "品牌",
-      "categories": "类别",
-      "product_id": "产品",
-      "vendor": "供应商",
-      "stocked_at": "库存位置",
-      "barcode": "条形码",
-      "serial_number": "序列号",
-      "currency": "货币",
-      "unit_cost": "单位成本",
-      "unit_discount": "单位折扣",
-      "unit_tax": "单位税",
-      "total_cost": "总成本",
-      "none": "无",
-      "tenant": "租户",
-      "branch": "租户",
-      "user": "用户",
-      "tenant_user": "租户用户",
-      "tenant_owner": "租户所有者",
-      "address": "地址",
-      "role_permission": "角色权限",
-      "user_role": "用户角色",
-      "client": "客户",
-      "product": "产品",
-      "product_category": "产品类别",
-      "product_categories": "产品类别",
-      "stock": "库存",
-      "record": "记录",
-      "client_address": "客户地址",
-      "audit_config": "审计配置",
-      "audit_log": "审计日志",
-      "product_brands": "产品品牌",
-      "stock_view": "库存视图",
-      "stock_vendor": "库存供应商",
-      "stock_vendor_stat": "库存供应商统计",
-      "stock_product_stat": "库存产品统计",
-      "client_address_view": "客户地址视图",
-      "audit_log_group": "审计日志组",
-      "parent_id": "父ID",
-      "user_id": "用户",
-      "tenant_id": "租户",
-      "role_id": "角色",
-      "permission_id": "权限",
-      "unit_type": "单位类型",
-      "category_id": "类别",
-      "address_id": "地址",
-      "address_tenant_id": "地址租户",
-      "client_national_id": "客户身份证",
-      "client_tenant_id": "客户租户",
-      "correlation_id": "关联ID",
-      "request_id": "请求ID",
-      "display_name": "显示名称",
-      "id": "ID",
-      "created_at": "创建时间"
-   },
-   "input": {
-      "select_or_write": "请选择或填写"
-   },
-   "financial": {
-      "select_currency": "请选择货币",
-      "select_unit_type": "请选择单位类型"
-   },
-   "component": {
-      "select_permission": {
-         "table": {
-            "headers": {
-               "permission_name": "权限名称",
-               "read": "读取",
-               "create": "创建",
-               "modify": "修改",
-               "all": "全部"
-            }
-         }
-      },
-      "table": {
-         "no_data_found": "未找到数据",
-         "keyword_search": "关键字搜索"
+      "events": "事件",
+      "logs": {
+        "created_at": "创建时间",
+        "email_confirmed_at": "电子邮件确认时间",
+        "last_sign_in_at": "最近登录时间"
       }
-   },
-   "common": {
-      "select": "选择"
-   },
-   "role": {
-      "select_role": "请选择角色",
-      "table": {
-         "headers": {
-            "name": "名称",
-            "created_at": "创建时间"
-         }
-      }
-   },
-   "router": {
-      "action": {
-         "open_in_window": "在新窗口中打开",
-         "manage-addresses": "管理地址",
-         "close": "关闭",
-         "manage_addresses": "管理地址",
-         "go_back": "返回",
-         "go_to_profile": "前往個人資料"
-      },
-      "error_occured": "发生错误",
-      "requested_resource_is_not_available": "请求的资源不可用",
-      "not_found": "未找到"
-   },
-   "action": {
-      "reset": "重置",
-      "save": "保存",
-      "confirm": {
-         "delete": {
-            "question": "您確定要刪除此項目嗎？",
-            "title": "確認刪除"
-         }
-      },
-      "yes": "是",
-      "no": "否",
-      "cancelled": "已取消",
-      "add": "新增",
-      "delete": "刪除",
-      "edit": "編輯",
-      "cancel": "取消",
-      "send": "發送",
-      "submit": "提交",
-      "resend_code": "重新發送驗證碼",
-      "back": "返回",
-      "invite": "邀請"
-   },
-   "const": {
-      "ear_device": {
-         "models": {
-            "in_ear_(ITE)": "耳內式（ITE）",
-            "in_canal_(ITC)": "耳道式（ITC）",
-            "completely_in_canal_(CIC)": "完全耳道式（CIC）"
-         }
-      }
-   },
-   "errors": {
-      "access_denied": "访问被拒绝",
-      "confirmation_required": "需要确认",
-      "email_change_required": "需要更改电子邮件",
-      "expired_code": "代码已过期",
-      "identity_provider_error": "身份提供商错误",
-      "invalid_code": "无效代码",
-      "invalid_email": "无效电子邮件",
-      "invalid_email_link": "无效电子邮件链接",
-      "invalid_credentials": "无效凭据",
-      "invalid_phone": "无效电话",
-      "invalid_recovery_token": "无效恢复令牌",
-      "invalid_signup_data": "无效注册数据",
-      "invalid_token": "无效令牌",
-      "invalid_verification_link": "无效验证链接",
-      "mfa_invalid_code": "MFA 无效代码",
-      "mfa_required": "需要 MFA",
-      "missing_code": "缺少代码",
-      "missing_email": "缺少电子邮件",
-      "missing_phone": "缺少电话",
-      "otp_expired": "OTP 已过期",
-      "otp_failed": "OTP 失败",
-      "otp_max_attempts": "OTP 最大尝试次数",
-      "password_length": "密码长度不足",
-      "phone_change_required": "需要更改电话",
-      "recovery_link_used": "恢复链接已使用",
-      "server_error": "服务器错误",
-      "signup_disabled": "注册已禁用",
-      "token_expired": "令牌已过期",
-      "unauthorized_client": "未授权的客户端",
-      "unexpected_error": "意外错误",
-      "unknown_provider": "未知提供商",
-      "user_already_registered": "用户已注册",
-      "user_not_found": "用户未找到",
-      "user_update_failed": "用户更新失败",
-      "verification_link_used": "验证链接已使用",
-      "weak_password": "密码强度不足",
-      "no_data": "无数据",
-      "no_additional_dynamic_result_sets_returned": "未返回额外的动态结果集",
-      "data_exception": "数据异常",
-      "string_data_right_truncation": "字符串数据右截断",
-      "numeric_value_out_of_range": "数值超出范围",
-      "invalid_datetime_format": "无效的日期时间格式",
-      "datetime_field_overflow": "日期时间字段溢出",
-      "division_by_zero": "除以零",
-      "invalid_parameter_value": "无效参数值",
-      "floating_point_exception": "浮点异常",
-      "invalid_text_representation": "无效文本表示",
-      "invalid_binary_representation": "无效二进制表示",
-      "bad_copy_file_format": "复制文件格式错误",
-      "untranslatable_character": "不可翻译字符",
-      "integrity_constraint_violation": "完整性约束违反",
-      "not_null_violation": "非空约束违反",
-      "foreign_key_violation": "外键约束违反",
-      "unique_violation": "唯一性约束违反",
-      "check_violation": "检查约束违反",
-      "exclusion_violation": "排除约束违反",
-      "invalid_cursor_state": "无效游标状态",
-      "invalid_transaction_state": "无效事务状态",
-      "in_failed_sql_transaction": "在失败的 SQL 事务中",
-      "invalid_sql_statement_name": "无效 SQL 语句名称",
-      "invalid_authorization_specification": "无效授权规范",
-      "invalid_password": "无效密码",
-      "invalid_cursor_name": "无效游标名称",
-      "external_routine_exception": "外部例程异常",
-      "containing_sql_not_permitted": "包含的 SQL 不允许",
-      "modifying_sql_data_not_permitted": "修改 SQL 数据不允许",
-      "prohibited_sql_statement_attempted": "禁止的 SQL 语句尝试",
-      "reading_sql_data_not_permitted": "读取 SQL 数据不允许",
-      "external_routine_invocation_exception": "外部例程调用异常",
-      "invalid_sqlstate_returned": "返回的 SQLSTATE 无效",
-      "null_value_not_allowed": "不允许空值",
-      "serialization_failure": "序列化失败",
-      "statement_completion_unknown": "语句完成未知",
-      "deadlock_detected": "检测到死锁",
-      "syntax_error": "语法错误",
-      "undefined_column": "未定义的列",
-      "datatype_mismatch": "数据类型不匹配",
-      "invalid_foreign_key": "无效外键",
-      "undefined_function": "未定义的函数",
-      "undefined_table": "未定义的表",
-      "undefined_parameter": "未定义的参数",
-      "indeterminate_datatype": "不确定的数据类型",
-      "with_check_option_violation": "WITH CHECK OPTION 违反",
-      "insufficient_privilege": "权限不足",
-      "insufficient_privilege_reserved": "保留权限不足",
-      "invalid_grant_operation": "无效授权操作",
-      "invalid_role_specification": "无效角色规范",
-      "too_many_connections": "连接过多",
-      "configuration_limit_exceeded": "配置限制超出",
-      "object_not_in_prerequisite_state": "对象不在前提状态",
-      "object_in_use": "对象正在使用中",
-      "query_canceled": "查询已取消",
-      "admin_shutdown": "管理员关闭",
-      "crash_shutdown": "崩溃关闭",
-      "cannot_connect_now": "现在无法连接",
-      "system_error": "系统错误",
-      "io_error": "I/O 错误",
-      "config_file_error": "配置文件错误",
-      "raise_exception": "引发异常",
-      "no_data_found": "未找到数据",
-      "too_many_rows": "太多行",
-      "internal_error": "内部错误",
-      "data_corrupted": "数据损坏",
-      "index_corrupted": "索引损坏",
-      "sql_med_insufficient_privilege": "SQL 医疗权限不足",
-      "insufficient_permission": "权限不足",
-      "AuthInvalidCredentialsError": "认证凭据无效"
-   },
-   "account": {
-      "profile": {
-         "user_info": "用户信息",
-         "name": "姓名",
-         "email": "电子邮件",
-         "phone": "电话",
-         "events": "事件",
-         "logs": {
-            "created_at": "创建时间",
-            "email_confirmed_at": "电子邮件确认时间",
-            "last_sign_in_at": "最近登录时间"
-         }
-      }
-   },
-   "toast": {
-      "updated": "已更新",
-      "success": "成功",
-      "saved": "已保存",
-      "sended": "已发送"
-   },
-   "register": {
-      "stepper": {
-         "label": {
-            "account": "账户",
-            "company": "公司"
-         }
-      }
-   },
-   "route": {
+    }
+  },
+  "toast": {
+    "updated": "已更新",
+    "success": "成功",
+    "saved": "已保存",
+    "sended": "已发送"
+  },
+  "register": {
+    "stepper": {
       "label": {
-         "dashboard": "仪表盘",
-         "error": "错误",
-         "notfound": "未找到",
-         "account": "账户",
-         "profile": "个人资料",
-         "settings": "设置",
-         "update-profile": "更新个人资料",
-         "update-password": "更新密码",
-         "logout": "退出登录",
-         "address": "地址",
-         "list": "列表",
-         "edit": "编辑",
-         "add": "添加",
-         "register": "注册",
-         "login": "登录",
-         "enter-auth-otp-code": "输入认证OTP代码",
-         "access-denied": "访问被拒绝",
-         "branch": "分部",
-         "branch-user": "分部用户",
-         "manage-user": "管理用户",
-         "user-general-info": "用户基本信息",
-         "branch-role": "分部角色",
-         "audit-logs": "日志",
-         "client": "客户",
-         "manage-client": "管理客户",
-         "client-general-info": "客户基本信息",
-         "client-addresses": "客户地址",
-         "record": "记录",
-         "battery": "电池",
-         "device": "设备",
-         "stock": "库存",
-         "product": "产品",
-         "service": "服务",
-         "spare-parts": "备用零件",
-         "address_list": "地址列表",
-         "address_edit": "编辑地址",
-         "address_add": "新增地址",
-         "client_list": "客户列表",
-         "client_address_list": "客户地址列表",
-         "record_list": "记录列表",
-         "record_add": "新增记录",
-         "record_edit": "编辑记录",
-         "battery_list": "电池列表",
-         "device_list": "设备列表",
-         "stock_add": "新增库存",
-         "stock_edit": "编辑库存",
-         "product_list": "产品列表",
-         "product_add": "新增产品",
-         "product_edit": "编辑产品",
-         "service_list": "服务列表",
-         "spare_part_list": "备件列表"
+        "account": "账户",
+        "company": "公司"
       }
-   },
-   "dashboard": {
-      "statistics": {
-         "last_week": "上周",
-         "last_month": "上月",
-         "last_quarter": "上季度",
-         "last_half": "上半年度",
-         "last_year": "上年度",
-         "total": "总计",
-         "client": {
-            "clients": "客户"
-         }
-      },
-      "best_selling_products": {
-         "sold_quantity": "销售数量",
-         "total_gain": "总收益",
-         "total_discount": "总折扣",
-         "total_tax": "总税额",
-         "title": "畅销产品",
-         "empty": "暂无数据"
-      },
-      "notifications": {
-         "today": "今日",
-         "yesterday": "昨日",
-         "last_week": "上周",
-         "older": "更早",
-         "title": "通知",
-         "activity": {
-            "created": "新 {resource_name} 由 {user_name} 创建",
-            "updated": "{resource_name} 由 {user_name} 更新",
-            "deleted": "{resource_name} 由 {user_name} 删除",
-            "unknown": "{resource_name} 中检测到活动由 {user_name} 操作"
-         }
-      },
-      "sales_by_category": {
-         "total_quantity_sold": "总销售数量",
-         "total_bid": "总报价",
-         "total_discount": "总折扣",
-         "total_tax": "总税额",
-         "title": "按类别销售"
-      },
-      "tables": {
-         "recent_sales": {
-            "title": "最近销售",
-            "see_all": "查看全部"
-         }
-      }
-   },
-   "address": {
-      "select_country": "请选择国家",
-      "table": {
-         "headers": {
-            "address_name": "地址名称",
-            "country": "国家",
-            "city": "城市",
-            "district": "区",
-            "created_at": "创建时间"
-         }
-      }
-   },
-   "audit_log": {
-      "no_changes_detected": "未检测到更改",
+    }
+  },
+  "route": {
+    "label": {
+      "dashboard": "仪表盘",
+      "error": "错误",
+      "notfound": "未找到",
+      "account": "账户",
+      "profile": "个人资料",
+      "settings": "设置",
+      "update-profile": "更新个人资料",
+      "update-password": "更新密码",
+      "logout": "退出登录",
+      "address": "地址",
+      "edit": "编辑",
       "add": "添加",
-      "update": "更新",
-      "delete": "删除",
-      "read": "查看",
-      "select_operation": "选择操作",
-      "table": {
-         "headers": {
-            "resource": "资源",
-            "operation": "操作",
-            "user_who_performed": "执行用户",
-            "created_at": "创建时间",
-            "user_who_reverted": "回滚用户",
-            "reverted_at": "回滚时间"
-         }
-      },
-      "already_reverted": "已回滚",
-      "attempt_to_revert": "尝试回滚",
-      "added": "已添加",
-      "updated": "已更新",
-      "deleted": "已删除",
-      "readed": "已查看"
-   },
-   "client": {
-      "select_client": "选择客户",
-      "address": {
-         "table": {
-            "headers": {
-               "client": "客户",
-               "address": "地址",
-               "country": "国家",
-               "city": "城市",
-               "district": "区",
-               "created_at": "创建时间"
-            }
-         }
-      },
-      "table": {
-         "headers": {
-            "client": "客户",
-            "nationality": "国籍",
-            "national_id": "国家ID",
-            "birth_date": "出生日期",
-            "email": "电子邮件",
-            "phone": "电话",
-            "created_at": "创建时间"
-         }
-      },
-      "general_info": "基本信息",
-      "addresses": "地址",
-      "gender": {
-         "male": "男性",
-         "female": "女性"
+      "register": "注册",
+      "login": "登录",
+      "enter-auth-otp-code": "输入认证OTP代码",
+      "access-denied": "访问被拒绝",
+      "branch": "分部",
+      "branch-user": "分部用户",
+      "manage-user": "管理用户",
+      "user-general-info": "用户基本信息",
+      "branch-role": "分部角色",
+      "audit-logs": "日志",
+      "client": "客户",
+      "manage-client": "管理客户",
+      "client-general-info": "客户基本信息",
+      "client-addresses": "客户地址",
+      "record": "记录",
+      "battery": "电池",
+      "device": "设备",
+      "stock": "库存",
+      "product": "产品",
+      "service": "服务",
+      "spare-parts": "备用零件",
+      "address_list": "地址列表",
+      "address_edit": "编辑地址",
+      "address_add": "新增地址",
+      "client_list": "客户列表",
+      "client_address_list": "客户地址列表",
+      "record_list": "记录列表",
+      "record_add": "新增记录",
+      "record_edit": "编辑记录",
+      "battery_list": "电池列表",
+      "device_list": "设备列表",
+      "stock_add": "新增库存",
+      "stock_edit": "编辑库存",
+      "product_list": "产品列表",
+      "product_add": "新增产品",
+      "product_edit": "编辑产品",
+      "service_list": "服务列表",
+      "spare_part_list": "备件列表",
+      "branch_user_list": "分支用户列表",
+      "audit_log_list": "审计日志列表",
+      "branch_role_list": "分支角色列表"
+    }
+  },
+  "dashboard": {
+    "statistics": {
+      "last_week": "上周",
+      "last_month": "上月",
+      "last_quarter": "上季度",
+      "last_half": "上半年度",
+      "last_year": "上年度",
+      "total": "总计",
+      "client": {
+        "clients": "客户"
       }
-   },
-   "product": {
-      "select_product": "请选择产品",
-      "category": {
-         "select_category": "请选择类别"
+    },
+    "best_selling_products": {
+      "sold_quantity": "销售数量",
+      "total_gain": "总收益",
+      "total_discount": "总折扣",
+      "total_tax": "总税额",
+      "title": "畅销产品",
+      "empty": "暂无数据"
+    },
+    "notifications": {
+      "today": "今日",
+      "yesterday": "昨日",
+      "last_week": "上周",
+      "older": "更早",
+      "title": "通知",
+      "activity": {
+        "created": "新 {resource_name} 由 {user_name} 创建",
+        "updated": "{resource_name} 由 {user_name} 更新",
+        "deleted": "{resource_name} 由 {user_name} 删除",
+        "unknown": "{resource_name} 中检测到活动由 {user_name} 操作"
       }
-   },
-   "user": {
+    },
+    "sales_by_category": {
+      "total_quantity_sold": "总销售数量",
+      "total_bid": "总报价",
+      "total_discount": "总折扣",
+      "total_tax": "总税额",
+      "title": "按类别销售"
+    },
+    "tables": {
+      "recent_sales": {
+        "title": "最近销售",
+        "see_all": "查看全部"
+      }
+    }
+  },
+  "address": {
+    "select_country": "请选择国家",
+    "table": {
+      "headers": {
+        "address_name": "地址名称",
+        "country": "国家",
+        "city": "城市",
+        "district": "区",
+        "created_at": "创建时间"
+      }
+    }
+  },
+  "audit_log": {
+    "no_changes_detected": "未检测到更改",
+    "add": "添加",
+    "update": "更新",
+    "delete": "删除",
+    "read": "查看",
+    "select_operation": "选择操作",
+    "table": {
+      "headers": {
+        "resource": "资源",
+        "operation": "操作",
+        "user_who_performed": "执行用户",
+        "created_at": "创建时间",
+        "user_who_reverted": "回滚用户",
+        "reverted_at": "回滚时间"
+      }
+    },
+    "already_reverted": "已回滚",
+    "attempt_to_revert": "尝试回滚",
+    "added": "已添加",
+    "updated": "已更新",
+    "deleted": "已删除",
+    "readed": "已查看"
+  },
+  "client": {
+    "select_client": "选择客户",
+    "address": {
       "table": {
-         "headers": {
-            "name": "姓名",
-            "email": "电子邮件",
-            "created_at": "创建时间"
-         }
-      },
-      "upsert": {
-         "tabs": {
-            "general_info": "基本信息"
-         }
-      },
-      "general_info": "基本信息",
-      "security": "安全设置"
-   },
-   "record": {
+        "headers": {
+          "client": "客户",
+          "address": "地址",
+          "country": "国家",
+          "city": "城市",
+          "district": "区",
+          "created_at": "创建时间"
+        }
+      }
+    },
+    "table": {
+      "headers": {
+        "client": "客户",
+        "nationality": "国籍",
+        "national_id": "国家ID",
+        "birth_date": "出生日期",
+        "email": "电子邮件",
+        "phone": "电话",
+        "created_at": "创建时间"
+      }
+    },
+    "general_info": "基本信息",
+    "addresses": "地址",
+    "gender": {
+      "male": "男性",
+      "female": "女性"
+    }
+  },
+  "product": {
+    "select_product": "请选择产品",
+    "category": {
+      "select_category": "请选择类别"
+    }
+  },
+  "user": {
+    "table": {
+      "headers": {
+        "name": "姓名",
+        "email": "电子邮件",
+        "created_at": "创建时间"
+      }
+    },
+    "upsert": {
+      "tabs": {
+        "general_info": "基本信息"
+      }
+    },
+    "general_info": "基本信息",
+    "security": "安全设置"
+  },
+  "record": {
+    "table": {
+      "headers": {
+        "product": "产品",
+        "client": "客户",
+        "quantity": "数量",
+        "bid": "报价编号",
+        "created_at": "创建时间",
+        "record_type": "记录类型",
+        "record_status": "记录状态"
+      }
+    },
+    "tab": {
+      "record": "记录",
+      "ear_device": "耳部设备"
+    },
+    "information": "信息",
+    "financial": "财务"
+  },
+  "stock": {
+    "battery": {
       "table": {
-         "headers": {
-            "product": "产品",
-            "client": "客户",
-            "quantity": "数量",
-            "bid": "报价编号",
-            "created_at": "创建时间",
-            "record_type": "记录类型",
-            "record_status": "记录状态"
-         }
-      },
-      "tab": {
-         "record": "记录",
-         "ear_device": "耳部设备"
-      },
-      "information": "信息",
-      "financial": "财务"
-   },
-   "stock": {
-      "battery": {
-         "table": {
-            "headers": {
-               "product": "产品",
-               "unit_cost": "单位成本",
-               "quantity": "数量",
-               "vendor": "供应商",
-               "stocked_at": "库存位置"
-            }
-         }
-      },
-      "device": {
-         "table": {
-            "headers": {
-               "product": "产品",
-               "serial_number": "序列号",
-               "unit_cost": "单位成本",
-               "vendor": "供应商",
-               "stocked_at": "库存位置"
-            }
-         }
-      },
-      "product": {
-         "table": {
-            "headers": {
-               "product": "产品",
-               "brand": "品牌",
-               "categories": "类别",
-               "created_at": "创建时间"
-            }
-         }
-      },
-      "service": {
-         "table": {
-            "headers": {
-               "product": "产品",
-               "unit_cost": "单位成本",
-               "quantity": "数量",
-               "vendor": "供应商",
-               "stocked_at": "库存位置"
-            }
-         }
-      },
-      "spare_part": {
-         "table": {
-            "headers": {
-               "product": "产品",
-               "unit_cost": "单位成本",
-               "quantity": "数量",
-               "vendor": "供应商",
-               "stocked_at": "库存位置"
-            }
-         }
-      },
-      "information": "信息",
-      "financial": "财务"
-   }
+        "headers": {
+          "product": "产品",
+          "unit_cost": "单位成本",
+          "quantity": "数量",
+          "vendor": "供应商",
+          "stocked_at": "库存位置"
+        }
+      }
+    },
+    "device": {
+      "table": {
+        "headers": {
+          "product": "产品",
+          "serial_number": "序列号",
+          "unit_cost": "单位成本",
+          "vendor": "供应商",
+          "stocked_at": "库存位置"
+        }
+      }
+    },
+    "product": {
+      "table": {
+        "headers": {
+          "product": "产品",
+          "brand": "品牌",
+          "categories": "类别",
+          "created_at": "创建时间"
+        }
+      }
+    },
+    "service": {
+      "table": {
+        "headers": {
+          "product": "产品",
+          "unit_cost": "单位成本",
+          "quantity": "数量",
+          "vendor": "供应商",
+          "stocked_at": "库存位置"
+        }
+      }
+    },
+    "spare_part": {
+      "table": {
+        "headers": {
+          "product": "产品",
+          "unit_cost": "单位成本",
+          "quantity": "数量",
+          "vendor": "供应商",
+          "stocked_at": "库存位置"
+        }
+      }
+    },
+    "information": "信息",
+    "financial": "财务"
+  }
 }

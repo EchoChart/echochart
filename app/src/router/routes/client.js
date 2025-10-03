@@ -99,7 +99,7 @@ export default [
             name: 'client-address',
             component: CustomRouteView,
             meta: {
-               label: i18n.t('route.label.address'),
+               label: i18n.t('route.label.client-addresses'),
                icon: 'pi pi-address-book',
                requiresAuth: true,
                contextMenuItems: computed(() => {
