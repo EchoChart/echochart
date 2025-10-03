@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.5.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.4.2-alpha.1...echochart-app-v1.5.0-alpha.1) (2025-10-03)
+
+
+### Features
+
+* **i18n:** add Italian support and update translations ([cfba374](https://github.com/EchoChart/echochart/commit/cfba3748fab5e0e47198b812d915c08022805c0b))
+
+
+### Bug Fixes
+
+* **dashboard:** update text color and enhance user display logic ([24ee8e3](https://github.com/EchoChart/echochart/commit/24ee8e34abfdd198161401f44d0be42baa9cbd66))
+* **i18n:** update locale handling for Arabic (AE) ([509e260](https://github.com/EchoChart/echochart/commit/509e26095db2ee101b79e03eb6b1bdcd4f371160))
+
 ## [1.4.2-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.4.1-alpha.1...echochart-app-v1.4.2-alpha.1) (2025-09-30)
 
 
