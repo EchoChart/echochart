@@ -244,7 +244,7 @@ const useCategorySales = () => {
    const setChartOptions = () => {
       const documentStyle = getComputedStyle(document.documentElement);
       const borderColor = documentStyle.getPropertyValue('--surface-border');
-      const textColor = documentStyle.getPropertyValue('--text-color');
+      const textColor = documentStyle.getPropertyValue('--text-color-secondary');
 
       chartOptions.value = {
          responsive: true,
@@ -252,6 +252,9 @@ const useCategorySales = () => {
          aspectRatio: 1,
          plugins: {
             legend: {
+               labels: {
+                  color: textColor
+               },
                title: {
                   color: textColor
                }
@@ -284,7 +287,7 @@ const useCategorySales = () => {
    };
 
    watch(
-      () => [layoutState.primary, layoutState.surface, isDarkTheme, locale],
+      () => [layoutState.primary, layoutState.surface, layoutState.isDark, locale.value],
       () => {
          setChartData();
          setChartOptions();
@@ -663,9 +666,9 @@ onMounted(() => {
                                        {{ $t(`fields.${notification.table_name}`) }}</span
                                     >
                                  </template>
-                                 <template #user_name v-if="$can('read', `user`)">
+                                 <template #user_name>
                                     <CustomLink
-                                       v-if="_get(notification, `user_name`)"
+                                       v-if="$can('read', `user`) && _get(notification, `user_id`)"
                                        :to="{
                                           name: 'branch-user-manage',
                                           params: { id: _get(notification, `user_id`) },
@@ -678,10 +681,25 @@ onMounted(() => {
                                           size="small"
                                           fluid
                                           class="!px-0 !text-primary-emphasis-alt"
-                                          :label="_get(notification, `user_name`)"
+                                          :label="
+                                             _get(
+                                                notification,
+                                                `user_name`,
+                                                _get(notification, 'user_email')
+                                             )
+                                          "
                                           @click="navigate"
                                        />
                                     </CustomLink>
+                                    <span v-else>
+                                       {{
+                                          _get(
+                                             notification,
+                                             `user_name`,
+                                             _get(notification, 'user_email', $t(`fields.user`))
+                                          )
+                                       }}</span
+                                    >
                                  </template>
                               </i18n-t>
                            </li>
