@@ -24,21 +24,19 @@ const sinceDateCount = ref(null);
 const loading = ref(true);
 const selectLoading = ref(true);
 
-const dateOptions: ComputedRef<
-   {
-      value: number;
-      unit: ManipulateType;
-      label?: string;
-   }[]
-> = computed(() => [
-   { value: 1, unit: 'week', label: i18n.t('dashboard.statistics.last_week') },
-   { value: 1, unit: 'month', label: i18n.t('dashboard.statistics.last_month') },
-   { value: 4, unit: 'month', label: i18n.t('dashboard.statistics.last_quarter') },
-   { value: 6, unit: 'month', label: i18n.t('dashboard.statistics.last_half') },
-   { value: 1, unit: 'year', label: i18n.t('dashboard.statistics.last_year') }
-]);
+const dateOptions: {
+   value: number;
+   unit: ManipulateType;
+   label?: ComputedRef<string>;
+}[] = [
+   { value: 1, unit: 'week', label: computed(() => i18n.t('dashboard.statistics.last_week')) },
+   { value: 1, unit: 'month', label: computed(() => i18n.t('dashboard.statistics.last_month')) },
+   { value: 4, unit: 'month', label: computed(() => i18n.t('dashboard.statistics.last_quarter')) },
+   { value: 6, unit: 'month', label: computed(() => i18n.t('dashboard.statistics.last_half')) },
+   { value: 1, unit: 'year', label: computed(() => i18n.t('dashboard.statistics.last_year')) }
+];
 
-const selectedDate = ref(dateOptions.value[1]);
+const selectedDate = ref(dateOptions[1]);
 
 const loadTotalStatistics = async () => {
    try {
@@ -52,12 +50,7 @@ const loadTotalStatistics = async () => {
          .setHeader('meta', encodeURI(JSON.stringify({ filters: props.filters })))
          .then(({ count }) => (totalRowCount.value = count));
    } finally {
-      setTimeout(
-         async () => {
-            loading.value = false;
-         },
-         _random(150, 300, false)
-      );
+      loading.value = false;
    }
 };
 
@@ -77,21 +70,16 @@ const loadTotalStatisticsByDate = async (sinceDate = selectedDate.value) => {
          })
          .setHeader('meta', encodeURI(JSON.stringify({ filters: props.filters })))
          .gte('created_at', date)
-         .then(({ count }) => (sinceDateCount.value = count));
+         .then(({ count }) => count);
    } finally {
-      setTimeout(
-         async () => {
-            selectLoading.value = false;
-         },
-         _random(150, 300, false)
-      );
+      selectLoading.value = false;
    }
 };
 
 const loadStatistics = async (sinceDate = selectedDate.value) => {
    try {
       loadTotalStatistics();
-      loadTotalStatisticsByDate();
+      sinceDateCount.value = await loadTotalStatisticsByDate(sinceDate);
    } catch (error) {
       console.error(error);
    }
@@ -99,7 +87,10 @@ const loadStatistics = async (sinceDate = selectedDate.value) => {
 
 loadStatistics();
 
-watch(() => selectedDate.value, loadTotalStatisticsByDate, { deep: true });
+watch(
+   () => [selectedDate.value.unit, selectedDate.value.value],
+   async () => _set(sinceDateCount, 'value', await loadTotalStatisticsByDate())
+);
 
 const mounted = useMounted();
 </script>
