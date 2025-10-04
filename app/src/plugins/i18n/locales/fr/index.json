@@ -731,6 +731,15 @@
          }
       },
       "information": "Informations",
-      "financial": "Financier"
+      "financial": "Financier",
+      "table": {
+         "headers": {
+            "product": "Produit",
+            "unit_cost": "Coût unitaire",
+            "vendor": "Fournisseur",
+            "stocked_at": "Stocké à",
+            "available_quantity": "Quantité disponible"
+         }
+      }
    }
 }

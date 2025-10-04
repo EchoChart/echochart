@@ -731,6 +731,15 @@
          }
       },
       "information": "Information",
-      "financial": "Finanzen"
+      "financial": "Finanzen",
+      "table": {
+         "headers": {
+            "product": "Produkt",
+            "unit_cost": "Einzelkosten",
+            "vendor": "Lieferant",
+            "stocked_at": "Lagerort",
+            "available_quantity": "Verfügbare Menge"
+         }
+      }
    }
 }

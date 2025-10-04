@@ -731,6 +731,15 @@
          }
       },
       "information": "정보",
-      "financial": "재무"
+      "financial": "재무",
+      "table": {
+         "headers": {
+            "product": "제품",
+            "unit_cost": "단가",
+            "vendor": "공급업체",
+            "stocked_at": "입고일",
+            "available_quantity": "재고 수량"
+         }
+      }
    }
 }

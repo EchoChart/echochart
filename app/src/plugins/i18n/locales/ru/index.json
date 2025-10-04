@@ -719,7 +719,16 @@
          }
       },
       "information": "Информация",
-      "financial": "Финансовый"
+      "financial": "Финансовый",
+      "table": {
+         "headers": {
+            "product": "Продукт",
+            "unit_cost": "Стоимость за единицу",
+            "vendor": "Поставщик",
+            "stocked_at": "На складе с",
+            "available_quantity": "Доступное количество"
+         }
+      }
    },
    "address": {
       "select_country": "Выберите страну",

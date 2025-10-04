@@ -626,7 +626,7 @@
                "unit_cost": "Birim Fiyatı",
                "quantity": "Miktar",
                "vendor": "Tedarikçi",
-               "stocked_at": "Stokta"
+               "stocked_at": "Stok Tarihi"
             }
          }
       },
@@ -637,7 +637,7 @@
                "serial_number": "Seri Numarası",
                "unit_cost": "Birim Fiyatı",
                "vendor": "Tedarikçi",
-               "stocked_at": "Stokta"
+               "stocked_at": "Stok Tarihi"
             }
          }
       },
@@ -658,7 +658,7 @@
                "unit_cost": "Birim Fiyatı",
                "quantity": "Miktar",
                "vendor": "Tedarikçi",
-               "stocked_at": "Stokta"
+               "stocked_at": "Stok Tarihi"
             }
          }
       },
@@ -669,12 +669,21 @@
                "unit_cost": "Birim Fiyatı",
                "quantity": "Miktar",
                "vendor": "Tedarikçi",
-               "stocked_at": "Stokta"
+               "stocked_at": "Stok Tarihi"
             }
          }
       },
       "information": "Bilgi",
-      "financial": "Finans"
+      "financial": "Finans",
+      "table": {
+         "headers": {
+            "product": "Ürün",
+            "unit_cost": "Birim Fiyatı",
+            "vendor": "Tedarikçi",
+            "stocked_at": "Stok Tarihi",
+            "available_quantity": "Mevcut Miktar"
+         }
+      }
    },
    "auth": {
       "branch": "Şube",

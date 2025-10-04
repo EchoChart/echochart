@@ -686,6 +686,15 @@
       }
     },
     "information": "",
-    "financial": ""
+    "financial": "",
+    "table": {
+      "headers": {
+        "product": "",
+        "unit_cost": "",
+        "vendor": "",
+        "stocked_at": "",
+        "available_quantity": ""
+      }
+    }
   }
 }

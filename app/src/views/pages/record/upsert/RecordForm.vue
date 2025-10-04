@@ -71,29 +71,29 @@ const stockTableProps = Collection.create({
       {
          field: 'display_name',
          sortable: true,
-         header: 'product',
+         header: i18n.t('stock.table.headers.product'),
          sortOrder: { value: -1 }
       },
       {
          field: 'unit_cost',
          sortable: true,
-         header: 'unit_cost'
+         header: i18n.t('stock.table.headers.unit_cost')
       },
       {
          field: 'vendor',
          sortable: true,
-         header: 'vendor'
+         header: i18n.t('stock.table.headers.vendor')
       },
       {
          field: 'stocked_at',
          sortable: true,
-         header: 'stocked_at',
+         header: i18n.t('stock.table.headers.stocked_at'),
          sortOrder: { value: -1 }
       },
       {
          field: 'available_quantity',
          sortable: true,
-         header: 'available_quantity'
+         header: i18n.t('stock.table.headers.available_quantity')
       }
    ],
    selectionMode: 'single',

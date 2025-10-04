@@ -731,6 +731,15 @@
          }
       },
       "information": "信息",
-      "financial": "财务"
+      "financial": "财务",
+      "table": {
+         "headers": {
+            "product": "产品",
+            "unit_cost": "单位成本",
+            "vendor": "供应商",
+            "stocked_at": "库存位置",
+            "available_quantity": "可用数量"
+         }
+      }
    }
 }

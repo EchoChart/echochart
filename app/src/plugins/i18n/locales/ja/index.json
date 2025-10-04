@@ -731,6 +731,15 @@
          }
       },
       "information": "情報",
-      "financial": "財務"
+      "financial": "財務",
+      "table": {
+         "headers": {
+            "product": "製品",
+            "unit_cost": "単価",
+            "vendor": "販売元",
+            "stocked_at": "在庫場所",
+            "available_quantity": "在庫数"
+         }
+      }
    }
 }
