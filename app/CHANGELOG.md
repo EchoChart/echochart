@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.5.0-alpha.1...echochart-app-v1.5.1-alpha.1) (2025-10-04)
+
+
+### Bug Fixes
+
+* **stock:** update table headers to use i18n translations ([88328ef](https://github.com/EchoChart/echochart/commit/88328ef18fe5014e321da5c3974a629ccbd48d24))
+
 ## [1.5.0-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.4.2-alpha.1...echochart-app-v1.5.0-alpha.1) (2025-10-03)
 
 
