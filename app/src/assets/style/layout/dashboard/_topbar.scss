@@ -1,5 +1,5 @@
 .layout-topbar {
-   @apply flex flex-[0_0_5rem] w-full self-start z-[997] p-5 bg-[var(--surface-card)] justify-between items-center;
+   @apply flex flex-[0_0_5rem] w-full self-start z-[997] min-h-24 p-6 bg-[var(--surface-card)] justify-between items-center;
 
    &-logo-container {
       @apply flex items-center gap-4;
@@ -14,7 +14,7 @@
    }
 
    &-menu-button {
-      @apply hidden; /* display: none; */
+      @apply hidden;
    }
 
    &-actions {

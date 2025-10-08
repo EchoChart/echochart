@@ -2,8 +2,8 @@
    .layout-sidebar {
       @apply flex flex-col gap-4 h-full min-w-[20rem] max-w-[20rem] 
        z-[999] overflow-hidden overflow-y-auto select-none 
-       transition-[transform,opacity,padding,margin,min-width,max-width] 
-       duration-300 ease-in-out rounded-lg pr-2 left-0 top-0 bottom-0;
+       transition-[left,right,bottom,top,transform,opacity,padding,margin,min-width,max-width] 
+       duration-300 ease-in-out rounded-lg pr-2 start-0 top-0 bottom-0;
 
       #sidebar {
          &-start,

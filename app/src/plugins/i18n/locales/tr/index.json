@@ -35,11 +35,11 @@
       "sidebar": {
          "select_sidebar_mode": "Menü Modu Seç",
          "modes": {
-            "static": "Statik",
+            "static": "Sabit",
             "auto": "Otomatik",
             "mini": "Mini",
             "reveal": "Göster",
-            "overlay": "Yatay"
+            "overlay": "Kaplama"
          }
       }
    },
