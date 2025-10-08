@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.2-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.5.1-alpha.1...echochart-app-v1.5.2-alpha.1) (2025-10-08)
+
+
+### Bug Fixes
+
+* **Sidebar:** remove translate-x for inactive state ([cb13892](https://github.com/EchoChart/echochart/commit/cb13892141c1e80fbd7b09de2bb4976705e8e3c6))
+
 ## [1.5.1-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.5.0-alpha.1...echochart-app-v1.5.1-alpha.1) (2025-10-04)
 
 
