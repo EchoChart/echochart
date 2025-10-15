@@ -157,6 +157,15 @@ const useDashboardNotifications = () => {
             })
             .eq('since', 'last_week')
             .then((res) => data.push(...res.data));
+         await supabase
+            .from('dashboard_notification_feed')
+            .select('*')
+            .limit(5)
+            .order('created_at', {
+               ascending: false
+            })
+            .eq('since', 'older')
+            .then((res) => data.push(...res.data));
       } catch (error) {
          console.error('Error fetching dashboard notifications:', error);
          appErrorHandler(error);
@@ -682,22 +691,14 @@ onMounted(() => {
                                           fluid
                                           class="!px-0 !text-primary-emphasis-alt"
                                           :label="
-                                             _get(
-                                                notification,
-                                                `user_name`,
-                                                _get(notification, 'user_email')
-                                             )
+                                             _get(notification, `user_name`) || $t(`fields.user`)
                                           "
                                           @click="navigate"
                                        />
                                     </CustomLink>
                                     <span v-else>
                                        {{
-                                          _get(
-                                             notification,
-                                             `user_name`,
-                                             _get(notification, 'user_email', $t(`fields.user`))
-                                          )
+                                          _get(notification, `user_name`) || $t(`fields.user`)
                                        }}</span
                                     >
                                  </template>
