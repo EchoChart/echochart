@@ -67,6 +67,10 @@ export const isValidDate = ({
    formats = dateFormats
 }: DateConfig): boolean => {
    dayjs.locale(lang);
+   const utc = dayjs.utc(value, null, true);
+   if (utc.isValid()) {
+      return true;
+   }
    return dayjs(value?.replace?.(/(\.\d{1,6})/, ''), formats, lang, true)?.isValid();
 };
 
@@ -81,7 +85,7 @@ export const parseDayjs = ({
    const utc = dayjs.utc(value);
    if (utc.isValid()) return utc.local(); // Treat as UTC, convert to local
 
-   return dayjs(value, formats, lang, false); // Treat as local
+   return dayjs(value, formats, lang, true); // Treat as local
 };
 
 export const localeDateString = ({

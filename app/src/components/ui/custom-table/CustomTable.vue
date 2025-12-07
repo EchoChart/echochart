@@ -357,6 +357,7 @@ const tableValue = computed(() => {
                            v-bind="inputProps"
                            v-model="slotProps.filterModel.value"
                            timeOnly
+                           show-seconds
                            showButtonBar
                            dateFormat="hh:mm"
                            placeholder="00:00"
