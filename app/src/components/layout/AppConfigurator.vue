@@ -64,9 +64,6 @@ const { isSignedIn } = storeToRefs(useAuthStore());
                   option-label="label"
                   option-value="value"
                   @change="$router.replace({ params: { locale: $event.value } })"
-                  v-tooltip.left="{
-                     value: $t('app_config.language.translated_using_artificial_intelligence')
-                  }"
                >
                   <template #option="{ option }">
                      <div class="app-configurator__language-option">
