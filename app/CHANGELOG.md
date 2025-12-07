@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.3-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.5.2-alpha.1...echochart-app-v1.5.3-alpha.1) (2025-12-07)
+
+
+### Bug Fixes
+
+* **AppConfigurator.vue:** remove language tooltip ([cdc4fd3](https://github.com/EchoChart/echochart/commit/cdc4fd3a27b8531681284db24299032d935b3421))
+* **date:** update date handling logic ([2d8e44a](https://github.com/EchoChart/echochart/commit/2d8e44acd675d0d6ec21c1a950e271d2784ffe4f))
+
 ## [1.5.2-alpha.1](https://github.com/EchoChart/echochart/compare/echochart-app-v1.5.1-alpha.1...echochart-app-v1.5.2-alpha.1) (2025-10-08)
 
 
