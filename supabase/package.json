@@ -19,6 +19,6 @@
       "@casl/ability": "^6.7.3",
       "@supabase/supabase-js": "^2.50.3",
       "jwt-decode": "^4.0.0",
-      "lodash": "^4.17.21"
+      "lodash": "^4.17.23"
    }
 }
