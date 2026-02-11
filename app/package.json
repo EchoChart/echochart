@@ -16,7 +16,7 @@
       "i18n-build": "node src/script/translate-with-ollama.js"
    },
    "dependencies": {
-      "@casl/ability": "^6.7.3",
+      "@casl/ability": ">=6.7.5",
       "@casl/vue": "^2.2.2",
       "@primeuix/themes": "^1.2.5",
       "@primevue/core": "^4.2.5",
