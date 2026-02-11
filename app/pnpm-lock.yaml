@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@casl/ability':
-        specifier: ^6.7.3
-        version: 6.7.3
+        specifier: '>=6.7.5'
+        version: 6.8.0
       '@casl/vue':
         specifier: ^2.2.2
-        version: 2.2.2(@casl/ability@6.7.3)(vue@3.5.16(typescript@5.8.3))
+        version: 2.2.2(@casl/ability@6.8.0)(vue@3.5.16(typescript@5.8.3))
       '@primeuix/themes':
         specifier: ^1.2.5
         version: 1.2.5
@@ -220,8 +220,8 @@ packages:
     resolution: {integrity: sha512-ETyHEk2VHHvl9b9jZP5IHPavHYk57EhanlRRuae9XCpb/j5bDCbPPMOBfCWhnl/7EDJz0jEMCi/RhccCE8r1+Q==}
     engines: {node: '>=6.9.0'}
 
-  '@casl/ability@6.7.3':
-    resolution: {integrity: sha512-A4L28Ko+phJAsTDhRjzCOZWECQWN2jzZnJPnROWWHjJpyMq1h7h9ZqjwS2WbIUa3Z474X1ZPSgW0f1PboZGC0A==}
+  '@casl/ability@6.8.0':
+    resolution: {integrity: sha512-Ipt4mzI4gSgnomFdaPjaLgY2MWuXqAEZLrU6qqWBB7khGiBBuuEp6ytYDnq09bRXqcjaeeHiaCvCGFbBA2SpvA==}
 
   '@casl/vue@2.2.2':
     resolution: {integrity: sha512-xWy4i5+3+WuBgENVesPalRTKpSJZ2cEMXtbqjWjqj7FDvoeso7jT1pBVk9ujKlIRhgfVWGdCRb7XzeISi2VLcA==}
@@ -3365,13 +3365,13 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
 
-  '@casl/ability@6.7.3':
+  '@casl/ability@6.8.0':
     dependencies:
       '@ucast/mongo2js': 1.4.0
 
-  '@casl/vue@2.2.2(@casl/ability@6.7.3)(vue@3.5.16(typescript@5.8.3))':
+  '@casl/vue@2.2.2(@casl/ability@6.8.0)(vue@3.5.16(typescript@5.8.3))':
     dependencies:
-      '@casl/ability': 6.7.3
+      '@casl/ability': 6.8.0
       vue: 3.5.16(typescript@5.8.3)
 
   '@commitlint/config-validator@19.8.1':
